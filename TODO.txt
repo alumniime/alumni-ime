@@ -1,0 +1,8 @@
+Instalar Bootstrap
+Instalar Yeoman
+Criar Rotas
+Mudar URLs (.htaccess)
+Criar Diretivas Menu
+Criar Repositório
+Menu Hover Subitens
+Preparar ambiente de desenvolvimento
