@@ -146,9 +146,15 @@
 }
 
 .projects {
-  padding: 30px !important;
+  padding: 30px;
   margin-top: 70px;
   background-color: #ebebeb;
+}
+
+@include media-breakpoint-down(sm) {
+  .projects {
+    padding-top: 50px;
+  }
 }
 
 @include media-breakpoint-down(sm) {

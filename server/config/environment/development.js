@@ -4,6 +4,7 @@
 // Development specific configuration
 // ==================================
 module.exports = {
+  // Sequelize connection opions
   sequelize: {
     uri: 'sqlite://',
     options: {
@@ -14,22 +15,8 @@ module.exports = {
       }
     }
   },
-  // Sequelize connection opions
-/*
-  sequelize: {
-    // uri: 'mysql://USERNAME:PASSWORD@DATABASEURL(Probably LOCALHOST):PORT/DATABASE_NAME',
-    uri: 'mysql://alumnidbuser:s2cemncv@mysql472.umbler.com:41890/alumniime',
-    options: {
-      logging: false,
-      storage: 'mysql',
-      define: {
-        timestamps: false
-      }
-    }
-  },
-*/
 
   // Seed database on startup
-  seedDB: false
+  seedDB: true
 
 };
