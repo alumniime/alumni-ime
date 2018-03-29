@@ -1,0 +1,92 @@
+footer {
+  min-height: 450px;
+  background-color: $primary;
+  /* #2196f3 */
+  color: #F2F2F2;
+
+  .container .row {
+    padding-top: 80px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    .container .row {
+      padding-top: 30px;
+    }
+  }
+
+  .logo {
+    max-width: 200px;
+    display: grid;
+  }
+
+  h6 {
+    font-style: normal;
+    //font-weight: bold;
+    line-height: normal;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-weight: 300;
+    font-size: 14px;
+  }
+
+  .copyrights {
+    font-size: 12px;
+  }
+
+  p .btn-light {
+    border-radius: 100px;
+    color: #0097f6;
+    font-size: 14px;
+    width: 26px;
+    margin-left: 12px;
+    padding-left: 8px;
+    padding-right: 18px;
+    height: 26px;
+    padding-top: 2px;
+  }
+
+  h5 {
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    font-size: 24px;
+  }
+
+  form input, form textarea {
+    width: 100%;
+    margin: 10px 10px 10px 0;
+    font-size: 13px;
+    padding: 7px;
+    background-color: transparent;
+    border: 1px solid rgba(224, 224, 224, 0.3);
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: #fff;
+  }
+
+  form input::placeholder, form textarea::placeholder {
+    font-style: italic;
+    color: rgba(242, 242, 242, 0.65);
+  }
+
+  form .btn-light {
+    border-radius: 100px;
+    color: #0097f6;
+    font-size: 12px;
+    font-weight: 700;
+    width: 100px;
+    margin: 0 auto;
+    display: inherit;
+    position: relative;
+    top: -30px;
+  }
+
+  .justify-content-between {
+    -webkit-box-pack: justify !important;
+    -ms-flex-pack: justify !important;
+    justify-content: space-between !important;
+  }
+}

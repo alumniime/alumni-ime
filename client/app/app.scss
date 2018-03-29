@@ -1,0 +1,35 @@
+$icon-font-path: '/assets/fonts/bootstrap/';
+//@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import '~bootstrap/scss/bootstrap';
+$fa-font-path: '/assets/fonts/font-awesome/';
+@import '~font-awesome/scss/font-awesome';
+
+// @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,900|Roboto:300,500,700,900);
+
+/**
+ * App-wide Styles
+ */
+
+$primary: #0097f6 !important;
+$danger: #f52b2b !important;
+
+
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+// Component styles are injected through gulp
+/* inject:scss */
+@import 'admin/admin';
+@import 'common';
+@import 'main/main';
+@import 'media';
+@import 'MerriweatherSans';
+@import '../components/footer/footer';
+@import '../components/modal/modal';
+@import '../components/navbar/navbar';
+/* endinject */

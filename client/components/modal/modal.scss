@@ -1,0 +1,26 @@
+.modal-primary,
+.modal-info,
+.modal-success,
+.modal-warning,
+.modal-danger {
+  .modal-header {
+    color: #fff;
+    border-radius: 5px 5px 0 0;
+  }
+}
+
+.modal-primary .modal-header {
+  background: $primary;
+}
+.modal-info .modal-header {
+  background: $info;
+}
+.modal-success .modal-header {
+  background: $success;
+}
+.modal-warning .modal-header {
+  background: $warning;
+}
+.modal-danger .modal-header {
+  background: $danger;
+}

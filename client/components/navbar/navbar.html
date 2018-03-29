@@ -1,0 +1,87 @@
+<header class="d-none d-md-block">
+    <div class="container">
+      <div class="row align-items-center justify-content-between">
+        <div class="col-3">
+          <a ui-sref="main">
+            <img src="assets/images/facebook-icon.png" class="logo">
+          </a>
+        </div>
+        <ul class="nav">
+          <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+            <a class="nav-link text-dark d-none d-lg-block" ui-sref="login">ENTRAR</a>
+          </li>
+          <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+            <a class="nav-link text-dark d-none d-lg-block" ui-sref="signup">CADASTRAR</a>
+          </li>
+          <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
+            <p class="navbar-text d-none d-lg-block">Bem vindo, {{ $ctrl.getCurrentUser().name }}!</p>
+          </li>
+          <li class="nav-item" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
+            <a class="nav-link text-dark" ui-sref="settings">MEU PERFIL</a>
+          </li>
+          <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
+            <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin">ADMIN</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="#">SUBMETER PROJETO</a>
+          </li>
+          <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
+            <a class="nav-link text-dark" ui-sref="logout">SAIR</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-danger" href="#" role="button">APOIE</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-light container">
+  <a class="navbar-brand d-block d-md-none" href="#">Alumni</a>
+
+  <div class="navbar-brand d-none d-md-block d-lg-none">
+      <a class="nav-link d-inline" ui-sref="login" ui-sref-active="active">ENTRAR</a>
+      <a class="nav-link d-inline" ui-sref="signup" ui-sref-active="active">CADASTRAR</a>
+      <a class="nav-link d-inline" ui-sref="settings" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
+      <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
+          aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation"
+          ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
+    <!--<span class="navbar-toggler-icon"></span>-->
+    <i class="fa fa-bars"></i>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerMenu">
+      <!--<div class="col-auto mr-auto">-->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item" ng-repeat="item in $ctrl.menu" ng-class="{dropdown: item.dropdown}" ui-sref-active="active">
+            <a class="nav-link" ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
+            <a class="nav-link dropdown-toggle" ui-sref="{{item.state}}" id="navbarDropdown{{$index}}"
+               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-if="item.dropdown">
+              {{item.title}}
+            </a>
+            <div class="dropdown-menu"  aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
+              <button class="dropdown-item" ng-repeat="drop in item.dropdown" ui-sref="{{drop.state}}" ui-sref-active="active">{{drop.title}}</button>
+            </div>
+          </li>
+        </ul>
+      <!--</div>-->
+
+      <div class="d-none d-lg-block social-media col-auto">
+        <a class="btn btn-light" href="#" role="button">
+          <i class="fa fa-facebook"></i>
+        </a>
+        <a class="btn btn-light" href="#" role="button">
+          <i class="fa fa-linkedin"></i>
+        </a>
+        <a class="btn btn-light" href="#" role="button">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </div>
+
+  </div>
+
+
+</nav>
+

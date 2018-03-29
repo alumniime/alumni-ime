@@ -1,0 +1,100 @@
+header {
+
+  background-color: #fff;
+  width: 100%;
+  min-height: 100px;
+  position: fixed;
+  z-index: 1035;
+  top: 0;
+
+  .row {
+    height: 100%;
+  }
+
+  li {
+    padding-right: 15px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+  }
+
+  a.text-dark:hover, a.text-dark:focus {
+    color: #0097f6 !important;
+  }
+
+  li .btn-danger {
+    background-color: #f52b2b;
+    width: 120px;
+    border-radius: 100px;
+  }
+
+  .logo {
+    margin-left: 50px;
+    height: 100px;
+  }
+
+}
+
+nav {
+
+  border-top: 1px solid grey;
+  background-color: #fff;
+  width: 100%;
+  height: 60px;
+  margin-top: 100px;
+
+  a.nav-link {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333 !important;
+  }
+
+  li {
+    margin-right: 15px;
+    margin-bottom: 2px;
+  }
+
+  img {
+    width: 25px;
+  }
+
+  li:hover, li.active, .navbar-brand .nav-link:hover, .navbar-brand .nav-link.active {
+    margin-top: -1px;
+    margin-bottom: 0;
+    border-bottom: 3px #0097f6 solid;
+  }
+
+  li:hover a, li.active a, .navbar-brand .nav-link:hover, .navbar-brand .nav-link.active {
+    color: #0097f6 !important;
+  }
+
+  li.dropdown:hover div.dropdown-menu {
+    display: block;
+  }
+
+  li, .dropdown-item {
+    cursor: pointer;
+  }
+
+  .dropdown-item:hover, .dropdown-item.active {
+    color: #0097f6 !important;
+    background-color: #fff;
+  }
+
+  .social-media {
+    padding-left: 0;
+    float: right;
+  }
+
+  .navbar-toggler {
+    border: none;
+    font-size: 25px;
+  }
+
+  .navbar-collapse {
+    background-color: #fff !important;
+    z-index: 1030;
+  }
+
+}
