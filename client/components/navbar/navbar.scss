@@ -23,12 +23,6 @@ header {
     color: #0097f6 !important;
   }
 
-  li .btn-danger {
-    background-color: #f52b2b;
-    width: 120px;
-    border-radius: 100px;
-  }
-
   .logo {
     margin-left: 50px;
     height: 100px;
@@ -36,13 +30,25 @@ header {
 
 }
 
+li .btn-danger {
+  background-color: #f52b2b;
+  width: 120px;
+  border-radius: 100px;
+}
+
 nav {
 
-  border-top: 1px solid grey;
+  border-top: 1px solid #ccc;
   background-color: #fff;
   width: 100%;
   height: 60px;
   margin-top: 100px;
+
+  @include media-breakpoint-down(sm) {
+    border-top: none;
+    height: auto;
+    margin-top: 0;
+  }
 
   a.nav-link {
     font-size: 14px;
@@ -65,16 +71,45 @@ nav {
     border-bottom: 3px #0097f6 solid;
   }
 
-  li:hover a, li.active a, .navbar-brand .nav-link:hover, .navbar-brand .nav-link.active {
+  @include media-breakpoint-down(md) {
+    li {
+      margin-right: 0;
+    }
+
+    li:hover, li.active {
+      margin-top: 0;
+      margin-bottom: 2px;
+      border-bottom: none;
+    }
+    .navbar-collapse, ul.navbar-nav {
+      margin-top: 5px;
+      padding-bottom: 2px;
+    }
+    .dropdown-item, .navbar-nav .nav-link {
+      padding-top: 10px;
+      text-align: center;
+    }
+  }
+
+  .navbar-brand, .navbar-collapse {
+    li:hover a, li.active a {
+      color: #0097f6 !important;
+    }
+  }
+
+  .nav-link:hover, .nav-link.active {
     color: #0097f6 !important;
   }
 
-  li.dropdown:hover div.dropdown-menu {
-    display: block;
+  @include media-breakpoint-up(lg) {
+    li.dropdown:hover div.dropdown-menu {
+      display: block;
+    }
   }
 
   li, .dropdown-item {
     cursor: pointer;
+    font-size: 13px;
   }
 
   .dropdown-item:hover, .dropdown-item.active {
@@ -95,6 +130,11 @@ nav {
   .navbar-collapse {
     background-color: #fff !important;
     z-index: 1030;
+  }
+
+  .navbar-mobile {
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
   }
 
 }

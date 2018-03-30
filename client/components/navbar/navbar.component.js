@@ -14,15 +14,15 @@ export class NavbarComponent {
       state: 'about',
       dropdown: [
         {
-          title: 'Institucional',
+          title: 'INSTITUCIONAL',
           state: 'institutional'
         },
         {
-          title: 'Governança',
+          title: 'GOVERNANÇA',
           state: 'management'
         },
         {
-          title: 'Ata e Estatuto',
+          title: 'ATA E ESTATUTO',
           state: 'rules'
         },
       ]
@@ -36,11 +36,11 @@ export class NavbarComponent {
       state: 'projects',
       dropdown: [
         {
-          title: 'Aprovados 2018.1',
+          title: 'APROVADOS 2018.1',
           state: 'approved_projects'
         },
         {
-          title: 'Chamada de Projetos',
+          title: 'CHAMADA DE PROJETOS',
           state: 'call_projects'
         }
       ]
