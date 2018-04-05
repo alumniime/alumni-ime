@@ -92,8 +92,8 @@ export function create(req, res) {
 
 // Upserts the given PersonType in the DB at the specified ID
 export function upsert(req, res) {
-  if(req.body._id) {
-    Reflect.deleteProperty(req.body, '_id');
+  if(req.body.PersonTypeId) {
+    Reflect.deleteProperty(req.body, 'PersonTypeId');
   }
 
   return PersonType.upsert(req.body, {
@@ -107,8 +107,8 @@ export function upsert(req, res) {
 
 // Updates an existing PersonType in the DB
 export function patch(req, res) {
-  if(req.body._id) {
-    Reflect.deleteProperty(req.body, '_id');
+  if(req.body.PersonTypeId) {
+    Reflect.deleteProperty(req.body, 'PersonTypeId');
   }
   return PersonType.find({
     where: {

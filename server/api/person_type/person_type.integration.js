@@ -60,7 +60,7 @@ describe('PersonType API:', function() {
 
     beforeEach(function(done) {
       request(app)
-        .get(`/api/person_types/${newPersonType._id}`)
+        .get(`/api/person_types/${newPersonType.PersonTypeId}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -87,7 +87,7 @@ describe('PersonType API:', function() {
 
     beforeEach(function(done) {
       request(app)
-        .put(`/api/person_types/${newPersonType._id}`)
+        .put(`/api/person_types/${newPersonType.PersonTypeId}`)
         .send({
           name: 'Updated PersonType',
           info: 'This is the updated personType!!!'
@@ -114,7 +114,7 @@ describe('PersonType API:', function() {
 
     it('should respond with the updated personType on a subsequent GET', function(done) {
       request(app)
-        .get(`/api/person_types/${newPersonType._id}`)
+        .get(`/api/person_types/${newPersonType.PersonTypeId}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -136,7 +136,7 @@ describe('PersonType API:', function() {
 
     beforeEach(function(done) {
       request(app)
-        .patch(`/api/person_types/${newPersonType._id}`)
+        .patch(`/api/person_types/${newPersonType.PersonTypeId}`)
         .send([
           { op: 'replace', path: '/name', value: 'Patched PersonType' },
           { op: 'replace', path: '/info', value: 'This is the patched personType!!!' }
@@ -165,7 +165,7 @@ describe('PersonType API:', function() {
   describe('DELETE /api/person_types/:id', function() {
     it('should respond with 204 on successful removal', function(done) {
       request(app)
-        .delete(`/api/person_types/${newPersonType._id}`)
+        .delete(`/api/person_types/${newPersonType.PersonTypeId}`)
         .expect(204)
         .end(err => {
           if(err) {
@@ -177,7 +177,7 @@ describe('PersonType API:', function() {
 
     it('should respond with 404 when personType does not exist', function(done) {
       request(app)
-        .delete(`/api/person_types/${newPersonType._id}`)
+        .delete(`/api/person_types/${newPersonType.PersonTypeId}`)
         .expect(404)
         .end(err => {
           if(err) {

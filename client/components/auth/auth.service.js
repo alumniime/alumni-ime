@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 
 class _User {
-  _id = '';
+  PersonId = '';
   name = '';
   email = '';
   role = '';
@@ -99,7 +99,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      */
     changePassword(oldPassword, newPassword, callback) {
       return User.changePassword({
-        id: currentUser._id
+        id: currentUser.PersonId
       }, {
         oldPassword,
         newPassword

@@ -2,42 +2,112 @@
 
 import crypto from 'crypto';
 
-var validatePresenceOf = function(value) {
+var validatePresenceOf = function (value) {
   return value && value.length;
 };
 
-export default function(sequelize, DataTypes) {
-  var User = sequelize.define('User', {
-    _id: {
-      type: DataTypes.INTEGER,
+export default function (sequelize, DataTypes) {
+  var User = sequelize.define('Person', {
+    PersonId: {
+      type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    name: DataTypes.STRING,
-    email: {
-      type: DataTypes.STRING,
-      unique: {
-        msg: 'The specified email address is already in use.'
-      },
-      validate: {
-        isEmail: true
+    PersonTypeId: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false,
+      references: {
+        model: 'PersonType',
+        key: 'PersonTypeId'
       }
     },
-    role: {
-      type: DataTypes.STRING,
-      defaultValue: 'user'
+    LinkedinId: {
+      type: DataTypes.STRING(45),
+      allowNull: true,
+      unique: true
+    },
+    name: {
+      type: DataTypes.STRING(100),
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      unique: true
     },
     password: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    salt: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    provider: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    role: {
+      type: DataTypes.STRING(45),
+      allowNull: true,
+      defaultValue: 'user'
+    },
+    Birthdate: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    Genre: {
+      type: DataTypes.CHAR(1),
+      allowNull: true
+    },
+    Phone: {
+      type: DataTypes.STRING(30),
+      allowNull: true
+    },
+    GraduationEngineeringId: {
+      type: DataTypes.INTEGER(1),
+      allowNull: true,
+      references: {
+        model: 'Engineering',
+        key: 'EngineeringId'
       }
     },
-    provider: DataTypes.STRING,
-    salt: DataTypes.STRING
-
+    GraduationYear: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
+    },
+    ProfessorSEId: {
+      type: DataTypes.INTEGER(1),
+      allowNull: true,
+      references: {
+        model: 'SE',
+        key: 'SEId'
+      }
+    },
+    OptionToKnowThePageId: {
+      type: DataTypes.INTEGER(1),
+      allowNull: true,
+      references: {
+        model: 'OptionToKnowType',
+        key: 'OptionTypeId'
+      }
+    },
+    OptionToKnowThePageOther: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    InitiativeLinkOther: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    IsExcluded: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
+    }
   }, {
+
+    tableName: 'Person',
 
     /**
      * Virtual Getters
@@ -54,7 +124,7 @@ export default function(sequelize, DataTypes) {
       // Non-sensitive info we'll be putting in the token
       token() {
         return {
-          _id: this._id,
+          PersonId: this.PersonId,
           role: this.role
         };
       }
@@ -107,7 +177,7 @@ export default function(sequelize, DataTypes) {
         }
 
         var passwordThis = this.password;
-        this.encryptPassword(password, function(err, pwdGen) {
+        this.encryptPassword(password, function (err, pwdGen) {
           if(err) {
             return callback(err);
           }
@@ -146,7 +216,7 @@ export default function(sequelize, DataTypes) {
           byteSize = defaultByteSize;
         }
 
-        return crypto.randomBytes(byteSize, function(err, salt) {
+        return crypto.randomBytes(byteSize, function (err, salt) {
           if(err) {
             return callback(err);
           }
@@ -173,12 +243,12 @@ export default function(sequelize, DataTypes) {
 
         if(!callback) {
           // eslint-disable-next-line no-sync
-          return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength)
-                       .toString('base64');
+          return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength, 'sha1')
+            .toString('base64');
         }
 
-        return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength,
-          function(err, key) {
+        return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, 'sha1',
+          function (err, key) {
             if(err) {
               return callback(err);
             }

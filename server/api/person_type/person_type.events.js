@@ -28,7 +28,7 @@ function registerEvents(aPersonType) {
 
 function emitEvent(event) {
   return function(doc, options, done) {
-    PersonTypeEvents.emit(`${event}:${doc._id}`, doc);
+    PersonTypeEvents.emit(`${event}:${doc.PersonTypeId}`, doc);
     PersonTypeEvents.emit(event, doc);
     done(null);
   };
