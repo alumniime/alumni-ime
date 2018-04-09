@@ -4,34 +4,31 @@ export function routerDecorator($rootScope, $state, Auth) {
   'ngInject';
   // Redirect to login if route requires auth and the user is not logged in, or doesn't have required role
 
-  $rootScope.$on('$stateChangeStart', function(event, next) {
+  $rootScope.$on('$stateChangeStart', function (event, next) {
     if(!next.authenticate) {
-      return;
+      return true;
     }
 
     if(typeof next.authenticate === 'string') {
       Auth.hasRole(next.authenticate)
         .then(has => {
           if(has) {
-            return;
+            return true;
           }
-
           event.preventDefault();
           return Auth.isLoggedIn()
             .then(is => {
-              $state.go(is ? 'main' : 'login');
+              $state.go(is ? 'main' : 'main');
             });
         });
     } else {
       Auth.isLoggedIn()
         .then(is => {
           if(is) {
-            return;
+            return true;
           }
-
           event.preventDefault();
-
-          $state.go('login');
+          $state.go('main');
         });
     }
   });

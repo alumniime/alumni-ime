@@ -3,18 +3,18 @@ import {Strategy as LinkedInStrategy} from 'passport-linkedin';
 
 export function setup(User, config) {
   passport.use(new LinkedInStrategy({
-      consumerKey: config.linkedin.clientID,
-      consumerSecret: config.linkedin.clientSecret,
-      callbackURL: config.linkedin.callbackURL,
-      profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline', 'location', 'picture-url', 'picture-urls::(original)']
-    },
+    consumerKey: config.linkedin.clientID,
+    consumerSecret: config.linkedin.clientSecret,
+    callbackURL: config.linkedin.callbackURL,
+    profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline', 'location', 'picture-url', 'picture-urls::(original)']
+  },
     function (token, tokenSecret, profile, done) {
       User.find({where: {LinkedinId: profile.id}})
         .then(user => {
           if(user) {
             return done(null, user);
           }
-          console.log(JSON.stringify((profile)));
+          // console.log(JSON.stringify(profile));
 
           user = User.build({
             name: profile.displayName,

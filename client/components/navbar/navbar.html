@@ -8,16 +8,16 @@
       </div>
       <ul class="nav">
         <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-          <a class="nav-link text-dark d-none d-lg-block" ui-sref="login">ENTRAR</a>
+          <a class="nav-link text-dark d-none d-lg-block" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
         </li>
         <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-          <a class="nav-link text-dark d-none d-lg-block" ui-sref="signup">CADASTRAR</a>
+          <a class="nav-link text-dark d-none d-lg-block" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
         </li>
         <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
-          <p class="navbar-text d-none d-lg-block">Bem vindo, {{ $ctrl.getCurrentUser().name }}!</p>
+          <p class="navbar-text d-none d-xl-block">Bem vindo, {{ $ctrl.getCurrentUser().name }}!</p>
         </li>
         <li class="nav-item" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
-          <a class="nav-link text-dark" ui-sref="settings">MEU PERFIL</a>
+          <a class="nav-link text-dark d-none d-lg-block" ui-sref="settings">MEU PERFIL</a>
         </li>
         <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
           <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin">ADMIN</a>
@@ -26,7 +26,7 @@
           <a class="nav-link text-dark" href="#">SUBMETER PROJETO</a>
         </li>
         <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
-          <a class="nav-link text-dark" ui-sref="logout">SAIR</a>
+          <a class="nav-link text-dark d-none d-lg-block" ui-sref="logout">SAIR</a>
         </li>
         <li class="nav-item">
           <a class="nav-link btn btn-danger" href="#" role="button">APOIE</a>
@@ -40,10 +40,11 @@
   <a class="navbar-brand d-block d-md-none" href="#">Alumni</a>
 
   <div class="navbar-brand d-none d-md-block d-lg-none">
-    <a class="nav-link d-inline" ui-sref="login" ui-sref-active="active">ENTRAR</a>
-    <a class="nav-link d-inline" ui-sref="signup" ui-sref-active="active">CADASTRAR</a>
+    <a class="nav-link d-inline" ng-click="$ctrl.Modal.openLogin()" href="#" ui-sref-active="active">ENTRAR</a>
+    <a class="nav-link d-inline" ng-click="$ctrl.Modal.openSignup()" href="#" ui-sref-active="active">CADASTRAR</a>
     <a class="nav-link d-inline" ui-sref="settings" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
     <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
+    <a class="nav-link d-inline" ui-sref="logout" ng-show="$ctrl.isLoggedIn()">SAIR</a>
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
@@ -72,16 +73,19 @@
         </div>
       </li>
       <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-        <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="login">ENTRAR</a>
+        <a class="nav-link font-weight-normal d-block d-md-none" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
       </li>
       <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-        <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="signup">CADASTRAR</a>
+        <a class="nav-link font-weight-normal d-block d-md-none" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
       </li>
       <li class="nav-item" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
         <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="settings">MEU PERFIL</a>
       </li>
       <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
         <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="admin">ADMIN</a>
+      </li>
+      <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
+        <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="logout">SAIR</a>
       </li>
     </ul>
 

@@ -57,13 +57,19 @@ export class NavbarComponent {
 
   isCollapsed = true;
 
-  constructor(Auth) {
+  constructor(Auth, Modal) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
+    this.Modal = Modal;
   }
+
+  $onInit() {
+    // this.Modal.openLogin(); // only for tests
+  }
+
 
 }
 

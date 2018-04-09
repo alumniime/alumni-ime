@@ -58,4 +58,4 @@ module.exports = _.merge(
   all,
   require('./shared'),
   require(`./${process.env.NODE_ENV}.js`) || {},
-  (process.env.NODE_ENV === 'development' ? require('../local.env.js') : {}));
+  process.env.NODE_ENV === 'development' ? require('../local.env.js') : {});
