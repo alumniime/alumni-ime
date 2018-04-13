@@ -13,9 +13,17 @@ export default class LoginController {
 
 
   /*@ngInject*/
-  constructor(Auth, $state) {
+  constructor(Auth, $state, $window) {
     this.Auth = Auth;
     this.$state = $state;
+    this.$window = $window;
+  }
+
+  $onInit() {
+    // login route is used only for close popup oAuth Linkedin
+    var $window = this.$window;
+    $window.value = true;
+    this.$state.go('main');
   }
 
   login(form) {

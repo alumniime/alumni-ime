@@ -90,5 +90,13 @@ export function setTokenCookie(req, res) {
   }
   var token = signToken(req.user.PersonId, req.user.role);
   res.cookie('token', token);
-  res.redirect('/');
+
+  console.log('Server::Auth::Service::Redirect');
+
+  if(req.user.provider === 'linkedin') {
+    res.redirect('/login'); // route used only for close popup oAuth Linkedin
+  } else {
+    res.redirect('/');
+  }
+
 }

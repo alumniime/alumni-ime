@@ -4,7 +4,8 @@ export default class ModalLoginController {
   user = {
     name: '',
     email: '',
-    password: ''
+    password: '',
+    personTypeId: ''
   };
   errors = {
     login: undefined
@@ -13,8 +14,9 @@ export default class ModalLoginController {
 
 
   /*@ngInject*/
-  constructor(Auth, $state, $window) {
+  constructor(Auth, Modal, $state, $window) {
     this.Auth = Auth;
+    this.Modal = Modal;
     this.$state = $state;
     this.$window = $window;
   }
@@ -28,9 +30,11 @@ export default class ModalLoginController {
         email: this.user.email,
         password: this.user.password
       })
-        .then(() => {
+        .then((user) => {
           // Logged in, redirect to home
-          this.$state.go('main');
+          this.$state.reload();
+          console.log(user);
+          this.close({$value: true});
         })
         .catch(err => {
           this.errors.login = err.message;
@@ -40,7 +44,13 @@ export default class ModalLoginController {
 
   loginOauth(provider) {
     this.$window.location.href = `/auth/${provider}`;
+    console.log(this.Auth.getCurrentUserSync());
     // this.$window.open(`/auth/${provider}`, 'popup', 'width=600,height=400,left=300,top=200');
+  }
+
+  callSignup() {
+    this.cancelModal();
+    this.Modal.openSignup();
   }
 
   ok() {

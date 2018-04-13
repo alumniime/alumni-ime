@@ -1,7 +1,3 @@
-.modal-dialog {
-  max-width: 380px !important;
-}
-
 modal-login {
 
   .modal-header {
@@ -114,13 +110,6 @@ modal-login {
     color: #828282;
     display: inherit;
     text-align: center;
-  }
-
-  .close-button {
-    position: absolute;
-    cursor: pointer;
-    top: 20px;
-    right: 20px;
   }
 
 }
