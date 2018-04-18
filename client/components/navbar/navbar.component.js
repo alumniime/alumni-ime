@@ -71,6 +71,8 @@ export class NavbarComponent {
     // this.Modal.openLogin(); // only for tests
     console.log('$onInit');
     console.log(this.getCurrentUser());
+    // Call Modal to continue the registry of new users
+
   }
 
   logout() {

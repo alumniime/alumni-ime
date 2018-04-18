@@ -4,6 +4,8 @@ import ModalLoginController from './login/login.controller';
 import ModalSignupController from './signup/signup.controller';
 import ModalEmailVerifiedController from './email-verified/email-verified.controller';
 import ModalSentConfirmationController from './sent-confirmation/sent-confirmation.controller';
+import ModalCompletedRegistrationController from './completed-registration/completed-registration.controller';
+import ModalRegisterInformationController from './register-information/register-information.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal) {
@@ -76,6 +78,26 @@ export default angular.module('alumniApp.modal', [])
   .component('modalEmailVerified', {
     template: require('./email-verified/email-verified.html'),
     controller: ModalEmailVerifiedController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalCompletedRegistration', {
+    template: require('./completed-registration/completed-registration.html'),
+    controller: ModalCompletedRegistrationController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalRegisterInformation', {
+    template: require('./register-information/register-information.html'),
+    controller: ModalRegisterInformationController,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

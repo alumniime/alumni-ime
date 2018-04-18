@@ -4,8 +4,7 @@ export default class ModalLoginController {
   user = {
     name: '',
     email: '',
-    password: '',
-    PersonTypeId: 1 // NewUser when email is not verified and user needs to fill the form
+    password: ''
   };
   errors = {};
   submitted = false;
@@ -28,7 +27,7 @@ export default class ModalLoginController {
 
     this.$uibModal.open({
       animation: true,
-      component: 'modalEmailVerified',
+      component: 'modalRegisterInformation',
       size: 'dialog-centered'
     });
     this.close({$value: true});
@@ -39,8 +38,7 @@ export default class ModalLoginController {
       return this.Auth.createUser({
         name: this.user.name,
         email: this.user.email,
-        password: this.user.password,
-        PersonTypeId: this.user.PersonTypeId,
+        password: this.user.password
       })
         .then(() => {
           // Account created, redirect to home

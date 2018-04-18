@@ -1,0 +1,68 @@
+<div class="nav nav-pills nav-fill">
+  <span class="nav-item nav-link active"></span>
+  <span class="nav-item space"></span>
+  <span class="nav-item nav-link active"></span>
+  <span class="nav-item space"></span>
+  <span class="nav-item nav-link"></span>
+</div>
+
+<div class="modal-header d-block">
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h6 class="modal-title text-center" id="modal-title">Informações gerais</h6>
+</div>
+
+<div class="modal-body" id="modal-body">
+
+  <form class="form" name="form" ng-submit="vm.registerNewUser(form)" novalidate>
+
+    <div class="form-group">
+      <label for="birthdate">DATA DE NASCIMENTO*</label>
+      <input type="date" id="birthdate" name="birthdate" placeholder="10/03/1980" class="form-control" ng-model="vm.user.Birthdate" required>
+      <p class="help-block" ng-show="form.birthdate.$error.required && vm.submitted">
+        Insira a sua data de nascimento.
+      </p>
+    </div>
+
+    <div class="form-group">
+      <label for="genre">GÊNERO*</label>
+      <select class="form-control" id="genre" name="genre" ng-model="vm.user.Genre" required>
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+      </select>
+      <p class="help-block" ng-show="form.genre.$error.required && vm.submitted">
+        Insira o seu gênero.
+      </p>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">TELEFONE*</label>
+      <input type="tel" id="phone" name="phone" placeholder="+55 (DDD) 00000-0000" class="form-control" ng-model="vm.user.Phone" required>
+      <p class="help-block" ng-show="form.phone.$error.required && vm.submitted">
+        Insira o seu telefone.
+      </p>
+    </div>
+
+    <div class="form-group has-error">
+      <p class="help-block">{{ vm.errors.signup }}</p>
+    </div>
+
+  </form>
+
+    <h6 class="modal-title text-center">Como você se encontra hoje:</h6>
+
+    <button class="btn btn-outline-dark person_type" ng-repeat="type in vm.person_types"
+            ng-if="type.Description !== 'NewUser'" ng-class="{selected: type.selected}"
+            ng-click="vm.selectType(type)">
+      {{type.PortugueseDescription | uppercase}}
+    </button>
+
+    <div class="row justify-content-between footer-links">
+      <button class="btn btn-link text-dark">
+        VOLTAR
+      </button>
+      <button class="btn btn-link text-dark">
+        AVANÇAR
+      </button>
+    </div>
+
+</div>

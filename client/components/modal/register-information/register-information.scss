@@ -1,4 +1,4 @@
-modal-signup {
+modal-register-information {
 
   .nav-pills .nav-link {
     background-color: #bdbdbd;
@@ -20,12 +20,6 @@ modal-signup {
     padding-bottom: 0;
   }
 
-  .logo {
-    max-height: 100px;
-    margin-bottom: 10px;
-    display: inherit;
-  }
-
   .modal-title {
     font-weight: 700;
   }
@@ -39,45 +33,32 @@ modal-signup {
     padding-top: 11px;
   }
 
-  .btn-linkedin {
-    background-color: #0077B5;
-    border-radius: 5px;
-  }
-
-  .btn-linkedin:active {
-    background-color: #066093;
-  }
-
-  .btn-linkedin:hover {
-    background-color: #0369A0;
-  }
-
-  .btn-linkedin i {
-    font-size: 20px;
-    margin-right: 10px;
-    //width: 36px;
-    //height: 25px;
-    //background-color: #0077B5;
-  }
-
-  .btn-signup {
-    background-color: #0099F3;
-    border-radius: 30px;
-    //margin-top: 40px;
-  }
-
   @include media-breakpoint-up(lg) {
-    .btn {
+    .person_type {
       width: 80%;
       min-width: 320px;
     }
   }
 
   @include media-breakpoint-down(md) {
-    .btn {
+    .person_type {
       width: 95%;
       min-width: 0;
     }
+  }
+
+  .footer-links {
+    padding: 0 15px;
+  }
+
+  .footer-links button {
+    display: inline;
+    width: auto !important;
+  }
+
+  .form-group label {
+    font-size: 12px;
+    margin-left: 5px;
   }
 
   span {
@@ -86,11 +67,16 @@ modal-signup {
     text-align: center;
   }
 
-  .line-hr {
-    width: 56px;
-    height: 5px;
-    margin-top: 10px;
-    border-bottom: 1px solid #bdbdbd;
+  form {
+    padding-bottom: 10px;
+  }
+
+  form input, form select {
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #828282;
   }
 
   ::-webkit-input-placeholder {
@@ -104,7 +90,7 @@ modal-signup {
   }
 
   form input {
-    padding: 15px 20px !important;
+    padding: 10px 20px !important;
   }
 
   .help-block {
@@ -113,30 +99,28 @@ modal-signup {
     color: red;
   }
 
-  .accept-terms {
-    font-size: 12px;
-    padding: 0 20px 15px;
-
-    label {
-      margin-top: 3px;
-    }
-
-    a {
-      font-size: 13px;
-      padding-top: 0;
-      padding-left: 0;
-      padding-bottom: 12px;
-      width: auto;
-      display: inline;
-    }
-  }
-
   .description {
     padding: 20px 0 15px;
     font-size: 14px;
     color: #828282;
     display: inherit;
     text-align: center;
+  }
+
+  .person_type {
+    margin: 15px auto;
+    display: inherit;
+  }
+
+  .person_type.selected {
+    background: none;
+    border: 1px solid #0093f3;
+    color: #0093f3;
+    outline: none;
+  }
+
+  .person_type:focus {
+    outline: 10px solid #fff;
   }
 
 }

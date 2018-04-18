@@ -1,6 +1,6 @@
 'use strict';
 
-export default class ModalLoginController {
+export default class ModalSentConfirmationController {
   user = {
     name: '',
     email: '',
