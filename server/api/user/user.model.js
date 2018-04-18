@@ -53,6 +53,34 @@ export default function (sequelize, DataTypes) {
       allowNull: true,
       defaultValue: 'user'
     },
+    EmailVerified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
+    ConfirmEmailToken: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
+    ConfirmEmailExpires: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    ResetPasswordToken: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    ResetPasswordExpires: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    ImageURL: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    ImageData: {
+      type: DataTypes.BLOB,
+      allowNull: true
+    },
     Birthdate: {
       type: DataTypes.DATEONLY,
       allowNull: true

@@ -79,13 +79,13 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @return {Promise}
      */
     createUser(user, callback) {
-      console.log(user);
       return User.save(user, function(data) {
-        $cookies.put('token', data.token);
-        currentUser = User.get();
+        // It only creates a NewUser, but he wont't be logged
+        // $cookies.put('token', data.token);
+        // currentUser = User.get();
         return safeCb(callback)(null, user);
       }, function(err) {
-        Auth.logout();
+        // Auth.logout();
         return safeCb(callback)(err);
       })
         .$promise;

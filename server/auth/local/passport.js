@@ -13,14 +13,21 @@ function localAuthenticate(User, email, password, done) {
           message: 'Este email não está cadastrado.'
         });
       }
-      user.authenticate(password, function(authError, authenticated) {
+      user.authenticate(password, function (authError, authenticated) {
         if(authError) {
           return done(authError);
         }
         if(!authenticated) {
-          return done(null, false, { message: 'Senha incorreta.' });
+          return done(null, false, {message: 'Senha incorreta.'});
         } else {
-          return done(null, user);
+          // User aren't a NewUser and his email is verified, so he can login
+          if(!user.EmailVerified) {
+            return done(null, false, {message: 'Por favor, confirme primeiro seu email.'});
+          } else if(user.PersonTypeId === 1) {
+            return done(null, false, {message: 'Você deve completar seu cadastro para logar.'});
+          } else {
+            return done(null, user);
+          }
         }
       });
     })
@@ -31,7 +38,7 @@ export function setup(User/*, config*/) {
   passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password' // this is the virtual field on the model
-  }, function(email, password, done) {
+  }, function (email, password, done) {
     return localAuthenticate(User, email, password, done);
   }));
 }

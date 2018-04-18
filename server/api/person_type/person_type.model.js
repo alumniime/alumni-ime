@@ -11,6 +11,10 @@ export default function(sequelize, DataTypes) {
     Description: {
       type: DataTypes.STRING(25),
       allowNull: false
+    },
+    PortugueseDescription: {
+      type: DataTypes.STRING(45),
+      allowNull: true
     }
   }, {
     tableName: 'PersonType'

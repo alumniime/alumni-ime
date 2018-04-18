@@ -33,7 +33,7 @@ var all = {
 
   // Secret for session, you will want to change this and make it an environment variable
   secrets: {
-    session: 'alumni-secret'
+    session: process.env.SESSION_SECRET
   },
 
   // MongoDB connection options
@@ -45,10 +45,18 @@ var all = {
     }
   },
 
+  domain: process.env.DOMAIN,
+
   linkedin: {
     clientID: process.env.LINKEDIN_ID || 'id',
     clientSecret: process.env.LINKEDIN_SECRET || 'secret',
     callbackURL: `${process.env.DOMAIN || ''}/auth/linkedin/callback`
+  },
+
+  email: {
+    user: process.env.MAILER_EMAIL || '',
+    pass: process.env.MAILER_PASSWORD || '',
+    provider: process.env.MAILER_PROVIDER || 'Gmail'
   }
 };
 

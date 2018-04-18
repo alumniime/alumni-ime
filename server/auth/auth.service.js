@@ -84,19 +84,23 @@ export function signToken(id, role) {
  * Set token cookie directly for oAuth strategies
  */
 export function setTokenCookie(req, res) {
+  console.log('Server::AuthService::setTokenCookie');
   if(!req.user) {
     return res.status(404)
-      .send('It looks like you aren\'t logged in, please try again.');
+      .send('Parece que você já está logado, por favor tente novamente.');
   }
-  var token = signToken(req.user.PersonId, req.user.role);
-  res.cookie('token', token);
 
-  console.log('Server::Auth::Service::Redirect');
-
-  if(req.user.provider === 'linkedin') {
-    res.redirect('/login'); // route used only for close popup oAuth Linkedin
+  // User aren't a NewUser, so he can login
+  if(req.user.PersonTypeId !== 1) {
+    var token = signToken(req.user.PersonId, req.user.role);
+    res.cookie('token', token);
+    if(req.user.provider === 'linkedin') {
+      res.redirect('/login'); // route used only for close popup oAuth Linkedin
+    } else {
+      res.redirect('/');
+    }
   } else {
-    res.redirect('/');
+    res.redirect('/signup'); // TODO redirecionar o usuário para continuar o cadastro
   }
 
 }

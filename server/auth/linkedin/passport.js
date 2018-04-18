@@ -21,9 +21,10 @@ export function setup(User, config) {
             email: profile.emails[0].value,
             role: 'user',
             provider: 'linkedin',
-            // ImageURL: profile.pictureUrls.values[0],
+            ImageURL: profile.pictureUrls.values[0],
             LinkedinId: profile.id,
-            PersonTypeId: 1
+            PersonTypeId: 1,
+            EmailVerified: 1
           });
           user.save()
             .then(savedUser => done(null, savedUser))

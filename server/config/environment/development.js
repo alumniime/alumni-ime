@@ -8,7 +8,7 @@ import local from '../local.env';
 module.exports = {
   // Sequelize connection opions
   sequelize: {
-    uri: local.SEQUELIZE_URI || 'sqlite://',
+    uri: local.sequelize_url || 'sqlite://',
     options: {
       logging: false,
       storage: 'dev.sqlite',
