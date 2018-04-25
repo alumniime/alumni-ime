@@ -13,36 +13,24 @@ export default class SignupController {
 
 
   /*@ngInject*/
-  constructor(Auth, $state) {
-    this.Auth = Auth;
+  constructor(Modal, $state, $stateParams) {
+    this.Modal = Modal;
     this.$state = $state;
+    this.$stateParams = $stateParams;
   }
 
-  register(form) {
-    this.submitted = true;
-
-    if(form.$valid) {
-      return this.Auth.createUser({
-        name: this.user.name,
-        email: this.user.email,
-        password: this.user.password
-      })
-        .then(() => {
-          // Account created, redirect to home
-          this.$state.go('main');
-        })
-        .catch(err => {
-          err = err.data;
-          this.errors = {};
-
-          // Update validity of form fields that match the sequelize errors
-          if(err.name) {
-            angular.forEach(err.fields, (error, field) => {
-              form[field].$setValidity('mongoose', false);
-              this.errors[field] = err.message;
-            });
-          }
-        });
+  $onInit() {
+    console.log(this.$stateParams);
+    if(this.$stateParams) {
+      var confirmEmailToken = this.$stateParams.confirmEmailToken;
+      if (this.$stateParams.showEmailVerified === "1") {
+        this.Modal.openEmailVerified(confirmEmailToken);
+      } else {
+        this.Modal.registryUser(confirmEmailToken);
+      }
+    } else {
+      this.$state.go('main');
     }
   }
+
 }

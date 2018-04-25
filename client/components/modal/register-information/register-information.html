@@ -3,51 +3,147 @@
   <span class="nav-item space"></span>
   <span class="nav-item nav-link active"></span>
   <span class="nav-item space"></span>
-  <span class="nav-item nav-link"></span>
+  <span class="nav-item nav-link" ng-class="{active: vm.page === 2}"></span>
 </div>
 
 <div class="modal-header d-block">
   <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
-  <h6 class="modal-title text-center" id="modal-title">Informações gerais</h6>
+  <h6 class="modal-title text-center modal-title" ng-show="vm.page === 1">Informações gerais</h6>
+  <h6 class="modal-title text-center modal-title"
+      ng-show="vm.page === 2 && vm.type.Description !== 'Visitor'">Informações complementares</h6>
+  <h6 class="modal-title text-center modal-title"
+      ng-show="vm.page === 2 && vm.type.Description === 'Visitor'">Como você conheceu a página?</h6>
 </div>
 
 <div class="modal-body" id="modal-body">
 
   <form class="form" name="form" ng-submit="vm.registerNewUser(form)" novalidate>
 
-    <div class="form-group">
-      <label for="birthdate">DATA DE NASCIMENTO*</label>
-      <input type="date" id="birthdate" name="birthdate" placeholder="10/03/1980" class="form-control" ng-model="vm.user.Birthdate" required>
-      <p class="help-block" ng-show="form.birthdate.$error.required && vm.submitted">
-        Insira a sua data de nascimento.
-      </p>
+    <div class="page1" ng-show="vm.page === 1">
+
+      <input type="hidden" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId" required>
+
+      <div class="form-group">
+        <label for="Birthdate">DATA DE NASCIMENTO*</label>
+        <input type="date" id="Birthdate" name="Birthdate" placeholder="10/03/1980" class="form-control"
+               ng-model="vm.user.Birthdate" required>
+        <p class="help-block" ng-show="form.Birthdate.$invalid && vm.submitted">
+          Insira a sua data de nascimento.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="Genre">GÊNERO*</label>
+        <select class="form-control" id="Genre" name="Genre" ng-model="vm.user.Genre" required>
+          <option value="M">Masculino</option>
+          <option value="F">Feminino</option>
+        </select>
+        <p class="help-block" ng-show="form.Genre.$error.required && vm.submitted">
+          Insira o seu gênero.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="Phone">TELEFONE*</label>
+        <input type="tel" id="Phone" name="Phone" placeholder="+55 (DDD) 00000-0000" class="form-control"
+               ng-model="vm.user.Phone" required>
+        <p class="help-block" ng-show="form.Phone.$error.required && vm.submitted">
+          Insira o seu telefone.
+        </p>
+      </div>
+
     </div>
 
-    <div class="form-group">
-      <label for="genre">GÊNERO*</label>
-      <select class="form-control" id="genre" name="genre" ng-model="vm.user.Genre" required>
-        <option value="M">Masculino</option>
-        <option value="F">Feminino</option>
-      </select>
-      <p class="help-block" ng-show="form.genre.$error.required && vm.submitted">
-        Insira o seu gênero.
-      </p>
-    </div>
+    <div class="page2" ng-if="vm.page === 2">
 
-    <div class="form-group">
-      <label for="phone">TELEFONE*</label>
-      <input type="tel" id="phone" name="phone" placeholder="+55 (DDD) 00000-0000" class="form-control" ng-model="vm.user.Phone" required>
-      <p class="help-block" ng-show="form.phone.$error.required && vm.submitted">
-        Insira o seu telefone.
-      </p>
+      <div class="form-group" ng-if="vm.type.Description !== 'Visitor' && vm.type.Description !== 'Professor'">
+        <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
+        <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
+                required>
+          <option ng-repeat="year in vm.graduationYears" value="{{year}}">{{year}}</option>
+        </select>
+        <p class="help-block" ng-if="form.GraduationYear.$error.required && vm.submitted">
+          Insira o seu ano de formação.
+        </p>
+      </div>
+
+      <div class="form-group" ng-if="vm.type.Description !== 'Visitor' && vm.type.Description !== 'Professor'">
+        <label for="GraduationEngineeringId">ENGENHARIA*</label>
+        <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
+                ng-model="vm.user.GraduationEngineeringId" required>
+          <option ng-repeat="engineering in vm.engineering_list | orderBy:'Description'"
+                  value="{{engineering.EngineeringId}}">{{engineering.Description}}
+          </option>
+        </select>
+        <p class="help-block" ng-if="form.GraduationEngineeringId.$error.required && vm.submitted">
+          Insira a sua engenharia.
+        </p>
+      </div>
+
+      <div class="form-group"
+           ng-if="vm.type.Description === 'Professor' || vm.type.Description === 'FormerStudentAndProfessor'">
+        <label for="ProfessorSEId">SEÇÃO DE ENSINO ATUAL*</label>
+        <select class="form-control" id="ProfessorSEId" name="ProfessorSEId"
+                ng-model="vm.user.ProfessorSEId" required>
+          <option ng-repeat="se in vm.ses_list" value="{{se.SEId}}">{{se.Description}}
+          </option>
+        </select>
+        <p class="help-block" ng-if="form.ProfessorSEId.$error.required && vm.submitted">
+          Insira a sua seção de ensino.
+        </p>
+      </div>
+
+      <div class="form-group" ng-if="vm.type.Description !== 'Visitor'">
+        <h6 class="modal-title text-center modal-title mb-3">
+          {{vm.type.Description === 'FormerStudent' ? 'Teve ' : 'Tem (ou teve)'}} ligação com alguma iniciativa ou
+          projeto?
+        </h6>
+        <div class="custom-control custom-checkbox" ng-repeat="initiative in vm.initiative_list">
+          <input type="checkbox" class="custom-control-input" id="customCheck{{$index}}">
+          <label class="custom-control-label" for="customCheck{{$index}}">{{initiative.Description}}</label>
+        </div>
+      </div>
+
+      <div class="form-group" ng-if="vm.type.Description === 'Visitor'">
+        <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnow_list">
+          <input type="radio" id="customRadio{{$index}}" name="OptionToKnowThePage" class="custom-control-input"
+                 value="{{option.OptionTypeId}}" ng-model="vm.user.OptionToKnowThePageId" required>
+          <label class="custom-control-label" for="customRadio{{$index}}">{{option.Description}}</label>
+          <div class="form-group"
+               ng-if="option.Description === 'Outros' && vm.user.OptionToKnowThePageId == option.OptionTypeId">
+            <input type="text" id="OptionToKnowThePageOther" name="OptionToKnowThePageOther" class="form-control"
+                   ng-model="vm.user.OptionToKnowThePageOther" required>
+            <p class="help-block" ng-show="form.OptionToKnowThePageOther.$error.required && vm.submitted">
+              Insira outra opção.
+            </p>
+          </div>
+        </div>
+
+        <p class="help-block" ng-show="form.OptionToKnowThePage.$error.required && vm.submitted">
+          Escolha uma opção.
+        </p>
+
+        <!--<select class="form-control" id="OptionToKnowThePageId" name="OptionToKnowThePageId"-->
+        <!--ng-model="vm.user.OptionToKnowThePageId" required>-->
+        <!--<option ng-repeat="option in vm.optionsToKnow_list">-->
+        <!--{{option.Description}}-->
+        <!--</option>-->
+        <!--</select>-->
+        <p class="help-block" ng-show="form.OptionToKnowThePageId.$error.required && vm.submitted">
+          Escolha uma opção.
+        </p>
+      </div>
+
+
     </div>
 
     <div class="form-group has-error">
-      <p class="help-block">{{ vm.errors.signup }}</p>
+      <p class="help-block">{{ vm.errors.register }}</p>
     </div>
 
   </form>
 
+  <div ng-show="vm.page === 1">
     <h6 class="modal-title text-center">Como você se encontra hoje:</h6>
 
     <button class="btn btn-outline-dark person_type" ng-repeat="type in vm.person_types"
@@ -56,13 +152,23 @@
       {{type.PortugueseDescription | uppercase}}
     </button>
 
-    <div class="row justify-content-between footer-links">
-      <button class="btn btn-link text-dark">
-        VOLTAR
-      </button>
-      <button class="btn btn-link text-dark">
-        AVANÇAR
-      </button>
-    </div>
+    <p class="help-block" ng-show="form.PersonTypeId.$error.required && vm.submitted">
+      Escolha uma opção.
+    </p>
+
+  </div>
+
+  <div class="row footer-links"
+       ng-class="{'justify-content-end': vm.page === 1, 'justify-content-between': vm.page === 2}">
+    <button class="btn btn-link text-dark" ng-if="vm.page === 2" ng-click="vm.backPage()">
+      VOLTAR
+    </button>
+    <button class="btn btn-link text-dark" ng-if="vm.page === 1" ng-click="vm.nextPage(form)">
+      AVANÇAR
+    </button>
+    <button class="btn btn-link text-dark" ng-if="vm.page === 2" ng-click="vm.registerNewUser(form)">
+      FINALIZAR
+    </button>
+  </div>
 
 </div>

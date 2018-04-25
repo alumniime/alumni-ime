@@ -100,7 +100,6 @@ export function setTokenCookie(req, res) {
       res.redirect('/');
     }
   } else {
-    res.redirect('/signup'); // TODO redirecionar o usuário para continuar o cadastro
+    res.redirect(`/login/${req.user.ConfirmEmailToken}`); // redirect user to complete his registry
   }
-
 }

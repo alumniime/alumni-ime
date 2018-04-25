@@ -10,9 +10,9 @@
   <p class="text-center">
     Para continuar seu cadastro, por favor, verifique seu endereço de email. Enviamos um email de confirmação para:
   </p>
-  <span class="text-primary text-center w-100 d-block p-3">email@example.com</span>
+  <span class="text-primary text-center w-100 d-block p-3">{{vm.user.email}}</span>
   <span class="description m-auto">
       Não recebeu o email? Reenvie o email de confirmação
-      <a href="#" ng-click="vm.callSignup()" class="btn btn-link text-dark d-inline">clicando aqui.</a>
+      <a href="#" ng-click="vm.sendEmailAgain()" class="btn btn-link text-primary d-inline">clicando aqui.</a>
   </span>
 </div>

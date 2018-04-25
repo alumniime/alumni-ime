@@ -1,56 +1,44 @@
 'use strict';
 
 export default class ModalSentConfirmationController {
-  user = {
-    name: '',
-    email: '',
-    password: '',
-    personTypeId: ''
-  };
-  errors = {
-    login: undefined
-  };
-  submitted = false;
-
 
   /*@ngInject*/
-  constructor(Auth, Modal, $state, $window) {
+  constructor(Auth, Modal, $state, $window, $uibModal, $http) {
     this.Auth = Auth;
     this.Modal = Modal;
     this.$state = $state;
     this.$window = $window;
+    this.$uibModal = $uibModal;
+    this.$http = $http;
   }
 
-  login(form) {
-    console.log('login');
-    this.submitted = true;
+  $onInit() {
+    this.user = this.resolve.user;
+  }
 
-    if(form.$valid) {
-      this.Auth.login({
-        email: this.user.email,
-        password: this.user.password
-      })
-        .then((user) => {
-          // Logged in, redirect to home
-          this.$state.reload();
-          console.log(user);
-          this.close({$value: true});
-        })
-        .catch(err => {
-          this.errors.login = err.message;
+  sendEmailAgain() {
+    var user = this.user;
+    this.$http.post('/api/users/send_confirmation', {
+      PersonId: user.PersonId
+    })
+      .then(res => {
+        console.log(res);
+        this.$uibModal.open({
+          animation: true,
+          component: 'modalSentConfirmation',
+          size: 'dialog-centered',
+          resolve: {
+            user: function () {
+              return user;
+            }
+          }
         });
-    }
-  }
-
-  loginOauth(provider) {
-    this.$window.location.href = `/auth/${provider}`;
-    console.log(this.Auth.getCurrentUserSync());
-    // this.$window.open(`/auth/${provider}`, 'popup', 'width=600,height=400,left=300,top=200');
-  }
-
-  callSignup() {
-    this.cancelModal();
-    this.Modal.openSignup();
+        this.close({$value: true});
+      })
+      .catch(err => {
+        alert('Erro ao enviar email');
+        console.log(err);
+      });
   }
 
   ok() {

@@ -60,11 +60,17 @@ export default class ModalLoginController {
       interval += 500;
       try {
         if(popupLinkedin.value) {
-          console.log('Success popup');
+          console.log('Success popup' + popupLinkedin.value);
           this_.$interval.cancel(i);
           popupLinkedin.close();
           this_.cancelModal();
-          location.reload();
+          if(popupLinkedin.value !== true) {
+            this_.$state.go('signup', {
+              confirmEmailToken: popupLinkedin.value
+            });
+          } else {
+            location.reload();
+          }
         }
       } catch(e) {
         console.error(e);

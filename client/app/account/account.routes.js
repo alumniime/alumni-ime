@@ -4,7 +4,7 @@ export default function routes($stateProvider) {
   'ngInject';
 
   $stateProvider.state('login', {
-    url: '/login',
+    url: '/login/:confirmEmailToken',
     template: require('./login/login.html'),
     controller: 'LoginController',
     controllerAs: 'vm'
@@ -22,7 +22,7 @@ export default function routes($stateProvider) {
       }
     })
     .state('signup', {
-      url: '/signup',
+      url: '/signup/:confirmEmailToken/:showEmailVerified',
       template: require('./signup/signup.html'),
       controller: 'SignupController',
       controllerAs: 'vm'

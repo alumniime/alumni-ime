@@ -22,9 +22,15 @@ function localAuthenticate(User, email, password, done) {
         } else {
           // User aren't a NewUser and his email is verified, so he can login
           if(!user.EmailVerified) {
-            return done(null, false, {message: 'Por favor, confirme primeiro seu email.'});
+            return done(null, false, {
+              message: 'Por favor, confirme primeiro seu email.',
+              PersonId: user.PersonId
+            });
           } else if(user.PersonTypeId === 1) {
-            return done(null, false, {message: 'Você deve completar seu cadastro para logar.'});
+            return done(null, false, {
+              message: 'Você deve completar seu cadastro para logar.',
+              confirmEmailToken: user.ConfirmEmailToken
+            });
           } else {
             return done(null, user);
           }

@@ -6,6 +6,7 @@ import ModalEmailVerifiedController from './email-verified/email-verified.contro
 import ModalSentConfirmationController from './sent-confirmation/sent-confirmation.controller';
 import ModalCompletedRegistrationController from './completed-registration/completed-registration.controller';
 import ModalRegisterInformationController from './register-information/register-information.controller';
+import ModalAlertController from './alert/alert.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal) {
@@ -35,6 +36,55 @@ export function ModalService($uibModal) {
         console.log('Success');
       }, function () {
         console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
+    openEmailVerified(confirmEmailToken) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalEmailVerified',
+        resolve: {
+          confirmEmailToken: function () {
+            return confirmEmailToken;
+          }
+        },
+        size: 'dialog-centered'
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
+    registryUser(confirmEmailToken) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalRegisterInformation',
+        resolve: {
+          confirmEmailToken: function () {
+            return confirmEmailToken;
+          }
+        },
+        size: 'dialog-centered'
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
+    showAlert(title, message) {
+      $uibModal.open({
+        animation: true,
+        component: 'modalAlert',
+        resolve: {
+          alert: function () {
+            return {title, message};
+          }
+        },
+        size: 'dialog-centered'
       });
     }
 
@@ -98,6 +148,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalRegisterInformation', {
     template: require('./register-information/register-information.html'),
     controller: ModalRegisterInformationController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalAlert', {
+    template: require('./alert/alert.html'),
+    controller: ModalAlertController,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

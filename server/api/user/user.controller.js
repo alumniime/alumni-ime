@@ -48,22 +48,37 @@ export function index(req, res) {
 /**
  * Creates a new user
  */
-export function create(req, res) {
-  var newUser = User.build(req.body);
-  newUser.setDataValue('PersonTypeId', 1); // NewUser when email is not verified and user needs to complete the registry
-  newUser.setDataValue('provider', 'local');
-  newUser.setDataValue('role', 'user');
-  newUser.setDataValue('EmailVerified', 0);
-  return newUser.save()
-    .then(function (user) {
-      var token = '';
-      // It only creates a NewUser, but he wont't be logged
-      // token = jwt.sign({ PersonId: user.PersonId }, config.secrets.session, {
-      //   expiresIn: 60 * 60 * 5
-      // });
-      res.json({token});
+export function create(req, res, next) {
+  User.find({
+    where: {
+      email: req.body.email.toLowerCase()
+    }
+  })
+    .then(user => {
+      if(user) {
+        return res.status(422)
+          .json({message: 'Este email já está cadastrado.'});
+      }
+
+      var newUser = User.build(req.body);
+      newUser.setDataValue('PersonTypeId', 1); // NewUser when email is not verified and user needs to complete the registry
+      newUser.setDataValue('provider', 'local');
+      newUser.setDataValue('role', 'user');
+      newUser.setDataValue('EmailVerified', 0);
+      return newUser.save()
+        .then(function (user) {
+          var PersonId = user.PersonId;
+          var token = '';
+          // It only creates a NewUser, but he wont't be logged
+          // token = jwt.sign({ PersonId: user.PersonId }, config.secrets.session, {
+          //   expiresIn: 60 * 60 * 5
+          // });
+          res.json({token, PersonId});
+        })
+        .catch(validationError(res));
     })
-    .catch(validationError(res));
+    .catch(err => next(err));
+
 }
 
 /**
@@ -163,24 +178,6 @@ export function me(req, res, next) {
  */
 export function sendConfirmation(req, res, next) {
   var userId = req.body.PersonId;
-  /*
-    return User.find({
-      where: {
-        PersonId: userId,
-        EmailVerified: false,
-        provider: 'local'
-      }
-    })
-      .then(user => {
-        console.log(JSON.stringify(user));
-        if(!user) {
-          return res.status(404).end();
-        }
-
-        res.json(user.profile);
-      })
-      .catch(err => next(err));
-  */
 
   async.waterfall([
     function (done) {
@@ -220,7 +217,7 @@ export function sendConfirmation(req, res, next) {
         to: user.email,
         from: config.email.user,
         template: 'confirm-account-email',
-        subject: 'Confirmação de Cadastro - Alumni',
+        subject: 'Confirmação de Cadastro - Alumni', // ✔
         context: {
           url: `${config.domain}/api/users/confirm_email/${token}`,
           name: user.name.split(' ')[0]
@@ -228,7 +225,10 @@ export function sendConfirmation(req, res, next) {
       };
       transporter.sendMail(data, function (err) {
         if(!err) {
-          return res.json({message: 'Success! Kindly check your email for further instructions'});
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions',
+            PersonID: userId
+          });
         } else {
           return done(err);
         }
@@ -260,9 +260,10 @@ export function confirmEmail(req, res, next) {
       }
 
       if(user.ConfirmEmailExpires > Date.now()) {
-        user.update({EmailVerified: true, ConfirmEmailToken: null})
+        user.update({EmailVerified: true})
           .then(new_user => {
-            return res.json({message: 'Success! Email verified'});
+            return res.redirect(`/signup/${new_user.ConfirmEmailToken}/1`); // redirect user to complete his registry
+            // return res.json({message: 'Success! Email verified'});
           })
           .catch(err => next(err));
       } else {

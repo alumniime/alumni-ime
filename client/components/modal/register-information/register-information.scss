@@ -110,6 +110,7 @@ modal-register-information {
   .person_type {
     margin: 15px auto;
     display: inherit;
+    border-color: #bdbdbd;
   }
 
   .person_type.selected {
@@ -121,6 +122,14 @@ modal-register-information {
 
   .person_type:focus {
     outline: 10px solid #fff;
+  }
+
+  .custom-checkbox, .custom-radio {
+    padding-bottom: 5px;
+    margin-left: 30px;
+    .custom-control-label {
+      font-size: 14px;
+    }
   }
 
 }
