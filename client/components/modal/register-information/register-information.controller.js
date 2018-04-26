@@ -86,19 +86,13 @@ export default class ModalRegisterInformationController {
     console.log(this.user);
 
     if(form.$valid) {
-      return this.Auth.createUser({
-        name: this.user.name,
-        email: this.user.email,
-        password: this.user.password,
-        PersonTypeId: this.user.PersonTypeId,
-      })
+      return this.Auth.updateByToken(this.confirmEmailToken, this.user)
         .then(() => {
-          // Account created, redirect to home
-          this.$state.go('main');
+          // Account updated
 
           this.$uibModal.open({
             animation: true,
-            component: 'modalSentConfirmation',
+            component: 'modalCompletedRegistration',
             size: 'dialog-centered'
           });
           this.close({$value: true});
@@ -106,7 +100,9 @@ export default class ModalRegisterInformationController {
         })
         .catch(err => {
           err = err.data;
-          this.errors = {};
+          this.errors = {
+            register: err
+          };
         });
     }
   }
@@ -121,11 +117,11 @@ export default class ModalRegisterInformationController {
 
   backPage() {
     this.page = 1;
-    delete this.user.GraduationYear;
-    delete this.user.GraduationEngineeringId;
-    delete this.user.OptionToKnowThePageId;
-    delete this.user.OptionToKnowThePageOther;
-    delete this.user.ProfessorSEId;
+    Reflect.deleteProperty(this.user, 'GraduationYear');
+    Reflect.deleteProperty(this.user, 'GraduationEngineeringId');
+    Reflect.deleteProperty(this.user, 'OptionToKnowThePageId');
+    Reflect.deleteProperty(this.user, 'OptionToKnowThePageOther');
+    Reflect.deleteProperty(this.user, 'ProfessorSEId');
   }
 
   selectOption(option) {

@@ -13,20 +13,22 @@ export default class SignupController {
 
 
   /*@ngInject*/
-  constructor(Modal, $state, $stateParams) {
+  constructor(Modal, $state, $stateParams, Auth) {
     this.Modal = Modal;
     this.$state = $state;
     this.$stateParams = $stateParams;
+    this.isLoggedIn = Auth.isLoggedInSync;
   }
 
   $onInit() {
-    console.log(this.$stateParams);
     if(this.$stateParams) {
       var confirmEmailToken = this.$stateParams.confirmEmailToken;
-      if (this.$stateParams.showEmailVerified === "1") {
-        this.Modal.openEmailVerified(confirmEmailToken);
-      } else {
-        this.Modal.registryUser(confirmEmailToken);
+      if(!this.isLoggedIn()) {
+        if (this.$stateParams.showEmailVerified === "1") {
+          this.Modal.openEmailVerified(confirmEmailToken);
+        } else {
+          this.Modal.registryUser(confirmEmailToken);
+        }
       }
     } else {
       this.$state.go('main');

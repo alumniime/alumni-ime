@@ -12,6 +12,18 @@ export function UserResource($resource) {
         controller: 'password'
       }
     },
+    updateById: {
+      method: 'PUT',
+      params: {
+        controller: 'profile'
+      }
+    },
+    updateByToken: {
+      method: 'PUT',
+      params: {
+        controller: 'registry'
+      }
+    },
     get: {
       method: 'GET',
       params: {

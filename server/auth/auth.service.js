@@ -94,12 +94,16 @@ export function setTokenCookie(req, res) {
   if(req.user.PersonTypeId !== 1) {
     var token = signToken(req.user.PersonId, req.user.role);
     res.cookie('token', token);
-    if(req.user.provider === 'linkedin') {
-      res.redirect('/login'); // route used only for close popup oAuth Linkedin
+    if(req.user.LinkedinId !== null) {
+      res.redirect('/login/0'); // route used only for close popup oAuth Linkedin
     } else {
       res.redirect('/');
     }
   } else {
-    res.redirect(`/login/${req.user.ConfirmEmailToken}`); // redirect user to complete his registry
+    if(req.user.ConfirmEmailToken) {
+      res.redirect(`/login/${req.user.ConfirmEmailToken}`); // redirect user to complete his registry
+    } else {
+      res.redirect('login/0');
+    }
   }
 }

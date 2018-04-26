@@ -82,6 +82,43 @@ export function create(req, res, next) {
 }
 
 /**
+ * Update a user profile
+ */
+export function update(req, res, next) {
+  var userId = req.params.id;
+  var token = req.params.token;
+  var search = {
+    where: {}
+  };
+
+  if(userId) {
+    search.where.PersonId = userId;
+  }
+  if(token) {
+    search.where.ConfirmEmailToken = token;
+  }
+
+  console.log(req.body);
+  console.log(search);
+
+  User.find(search)
+    .then(user => {
+      console.log(JSON.stringify(user));
+      if(!user) {
+        return res.status(422)
+          .json({message: 'User not found.'});
+      }
+      req.body.ConfirmEmailToken = null;
+      user.update(req.body)
+        .then(newUser => {
+          return res.json({message: 'Success updating user', PersonId: newUser.PersonId});
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+}
+
+/**
  * Get a single user
  */
 export function show(req, res, next) {
@@ -214,8 +251,14 @@ export function sendConfirmation(req, res, next) {
     },
     function (user, token, done) {
       var data = {
-        to: user.email,
-        from: config.email.user,
+        to: {
+          name: user.name,
+          address: user.email
+        },
+        from: {
+          name: 'Alumni IME',
+          address: config.email.user
+        },
         template: 'confirm-account-email',
         subject: 'Confirmação de Cadastro - Alumni', // ✔
         context: {
@@ -253,7 +296,7 @@ export function confirmEmail(req, res, next) {
     }
   })
     .then(user => {
-      console.log(JSON.stringify(user));
+      // console.log(JSON.stringify(user));
       if(!user) {
         return res.status(422)
           .json({message: 'User not found.'});
@@ -261,8 +304,8 @@ export function confirmEmail(req, res, next) {
 
       if(user.ConfirmEmailExpires > Date.now()) {
         user.update({EmailVerified: true})
-          .then(new_user => {
-            return res.redirect(`/signup/${new_user.ConfirmEmailToken}/1`); // redirect user to complete his registry
+          .then(newUser => {
+            return res.redirect(`/signup/${newUser.ConfirmEmailToken}/1`); // redirect user to complete his registry
             // return res.json({message: 'Success! Email verified'});
           })
           .catch(err => next(err));
@@ -270,7 +313,6 @@ export function confirmEmail(req, res, next) {
         return res.status(422)
           .json({message: 'Token expired.'});
       }
-
     })
     .catch(err => next(err));
 }

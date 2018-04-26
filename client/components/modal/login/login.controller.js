@@ -59,17 +59,21 @@ export default class ModalLoginController {
     var i = this.$interval(function () {
       interval += 500;
       try {
-        if(popupLinkedin.value) {
+        if(popupLinkedin.value !== null && popupLinkedin.value !== undefined) {
           console.log('Success popup' + popupLinkedin.value);
           this_.$interval.cancel(i);
           popupLinkedin.close();
           this_.cancelModal();
-          if(popupLinkedin.value !== true) {
+          if(popupLinkedin.value !== true && popupLinkedin.value !== '0') {
             this_.$state.go('signup', {
               confirmEmailToken: popupLinkedin.value
             });
           } else {
-            location.reload();
+            if(this_.$state.current.name === 'signup') {
+              location.href = '/';
+            } else {
+              location.reload();
+            }
           }
         }
       } catch(e) {

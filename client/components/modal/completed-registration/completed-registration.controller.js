@@ -10,6 +10,11 @@ export default class ModalCompletedRegistrationController {
     this.$window = $window;
   }
 
+  callLogin() {
+    this.ok();
+    this.Modal.openLogin();
+  }
+
   ok() {
     this.close({$value: true});
   }

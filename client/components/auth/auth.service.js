@@ -115,6 +115,25 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
     },
 
     /**
+     * Update user profile using a token
+     *
+     * @param  {String}   token
+     * @param  {Object}   user
+     * @param  {Function} callback    - function(error, user)
+     * @return {Promise}
+     */
+    updateByToken(token, user, callback) {
+      return User.updateByToken({
+        id: token
+      }, user, function() {
+        return safeCb(callback)(null);
+      }, function(err) {
+        return safeCb(callback)(err);
+      })
+        .$promise;
+    },
+
+    /**
      * Gets all available info on a user
      *
      * @param  {Function} [callback] - function(user)

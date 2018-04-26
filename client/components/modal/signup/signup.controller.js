@@ -27,17 +27,6 @@ export default class ModalLoginController {
   registerNewUser(form) {
     this.submitted = true;
 
-
-    /*
-        this.$uibModal.open({
-          animation: true,
-          component: 'modalRegisterInformation',
-          size: 'dialog-centered'
-        });
-        this.close({$value: true});
-    */
-
-
     if(form.$valid) {
       var user = this.user;
       return this.Auth.createUser({
@@ -54,7 +43,7 @@ export default class ModalLoginController {
           })
             .then(res => {
               console.log(res);
-                this.$uibModal.open({
+              this.$uibModal.open({
                 animation: true,
                 component: 'modalSentConfirmation',
                 size: 'dialog-centered',
@@ -67,14 +56,13 @@ export default class ModalLoginController {
               this.close({$value: true});
             })
             .catch(err => {
-              alert('Erro ao enviar email');
+              this.errors.signup = 'Erro ao enviar email. Tente novamente';
               console.log(err);
             });
 
         })
         .catch(err => {
-          console.log('CHECK', err);
-          this.errors.signup = err.message;
+          this.errors.signup = err.data.message;
         });
     }
   }
@@ -94,17 +82,21 @@ export default class ModalLoginController {
     var i = this.$interval(function () {
       interval += 500;
       try {
-        if(popupLinkedin.value) {
+        if(popupLinkedin.value !== null && popupLinkedin.value !== undefined) {
           console.log('Success popup' + popupLinkedin.value);
           this_.$interval.cancel(i);
           popupLinkedin.close();
           this_.cancelModal();
-          if(popupLinkedin.value !== true) {
+          if(popupLinkedin.value !== true && popupLinkedin.value !== '0') {
             this_.$state.go('signup', {
               confirmEmailToken: popupLinkedin.value
             });
           } else {
-            location.reload();
+            if(this_.$state.current.name === 'signup') {
+              location.href = '/';
+            } else {
+              location.reload();
+            }
           }
         }
       } catch(e) {

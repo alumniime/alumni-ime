@@ -60,7 +60,7 @@
         <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
         <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
                 required>
-          <option ng-repeat="year in vm.graduationYears" value="{{year}}">{{year}}</option>
+          <option ng-repeat="year in vm.graduationYears | orderBy:'-'" value="{{year}}">{{year}}</option>
         </select>
         <p class="help-block" ng-if="form.GraduationYear.$error.required && vm.submitted">
           Insira o seu ano de formação.
