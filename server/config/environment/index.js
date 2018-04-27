@@ -33,7 +33,7 @@ var all = {
 
   // Secret for session, you will want to change this and make it an environment variable
   secrets: {
-    session: process.env.SESSION_SECRET
+    session: process.env.SESSION_SECRET || 'alumni-secret'
   },
 
   // MongoDB connection options
@@ -56,7 +56,7 @@ var all = {
   email: {
     user: process.env.MAILER_EMAIL || '',
     pass: process.env.MAILER_PASSWORD || '',
-    provider: process.env.MAILER_PROVIDER || 'Gmail'
+    provider: process.env.MAILER_PROVIDER || 'gmail'
   }
 };
 

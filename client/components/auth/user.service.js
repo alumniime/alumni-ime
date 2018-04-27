@@ -12,13 +12,13 @@ export function UserResource($resource) {
         controller: 'password'
       }
     },
-    updateById: {
+    updateUserById: {
       method: 'PUT',
       params: {
         controller: 'profile'
       }
     },
-    updateByToken: {
+    updateUserByToken: {
       method: 'PUT',
       params: {
         controller: 'registry'

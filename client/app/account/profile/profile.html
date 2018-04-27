@@ -14,95 +14,280 @@
 
     <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Meus dados'">
 
-      <h1>{{vm.user.name}}</h1>
-      <p class="legend">
-        {{vm.engineering.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
+      <div class="" ng-if="!vm.editFields">
+
+        <h1>{{vm.user.name}}</h1>
+        <p class="legend">
+          {{vm.engineering.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
+          <br>
+          Formatura {{vm.user.GraduationYear}}
+        </p>
+
+        <div class="row">
+
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="emailShow">EMAIL*</label>
+              <input type="text" id="emailShow" name="email" class="form-control-plaintext" readonly
+                     ng-model="vm.user.email">
+            </div>
+            <div class="form-group">
+              <label for="BirthdateShow">DATA DE NASCIMENTO*</label>
+              <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
+                     value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
+            </div>
+            <div class="form-group">
+              <label for="InitiativesShow">{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
+                LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
+              <input type="text" id="InitiativesShow" name="Initiatives" class="form-control-plaintext" readonly
+                     value="Inserir Model">
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="GenreShow">GÊNERO*</label>
+              <input type="text" id="GenreShow" name="Genre" class="form-control-plaintext" readonly
+                     value="{{vm.user.Genre === 'M' ? 'Masculino' :  (vm.user.Genre === 'F' ? 'Feminino' : 'Outro')}}">
+            </div>
+            <div class="form-group">
+              <label for="PhoneShow">TELEFONE*</label>
+              <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+                     ng-model="vm.user.Phone">
+            </div>
+          </div>
+
+        </div>
+
         <br>
-        Formatura {{vm.user.GraduationYear}}
-      </p>
+        <p class="help-block text-success mb-4">
+          {{ vm.messageUpdate }}
+        </p>
 
-      <div class="row">
-        <div class="col-12 col-sm-6">
-          <div class="form-group">
-            <label for="email">EMAIL*</label>
-            <input type="text" id="email" name="email" class="form-control-plaintext" readonly
-                   ng-model="vm.user.email">
-          </div>
-          <div class="form-group">
-            <label for="Birthdate">DATA DE NASCIMENTO*</label>
-            <input type="text" id="Birthdate" name="Birthdate" class="form-control-plaintext" readonly
-                   value="{{vm.user.Birthdate| date:'dd/MM/yyyy':'+0000'}}"> <!-- TODO check date format timezone -->
-          </div>
-          <div class="form-group">
-            <label for="Initiatives">{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
-              LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
-            <input type="text" id="Initiatives" name="Initiatives" class="form-control-plaintext" readonly
-                   value="Inserir Model">
-          </div>
-        </div>
-        <div class="col-12 col-sm-6">
-          <div class="form-group">
-            <label for="Genre">GÊNERO*</label>
-            <input type="text" id="Genre" name="Genre" class="form-control-plaintext" readonly
-                   value="{{vm.user.Genre === 'M' ? 'Masculino' :  (vm.user.Genre === 'F' ? 'Feminino' : 'Outro')}}">
-          </div>
-          <div class="form-group">
-            <label for="Phone">TELEFONE*</label>
-            <input type="text" id="Phone" name="Phone" class="form-control-plaintext" readonly
-                   ng-model="vm.user.Phone">
-          </div>
-        </div>
+        <button class="btn btn-outline-info btn-edit" ng-click="vm.editFields = !vm.editFields">
+          ALTERAR CADASTRO
+        </button>
+
       </div>
 
+      <div class="" ng-if="vm.editFields">
 
-      <div class="card w-50">
-        <div class="card-body">
-          <h5 class="card-title">Alterar senha</h5>
+        <h4>Edição de dados</h4>
 
-          <form class="form" name="form" ng-submit="vm.changePassword(form)" ng-if="vm.user.provider === 'local'"
-                novalidate>
-            <div class="form-group">
-              <label>SENHA ANTIGA*</label>
-              <input type="password" name="password" class="form-control" ng-model="vm.user.oldPassword"
-                     ng-change="form.password.$error.wrong = false"/>
-              <p class="help-block" ng-show="form.password.$error.wrong">
-                {{ vm.errors.other }}
-              </p>
+
+        <form class="form" name="formUpdate" ng-submit="vm.saveUser(formUpdate)" novalidate>
+          <div class="row">
+
+            <div class="col-12 col-sm-6">
+
+              <div class="form-group">
+                <label for="name">NOME*</label>
+                <input type="text" id="name" name="name" class="form-control" ng-model="vm.user.name" required>
+                <p class="help-block" ng-show="formUpdate.name.$error.required && vm.submittedUpdate">
+                  Insira seu nome.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="email">EMAIL*</label>
+                <input type="text" id="email" name="email" class="form-control" ng-model="vm.user.email" required>
+                <p class="help-block" ng-show="formUpdate.email.$error.required && vm.submittedUpdate">
+                  Por favor, insira seu email.
+                </p>
+                <p class="help-block" ng-show="formUpdate.email.$error.email && vm.submittedUpdate">
+                  Por favor, insira um email válido.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="Birthdate">DATA DE NASCIMENTO*</label>
+                <input type="date" id="Birthdate" name="Birthdate" class="form-control"
+                       ng-model="vm.user.Birthdate">
+              </div>
+
+              <div class="form-group"
+                   ng-if="vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'Professor'">
+                <label for="GraduationEngineeringId">ENGENHARIA*</label>
+                <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
+                        ng-model="vm.user.GraduationEngineeringId" required
+                        ng-change="vm.updateEngineering(vm.user.GraduationEngineeringId)">
+                  <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
+                          ng-value="engineering.EngineeringId">{{engineering.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="formUpdate.GraduationEngineeringId.$error.required && vm.submittedUpdate">
+                  Insira a sua engenharia.
+                </p>
+              </div>
+
+              <div class="form-group"
+                   ng-if="vm.personType.Description === 'Professor' || vm.personType.Description === 'FormerStudentAndProfessor'">
+                <label for="ProfessorSEId">SEÇÃO DE ENSINO ATUAL*</label>
+                <select class="form-control" id="ProfessorSEId" name="ProfessorSEId"
+                        ng-model="vm.user.ProfessorSEId" required>
+                  <option ng-repeat="se in vm.sesList" ng-value="se.SEId">{{se.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="formUpdate.ProfessorSEId.$error.required && vm.submittedUpdate">
+                  Insira a sua seção de ensino.
+                </p>
+              </div>
+
+              <div class="form-group"
+                   ng-if="vm.personType.Description === 'Visitor'">
+                <label>COMO VOCÊ CONHECEU A PÁGINA?*</label>
+                <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnowList">
+                  <input type="radio" id="customRadio{{$index}}" name="OptionToKnowThePage" class="custom-control-input"
+                         ng-value="option.OptionTypeId" ng-model="vm.user.OptionToKnowThePageId" required>
+                  <label class="custom-control-label" for="customRadio{{$index}}">{{option.Description}}</label>
+                  <div class="form-group"
+                       ng-if="option.Description === 'Outros' && vm.user.OptionToKnowThePageId == option.OptionTypeId">
+                    <input type="text" id="OptionToKnowThePageOther" name="OptionToKnowThePageOther"
+                           class="form-control"
+                           ng-model="vm.user.OptionToKnowThePageOther" required>
+                    <p class="help-block"
+                       ng-show="formUpdate.OptionToKnowThePageOther.$error.required && vm.submittedUpdate">
+                      Insira outra opção.
+                    </p>
+                  </div>
+                </div>
+                <p class="help-block" ng-show="formUpdate.OptionToKnowThePage.$error.required && vm.submittedUpdate">
+                  Escolha uma opção.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="Initiatives">{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
+                  LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
+                <input type="text" id="Initiatives" name="Initiatives" class="form-control"
+                       value="Inserir Model">
+              </div>
+
             </div>
 
-            <div class="form-group">
-              <label>NOVA SENHA*</label>
-              <input type="password" name="newPassword" class="form-control" ng-model="vm.user.newPassword"
-                     ng-minlength="6" required/>
-              <p class="help-block"
-                 ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && vm.submitted">
-                A senha deve ter pelo menos 6 caracteres.
-              </p>
+            <div class="col-12 col-sm-6">
+
+              <div class="form-group">
+                <label for="Genre">GÊNERO*</label>
+                <select class="form-control" id="Genre" name="Genre" ng-model="vm.user.Genre" required>
+                  <option value="M">Masculino</option>
+                  <option value="F">Feminino</option>
+                </select>
+                <p class="help-block" ng-show="formUpdate.Genre.$error.required && vm.submittedUpdate">
+                  Insira o seu gênero.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="Phone">TELEFONE*</label>
+                <input type="tel" id="Phone" name="Phone" placeholder="+55 (DDD) 00000-0000" class="form-control"
+                       ng-model="vm.user.Phone" required>
+                <p class="help-block" ng-show="formUpdate.Phone.$error.required && vm.submittedUpdate">
+                  Insira o seu telefone.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="PersonTypeId">COMO VOCÊ SE ENCONTRA HOJE*</label>
+                <select class="form-control" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId"
+                        required ng-change="vm.updatePersonType(vm.user.PersonTypeId)">
+                  <option ng-repeat="type in vm.personTypes" ng-if="type.Description !== 'NewUser'"
+                          ng-value="type.PersonTypeId">{{type.PortugueseDescription}}
+                  </option>
+                </select>
+                <p class="help-block" ng-show="formUpdate.PersonTypeId.$error.required && vm.submittedUpdate">
+                  Escolha uma opção.
+                </p>
+              </div>
+
+              <div class="form-group"
+                   ng-if="vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'Professor'">
+                <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
+                <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
+                        required>
+                  <option ng-repeat="year in vm.graduationYears | orderBy:'-'" ng-value="year">{{year}}</option>
+                </select>
+                <p class="help-block" ng-if="formUpdate.GraduationYear.$error.required && vm.submittedUpdate">
+                  Insira o seu ano de formação.
+                </p>
+              </div>
+
+              <br>
+
             </div>
 
-            <div class="form-group">
-              <label>CONFIRMAR NOVA SENHA*</label>
-              <input type="password" name="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword"
-                     match="vm.user.newPassword" ng-minlength="6" required/>
-              <p class="help-block" ng-show="form.confirmPassword.$error.match && vm.submitted">
-                As senhas devem coincidir.
-              </p>
+            <br>
+            <p class="help-block mb-4" ng-show="vm.errors.update && vm.submittedUpdate">
+              {{vm.errors.update}}
+            </p>
+
+            <div class="row align-items-center mt-4">
+              <div class="col-xs-12 col-sm-auto">
+                <button class="btn btn-outline-dark btn-edit" ng-click="vm.editFields = !vm.editFields">
+                  CANCELAR
+                </button>
+                <br class="d-block d-sm-none">
+              </div>
+              <div class="col-xs-12 col-sm-auto">
+                <button class="btn btn-info btn-edit" type="submit">
+                  SALVAR
+                </button>
+              </div>
             </div>
 
-            <p class="help-block text-success mb-4"> {{ vm.message }} </p>
-            <button class="btn btn-dark m-auto" type="submit">SALVAR</button>
-          </form>
+          </div>
+        </form>
 
+        <form class="form" name="formPassword" ng-submit="vm.changePassword(formPassword)" novalidate>
+          <div class="row mt-5">
+            <div class="col-12 col-sm-6">
+              <div class="card" ng-if="vm.user.provider === 'local'">
+                <div class="card-body">
+                  <h5 class="card-title">Alterar senha</h5>
 
-        </div>
+                  <div class="form-group">
+                    <label>SENHA ANTIGA*</label>
+                    <input type="password" name="password" class="form-control" ng-model="vm.user.oldPassword"
+                           ng-change="formPassword.password.$error.wrong = false" required/>
+                    <p class="help-block"
+                       ng-show="formPassword.password.$error.required && vm.submittedPassword">
+                      Insira a senha antiga.
+                    </p>
+                    <p class="help-block" ng-show="formPassword.password.$error.wrong">
+                      {{ vm.errors.password }}
+                    </p>
+                  </div>
+
+                  <div class="form-group">
+                    <label>NOVA SENHA*</label>
+                    <input type="password" name="newPassword" class="form-control" ng-model="vm.user.newPassword"
+                           ng-minlength="6" required/>
+                    <p class="help-block"
+                       ng-show="(formPassword.newPassword.$error.minlength || formPassword.newPassword.$error.required) && vm.submittedPassword">
+                      A senha deve ter pelo menos 6 caracteres.
+                    </p>
+                  </div>
+
+                  <div class="form-group">
+                    <label>CONFIRMAR NOVA SENHA*</label>
+                    <input type="password" name="confirmPassword" class="form-control"
+                           ng-model="vm.user.confirmPassword"
+                           match="vm.user.newPassword" ng-minlength="6" required/>
+                    <p class="help-block" ng-show="formPassword.confirmPassword.$error.match && vm.submittedPassword">
+                      As senhas devem coincidir.
+                    </p>
+                  </div>
+
+                  <p class="help-block text-success mb-4"> {{ vm.messagePassword }} </p>
+                  <button class="btn btn-dark m-auto" type="submit">SALVAR SENHA</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
       </div>
-
-
-      <br>
-      <button class="btn btn-outline-info btn-edit" ng-click="vm.callLogin()">
-        ALTERAR CADASTRO
-      </button>
-      <br>
 
     </div>
 
