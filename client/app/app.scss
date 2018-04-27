@@ -24,6 +24,7 @@ $danger: #f52b2b !important;
 
 // Component styles are injected through gulp
 /* inject:scss */
+@import 'account/profile/profile';
 @import 'admin/admin';
 @import 'common';
 @import 'main/main';

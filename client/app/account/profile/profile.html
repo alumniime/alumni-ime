@@ -1,0 +1,118 @@
+<div class="container profileView">
+  <div class="row">
+
+    <div class="d-none d-lg-block col-lg-4">
+      <ul class="nav navbar-nav flex-column">
+        <li class="nav-item" ng-repeat="item in vm.menu" ng-class="{active: item === vm.itemSelected}">
+          <a class="nav-link" ng-click="vm.selectPage(item)" href="#">{{item}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" ui-sref="logout">Sair</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Meus dados'">
+
+      <h1>{{vm.user.name}}</h1>
+      <p class="legend">
+        {{vm.engineering.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
+        <br>
+        Formatura {{vm.user.GraduationYear}}
+      </p>
+
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label for="email">EMAIL*</label>
+            <input type="text" id="email" name="email" class="form-control-plaintext" readonly
+                   ng-model="vm.user.email">
+          </div>
+          <div class="form-group">
+            <label for="Birthdate">DATA DE NASCIMENTO*</label>
+            <input type="text" id="Birthdate" name="Birthdate" class="form-control-plaintext" readonly
+                   value="{{vm.user.Birthdate| date:'dd/MM/yyyy':'+0000'}}"> <!-- TODO check date format timezone -->
+          </div>
+          <div class="form-group">
+            <label for="Initiatives">{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
+              LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
+            <input type="text" id="Initiatives" name="Initiatives" class="form-control-plaintext" readonly
+                   value="Inserir Model">
+          </div>
+        </div>
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label for="Genre">GÊNERO*</label>
+            <input type="text" id="Genre" name="Genre" class="form-control-plaintext" readonly
+                   value="{{vm.user.Genre === 'M' ? 'Masculino' :  (vm.user.Genre === 'F' ? 'Feminino' : 'Outro')}}">
+          </div>
+          <div class="form-group">
+            <label for="Phone">TELEFONE*</label>
+            <input type="text" id="Phone" name="Phone" class="form-control-plaintext" readonly
+                   ng-model="vm.user.Phone">
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card w-50">
+        <div class="card-body">
+          <h5 class="card-title">Alterar senha</h5>
+
+          <form class="form" name="form" ng-submit="vm.changePassword(form)" ng-if="vm.user.provider === 'local'"
+                novalidate>
+            <div class="form-group">
+              <label>SENHA ANTIGA*</label>
+              <input type="password" name="password" class="form-control" ng-model="vm.user.oldPassword"
+                     ng-change="form.password.$error.wrong = false"/>
+              <p class="help-block" ng-show="form.password.$error.wrong">
+                {{ vm.errors.other }}
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label>NOVA SENHA*</label>
+              <input type="password" name="newPassword" class="form-control" ng-model="vm.user.newPassword"
+                     ng-minlength="6" required/>
+              <p class="help-block"
+                 ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && vm.submitted">
+                A senha deve ter pelo menos 6 caracteres.
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label>CONFIRMAR NOVA SENHA*</label>
+              <input type="password" name="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword"
+                     match="vm.user.newPassword" ng-minlength="6" required/>
+              <p class="help-block" ng-show="form.confirmPassword.$error.match && vm.submitted">
+                As senhas devem coincidir.
+              </p>
+            </div>
+
+            <p class="help-block text-success mb-4"> {{ vm.message }} </p>
+            <button class="btn btn-dark m-auto" type="submit">SALVAR</button>
+          </form>
+
+
+        </div>
+      </div>
+
+
+      <br>
+      <button class="btn btn-outline-info btn-edit" ng-click="vm.callLogin()">
+        ALTERAR CADASTRO
+      </button>
+      <br>
+
+    </div>
+
+    <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Projetos submetidos'">
+      <h1>Projetos submetidos</h1>
+    </div>
+
+    <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Projetos apoiados'">
+      <h1>Projetos apoiados</h1>
+    </div>
+
+  </div>
+</div>

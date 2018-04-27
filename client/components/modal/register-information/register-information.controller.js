@@ -86,7 +86,7 @@ export default class ModalRegisterInformationController {
     console.log(this.user);
 
     if(form.$valid) {
-      return this.Auth.updateByToken(this.confirmEmailToken, this.user)
+      return this.Auth.updateByToken(this.confirmEmailToken, this.user) // TODO save selected Initiatives
         .then(() => {
           // Account updated
 
@@ -122,11 +122,6 @@ export default class ModalRegisterInformationController {
     Reflect.deleteProperty(this.user, 'OptionToKnowThePageId');
     Reflect.deleteProperty(this.user, 'OptionToKnowThePageOther');
     Reflect.deleteProperty(this.user, 'ProfessorSEId');
-  }
-
-  selectOption(option) {
-    this.user.OptionToKnowThePageId = option.OptionTypeId;
-    console.log(this.user.OptionToKnowThePageId);
   }
 
   ok() {

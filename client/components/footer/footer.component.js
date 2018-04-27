@@ -1,6 +1,8 @@
 import angular from 'angular';
 
-export class FooterComponent {}
+export class FooterComponent {
+  // TODO submit contact form and send a email
+}
 
 export default angular.module('directives.footer', [])
   .component('footer', {

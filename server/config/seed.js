@@ -19,6 +19,13 @@ export default function seedDatabaseIfNeeded() {
         email: 'test@example.com',
         password: 'test'
       }, {
+        PersonTypeId: 2,
+        provider: 'local',
+        name: 'Gabriel Dilly',
+        email: 'gb_2012@live.com',
+        password: '123456',
+        EmailVerified: true
+      }, {
         PersonTypeId: 1,
         provider: 'local',
         role: 'admin',
