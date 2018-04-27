@@ -11,7 +11,9 @@ export default function seedDatabaseIfNeeded() {
   if(config.seedDB) {
     let User = sqldb.User;
 
-    return User.destroy({ where: {} })
+    return User.destroy({ where: {
+      email: ['test@example.com', 'admin@example.com']
+    } })
       .then(() => User.bulkCreate([{
         PersonTypeId: 1,
         provider: 'local',
