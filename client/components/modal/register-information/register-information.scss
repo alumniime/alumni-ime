@@ -34,14 +34,14 @@ modal-register-information {
   }
 
   @include media-breakpoint-up(lg) {
-    .person_type {
+    .person-type {
       width: 80%;
       min-width: 320px;
     }
   }
 
   @include media-breakpoint-down(md) {
-    .person_type {
+    .person-type {
       width: 95%;
       min-width: 0;
     }
@@ -57,7 +57,7 @@ modal-register-information {
   }
 
   .form-group label {
-    font-size: 12px;
+    font-size: 11px;
     margin-left: 5px;
   }
 
@@ -76,7 +76,7 @@ modal-register-information {
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
-    border-bottom: 1px solid #828282;
+    border-bottom: 1px solid #bdbdbd;
   }
 
   ::-webkit-input-placeholder {
@@ -107,20 +107,20 @@ modal-register-information {
     text-align: center;
   }
 
-  .person_type {
+  .person-type {
     margin: 15px auto;
     display: inherit;
     border-color: #bdbdbd;
   }
 
-  .person_type.selected {
+  .person-type.selected {
     background: none;
     border: 1px solid #0093f3;
     color: #0093f3;
     outline: none;
   }
 
-  .person_type:focus {
+  .person-type:focus {
     outline: 10px solid #fff;
   }
 

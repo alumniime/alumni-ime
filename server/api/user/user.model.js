@@ -55,7 +55,8 @@ export default function (sequelize, DataTypes) {
     },
     EmailVerified: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: false,
+      defaultValue: 0
     },
     ConfirmEmailToken: {
       type: DataTypes.BOOLEAN,
@@ -131,7 +132,8 @@ export default function (sequelize, DataTypes) {
     },
     IsExcluded: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: false,
+      defaultValue: 0
     }
   }, {
 

@@ -28,10 +28,10 @@ export default function routes($stateProvider) {
       controller: 'SignupController',
       controllerAs: 'vm'
     })
-    .state('settings', {
-      url: '/settings',
-      template: require('./settings/settings.html'),
-      controller: 'SettingsController',
+    .state('profile', {
+      url: '/profile',
+      template: require('./profile/profile.html'),
+      controller: 'ProfileController',
       controllerAs: 'vm',
       authenticate: true
     });

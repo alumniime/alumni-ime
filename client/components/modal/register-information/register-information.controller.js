@@ -7,7 +7,7 @@ export default class ModalRegisterInformationController {
     Genre: '',
     Phone: ''
   };
-  type = undefined;
+  personType = undefined;
   errors = {
     register: undefined
   };
@@ -29,32 +29,32 @@ export default class ModalRegisterInformationController {
   $onInit() {
     this.$http.get('/api/person_types')
       .then(response => {
-        this.person_types = response.data;
-        // console.log(this.person_types);
-        for(var type in this.person_types) {
-          this.person_types[type].selected = false;
+        this.personTypes = response.data;
+        // console.log(this.personTypes);
+        for(var type in this.personTypes) {
+          this.personTypes[type].selected = false;
         }
-        this.person_types[0].selected = true;
+        this.personTypes[0].selected = true;
       });
 
     this.$http.get('/api/engineering')
       .then(response => {
-        this.engineering_list = response.data;
+        this.engineeringList = response.data;
       });
 
     this.$http.get('/api/ses')
       .then(response => {
-        this.ses_list = response.data;
+        this.sesList = response.data;
       });
 
     this.$http.get('/api/initiatives')
       .then(response => {
-        this.initiative_list = response.data;
+        this.initiativeList = response.data;
       });
 
     this.$http.get('/api/option_to_know_types')
       .then(response => {
-        this.optionsToKnow_list = response.data;
+        this.optionsToKnowList = response.data;
       });
 
     this.confirmEmailToken = this.resolve.confirmEmailToken;
@@ -68,13 +68,12 @@ export default class ModalRegisterInformationController {
   }
 
   selectType(type) {
-    // console.log(type);
-    for(var i in this.person_types) {
-      this.person_types[i].selected = false;
+    for(var i in this.personTypes) {
+      this.personTypes[i].selected = false;
     }
     type.selected = true;
     this.user.PersonTypeId = type.PersonTypeId;
-    this.type = type;
+    this.personType = type;
   }
 
 
@@ -86,7 +85,7 @@ export default class ModalRegisterInformationController {
     console.log(this.user);
 
     if(form.$valid) {
-      return this.Auth.updateByToken(this.confirmEmailToken, this.user)
+      return this.Auth.updateByToken(this.confirmEmailToken, this.user) // TODO save selected Initiatives
         .then(() => {
           // Account updated
 
@@ -122,11 +121,6 @@ export default class ModalRegisterInformationController {
     Reflect.deleteProperty(this.user, 'OptionToKnowThePageId');
     Reflect.deleteProperty(this.user, 'OptionToKnowThePageOther');
     Reflect.deleteProperty(this.user, 'ProfessorSEId');
-  }
-
-  selectOption(option) {
-    this.user.OptionToKnowThePageId = option.OptionTypeId;
-    console.log(this.user.OptionToKnowThePageId);
   }
 
   ok() {

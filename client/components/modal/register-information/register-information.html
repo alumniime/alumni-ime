@@ -10,9 +10,9 @@
   <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
   <h6 class="modal-title text-center modal-title" ng-show="vm.page === 1">Informações gerais</h6>
   <h6 class="modal-title text-center modal-title"
-      ng-show="vm.page === 2 && vm.type.Description !== 'Visitor'">Informações complementares</h6>
+      ng-show="vm.page === 2 && vm.personType.Description !== 'Visitor'">Informações complementares</h6>
   <h6 class="modal-title text-center modal-title"
-      ng-show="vm.page === 2 && vm.type.Description === 'Visitor'">Como você conheceu a página?</h6>
+      ng-show="vm.page === 2 && vm.personType.Description === 'Visitor'">Como você conheceu a página?</h6>
 </div>
 
 <div class="modal-body" id="modal-body">
@@ -24,6 +24,7 @@
       <input type="hidden" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId" required>
 
       <div class="form-group">
+        <!-- TODO date popup and mask -->
         <label for="Birthdate">DATA DE NASCIMENTO*</label>
         <input type="date" id="Birthdate" name="Birthdate" placeholder="10/03/1980" class="form-control"
                ng-model="vm.user.Birthdate" required>
@@ -56,23 +57,23 @@
 
     <div class="page2" ng-if="vm.page === 2">
 
-      <div class="form-group" ng-if="vm.type.Description !== 'Visitor' && vm.type.Description !== 'Professor'">
+      <div class="form-group" ng-if="vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'Professor'">
         <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
         <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
                 required>
-          <option ng-repeat="year in vm.graduationYears | orderBy:'-'" value="{{year}}">{{year}}</option>
+          <option ng-repeat="year in vm.graduationYears | orderBy:'-'" ng-value="year">{{year}}</option>
         </select>
         <p class="help-block" ng-if="form.GraduationYear.$error.required && vm.submitted">
           Insira o seu ano de formação.
         </p>
       </div>
 
-      <div class="form-group" ng-if="vm.type.Description !== 'Visitor' && vm.type.Description !== 'Professor'">
+      <div class="form-group" ng-if="vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'Professor'">
         <label for="GraduationEngineeringId">ENGENHARIA*</label>
         <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                 ng-model="vm.user.GraduationEngineeringId" required>
-          <option ng-repeat="engineering in vm.engineering_list | orderBy:'Description'"
-                  value="{{engineering.EngineeringId}}">{{engineering.Description}}
+          <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
+                  ng-value="engineering.EngineeringId">{{engineering.Description}}
           </option>
         </select>
         <p class="help-block" ng-if="form.GraduationEngineeringId.$error.required && vm.submitted">
@@ -81,11 +82,11 @@
       </div>
 
       <div class="form-group"
-           ng-if="vm.type.Description === 'Professor' || vm.type.Description === 'FormerStudentAndProfessor'">
+           ng-if="vm.personType.Description === 'Professor' || vm.personType.Description === 'FormerStudentAndProfessor'">
         <label for="ProfessorSEId">SEÇÃO DE ENSINO ATUAL*</label>
         <select class="form-control" id="ProfessorSEId" name="ProfessorSEId"
                 ng-model="vm.user.ProfessorSEId" required>
-          <option ng-repeat="se in vm.ses_list" value="{{se.SEId}}">{{se.Description}}
+          <option ng-repeat="se in vm.sesList" ng-value="se.SEId">{{se.Description}}
           </option>
         </select>
         <p class="help-block" ng-if="form.ProfessorSEId.$error.required && vm.submitted">
@@ -93,21 +94,21 @@
         </p>
       </div>
 
-      <div class="form-group" ng-if="vm.type.Description !== 'Visitor'">
+      <div class="form-group" ng-if="vm.personType.Description !== 'Visitor'">
         <h6 class="modal-title text-center modal-title mb-3">
-          {{vm.type.Description === 'FormerStudent' ? 'Teve ' : 'Tem (ou teve)'}} ligação com alguma iniciativa ou
+          {{vm.personType.Description === 'FormerStudent' ? 'Teve ' : 'Tem (ou teve)'}} ligação com alguma iniciativa ou
           projeto?
         </h6>
-        <div class="custom-control custom-checkbox" ng-repeat="initiative in vm.initiative_list">
+        <div class="custom-control custom-checkbox" ng-repeat="initiative in vm.initiativeList">
           <input type="checkbox" class="custom-control-input" id="customCheck{{$index}}">
           <label class="custom-control-label" for="customCheck{{$index}}">{{initiative.Description}}</label>
         </div>
       </div>
 
-      <div class="form-group" ng-if="vm.type.Description === 'Visitor'">
-        <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnow_list">
+      <div class="form-group" ng-if="vm.personType.Description === 'Visitor'">
+        <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnowList">
           <input type="radio" id="customRadio{{$index}}" name="OptionToKnowThePage" class="custom-control-input"
-                 value="{{option.OptionTypeId}}" ng-model="vm.user.OptionToKnowThePageId" required>
+                 ng-value="option.OptionTypeId" ng-model="vm.user.OptionToKnowThePageId" required>
           <label class="custom-control-label" for="customRadio{{$index}}">{{option.Description}}</label>
           <div class="form-group"
                ng-if="option.Description === 'Outros' && vm.user.OptionToKnowThePageId == option.OptionTypeId">
@@ -118,18 +119,7 @@
             </p>
           </div>
         </div>
-
         <p class="help-block" ng-show="form.OptionToKnowThePage.$error.required && vm.submitted">
-          Escolha uma opção.
-        </p>
-
-        <!--<select class="form-control" id="OptionToKnowThePageId" name="OptionToKnowThePageId"-->
-        <!--ng-model="vm.user.OptionToKnowThePageId" required>-->
-        <!--<option ng-repeat="option in vm.optionsToKnow_list">-->
-        <!--{{option.Description}}-->
-        <!--</option>-->
-        <!--</select>-->
-        <p class="help-block" ng-show="form.OptionToKnowThePageId.$error.required && vm.submitted">
           Escolha uma opção.
         </p>
       </div>
@@ -146,7 +136,7 @@
   <div ng-show="vm.page === 1">
     <h6 class="modal-title text-center">Como você se encontra hoje:</h6>
 
-    <button class="btn btn-outline-dark person_type" ng-repeat="type in vm.person_types"
+    <button class="btn btn-outline-dark person-type" ng-repeat="type in vm.personTypes"
             ng-if="type.Description !== 'NewUser'" ng-class="{selected: type.selected}"
             ng-click="vm.selectType(type)">
       {{type.PortugueseDescription | uppercase}}

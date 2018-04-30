@@ -123,8 +123,27 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @return {Promise}
      */
     updateByToken(token, user, callback) {
-      return User.updateByToken({
+      return User.updateUserByToken({
         id: token
+      }, user, function() {
+        return safeCb(callback)(null);
+      }, function(err) {
+        return safeCb(callback)(err);
+      })
+        .$promise;
+    },
+
+    /**
+     * Update user profile using a PersonId
+     *
+     * @param  {String}   PersonId
+     * @param  {Object}   user
+     * @param  {Function} callback    - function(error, user)
+     * @return {Promise}
+     */
+    updateById(PersonId, user, callback) {
+      return User.updateUserById({
+        id: PersonId
       }, user, function() {
         return safeCb(callback)(null);
       }, function(err) {

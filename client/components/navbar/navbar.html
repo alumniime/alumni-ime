@@ -17,7 +17,7 @@
           <p class="navbar-text d-none d-xl-block mb-0">Bem vindo, {{ $ctrl.getCurrentUser().name }}!</p>
         </li>
         <li class="nav-item" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
-          <a class="nav-link text-dark d-none d-lg-block" ui-sref="settings">MEU PERFIL</a>
+          <a class="nav-link text-dark d-none d-lg-block" ui-sref="profile">MEU PERFIL</a>
         </li>
         <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
           <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin">ADMIN</a>
@@ -42,7 +42,7 @@
   <div class="navbar-brand d-none d-md-block d-lg-none">
     <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openLogin()" href="#" ui-sref-active="active">ENTRAR</a>
     <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openSignup()" href="#" ui-sref-active="active">CADASTRAR</a>
-    <a class="nav-link d-inline" ui-sref="settings" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
+    <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
     <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
     <a class="nav-link d-inline" ui-sref="submission" ui-sref-active="active">SUBMETER PROJETO</a>
     <a class="nav-link d-inline"  href="logout" ng-show="$ctrl.isLoggedIn()">SAIR</a>
@@ -80,7 +80,7 @@
         <a class="nav-link font-weight-normal d-block d-md-none" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
       </li>
       <li class="nav-item" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
-        <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="settings">MEU PERFIL</a>
+        <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="profile">MEU PERFIL</a>
       </li>
       <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
         <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="admin">ADMIN</a>

@@ -1,0 +1,97 @@
+.profileView {
+  padding: 40px 20px 60px;
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  h4 {
+    font-weight: 700;
+  }
+
+  .legend{
+    font-size: 16px;
+  }
+
+  li {
+    margin-right: 30px;
+    margin-bottom: 10px;
+    border-bottom: 1px #828282 solid;
+    .nav-link {
+      padding: 12px 20px;
+      font-size: 20px;
+      font-weight: 300;
+      color: #333 !important;
+    }
+  }
+
+  li:hover, li.active {
+    margin-bottom: 8px;
+    border-bottom: 3px #0097f6 solid;
+    .nav-link {
+      font-weight: 700;
+      color: #0097f6 !important;
+    }
+  }
+
+  .btn {
+    display: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    height: 45px;
+    border-radius: 30px;
+    min-width: 200px;
+    padding-top: 10px;
+  }
+
+  .form-group label {
+    font-size: 10px;
+    margin-bottom: 0;
+    color: #828282;
+  }
+
+  .form-control-plaintext {
+    font-size: 14px;
+  }
+
+  .form-control {
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #bdbdbd;
+    padding: 10px 20px !important;
+    height: 45px !important;
+  }
+
+  ::-webkit-input-placeholder {
+    font-style: italic;
+    color: #828282;
+  }
+
+  form input::placeholder, form textarea::placeholder {
+    font-style: italic;
+    color: #828282;
+  }
+
+  .card-title {
+    font-weight: 700;
+  }
+
+  .help-block {
+    margin-top: 10px;
+    font-size: 12px;
+    color: red;
+  }
+
+  .custom-checkbox, .custom-radio {
+    padding-bottom: 5px;
+    margin-left: 30px;
+    margin-top: 10px;
+    .custom-control-label {
+      font-size: 14px;
+    }
+  }
+
+
+}

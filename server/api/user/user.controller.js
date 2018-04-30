@@ -197,7 +197,16 @@ export function me(req, res, next) {
       'name',
       'email',
       'role',
-      'provider'
+      'provider',
+      'ImageURL',
+      'ImageData',
+      'Birthdate',
+      'Genre',
+      'Phone',
+      'GraduationEngineeringId',
+      'GraduationYear',
+      'ProfessorSEId',
+      'InitiativeLinkOther'
     ]
   })
     .then(user => { // don't ever give out the password or salt
