@@ -22,8 +22,8 @@
         <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
           <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin">ADMIN</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="#">SUBMETER PROJETO</a>
+        <li class="nav-item" ui-sref-active="active">
+          <a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>
         </li>
         <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
           <a class="nav-link text-dark d-none d-lg-block"  href="logout">SAIR</a>
@@ -44,6 +44,7 @@
     <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openSignup()" href="#" ui-sref-active="active">CADASTRAR</a>
     <a class="nav-link d-inline" ui-sref="settings" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
     <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
+    <a class="nav-link d-inline" ui-sref="submission" ui-sref-active="active">SUBMETER PROJETO</a>
     <a class="nav-link d-inline"  href="logout" ng-show="$ctrl.isLoggedIn()">SAIR</a>
   </div>
 
@@ -84,6 +85,9 @@
       <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
         <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="admin">ADMIN</a>
       </li>
+      <li class="nav-item" ui-sref-active="active">
+        <a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>
+      </li>
       <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
         <a class="nav-link font-weight-normal d-block d-md-none" href="logout">SAIR</a>
       </li>
@@ -106,7 +110,7 @@
   <div class="navbar-mobile w-100 d-block d-md-none">
     <ul class="nav">
       <li class="nav-item m-auto">
-        <a class="nav-link font-weight-normal" href="#">SUBMETER PROJETO</a>
+        <a class="nav-link font-weight-normal" ui-sref="submission">SUBMETER PROJETO</a>
       </li>
       <li class="nav-item m-auto">
         <a class="btn btn-danger" href="#" role="button">APOIE</a>
