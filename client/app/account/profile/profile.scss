@@ -89,7 +89,31 @@
     margin-left: 30px;
     margin-top: 10px;
     .custom-control-label {
+      color: #495057;
       font-size: 14px;
+    }
+  }
+
+  .card-columns {
+    column-count: 2;
+    @include media-breakpoint-down(sm) {
+      column-count: 1;
+    }
+  }
+  .project-card {
+    border: none;
+    background-color: #fafafa !important;
+    box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    .card-title {
+      font-size: 18px;
+    }
+
+    .card-link{
+      font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding-top: 12px;
     }
   }
 

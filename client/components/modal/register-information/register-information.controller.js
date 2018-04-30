@@ -50,6 +50,9 @@ export default class ModalRegisterInformationController {
     this.$http.get('/api/initiatives')
       .then(response => {
         this.initiativeList = response.data;
+        for(var initiative of this.initiativeList) {
+          initiative.selected = false;
+        }
       });
 
     this.$http.get('/api/option_to_know_types')
@@ -76,16 +79,37 @@ export default class ModalRegisterInformationController {
     this.personType = type;
   }
 
+  updateInitiativeLinks(initiativeLinks) {
+    var result = [];
+    for(var initiative of initiativeLinks) {
+      if(initiative.selected) {
+        result.push({
+          InitiativeId: initiative.InitiativeId
+        });
+      }
+    }
+    this.user.initiativeLinks = result;
+    // this.concatenateInitiativeLinks();
+  }
+
+  userHasInitiative(initiativeId) {
+    for(var initiative of this.initiativeList) {
+      if(initiative.selected && initiative.InitiativeId === initiativeId) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   registerNewUser(form) {
     this.submitted = true;
     this.user.ConfirmEmailToken = this.confirmEmailToken;
-
+    this.updateInitiativeLinks(this.initiativeList);
     console.log(form);
     console.log(this.user);
 
     if(form.$valid) {
-      return this.Auth.updateByToken(this.confirmEmailToken, this.user) // TODO save selected Initiatives
+      return this.Auth.updateByToken(this.confirmEmailToken, this.user)
         .then(() => {
           // Account updated
 
