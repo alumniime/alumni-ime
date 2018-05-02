@@ -13,6 +13,11 @@
     </div>
 
     <!-- My profile -->
+    <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
+      <li class="nav-item" ng-class="{active: vm.itemSelected === 'Meus dados'}">
+        <a class="nav-link" ng-click="vm.selectPage('Meus dados')" href="#">Meus dados</a>
+      </li>
+    </ul>
     <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Meus dados'" id="myProfile">
 
       <!-- Show profile -->
@@ -307,6 +312,11 @@
     </div>
 
     <!-- Projetos submetidos -->
+    <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
+      <li class="nav-item" ng-class="{active: vm.itemSelected === 'Projetos submetidos'}">
+        <a class="nav-link" ng-click="vm.selectPage('Projetos submetidos')" href="#">Projetos submetidos</a>
+      </li>
+    </ul>
     <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Projetos submetidos'">
 
       <div class="card-columns">
@@ -432,6 +442,11 @@
     </div>
 
     <!-- Projetos apoiados -->
+    <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
+      <li class="nav-item" ng-class="{active: vm.itemSelected === 'Projetos apoiados'}">
+        <a class="nav-link" ng-click="vm.selectPage('Projetos apoiados')" href="#">Projetos apoiados</a>
+      </li>
+    </ul>
     <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Projetos apoiados'">
 
       <div class="card-columns">
@@ -458,6 +473,12 @@
       </div>
 
     </div>
+
+    <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
+      <li class="nav-item">
+        <a class="nav-link"  ui-sref="logout">Sair</a>
+      </li>
+    </ul>
 
   </div>
 </div>
