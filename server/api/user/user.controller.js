@@ -49,22 +49,20 @@ export function index(req, res) {
  * Get list of professors
  */
 export function professors(req, res) {
-  // return User.findAll({
-  //   attributes: [
-  //     'PersonId',
-  //     'Name'
-  //   ],
-  //   where:{
-  //     PersonTypeId: [3, 5]
-  //   }
-  // })
-  //   .then(users => {
-  //     res.status(200)
-  //       .json(users);
-  //   })
-  //   .catch(handleError(res));
-
-  return [{PersonId: 1, Name: "Teste"}, {PersonId: 2, Name: "Teste2"}, {PersonId: 3, Name: "Teste3"}]
+  return User.findAll({
+    attributes: [
+      'PersonId',
+      'Name'
+    ],
+    where:{
+      PersonTypeId: [3, 5]
+    }
+  })
+    .then(users => {
+      res.status(200)
+        .json(users);
+    })
+    .catch(handleError(res));
 }
 
 /**

@@ -12,9 +12,9 @@ router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.put('/:id/profile', auth.isAuthenticated(), controller.update);
 router.put('/:token/registry', controller.update);
+router.get('/professors', controller.professors);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
-router.get('/professors', controller.professors);
 
 router.post('/send_confirmation', controller.sendConfirmation);
 router.get('/confirm_email/:token', controller.confirmEmail);
