@@ -10,7 +10,8 @@ var userCtrlStub = {
   me: 'userCtrl.me',
   changePassword: 'userCtrl.changePassword',
   show: 'userCtrl.show',
-  create: 'userCtrl.create'
+  create: 'userCtrl.create',
+  professors: 'userCtrl.professors'
 };
 
 var authServiceStub = {
