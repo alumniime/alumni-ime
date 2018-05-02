@@ -24,12 +24,14 @@ export default class ProfileController {
   itemSelected = this.menu[0];
 
 
-  constructor(Auth, $http, $state) {
+  constructor(Auth, $http, $state, $location, $anchorScroll) {
     'ngInject';
 
     this.Auth = Auth;
     this.$http = $http;
     this.$state = $state;
+    this.$location = $location;
+    this.$anchorScroll = $anchorScroll;
   }
 
   $onInit() {
@@ -66,6 +68,19 @@ export default class ProfileController {
       this.$http.get('/api/initiatives')
         .then(response => {
           this.initiativeList = response.data;
+          this.$http.get(`api/initiative_links/${this.PersonId}`)
+            .then(response => {
+              this.userInitiativeLinks = response.data;
+              for(var initiative of this.initiativeList) {
+                initiative.selected = false;
+                for(var userInitiative of this.userInitiativeLinks) {
+                  if(userInitiative.InitiativeId === initiative.InitiativeId) {
+                    initiative.selected = true;
+                    userInitiative.Description = initiative.Description;
+                  }
+                }
+              }
+            });
         });
 
       this.$http.get('/api/option_to_know_types')
@@ -102,10 +117,53 @@ export default class ProfileController {
     }
   }
 
+  updateInitiativeLinks(initiativeLinks) {
+    var result = [];
+    for(var initiative of initiativeLinks) {
+      if(initiative.selected) {
+        result.push({
+          InitiativeId: initiative.InitiativeId
+        });
+      }
+    }
+    this.user.initiativeLinks = result;
+    // this.concatenateInitiativeLinks();
+  }
+
+  userHasInitiative(initiativeId) {
+    for(var initiative of this.initiativeList) {
+      if(initiative.selected && initiative.InitiativeId === initiativeId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  concatenateInitiativeLinks() {
+    var s = '';
+    var links = [];
+    if(this.initiativeList) {
+      for(var initiative of this.initiativeList) {
+        if(initiative.selected) {
+          links.push(initiative);
+        }
+      }
+      for(var i = 0; i < links.length; i++) {
+        if(links[i].Description !== 'Outros') {
+          s = `${s}${links[i].Description}; `;
+        } else {
+          s = `${s}${this.user.InitiativeLinkOther}; `;
+        }
+      }
+    }
+    return s;
+  }
+
   saveUser(form) {
     this.submittedUpdate = true;
     this.errors.update = undefined;
     this.messageUpdate = '';
+    this.updateInitiativeLinks(this.initiativeList);
     console.log(form);
     console.log(this.user);
 
@@ -115,6 +173,9 @@ export default class ProfileController {
           // Account updated
           this.messageUpdate = 'Dados alterados com sucesso!';
           this.editFields = false;
+
+          this.$location.hash('myProfile');
+          this.$anchorScroll();
         })
         .catch(err => {
           this.errors.update = err.data;

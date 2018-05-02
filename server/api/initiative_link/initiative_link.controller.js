@@ -73,7 +73,7 @@ export function index(req, res) {
 
 // Gets a single InitiativeLink from the DB
 export function show(req, res) {
-  return InitiativeLink.find({
+  return InitiativeLink.findAll({
     where: {
       PersonId: req.params.id
     }

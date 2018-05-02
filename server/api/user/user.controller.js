@@ -1,6 +1,6 @@
 'use strict';
 
-import {User} from '../../sqldb';
+import {User, InitiativeLink} from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
@@ -131,9 +131,26 @@ export function update(req, res, next) {
           .json({message: 'User not found.'});
       }
       req.body.ConfirmEmailToken = null;
+      var initiativeLinks = req.body.initiativeLinks;
+      for(var initiative of initiativeLinks) {
+        initiative.PersonId = user.PersonId;
+      }
+      Reflect.deleteProperty(req.body, 'initiativeLinks');
       user.update(req.body)
         .then(newUser => {
-          return res.json({message: 'Success updating user', PersonId: newUser.PersonId});
+          InitiativeLink.destroy({
+            where: {
+              PersonId: newUser.PersonId
+            }
+          })
+            .then(() => {
+              InitiativeLink.bulkCreate(initiativeLinks)
+                .then(() => {
+                  return res.json({message: 'Success updating user', PersonId: newUser.PersonId});
+                })
+                .catch(err => next(err));
+            })
+            .catch(err => next(err));
         })
         .catch(err => next(err));
     })
@@ -352,7 +369,7 @@ export function confirmEmail(req, res, next) {
  * Allow user change his password using a token sent by email
  */
 export function forgotPassword(req, res) {
-
+  // TODO
 }
 
 /**

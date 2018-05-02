@@ -94,18 +94,28 @@
         </p>
       </div>
 
-      <div class="form-group" ng-if="vm.personType.Description !== 'Visitor'">
-        <h6 class="modal-title text-center modal-title mb-3">
-          {{vm.personType.Description === 'FormerStudent' ? 'Teve ' : 'Tem (ou teve)'}} ligação com alguma iniciativa ou
-          projeto?
-        </h6>
+      <div class="form-group"
+           ng-if="vm.personType.Description !== 'Visitor'">
+        <label>{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
+          LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
         <div class="custom-control custom-checkbox" ng-repeat="initiative in vm.initiativeList">
-          <input type="checkbox" class="custom-control-input" id="customCheck{{$index}}">
+          <input type="checkbox" class="custom-control-input" id="customCheck{{$index}}" ng-model="initiative.selected">
           <label class="custom-control-label" for="customCheck{{$index}}">{{initiative.Description}}</label>
+          <div class="form-group"
+               ng-if="initiative.Description === 'Outros' && vm.userHasInitiative(initiative.InitiativeId)">
+            <input type="text" id="InitiativeLinkOther" name="InitiativeLinkOther"
+                   class="form-control"
+                   ng-model="vm.user.InitiativeLinkOther" required>
+            <p class="help-block"
+               ng-show="form.InitiativeLinkOther.$error.required && vm.submittedUpdate">
+              Insira outra opção.
+            </p>
+          </div>
         </div>
       </div>
 
-      <div class="form-group" ng-if="vm.personType.Description === 'Visitor'">
+      <div class="form-group"
+           ng-if="vm.personType.Description === 'Visitor'">
         <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnowList">
           <input type="radio" id="customRadio{{$index}}" name="OptionToKnowThePage" class="custom-control-input"
                  ng-value="option.OptionTypeId" ng-model="vm.user.OptionToKnowThePageId" required>
