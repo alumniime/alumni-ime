@@ -7,10 +7,46 @@
     //padding-left: 15px;
     
     font-family: 'Merriweather Sans';
-    font-size: 20px;
 }
 
 .title{
     font-weight: bold;
     color: #333333;
+    font-size: 20px;
 }
+
+.field{
+    font-size: 10px;
+    color: #828282;
+    padding-top: 20px; 
+}
+
+
+  .form-group label {
+    font-size: 11px;
+    margin-left: 5px;
+  }
+
+  span {
+    font-size: 16px;
+    color: #828282;
+    text-align: center;
+  }
+
+  form {
+    padding-bottom: 10px;
+  }
+
+  form input, form select {
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #bdbdbd;
+  }
+
+  .help-block {
+    margin-top: 10px;
+    font-size: 12px;
+    color: red;
+  }
