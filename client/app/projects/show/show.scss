@@ -1,4 +1,4 @@
-.profileView {
+.showView{
   padding: 40px 20px 60px;
   h1 {
     font-size: 36px;
@@ -9,8 +9,21 @@
     font-weight: 700;
   }
 
+  h5{
+    margin-bottom: 0;
+    color: #333333;
+  }
+
   .legend{
     font-size: 16px;
+  }
+
+  .page-title{
+    color: #333333 !important;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 25px !important;
   }
 
   li {
@@ -44,69 +57,54 @@
     padding-top: 10px;
   }
 
-  .form-group label {
-    font-size: 10px;
-    margin-left: 0;
-    color: #828282;
-  }
-
-  .form-control-plaintext {
-    font-size: 14px;
-  }
-
-  .form-control {
-    border-radius: 0 !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-bottom: 1px solid #bdbdbd;
-    padding: 10px 20px !important;
-    height: 45px !important;
-  }
-
-  ::-webkit-input-placeholder {
-    font-style: italic;
-    color: #828282;
-  }
-
-  form input::placeholder, form textarea::placeholder {
-    font-style: italic;
-    color: #828282;
-  }
-
-  .card-title {
-    font-weight: 700;
-  }
-
-  .help-block {
-    margin-top: 10px;
-    font-size: 12px;
-    color: red;
-  }
-
-  .custom-checkbox, .custom-radio {
-    padding-bottom: 5px;
-    margin-left: 30px;
-    margin-top: 10px;
-    .custom-control-label {
-      color: #495057;
-      font-size: 14px;
-    }
-  }
-
-  .card-columns {
+.card-columns {
     column-count: 2;
     @include media-breakpoint-down(sm) {
       column-count: 1;
     }
   }
+
+  .form-group{
+    margin-bottom: 10px;
+  }
+
+  .form-group label {
+    font-size: 10px;
+    margin-left: 0;
+    color: #828282;
+    margin-bottom: 0;
+  }
+
+  .form-control-plaintext {
+    padding-top: 0;
+    font-size: 14px;
+    padding-bottom: 0;
+  }
+  .form-control-plaintext-right {
+    padding-top: 0;
+    font-size: 14px;
+    text-align: right;
+    float: right;
+    border: none;
+    background: transparent;
+    padding-bottom: 0;
+  }
+
+  .card-title {
+    font-weight: 700;
+  }
+.project-deck{
+  box-sizing: content-box;
+}
   .project-card {
     border: none;
     background-color: #fafafa !important;
     box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     width: 100%;
     .card-title {
       font-size: 18px;
+      color: #333333 Solid;
     }
 
     .card-link{
@@ -117,5 +115,21 @@
     }
   }
 
+  .project-card:hover{
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 3px 3px rgba(0, 0, 0, 0.3) !important;
+  }
+
+
+.progress {
+    background: #FAFAFA; 
+    border: 1px solid #BDBDBD; 
+    border-radius: 25px; 
+    height: 12px;
+}
+.progress-bar-custom {
+    background: #6FCF97;
+}
 
 }

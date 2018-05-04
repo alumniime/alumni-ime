@@ -25,11 +25,12 @@ import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
 import submission from './projects/submission/submission.component';
+import show from './projects/show/show.component';
 
 import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap, _Auth,
-  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission
+  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, show
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {
