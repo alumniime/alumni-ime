@@ -13,9 +13,9 @@
         <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
           <a class="nav-link text-dark d-none d-lg-block" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
         </li>
-        <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
+        <!-- <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
           <p class="navbar-text d-none d-xl-block mb-0">Bem vindo, {{ $ctrl.getCurrentUser().name }}!</p>
-        </li>
+        </li> -->
         <li class="nav-item" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
           <a class="nav-link text-dark d-none d-lg-block" ui-sref="profile">MEU PERFIL</a>
         </li>
@@ -25,9 +25,9 @@
         <li class="nav-item" ui-sref-active="active">
           <a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>
         </li>
-        <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
+        <!-- <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
           <a class="nav-link text-dark d-none d-lg-block"  href="logout">SAIR</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link btn btn-danger" href="#" role="button">APOIE</a>
         </li>
@@ -44,7 +44,7 @@
     <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openSignup()" href="#" ui-sref-active="active">CADASTRAR</a>
     <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
     <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
-    <a class="nav-link d-inline"  href="logout" ng-show="$ctrl.isLoggedIn()">SAIR</a>
+    <!-- <a class="nav-link d-inline"  href="logout" ng-show="$ctrl.isLoggedIn()">SAIR</a> -->
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
@@ -84,9 +84,9 @@
       <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
         <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="admin">ADMIN</a>
       </li>
-      <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
+      <!-- <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
         <a class="nav-link font-weight-normal d-block d-md-none" href="logout">SAIR</a>
-      </li>
+      </li> -->
     </ul>
 
     <div class="d-none d-lg-block social-media col-auto">

@@ -37,7 +37,7 @@ export class NavbarComponent {
       dropdown: [
         {
           title: 'APROVADOS 2018.1',
-          state: 'approved_projects'
+          state: 'show'
         },
         {
           title: 'CHAMADA DE PROJETOS',
