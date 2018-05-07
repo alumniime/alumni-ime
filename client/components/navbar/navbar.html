@@ -44,7 +44,6 @@
     <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openSignup()" href="#" ui-sref-active="active">CADASTRAR</a>
     <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
     <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
-    <a class="nav-link d-inline" ui-sref="submission" ui-sref-active="active">SUBMETER PROJETO</a>
     <a class="nav-link d-inline"  href="logout" ng-show="$ctrl.isLoggedIn()">SAIR</a>
   </div>
 
@@ -56,7 +55,7 @@
     <i class="fa fa-close" ng-hide="$ctrl.isCollapsed"></i>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsedd">
+  <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" ng-repeat="item in $ctrl.menu" ng-class="{dropdown: item.dropdown}" ui-sref-active="active">
         <a class="nav-link" ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
@@ -85,9 +84,6 @@
       <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
         <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="admin">ADMIN</a>
       </li>
-      <li class="nav-item" ui-sref-active="active">
-        <a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>
-      </li>
       <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
         <a class="nav-link font-weight-normal d-block d-md-none" href="logout">SAIR</a>
       </li>
@@ -109,7 +105,7 @@
 
   <div class="navbar-mobile w-100 d-block d-md-none">
     <ul class="nav">
-      <li class="nav-item m-auto">
+      <li class="nav-item m-auto" ui-sref-active="active">
         <a class="nav-link font-weight-normal" ui-sref="submission">SUBMETER PROJETO</a>
       </li>
       <li class="nav-item m-auto">

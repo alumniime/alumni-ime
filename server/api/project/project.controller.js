@@ -12,6 +12,7 @@
 
 import jsonpatch from 'fast-json-patch';
 import {Project} from '../../sqldb';
+import multer from 'multer';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -88,6 +89,30 @@ export function create(req, res) {
   return Project.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
+}
+
+// Creates a new Project in the DB
+export function upload(req, res) {
+  var storage = multer.diskStorage({ //multers disk storage settings
+    destination: function (req, file, cb) {
+      cb(null, './client/assets/images/uploads/')
+    },
+    filename: function (req, file, cb) {
+      var datetimestamp = Date.now();
+      cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+    }
+  });
+  var upload = multer({ //multer settings
+    storage: storage
+  }).single('file');
+  upload(req,res,function(err){
+    console.log(err);
+    if(err){
+      res.json({error_code:1,err_desc:err});
+      return;
+    }
+    res.json({error_code:0,err_desc:null});
+  });
 }
 
 // Upserts the given Project in the DB at the specified ID

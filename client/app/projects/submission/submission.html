@@ -1,71 +1,214 @@
+<div class="submission-view">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-9">
+        <h1 class="title">
+          Submissão de Projeto
+        </h1>
 
-<div class="block">
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-2"></div>
-            <div class="title col col-xs-auto">Submissão de Projeto</div>
-        </div>
-        
-        <div class="row justify-content-md-center">
-            <div class="col-2"></div>
-            <div class="field col col-xs-auto">TÍTULO DO PROJETO*</div>
-            <div class="col-2"></div>
-        </div>
-        
+        <form class="form ng-pristine ng-invalid ng-invalid-required" name="form" ng-submit="vm.submitProject(form)"
+              novalidate="">
 
+          <div class="row">
+            <div class="col-12 col-md-6">
 
-        
-        <form class="form ng-pristine ng-invalid ng-invalid-required" name="form" ng-submit="vm.registerNewUser(form)" novalidate="">
-
-            <div class="form-group">
-                <label for="Title">TÍTULO DO PROJETO*</label>
-                <input type="text" id="ProjectName" name="ProjectName" class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" required="">
-                <p class="help-block" ng-if="form.Title.$error.required && vm.submitted">
+              <div class="form-group">
+                <label for="ProjectName">TÍTULO DO PROJETO*</label>
+                <input type="text" id="ProjectName" name="ProjectName" class="form-control" required
+                       ng-model="vm.project.ProjectName">
+                <p class="help-block" ng-if="form.ProjectName.$error.required && vm.submitted">
                   Insira o Título do Projeto.
                 </p>
-            </div>
-            
-            <div class="form-group">
+              </div>
+
+              <div class="form-group">
                 <label for="SEId">SEÇÃO DE ENSINO*</label>
-                <select class="form-control" id="SEId" name="SEId" required>
-                    <option ng-repeat="se in vm.sesList" ng-value="se.SEId">{{se.Description}}
-                    </option>
+                <select class="form-control" id="SEId" name="SEId" required ng-model="vm.project.SEId">
+                  <option></option>
+                  <option ng-repeat="se in vm.sesList" ng-value="se.SEId">{{se.Description}}
+                  </option>
                 </select>
                 <p class="help-block" ng-if="form.SEId.$error.required && vm.submitted">
-                    Insira a Seção de Ensino.
+                  Insira a Seção de Ensino.
                 </p>
-            </div>
+              </div>
 
-            <div class="form-group">
+              <div class="form-group">
                 <label for="InitiativeName">NOME DA INICIATIVA OU PROJETO*</label>
-                <input type="text" id="InitiativeName" name="InitiativeName" class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" required="">
+                <input type="text" id="InitiativeName" name="InitiativeName" class="form-control" required
+                       ng-model="vm.project.InitiativeName">
                 <p class="help-block" ng-if="form.InitiativeName.$error.required && vm.submitted">
-                    Insira o Nome da Iniciativa ou Projeto.
+                  Insira o Nome da Iniciativa ou Projeto.
                 </p>
+              </div>
+
+              <div class="form-group">
+                <label for="ProfessorId">PROFESSOR RESPONSÁVEL*</label>
+                <select class="form-control" id="ProfessorId" name="ProfessorId" required
+                        ng-model="vm.project.ProfessorId">
+                  <option></option>
+                  <option ng-repeat="professor in vm.professorsList" ng-value="professor.PersonId">{{professor.Name}}
+                  </option>
+                </select>
+                <p class="help-block" ng-show="form.ProfessorId.$error.required && vm.submitted">
+                  Insira o professor responsável. Caso não esteja na lista, é preciso que ele faça cadastro.
+                </p>
+              </div>
+
             </div>
 
+            <div class="col-12 col-md-6">
 
-            <div class="form-group">
-            <label for="ProfessorId">PROFESSOR RESPONSÁVEL*</label>
-            <select class="form-control" id="ProfessorId" name="ProfessorId" required>
-                <option value="? string: ?" selected="selected"></option>
-                <option ng-repeat="professor in vm.professorsList" ng-value="professor.PersonId">{{professor.Name}}
+              <div class="form-group">
+
+                <div class="form-group">
+                  <label for="Team">EQUIPE*</label>
+                  <select class="form-control" id="Team" name="Team" required
+                          ng-model="vm.project.Team">
+                    <option></option>
+                    <option ng-repeat="professor in vm.professorsList" ng-value="professor.PersonId">{{professor.Name}}
                     </option>
-            </select>
-            <p class="help-block ng-hide" ng-show="form.ProfessorId.$error.required &amp;&amp; vm.submitted">
-                Insira o professor responsável. Caso não esteja na lista, é preciso que ele faça cadastro.
-            </p>
+                  </select>
+                  <p class="help-block" ng-show="form.Team.$error.required && vm.submitted">
+                    Insira o professor responsável. Caso não esteja na lista, é preciso que ele faça cadastro.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label for="EstimatedPriceInCents">ORÇAMENTO*</label>
+                  <input type="number" id="EstimatedPriceInCents" name="StudentsNumber" class="form-control" required
+                         ng-model="vm.project.EstimatedPriceInCents">
+                  <p class="help-block" ng-if="form.EstimatedPriceInCents.$error.required && vm.submitted">
+                    Insira o Valor Estimado para o Projeto.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label for="StudentsNumber">QUANTIDADE DE ALUNOS ENVOLVIDOS*</label>
+                  <input type="number" id="StudentsNumber" name="StudentsNumber" class="form-control" required
+                         ng-model="vm.project.StudentsNumber">
+                  <p class="help-block" ng-if="form.StudentsNumber.$error.required && vm.submitted">
+                    Insira a Quantidade de Alunos Envolvidos no Projeto.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label for="ConclusionDate">TÉRMINO ESTIMADO*</label>
+                  <input type="date" id="ConclusionDate" name="ConclusionDate" placeholder="10/03/1980"
+                         class="form-control"
+                         ng-model="vm.project.ConclusionDate" required>
+                  <p class="help-block" ng-show="form.ConclusionDate.$invalid && vm.submitted">
+                    Insira uma Data Válida para o Término Estimado.
+                  </p>
+                </div>
+
+              </div>
+
             </div>
-    
-            <div class="form-group">
-            <label for="Phone">TELEFONE*</label>
-            <input type="tel" id="Phone" name="Phone" placeholder="+55 (DDD) 00000-0000" class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="vm.user.Phone" required="">
-            <p class="help-block ng-hide" ng-show="form.Phone.$error.required &amp;&amp; vm.submitted">
-                Insira o seu telefone.
-            </p>
+          </div>
+          <br>
+
+          <div class="row">
+            <div class="col-12">
+              <!-- TODO count and limit characters -->
+              <div class="form-group">
+                <label for="Abstract">RESUMO DO PROJETO*</label>
+                <textarea type="date" id="Abstract" name="Abstract" class="form-control" rows="6"
+                          ng-model="vm.project.Abstract" ng-required="true"></textarea>
+                <p class="help-block" ng-show="form.Abstract.required && vm.submitted">
+                  Insira um Resumo do Projeto.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="Goals">METAS/RESULTADOS ESPERADOS PARA O PROJETO*</label>
+                <textarea type="date" id="Goals" name="Goals" class="form-control" rows="6"
+                          ng-model="vm.project.Goals" ng-required="true"></textarea>
+                <p class="help-block" ng-show="form.Goals.required && vm.submitted">
+                  Insira as Metas/Resultados Esperados.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="Benefits">BENEFÍCIOS CONCRETOS PARA O IME*</label>
+                <textarea type="date" id="Benefits" name="Benefits" class="form-control" rows="6"
+                          ng-model="vm.project.Benefits" ng-required="true"></textarea>
+                <p class="help-block" ng-show="form.Benefits.required && vm.submitted">
+                  Insira os Benefícios Concreto para o IME do Projeto.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="Schedule">CRONOGRAMA FÍSICO-FINANCEIRO*</label>
+                <textarea type="date" id="Schedule" name="Schedule" class="form-control" rows="6"
+                          ng-model="vm.project.Schedule" ng-required="true"></textarea>
+                <p class="help-block" ng-show="form.Schedule.required && vm.submitted">
+                  Insira um Cronograma em Detalhes com o Planejamento Financeiro do Projeto.
+                </p>
+              </div>
+
+              <br>
+
+              <div class="form-group">
+                <label>INSERIR FOTOS*</label>
+                <br>
+
+                <div class="row">
+                  <div class="col-auto">
+                    <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
+                  </div>
+                  <div class="col">
+                    <p class="upload-text">
+                      <a class="btn btn-link text-info upload-link" ng-click="vm.uploadNewImage()">Faça upload </a> de
+                      fotos referentes ao projeto.
+                      <br>
+                      <span class="upload-legend">Adicione até 15 fotos.</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="card-columns upload-images">
+                  <div class="card" ng-repeat="image in vm.uploadImages">
+                    <img ng-if="image.src" ng-src="{{image.src}}">
+                    <i ng-if="image.src" class="fa fa-close close-button" ng-click="vm.removeImage(image)"></i>
+                  </div>
+                  <div class="card card-plus d-flex align-items-center justify-content-center"
+                       ng-click="vm.uploadNewImage()"
+                       ng-if="vm.uploadImages.length < 15">
+                    <img class="m-auto" src="assets/images/plus.svg">
+                  </div>
+                </div>
+
+                <input type="file" ngf-select ng-model="vm.file" name="file" ngf-pattern="'image/*'"
+                       accept="image/*" ngf-max-size="1MB"/>
+                Image thumbnail: <img style="width:100px;" ngf-thumbnail="vm.file || '/thumb.jpg'"/>
+                <p class="help-block" ng-show="form.file.$error.maxSize && vm.submitted">
+                  Insira os Benefícios Concreto para o IME do Projeto.
+                </p>
+
+                <label ng-show="form.file.$error.required">*required</label><br>
+                <label ng-show="form.file.$error.maxSize">File too large
+                  {{vm.file.size / 1000000|number:1}}MB: max 20M</label>
+                <button type="submit" ng-click="vm.submit(form)">submit</button>
+                <p>{{vm.progress}}
+
+              </div>
+
+
             </div>
-    
-        
+          </div>
+
+          <br>
+          <div class="row justify-content-end">
+            <div class="col-auto">
+              <button href="#" class="btn btn-info m-auto btn-submit" type="submit">
+                SUBMETER PROJETO
+              </button>
+            </div>
+          </div>
         </form>
+
+      </div>
     </div>
+  </div>
 </div>

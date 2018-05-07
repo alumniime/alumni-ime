@@ -5,6 +5,7 @@ import angular from 'angular';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
+import ngFileUpload from 'ng-file-upload';
 
 import uiRouter from 'angular-ui-router';
 // import uiBootstrap from 'angular-ui-bootstrap';
@@ -24,12 +25,13 @@ import modal from '../components/modal/modal.service';
 import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
-import submission from './projects/submission/submission.component';
+import submission from './projects/submission';
+import _Project from '../services/project/project.service';
 
 import './app.scss';
 
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap, _Auth,
-  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', uiRouter, uiBootstrap, _Auth,
+  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, _Project
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {

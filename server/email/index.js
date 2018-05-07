@@ -1,3 +1,5 @@
+'use strict';
+
 import config from '../config/environment';
 import nodemailer from 'nodemailer';
 import hbs from 'nodemailer-express-handlebars';
@@ -22,4 +24,4 @@ var handlebarsOptions = {
 
 smtpTransport.use('compile', hbs(handlebarsOptions));
 
-module.exports = smtpTransport;
+export default smtpTransport;

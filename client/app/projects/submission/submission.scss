@@ -1,48 +1,55 @@
-.spacer { margin:0; padding:0; height:50px; }
+.submission-view {
+  margin: 30px 0 50px;
 
-.block{
-    min-height: 250px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    //padding-left: 15px;
-    
-    font-family: 'Merriweather Sans';
-}
-
-.title{
-    font-weight: bold;
+  .title {
+    font-weight: 700;
     color: #333333;
     font-size: 20px;
-}
+    margin-bottom: 30px;
+  }
 
-.field{
+  .field {
     font-size: 10px;
     color: #828282;
-    padding-top: 20px; 
-}
-
+    padding-top: 20px;
+  }
 
   .form-group label {
     font-size: 11px;
     margin-left: 5px;
+    color: #828282;
   }
 
-  span {
-    font-size: 16px;
-    color: #828282;
-    text-align: center;
+  .btn-info {
+    font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 200px;
+    height: 45px;
+    padding-top: 8px;
+  }
+
+  .btn-submit {
+    background-color: #0099F3;
+    border-radius: 30px;
   }
 
   form {
     padding-bottom: 10px;
   }
 
-  form input, form select {
+  form input, form select, form textarea {
     border-radius: 0 !important;
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
     border-bottom: 1px solid #bdbdbd;
+    font-size: 14px;
+  }
+
+  form textarea {
+    width: 100%;
+    margin-bottom: 30px;
   }
 
   .help-block {
@@ -50,3 +57,66 @@
     font-size: 12px;
     color: red;
   }
+
+  .icon-images {
+    margin-top: 30px;
+    margin-left: 20px;
+  }
+
+  .upload-link{
+    padding: 6px 0;
+  }
+
+  .upload-text{
+    margin-top: 15px;
+  }
+
+  .upload-legend{
+    font-size: 14px;
+    color: #828282;
+  }
+
+  .upload-images{
+    .card{
+      min-height: 150px;
+      background-color: #c4c4c4;
+      border-radius: 0;
+      .close-button {
+        padding: 5px;
+        background-color: rgba(255,255,255,0.5);
+        position: absolute;
+        cursor: pointer;
+        top: 10px;
+        right: 10px;
+      }
+    }
+    .card img{
+      //height: 200px;
+      width: 100%;
+      //overflow: hidden;
+    }
+    .card-plus{
+      height: 150px;
+      background-color: #fff;
+      border: 2px solid #bdbdbd;
+      cursor: pointer;
+
+      img{
+        height: 24px;
+        width: 24px;
+      }
+    }
+  }
+
+  .card-columns {
+    column-count: 3;
+    @include media-breakpoint-down(md) {
+      column-count: 2;
+    }
+    @include media-breakpoint-down(xs) {
+      column-count: 1;
+    }
+  }
+
+
+}
