@@ -32,7 +32,6 @@
     border-bottom: 1px #828282 solid;
     .nav-link {
       padding: 12px 20px;
-      font-size: 20px;
       font-weight: 300;
       color: #333 !important;
     }
@@ -40,10 +39,8 @@
 
   li:hover, li.active {
     margin-bottom: 8px;
-    border-bottom: 3px #0097f6 solid;
     .nav-link {
       font-weight: 700;
-      color: #0097f6 !important;
     }
   }
 
@@ -124,7 +121,7 @@
   .progress {
     background: #FAFAFA;
     border: 1px solid #BDBDBD;
-    border-radius: 25px;
+    border-radius: 30px;
     height: 12px;
   }
   .progress-bar-custom {

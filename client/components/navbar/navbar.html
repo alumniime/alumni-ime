@@ -25,9 +25,6 @@
         <li class="nav-item" ui-sref-active="active">
           <a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>
         </li>
-        <!-- <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
-          <a class="nav-link text-dark d-none d-lg-block"  href="logout">SAIR</a>
-        </li> -->
         <li class="nav-item">
           <a class="nav-link btn btn-danger" href="#" role="button">APOIE</a>
         </li>
@@ -44,7 +41,6 @@
     <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openSignup()" href="#" ui-sref-active="active">CADASTRAR</a>
     <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
     <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
-    <!-- <a class="nav-link d-inline"  href="logout" ng-show="$ctrl.isLoggedIn()">SAIR</a> -->
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
@@ -58,14 +54,16 @@
   <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" ng-repeat="item in $ctrl.menu" ng-class="{dropdown: item.dropdown}" ui-sref-active="active">
-        <a class="nav-link" ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
+        <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+           ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
         <a class="nav-link dropdown-toggle" ui-sref="{{item.state}}" id="navbarDropdown{{$index}}"
            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-if="item.dropdown">
           {{item.title}}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
           <div ng-repeat="drop in item.dropdown">
-            <button class="dropdown-item" ui-sref="{{drop.state}}" ui-sref-active="active">
+            <button class="dropdown-item" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+              ui-sref="{{drop.state}}" ui-sref-active="active">
               {{drop.title}}
             </button>
             <div class="dropdown-divider" ng-if="!$last"></div>
@@ -84,9 +82,6 @@
       <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
         <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="admin">ADMIN</a>
       </li>
-      <!-- <li class="nav-item" ng-show="$ctrl.isLoggedIn()">
-        <a class="nav-link font-weight-normal d-block d-md-none" href="logout">SAIR</a>
-      </li> -->
     </ul>
 
     <div class="d-none d-lg-block social-media col-auto">
@@ -105,7 +100,7 @@
 
   <div class="navbar-mobile w-100 d-block d-md-none">
     <ul class="nav">
-      <li class="nav-item m-auto" ui-sref-active="active">
+      <li class="nav-item m-auto">
         <a class="nav-link font-weight-normal" ui-sref="submission">SUBMETER PROJETO</a>
       </li>
       <li class="nav-item m-auto">

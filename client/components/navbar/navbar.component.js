@@ -55,7 +55,7 @@ export class NavbarComponent {
     },
   ];
 
-  isCollapsed = true;
+  isCollapsed = false;
 
   constructor(Auth, Modal, $state) {
     'ngInject';
