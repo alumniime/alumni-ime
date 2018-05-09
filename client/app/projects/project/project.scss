@@ -31,7 +31,7 @@
 
     .text-content{
         margin-top: 40px;
-        margin-right: 40px;
+        // margin-right: 40px;
         color: #333333 solid;
         font-size: 14px;
     }
@@ -154,11 +154,10 @@
   }
 
   li:hover, li.active {
-    margin-bottom: 8px;
-    border-bottom: 3px #0097f6 solid;
     .nav-link {
-      font-weight: 700;
-      color: #0097f6 !important;
+      color: #fff;
+      background-color: #c82333;
+      border-color: #bd2130;
     }
   }
 
