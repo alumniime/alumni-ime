@@ -5,6 +5,7 @@ import angular from 'angular';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
+import ngFileUpload from 'ng-file-upload';
 
 import uiRouter from 'angular-ui-router';
 // import uiBootstrap from 'angular-ui-bootstrap';
@@ -31,8 +32,8 @@ import project from './projects/project/project.component';
 
 import './app.scss';
 
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth,
-  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, show, _Project, project
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project,
+  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, show, project
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {

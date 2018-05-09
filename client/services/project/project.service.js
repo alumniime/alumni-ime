@@ -36,6 +36,6 @@ export function ProjectResource($resource) {
   });
 }
 
-export default angular.module('alumniApp.project', [])
+export default angular.module('alumniApp.projectService', [])
   .factory('Project', ProjectResource)
   .name;

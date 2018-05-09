@@ -6,7 +6,7 @@ const uiRouter = require('angular-ui-router');
 import routes from './project.routes';
 
 export class ProjectController {
-  
+
   constructor(Auth, $http, $state) {
     'ngInject';
 
@@ -14,7 +14,7 @@ export class ProjectController {
     this.$http = $http;
     this.$state = $state;
   }
-  
+
 }
 
 export default angular.module('alumniApp.project', [uiRouter])

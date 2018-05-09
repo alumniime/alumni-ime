@@ -169,8 +169,6 @@ export function update(req, res, next) {
                     expiresIn: 60 * 60 * 5
                   });
                   return res.json({ token, PersonId: newUser.PersonId });
-
-                  // return res.json({message: 'Success updating user', PersonId: newUser.PersonId});
                 })
                 .catch(err => next(err));
             })
