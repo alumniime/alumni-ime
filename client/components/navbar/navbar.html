@@ -41,21 +41,20 @@
     <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openSignup()" href="#" ui-sref-active="active">CADASTRAR</a>
     <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
     <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
-    <a class="nav-link d-inline" ui-sref="submission" ui-sref-active="active">SUBMETER PROJETO</a>
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
           aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation"
           ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
     <!--<span class="navbar-toggler-icon"></span>-->
-    <i class="fa fa-close" ng-show="$ctrl.isCollapsed"></i>
-    <i class="fa fa-bars" ng-hide="$ctrl.isCollapsed"></i>
+    <i class="fa fa-bars" ng-show="$ctrl.isCollapsed"></i>
+    <i class="fa fa-close" ng-hide="$ctrl.isCollapsed"></i>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="!$ctrl.isCollapsed">
+  <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" ng-repeat="item in $ctrl.menu" ng-class="{dropdown: item.dropdown}" ui-sref-active="active">
-        <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed" 
+        <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
            ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
         <a class="nav-link dropdown-toggle" ui-sref="{{item.state}}" id="navbarDropdown{{$index}}"
            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-if="item.dropdown">

@@ -24,12 +24,16 @@
       <input type="hidden" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId" required>
 
       <div class="form-group">
-        <!-- TODO date popup and mask -->
+        <!-- TODO date popup -->
         <label for="Birthdate">DATA DE NASCIMENTO*</label>
-        <input type="date" id="Birthdate" name="Birthdate" placeholder="10/03/1980" class="form-control"
-               ng-model="vm.user.Birthdate" required>
-        <p class="help-block" ng-show="form.Birthdate.$invalid && vm.submitted">
+        <input type="text" id="Birthdate" name="Birthdate" placeholder="10/03/1980" mask="39/19/9999" class="form-control"
+               ng-model="vm.Birthdate" required
+               ng-change="vm.validateDate(vm.Birthdate)">
+        <p class="help-block" ng-show="form.Birthdate.$error.required && vm.submitted">
           Insira a sua data de nascimento.
+        </p>
+        <p class="help-block" ng-show="(form.Birthdate.$invalid && vm.submitted) || vm.dateInvalid">
+          Insira uma data válida.
         </p>
       </div>
 
@@ -46,10 +50,13 @@
 
       <div class="form-group">
         <label for="Phone">TELEFONE*</label>
-        <input type="tel" id="Phone" name="Phone" placeholder="+55 (DDD) 00000-0000" class="form-control"
+        <input type="tel" id="Phone" name="Phone" placeholder="+55 (00) 00000-0000" mask="+99 (99) 9?9999-9999" class="form-control"
                ng-model="vm.user.Phone" required>
         <p class="help-block" ng-show="form.Phone.$error.required && vm.submitted">
           Insira o seu telefone.
+        </p>
+        <p class="help-block" ng-show="form.Phone.$invalid && vm.submitted">
+          Insira um telefone válido.
         </p>
       </div>
 

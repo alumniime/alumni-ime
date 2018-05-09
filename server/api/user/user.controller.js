@@ -66,6 +66,26 @@ export function professors(req, res) {
 }
 
 /**
+ * Get list of professors
+ */
+export function students(req, res) {
+  return User.findAll({
+    attributes: [
+      'PersonId',
+      'Name'
+    ],
+    where:{
+      PersonTypeId: [2]
+    }
+  })
+    .then(users => {
+      res.status(200)
+        .json(users);
+    })
+    .catch(handleError(res));
+}
+
+/**
  * Creates a new user
  */
 export function create(req, res, next) {
@@ -134,6 +154,7 @@ export function update(req, res, next) {
         initiative.PersonId = user.PersonId;
       }
       Reflect.deleteProperty(req.body, 'initiativeLinks');
+      Reflect.deleteProperty(req.body, 'role');
       user.update(req.body)
         .then(newUser => {
           InitiativeLink.destroy({
@@ -144,7 +165,10 @@ export function update(req, res, next) {
             .then(() => {
               InitiativeLink.bulkCreate(initiativeLinks)
                 .then(() => {
-                  return res.json({message: 'Success updating user', PersonId: newUser.PersonId});
+                  var token = jwt.sign({ PersonId: newUser.PersonId }, config.secrets.session, {
+                    expiresIn: 60 * 60 * 5
+                  });
+                  return res.json({ token, PersonId: newUser.PersonId });
                 })
                 .catch(err => next(err));
             })

@@ -23,7 +23,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
    * @param {String} userRole - role of current user
    * @param {String} role - role to check against
    */
-  var hasRole = function(userRole, role) {
+  var hasRole = function (userRole, role) {
     return userRoles.indexOf(userRole) >= userRoles.indexOf(role);
   };
 
@@ -39,10 +39,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @param  {Function} callback - function(error, user)
      * @return {Promise}
      */
-    login({
-      email,
-      password
-    }, callback) {
+    login({email, password}, callback) {
       return $http.post('/auth/local', {
         email,
         password
@@ -64,6 +61,18 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
     },
 
     /**
+     * Authenticate user with a known token
+     *
+     * @param  {String}   token
+     * @return {Promise}
+     */
+    loginWithToken(token) {
+      $cookies.put('token', token);
+      currentUser = User.get();
+      return currentUser.$promise;
+    },
+
+    /**
      * Delete access token and user info
      */
     logout() {
@@ -79,12 +88,12 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @return {Promise}
      */
     createUser(user, callback) {
-      return User.save(user, function(data) {
+      return User.save(user, function (data) {
         // It only creates a NewUser, but he wont't be logged
         // $cookies.put('token', data.token);
         // currentUser = User.get();
         return safeCb(callback)(null, user);
-      }, function(err) {
+      }, function (err) {
         Auth.logout();
         safeCb(callback)(err.data);
         return $q.reject(err.data);
@@ -106,9 +115,9 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
       }, {
         oldPassword,
         newPassword
-      }, function() {
+      }, function () {
         return safeCb(callback)(null);
-      }, function(err) {
+      }, function (err) {
         return safeCb(callback)(err);
       })
         .$promise;
@@ -125,9 +134,9 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
     updateByToken(token, user, callback) {
       return User.updateUserByToken({
         id: token
-      }, user, function() {
-        return safeCb(callback)(null);
-      }, function(err) {
+      }, user, function (data) {
+        return safeCb(callback)(null, data);
+      }, function (err) {
         return safeCb(callback)(err);
       })
         .$promise;
@@ -144,9 +153,9 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
     updateById(PersonId, user, callback) {
       return User.updateUserById({
         id: PersonId
-      }, user, function() {
+      }, user, function () {
         return safeCb(callback)(null);
-      }, function(err) {
+      }, function (err) {
         return safeCb(callback)(err);
       })
         .$promise;

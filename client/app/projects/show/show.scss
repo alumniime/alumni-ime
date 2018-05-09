@@ -1,4 +1,4 @@
-.showView{
+.showView {
   padding: 40px 20px 60px;
   h1 {
     font-size: 36px;
@@ -9,16 +9,16 @@
     font-weight: 700;
   }
 
-  h5{
+  h5 {
     margin-bottom: 0;
     color: #333333;
   }
 
-  .legend{
+  .legend {
     font-size: 16px;
   }
 
-  .page-title{
+  .page-title {
     color: #333333 !important;
     font-size: 20px;
     font-weight: 700;
@@ -54,14 +54,14 @@
     padding-top: 10px;
   }
 
-.card-columns {
+  .card-columns {
     column-count: 2;
     @include media-breakpoint-down(sm) {
       column-count: 1;
     }
   }
 
-  .form-group{
+  .form-group {
     margin-bottom: 10px;
   }
 
@@ -90,9 +90,9 @@
   .card-title {
     font-weight: 700;
   }
-.project-deck{
-  box-sizing: content-box;
-}
+  .project-deck {
+    box-sizing: content-box;
+  }
   .project-card {
     border: none;
     background-color: #fafafa !important;
@@ -101,10 +101,10 @@
     width: 100%;
     .card-title {
       font-size: 18px;
-      color: #333333 Solid;
+      color: #333333;
     }
 
-    .card-link{
+    .card-link {
       font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
       font-weight: 600;
       font-size: 14px;
@@ -112,21 +112,20 @@
     }
   }
 
-  .project-card:hover{
+  .project-card:hover {
     text-decoration: none;
     border-radius: 8px;
     box-shadow: 3px 3px rgba(0, 0, 0, 0.3) !important;
   }
 
-
-.progress {
-    background: #FAFAFA; 
-    border: 1px solid #BDBDBD; 
-    border-radius: 30px; 
+  .progress {
+    background: #FAFAFA;
+    border: 1px solid #BDBDBD;
+    border-radius: 30px;
     height: 12px;
-}
-.progress-bar-custom {
+  }
+  .progress-bar-custom {
     background: #6FCF97;
-}
+  }
 
 }

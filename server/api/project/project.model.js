@@ -9,11 +9,11 @@ export default function(sequelize, DataTypes) {
       autoIncrement: true
     },
     ProjectName: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(255),
       allowNull: false
     },
     TeamName: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(255),
       allowNull: false
     },
     ProfessorId: {
@@ -32,8 +32,12 @@ export default function(sequelize, DataTypes) {
         key: 'PersonId'
       }
     },
+    TeamMembers: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
     StudentsNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(11),
       allowNull: false
     },
     EstimatedPriceInCents: {
@@ -42,23 +46,23 @@ export default function(sequelize, DataTypes) {
     },
     Abstract: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
     Goals: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
     Benefits: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
     Schedule: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
     ConclusionDate: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: true
     },
     SubmissionDate: {
       type: DataTypes.DATE,
@@ -66,11 +70,13 @@ export default function(sequelize, DataTypes) {
     },
     IsApproved: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: false,
+      defaultValue: 0
     },
     IsExcluded: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: false,
+      defaultValue: 0
     }
   }, {
     tableName: 'Project'

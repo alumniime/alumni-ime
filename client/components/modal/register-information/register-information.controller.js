@@ -13,6 +13,9 @@ export default class ModalRegisterInformationController {
   };
   submitted = false;
   page = 1;
+  dateInvalid = false;
+  Birthdate = '';
+
 
 
   /*@ngInject*/
@@ -70,6 +73,15 @@ export default class ModalRegisterInformationController {
 
   }
 
+  validateDate(input) {
+    var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+    if(input && input.match(reg)) {
+      this.dateInvalid = false;
+    } else {
+      this.dateInvalid = true;
+    }
+  }
+
   selectType(type) {
     for(var i in this.personTypes) {
       this.personTypes[i].selected = false;
@@ -89,7 +101,6 @@ export default class ModalRegisterInformationController {
       }
     }
     this.user.initiativeLinks = result;
-    // this.concatenateInitiativeLinks();
   }
 
   userHasInitiative(initiativeId) {
@@ -108,10 +119,14 @@ export default class ModalRegisterInformationController {
     console.log(form);
     console.log(this.user);
 
-    if(form.$valid) {
+    var date = this.Birthdate.split('/');
+    this.user.Birthdate = new Date(date[2], date[1], date[0]);
+
+    if(form.$valid && !this.dateInvalid) {
       return this.Auth.updateByToken(this.confirmEmailToken, this.user)
-        .then(() => {
+        .then(data => {
           // Account updated
+          this.Auth.loginWithToken(data.token);
 
           this.$uibModal.open({
             animation: true,

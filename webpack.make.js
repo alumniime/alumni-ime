@@ -46,8 +46,11 @@ module.exports = function makeWebpackConfig(options) {
         'angular-aria',
         'angular-cookies',
         'angular-resource',
-
         'angular-sanitize',
+        'ng-file-upload',
+        'ng-mask/dist/ngMask.min',
+        'ng-money-mask/rw-money-mask',
+        'angular-i18n/angular-locale_pt-br',
         'bootstrap',
         'ui-bootstrap4',
         'angular-ui-router',

@@ -13,6 +13,7 @@ router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.put('/:id/profile', auth.isAuthenticated(), controller.update);
 router.put('/:token/registry', controller.update);
 router.get('/professors', controller.professors);
+router.get('/students', controller.students);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 
