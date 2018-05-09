@@ -78,7 +78,7 @@
 
   .upload-images{
     .card{
-      min-height: 150px;
+      //min-height: 150px;
       background-color: #c4c4c4;
       border-radius: 0;
       .close-button {
@@ -108,15 +108,12 @@
     }
   }
 
-  .card-columns {
-    column-count: 3;
-    @include media-breakpoint-down(md) {
-      column-count: 2;
-    }
-    @include media-breakpoint-down(xs) {
-      column-count: 1;
-    }
+  .drop-images{
+    padding: 5px 15px;
   }
 
+  .drag-over{
+    outline: 3px dashed #828282;
+  }
 
 }

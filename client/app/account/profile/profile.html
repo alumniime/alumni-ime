@@ -43,7 +43,7 @@
               <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
                      value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-0">
               <label for="InitiativesShow">{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
                 LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
               <input type="text" id="InitiativesShow" name="Initiatives" class="form-control-plaintext" readonly
@@ -73,6 +73,8 @@
         <button class="btn btn-outline-info" ng-click="vm.editFields = !vm.editFields">
           ALTERAR CADASTRO
         </button>
+
+        <br>
 
       </div>
 

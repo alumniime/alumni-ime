@@ -27,11 +27,12 @@
         <!-- TODO date popup -->
         <label for="Birthdate">DATA DE NASCIMENTO*</label>
         <input type="text" id="Birthdate" name="Birthdate" placeholder="10/03/1980" mask="39/19/9999" class="form-control"
-               ng-model="vm.user.Birthdate" required>
+               ng-model="vm.Birthdate" required
+               ng-change="vm.validateDate(vm.Birthdate)">
         <p class="help-block" ng-show="form.Birthdate.$error.required && vm.submitted">
           Insira a sua data de nascimento.
         </p>
-        <p class="help-block" ng-show="form.Birthdate.$invalid && vm.submitted">
+        <p class="help-block" ng-show="(form.Birthdate.$invalid && vm.submitted) || vm.dateInvalid">
           Insira uma data válida.
         </p>
       </div>

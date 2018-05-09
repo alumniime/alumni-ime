@@ -59,7 +59,7 @@ export default function (sequelize, DataTypes) {
       defaultValue: 0
     },
     ConfirmEmailToken: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.STRING(100),
       allowNull: true
     },
     ConfirmEmailExpires: {
@@ -79,7 +79,7 @@ export default function (sequelize, DataTypes) {
       allowNull: true
     },
     ImageData: {
-      type: DataTypes.BLOB,
+      type: 'BLOB',
       allowNull: true
     },
     Birthdate: {

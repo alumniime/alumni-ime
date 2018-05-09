@@ -6,17 +6,18 @@ export default class SubmissionController {
   errors = {
     projects: undefined
   };
-  project = {};
-  uploadImages = [{
-    src: 'assets/images/ime-building.jpg'
-  }, {
-    src: 'assets/images/facebook-icon.png'
-  }, {
-    src: 'assets/images/facebook-icon.png'
-  }, {}, {}, {}];
-  file = {};
-  vm = this;
-
+  project = {
+    Abstract: '',
+    Schedule: ''
+  };
+  uploadImages = [];
+  thumbnailImages = [{}, {}, {}, {}, {}];
+  maxImages = 12;
+  maxSize = '5MB';
+  imageQuality = 0.7;
+  files = [];
+  dateInvalid = false;
+  ConclusionDate = '';
 
   constructor(Project, $http, $state, $window, Upload) {
     'ngInject';
@@ -39,71 +40,89 @@ export default class SubmissionController {
       .then(response => {
         this.professorsList = response.data;
       });
+
+    this.$http.get('/api/users/students')
+      .then(response => {
+        this.studentsList = response.data;
+      });
   }
+
+  validateDate(input) {
+    var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+    if(input && input.match(reg)) {
+      this.dateInvalid = false;
+    } else {
+      this.dateInvalid = true;
+    }
+  }
+
+  // validate(form) {
+  //   angular.forEach(form, function(control, name) {
+  //     // Excludes internal angular properties
+  //     if (typeof name === 'string' && name.charAt(0) !== '$') {
+  //       // To display ngMessages
+  //       control.$setTouched();
+  //
+  //       // Runs each of the registered validators
+  //       control.$validate();
+  //     }
+  //   });
+  // }
 
   submitProject(form) {
     this.submitted = true;
     this.errors.projects = undefined;
-    this.messageUpdate = '';
     console.log(form);
 
-    if(form.$valid) {
-      return this.Project.save(this.project, function (result) {
+    this.project.EstimatedPriceInCents *= 100;
+    var date = this.ConclusionDate.split('/');
+    this.project.ConclusionDate = new Date(date[2], date[1], date[0]);
 
-        console.log(result);
+    if(form.$valid && this.uploadImages && !this.dateInvalid) {
 
-        // Account updated
-        this.messageUpdate = 'Dados alterados com sucesso!';
-        this.editFields = false;
+      var this_ = this;
+      this.Upload.upload({
+        url: '/api/projects/upload',
+        arrayKey: '',
+        data: {
+          files: this.uploadImages,
+          project: this.project
+        }
+      })
+        .then(function success(result) {
+          console.log(result);
+          if(result.data.error_code === 0) {
+            alert('Success uploaded. Response: ');
+          } else {
+            alert('an error occured');
+          }
+        }, function error(err) {
+          console.log('Error: ' + err);
+          alert('Error message: ' + err.message);
 
-        this.$location.hash('myProfile');
-        this.$anchorScroll();
-      }, function (err) {
-        this.errors.projects = err.data;
-        this.messageUpdate = '';
-      });
+          this.errors.projects = err.message;
+        }, function event(evt) {
+          console.log(evt);
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          console.log('progress: ' + progressPercentage + '% ');
+          this_.progress = 'progress: ' + progressPercentage + '% ';
+        });
+
     }
+
   }
 
-  uploadNewImage(){
-    if(this.uploadImages.length < 15) {
-      this.uploadImages.push({});
-    }
-
-  }
-
-  removeImage(image){
+  removeImage(image) {
     this.uploadImages.splice(this.uploadImages.indexOf(image), 1);
+    this.updateImages(this.uploadImages);
   }
 
 
-  submit(form){ //function to call on form submit
-    if (form.file.$valid && this.file) { //check if from is valid
-      this.upload(this.file); //call upload function
+  updateImages(files) {
+    this.thumbnailImages = [];
+    for(var i = 0; i < (5 - files.length); i++) {
+      this.thumbnailImages.push({});
     }
   }
-
-  upload(file) {
-    var this_ = this;
-    this.Upload.upload({
-      url: 'http://localhost:3000/api/projects/upload', //webAPI exposed to upload the file
-      data:{file:file} //pass file as data, should be user ng-model
-    }).then(function (resp) { //upload function returns a promise
-      if(resp.data.error_code === 0){ //validate success
-        alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
-      } else {
-        alert('an error occured');
-      }
-    }, function (resp) { //catch error
-      console.log('Error status: ' + resp.status);
-      alert('Error status: ' + resp.status);
-    }, function (evt) {
-      console.log(evt);
-      var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-      console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-      this_.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
-    });
-  };
-
 
 }
