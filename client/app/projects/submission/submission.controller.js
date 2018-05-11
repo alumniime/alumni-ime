@@ -8,10 +8,10 @@ export default class SubmissionController {
   };
   project = {
     Abstract: '',
-    Schedule: ''
+    Schedule: '',
+    SubmissionerId: null
   };
   uploadImages = [];
-  thumbnailImages = [{}, {}, {}, {}, {}];
   maxImages = 12;
   maxSize = '5MB';
   imageQuality = 0.7;
@@ -19,12 +19,13 @@ export default class SubmissionController {
   dateInvalid = false;
   ConclusionDate = '';
 
-  constructor(Project, $http, $state, $window, Upload) {
+  constructor(Auth, Project, $http, Modal, $window, Upload) {
     'ngInject';
 
+    this.getCurrentUser = Auth.getCurrentUser;
     this.Project = Project;
     this.$http = $http;
-    this.$state = $state;
+    this.Modal = Modal;
     this.$window = $window;
     this.Upload = Upload;
 
@@ -45,6 +46,21 @@ export default class SubmissionController {
       .then(response => {
         this.studentsList = response.data;
       });
+
+    var loading = this.Modal.showLoading();
+    this.user = this.getCurrentUser()
+      .then(user => {
+        loading.close();
+        if(!user.PersonId) {
+          this.Modal.openLogin();
+        } else if(user.PersonTypeId === 2 || user.PersonTypeId === 3 || user.PersonTypeId === 5) {
+          this.project.SubmissionerId = user.PersonId;
+        } else {
+          // User can't submit a project
+          this.Modal.showAlert('Submissão indisponível', 'Apenas alunos e professores podem submeter projetos para a avaliação.');
+        }
+      });
+
   }
 
   validateDate(input) {
@@ -76,52 +92,66 @@ export default class SubmissionController {
 
     this.project.EstimatedPriceInCents *= 100;
     var date = this.ConclusionDate.split('/');
-    this.project.ConclusionDate = new Date(date[2], date[1], date[0]);
+    this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0], 3);
 
-    if(form.$valid && this.uploadImages && !this.dateInvalid) {
+    if(!this.user.PersonId) {
+      // User needs to login
+      this.Modal.openLogin();
+    } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 3 || this.user.PersonTypeId === 5) {
 
-      var this_ = this;
-      this.Upload.upload({
-        url: '/api/projects/upload',
-        arrayKey: '',
-        data: {
-          files: this.uploadImages,
-          project: this.project
-        }
-      })
-        .then(function success(result) {
-          console.log(result);
-          if(result.data.error_code === 0) {
-            alert('Success uploaded. Response: ');
-          } else {
-            alert('an error occured');
+      if(form.$valid && this.uploadImages && !this.dateInvalid) {
+
+        var loading = this.Modal.showLoading();
+
+        var this_ = this;
+        this.Upload.upload({
+          url: '/api/projects/upload',
+          arrayKey: '',
+          data: {
+            files: this.uploadImages,
+            project: this.project
           }
-        }, function error(err) {
-          console.log('Error: ' + err);
-          alert('Error message: ' + err.message);
+        })
+          .then(function success(result) {
+            loading.close();
+            console.log(result);
+            if(result.data.error_code === 0) {
+              alert('Success uploaded. Response: ');
+            } else {
+              alert('an error occured');
+            }
+          }, function error(err) {
+            loading.close();
+            console.log('Error: ' + err);
+            alert('Error message: ' + err.message);
 
-          this.errors.projects = err.message;
-        }, function event(evt) {
-          console.log(evt);
-          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-          console.log('progress: ' + progressPercentage + '% ');
-          this_.progress = 'progress: ' + progressPercentage + '% ';
-        });
+            this.errors.projects = err.message;
+          }, function event(evt) {
+            console.log(evt);
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ');
+            this_.progress = 'progress: ' + progressPercentage + '% ';
+          });
 
+      }
+
+    } else {
+      // User can't submit a project
+      this.Modal.showAlert('Submissão indisponível', 'Apenas alunos e professores podem submeter projetos para a avaliação.');
     }
 
   }
 
   removeImage(image) {
     this.uploadImages.splice(this.uploadImages.indexOf(image), 1);
-    this.updateImages(this.uploadImages);
   }
 
 
   updateImages(files) {
-    this.thumbnailImages = [];
-    for(var i = 0; i < (5 - files.length); i++) {
-      this.thumbnailImages.push({});
+    if(files === null) {
+      this.loading = this.Modal.showLoading();
+    } else {
+      this.loading.close();
     }
   }
 

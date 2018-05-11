@@ -1,6 +1,6 @@
 'use strict';
 
-export default class ModalAlertController {
+export default class ModalLoadingController {
 
   /*@ngInject*/
   constructor() {
@@ -8,11 +8,11 @@ export default class ModalAlertController {
   }
 
   $onInit () {
-    this.title = this.resolve.alert.title;
-    this.message = this.resolve.alert.message;
+
   }
 
   ok() {
+    console.log('here==');
     this.close({$value: true});
   }
 

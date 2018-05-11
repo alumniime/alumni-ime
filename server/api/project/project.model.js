@@ -1,6 +1,6 @@
 'use strict';
 
-export default function(sequelize, DataTypes) {
+export default function (sequelize, DataTypes) {
   return sequelize.define('Project', {
     ProjectId: {
       type: DataTypes.INTEGER(11),
@@ -15,6 +15,14 @@ export default function(sequelize, DataTypes) {
     TeamName: {
       type: DataTypes.STRING(255),
       allowNull: false
+    },
+    SubmissionerId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      references: {
+        model: 'Person',
+        key: 'PersonId'
+      }
     },
     ProfessorId: {
       type: DataTypes.INTEGER(11),

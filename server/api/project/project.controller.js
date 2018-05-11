@@ -71,7 +71,12 @@ function handleError(res, statusCode) {
 
 // Gets a list of Projects
 export function index(req, res) {
-  return Project.findAll()
+  return Project.findAll({
+    where: {
+      IsApproved: 1,
+      IsExcluded: 0
+    }
+  })
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -97,6 +102,7 @@ export function create(req, res) {
 
 // Creates a new Project in the DB with his images
 export function upload(req, res) {
+  console.log('user', req.user);
 
   var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -119,6 +125,7 @@ export function upload(req, res) {
   upload(req, res, function (err) {
     var project = req.body.project;
     console.log('files', req.files);
+    console.log('user2', req.user);
 
     if(err) {
       console.log(err);
@@ -136,7 +143,7 @@ export function upload(req, res) {
         for(var file of req.files) {
           images.push({
             ProjectId: projectId,
-            Path: file.destination,
+            Path: `assets/images/uploads/${file.filename}`,
             Filename: file.filename,
             Type: file.mimetype,
             Timestamp: file.timestamp

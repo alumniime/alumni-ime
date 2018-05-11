@@ -2,7 +2,7 @@
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/image              ->  index
  * POST    /api/image              ->  create
- * GET     /api/image/:id          ->  show
+ * GET     /api/image/:ProjectId   ->  show
  * PUT     /api/image/:id          ->  upsert
  * PATCH   /api/image/:id          ->  patch
  * DELETE  /api/image/:id          ->  destroy
@@ -10,21 +10,22 @@
 
 'use strict';
 
-import { applyPatch } from 'fast-json-patch';
+import {applyPatch} from 'fast-json-patch';
 import {Image} from '../../sqldb';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
-  return function(entity) {
+  return function (entity) {
     if(entity) {
-      return res.status(statusCode).json(entity);
+      return res.status(statusCode)
+        .json(entity);
     }
     return null;
   };
 }
 
 function patchUpdates(patches) {
-  return function(entity) {
+  return function (entity) {
     try {
       applyPatch(entity, patches, /*validate*/ true);
     } catch(err) {
@@ -36,18 +37,20 @@ function patchUpdates(patches) {
 }
 
 function removeEntity(res) {
-  return function(entity) {
+  return function (entity) {
     if(entity) {
       return entity.destroy()
-        .then(() => res.status(204).end());
+        .then(() => res.status(204)
+          .end());
     }
   };
 }
 
 function handleEntityNotFound(res) {
-  return function(entity) {
+  return function (entity) {
     if(!entity) {
-      res.status(404).end();
+      res.status(404)
+        .end();
       return null;
     }
     return entity;
@@ -56,8 +59,9 @@ function handleEntityNotFound(res) {
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
-  return function(err) {
-    res.status(statusCode).send(err);
+  return function (err) {
+    res.status(statusCode)
+      .send(err);
   };
 }
 
@@ -68,15 +72,17 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
-// Gets a single Image from the DB
+// Gets a list of Images of a project from the DB
 export function show(req, res) {
-  return Image.find({
+  return Image.findAll({
     where: {
-      _id: req.params.id
+      ProjectId: req.params.ProjectId
     }
   })
-    .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
+    .then(users => {
+      res.status(200)
+        .json(users);
+    })
     .catch(handleError(res));
 }
 
