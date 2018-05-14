@@ -8,9 +8,10 @@ import ModalCompletedRegistrationController from './completed-registration/compl
 import ModalRegisterInformationController from './register-information/register-information.controller';
 import ModalAlertController from './alert/alert.controller';
 import ModalPhotoController from './photo/photo.controller';
+import ModalLoadingController from './loading/loading.controller';
 
 /*@ngInject*/
-export function ModalService($uibModal) {
+export function ModalService($uibModal, $interval) {
   'ngInject';
 
   var Modal = {
@@ -100,6 +101,22 @@ export function ModalService($uibModal) {
       }, function () {
         console.log(`Modal dismissed at: ${new Date()}`);
       });
+    },
+    
+    showLoading() {
+      var loading = $uibModal.open({
+        animation: true,
+        component: 'modalLoading',
+        size: 'sm modal-dialog-centered'
+      });
+      loading.close = function () {
+        loading.opened.then(result => {
+          if(result) {
+            loading.dismiss();
+          }
+        });
+      };
+      return loading;
     }
 
   };
@@ -186,6 +203,18 @@ export default angular.module('alumniApp.modal', [])
     bindings: {
       resolve: '<',
       close: '&',
+      ok: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalLoading', {
+    template: require('./loading/loading.html'),
+    controller: ModalLoadingController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      ok: '&',
       dismiss: '&'
     },
   })

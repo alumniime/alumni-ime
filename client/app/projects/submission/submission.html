@@ -226,7 +226,7 @@
                   <div class="col-12 col-sm-6 col-md-4 pl-0 pr-0">
                     <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
                          ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
-                         ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
+                         ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
                          ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
                          ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
                       <img class="m-auto" src="assets/images/plus.svg">

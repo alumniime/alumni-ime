@@ -41,7 +41,7 @@
             <div class="form-group">
               <label for="BirthdateShow">DATA DE NASCIMENTO*</label>
               <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
-                     value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
+                     value="{{vm.user.Birthdate| date:'dd/MM/yyyy':'+03:00'}}">
             </div>
             <div class="form-group mb-0">
               <label for="InitiativesShow">{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
