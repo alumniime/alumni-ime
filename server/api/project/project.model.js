@@ -69,7 +69,7 @@ export default function (sequelize, DataTypes) {
       allowNull: true
     },
     ConclusionDate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: true
     },
     SubmissionDate: {

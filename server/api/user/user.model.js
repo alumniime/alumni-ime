@@ -83,7 +83,7 @@ export default function (sequelize, DataTypes) {
       allowNull: true
     },
     Birthdate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: true
     },
     Genre: {
