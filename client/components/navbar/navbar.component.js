@@ -14,16 +14,16 @@ export class NavbarComponent {
       state: 'about',
       dropdown: [
         {
+          title: 'NOSSA HISTÓRIA',
+          state: 'history'
+        },
+        {
           title: 'INSTITUCIONAL',
           state: 'institutional'
         },
         {
           title: 'GOVERNANÇA',
           state: 'management'
-        },
-        {
-          title: 'ATA E ESTATUTO',
-          state: 'rules'
         },
       ]
     },
@@ -79,8 +79,6 @@ export class NavbarComponent {
     this.$state.go('logout');
     this.isCollapsed = true;
   }
-
-
 }
 
 export default angular.module('directives.navbar', [])

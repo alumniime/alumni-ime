@@ -29,11 +29,12 @@ import submission from './projects/submission';
 import _Project from '../services/project/project.service';
 import show from './projects/show/show.component';
 import project from './projects/project/project.component';
+import news from './news/news.component';
 
 import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project,
-  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, show, project
+  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, show, project, news
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {

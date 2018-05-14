@@ -7,6 +7,7 @@ import ModalSentConfirmationController from './sent-confirmation/sent-confirmati
 import ModalCompletedRegistrationController from './completed-registration/completed-registration.controller';
 import ModalRegisterInformationController from './register-information/register-information.controller';
 import ModalAlertController from './alert/alert.controller';
+import ModalPhotoController from './photo/photo.controller';
 import ModalLoadingController from './loading/loading.controller';
 
 /*@ngInject*/
@@ -89,6 +90,19 @@ export function ModalService($uibModal, $interval) {
       });
     },
 
+    openPhoto(){
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalPhoto',
+        size: 'dialog-centered'
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+    
     showLoading() {
       var loading = $uibModal.open({
         animation: true,
@@ -179,6 +193,17 @@ export default angular.module('alumniApp.modal', [])
     bindings: {
       resolve: '<',
       close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalPhoto', {
+    template: require('./photo/photo.html'),
+    controller: ModalPhotoController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      ok: '&',
       dismiss: '&'
     },
   })

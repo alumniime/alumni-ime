@@ -74,6 +74,33 @@
         margin-bottom: 0;
     }
   
+    .info-name{
+      font-family: 'Merriweather Sans';
+      font-style: normal;
+      font-weight: normal;
+      line-height: normal;
+      font-size: 10px;
+      color: #828282;
+    }
+  
+    .info-text {
+      font-family: 'Merriweather Sans';
+      font-style: normal;
+      font-weight: normal;
+      line-height: normal;
+      font-size: 14px;
+      color: #333333;
+    }
+
+    .result-title{
+      font-family: 'Merriweather Sans';
+      font-style: normal;
+      font-weight: bold;
+      line-height: normal;
+      font-size: 18px;
+      color: #333333;
+    }
+
     .form-control-orçamento {
         padding-top: 0;
         color: #4F4F4F;
@@ -168,6 +195,46 @@
     border-radius: 30px;
     min-width: 170px;
     padding-top: 10px;
+  }
+
+
+
+  .carousel-inner {
+    max-height: 500px;
+  }
+
+  .carousel-item, .carousel-item-left, .carousel-item-next {
+    top: -250px !important;
+  }
+
+  .carousel-item.img-background {
+    height: 500px;
+    background: no-repeat center 36%;
+    background-size: cover;
+    top: 0 !important;
+  }
+
+  .carousel-item.img-background {
+    margin-bottom: 100px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    .carousel-item.img-background {
+      height: 400px;
+    }
+    .carousel-item.img-background {
+      margin-bottom: 25px;
+    }
+  }
+
+
+  .btn-outline-light {
+    font-weight: 300;
+    font-size: 14px;
+    border-radius: 100px;
+    margin-top: 30px;
+    min-width: 120px;
+    width: 30%;
   }
 
 
