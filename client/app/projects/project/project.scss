@@ -1,191 +1,164 @@
-.projectView{
-    padding: 40px 20px 60px;
-    h1 {
-      font-size: 36px;
-      font-weight: 700;
-    }
-  
-    h4 {
-      font-weight: 700;
-    }
-  
-    h5{
-      margin-bottom: 0;
-      color: #333333;
-    }
-  
-    .legend{
-        font-size: 14px;
-        margin-left: 0;
-        color: #4F4F4F;
-        margin-bottom: 0;
-    }
-  
-    .page-title{
-      color: #333333 !important;
-      font-size: 28px;
-      font-weight: 700;
-      margin-top: 20px;
-      margin-bottom: 5px !important;
-    }
+.projectView {
+  padding: 40px 20px 60px;
 
-    .text-content{
-        margin-top: 40px;
-        // margin-right: 40px;
-        color: #333333 solid;
-        font-size: 14px;
-    }
-  
-    .project-card {
-        border: none;
-        background-color: #fafafa !important;
-        box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        width: 100%;
-        .card-title {
-          font-size: 18px;
-          color: #333333 Solid;
-        }
-    
-        .card-link{
-          font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
-          font-weight: 600;
-          font-size: 14px;
-          padding-top: 12px;
-        }
-      }
-  
-  .card-columns {
-      column-count: 2;
-      @include media-breakpoint-down(sm) {
-        column-count: 1;
-      }
-    }
-  
-    .form-group{
-      margin-bottom: 10px;
-    }
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+  }
 
-  
-    .form-group label {
-        font-size: 10px;
-        margin-left: 0;
-        color: #828282;
-        margin-bottom: 0;
-    }
-  
-    .info-name{
-      font-family: 'Merriweather Sans';
-      font-style: normal;
-      font-weight: normal;
-      line-height: normal;
-      font-size: 10px;
-      color: #828282;
-    }
-  
-    .info-text {
-      font-family: 'Merriweather Sans';
-      font-style: normal;
-      font-weight: normal;
-      line-height: normal;
-      font-size: 14px;
-      color: #333333;
-    }
+  h4 {
+    font-weight: 700;
+  }
 
-    .result-title{
-      font-family: 'Merriweather Sans';
-      font-style: normal;
-      font-weight: bold;
-      line-height: normal;
+  h5 {
+    margin-bottom: 0;
+    color: #333333;
+  }
+
+  .donations {
+    margin: 30px;
+    position: sticky;
+    height: 300px;
+    top: 140px;
+  }
+
+  .donations-mobile {
+    margin-bottom: 30px;
+    margin-top: 30px;
+    padding: 19px 0;
+  }
+
+  .padding-lateral {
+    padding: 0 5%;
+  }
+
+  .legend {
+    font-size: 14px;
+    margin-left: 0;
+    color: #4F4F4F;
+    margin-bottom: 0;
+  }
+
+  .page-title {
+    color: #333333 !important;
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 5px !important;
+  }
+
+  .text-content {
+    margin-top: 40px;
+    // margin-right: 40px;
+    color: #333333;
+    font-size: 14px;
+  }
+
+  .project-card {
+    border: none;
+    background-color: #fafafa !important;
+    box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    .card-title {
       font-size: 18px;
       color: #333333;
     }
 
-    .form-control-orçamento {
-        padding-top: 0;
-        color: #4F4F4F;
-        line-height: 30px;
-        font-size: 24px;
-        padding-bottom: 10px;
-      }
-      .form-control-arrecadado {
-        padding-top: 0;
-        color: #4F4F4F;
-        line-height: 23px;
-        font-size: 18px;
-        padding-bottom: 20px;
-      }
+    .card-link {
+      font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding-top: 12px;
+    }
+  }
 
-    .form-control-plaintext {
-      padding-top: 2px;
-      font-size: 11px;
-      line-height: 14px;
-      font-weight: bold;
-      padding-bottom: 0;
-      color: #4F4F4F;
+  .card-columns {
+    column-count: 2;
+    @include media-breakpoint-down(sm) {
+      column-count: 1;
     }
-    .form-control-plaintext-right {
-      padding-top: 3px;
-      font-size: 11px;
-      line-height: 14px;
-      text-align: right;
-      float: right;
-      border: none;
-      background: transparent;
-      padding-bottom: 0;
-      color: #4F4F4F;
-    }
-  
-    .card-title {
-        font-weight: 900;
-    }
-  .project-deck{
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .form-group label {
+    font-size: 10px;
+    margin-left: 0;
+    color: #828282;
+    margin-bottom: 0;
+  }
+
+  .info-name {
+    font-size: 10px;
+    color: #828282;
+    padding-top: 25px;
+    padding-bottom: 8px;
+  }
+
+  .info-text {
+    font-size: 14px;
+    color: #333333;
+  }
+
+  .result-title {
+    font-weight: 700;
+    font-size: 18px;
+    color: #333333;
+  }
+
+  .form-control-estimated {
+    padding-top: 0;
+    color: #4F4F4F;
+    line-height: 30px;
+    font-size: 24px;
+    padding-bottom: 10px;
+  }
+  .form-control-collected {
+    padding-top: 0;
+    color: #4F4F4F;
+    line-height: 23px;
+    font-size: 18px;
+    padding-bottom: 20px;
+  }
+
+  .form-control-plaintext {
+    padding-top: 2px;
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: bold;
+    padding-bottom: 0;
+    color: #4F4F4F;
+  }
+  .form-control-plaintext-right {
+    padding-top: 3px;
+    font-size: 11px;
+    line-height: 14px;
+    text-align: right;
+    float: right;
+    border: none;
+    background: transparent;
+    padding-bottom: 0;
+    color: #4F4F4F;
+  }
+
+  .card-title {
+    font-weight: 900;
+  }
+  .project-deck {
     box-sizing: content-box;
   }
-   
-  
+
   .progress {
-      background: #FAFAFA; 
-      border: 1px solid #BDBDBD; 
-      border-radius: 30px; 
-      height: 12px;
-      border-width: 0.5px;
+    background: #FAFAFA;
+    border: 1px solid #BDBDBD;
+    border-radius: 30px;
+    height: 12px;
   }
   .progress-bar-custom {
-      background: #6FCF97;
-  }
-
-  
-  li {
-    margin-bottom: 0px;
-    margin-top: 25px;
-    .nav-link {
-      font-family: 'Roboto';
-      font-style: bold;
-      padding: 12px 20px;
-      font-size: 14px;
-      line-height: 16px;
-      font-weight: 300;
-      color: #333 !important;
-    }
-    display: block;
-  }
-
-  li .btn-danger {
-    background-color: #f52b2b;
-    color: #fff !important;
-    width: 120px;
-    border-radius: 100px;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  li:hover, li.active {
-    .nav-link {
-      color: #fff;
-      background-color: #c82333;
-      border-color: #bd2130;
-    }
+    background: #6FCF97;
   }
 
   .btn {
@@ -197,7 +170,21 @@
     padding-top: 10px;
   }
 
+  .btn-danger {
+    margin-top: 25px !important;
+    font-weight: 600;
+    font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+    padding: 12px 20px;
+    background-color: #f52b2b;
+    color: #fff !important;
+    width: 120px;
+  }
 
+  .btn-danger:hover, .btn-danger.active {
+    color: #fff;
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
 
   .carousel-inner {
     max-height: 500px;
@@ -227,6 +214,9 @@
     }
   }
 
+  .carousel-indicators {
+    bottom: 24px;
+  }
 
   .btn-outline-light {
     font-weight: 300;
@@ -237,6 +227,13 @@
     width: 30%;
   }
 
+  .results {
+    padding: 0;
+    margin-top: 40px;
 
-
+    .card-body {
+      padding: 39px;
+    }
   }
+
+}

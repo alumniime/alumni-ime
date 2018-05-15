@@ -85,7 +85,9 @@ export function index(req, res) {
 export function show(req, res) {
   return Project.find({
     where: {
-      ProjectId: req.params.id
+      ProjectId: req.params.id,
+      IsApproved: 1,
+      IsExcluded: 0
     }
   })
     .then(handleEntityNotFound(res))
@@ -147,7 +149,7 @@ export function upload(req, res) {
             ProjectId: projectId,
             Path: `assets/images/uploads/${file.filename}`,
             Filename: file.filename,
-            Type: file.mimetype,
+            Type: 'project',
             Timestamp: file.timestamp
           });
         }

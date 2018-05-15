@@ -1,262 +1,236 @@
 <div class="container projectView">
-    <div class="row justify-content-center">
+  <div class="row justify-content-center">
 
-        <div class="col-10 col-md-6 col-lg-7" style="padding-right: 5%; padding-left: 5%;">
+    <div class="col-10 col-md-6 col-lg-7 padding-lateral">
+      <div class="form-group">
+        <h5 class="page-title">{{vm.project.ProjectName}}</h5>
+        <div class="legend">por {{vm.project.TeamName}}</div>
+      </div>
+      <div class="text-content">
+        {{vm.project.Abstract}}
+      </div>
+
+
+      <!-- TODO carousel selecting images -->
+      <div class="d-none d-md-block p-0 mt-4">
+        <div id="carouselAlumni2" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item img-background active"
+                 style="background-image: url('https://www.stive.com.br/img/2016/05/ime.jpg')">
+            </div>
+            <div class="carousel-item img-background"
+                 style="background-image: url('http://tyba.com.br/fotos/foto/cd325_204.jpg')">
+            </div>
+            <div class="carousel-item img-background"
+                 style="background-image: url('../assets/images/ime-building.jpg')">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselAlumni2" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Anterior</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselAlumni2" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Próximo</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="donations-mobile d-md-none">
+        <div class="card project-card mb-3">
+          <div class="card-body">
             <div class="form-group">
-                <h5 class="page-title">IME++ na China</h5>
-                <div class="legend">Por IME++</div>
+              <label>ORÇAMENTO</label>
+              <div class="form-control-estimated">{{vm.project.EstimatedPriceInCents/100 | currency}}</div>
             </div>
 
-            <div class="text-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at diam a enim dictum aliquam vitae eu justo. Duis vitae urna neque. Nullam vitae augue aliquam nisi iaculis convallis sit amet vitae velit. Cras ut erat semper, ultricies nisl id, aliquam urna. Proin faucibus volutpat sollicitudin. Aliquam accumsan posuere gravida. Mauris mattis ipsum mi, at ultrices orci ultrices vel. Donec eu justo ornare, dictum lectus elementum, tristique elit. Duis sollicitudin elit eu est tincidunt, sed pharetra metus viverra.
-                    Cras porta fermentum velit, dictum vestibulum tortor tristique a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean at ornare odio. Aenean in dignissim erat, ac facilisis arcu.
+            <div class="form-group">
+              <label>ARRECADADO</label>
+              <div class="form-control-collected">{{vm.project.CollectedPriceInCents/100 | currency}}</div>
             </div>
+
+            <div class="form-group">
+              <div class="progress">
+                <div class="progress-bar progress-bar-custom" aria-valuemin="0" aria-valuemax="100"
+                     role="progressbar" style="width: {{vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents*100}}%;">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-8">
+                  <input type="text" class="form-control-plaintext pb-0" readonly
+                         value="{{100*vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents | number:2}}%">
+                </div>
+                <div class="col-4">
+                  <input type="text" class="form-control-plaintext-right" readonly value="2 pessoas apoiaram">
+                </div>
+              </div>
+            </div>
+
+            <a class="btn btn-danger m-auto" href="#">APOIAR PROJETO</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-md-none p-0">
+        <div id="carouselAlumni" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselAlumni" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselAlumni" data-slide-to="1"></li>
+            <li data-target="#carouselAlumni" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item img-background active"
+                 style="background-image: url('../assets/images/ime-building.jpg')">
+            </div>
+            <div class="carousel-item img-background"
+                 style="background-image: url('../assets/images/ime-building.jpg')">
+            </div>
+            <div class="carousel-item img-background"
+                 style="background-image: url('../assets/images/ime-building.jpg')">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselAlumni" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Anterior</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselAlumni" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Próximo</span>
+          </a>
         </div>
 
-        <div class="d-md-none col-8 col-md-4 col-lg-3" style="margin-bottom: 30; margin-top: 30; padding: 19px;padding-right: 0; padding-left: 0">
-            <div class="card project-card mb-3">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label>ORÇAMENTO</label>
-                        <div class="form-control-orçamento">R$15.000,00</div>
-                    </div>
-                        
-                    <div class="form-group">
-                        <label>ARRECADADO</label>
-                        <div class="form-control-arrecadado">R$5.000,00</div>
-                    </div>
+      </div>
 
-                    <div class="form-group">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-custom" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 33%;">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-8">
-                                <input type="text" class="form-control-plaintext" style="padding-bottom: 0;" readonly value="33%">
-                            </div>
-                            <div class="col-4">
-                                <input type="text" class="form-control-plaintext-right" readonly value="2 pessoas apoiaram">
-                            </div>
-                        </div>
-                    </div>
-
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-danger m-auto" href="#" role="button">APOIAR PROJETO</a>
-                    </li>
-                </div>
-            </div>
+      <div class="row mt-2">
+        <div class="col-8 col-xs-6">
+          <div class="info-name">
+            SEÇÃO DE ENSINO
+          </div>
+          <div class="info-text">
+            {{vm.project.se.Description}}
+          </div>
         </div>
 
-        <div class="d-none d-md-block col-8 col-md-4 col-lg-3" style="margin: 30px; position: sticky; top: 140px;">
-            <div class="card project-card mb-3">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label>ORÇAMENTO</label>
-                        <div class="form-control-orçamento">R$15.000,00</div>
-                    </div>
-                        
-                    <div class="form-group">
-                        <label>ARRECADADO</label>
-                        <div class="form-control-arrecadado">R$5.000,00</div>
-                    </div>
+        <div class="col-4 col-xs-6">
+          <div class="info-name">
+            PROFESSOR RESPONSÁVEL
+          </div>
+          <div class="info-text">
+            {{vm.project.professor.name}}
+          </div>
+        </div>
+      </div>
 
-                    <div class="form-group">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-custom" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 33%;">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-8">
-                                <input type="text" class="form-control-plaintext" style="padding-bottom: 0;" readonly value="33%">
-                            </div>
-                            <div class="col-4">
-                                <input type="text" class="form-control-plaintext-right" readonly value="2 pessoas apoiaram">
-                            </div>
-                        </div>
-                    </div>
-
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-danger m-auto" ng-click="vm.Modal.openPhoto()" href="#" role="button">APOIAR PROJETO</a>
-                    </li>
-                </div>
-            </div>
+      <div class="row mt-2">
+        <div class="col-8 col-xs-6">
+          <div class="info-name">
+            LÍDER DO PROJETO
+          </div>
+          <div class="info-text">
+            {{vm.project.leader.name}}
+          </div>
         </div>
 
-        <div class="d-md-none col-12" style="padding: 0 !important;">
-            <div id="carouselAlumni" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselAlumni" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselAlumni" data-slide-to="1"></li>
-                    <li data-target="#carouselAlumni" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item img-background active"
-                        style="background-image: url('../assets/images/ime-building.jpg')">
-                    </div>
-                    <div class="carousel-item img-background" 
-                        style="background-image: url('../assets/images/ime-building.jpg')">
-                    </div>
-                    <div class="carousel-item img-background" 
-                        style="background-image: url('../assets/images/ime-building.jpg')">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselAlumni" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Anterior</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselAlumni" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Próximo</span>
-                </a>
-            </div>
-            
+        <div class="col-4 col-xs-6">
+          <div class="info-name">
+            TÉRMINO ESTIMADO
+          </div>
+          <div class="info-text">
+            {{vm.project.ConclusionDate | date: 'dd/MM/yyyy'}}
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-8 col-xs-6">
+          <div class="info-name">
+            MEMBROS
+          </div>
+          <div class="info-text">
+            {{vm.project.TeamMembers}}
+          </div>
         </div>
 
-        <div class="col-10 col-md-6 col-lg-7" style="padding-right: 5%; padding-left: 5%;">
-            
-            <!-- TODO -->
-            <div class="d-none d-md-block col-12" style="padding: 0 !important; margin-top: 30px;">
-                <div id="carouselAlumni2" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item img-background active"
-                            style="background-image: url('https://www.stive.com.br/img/2016/05/ime.jpg')">
-                        </div>
-                        <div class="carousel-item img-background" 
-                            style="background-image: url('http://tyba.com.br/fotos/foto/cd325_204.jpg')">
-                        </div>
-                        <div class="carousel-item img-background" 
-                            style="background-image: url('../assets/images/ime-building.jpg')">
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselAlumni2" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Anterior</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselAlumni2" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Próximo</span>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-sm-8 col-xs-auto">
-                    <div class="info-name" style="padding-top: 40px; padding-bottom: 8px;">
-                        SEÇÃO DE ENSINO
-                    </div>
-    
-                    <div class="info-text">
-                        SE/8 - Engenharia de Computação
-                    </div>
-                </div>
-                
-                <div class="col col-xs-auto">
-                    <div class="info-name" style="padding-top: 25px; padding-bottom: 8px;">
-                        PROFESSOR RESPONSÁVEL
-                    </div>
-    
-                    <div class="info-text">
-                        Claudia Justel
-                    </div>
-                </div>
-            </div> 
-
-            <div class="row">
-                <div class="col-sm-8 col-xs-auto">
-                    <div class="info-name" style="padding-top: 40px; padding-bottom: 8px;">
-                        LÍDER DO PROJETO
-                    </div>
-    
-                    <div class="info-text">
-                        Naum Azevedo
-                    </div>
-                </div>
-                
-                <div class="col col-xs-auto">
-                    <div class="info-name" style="padding-top: 25px; padding-bottom: 8px;">
-                        TÉRMINO ESTIMADO
-                    </div>
-    
-                    <div class="info-text">
-                        19/06/2018
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-8 col-xs-auto">
-                    <div class="info-name" style="padding-top: 25px; padding-bottom: 8px;">
-                        MEMBROS
-                    </div>
-    
-                    <div class="info-text">
-                        José Alves Araújo, Norton Vieira e Marcus Antonio Silva
-                    </div>
-                </div>
-                
-                <div class="col col-xs-auto">
-                    <div class="info-name" style="padding-top: 25px; padding-bottom: 8px;">
-                        ALUNOS ENVOLVIDOS
-                    </div>
-    
-                    <div class="info-text">
-                        27
-                    </div>
-                </div>
-            </div> 
-            
-            <div class="col-auto" style="padding: 0">
-                <div class="info-name" style="padding-top: 25px; padding-bottom: 8px;">
-                    METAS/RESULTADOS ESPERADOS PARA O PROJETO
-                </div>
-
-                <div class="info-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt iaculis vulputate. Praesent sit amet imperdiet metus, lobortis feugiat massa. Aenean scelerisque cursus accumsan. Aliquam sollicitudin pharetra rhoncus. Ut non lacinia sem, sed vulputate augue. Sed blandit imperdiet tellus sagittis lobortis. Mauris arcu risus, placerat at tellus in, maximus viverra nunc. Aliquam erat volutpat. Vestibulum a mollis nisi, ac euismod massa. Nulla semper efficitur tempus. Nullam eget magna eget risus porttitor euismod. Phasellus faucibus at ex eget imperdiet. Maecenas nec urna sollicitudin leo rhoncus tristique in ut leo. Nam sed mauris vel lorem dapibus auctor. Vestibulum posuere vehicula neque ut tempus. 
-                </div>
-            </div>
-
-            <div class="col-auto" style="padding: 0">
-                <div class="info-name" style="padding-top: 25px; padding-bottom: 8px;">
-                    BENEFÍCIOS CONCRETOS PARA O IME
-                </div>
-
-                <div class="info-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt iaculis vulputate. Praesent sit amet imperdiet metus, lobortis feugiat massa. Aenean scelerisque cursus accumsan. Aliquam sollicitudin pharetra rhoncus. Ut non lacinia sem, sed vulputate augue. Sed blandit imperdiet tellus sagittis lobortis. Mauris arcu risus, placerat at tellus in, maximus viverra nunc. Aliquam erat volutpat. Vestibulum a mollis nisi, ac euismod massa. Nulla semper efficitur tempus. Nullam eget magna eget risus porttitor euismod. Phasellus faucibus at ex eget imperdiet. Maecenas nec urna sollicitudin leo rhoncus tristique in ut leo. Nam sed mauris vel lorem dapibus auctor. Vestibulum posuere vehicula neque ut tempus. 
-                </div>
-            </div>
-
-            <div class="col-auto" style="padding: 0">
-                <div class="info-name" style="padding-top: 25px; padding-bottom: 8px;">
-                    CRONOGRAMA FÍSICO-FINANCEIRO
-                </div>
-
-                <div class="info-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt iaculis vulputate. Praesent sit amet imperdiet metus, lobortis feugiat massa. Aenean scelerisque cursus accumsan. Aliquam sollicitudin pharetra rhoncus. Ut non lacinia sem, sed vulputate augue. Sed blandit imperdiet tellus sagittis lobortis. Mauris arcu risus, placerat at tellus in, maximus viverra nunc. Aliquam erat volutpat. Vestibulum a mollis nisi, ac euismod massa. Nulla semper efficitur tempus. Nullam eget magna eget risus porttitor euismod. Phasellus faucibus at ex eget imperdiet. Maecenas nec urna sollicitudin leo rhoncus tristique in ut leo. Nam sed mauris vel lorem dapibus auctor. Vestibulum posuere vehicula neque ut tempus. 
-                </div>
-            </div>
-
-            <div class="col" style="padding: 0; margin-top: 40px">
-                <div class="card project-card mb-3">
-                    <div class="card-body" style="padding: 39px;">
-                        <div class="result-title" style="margin-bottom: 20px;">Resultado do Projeto</div>
-                        
-                        <div class="info-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt iaculis vulputate. Praesent sit amet imperdiet metus, lobortis feugiat massa. Aenean scelerisque cursus accumsan. Aliquam sollicitudin pharetra rhoncus. Ut non lacinia sem, sed vulputate augue. Sed blandit imperdiet tellus sagittis lobortis. Mauris arcu risus, placerat at tellus in, maximus viverra nunc. Aliquam erat volutpat. Vestibulum a mollis nisi, ac euismod massa. Nulla semper efficitur tempus. Nullam eget magna eget risus porttitor euismod. Phasellus faucibus at ex eget imperdiet. Maecenas nec urna sollicitudin leo rhoncus tristique in ut leo. Nam sed mauris vel lorem dapibus auctor. Vestibulum posuere vehicula neque ut tempus. 
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+        <div class="col-4 col-xs-6">
+          <div class="info-name">
+            ALUNOS ENVOLVIDOS
+          </div>
+          <div class="info-text">
+            {{vm.project.StudentsNumber}}
+          </div>
         </div>
+      </div>
 
-        <div class="col-8 col-md-4 col-lg-3" style="margin: 30px;"></div>
+      <div class="info-name">
+        METAS/RESULTADOS ESPERADOS PARA O PROJETO
+      </div>
+      <div class="info-text">
+        {{vm.project.Goals}}
+      </div>
 
+      <div class="info-name">
+        BENEFÍCIOS CONCRETOS PARA O IME
+      </div>
+      <div class="info-text">
+        {{vm.project.Benefits}}
+      </div>
 
+      <div class="info-name">
+        CRONOGRAMA FÍSICO-FINANCEIRO
+      </div>
+      <div class="info-text">
+        {{vm.project.Schedule}}
+      </div>
 
-          
+      <div class="col results" ng-if="vm.project.Results">
+        <div class="card project-card mb-3">
+          <div class="card-body">
+            <div class="result-title mb-3">Resultado do Projeto</div>
+            <div class="info-text">
+              {{vm.project.Results}}
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+    <div class="donations d-none d-md-block col-8 col-md-4 col-lg-3">
+      <div class="card project-card mb-3">
+        <div class="card-body">
+          <div class="form-group">
+            <label>ORÇAMENTO</label>
+            <div class="form-control-estimated">{{vm.project.EstimatedPriceInCents/100 | currency}}</div>
+          </div>
+
+          <div class="form-group">
+            <label>ARRECADADO</label>
+            <div class="form-control-collected">{{vm.project.CollectedPriceInCents/100 | currency}}</div>
+          </div>
+
+          <div class="form-group">
+            <div class="progress">
+              <div class="progress-bar progress-bar-custom" aria-valuemin="0" aria-valuemax="100"
+                   role="progressbar" style="width: {{vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents*100}}%;">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-8">
+                <input type="text" class="form-control-plaintext pb-0" readonly
+                       value="{{100*vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents | number:2}}%">
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control-plaintext-right" readonly value="2 pessoas apoiaram">
+              </div>
+            </div>
+          </div>
+
+          <a class="btn btn-danger m-auto" ng-click="vm.Modal.openPhoto()">APOIAR PROJETO</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>

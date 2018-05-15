@@ -40,6 +40,14 @@ export default function (sequelize, DataTypes) {
         key: 'PersonId'
       }
     },
+    ProjectSEId: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false,
+      references: {
+        model: 'SE',
+        key: 'SEId'
+      }
+    },
     TeamMembers: {
       type: DataTypes.TEXT,
       allowNull: false
@@ -65,6 +73,10 @@ export default function (sequelize, DataTypes) {
       allowNull: true
     },
     Schedule: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    Results: {
       type: DataTypes.TEXT,
       allowNull: true
     },

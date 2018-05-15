@@ -7,24 +7,30 @@ import routes from './project.routes';
 
 export class ProjectController {
 
-  constructor(Auth, Modal, $http, $state) {
+  constructor(Modal, $state, $stateParams, Project, $anchorScroll) {
     'ngInject';
 
-    this.Auth = Auth;
-    this.$http = $http;
     this.$state = $state;
+    this.$stateParams = $stateParams;
     this.Modal = Modal;
+    this.Project = Project;
+    this.$anchorScroll = $anchorScroll;
   }
-  
 
   $onInit() {
-    this.photos = ['../assets/images/ime-building.jpg', '../assets/images/ime-building.jpg', 
-    '../assets/images/ime-building.jpg', '../assets/images/ime-building.jpg'];
+    this.project = {};
 
-    // this.$http.get('/api/ses')
-    //   .then(response => {
-    //     this.sesList = response.data;
-    //   });
+    if(this.$stateParams.ProjectId) {
+      var ProjectId = this.$stateParams.ProjectId;
+      this.Project.get(ProjectId)
+        .then(project => {
+          this.project = project;
+          this.$anchorScroll('top');
+        });
+    } else {
+      this.$state.go('show');
+    }
+
   }
 }
 
