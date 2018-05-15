@@ -123,9 +123,11 @@ export function upload(req, res) {
     .array('files', 12); // maxImages = 12
 
   upload(req, res, function (err) {
-    var project = req.body.project;
-    console.log('files', req.files);
-    console.log('user2', req.user);
+    var project = Project.build(req.body.project);
+    project.setDataValue('IsApproved', 0);
+    project.setDataValue('IsExcluded', 0);
+    project.setDataValue('SubmissionDate', Date.now());
+    project.setDataValue('SubmissionerId', req.user.PersonId);
 
     if(err) {
       console.log(err);
@@ -133,7 +135,7 @@ export function upload(req, res) {
       return;
     }
 
-    Project.create(project)
+    project.save()
       .then(newProject => {
         var projectId = newProject.ProjectId;
         console.log(projectId);

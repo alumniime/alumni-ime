@@ -24,10 +24,23 @@
       <div class="" ng-if="!vm.editFields">
 
         <h1>{{vm.user.name}}</h1>
-        <p class="legend">
+        <p class="legend" ng-if="vm.personType.Description === 'FormerStudent' || vm.personType.Description === 'Student'">
           {{vm.engineering.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
           <br>
           Formatura {{vm.user.GraduationYear}}
+        </p>
+        <p class="legend" ng-if="vm.personType.Description === 'Professor'">
+          {{vm.se.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
+        </p>
+        <p class="legend" ng-if="vm.personType.Description === 'Visitor'">
+          {{vm.personType.PortugueseDescription | lowercase}}
+        </p>
+        <p class="legend" ng-if="vm.personType.Description === 'FormerStudentAndProfessor'">
+          {{vm.engineering.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
+          <br>
+          Formatura {{vm.user.GraduationYear}}
+          <br>
+          {{vm.se.Description}}
         </p>
 
         <div class="row">
@@ -41,7 +54,7 @@
             <div class="form-group">
               <label for="BirthdateShow">DATA DE NASCIMENTO*</label>
               <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
-                     value="{{vm.user.Birthdate| date:'dd/MM/yyyy':'+03:00'}}">
+                     value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
             </div>
             <div class="form-group mb-0">
               <label for="InitiativesShow">{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}

@@ -6,15 +6,11 @@ export default class SubmissionController {
   errors = {
     projects: undefined
   };
-  project = {
-    Abstract: '',
-    Schedule: '',
-    SubmissionerId: null
-  };
+  project = {};
   uploadImages = [];
   maxImages = 12;
   maxSize = '5MB';
-  imageQuality = 0.7;
+  imageQuality = 1;
   files = [];
   dateInvalid = false;
   ConclusionDate = '';
@@ -48,8 +44,9 @@ export default class SubmissionController {
       });
 
     var loading = this.Modal.showLoading();
-    this.user = this.getCurrentUser()
+    this.getCurrentUser()
       .then(user => {
+        this.user = user;
         loading.close();
         if(!user.PersonId) {
           this.Modal.openLogin();
@@ -72,19 +69,6 @@ export default class SubmissionController {
     }
   }
 
-  // validate(form) {
-  //   angular.forEach(form, function(control, name) {
-  //     // Excludes internal angular properties
-  //     if (typeof name === 'string' && name.charAt(0) !== '$') {
-  //       // To display ngMessages
-  //       control.$setTouched();
-  //
-  //       // Runs each of the registered validators
-  //       control.$validate();
-  //     }
-  //   });
-  // }
-
   submitProject(form) {
     this.submitted = true;
     this.errors.projects = undefined;
@@ -92,14 +76,14 @@ export default class SubmissionController {
 
     this.project.EstimatedPriceInCents *= 100;
     var date = this.ConclusionDate.split('/');
-    this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0], 3);
+    this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
 
     if(!this.user.PersonId) {
       // User needs to login
       this.Modal.openLogin();
     } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 3 || this.user.PersonTypeId === 5) {
 
-      if(form.$valid && this.uploadImages && !this.dateInvalid) {
+      if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
 
         var loading = this.Modal.showLoading();
 
@@ -116,16 +100,18 @@ export default class SubmissionController {
             loading.close();
             console.log(result);
             if(result.data.error_code === 0) {
-              alert('Success uploaded. Response: ');
+              this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
+              this_.submitted = false;
+              this_.uploadImages = [];
+              this_.ConclusionDate = '';
             } else {
-              alert('an error occured');
+              this_.Modal.showAlert('Erro na submissão', 'Por favor, tente novamente.');
             }
           }, function error(err) {
             loading.close();
             console.log('Error: ' + err);
-            alert('Error message: ' + err.message);
-
-            this.errors.projects = err.message;
+            this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
+            this_.errors.projects = err.message;
           }, function event(evt) {
             console.log(evt);
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
@@ -142,10 +128,16 @@ export default class SubmissionController {
 
   }
 
+  choosePrincipal(image){
+    var aux = this.uploadImages[0];
+    var index =this.uploadImages.indexOf(image);
+    this.uploadImages[0] = this.uploadImages[index];
+    this.uploadImages[index] = aux;
+  }
+
   removeImage(image) {
     this.uploadImages.splice(this.uploadImages.indexOf(image), 1);
   }
-
 
   updateImages(files) {
     if(files === null) {

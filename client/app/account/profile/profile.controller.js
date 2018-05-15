@@ -63,6 +63,11 @@ export default class ProfileController {
       this.$http.get('/api/ses')
         .then(response => {
           this.sesList = response.data;
+          for(var se of response.data) {
+            if(se.SEId === user.ProfessorSEId) {
+              this.se = se;
+            }
+          }
         });
 
       this.$http.get('/api/initiatives')

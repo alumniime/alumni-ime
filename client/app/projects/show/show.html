@@ -3,14 +3,15 @@
 
   <div class="card-deck project-deck">
 
-    <div class="col-12 col-sm-6 col-md-4 pl-0 pr-4"
-         ng-repeat="project in vm.Project.list">
+    <div class="col-12 col-md-6 col-lg-4 pl-0 pr-4" ng-repeat="project in vm.Project.list">
       <a class="card project-card mb-3" ui-sref="project">
-        <img class="card-img-top" ng-if="project.images[0].Path" ng-src="{{project.images[0].Path}}" alt="Project image">
+        <div class="card-img-top" ng-if="project.images[0].Path" >
+          <img ng-src="{{project.images[0].Path}}" alt="{{project.ProjectName}}">
+        </div>
         <div class="card-body">
           <div class="form-group">
             <h5 class="card-title">{{project.ProjectName}}</h5>
-            <label>Por {{project.TeamName}}</label>
+            <label>por {{project.TeamName}}</label>
           </div>
 
           <div class="form-group">
