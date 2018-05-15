@@ -1,0 +1,119 @@
+.newsView{
+    padding: 40px 20px 60px;
+    h1 {
+        font-size: 36px;
+        font-weight: 700;
+    }
+
+    h4 {
+        font-weight: 700;
+    }
+
+    h5 {
+        margin-bottom: 0;
+        color: #333333;
+    }
+
+    .legend {
+        font-size: 16px;
+    }
+
+    .page-title {
+        color: #333333 !important;
+        font-size: 20px;
+        font-weight: 700;
+        margin-top: 20px;
+        margin-bottom: 25px !important;
+      }
+
+      li {
+        margin-right: 30px;
+        margin-bottom: 10px;
+        border-bottom: 1px #828282 solid;
+        .nav-link {
+          padding: 12px 20px;
+          font-weight: 300;
+          color: #333 !important;
+        }
+      }
+    
+      li:hover, li.active {
+        margin-bottom: 8px;
+        .nav-link {
+          font-weight: 700;
+        }
+      }
+    
+      .btn {
+        display: inherit;
+        font-weight: 600;
+        font-size: 14px;
+        height: 45px;
+        border-radius: 30px;
+        min-width: 200px;
+        padding-top: 10px;
+      }
+    
+      .card-columns {
+        column-count: 2;
+        @include media-breakpoint-down(sm) {
+          column-count: 1;
+        }
+      }
+    
+      .form-group {
+        margin-bottom: 10px;
+      }
+    
+      .form-group label {
+        font-size: 12px;
+        margin-left: 0;
+        color: #828282;
+        margin-bottom: 0;
+      }
+
+      .form-group newsDate {
+        font-style: normal;
+        font-weight: normal;
+        line-height: normal;
+        font-size: 12px;
+        
+        color: #828282;
+      }
+    
+      .form-control-plaintext {
+        padding-top: 0;
+        font-size: 14px;
+        padding-bottom: 0;
+      }
+      .form-control-plaintext-right {
+        padding-top: 0;
+        font-size: 14px;
+        text-align: right;
+        float: right;
+        border: none;
+        background: transparent;
+        padding-bottom: 0;
+      }
+    
+      .news-deck {
+        box-sizing: content-box;
+      }
+      .news-card {
+        border: none;
+        width: 100%;
+        .card-title {
+            font-weight: bold;
+            line-height: 24px;
+            font-size: 14px;
+            color: #333333;
+        }
+    
+        .card-link {
+          font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+          font-weight: 600;
+          font-size: 14px;
+          padding-top: 12px;
+        }
+      }
+}
