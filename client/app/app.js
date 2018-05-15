@@ -29,7 +29,7 @@ import submission from './projects/submission';
 import _Project from '../services/project/project.service';
 import show from './projects/show/show.component';
 import project from './projects/project/project.component';
-import news from './news/news.component';
+import news from './news/show/news.component';
 
 import './app.scss';
 
