@@ -115,7 +115,7 @@ export function upload(req, res) {
       file.timestamp = Date.now();
       var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
       var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
-      cb(null, `${name}-${file.timestamp}.${format}`);
+      cb(null, `${file.timestamp}-${name}.${format}`);
     }
   });
 

@@ -45,7 +45,6 @@ export function ProjectService($http, $q) {
       if(!this.loadedProjects[ProjectId]) {
         $http.get(`/api/projects/${ProjectId}`)
           .then(response => {
-            console.log(response);
             var project = response.data;
             // TODO load collected money
             project.CollectedPriceInCents = 300000;

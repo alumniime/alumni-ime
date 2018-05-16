@@ -12,15 +12,19 @@
 .modal-primary .modal-header {
   background: $primary;
 }
+
 .modal-info .modal-header {
   background: $info;
 }
+
 .modal-success .modal-header {
   background: $success;
 }
+
 .modal-warning .modal-header {
   background: $warning;
 }
+
 .modal-danger .modal-header {
   background: $danger;
 }
@@ -40,4 +44,10 @@
   cursor: pointer;
   top: 20px;
   right: 20px;
+  z-index: 1100;
+  font-size: 30px;
+}
+
+.modal-auto-width {
+  max-width: fit-content !important;
 }

@@ -45,12 +45,12 @@ export function ModalService($uibModal, $interval) {
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalEmailVerified',
+        size: 'dialog-centered',
         resolve: {
           confirmEmailToken: function () {
             return confirmEmailToken;
           }
-        },
-        size: 'dialog-centered'
+        }
       });
       modalInstance.result.then(function () {
         console.log('Success');
@@ -63,12 +63,12 @@ export function ModalService($uibModal, $interval) {
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalRegisterInformation',
+        size: 'dialog-centered',
         resolve: {
           confirmEmailToken: function () {
             return confirmEmailToken;
           }
-        },
-        size: 'dialog-centered'
+        }
       });
       modalInstance.result.then(function () {
         console.log('Success');
@@ -81,28 +81,31 @@ export function ModalService($uibModal, $interval) {
       $uibModal.open({
         animation: true,
         component: 'modalAlert',
+        size: 'dialog-centered',
         resolve: {
           alert: function () {
             return {title, message};
           }
-        },
-        size: 'dialog-centered'
+        }
       });
     },
 
-    openPhoto(){
-      var modalInstance = $uibModal.open({
+    openPhoto(images, index){
+      $uibModal.open({
         animation: true,
         component: 'modalPhoto',
-        size: 'dialog-centered'
-      });
-      modalInstance.result.then(function () {
-        console.log('Success');
-      }, function () {
-        console.log(`Modal dismissed at: ${new Date()}`);
+        size: 'auto-width modal-dialog-centered',
+        resolve: {
+          images: function () {
+            return images;
+          },
+          index: function () {
+            return index;
+          }
+        },
       });
     },
-    
+
     showLoading() {
       var loading = $uibModal.open({
         animation: true,
