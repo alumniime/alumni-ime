@@ -95,6 +95,35 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a single Project from the DB for preview
+export function preview(req, res) {
+  var userId = req.user.PersonId;
+  return Project.find({
+    where: {
+      ProjectId: req.params.id,
+      SubmissionerId: userId,
+      IsApproved: 0,
+      IsExcluded: 0
+    }
+  })
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Get my submitted projects
+export function me(req, res) {
+  var userId = req.user.PersonId;
+  return Project.findAll({
+    where: {
+      SubmissionerId: userId,
+      IsExcluded: 0
+    }
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Creates a new Project in the DB
 export function create(req, res) {
   return Project.create(req.body)

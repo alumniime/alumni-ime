@@ -26,6 +26,7 @@ import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
 import submission from './projects/submission';
+import edit from './projects/edit';
 import _Project from '../services/project/project.service';
 import show from './projects/show/show.component';
 import project from './projects/project/project.component';
@@ -35,7 +36,7 @@ import view from './news/view/view.component';
 import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project,
-  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, show, project, news, view
+  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {

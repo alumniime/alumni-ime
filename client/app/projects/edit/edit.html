@@ -1,13 +1,12 @@
-<div class="submission-view">
+<div class="edit-view">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-9">
         <h1 class="title">
-          Submissão de Projeto
+          Edição de Projeto
         </h1>
 
-        <form class="form" name="form" ng-submit="vm.submitProject(form)"
-              novalidate="">
+        <form class="form" name="form" ng-submit="vm.submitProject(form)" novalidate="">
 
           <div class="row">
             <div class="col-12 col-md-6">
@@ -47,7 +46,8 @@
                 <select class="form-control" id="ProfessorId" name="ProfessorId" required
                         ng-model="vm.project.ProfessorId">
                   <option></option>
-                  <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">{{professor.Name}}
+                  <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">
+                    {{professor.Name}}
                   </option>
                 </select>
                 <p class="help-block" ng-show="form.ProfessorId.$error.required && vm.submitted">
@@ -61,10 +61,12 @@
                         ng-model="vm.project.LeaderId">
                   <option></option>
                   <optgroup label="Alunos">
-                    <option ng-repeat="student in vm.studentsList | orderBy: 'Name'" ng-value="student.PersonId">{{student.Name}}
+                    <option ng-repeat="student in vm.studentsList | orderBy: 'Name'" ng-value="student.PersonId">
+                      {{student.Name}}
                   </optgroup>
                   <optgroup label="Professores">
-                    <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">{{professor.Name}}
+                    <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">
+                      {{professor.Name}}
                   </optgroup>
                   </option>
                 </select>
@@ -232,7 +234,8 @@
                   <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
                     <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
                          ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
-                         ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
+                         ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
+                         ng-model="vm.uploadImages"
                          ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
                          ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
                       <img class="m-auto" src="assets/images/plus.svg">
