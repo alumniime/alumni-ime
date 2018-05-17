@@ -57,7 +57,7 @@
         <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
            ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
         <a class="nav-link dropdown-toggle" ui-sref="{{item.state}}" id="navbarDropdown{{$index}}"
-           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-if="item.dropdown">
+        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-if="item.dropdown">
           {{item.title}}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
