@@ -31,11 +31,12 @@ import show from './projects/show/show.component';
 import project from './projects/project/project.component';
 import news from './news/show/news.component';
 import view from './news/view/view.component';
+import result from './projects/result/result.component';
 
 import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project,
-  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, show, project, news, view
+  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, show, project, news, view, result
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {

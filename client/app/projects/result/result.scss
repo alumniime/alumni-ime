@@ -1,0 +1,148 @@
+.resultView{
+    margin: 30px 0 50px;
+
+    .title {
+        margin-top: 50px;
+        margin-bottom: 30px;
+        font-weight: bold;
+        line-height: normal;
+        font-size: 20px;
+        color: #333333;
+    }
+
+    .project-card {
+        background: #FAFAFA;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        width: 100%;
+        margin-bottom: 40px !important;
+
+        .card-title {
+            font-weight: bold;
+            line-height: normal;
+            font-size: 18px;
+            color: #333333;
+            margin-bottom: 5px;
+        }
+        .legend {
+            font-size: 12px;
+            color: #828282;
+            margin-bottom: 15px;
+        }
+    }
+
+    .form-group{
+        margin-bottom: 10px;
+        padding: 0;
+        margin-right: 0;
+    }
+
+    label {
+        font-size: 10px;
+        margin-left: 0;
+        margin-bottom: 5px;
+        color: #828282;
+    }
+
+    .form-control-plaintext {
+        padding: 0;
+        font-weight: bold;
+        line-height: normal;
+        font-size: 14px;
+        color: #828282;
+    }
+
+
+    form {
+        padding-bottom: 10px;
+    }
+
+    form input, form select, form textarea {
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: 1px solid #bdbdbd;
+        font-size: 14px;
+    }
+
+    form textarea {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .drop-images {
+        padding: 5px 15px;
+    }
+
+    .upload-text {
+        margin-top: 15px;
+    }
+
+    .upload-link {
+      padding: 6px 0;
+    }
+
+    .upload-images {
+        .card {
+          background-color: #c4c4c4;
+          border-radius: 0;
+          height: 160px;
+          align-items: flex-start;
+          display: flex;
+          justify-content: center;
+          overflow: hidden;
+    
+          .close-button {
+            padding: 5px;
+            background-color: #fff;
+            position: absolute;
+            cursor: pointer;
+            top: 10px;
+            right: 10px;
+            color: #828282;
+          }
+          .principal-image-button {
+            padding: 5px;
+            background-color: #fff;
+            position: absolute;
+            cursor: pointer;
+            top: 10px;
+            left: 10px;
+            color: #828282;
+          }
+        }
+        .card img {
+          flex-shrink: 0;
+          min-width: 110%;
+          min-height: 100%;
+          max-width: 100%;
+          align-self: center;
+        }
+        .card-plus {
+          background-color: #fff;
+          border: 2px solid #bdbdbd;
+          cursor: pointer;
+    
+          img {
+            height: 24px;
+            width: 24px;
+            min-width: 0;
+          }
+        }
+    }
+
+    .btn-info {
+        font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        min-width: 200px;
+        height: 45px;
+        padding-top: 8px;
+    }
+    
+    .btn-submit {
+        background-color: #0099F3;
+        border-radius: 30px;
+    }
+}
