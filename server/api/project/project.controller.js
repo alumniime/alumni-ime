@@ -85,7 +85,9 @@ export function index(req, res) {
 export function show(req, res) {
   return Project.find({
     where: {
-      ProjectId: req.params.id
+      ProjectId: req.params.id,
+      IsApproved: 1,
+      IsExcluded: 0
     }
   })
     .then(handleEntityNotFound(res))
@@ -113,7 +115,7 @@ export function upload(req, res) {
       file.timestamp = Date.now();
       var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
       var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
-      cb(null, `${name}-${file.timestamp}.${format}`);
+      cb(null, `${file.timestamp}-${name}.${format}`);
     }
   });
 
@@ -147,7 +149,7 @@ export function upload(req, res) {
             ProjectId: projectId,
             Path: `assets/images/uploads/${file.filename}`,
             Filename: file.filename,
-            Type: file.mimetype,
+            Type: 'project',
             Timestamp: file.timestamp
           });
         }

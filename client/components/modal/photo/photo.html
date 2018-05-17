@@ -1,37 +1,20 @@
-<div class="modal-body" id="modal-body" style="padding: 0; width: max-content; height: max-content;">
-    <div id="carouselAlumni" class="carousel slide" data-ride="carousel" style="padding: 0; width: max-content; height: max-content;">
-        <div class="carousel-inner" style="width: max-content; height: max-content;">
-            <div class="carousel-item img-background active">
-                <img src="https://www.stive.com.br/img/2016/05/ime.jpg" width=100% height=100%>
-            </div>
-            <div class="carousel-item img-background">
-                <img src="http://tyba.com.br/fotos/foto/cd325_204.jpg" width=100% height=100%>
-            </div>
-            <div class="carousel-item img-background">
-                <img src="../assets/images/ime-building.jpg" width=100% height=100%>
-            </div>
-
-            <!-- <div class="carousel-item img-background active" style="background-image: 
-            url('https://www.stive.com.br/img/2016/05/ime.jpg'); max-height: 100%; max-width: 100%; background-size: auto 100%;">
-            </div>
-            <div class="carousel-item img-background" style="background-image: 
-            url('http://tyba.com.br/fotos/foto/cd325_204.jpg'); max-height: 100%; max-width: 100%; background-size: auto 100%;">
-            </div>
-            <div class="carousel-item img-background" style="background-image: 
-            url('../assets/images/ime-building.jpg'); max-height: 100%; max-width: 100%; background-size: auto 100%;">
-            </div> -->
-        </div>
-        <a class="carousel-control-prev" href="#carouselAlumni" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Anterior</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselAlumni" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Próximo</span>
-        </a>
+<div class="modal-body photoView" id="modal-body">
+  <i class="fa fa-close close-button text-white" ng-click="vm.cancelModal()"></i>
+  <div id="carouselAlumniPhoto" class="carousel" data-pause="true">
+    <div class="carousel-inner">
+      <div class="carousel-item img-background" ng-repeat="image in vm.images"
+           ng-class="{active: $index === vm.index}">
+        <img ng-src="{{image.Path}}">
+      </div>
     </div>
-
-<!-- <img id="myImg" src="../assets/images/ime-building.jpg" width="300" height="200"> -->
-
+    <a class="carousel-control-prev" href="#carouselAlumniPhoto" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Anterior</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselAlumniPhoto" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Próximo</span>
+    </a>
+  </div>
 </div>
 

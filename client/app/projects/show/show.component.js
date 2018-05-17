@@ -7,11 +7,9 @@ import routes from './show.routes';
 
 export class ShowController {
 
-  constructor(Auth, $http, $state, Project) {
+  constructor($state, Project) {
     'ngInject';
 
-    this.Auth = Auth;
-    this.$http = $http;
     this.$state = $state;
     this.Project = Project;
   }
@@ -21,6 +19,11 @@ export class ShowController {
     console.log(this.Project);
     this.Project.load();
   }
+
+  openProject(ProjectId) {
+    this.$state.go('project', {ProjectId: ProjectId});
+  }
+
 }
 
 export default angular.module('alumniApp.show', [uiRouter])
