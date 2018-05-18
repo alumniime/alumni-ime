@@ -11,6 +11,7 @@ router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/:id', controller.show);
 router.get('/:id/preview', auth.isAuthenticated(), controller.preview);
 router.post('/upload', auth.isAuthenticated(), controller.upload);
+router.post('/edit', auth.isAuthenticated(), controller.edit);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', auth.hasRole('admin'), controller.upsert);
 router.patch('/:id', auth.hasRole('admin'), controller.patch);

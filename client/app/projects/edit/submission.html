@@ -1,12 +1,13 @@
-<div class="edit-view">
+<div class="submission-view">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-9">
         <h1 class="title">
-          Edição de Projeto
+          Submissão de Projeto
         </h1>
 
-        <form class="form" name="form" ng-submit="vm.submitProject(form)" novalidate="">
+        <form class="form" name="form" ng-submit="vm.submitProject(form)"
+              novalidate="">
 
           <div class="row">
             <div class="col-12 col-md-6">
@@ -22,7 +23,7 @@
 
               <div class="form-group">
                 <label for="SEId">SEÇÃO DE ENSINO*</label>
-                <select class="form-control" id="SEId" name="SEId" required ng-model="vm.project.ProjectSEId">
+                <select class="form-control" id="SEId" name="SEId" required ng-model="vm.project.SEId">
                   <option></option>
                   <option ng-repeat="se in vm.sesList" ng-value="se.SEId">{{se.Description}}
                   </option>
@@ -46,8 +47,7 @@
                 <select class="form-control" id="ProfessorId" name="ProfessorId" required
                         ng-model="vm.project.ProfessorId">
                   <option></option>
-                  <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">
-                    {{professor.Name}}
+                  <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">{{professor.Name}}
                   </option>
                 </select>
                 <p class="help-block" ng-show="form.ProfessorId.$error.required && vm.submitted">
@@ -61,12 +61,10 @@
                         ng-model="vm.project.LeaderId">
                   <option></option>
                   <optgroup label="Alunos">
-                    <option ng-repeat="student in vm.studentsList | orderBy: 'Name'" ng-value="student.PersonId">
-                      {{student.Name}}
+                    <option ng-repeat="student in vm.studentsList | orderBy: 'Name'" ng-value="student.PersonId">{{student.Name}}
                   </optgroup>
                   <optgroup label="Professores">
-                    <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">
-                      {{professor.Name}}
+                    <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">{{professor.Name}}
                   </optgroup>
                   </option>
                 </select>
@@ -185,8 +183,8 @@
               <label>INSERIR FOTOS*</label>
               <br>
 
-              <div class="form-group drop-images" ngf-drop="vm.updateImages(false)"
-                   ng-change="vm.updateImages(false)"
+              <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
+                   ng-change="vm.updateImages(vm.uploadImages)"
                    ng-model="vm.uploadImages"
                    ngf-keep="true" ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}"
                    ngf-drag-over-class="'drag-over'" ngf-multiple="true" ngf-allow-dir="true"
@@ -199,7 +197,7 @@
                   <div class="col">
                     <p class="upload-text">
                       <a class="btn btn-link text-info upload-link" name="files"
-                         ngf-select ng-change="vm.updateImages(false)" ng-model="vm.uploadImages"
+                         ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
                          ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
                          ngf-resize="{quality: vm.imageQuality}"
                          ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
@@ -213,26 +211,28 @@
 
                 <div class="card-deck upload-images">
 
-                  <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0"
-                       ng-repeat="file in vm.concatImages">
+                  <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
                     <div class="card mb-3">
-                      <img ng-if="file && file.$ngfName" ngf-thumbnail="file"/>
-                      <img ng-if="file && !file.$ngfName" ng-src="{{file.Path}}"/>
-                      <i ng-if="(file.size || file.Path) && $index === 0" class="fa fa-bookmark principal-image-button"
+                      <img ng-if="file" ngf-thumbnail="file"/>
+                      <i ng-if="file.size && $index === 0" class="fa fa-bookmark principal-image-button"
                          uib-tooltip="Imagem principal" tooltip-placement="right"></i>
-                      <i ng-if="(file.size || file.Path) && $index !== 0" class="fa fa-bookmark-o principal-image-button"
+                      <i ng-if="file.size && $index !== 0" class="fa fa-bookmark-o principal-image-button"
                          uib-tooltip="Selecionar como imagem principal" tooltip-placement="right"
                          ng-click="vm.choosePrincipal(file)"></i>
-                      <i ng-if="file.size || file.Path" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
+                      <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
                          uib-tooltip="Remover imagem" tooltip-placement="left"></i>
                     </div>
                   </div>
 
+                  <!--<div class="col-12 col-sm-6 col-md-4 pl-0 pr-0" ng-repeat="file in vm.thumbnailImages">-->
+                  <!--<div class="card mb-3">-->
+                  <!--</div>-->
+                  <!--</div>-->
+
                   <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
                     <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
-                         ng-if="vm.concatImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
-                         ng-click="vm.updateImages(true)" ngf-select ng-change="vm.updateImages(false)"
-                         ng-model="vm.uploadImages"
+                         ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
+                         ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
                          ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
                          ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
                       <img class="m-auto" src="assets/images/plus.svg">
@@ -244,9 +244,11 @@
                   Uma ou mais imagens inseridas ultrapassam o tamanho máximo. Tente novamente.
                 </p>
 
-                <p class="help-block" ng-show="vm.concatImages.length === 0 && vm.submitted">
+                <p class="help-block" ng-show="vm.uploadImages.length === 0 && vm.submitted">
                   Insira pelo menos uma imagem para o projeto.
                 </p>
+
+                <!--<p>{{vm.progress}}</p>-->
 
               </div>
 

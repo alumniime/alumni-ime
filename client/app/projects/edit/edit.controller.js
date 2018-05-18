@@ -1,4 +1,5 @@
 'use strict';
+const angular = require('angular');
 
 export default class EditController {
 
@@ -7,7 +8,9 @@ export default class EditController {
     projects: undefined
   };
   project = {};
+  savedImages = [];
   uploadImages = [];
+  concatImages = [];
   maxImages = 12;
   maxSize = '5MB';
   imageQuality = 1;
@@ -40,9 +43,10 @@ export default class EditController {
         .then(project => {
           loading.close();
           this.project = project;
-          this.uploadImages = this.project.images;
+          this.savedImages = this.project.images;
           this.project.EstimatedPriceInCents /= 100;
           this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');
+          this.concatImages = this.savedImages.concat(this.uploadImages);
           console.log(this.project);
           this.$anchorScroll('top');
         })
@@ -90,31 +94,51 @@ export default class EditController {
     var date = this.ConclusionDate.split('/');
     this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
 
-    if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
+    if(form.$valid && this.concatImages && this.concatImages.length > 0 && !this.dateInvalid) {
+
+      var savedImages = [];
+      var uploadImages = [];
+      var uploadIndexes = [];
+      for (var $index in this.concatImages) {
+        if(this.concatImages[$index].Path) {
+          savedImages.push({
+            ImageId: this.concatImages[$index].ImageId,
+            OrderIndex: $index
+          })
+        } else if (this.concatImages[$index].$ngfName) {
+          uploadImages.push(this.concatImages[$index]);
+          uploadIndexes.push({
+            OrderIndex: $index
+          });
+        }
+      }
 
       var loading = this.Modal.showLoading();
 
       var this_ = this;
       this.Upload.upload({
-        url: '/api/projects/upload',
+        url: '/api/projects/edit',
         arrayKey: '',
         data: {
-          files: this.uploadImages,
-          project: this.project
+          files: uploadImages,
+          project: this.project,
+          savedImages: savedImages,
+          uploadIndexes: uploadIndexes || null
         }
       })
         .then(function success(result) {
           loading.close();
           console.log(result);
           if(result.data.error_code === 0) {
-            this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
+            this_.Modal.showAlert('Edição concluída', 'Seu projeto foi editado com sucesso e está aguardando a aprovação da Alumni IME.');
             this_.$state.go('profile', {view: 'submitted_projects'});
             this_.Project.loadMyProjects(true);
             this_.submitted = false;
             this_.uploadImages = [];
             this_.ConclusionDate = '';
+            this.$anchorScroll('top');
           } else {
-            this_.Modal.showAlert('Erro na submissão', 'Por favor, tente novamente.');
+            this_.Modal.showAlert('Erro na edição', 'Por favor, tente novamente.');
           }
         }, function error(err) {
           loading.close();
@@ -133,22 +157,32 @@ export default class EditController {
   }
 
   choosePrincipal(image) {
-    var aux = this.uploadImages[0];
-    var index = this.uploadImages.indexOf(image);
-    this.uploadImages[0] = this.uploadImages[index];
-    this.uploadImages[index] = aux;
+    var aux = this.concatImages[0];
+    var index = this.concatImages.indexOf(image);
+    this.concatImages[0] = this.concatImages[index];
+    this.concatImages[index] = aux;
   }
 
   removeImage(image) {
-    this.uploadImages.splice(this.uploadImages.indexOf(image), 1);
+    var uploadIndex = this.uploadImages.indexOf(image);
+    var saveIndex = this.savedImages.indexOf(image);
+    var concatIndex = this.concatImages.indexOf(image);
+    if (uploadIndex > -1) {
+      this.uploadImages.splice(uploadIndex, 1);
+    } else if (saveIndex > -1){
+      this.savedImages.splice(saveIndex, 1);
+    }
+    this.concatImages.splice(concatIndex, 1);
   }
 
-  updateImages(files) {
-    if(files === null) {
+  updateImages(showLoading) {
+    if(showLoading === true) {
       this.loading = this.Modal.showLoading();
-    } else {
+    } else if (this.loading) {
       this.loading.close();
     }
+    this.concatImages = this.concatImages.concat(this.uploadImages);
+    this.uploadImages = [];
   }
 
 }
