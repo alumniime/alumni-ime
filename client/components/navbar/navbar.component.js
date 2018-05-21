@@ -32,27 +32,23 @@ export class NavbarComponent {
       state: 'news'
     },
     {
-      title: 'PROJETOS',
+      title: 'PROJETOS APOIADOS',
       state: 'projects',
       dropdown: [
         {
           title: 'APROVADOS 2018.1',
           state: 'show'
         },
-        {
-          title: 'CHAMADA DE PROJETOS',
-          state: 'call_projects'
-        }
+        // {
+        //   title: 'CHAMADA DE PROJETOS',
+        //   state: 'call_projects'
+        // }
       ]
     },
-    {
-      title: 'RESULTADOS',
-      state: 'results'
-    },
-    {
-      title: 'PRESTAÇÃO DE CONTAS',
-      state: 'expose'
-    },
+    // {
+    //   title: 'PRESTAÇÃO DE CONTAS',
+    //   state: 'expose'
+    // },
   ];
 
   isCollapsed = true;
@@ -80,6 +76,24 @@ export class NavbarComponent {
     this.isCollapsed = true;
   }
 }
+
+
+// var prevScrollpos = window.pageYOffset;
+// window.onscroll = function() {
+//   var currentScrollPos = window.pageYOffset;
+//   if (prevScrollpos > currentScrollPos) { 
+//     // scroll up
+//     document.getElementById("navbar").style.visibility = "visible";
+//     document.getElementById("navbar").style.position = "fixed";
+//     // document.getElementById("navbar").style.marginLeft = 
+//     // document.getElementById("navbar").style.justifyContent = "center";
+//     document.getElementById("navbar").style.top = "0px";
+//   } else {
+//     // scroll down
+//     document.getElementById("navbar").style.visibility = "hidden";
+//   }
+//   prevScrollpos = currentScrollPos;
+// }
 
 export default angular.module('directives.navbar', [])
   .component('navbar', {
