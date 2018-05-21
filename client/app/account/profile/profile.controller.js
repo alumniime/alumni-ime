@@ -17,14 +17,14 @@ export default class ProfileController {
   editFields = false;
   personType = undefined;
   menu = [
-    'Meus dados',
-    'Projetos submetidos',
-    'Projetos apoiados'
+    {name: 'Meus dados', route: 'me'},
+    {name: 'Projetos submetidos', route: 'submitted_projects'},
+    {name: 'Projetos apoiados', route: 'supported_projects'}
   ];
   itemSelected = this.menu[0];
 
 
-  constructor(Auth, $http, $state, $location, $anchorScroll) {
+  constructor(Auth, $http, $state, $location, $anchorScroll, $stateParams, Project) {
     'ngInject';
 
     this.Auth = Auth;
@@ -32,6 +32,8 @@ export default class ProfileController {
     this.$state = $state;
     this.$location = $location;
     this.$anchorScroll = $anchorScroll;
+    this.$stateParams = $stateParams;
+    this.Project = Project;
   }
 
   $onInit() {
@@ -100,10 +102,18 @@ export default class ProfileController {
       }
 
     });
+    if(this.$stateParams.view !== null) {
+      for(var item of this.menu) {
+        if(item.route === this.$stateParams.view) {
+          this.itemSelected = item;
+        }
+      }
+    }
+    this.Project.loadMyProjects(false);
   }
 
-  selectPage(item) {
-    this.itemSelected = item;
+  selectPage(route) {
+    this.$state.go('profile', {view: route});
   }
 
   updatePersonType(PersonTypeId) {
@@ -206,4 +216,14 @@ export default class ProfileController {
         });
     }
   }
+
+  openProject(project) {
+    this.$state.go('project', {ProjectId: project.ProjectId, preview: !project.IsApproved});
+  }
+
+  editProject(project) {
+    this.$state.go('edit', {ProjectId: project.ProjectId});
+  }
+
+
 }

@@ -4,7 +4,7 @@
     <div class="d-none d-lg-block col-lg-4">
       <ul class="nav navbar-nav flex-column">
         <li class="nav-item" ng-repeat="item in vm.menu" ng-class="{active: item === vm.itemSelected}">
-          <a class="nav-link" ng-click="vm.selectPage(item)" href="#">{{item}}</a>
+          <a class="nav-link" ng-click="vm.selectPage(item.route)" href="#">{{item.name}}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" ui-sref="logout">Sair</a>
@@ -14,17 +14,18 @@
 
     <!-- My profile -->
     <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
-      <li class="nav-item" ng-class="{active: vm.itemSelected === 'Meus dados'}">
-        <a class="nav-link" ng-click="vm.selectPage('Meus dados')" href="#">Meus dados</a>
+      <li class="nav-item" ng-class="{active: vm.itemSelected.route === 'me'}">
+        <a class="nav-link" ng-click="vm.selectPage('me')" href="#">Meus dados</a>
       </li>
     </ul>
-    <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Meus dados'" id="myProfile">
+    <div class="col-12 col-lg-8" ng-if="vm.itemSelected.route === 'me'" id="myProfile">
 
       <!-- Show profile -->
       <div class="" ng-if="!vm.editFields">
 
         <h1>{{vm.user.name}}</h1>
-        <p class="legend" ng-if="vm.personType.Description === 'FormerStudent' || vm.personType.Description === 'Student'">
+        <p class="legend"
+           ng-if="vm.personType.Description === 'FormerStudent' || vm.personType.Description === 'Student'">
           {{vm.engineering.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
           <br>
           Formatura {{vm.user.GraduationYear}}
@@ -170,7 +171,8 @@
                 <label>{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
                   LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
                 <div class="custom-control custom-checkbox" ng-repeat="initiative in vm.initiativeList">
-                  <input type="checkbox" class="custom-control-input" id="customCheck{{$index}}" ng-model="initiative.selected">
+                  <input type="checkbox" class="custom-control-input" id="customCheck{{$index}}"
+                         ng-model="initiative.selected">
                   <label class="custom-control-label" for="customCheck{{$index}}">{{initiative.Description}}</label>
                   <div class="form-group"
                        ng-if="initiative.Description === 'Outros' && vm.userHasInitiative(initiative.InitiativeId)">
@@ -326,126 +328,65 @@
 
     </div>
 
-    <!-- Projetos submetidos -->
+    <!-- Submitted projects -->
     <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
-      <li class="nav-item" ng-class="{active: vm.itemSelected === 'Projetos submetidos'}">
-        <a class="nav-link" ng-click="vm.selectPage('Projetos submetidos')" href="#">Projetos submetidos</a>
+      <li class="nav-item" ng-class="{active: vm.itemSelected.route === 'submitted_projects'}">
+        <a class="nav-link" ng-click="vm.selectPage('submitted_projects')" href="#">Projetos submetidos</a>
       </li>
     </ul>
-    <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Projetos submetidos'">
+    <div class="col-12 col-lg-8" ng-if="vm.itemSelected.route === 'submitted_projects'">
 
       <div class="card-columns">
 
-          <div class="card project-card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">Projeto utilizando Big Data</h5>
+        <div class="card project-card mb-3" ng-repeat="project in vm.Project.submittedProjects">
+          <div class="card-body">
+            <h5 class="card-title">
+              {{project.ProjectName}}
+              <i class="fa fa-pencil pull-right c-pointer" uib-tooltip="Editar projeto" tooltip-placement="bottom"
+                 ng-if="!project.IsApproved" ng-click="vm.editProject(project)"></i>
+            </h5>
 
-              <div class="form-group">
-                <label>AUTORIA</label>
-                <input type="text" class="form-control-plaintext" readonly value="Roberto Carlos e José Augusto">
-              </div>
-
-              <div class="row">
-                <div class="col">
-                  <div class="form-group">
-                    <label>STATUS</label>
-                    <input type="text" class="form-control-plaintext" readonly value="Em avaliação">
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-group">
-                    <label>DATA DE SUBMISSÃO</label>
-                    <input type="text" class="form-control-plaintext" readonly value="10/04/2018">
-                  </div>
-                </div>
-              </div>
-
-              <div class="row justify-content-between">
-                <div class="col">
-                  <a href="#" class="card-link text-dark">VER MAIS</a>
-                </div>
-                <div class="col">
-                  <a href="#" class="card-link text-dark">INSERIR RESULTADO</a>
-                  <!--<a href="#" class="card-link text-dark">EDITAR RESULTADO</a>-->
-                </div>
-              </div>
-
+            <div class="form-group">
+              <label>PROFESSOR RESPONSÁVEL</label>
+              <input type="text" class="form-control-plaintext" readonly value="{{project.professor.name}}">
             </div>
-          </div>
 
-          <div class="card project-card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">Projeto utilizando Big Data</h5>
-
-              <div class="form-group">
-                <label>AUTORIA</label>
-                <input type="text" class="form-control-plaintext" readonly value="Roberto Carlos e José Augusto">
-              </div>
-
-              <div class="row">
-                <div class="col">
-                  <div class="form-group">
-                    <label>STATUS</label>
-                    <input type="text" class="form-control-plaintext" readonly value="Em avaliação">
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-group">
-                    <label>DATA DE SUBMISSÃO</label>
-                    <input type="text" class="form-control-plaintext" readonly value="10/04/2018">
-                  </div>
-                </div>
-              </div>
-
-              <div class="row justify-content-between">
-                <div class="col">
-                  <a href="#" class="card-link text-dark">VER MAIS</a>
-                </div>
-                <div class="col">
-                  <a href="#" class="card-link text-dark">INSERIR RESULTADO</a>
-                  <!--<a href="#" class="card-link text-dark">EDITAR RESULTADO</a>-->
-                </div>
-              </div>
-
+            <div class="form-group">
+              <label>LÍDER DA EQUIPE</label>
+              <input type="text" class="form-control-plaintext" readonly value="{{project.leader.name}}">
             </div>
-          </div>
 
-          <div class="card project-card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">Projeto utilizando Big Data</h5>
-
-              <div class="form-group">
-                <label>AUTORIA</label>
-                <input type="text" class="form-control-plaintext" readonly value="Roberto Carlos e José Augusto">
-              </div>
-
-              <div class="row">
-                <div class="col">
-                  <div class="form-group">
-                    <label>STATUS</label>
-                    <input type="text" class="form-control-plaintext" readonly value="Em avaliação">
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-group">
-                    <label>DATA DE SUBMISSÃO</label>
-                    <input type="text" class="form-control-plaintext" readonly value="10/04/2018">
-                  </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>STATUS</label>
+                  <input type="text" class="form-control-plaintext" readonly
+                         value="{{project.IsApproved ? 'Aprovado' : 'Em avaliação'}}">
                 </div>
               </div>
 
-              <div class="row justify-content-between">
-                <div class="col">
-                  <a href="#" class="card-link text-dark">VER MAIS</a>
-                </div>
-                <div class="col">
-                  <a href="#" class="card-link text-dark">INSERIR RESULTADO</a>
-                  <!--<a href="#" class="card-link text-dark">EDITAR RESULTADO</a>-->
+              <div class="col">
+                <div class="form-group">
+                  <label>DATA DE SUBMISSÃO</label>
+                  <input type="text" class="form-control-plaintext" readonly
+                         value="{{project.SubmissionDate | date:'dd/MM/yyyy'}}">
                 </div>
               </div>
-
             </div>
+
+            <div class="row justify-content-between mt-2">
+              <div class="col-auto" ng-click="vm.openProject(project)">
+                <a href="#" class="card-link text-dark" ng-if="!project.IsApproved">PREVIEW</a>
+                <a href="#" class="card-link text-dark" ng-if="project.IsApproved">VER MAIS</a>
+              </div>
+              <div class="col-auto">
+                <a href="#" class="card-link text-dark" ng-if="!project.Results">INSERIR RESULTADO</a>
+                <a href="#" class="card-link text-dark" ng-if="project.Results">EDITAR RESULTADO</a>
+              </div>
+            </div>
+
           </div>
+        </div>
 
       </div>
 
@@ -456,13 +397,13 @@
 
     </div>
 
-    <!-- Projetos apoiados -->
+    <!-- Supported projects -->
     <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
-      <li class="nav-item" ng-class="{active: vm.itemSelected === 'Projetos apoiados'}">
-        <a class="nav-link" ng-click="vm.selectPage('Projetos apoiados')" href="#">Projetos apoiados</a>
+      <li class="nav-item" ng-class="{active: vm.itemSelected.route === 'supported_projects'}">
+        <a class="nav-link" ng-click="vm.selectPage('supported_projects')" href="#">Projetos apoiados</a>
       </li>
     </ul>
-    <div class="col-12 col-lg-8" ng-if="vm.itemSelected === 'Projetos apoiados'">
+    <div class="col-12 col-lg-8" ng-if="vm.itemSelected.route === 'supported_projects'">
 
       <div class="card-columns">
 
@@ -491,7 +432,7 @@
 
     <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
       <li class="nav-item">
-        <a class="nav-link"  ui-sref="logout">Sair</a>
+        <a class="nav-link" ui-sref="logout">Sair</a>
       </li>
     </ul>
 

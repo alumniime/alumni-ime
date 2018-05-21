@@ -79,7 +79,7 @@ export default function (sequelize, DataTypes) {
       allowNull: true
     },
     ImageData: {
-      type: 'BLOB',
+      type: DataTypes.BLOB,
       allowNull: true
     },
     Birthdate: {

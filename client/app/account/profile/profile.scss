@@ -1,5 +1,9 @@
 .profileView {
   padding: 40px 20px 60px;
+  @include media-breakpoint-down(md) {
+    padding-top: 10px;
+  }
+
   h1 {
     font-size: 36px;
     font-weight: 700;
@@ -9,12 +13,15 @@
     font-weight: 700;
   }
 
-  .legend{
+  .legend {
     font-size: 16px;
   }
 
   li {
     margin-right: 30px;
+    @include media-breakpoint-down(md) {
+      margin-right: 0;
+    }
     margin-bottom: 10px;
     border-bottom: 1px #828282 solid;
     .nav-link {
@@ -44,9 +51,14 @@
     padding-top: 10px;
   }
 
+  .form-group {
+    margin-bottom: 5px;
+  }
+
   .form-group label {
     font-size: 10px;
     margin-left: 0;
+    margin-bottom: 0;
     color: #828282;
   }
 
@@ -110,13 +122,16 @@
       font-size: 18px;
     }
 
-    .card-link{
+    .card-body{
+      padding: 30px;
+    }
+
+    .card-link {
       font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
       font-weight: 600;
       font-size: 14px;
       padding-top: 12px;
     }
   }
-
 
 }

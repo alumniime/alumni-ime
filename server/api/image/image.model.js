@@ -29,12 +29,21 @@ export default function(sequelize, DataTypes) {
       allowNull: true
     },
     Data: {
-      type: 'BLOB',
+      type: DataTypes.BLOB,
+      allowNull: true
+    },
+    OrderIndex: {
+      type: DataTypes.INTEGER(1),
       allowNull: true
     },
     Timestamp: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    IsExcluded: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
     }
   }, {
     tableName: 'Image'

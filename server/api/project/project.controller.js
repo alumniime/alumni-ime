@@ -13,6 +13,7 @@
 import jsonpatch from 'fast-json-patch';
 import {Project, Image} from '../../sqldb';
 import multer from 'multer';
+import $q from 'q';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -95,6 +96,35 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a single Project from the DB for preview
+export function preview(req, res) {
+  var userId = req.user.PersonId;
+  return Project.find({
+    where: {
+      ProjectId: req.params.id,
+      SubmissionerId: userId,
+      IsApproved: 0,
+      IsExcluded: 0
+    }
+  })
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Get my submitted projects
+export function me(req, res) {
+  var userId = req.user.PersonId;
+  return Project.findAll({
+    where: {
+      SubmissionerId: userId,
+      IsExcluded: 0
+    }
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Creates a new Project in the DB
 export function create(req, res) {
   return Project.create(req.body)
@@ -104,14 +134,12 @@ export function create(req, res) {
 
 // Creates a new Project in the DB with his images
 export function upload(req, res) {
-  console.log('user', req.user);
 
   var storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './client/assets/images/uploads/');
     },
     filename: function (req, file, cb) {
-      console.log(JSON.stringify(file));
       file.timestamp = Date.now();
       var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
       var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
@@ -140,17 +168,18 @@ export function upload(req, res) {
     project.save()
       .then(newProject => {
         var projectId = newProject.ProjectId;
-        console.log(projectId);
 
         var images = [];
 
-        for(var file of req.files) {
+        for(var fileIndex in req.files) {
           images.push({
             ProjectId: projectId,
-            Path: `assets/images/uploads/${file.filename}`,
-            Filename: file.filename,
+            Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
+            Filename: req.files[fileIndex].filename,
             Type: 'project',
-            Timestamp: file.timestamp
+            Timestamp: req.files[fileIndex].timestamp,
+            OrderIndex: fileIndex,
+            IsExcluded: 0
           });
         }
 
@@ -164,6 +193,116 @@ export function upload(req, res) {
 
       })
       .catch(handleError(res));
+  });
+}
+
+// Edits an existing Project in the DB with his images
+export function edit(req, res) {
+
+  var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './client/assets/images/uploads/');
+    },
+    filename: function (req, file, cb) {
+      file.timestamp = Date.now();
+      var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
+      var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
+      cb(null, `${file.timestamp}-${name}.${format}`);
+    }
+  });
+
+  var upload = multer({
+    storage: storage
+  })
+    .array('files', 12); // maxImages = 12
+
+  upload(req, res, function (err) {
+    if(err) {
+      console.log(err);
+      res.json({error_code: 1, err_desc: err});
+      return;
+    }
+
+    var project = req.body.project;
+    Reflect.deleteProperty(project, 'IsApproved');
+    Reflect.deleteProperty(project, 'IsExcluded');
+    Reflect.deleteProperty(project, 'SubmissionerId');
+
+    Project.find({
+      where: {
+        ProjectId: project.ProjectId,
+        SubmissionerId: req.user.PersonId,
+        IsApproved: 0,
+        IsExcluded: 0
+      }
+    })
+      .then(oldProject => {
+        oldProject.update(project)
+          .then(newProject => {
+
+            var projectId = newProject.ProjectId;
+
+            Image.findAll({
+              where: {
+                ProjectId: projectId,
+                IsExcluded: 0
+              }
+            })
+              .then(images => {
+
+                var promises = [];
+
+                // Removing images that user have chose
+                var imagesToSave = req.body.savedImages;
+
+                for(let imageIndex in images) {
+                  images[imageIndex].IsExcluded = 1;
+
+                  // Changing image OrderIndex knowing that index 0 is the principal image
+                  for(let searchIndex in imagesToSave.ImageId) {
+                    if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {
+                      images[imageIndex].IsExcluded = 0;
+                      images[imageIndex].OrderIndex = imagesToSave.OrderIndex[searchIndex];
+                    }
+                  }
+                  promises.push(images[imageIndex].save());
+                }
+
+                // Adding new images in database
+                var uploadImages = [];
+                for(var fileIndex in req.files) {
+                  uploadImages.push({
+                    ProjectId: projectId,
+                    Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
+                    Filename: req.files[fileIndex].filename,
+                    Type: 'project',
+                    Timestamp: req.files[fileIndex].timestamp,
+                    OrderIndex: req.body.uploadIndexes.OrderIndex[fileIndex],
+                    IsExcluded: 0
+                  });
+                }
+                if(uploadImages.length > 0) {
+                  promises.push(Image.bulkCreate(uploadImages));
+                }
+
+                $q.all(promises)
+                  .then(() => {
+                    res.json({error_code: 0, err_desc: null});
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    handleError(res);
+                  });
+
+              })
+              .catch(handleError(res));
+
+          })
+          .catch(handleError(res));
+
+      })
+      .catch(handleError(res));
+
   });
 }
 

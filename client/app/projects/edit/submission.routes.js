@@ -4,7 +4,7 @@ export default function($stateProvider) {
   'ngInject';
   $stateProvider
     .state('submission', {
-      url: '/projects/submit',
+      url: '/submission',
       template: require('./submission.html'),
       controller: 'SubmissionController',
       controllerAs: 'vm'

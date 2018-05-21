@@ -29,7 +29,10 @@ export default function routes($stateProvider) {
       controllerAs: 'vm'
     })
     .state('profile', {
-      url: '/profile',
+      url: '/profile/:view',
+      params: {
+        view: {value: null, squash: true}
+      },
       template: require('./profile/profile.html'),
       controller: 'ProfileController',
       controllerAs: 'vm',

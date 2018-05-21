@@ -76,8 +76,12 @@ export function index(req, res) {
 export function show(req, res) {
   return Image.findAll({
     where: {
-      ProjectId: req.params.ProjectId
-    }
+      ProjectId: req.params.ProjectId,
+      IsExcluded: 0
+    },
+    order: [
+      ['OrderIndex', 'ASC'],
+    ]
   })
     .then(users => {
       res.status(200)
