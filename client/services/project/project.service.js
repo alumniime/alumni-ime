@@ -2,7 +2,23 @@
 const angular = require('angular');
 
 /*@ngInject*/
-export function ProjectService($http, $q) {
+export function ProjectService($http, $q, $state) {
+
+  function convertToSlug(str) {
+    str = str.replace(/^\s+|\s+$/g, '') // trim
+      .toLowerCase();
+
+    // remove accents, swap ñ for n, etc
+    var from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
+    var to = 'aaaaaeeeeeiiiiooooouuuunc------';
+    for(let i = 0, l = from.length; i < l; i++) {
+      str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+    }
+
+    return str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+      .replace(/\s+/g, '-') // collapse whitespace and replace by -
+      .replace(/-+/g, '-'); // collapse dashes
+  }
 
   var Project = {
 
@@ -14,27 +30,41 @@ export function ProjectService($http, $q) {
      * Load projects from database and their images
      */
     load(forceReload) {
+      var d = $q.defer();
+      var promises = [];
       if(this.list.length === 0 || forceReload === true) {
         $http.get('/api/projects')
           .then(response => {
-            console.log(response);
             this.list = response.data;
             for(let project of this.list) {
-              $http.get(`/api/images/${project.ProjectId})`)
+              promises.push($http.get(`/api/images/${project.ProjectId})`)
                 .then(images => {
                   project.images = images.data;
-                });
-              $http.get(`/api/users/${project.LeaderId})`)
+                }));
+              promises.push($http.get(`/api/users/${project.LeaderId})`)
                 .then(leader => {
                   project.leader = leader.data;
-                });
-              $http.get(`/api/users/${project.ProfessorId})`)
+                }));
+              promises.push($http.get(`/api/users/${project.ProfessorId})`)
                 .then(professor => {
                   project.professor = professor.data;
-                });
+                }));
             }
+            $q.all(promises)
+              .then(values => {
+                d.resolve(values);
+              })
+              .catch(err => {
+                d.reject(err);
+              });
+          })
+          .catch(err => {
+            d.reject(err);
           });
+      } else {
+        d.resolve(null);
       }
+      return d.promise;
     },
 
     /**
@@ -112,6 +142,18 @@ export function ProjectService($http, $q) {
           });
       }
     },
+
+    /**
+     * Opens a view with project
+     * */
+    open(ProjectId, ProjectName, preview, forceReload) {
+      $state.go('project', {
+        ProjectId: ProjectId,
+        PrettyURL: convertToSlug(ProjectName),
+        preview: preview || false,
+        forceReload: forceReload || false
+      });
+    }
 
   };
 

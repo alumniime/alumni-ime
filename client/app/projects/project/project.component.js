@@ -7,13 +7,16 @@ import routes from './project.routes';
 
 export class ProjectController {
   project = {};
-  selectedImage = {};
-  selectedImageIndex = 0;
+  selectedProjectImage = {};
+  selectedProjectImageIndex = 0;
+  selectedResultImage = {};
+  selectedResultImageIndex = 0;
   previewMode = false;
 
-  constructor(Modal, $state, $stateParams, Project, $anchorScroll) {
+  constructor(Auth, Modal, $state, $stateParams, Project, $anchorScroll) {
     'ngInject';
 
+    this.getCurrentUser = Auth.getCurrentUserSync;
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.Modal = Modal;
@@ -23,19 +26,30 @@ export class ProjectController {
 
   $onInit() {
     var loading = this.Modal.showLoading();
-    if(this.$stateParams.ProjectId && this.$stateParams.preview !== null) {
+    if(this.$stateParams.ProjectId && this.$stateParams.preview !== null && this.$stateParams.forceReload !== null) {
       var ProjectId = this.$stateParams.ProjectId;
       this.previewMode = this.$stateParams.preview;
-      this.Project.get(ProjectId, this.previewMode)
+      this.Project.get(ProjectId, this.previewMode, this.$stateParams.forceReload)
         .then(project => {
           loading.close();
           this.project = project;
-          this.selectedImage = this.project.images[0];
+          this.projectImages = this.project.images.filter((image) => {
+            return image.Type === 'project';
+          });
+          this.resultImages = this.project.images.filter((image) => {
+            return image.Type === 'result';
+          });
+          this.selectedProjectImage = this.projectImages[0];
+          this.selectedResultImage = this.resultImages[0];
           this.$anchorScroll('top');
         })
         .catch(() => {
           loading.close();
-          this.$state.go('show');
+          if(this.previewMode) {
+            this.$state.go('profile', {view: 'submitted_projects'});
+          } else {
+            this.$state.go('show');
+          }
         });
     } else {
       loading.close();
@@ -43,17 +57,27 @@ export class ProjectController {
     }
   }
 
-  selectImage($index) {
-    this.selectedImage = this.project.images[$index];
-    this.selectedImageIndex = $index;
+  selectImage($index, Type) {
+    if (Type === 'project') {
+      this.selectedProjectImage = this.projectImages[$index];
+      this.selectedProjectImageIndex = $index;
+    }
+    if (Type === 'result') {
+      this.selectedResultImage = this.resultImages[$index];
+      this.selectedResultImageIndex = $index;
+    }
   }
 
-  openPhoto() {
-    this.Modal.openPhoto(this.project.images, this.selectedImageIndex);
+  openPhoto(images, index) {
+    this.Modal.openPhoto(images, index);
   }
 
   editProject(project) {
     this.$state.go('edit', {ProjectId: project.ProjectId});
+  }
+
+  insertResult(project) {
+    this.$state.go('result', {ProjectId: project.ProjectId});
   }
 
 }

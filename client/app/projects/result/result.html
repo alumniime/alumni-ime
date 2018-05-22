@@ -1,171 +1,167 @@
 <div class="resultView">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-8">
-                <h1 class="title">Submeter resultado de Projeto</h1>
-                    
-                <div class="card project-card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">IME++ na China</h5>
-                        <h5 class="legend">por IME++</h5>
-            
-                        <div class="row mt-2">
-                            <div class="col-6 col-xs-8">
-                                <div class="form-group">
-                                    <label>SEÇÃO DE ENSINO</label>
-                                    <div class="form-control-plaintext">SE/8 - Engenharia de Computação</div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-6 col-xs-8">
-                                <div class="form-group">
-                                    <label>LÍDER DO PROJETO</label>
-                                    <div class="form-control-plaintext">Naum Azevedo</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row mt-2">
-                            <div class="col-6 col-xs-8">
-                                <div class="form-group">
-                                    <label>PROFESSOR RESPONSÁVEL</label>
-                                    <div class="form-control-plaintext">Claudia Justel</div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-6 col-xs-8">
-                                <div class="form-group">
-                                    <label>ORÇAMENTO</label>
-                                    <div class="form-control-plaintext">R$15.000,00</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row mt-2">
-                            <div class="col-6 col-xs-8">
-                                <div class="form-group">
-                                    <label>TÉRMINO ESTIMADO</label>
-                                    <div class="form-control-plaintext">19/12/2018</div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-6 col-xs-8">
-                                <div class="form-group">
-                                    <label>ALUNOS ENVOLVIDOS</label>
-                                    <div class="form-control-plaintext">15</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>EQUIPE</label>
-                            <div class="form-control-plaintext">Naum Azevedo, Matheus Carius e Athos Couto</div>
-                        </div>
-                    </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <h1 class="title">Submeter Resultado de Projeto</h1>
+
+        <div class="card project-card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{vm.project.ProjectName}}</h5>
+            <h5 class="legend">por {{vm.project.TeamName}}</h5>
+
+            <div class="row mt-2">
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>SEÇÃO DE ENSINO</label>
+                  <div class="form-control-plaintext">{{vm.project.se.Description}}</div>
                 </div>
-        
-                <form class="form" name="form" ng-submit="vm.submitResult(form)"
-                    novalidate="">
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>LÍDER DO PROJETO</label>
+                  <div class="form-control-plaintext">{{vm.project.leader.name}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>PROFESSOR RESPONSÁVEL</label>
+                  <div class="form-control-plaintext">{{vm.project.professor.name}}</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>ORÇAMENTO</label>
+                  <div class="form-control-plaintext">{{vm.project.EstimatedPriceInCents/100 | currency}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>TÉRMINO ESTIMADO</label>
+                  <div class="form-control-plaintext">{{vm.project.ConclusionDate | date: 'dd/MM/yyyy'}}</div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="form-group">
+                  <label>ALUNOS ENVOLVIDOS</label>
+                  <div class="form-control-plaintext">{{vm.project.StudentsNumber}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>EQUIPE</label>
+              <div class="form-control-plaintext">{{vm.project.TeamMembers}}</div>
+            </div>
+          </div>
+        </div>
+
+        <form class="form" name="form" ng-submit="vm.submitResult(form)" novalidate="">
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label for="Results">DESCRIÇÃO DO RESULTADO*
+                  ({{ 1000 - form.Results.$viewValue.length }})</label>
+                <textarea type="text" id="Results" name="Results" class="form-control" rows="6"
+                          ng-model="vm.project.Results" required ng-maxlength="1000"></textarea>
+                <p class="help-block" ng-show="form.Results.$error.required && vm.submitted">
+                  Insira os resultados do projeto.
+                </p>
+                <p class="help-block" ng-show="form.Results.$error.maxlength">
+                  Texto muito longo.
+                </p>
+              </div>
+              <br>
+              <label>INSERIR FOTOS*</label>
+              <br>
+
+              <div class="form-group drop-images" ngf-drop="vm.updateImages(false)"
+                   ng-change="vm.updateImages(false)"
+                   ng-model="vm.uploadImages"
+                   ngf-keep="true" ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}"
+                   ngf-drag-over-class="'drag-over'" ngf-multiple="true" ngf-allow-dir="true"
+                   accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
 
                 <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="Description">DESCRIÇÃO DO RESULTADO* ({{ 1000 - form.Description.$viewValue.length }})</label>
-                            <textarea type="text" id="Description" name="Description" class="form-control" rows="6"
-                                    ng-model="vm.result.Description" required ng-maxlength="1000"></textarea>
-                            <p class="help-block" ng-show="form.Description.$error.required && vm.submitted">
-                            Insira um resumo do projeto.
-                            </p>
-                            <p class="help-block" ng-show="form.Description.$error.maxlength">
-                            Texto muito longo.
-                            </p>
-                        </div>
-                        <br>
-                        <label>INSERIR FOTOS*</label>
-                        <br>
-
-                        <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
-                                ng-change="vm.updateImages(vm.uploadImages)"
-                                ng-model="vm.uploadImages"
-                                ngf-keep="true" ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}"
-                                ngf-drag-over-class="'drag-over'" ngf-multiple="true" ngf-allow-dir="true"
-                                accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-
-                            <div class="row">
-                                <div class="col-auto">
-                                    <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
-                                </div>
-                                <div class="col">
-                                    <p class="upload-text">
-                                    <a class="btn btn-link text-info upload-link" name="files"
-                                        ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
-                                        ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
-                                        ngf-resize="{quality: vm.imageQuality}"
-                                        ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-                                        Faça upload
-                                    </a> de fotos referentes ao resultado do projeto.
-                                    <br>
-                                    <span class="upload-legend">Solte as imagens aqui. Adicione até {{vm.maxImages}} fotos. <br>Tamanho máximo: {{vm.maxSize}}</span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="card-deck upload-images">
-
-                            <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
-                                <div class="card mb-3">
-                                <img ng-if="file" ngf-thumbnail="file"/>
-                                <i ng-if="file.size && $index === 0" class="fa fa-bookmark principal-image-button"
-                                    uib-tooltip="Imagem principal" tooltip-placement="right"></i>
-                                <i ng-if="file.size && $index !== 0" class="fa fa-bookmark-o principal-image-button"
-                                    uib-tooltip="Selecionar como imagem principal" tooltip-placement="right"
-                                    ng-click="vm.choosePrincipal(file)"></i>
-                                <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
-                                    uib-tooltip="Remover imagem" tooltip-placement="left"></i>
-                                </div>
-                            </div>
-
-                            <!--<div class="col-12 col-sm-6 col-md-4 pl-0 pr-0" ng-repeat="file in vm.thumbnailImages">-->
-                            <!--<div class="card mb-3">-->
-                            <!--</div>-->
-                            <!--</div>-->
-
-                            <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
-                                <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
-                                    ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
-                                    ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
-                                    ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
-                                    ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-                                <img class="m-auto" src="assets/images/plus.svg">
-                                </div>
-                            </div>
-                            </div>
-
-                            <p class="help-block" ng-show="form.files.$error.maxSize">
-                            Uma ou mais imagens inseridas ultrapassam o tamanho máximo. Tente novamente.
-                            </p>
-
-                            <p class="help-block" ng-show="vm.uploadImages.length === 0 && vm.submitted">
-                            Insira pelo menos uma imagem para o projeto.
-                            </p>
-
-                            <!--<p>{{vm.progress}}</p>-->
-
-                        </div>
-                    </div>
+                  <div class="col-auto">
+                    <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
+                  </div>
+                  <div class="col">
+                    <p class="upload-text">
+                      <a class="btn btn-link text-info upload-link" name="files"
+                         ngf-select ng-change="vm.updateImages(false)" ng-model="vm.uploadImages"
+                         ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
+                         ngf-resize="{quality: vm.imageQuality}"
+                         ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
+                        Faça upload
+                      </a> de fotos referentes ao resultado do projeto.
+                      <br>
+                      <span class="upload-legend">Solte as imagens aqui. Adicione até {{vm.maxImages}} fotos. <br>Tamanho máximo: {{vm.maxSize}}</span>
+                    </p>
+                  </div>
                 </div>
 
-                <br>
-                <div class="row justify-content-end">
-                    <div class="col-auto">
-                    <button href="#" class="btn btn-info m-auto btn-submit" type="submit">
-                        SUBMETER PROJETO
-                    </button>
-                    </div>
-                </div>
-                </form>
+                <div class="card-deck upload-images">
 
+                  <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0"
+                       ng-repeat="file in vm.concatImages" ng-if="file.$ngfName || file.Type === 'result'">
+                    <div class="card mb-3">
+                      <img ng-if="file && file.$ngfName" ngf-thumbnail="file"/>
+                      <img ng-if="file && !file.$ngfName" ng-src="{{file.Path}}"/>
+                      <i ng-if="(file.size || file.Path) && $index === 0" class="fa fa-bookmark principal-image-button"
+                         uib-tooltip="Imagem principal" tooltip-placement="right"></i>
+                      <i ng-if="(file.size || file.Path) && $index !== 0" class="fa fa-bookmark-o principal-image-button"
+                         uib-tooltip="Selecionar como imagem principal" tooltip-placement="right"
+                         ng-click="vm.choosePrincipal(file)"></i>
+                      <i ng-if="file.size || file.Path" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
+                         uib-tooltip="Remover imagem" tooltip-placement="left"></i>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
+                    <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
+                         ng-if="vm.concatImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
+                         ng-click="vm.updateImages(true)" ngf-select ng-change="vm.updateImages(false)"
+                         ng-model="vm.uploadImages"
+                         ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
+                         ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
+                      <img class="m-auto" src="assets/images/plus.svg">
+                    </div>
+                  </div>
+                </div>
+
+                <p class="help-block" ng-show="form.files.$error.maxSize">
+                  Uma ou mais imagens inseridas ultrapassam o tamanho máximo. Tente novamente.
+                </p>
+
+                <p class="help-block" ng-show="vm.concatImages.length === 0 && vm.submitted">
+                  Insira pelo menos uma imagem para o projeto.
+                </p>
+
+              </div>
             </div>
-        </div>
+          </div>
+
+          <br>
+          <div class="row justify-content-end">
+            <div class="col-auto">
+              <button href="#" class="btn btn-info m-auto btn-submit" type="submit">
+                SUBMETER RESULTADO
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
     </div>
+  </div>
 </div>
