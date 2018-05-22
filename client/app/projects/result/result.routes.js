@@ -4,9 +4,10 @@ export default function($stateProvider) {
   'ngInject';
   $stateProvider
     .state('result', {
-      url: '/result',
+      url: '/projects/result/:ProjectId',
       template: require('./result.html'),
       controller: 'ResultController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      authenticate: true
     });
 }

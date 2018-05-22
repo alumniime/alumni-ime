@@ -43,7 +43,9 @@ export default class EditController {
         .then(project => {
           loading.close();
           this.project = project;
-          this.savedImages = this.project.images;
+          this.savedImages = this.project.images.filter((image) => {
+            return image.Type === 'project';
+          });
           this.project.EstimatedPriceInCents /= 100;
           this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');
           this.concatImages = this.savedImages.concat(this.uploadImages);
@@ -129,10 +131,11 @@ export default class EditController {
         .then(function success(result) {
           loading.close();
           console.log(result);
-          if(result.data.error_code === 0) {
+          if(result.data.errorCode === 0) {
             this_.Modal.showAlert('Edição concluída', 'Seu projeto foi editado com sucesso e está aguardando a aprovação da Alumni IME.');
             this_.$state.go('profile', {view: 'submitted_projects'});
             this_.Project.loadMyProjects(true);
+            this_.Project.get(this_.project.ProjectId, true, true);
             this_.submitted = false;
             this_.uploadImages = [];
             this_.ConclusionDate = '';

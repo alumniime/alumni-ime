@@ -99,7 +99,7 @@ export default class SubmissionController {
           .then(function success(result) {
             loading.close();
             console.log(result);
-            if(result.data.error_code === 0) {
+            if(result.data.errorCode === 0) {
               this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
               this_.$state.go('profile', {view: 'submitted_projects'});
               this_.Project.loadMyProjects(true);

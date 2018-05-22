@@ -214,7 +214,7 @@
                 <div class="card-deck upload-images">
 
                   <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0"
-                       ng-repeat="file in vm.concatImages">
+                       ng-repeat="file in vm.concatImages" ng-if="file.$ngfName || file.Type === 'project'">
                     <div class="card mb-3">
                       <img ng-if="file && file.$ngfName" ngf-thumbnail="file"/>
                       <img ng-if="file && !file.$ngfName" ng-src="{{file.Path}}"/>

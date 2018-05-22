@@ -379,7 +379,7 @@
                 <a href="#" class="card-link text-dark" ng-if="!project.IsApproved">PREVIEW</a>
                 <a href="#" class="card-link text-dark" ng-if="project.IsApproved">VER MAIS</a>
               </div>
-              <div class="col-auto">
+              <div class="col-auto" ng-click="vm.insertResult(project)" ng-if="project.IsApproved">
                 <a href="#" class="card-link text-dark" ng-if="!project.Results">INSERIR RESULTADO</a>
                 <a href="#" class="card-link text-dark" ng-if="project.Results">EDITAR RESULTADO</a>
               </div>
@@ -391,7 +391,7 @@
       </div>
 
       <br>
-      <button class="btn btn-outline-dark">
+      <button class="btn btn-outline-dark" ui-sref="submission">
         SUBMETER PROJETO
       </button>
 

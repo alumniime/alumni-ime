@@ -218,11 +218,15 @@ export default class ProfileController {
   }
 
   openProject(project) {
-    this.$state.go('project', {ProjectId: project.ProjectId, preview: !project.IsApproved});
+    this.Project.open(project.ProjectId, project.ProjectName, !project.IsApproved);
   }
 
   editProject(project) {
     this.$state.go('edit', {ProjectId: project.ProjectId});
+  }
+
+  insertResult(project) {
+    this.$state.go('result', {ProjectId: project.ProjectId});
   }
 
 

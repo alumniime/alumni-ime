@@ -7,21 +7,27 @@ import routes from './show.routes';
 
 export class ShowController {
 
-  constructor($state, Project) {
+  constructor($state, Project, Modal) {
     'ngInject';
 
     this.$state = $state;
     this.Project = Project;
+    this.Modal = Modal;
   }
 
   $onInit() {
     console.log('show controller $onInit()');
     console.log(this.Project);
-    this.Project.load();
+    var loading = this.Modal.showLoading();
+    this.Project.load().then(() => {
+      loading.close();
+    }).catch(() => {
+      loading.close();
+    })
   }
 
-  openProject(ProjectId) {
-    this.$state.go('project', {ProjectId: ProjectId});
+  openProject(project) {
+    this.Project.open(project.ProjectId, project.ProjectName);
   }
 
 }
