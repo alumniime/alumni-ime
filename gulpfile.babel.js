@@ -28,6 +28,7 @@ const paths = {
   client: {
     assets: `${clientPath}/assets/**/*`,
     images: `${clientPath}/assets/images/**/*`,
+    imagesUpload: `${clientPath}/assets/images/uploads/**/*`,
     revManifest: `${clientPath}/assets/rev-manifest.json`,
     scripts: [
       `${clientPath}/**/!(*.spec|*.mock).js`
@@ -465,7 +466,8 @@ gulp.task('build', cb => {
     'inject',
     'transpile:server',
     [
-      'build:images'
+      'build:images',
+      'build:imagesUpload'
     ],
     [
       'copy:extras',
@@ -481,7 +483,7 @@ gulp.task('build', cb => {
 gulp.task('clean:dist', () => del([`${paths.dist}/!(.git*|.openshift|Procfile)**`], {dot: true}));
 
 gulp.task('build:images', () => {
-  return gulp.src(paths.client.images)
+  return gulp.src([paths.client.images, '!' + paths.client.imagesUpload])
     .pipe(plugins.imagemin([
       plugins.imagemin.optipng({optimizationLevel: 5}),
       plugins.imagemin.jpegtran({progressive: true}),
@@ -495,6 +497,17 @@ gulp.task('build:images', () => {
       merge: true
     }))
     .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
+});
+
+gulp.task('build:imagesUpload', () => {
+  return gulp.src(paths.client.imagesUpload)
+    .pipe(plugins.imagemin([
+      plugins.imagemin.optipng({optimizationLevel: 5}),
+      plugins.imagemin.jpegtran({progressive: true}),
+      plugins.imagemin.gifsicle({interlaced: true}),
+      plugins.imagemin.svgo({plugins: [{removeViewBox: false}]})
+    ]))
+    .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/images/uploads`));
 });
 
 gulp.task('revReplaceWebpack', function () {
@@ -550,7 +563,7 @@ gulp.task('copy:assets', () => {
 
 gulp.task('copy:server', () => {
   return gulp.src([
-    'package.json'
+    'package.json', `${serverPath}/**/*.html`
   ], {cwdbase: true})
     .pipe(gulp.dest(paths.dist));
 });

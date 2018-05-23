@@ -28,6 +28,7 @@ export default class ModalLoginController {
     this.submitted = true;
 
     if(form.$valid) {
+      var loading = this.Modal.showLoading();
       var user = this.user;
       return this.Auth.createUser({
         name: user.name,
@@ -43,6 +44,7 @@ export default class ModalLoginController {
           })
             .then(res => {
               console.log(res);
+              loading.close();
               this.$uibModal.open({
                 animation: true,
                 component: 'modalSentConfirmation',
@@ -56,12 +58,14 @@ export default class ModalLoginController {
               this.close({$value: true});
             })
             .catch(err => {
+              loading.close();
               this.errors.signup = 'Erro ao enviar email. Tente novamente';
               console.log(err);
             });
 
         })
         .catch(err => {
+          loading.close();
           this.errors.signup = err.data.message;
         });
     }

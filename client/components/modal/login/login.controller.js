@@ -27,17 +27,20 @@ export default class ModalLoginController {
     this.submitted = true;
 
     if(form.$valid) {
+      var loading = this.Modal.showLoading();
       this.Auth.login({
         email: this.user.email,
         password: this.user.password
       })
         .then((user) => {
           // Logged in, redirect to home
+          loading.close();
           this.$state.reload();
           console.log(user);
           this.close({$value: true});
         })
         .catch(err => {
+          loading.close();
           this.errors.login = err.message;
         });
     }

@@ -123,8 +123,10 @@ export default class ModalRegisterInformationController {
     this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
 
     if(form.$valid && !this.dateInvalid) {
+      var loading = this.Modal.showLoading();
       return this.Auth.updateByToken(this.confirmEmailToken, this.user)
         .then(data => {
+          loading.close();
           // Account updated
           this.Auth.loginWithToken(data.token);
 
@@ -137,6 +139,7 @@ export default class ModalRegisterInformationController {
 
         })
         .catch(err => {
+          loading.close();
           err = err.data;
           this.errors = {
             register: err

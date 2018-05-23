@@ -15,12 +15,13 @@ export default class SubmissionController {
   dateInvalid = false;
   ConclusionDate = '';
 
-  constructor(Auth, Project, $http, Modal, $window, Upload) {
+  constructor(Auth, Project, $http, $state, Modal, $window, Upload) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
     this.Project = Project;
     this.$http = $http;
+    this.$state = $state;
     this.Modal = Modal;
     this.$window = $window;
     this.Upload = Upload;
