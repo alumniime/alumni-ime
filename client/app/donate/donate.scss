@@ -1,0 +1,113 @@
+.donateView{
+  padding: 100px 20px 50px !important;
+
+  h5 {
+    margin-bottom: 0;
+    color: #333333;
+  }
+
+  .page-title {
+    color: #333333 !important;
+    font-weight: bold;
+    font-size: 34px;
+    padding-bottom: 15px;
+  }
+
+  .page-text{
+    line-height: 26px;
+    font-size: 16px;
+    color: #333333;
+
+    bank-data{
+        font-weight: bold;
+    }
+  }
+
+  ul.circle {
+    list-style-type: circle;
+  }
+
+  .legend{
+    font-weight: bold;
+    line-height: 33px;
+    font-size: 20px;
+    color: #333333;
+    padding-top: 30px;
+    padding-bottom: 15px;
+  }
+
+  .form-group input{
+        font-size: 14px;
+        color: #4F4F4F;
+        background-color: transparent !important;
+        
+        margin-bottom: 5px;
+
+        border:none;
+        border-bottom: 1px solid #BDBDBD;
+        box-sizing: border-box;
+        padding: 0 !important;
+  }
+
+    /* The container */
+    .checkbox {
+        display: block;
+        position: relative;
+        padding-left: 25px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-size: 14px;
+        color: #4F4F4F;
+    }
+
+    /* Hide the browser's default radio button */
+    .checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Create a custom radio button */
+    .checkmark {
+        border: 1px solid #BDBDBD;
+        box-sizing: border-box;
+        border-radius: 10px;
+
+        position: absolute;
+        top: 2px;
+        left: 0;
+        height: 15px;
+        width: 15px;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .checkbox:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the radio button is checked, add a blue background */
+    .checkbox input:checked ~ .checkmark {
+        background-color: #4F4F4F;
+    }
+
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the indicator (dot/circle) when checked */
+    .checkbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+}
+
+.box{
+    padding: 60px 20px 60px !important;
+    background: #E5E5E5 !important;
+}
