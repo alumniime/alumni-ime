@@ -24,6 +24,9 @@ $danger: #f52b2b !important;
 
 // Component styles are injected through gulp
 /* inject:scss */
+@import 'about/history/history';
+@import 'about/institutional/institutional';
+@import 'about/management/management';
 @import 'account/profile/profile';
 @import 'admin/admin';
 @import 'common';
@@ -34,7 +37,6 @@ $danger: #f52b2b !important;
 @import 'news/show/news';
 @import 'news/view/view';
 @import 'projects/edit/edit';
-@import 'projects/edit/submission';
 @import 'projects/project/project';
 @import 'projects/result/result';
 @import 'projects/show/show';

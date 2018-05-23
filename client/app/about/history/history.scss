@@ -1,0 +1,25 @@
+.historyView{
+    padding: 100px 20px 50px !important;
+  
+    h5 {
+      margin-bottom: 0;
+      color: #333333;
+    }
+  
+    .page-title {
+      color: #333333 !important;
+      font-weight: bold;
+      font-size: 34px;
+      padding-bottom: 15px;
+    }
+  
+    .page-text{
+      line-height: 26px;
+      font-size: 16px;
+      color: #333333;
+  
+      bank-data{
+          font-weight: bold;
+      }
+    }
+}
