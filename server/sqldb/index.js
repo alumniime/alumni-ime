@@ -25,6 +25,11 @@ db.ProjectTeam = db.sequelize.import('../api/project_team/project_team.model');
 db.ProjectSe = db.sequelize.import('../api/project_se/project_se.model');
 db.Initiative = db.sequelize.import('../api/initiative/initiative.model');
 db.InitiativeLink = db.sequelize.import('../api/initiative_link/initiative_link.model');
-// db.Thing = db.sequelize.import('../api/thing/thing.model');
+
+// Insert relations below
+db.Project.hasMany(db.Image, {foreignKey: 'ProjectId', as: 'images'});
+db.Project.belongsTo(db.User, {sourceKey:'PersonId', foreignKey: 'LeaderId', as: 'leader'});
+db.Project.belongsTo(db.User, {sourceKey:'PersonId', foreignKey: 'ProfessorId', as: 'professor'});
+db.Project.belongsTo(db.Se, {sourceKey:'SEId', foreignKey: 'ProjectSEId', as: 'se'});
 
 module.exports = db;
