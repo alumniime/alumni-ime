@@ -31,32 +31,11 @@ export function ProjectService($http, $q, $state) {
      */
     load(forceReload) {
       var d = $q.defer();
-      var promises = [];
       if(this.list.length === 0 || forceReload === true) {
         $http.get('/api/projects')
           .then(response => {
             this.list = response.data;
-            for(let project of this.list) {
-              promises.push($http.get(`/api/images/${project.ProjectId})`)
-                .then(images => {
-                  project.images = images.data;
-                }));
-              promises.push($http.get(`/api/users/${project.LeaderId})`)
-                .then(leader => {
-                  project.leader = leader.data;
-                }));
-              promises.push($http.get(`/api/users/${project.ProfessorId})`)
-                .then(professor => {
-                  project.professor = professor.data;
-                }));
-            }
-            $q.all(promises)
-              .then(values => {
-                d.resolve(values);
-              })
-              .catch(err => {
-                d.reject(err);
-              });
+            d.resolve(this.list);
           })
           .catch(err => {
             d.reject(err);
@@ -79,33 +58,8 @@ export function ProjectService($http, $q, $state) {
             // TODO load collected money
             project.CollectedPriceInCents = 300000;
             project.SupportersNumber = 2;
-            $q.all([
-              $http.get(`/api/images/${project.ProjectId})`)
-                .then(images => {
-                  project.images = images.data;
-                }),
-              $http.get(`/api/ses/${project.ProjectSEId})`)
-                .then(se => {
-                  project.se = se.data;
-                }),
-              $http.get(`/api/users/${project.LeaderId})`)
-                .then(leader => {
-                  project.leader = leader.data;
-                }),
-              $http.get(`/api/users/${project.ProfessorId})`)
-                .then(professor => {
-                  project.professor = professor.data;
-                }),
-            ])
-              .then(() => {
-                this.loadedProjects[ProjectId] = project;
-                d.resolve(project);
-              })
-              .catch(err => {
-                console.log(err);
-                this.loadedProjects[ProjectId] = project;
-                d.resolve(project);
-              });
+            this.loadedProjects[ProjectId] = project;
+            d.resolve(project);
           })
           .catch(err => {
             d.reject(err);

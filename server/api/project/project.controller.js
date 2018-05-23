@@ -11,7 +11,7 @@
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import {Project, Image} from '../../sqldb';
+import {Project, Image, User, Se} from '../../sqldb';
 import multer from 'multer';
 import $q from 'q';
 
@@ -87,6 +87,23 @@ function configureStorage() {
 // Gets a list of Projects
 export function index(req, res) {
   return Project.findAll({
+    include: [{
+      model: Image,
+      as: 'images',
+      order: [
+        ['OrderIndex', 'ASC'],
+      ],
+      limit: 1
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'leader'
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'professor'
+    }],
+    attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
     where: {
       IsApproved: 1,
       IsExcluded: 0
@@ -99,6 +116,24 @@ export function index(req, res) {
 // Gets a single Project from the DB
 export function show(req, res) {
   return Project.find({
+    include: [{
+      model: Image,
+      as: 'images',
+      order: [
+        ['OrderIndex', 'ASC'],
+      ]
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'leader'
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'professor'
+    }, {
+      model: Se,
+      as: 'se'
+    }],
     where: {
       ProjectId: req.params.id,
       IsApproved: 1,
