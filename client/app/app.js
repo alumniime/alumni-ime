@@ -35,11 +35,15 @@ import news from './news/show/news.component';
 import view from './news/view/view.component';
 import result from './projects/result/result.component';
 import donate from './donate/donate.component';
+import history from './about/history/history.component';
+import institutional from './about/institutional/institutional.component';
+import management from './about/management/management.component';
 
 import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project, _News,
-  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate
+  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
+  history, institutional, management
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {

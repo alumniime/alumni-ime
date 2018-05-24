@@ -1,0 +1,125 @@
+.managementView{
+    padding: 70px 20px 60px !important;
+  
+    h5 {
+      margin-bottom: 0;
+      color: #333333;
+    }
+  
+    .page-title {
+      color: #333333 !important;
+      font-weight: bold;
+      font-size: 34px;
+      padding-bottom: 15px;
+      line-height: normal;
+      text-align: center;
+    }
+
+    .page-subtitle {
+      color: #333333 !important;
+      font-weight: bold;
+      font-size: 34px;
+      padding-bottom: 15px;
+      line-height: normal;
+      text-align: left;
+    }
+
+    .manager-title{
+      padding-top: 30px;
+      font-weight: bold;
+      line-height: normal;
+      font-size: 24px;
+      color: #E84E0F;
+      border-bottom: 2px solid #E84E0F;
+    }
+
+    .managers{
+      padding-top: 20px;
+      font-style: normal;
+      font-weight: normal;
+      line-height: 30px;
+      font-size: 14px;
+      color: #333333;
+      
+      name{
+        font-weight: bold;
+      }
+    }
+}
+
+.managementViewBlue{
+  padding: 0 !important;
+  background: #00456F;
+
+  h5 {
+    margin-bottom: 0;
+  }
+
+  .text-box{
+    padding: 40px 40px 40px 100px;
+    vertical-align: middle;
+
+    .page-title {
+      padding-bottom: 20px;
+
+      line-height: 32px;
+      font-size: 20px;
+      color: #FFFFFF;
+    }
+
+    .page-text{
+      line-height: 26px;
+      font-size: 14px;
+      color: #FFFFFF;
+      padding-bottom: 10px;
+    }
+  }
+
+  #parent {display: table;}
+  #child {
+      display: table-cell;
+      vertical-align: middle;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    // width: auto;
+    height: auto;
+  }
+}
+
+.managementViewLightBlue{
+  padding: 0;
+  color: #333333 !important;
+
+  .light-blue{
+    padding: 50px 70px 50px 100px !important;
+    background: #AFCDE4;
+  }
+
+  .gray{
+    padding: 50px 70px 50px 100px !important;
+    background: #F2F2F2;
+  }
+
+  .page-title{
+    font-weight: bold;
+    line-height: 45px;
+    font-size: 34px;
+    color: #333333;
+    margin-bottom: 30px;
+  }
+
+  .page-text{
+    font-size: 14px;
+    line-height: 25px;
+    padding-bottom: 15px;
+  }
+
+  .name{
+    padding: 0;
+    font-size: 14px;
+    line-height: 30px;
+  }
+}

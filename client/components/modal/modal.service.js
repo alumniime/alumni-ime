@@ -9,6 +9,7 @@ import ModalRegisterInformationController from './register-information/register-
 import ModalAlertController from './alert/alert.controller';
 import ModalPhotoController from './photo/photo.controller';
 import ModalLoadingController from './loading/loading.controller';
+import ModalSentReceiptController from './sent-receipt/sent-receipt.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $interval) {
@@ -218,6 +219,16 @@ export default angular.module('alumniApp.modal', [])
       resolve: '<',
       close: '&',
       ok: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalSentReceipt', {
+    template: require('./sent-receipt/sent-receipt.html'),
+    controller: ModalSentReceiptController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
       dismiss: '&'
     },
   })
