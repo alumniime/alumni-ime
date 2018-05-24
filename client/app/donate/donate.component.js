@@ -15,13 +15,14 @@ export class DonateController {
   maxImages = 1;
   maxSize = '5MB';
   
-  constructor(Auth, Modal, $http, $state) {
+  constructor(Auth, Modal, $http, $state, $uibModal) {
     'ngInject';
 
     this.Auth = Auth;
     this.$http = $http;
     this.$state = $state;
     this.Modal = Modal;
+    this.$uibModal = $uibModal;
   }
 
   $onInit() {
@@ -45,10 +46,15 @@ export class DonateController {
 
   submitDonation(form){
     // TODO
+    this.submitted = true;
     
     var this_ = this;
-    this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
     this_.$state.go('profile', {view: 'supported_projects'});
+    this_.$uibModal.open({
+      animation: true,
+      component: 'modalSentReceipt',
+      size: 'dialog-centered'
+    });
   }
 }
 
