@@ -6,13 +6,41 @@ const uiRouter = require('angular-ui-router');
 import routes from './view.routes';
 
 export class ViewController {
-  constructor(Auth, Modal, $http, $state) {
+  news = {};
+
+  constructor(Modal, $state, $stateParams, News, $anchorScroll) {
     'ngInject';
 
-    this.Auth = Auth;
-    this.$http = $http;
     this.$state = $state;
+    this.$stateParams = $stateParams;
     this.Modal = Modal;
+    this.News = News;
+    this.$anchorScroll = $anchorScroll;
+  }
+
+  $onInit() {
+    var loading = this.Modal.showLoading();
+    if(this.$stateParams.NewsId && this.$stateParams.forceReload !== null) {
+      var NewsId = this.$stateParams.NewsId;
+      this.News.get(NewsId, this.$stateParams.forceReload)
+        .then(news => {
+          loading.close();
+          this.news = news;
+          console.log(news);
+          this.$anchorScroll('top');
+        })
+        .catch(() => {
+          loading.close();
+          this.$state.go('news');
+        });
+    } else {
+      loading.close();
+      this.$state.go('news');
+    }
+  }
+
+  openPhoto(images, index) {
+    this.Modal.openPhoto(images, index);
   }
 
 }

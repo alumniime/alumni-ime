@@ -28,6 +28,7 @@ import util from '../components/util/util.module';
 import submission from './projects/submission';
 import edit from './projects/edit';
 import _Project from '../services/project/project.service';
+import _News from '../services/news/news.service';
 import show from './projects/show/show.component';
 import project from './projects/project/project.component';
 import news from './news/show/news.component';
@@ -37,7 +38,7 @@ import donate from './donate/donate.component';
 
 import './app.scss';
 
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project,
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project, _News,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate
 ])
   .config(routeConfig)

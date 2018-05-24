@@ -16,8 +16,6 @@ export class ShowController {
   }
 
   $onInit() {
-    console.log('show controller $onInit()');
-    console.log(this.Project);
     var loading = this.Modal.showLoading();
     this.Project.load().then(() => {
       loading.close();

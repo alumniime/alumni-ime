@@ -6,14 +6,26 @@ const uiRouter = require('angular-ui-router');
 import routes from './news.routes';
 
 export class NewsController {
-  
-  constructor(Auth, Modal, $http, $state) {
+
+  constructor($state, News, Modal) {
     'ngInject';
 
-    this.Auth = Auth;
-    this.$http = $http;
     this.$state = $state;
+    this.News = News;
     this.Modal = Modal;
+  }
+
+  $onInit() {
+    var loading = this.Modal.showLoading();
+    this.News.load().then(() => {
+      loading.close();
+    }).catch(() => {
+      loading.close();
+    })
+  }
+
+  openNews(news) {
+    this.News.open(news.NewsId, news.Title);
   }
 
   dropdownChanged() {

@@ -2,23 +2,7 @@
 const angular = require('angular');
 
 /*@ngInject*/
-export function ProjectService($http, $q, $state) {
-
-  function convertToSlug(str) {
-    str = str.replace(/^\s+|\s+$/g, '') // trim
-      .toLowerCase();
-
-    // remove accents, swap ñ for n, etc
-    var from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
-    var to = 'aaaaaeeeeeiiiiooooouuuunc------';
-    for(let i = 0, l = from.length; i < l; i++) {
-      str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-    }
-
-    return str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-      .replace(/\s+/g, '-') // collapse whitespace and replace by -
-      .replace(/-+/g, '-'); // collapse dashes
-  }
+export function ProjectService($http, $q, $state, Util) {
 
   var Project = {
 
@@ -41,7 +25,7 @@ export function ProjectService($http, $q, $state) {
             d.reject(err);
           });
       } else {
-        d.resolve(null);
+        d.resolve(this.list);
       }
       return d.promise;
     },
@@ -77,7 +61,6 @@ export function ProjectService($http, $q, $state) {
       if(this.submittedProjects.length === 0 || forceReload === true) {
         $http.get('/api/projects/me')
           .then(response => {
-            console.log(response);
             this.submittedProjects = response.data;
             for(let project of this.submittedProjects) {
               $http.get(`/api/images/${project.ProjectId})`)
@@ -103,7 +86,7 @@ export function ProjectService($http, $q, $state) {
     open(ProjectId, ProjectName, preview, forceReload) {
       $state.go('project', {
         ProjectId: ProjectId,
-        PrettyURL: convertToSlug(ProjectName),
+        PrettyURL: Util.convertToSlug(ProjectName),
         preview: preview || false,
         forceReload: forceReload || false
       });
@@ -114,6 +97,6 @@ export function ProjectService($http, $q, $state) {
   return Project;
 }
 
-export default angular.module('alumniImeApp.project', [])
+export default angular.module('alumniApp.projectService', [])
   .factory('Project', ProjectService)
   .name;

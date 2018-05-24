@@ -1,5 +1,5 @@
 <div class="container newsView">
-        
+
     <div class="row justify-content-between">
         <div class="col-auto">
             <h5 class="page-title">Notícias</h5>
@@ -16,60 +16,23 @@
             </div>
         </div>
     </div>
-    
-    <div class="card-deck news-deck">
-        <div class="col-12 col-sm-6 col-md-4" style="padding-left: 0 !important; padding-right: 20px;">
-            <a class="card news-card mb-3" href="news/view">
-                <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-                <div class="card-body" style="padding: 0; padding-top: 15px">
-                    <div class="form-group">
-                        <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adipisicing dolor</h5>
-                        <label>Subtítulo da notícia aqui, com poucos caracteres (a definir).</label>
-                        <newsDate>18 Jul, 2018</newsDate>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4" style="padding-left: 0 !important; padding-right: 20px;">
-            <a class="card news-card mb-3" href="news/view">
-                <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-                <div class="card-body" style="padding: 0; padding-top: 15px">
-                    <div class="form-group">
-                        <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adipisicing dolor</h5>
-                        <label>Subtítulo da notícia aqui, com poucos caracteres (a definir).</label>
-                        <newsDate>18 Jul, 2018</newsDate>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4" style="padding-left: 0 !important; padding-right: 20px;">
-            <a class="card news-card mb-3" href="news/view">
-                <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-                <div class="card-body" style="padding: 0; padding-top: 15px">
-                    <div class="form-group">
-                        <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adipisicing dolor</h5>
-                        <label>Subtítulo da notícia aqui, com poucos caracteres (a definir).</label>
-                        <newsDate>18 Jul, 2018</newsDate>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4" style="padding-left: 0 !important; padding-right: 20px;">
-            <a class="card news-card mb-3" href="news/view">
-                <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-                <div class="card-body" style="padding: 0; padding-top: 15px">
-                    <div class="form-group">
-                        <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adipisicing dolor</h5>
-                        <label>Subtítulo da notícia aqui, com poucos caracteres (a definir).</label>
-                        <newsDate>18 Jul, 2018</newsDate>
-                    </div>
-                </div>
-            </a>
-        </div>
 
+    <div class="card-deck news-deck">
+
+        <div class="col-12 col-sm-6 col-md-4" ng-repeat="news in vm.News.list">
+            <a class="card news-card mb-3 c-pointer" ng-click="vm.openNews(news)">
+                <img class="w-100" ng-src="{{news.constructions[0].images[0].Path}}" alt="News card image">
+                <div class="card-body pl-3 pr-2">
+                    <div class="form-group">
+                        <h5 class="card-title">{{news.Title}}</h5>
+                        <label>{{news.Subtitle}}</label>
+                        <p class="news-date">{{news.PublishDate | date: 'dd MMM, yyyy'}}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
 
     </div>
-
 
     <div class="center">
         <div class="pagination">
@@ -83,6 +46,5 @@
             <a class="fa fa-angle-right" aria-hidden="true" href="#" style="padding-top: 12px" ng-hide="vm.currPage == vm.lastPage"></a>
         </div>
     </div>
-   
 
 </div>
