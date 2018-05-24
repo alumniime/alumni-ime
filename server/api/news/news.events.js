@@ -1,15 +1,15 @@
 /**
- * Thing model events
+ * News model events
  */
 
 'use strict';
 
 import {EventEmitter} from 'events';
-var Thing = require('../../sqldb').Thing;
-var ThingEvents = new EventEmitter();
+var News = require('../../sqldb').News;
+var NewsEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
-ThingEvents.setMaxListeners(0);
+NewsEvents.setMaxListeners(0);
 
 // Model events
 var events = {
@@ -19,20 +19,20 @@ var events = {
 };
 
 // Register the event emitter to the model events
-function registerEvents(aThing) {
+function registerEvents(News) {
   for(var e in events) {
     let event = events[e];
-    aThing.hook(e, emitEvent(event));
+    News.hook(e, emitEvent(event));
   }
 }
 
 function emitEvent(event) {
   return function(doc, options, done) {
-    ThingEvents.emit(`${event}:${doc._id}`, doc);
-    ThingEvents.emit(event, doc);
+    NewsEvents.emit(`${event}:${doc.NewsId}`, doc);
+    NewsEvents.emit(event, doc);
     done(null);
   };
 }
 
-registerEvents(Thing);
-export default ThingEvents;
+registerEvents(News);
+export default NewsEvents;

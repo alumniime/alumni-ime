@@ -7,8 +7,13 @@
 import errors from './components/errors';
 import path from 'path';
 
-export default function(app) {
+export default function (app) {
   // Insert routes below
+  app.use('/api/news', require('./api/news'));
+  app.use('/api/news_categories', require('./api/news_category'));
+  app.use('/api/news_constructions', require('./api/news_construction'));
+  app.use('/api/news_elements', require('./api/news_element'));
+  app.use('/api/donations', require('./api/donation'));
   app.use('/api/images', require('./api/image'));
   app.use('/api/person_types', require('./api/person_type'));
   app.use('/api/ses', require('./api/se'));
@@ -20,13 +25,12 @@ export default function(app) {
   app.use('/api/project_ses', require('./api/project_se'));
   app.use('/api/initiatives', require('./api/initiative'));
   app.use('/api/initiative_links', require('./api/initiative_link'));
-  // app.use('/api/things', require('./api/thing'));
 
   app.use('/auth', require('./auth').default);
 
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
-   .get(errors[404]);
+    .get(errors[404]);
 
   // All other routes should redirect to the index.html
   app.route('/*')

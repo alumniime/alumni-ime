@@ -119,9 +119,7 @@ export function show(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      order: [
-        ['OrderIndex', 'ASC'],
-      ]
+      attributes: ['Path', 'OrderIndex']
     }, {
       model: User,
       attributes: ['name'],
@@ -134,6 +132,9 @@ export function show(req, res) {
       model: Se,
       as: 'se'
     }],
+    order: [
+      [{model: Image, as: 'images'}, 'OrderIndex']
+    ],
     where: {
       ProjectId: req.params.id,
       IsApproved: 1,

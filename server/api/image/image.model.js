@@ -10,10 +10,18 @@ export default function(sequelize, DataTypes) {
     },
     ProjectId: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'Project',
         key: 'ProjectId'
+      }
+    },
+    NewsConstructionId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'NewsConstruction',
+        key: 'NewsConstructionId'
       }
     },
     Path: {
