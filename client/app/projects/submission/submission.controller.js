@@ -75,16 +75,16 @@ export default class SubmissionController {
     this.errors.projects = undefined;
     console.log(form);
 
-    this.project.EstimatedPriceInCents *= 100;
-    var date = this.ConclusionDate.split('/');
-    this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
-
     if(!this.user.PersonId) {
       // User needs to login
       this.Modal.openLogin();
     } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 3 || this.user.PersonTypeId === 5) {
 
       if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
+
+        this.project.EstimatedPriceInCents *= 100;
+        var date = this.ConclusionDate.split('/');
+        this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
 
         var loading = this.Modal.showLoading();
 
@@ -131,9 +131,9 @@ export default class SubmissionController {
 
   }
 
-  choosePrincipal(image){
+  choosePrincipal(image) {
     var aux = this.uploadImages[0];
-    var index =this.uploadImages.indexOf(image);
+    var index = this.uploadImages.indexOf(image);
     this.uploadImages[0] = this.uploadImages[index];
     this.uploadImages[index] = aux;
   }

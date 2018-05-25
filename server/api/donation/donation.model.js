@@ -16,9 +16,9 @@ export default function (sequelize, DataTypes) {
         key: 'PersonId'
       }
     },
-    TransferVoucherId: {
+    TransferReceiptId: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'Image',
         key: 'ImageId'
@@ -32,7 +32,11 @@ export default function (sequelize, DataTypes) {
         key: 'ProjectId'
       }
     },
-    DonationPriceInCents: {
+    Type: {
+      type: DataTypes.STRING(25),
+      allowNull: false
+    },
+    ValueInCents: {
       type: DataTypes.INTEGER(11),
       allowNull: false
     },

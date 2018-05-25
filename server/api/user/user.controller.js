@@ -1,6 +1,6 @@
 'use strict';
 
-import {User, InitiativeLink} from '../../sqldb';
+import {User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative} from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
@@ -249,9 +249,26 @@ export function me(req, res, next) {
   var userId = req.user.PersonId;
 
   return User.find({
-    where: {
-      PersonId: userId
-    },
+    include: [{
+      model: Engineering,
+      as: 'engineering'
+    }, {
+      model: PersonType,
+      as: 'personType'
+    }, {
+      model: OptionToKnowType,
+      as: 'optionToKnowType'
+    }, {
+      model: Se,
+      as: 'se'
+    }, {
+      model: InitiativeLink,
+      as: 'userInitiativeLinks',
+      include: [{
+        model: Initiative,
+        as: 'initiative'
+      }]
+    }],
     attributes: [
       'PersonId',
       'PersonTypeId',
@@ -268,7 +285,10 @@ export function me(req, res, next) {
       'GraduationYear',
       'ProfessorSEId',
       'InitiativeLinkOther'
-    ]
+    ],
+    where: {
+      PersonId: userId
+    }
   })
     .then(user => { // don't ever give out the password or salt
       if(!user) {

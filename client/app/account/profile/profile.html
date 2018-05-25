@@ -25,23 +25,23 @@
 
         <h1>{{vm.user.name}}</h1>
         <p class="legend"
-           ng-if="vm.personType.Description === 'FormerStudent' || vm.personType.Description === 'Student'">
-          {{vm.engineering.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
+           ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'Student'">
+          {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
           <br>
           Formatura {{vm.user.GraduationYear}}
         </p>
-        <p class="legend" ng-if="vm.personType.Description === 'Professor'">
-          {{vm.se.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
+        <p class="legend" ng-if="vm.user.personType.Description === 'Professor'">
+          {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
         </p>
-        <p class="legend" ng-if="vm.personType.Description === 'Visitor'">
-          {{vm.personType.PortugueseDescription | lowercase}}
+        <p class="legend" ng-if="vm.user.personType.Description === 'Visitor'">
+          {{vm.user.personType.PortugueseDescription | lowercase}}
         </p>
-        <p class="legend" ng-if="vm.personType.Description === 'FormerStudentAndProfessor'">
-          {{vm.engineering.Description}} | {{vm.personType.PortugueseDescription | lowercase}}
+        <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor'">
+          {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
           <br>
           Formatura {{vm.user.GraduationYear}}
           <br>
-          {{vm.se.Description}}
+          {{vm.user.se.Description}}
         </p>
 
         <div class="row">
@@ -58,7 +58,7 @@
                      value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
             </div>
             <div class="form-group mb-0">
-              <label for="InitiativesShow">{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
+              <label for="InitiativesShow">{{vm.user.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
                 LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
               <input type="text" id="InitiativesShow" name="Initiatives" class="form-control-plaintext" readonly
                      ng-value="vm.concatenateInitiativeLinks()">
@@ -129,12 +129,12 @@
               </div>
 
               <div class="form-group"
-                   ng-if="vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'Professor'">
+                   ng-if="vm.user.personType.Description !== 'Visitor' && vm.user.personType.Description !== 'Professor'">
                 <label for="GraduationEngineeringId">ENGENHARIA*</label>
                 <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                         ng-model="vm.user.GraduationEngineeringId" required
                         ng-change="vm.updateEngineering(vm.user.GraduationEngineeringId)">
-                  <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
+                  <option ng-repeat="engineering in vm.user.engineeringList | orderBy:'Description'"
                           ng-value="engineering.EngineeringId">{{engineering.Description}}
                   </option>
                 </select>
@@ -144,7 +144,7 @@
               </div>
 
               <div class="form-group"
-                   ng-if="vm.personType.Description === 'Visitor'">
+                   ng-if="vm.user.personType.Description === 'Visitor'">
                 <label>COMO VOCÊ CONHECEU A PÁGINA?*</label>
                 <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnowList">
                   <input type="radio" id="customRadio{{$index}}" name="OptionToKnowThePage" class="custom-control-input"
@@ -167,8 +167,8 @@
               </div>
 
               <div class="form-group"
-                   ng-if="vm.personType.Description !== 'Visitor'">
-                <label>{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
+                   ng-if="vm.user.personType.Description !== 'Visitor'">
+                <label>{{vm.user.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
                   LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
                 <div class="custom-control custom-checkbox" ng-repeat="initiative in vm.initiativeList">
                   <input type="checkbox" class="custom-control-input" id="customCheck{{$index}}"
@@ -215,7 +215,7 @@
                 <label for="PersonTypeId">COMO VOCÊ SE ENCONTRA HOJE*</label>
                 <select class="form-control" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId"
                         required ng-change="vm.updatePersonType(vm.user.PersonTypeId)">
-                  <option ng-repeat="type in vm.personTypes" ng-if="type.Description !== 'NewUser'"
+                  <option ng-repeat="type in vm.user.personTypes" ng-if="type.Description !== 'NewUser'"
                           ng-value="type.PersonTypeId">{{type.PortugueseDescription}}
                   </option>
                 </select>
@@ -225,7 +225,7 @@
               </div>
 
               <div class="form-group"
-                   ng-if="vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'Professor'">
+                   ng-if="vm.user.personType.Description !== 'Visitor' && vm.user.personType.Description !== 'Professor'">
                 <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
                 <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
                         required>
@@ -237,7 +237,7 @@
               </div>
 
               <div class="form-group"
-                   ng-if="vm.personType.Description === 'Professor' || vm.personType.Description === 'FormerStudentAndProfessor'">
+                   ng-if="vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'FormerStudentAndProfessor'">
                 <label for="ProfessorSEId">SEÇÃO DE ENSINO ATUAL*</label>
                 <select class="form-control" id="ProfessorSEId" name="ProfessorSEId"
                         ng-model="vm.user.ProfessorSEId" required>
@@ -407,21 +407,37 @@
 
       <div class="card-columns">
 
-        <div class="card project-card mb-3">
+        <div class="card project-card mb-3" ng-repeat="donation in vm.Donation.myDonations">
           <div class="card-body">
-            <h5 class="card-title">Projeto utilizando Big Data</h5>
+            <h5 class="card-title">
+              {{donation.Type === 'project' ? donation.project.ProjectName : 'Contribuição Geral'}}
+            </h5>
 
-            <div class="form-group">
-              <label>AUTORIA</label>
-              <input type="text" class="form-control-plaintext" readonly value="Roberto Carlos e José Augusto">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>VALOR</label>
+                  <input type="text" class="form-control-plaintext" readonly value="{{donation.ValueInCents/100 | currency}}">
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="form-group">
+                  <label>DATA</label>
+                  <input type="text" class="form-control-plaintext" readonly
+                         value="{{donation.DonationDate | date:'dd/MM/yyyy'}}">
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
-              <label>VALOR</label>
-              <input type="text" class="form-control-plaintext" readonly value="R$ 15.000,00">
+              <label>STATUS</label>
+              <input type="text" class="form-control-plaintext" readonly
+                     value="{{donation.IsApproved ? 'Pagamento confirmado' : 'Comprovante em análise'}}">
             </div>
 
-            <a href="#" class="card-link text-dark text-right d-block">VER MAIS INFORMAÇÕES</a>
+            <a href="#" class="card-link text-dark text-right d-block"
+               ng-if="donation.Type === 'project'" ng-click="vm.openProject(donation.project)">VER MAIS INFORMAÇÕES</a>
 
           </div>
         </div>

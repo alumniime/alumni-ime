@@ -24,7 +24,7 @@ export default class ProfileController {
   itemSelected = this.menu[0];
 
 
-  constructor(Auth, $http, $state, $location, $anchorScroll, $stateParams, Project) {
+  constructor(Auth, $http, $state, $location, $anchorScroll, $stateParams, Project, Donation) {
     'ngInject';
 
     this.Auth = Auth;
@@ -34,6 +34,7 @@ export default class ProfileController {
     this.$anchorScroll = $anchorScroll;
     this.$stateParams = $stateParams;
     this.Project = Project;
+    this.Donation = Donation;
   }
 
   $onInit() {
@@ -41,35 +42,21 @@ export default class ProfileController {
       this.user = user;
       this.user.Birthdate = new Date(this.user.Birthdate);
       this.PersonId = user.PersonId;
+      console.log(user);
 
       this.$http.get('/api/person_types')
         .then(response => {
           this.personTypes = response.data;
-          for(var type of response.data) {
-            if(type.PersonTypeId === user.PersonTypeId) {
-              this.personType = type;
-            }
-          }
         });
 
       this.$http.get('/api/engineering')
         .then(response => {
           this.engineeringList = response.data;
-          for(var engineering of response.data) {
-            if(engineering.EngineeringId === user.GraduationEngineeringId) {
-              this.engineering = engineering;
-            }
-          }
         });
 
       this.$http.get('/api/ses')
         .then(response => {
           this.sesList = response.data;
-          for(var se of response.data) {
-            if(se.SEId === user.ProfessorSEId) {
-              this.se = se;
-            }
-          }
         });
 
       this.$http.get('/api/initiatives')
@@ -110,6 +97,7 @@ export default class ProfileController {
       }
     }
     this.Project.loadMyProjects(false);
+    this.Donation.loadMyDonations(false);
   }
 
   selectPage(route) {

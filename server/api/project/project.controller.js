@@ -150,6 +150,25 @@ export function show(req, res) {
 export function preview(req, res) {
   var userId = req.user.PersonId;
   return Project.find({
+    include: [{
+      model: Image,
+      as: 'images',
+      attributes: ['Path', 'OrderIndex']
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'leader'
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'professor'
+    }, {
+      model: Se,
+      as: 'se'
+    }],
+    order: [
+      [{model: Image, as: 'images'}, 'OrderIndex']
+    ],
     where: {
       ProjectId: req.params.id,
       SubmissionerId: userId,
@@ -166,6 +185,16 @@ export function preview(req, res) {
 export function me(req, res) {
   var userId = req.user.PersonId;
   return Project.findAll({
+    include: [{
+      model: User,
+      attributes: ['name'],
+      as: 'leader'
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'professor'
+    }],
+    attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
     where: {
       SubmissionerId: userId,
       IsExcluded: 0

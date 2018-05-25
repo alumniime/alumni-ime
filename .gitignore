@@ -11,4 +11,5 @@ npm-debug.log
 coverage
 /dev.sqlite
 /client/assets/images/uploads/
+/client/assets/donations/
 /package-lock.json

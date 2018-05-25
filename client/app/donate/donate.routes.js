@@ -4,7 +4,7 @@ export default function($stateProvider) {
   'ngInject';
   $stateProvider
     .state('donate', {
-      url: '/donate',
+      url: '/support',
       template: require('./donate.html'),
       controller: 'DonateController',
       controllerAs: 'vm'

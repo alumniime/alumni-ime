@@ -29,6 +29,7 @@ import submission from './projects/submission';
 import edit from './projects/edit';
 import _Project from '../services/project/project.service';
 import _News from '../services/news/news.service';
+import _Donation from '../services/donation/donation.service';
 import show from './projects/show/show.component';
 import project from './projects/project/project.component';
 import news from './news/show/news.component';
@@ -41,17 +42,17 @@ import management from './about/management/management.component';
 
 import './app.scss';
 
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project, _News,
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
   history, institutional, management
 ])
   .config(routeConfig)
-  .run(function($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location, Auth) {
     'ngInject';
     // Redirect to login if route requires auth and you're not logged in
 
-    $rootScope.$on('$stateChangeStart', function(event, next) {
-      Auth.isLoggedIn(function(loggedIn) {
+    $rootScope.$on('$stateChangeStart', function (event, next) {
+      Auth.isLoggedIn(function (loggedIn) {
         if(next.authenticate && !loggedIn) {
           $location.path('/login');
         }

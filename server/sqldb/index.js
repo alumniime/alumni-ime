@@ -35,8 +35,10 @@ db.InitiativeLink = db.sequelize.import('../api/initiative_link/initiative_link.
 db.User.belongsTo(db.PersonType, {sourceKey: 'PersonTypeId', foreignKey: 'PersonTypeId', as: 'personType'});
 db.User.belongsTo(db.Se, {sourceKey: 'SEId', foreignKey: 'ProfessorSEId', as: 'se'});
 db.User.belongsTo(db.Engineering, {sourceKey: 'EngineeringId', foreignKey: 'GraduationEngineeringId', as: 'engineering'});
-db.User.belongsTo(db.OptionToKnowType, {sourceKey: 'OptionToKnowThePageId', foreignKey: 'OptionTypeId', as: 'optionToKnowType'});
+db.User.belongsTo(db.OptionToKnowType, {sourceKey: 'OptionTypeId', foreignKey: 'OptionToKnowThePageId', as: 'optionToKnowType'});
 db.User.hasMany(db.InitiativeLink, {foreignKey: 'PersonId', as: 'userInitiativeLinks'});
+
+db.InitiativeLink.belongsTo(db.Initiative, {sourceKey: 'InitiativeId', foreignKey: 'InitiativeId', as: 'initiative'});
 
 db.Project.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'SubmissionerId', as: 'submissioner'});
 db.Project.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'LeaderId', as: 'leader'});
@@ -53,6 +55,6 @@ db.NewsConstruction.hasMany(db.Image, {foreignKey: 'NewsConstructionId', as: 'im
 
 db.Donation.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'DonatorId', as: 'donator'});
 db.Donation.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});
-db.Donation.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'TransferVoucherId', as: 'transferVoucher'});
+db.TransferReceipt = db.Donation.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'TransferReceiptId', as: 'transferReceipt'});
 
 module.exports = db;

@@ -11,7 +11,8 @@
 'use strict';
 
 import {applyPatch} from 'fast-json-patch';
-import {Donation} from '../../sqldb';
+import {Donation, Project, TransferReceipt, Image, User} from '../../sqldb';
+import multer from 'multer';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -65,6 +66,20 @@ function handleError(res, statusCode) {
   };
 }
 
+function configureStorage() {
+  return multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './client/assets/donations/');
+    },
+    filename: function (req, file, cb) {
+      file.timestamp = Date.now();
+      var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
+      var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
+      cb(null, `${file.timestamp}-${name}.${format}`);
+    }
+  });
+}
+
 // Gets a list of Donations
 export function index(req, res) {
   return Donation.findAll()
@@ -84,11 +99,80 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
+// Get my supported projects
+export function me(req, res) {
+  var userId = req.user.PersonId;
+  return Donation.findAll({
+    include: [{
+      model: Project,
+      attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      as: 'project',
+      include: [{
+        model: User,
+        attributes: ['name'],
+        as: 'leader'
+      }, {
+        model: User,
+        attributes: ['name'],
+        as: 'professor'
+      }]
+    }],
+    where: {
+      DonatorId: userId,
+    }
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Creates a new Donation in the DB
 export function create(req, res) {
   return Donation.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
+}
+
+// Creates a new Donation in the DB with his transferReceipt
+export function upload(req, res) {
+
+  var upload = multer({
+    storage: configureStorage()
+  })
+    .single('file');
+
+  upload(req, res, function (err) {
+    if(err) {
+      console.log(err);
+      res.json({errorCode: 1, errorDesc: err});
+      return;
+    }
+
+    var donation = req.body.donation;
+
+    donation.IsApproved = 0;
+    donation.DonationDate = Date.now();
+    donation.DonatorId = req.user.PersonId;
+    donation.transferReceipt = {
+      Path: `assets/images/uploads/${req.file.filename}`,
+      Filename: req.file.filename,
+      Type: 'donation',
+      Timestamp: req.file.timestamp,
+      IsExcluded: 0
+    };
+    if(donation.Type === 'general') {
+      Reflect.deleteProperty(donation, 'ProjectId');
+    }
+
+    Donation.create(donation, {
+      include: [TransferReceipt]
+    })
+      .then(newDonation => {
+        var donationId = newDonation.DonationId;
+        res.json({errorCode: 0, errorDesc: null});
+      })
+      .catch(handleError(res));
+  });
+
 }
 
 // Upserts the given Donation in the DB at the specified ID

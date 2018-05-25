@@ -26,7 +26,7 @@
             <a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-danger" href="donate" role="button">APOIE</a>
+            <a class="nav-link btn btn-danger" href="support" role="button">APOIE</a>
           </li>
         </ul>
       </div>
@@ -34,14 +34,14 @@
 </header>
   <nav class="navbar navbar-expand-lg navbar-light container">
     <a class="navbar-brand d-block d-md-none" ui-sref="main">Alumni</a>
-  
+
     <div class="navbar-brand d-none d-md-block d-lg-none">
       <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openLogin()" href="#" ui-sref-active="active">ENTRAR</a>
       <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openSignup()" href="#" ui-sref-active="active">CADASTRAR</a>
       <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
       <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
     </div>
-  
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
             aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation"
             ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
@@ -49,9 +49,9 @@
       <i class="fa fa-bars" ng-show="$ctrl.isCollapsed"></i>
       <i class="fa fa-close" ng-hide="$ctrl.isCollapsed"></i>
     </button>
-  
+
     <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
-      
+
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" ng-repeat="item in $ctrl.menu" ng-class="{dropdown: item.dropdown}" ui-sref-active="active">
           <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
@@ -83,7 +83,7 @@
           <a class="nav-link font-weight-normal d-block d-md-none" ui-sref="admin">ADMIN</a>
         </li>
       </ul>
-  
+
       <div class="d-none d-lg-block social-media col-auto">
         <a class="btn btn-light" href="https://www.facebook.com/AlumniIME/" target="_blank">
           <i class="fa fa-facebook"></i>
@@ -95,21 +95,20 @@
           <i class="fa fa-twitter"></i>
         </a>
       </div>
-  
+
     </div>
-  
+
     <div class="navbar-mobile w-100 d-block d-md-none">
       <ul class="nav">
         <li class="nav-item m-auto">
           <a class="nav-link font-weight-normal" ui-sref="submission">SUBMETER PROJETO</a>
         </li>
         <li class="nav-item m-auto">
-          <a class="btn btn-danger" href="donate" role="button">APOIE</a>
+          <a class="btn btn-danger" href="support" role="button">APOIE</a>
         </li>
       </ul>
     </div>
-  
-  </nav> 
+
+  </nav>
 
 <div class="navbar-shadow"></div>
-  
