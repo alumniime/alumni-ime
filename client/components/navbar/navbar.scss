@@ -20,7 +20,7 @@ header {
   }
 
   a.text-dark:hover, a.text-dark:focus {
-    color: #0097f6 !important;
+    color: #E84E0F !important;
   }
 
   .logo {
@@ -31,7 +31,7 @@ header {
 }
 
 li .btn-danger {
-  background-color: #f52b2b;
+  background-color: #E84E0F;
   width: 120px;
   border-radius: 100px;
 }
@@ -68,7 +68,7 @@ nav {
   li:hover, li.active, .navbar-brand .nav-link:hover, .navbar-brand .nav-link.active {
     margin-top: -1px;
     margin-bottom: 0;
-    border-bottom: 3px #0097f6 solid;
+    border-bottom: 3px #E84E0F solid;
   }
 
   @include media-breakpoint-down(md) {
@@ -93,12 +93,12 @@ nav {
 
   .navbar-brand, .navbar-collapse {
     li:hover a, li.active a {
-      color: #0097f6 !important;
+      color: #E84E0F !important;
     }
   }
 
   .nav-link:hover, .nav-link.active {
-    color: #0097f6 !important;
+    color: #E84E0F !important;
   }
 
   @include media-breakpoint-up(lg) {
@@ -113,7 +113,7 @@ nav {
   }
 
   .dropdown-item:hover, .dropdown-item.active {
-    color: #0097f6 !important;
+    color: #E84E0F !important;
     background-color: #fff;
   }
 

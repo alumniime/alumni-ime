@@ -12,14 +12,38 @@
       font-size: 34px;
       padding-bottom: 15px;
     }
+
+    .page-subtitle {
+      color: #333333 !important;
+      font-weight: normal;
+      line-height: 35px;
+      font-size: 24px;
+      padding-bottom: 15px;
+
+      bold{
+        font-weight: bold;
+      }
+    }
   
     .page-text{
       line-height: 26px;
       font-size: 16px;
       color: #333333;
-  
-      bank-data{
-          font-weight: bold;
+      padding-bottom: 10px;
+      padding-left: 0;
+      padding-right: 0;
+
+      italic{
+        font-style: italic;
       }
+    }
+
+    .legend{
+      padding: 10px 0 8px;
+      line-height: 16px;
+      font-size: 10px;
+      color: #333333;
+      border: none;
+      border-bottom: 1px solid #00456F;
     }
 }
