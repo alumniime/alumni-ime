@@ -420,3 +420,46 @@ export function forgotPassword(req, res) {
 export function authCallback(req, res) {
   res.redirect('/');
 }
+
+/**
+ * Send email for contact in footer
+ */
+export function sendContactEmail(req, res, next) {
+  var contactName = req.body.Name;
+  var contactEmail = req.body.Email;
+  var contactMessage = req.body.Message;
+
+  async.waterfall([
+    function (user, token, done) {
+      var data = {
+        to: {
+          name: 'Contact Alumni Page',
+          address: config.email.user
+        },
+        from: {
+          name: 'Alumni IME',
+          address: config.email.user
+        },
+        template: 'contact-email',
+        subject: `Contato pelo site de ${contactName}`,
+        context: {
+          name: contactName,
+          email: contactEmail,
+          message: contactMessage
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions'
+          });
+        } else {
+          return done(err);
+        }
+      });
+    }
+  ], function (err) {
+    return res.status(422)
+      .json({message: err});
+  });
+}

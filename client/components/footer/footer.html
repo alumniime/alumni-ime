@@ -3,7 +3,7 @@
     <div class="col-md-1"></div>
     <div class="col-md-2">
       <a ui-sref="main">
-        <img class="logo m-auto float-md-right" src="assets/images/facebook-icon.png">
+        <img class="logo m-auto float-md-right" src="assets/images/logo.svg">
       </a>
     </div>
     <div class="col-md-4">
@@ -19,7 +19,7 @@
         <a class="btn btn-light" href="https://www.linkedin.com/company/alumni-ime" target="_blank">
           <i class="fa fa-linkedin"></i>
         </a>
-        <a class="btn btn-light" href="https://twitter.com/alumniime" target="_blank">
+        <a class="btn btn-light" href="https://www.instagram.com/alumniime/" target="_blank">
           <i class="fa fa-twitter"></i>
         </a>
       </p>
@@ -34,12 +34,24 @@
     <div class="col-md-1"></div>
     <div class="col-md-4">
       <h5>Contato</h5>
-      <form action="">
-        <input type="text" name="name" placeholder="nome">
-        <input type="email" name="email" placeholder="email">
-        <textarea name="" rows="5" placeholder="mensagem"></textarea>
-        <button type="submit" class="btn btn-light">ENVIAR</button>
 
+      <form class="form" name="form" ng-submit="$ctrl.sendContactEmail(form)" novalidate="">
+        <input type="text" id="name" name="name" required ng-model="$ctrl.name" placeholder="nome">
+        <p class="help-block"
+          ng-if="form.name.$error.required && $ctrl.submitted">
+          Insira o seu nome, por favor.
+        </p>
+        <input type="email" name="email" id="email" required ng-model="$ctrl.email" placeholder="email">
+        <p class="help-block"
+          ng-if="(form.email.$error.email || form.email.$error.required) && $ctrl.submitted">
+          Insira o seu email, por favor.
+        </p>
+        <textarea name="message" rows="5" id="message" required ng-model="$ctrl.message" placeholder="mensagem"></textarea>
+        <p class="help-block"
+          ng-if="form.message.$error.required && $ctrl.submitted">
+          Insira a sua mensagem, por favor.
+        </p>
+        <button href="#" type="submit" class="btn btn-light">ENVIAR</button>
       </form>
 
       <p class="copyrights d-block d-md-none">
