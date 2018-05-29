@@ -21,5 +21,6 @@ router.post('/send_confirmation', controller.sendConfirmation);
 router.get('/confirm_email/:token', controller.confirmEmail);
 router.post('/forgot_password', controller.forgotPassword);
 router.get('/reset_password/:token', controller.forgotPassword);
+router.post('/contact', controller.sendContactEmail);
 
 module.exports = router;

@@ -36,6 +36,10 @@ li .btn-danger {
   border-radius: 100px;
 }
 
+.btn-danger:hover, .btn-danger.active {
+  background-color: rgb(199, 66, 14);
+}
+
 nav {
 
   border-top: 1px solid #ccc;

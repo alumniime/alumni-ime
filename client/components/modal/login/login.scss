@@ -46,9 +46,15 @@ modal-login {
   }
 
   .btn-login {
-    background-color: #0099F3;
+    background-color: #E84E0F;
     border-radius: 30px;
+    border-color: #E84E0F;
     //margin-top: 40px;
+  }
+
+  .btn-login:hover, .btn-login.active {
+    background-color: rgb(199, 66, 14);
+    border-color: rgb(199, 66, 14);
   }
 
   @include media-breakpoint-up(lg) {
@@ -94,7 +100,7 @@ modal-login {
 
   .help-block {
     font-size: 12px;
-    color: red;
+    color: #E84E0F;
   }
 
   .forget-password {

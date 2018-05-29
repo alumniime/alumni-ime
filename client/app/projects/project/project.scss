@@ -182,15 +182,14 @@
     font-weight: 600;
     font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
     padding: 12px 20px;
-    background-color: #f52b2b;
+    background-color: #E84E0F;
     color: #fff !important;
     width: 120px;
   }
 
   .btn-danger:hover, .btn-danger.active {
     color: #fff;
-    background-color: #c82333;
-    border-color: #bd2130;
+    background-color: rgb(199, 66, 14);
   }
 
   .carousel-mobile {
@@ -252,7 +251,7 @@
       padding: 5px 0;
     }
     .carousel-item .img-background.active {
-      border: 5px solid rgba(0, 150, 255, 1);
+      border: 5px solid #E84E0F;
       //box-shadow: inset 10px 10px #0097f6;
     }
   }
