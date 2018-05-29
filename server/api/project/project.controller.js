@@ -119,7 +119,7 @@ export function show(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      attributes: ['Path', 'OrderIndex']
+      attributes: ['Path', 'OrderIndex', 'Type']
     }, {
       model: User,
       attributes: ['name'],
@@ -141,6 +141,9 @@ export function show(req, res) {
       IsExcluded: 0
     }
   })
+    .then(project => {
+      return project.increment('Views', {by: 1});
+    })
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));

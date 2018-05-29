@@ -1,53 +1,62 @@
-.managementView{
-    padding: 70px 20px 60px !important;
-  
-    h5 {
-      margin-bottom: 0;
-      color: #333333;
-    }
-  
-    .page-title {
-      color: #333333 !important;
-      font-weight: bold;
-      font-size: 34px;
-      padding-bottom: 15px;
-      line-height: normal;
-      text-align: center;
-    }
+.managementView {
+  padding: 70px 20px 60px !important;
+  @include media-breakpoint-down(sm) {
+    padding: 40px 2px !important;
+  }
+  h5 {
+    margin-bottom: 0;
+    color: #333333;
+  }
 
-    .page-subtitle {
-      color: #333333 !important;
-      font-weight: bold;
-      font-size: 34px;
-      padding-bottom: 15px;
-      line-height: normal;
-      text-align: left;
-    }
+  .page-title {
+    color: #333333 !important;
+    font-weight: bold;
+    font-size: 34px;
+    padding-bottom: 15px;
+    line-height: normal;
+    text-align: center;
+  }
 
-    .manager-title{
-      padding-top: 30px;
-      font-weight: bold;
-      line-height: normal;
-      font-size: 24px;
-      color: #E84E0F;
-      border-bottom: 2px solid #E84E0F;
-    }
+  .page-subtitle {
+    color: #333333 !important;
+    font-weight: bold;
+    font-size: 34px;
+    padding-bottom: 15px;
+    line-height: normal;
+    text-align: left;
+  }
 
-    .managers{
-      padding-top: 20px;
-      font-style: normal;
-      font-weight: normal;
-      line-height: 30px;
-      font-size: 14px;
-      color: #333333;
-      
-      name{
-        font-weight: bold;
-      }
+  .manager-title {
+    padding-top: 30px;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 24px;
+    color: #E84E0F;
+    border-bottom: 2px solid #E84E0F;
+  }
+
+  .managers {
+    padding-top: 20px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 30px;
+    font-size: 14px;
+    color: #333333;
+
+    .name {
+      font-weight: bold;
     }
+  }
 }
 
-.managementViewBlue{
+.managementDirectors {
+  padding: 70px 0 !important;
+  @include media-breakpoint-down(sm) {
+    padding: 50px 30px !important;
+  }
+}
+
+.managementViewBlue {
   padding: 0 !important;
   background: #00456F;
 
@@ -55,9 +64,18 @@
     margin-bottom: 0;
   }
 
-  .text-box{
+  .text-box {
     padding: 40px 40px 40px 100px;
     vertical-align: middle;
+    float: right;
+    max-width: 667px;
+
+    @include media-breakpoint-only(lg) {
+      padding-left: 80px;
+    }
+    @include media-breakpoint-down(sm) {
+      padding: 50px 30px !important;
+    }
 
     .page-title {
       padding-bottom: 20px;
@@ -67,7 +85,7 @@
       color: #FFFFFF;
     }
 
-    .page-text{
+    .page-text {
       line-height: 26px;
       font-size: 14px;
       color: #FFFFFF;
@@ -75,35 +93,87 @@
     }
   }
 
-  #parent {display: table;}
-  #child {
-      display: table-cell;
-      vertical-align: middle;
+  .parent {
+    display: table;
+    padding: 0;
   }
 
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    // width: auto;
-    height: auto;
+  .child {
+    display: table-cell;
+    vertical-align: middle;
   }
+
+  .div-img {
+    //height: -webkit-fill-available;
+
+    align-items: flex-start;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+
+    img {
+      flex-shrink: 0;
+      min-width: 200%;
+      min-height: 100%;
+      max-width: 100%;
+      max-height: 600px;
+      align-self: center;
+    }
+
+    @include media-breakpoint-down(sm) {
+      max-height: 480px;
+      display: block;
+      overflow: hidden;
+      img {
+        margin-top: -40px;
+      }
+    }
+    @include media-breakpoint-only(md) {
+      img {
+        max-height: 700px;
+      }
+    }
+    @include media-breakpoint-up(xl) {
+      img {
+        min-width: 100%;
+      }
+    }
+
+  }
+
 }
 
-.managementViewLightBlue{
+.managementViewLightBlue {
   padding: 0;
   color: #333333 !important;
 
-  .light-blue{
+  .text-box {
+    max-width: 500px;
+  }
+
+  .light-blue {
     padding: 50px 70px 50px 100px !important;
     background: #AFCDE4;
+    @include media-breakpoint-only(lg) {
+      padding: 50px 30px 50px 80px !important;
+    }
+    @include media-breakpoint-down(sm) {
+      padding: 50px 30px !important;
+    }
   }
 
-  .gray{
-    padding: 50px 70px 50px 100px !important;
+  .gray {
+    padding: 50px 100px 50px 70px !important;
     background: #F2F2F2;
+    @include media-breakpoint-only(lg) {
+      padding: 50px 80px 50px 50px !important;
+    }
+    @include media-breakpoint-down(sm) {
+      padding: 50px 30px !important;
+    }
   }
 
-  .page-title{
+  .page-title {
     font-weight: bold;
     line-height: 45px;
     font-size: 34px;
@@ -111,13 +181,13 @@
     margin-bottom: 30px;
   }
 
-  .page-text{
+  .page-text {
     font-size: 14px;
     line-height: 25px;
     padding-bottom: 15px;
   }
 
-  .name{
+  .name {
     padding: 0;
     font-size: 14px;
     line-height: 30px;

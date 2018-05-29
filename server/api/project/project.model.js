@@ -88,6 +88,11 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
+    Views: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      defaultValue: 0
+    },
     IsApproved: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

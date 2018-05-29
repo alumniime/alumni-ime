@@ -57,17 +57,20 @@
     opacity: 0.9;
   }
 
-  .project-block-sticky {
-    position: sticky;
-    top: 70px;
-    padding: 25px;
-    height: 20%;
+  @include media-breakpoint-up(sm) {
+    .project-block-sticky {
+      position: sticky;
+      top: 70px;
+      padding: 25px;
+      height: 20%;
+    }
   }
 
-  .project-block {
-    margin-bottom: 30;
-    margin-top: 30;
-    padding: 0;
+  @include media-breakpoint-down(sm) {
+    .project-block-sticky {
+      margin-top: 20px;
+      padding: 0;
+    }
   }
 
   .news-card {
@@ -102,10 +105,15 @@
     padding-bottom: 3px;
   }
 
-  .project-group .leader {
-    font-size: 16px;
+  .project-group .team-name {
+    font-size: 14px;
     color: #828282;
-    padding-bottom: 25px;
+    padding-bottom: 15px;
+  }
+
+  .project-group img {
+    max-height: 150px;
+    display: flex;
   }
 
   .carousel-inner {
@@ -141,7 +149,7 @@
 
   .block-quote {
     border-left: 5px solid #0099F3;
-    border-radius: 0px;
+    border-radius: 0;
     background: #fafafa;
     padding: 10px 20px;
     margin-top: 30px;
@@ -163,7 +171,6 @@
   .footerRow {
     margin: 0;
     padding-top: 50px;
-    padding-bottom: 20px;
   }
 
   .news-deck {

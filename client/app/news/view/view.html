@@ -50,42 +50,18 @@
 
     </div>
 
-    <div class="d-none d-md-block col-md-5 col-lg-4 project-block-sticky">
+    <div class="col-12 col-md-5 col-lg-4 project-block-sticky">
       <div class="card news-card mb-3">
         <div class="card-body">
           <div class="card-title">Projetos em destaque</div>
 
-          <a class="project-group" href="main">
-            <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-            <h5 class="project-title">IME++ na China</h5>
-            <div class="leader">Por IME++</div>
+          <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: '-Views'"
+             ng-click="vm.openProject(project)" ng-if="$index < 2">
+            <img class="img-fluid m-auto" alt="Featured project" ng-src="{{project.images[0].Path}}">
+            <h5 class="project-title">{{project.ProjectName}}</h5>
+            <div class="team-name">por {{project.TeamName}}</div>
           </a>
 
-          <a class="project-group" href="main">
-            <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-            <h5 class="project-title">IME++ na China</h5>
-            <div class="leader">Por IME++</div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="d-md-none col-12 project-block">
-      <div class="card news-card mb-3">
-        <div class="card-body">
-          <div class="card-title">Projetos em destaque</div>
-
-          <a class="project-group" href="main">
-            <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-            <h5 class="project-title">IME++ na China</h5>
-            <div class="leader">Por IME++</div>
-          </a>
-
-          <a class="project-group" href="main">
-            <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-            <h5 class="project-title">IME++ na China</h5>
-            <div class="leader">Por IME++</div>
-          </a>
         </div>
       </div>
     </div>
@@ -97,36 +73,20 @@
   <div class="container">
     <div class="row justify-content-center footerRow">
       <div class="card-deck news-deck">
-        <a class="col-12 col-sm-4 card news-card mb-3" href="news">
-          <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-          <div class="card-body" style="padding: 0; padding-top: 15px">
+
+        <a class="col-12 col-sm-4 card news-card mb-3"
+           ng-repeat="news in vm.News.list | orderBy: '-Views'" ng-click="vm.openNews(news)"
+           ng-if="news.NewsId !== vm.news.NewsId && $index < (vm.News.list[0].NewsId !== vm.news.NewsId && vm.News.list[1].NewsId !== vm.news.NewsId && vm.News.list[2].NewsId !== vm.news.NewsId ? 3 : 4)">
+          <img class="img-fluid m-auto" alt="Featured news" ng-src="{{news.constructions[0].images[0].Path}}">
+          <div class="card-body px-0 py-3">
             <div class="form-group">
-              <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adipisicing dolor</h5>
-              <label>Subtítulo da notícia aqui, com poucos caracteres (a definir).</label>
-              <p class="news-date">18 Jul, 2018</p>
+              <h5 class="card-title">{{news.Title}}</h5>
+              <label>{{news.Subtitle}}</label>
+              <p class="news-date">{{news.PublishDate | date: 'dd MMM, yyyy'}}</p>
             </div>
           </div>
         </a>
-        <a class="col-12 col-sm-4 card news-card mb-3" href="news">
-          <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-          <div class="card-body" style="padding: 0; padding-top: 15px">
-            <div class="form-group">
-              <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adipisicing dolor</h5>
-              <label>Subtítulo da notícia aqui, com poucos caracteres (a definir).</label>
-              <p class="news-date">18 Jul, 2018</p>
-            </div>
-          </div>
-        </a>
-        <a class="col-12 col-sm-4 card news-card mb-3" href="news">
-          <img src="http://www.ime.eb.br/images/stories/SE4/SE4.3.jpg" style="width: 100%;" alt="Card image cap">
-          <div class="card-body" style="padding: 0; padding-top: 15px">
-            <div class="form-group">
-              <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adipisicing dolor</h5>
-              <label>Subtítulo da notícia aqui, com poucos caracteres (a definir).</label>
-              <p class="news-date">18 Jul, 2018</p>
-            </div>
-          </div>
-        </a>
+
       </div>
     </div>
   </div>

@@ -8,13 +8,14 @@ import routes from './view.routes';
 export class ViewController {
   news = {};
 
-  constructor(Modal, $state, $stateParams, News, $anchorScroll) {
+  constructor(Modal, $state, $stateParams, News, Project, $anchorScroll) {
     'ngInject';
 
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.Modal = Modal;
     this.News = News;
+    this.Project = Project;
     this.$anchorScroll = $anchorScroll;
   }
 
@@ -26,7 +27,8 @@ export class ViewController {
         .then(news => {
           loading.close();
           this.news = news;
-          console.log(news);
+          this.Project.load();
+          this.News.load();
           this.$anchorScroll('top');
         })
         .catch(() => {
@@ -41,6 +43,14 @@ export class ViewController {
 
   openPhoto(images, index) {
     this.Modal.openPhoto(images, index);
+  }
+
+  openProject(project) {
+    this.Project.open(project.ProjectId, project.ProjectName);
+  }
+
+  openNews(news) {
+    this.News.open(news.NewsId, news.Title);
   }
 
 }

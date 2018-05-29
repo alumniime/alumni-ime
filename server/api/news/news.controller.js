@@ -123,6 +123,9 @@ export function show(req, res) {
       IsExcluded: 0
     }
   })
+    .then(news => {
+      return news.increment('Views', {by: 1});
+    })
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));

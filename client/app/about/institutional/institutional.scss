@@ -1,35 +1,45 @@
-.institutionalView{
-    padding: 100px 20px 100px !important;
-  
-    h5 {
-      margin-bottom: 0;
-      color: #333333;
-    }
-  
-    .section-title {
-      font-weight: bold;
-      line-height: normal;
-      font-size: 16px;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      color: #E84E0F;
-      padding-bottom: 20px;
-    }
-  
-    .mission-text{
-      line-height: 45px !important;
-      font-size: 28px;
-      color: #333333;
-    }
-    .values-text{
-      line-height: 39px !important;
-      font-size: 24px;
-      color: #333333;
-    }
+.institutionalView {
+  padding: 100px 20px 100px !important;
+
+  h5 {
+    margin-bottom: 0;
+    color: #333333;
+  }
+
+  .section-title {
+    font-weight: bold;
+    line-height: normal;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #E84E0F;
+    padding-bottom: 20px;
+  }
+
+  .mission-text {
+    line-height: 45px !important;
+    font-size: 28px;
+    color: #333333;
+  }
+  .values-text {
+    line-height: 39px !important;
+    font-size: 22px;
+    color: #333333;
+  }
+
+  ul {
+    padding-left: 22px;
+    margin-bottom: 5px;
+  }
 }
-.vision{
-  // background: transparent;
+
+.vision {
+  background: #F2F2F2;
   padding: 0 !important;
+
+  .row {
+    margin-right: 0;
+  }
 
   h5 {
     margin-bottom: 0;
@@ -46,36 +56,39 @@
     padding-bottom: 15px;
   }
 
-  .vision-text{
+  .vision-text {
     line-height: 30px;
     font-size: 18px;
     color: #333333;
+
+    ul {
+      padding-left: 22px;
+      margin-bottom: 5px;
+    }
   }
 
-  background: #F2F2F2;
-
-  .text-box{
-    padding-top: 50px;
-    padding-bottom: 50px;
-    padding-left: 100px;
+  .text-box {
     padding: 50px 30px 50px 100px;
-    // background: #F2F2F2;
-    // margin-top: 22px;
-    // margin-bottom: 22px;
+  }
+
+  .div-img {
+    padding: 0;
+    margin-top: -22px;
+    margin-bottom: -22px;
+    align-items: flex-start;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
   }
 
   img {
-    // margin-left: -5px;
-    margin-top: -22px;
-    margin-bottom: -22px;
-    // max-width: 100%;
-    // max-height: 300%;
-    // width: auto;
-    // height: auto;
-
-    // max-height: 100%; 
-    // width: auto;
-    // max-width: 800px; 
-    // height: auto;
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    align-self: center;
+    @include media-breakpoint-up(lg) {
+      max-height: 600px;
+    }
   }
 }

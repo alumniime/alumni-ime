@@ -23,7 +23,7 @@
 
       <div class="carousel-col-4 d-none d-lg-block p-0 mt-4">
         <img class="img-selected img-fluid mb-4 c-pointer" alt="Project image" ng-src="{{vm.selectedProjectImage.Path}}"
-             ng-click="vm.openPhoto(vm.projectImages, vm.selectedProjectImageIndex)">
+             ng-click="vm.openPhoto(vm.projectImages, vm.selectedProjectImageIndex)" ng-if="vm.selectedProjectImage.Path">
         <div id="carouselAlumniCol" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item" ng-repeat="image in vm.projectImages"
@@ -209,7 +209,7 @@
 
             <div class="carousel-col-4 d-none d-lg-block p-0 mt-4">
               <img class="img-selected img-fluid mb-4 c-pointer" alt="Project image" ng-src="{{vm.selectedResultImage.Path}}"
-                   ng-click="vm.openPhoto(vm.resultImages, vm.selectedResultImageIndex)">
+                   ng-click="vm.openPhoto(vm.resultImages, vm.selectedResultImageIndex)" ng-if="vm.selectedResultImage.Path">
               <div id="carouselAlumniColResult" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item" ng-repeat="image in vm.resultImages"

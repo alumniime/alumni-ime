@@ -61,11 +61,11 @@
 
       <div class="row align-items-center">
         <div class="col-xs-12 col-sm-auto">
-          <a class="nav-link btn btn-outline-light" href="#" role="button">CONHEÇA OS PROJETOS</a>
+          <a class="nav-link btn btn-outline-light" href="projects">CONHEÇA OS PROJETOS</a>
           <br class="d-block d-sm-none">
         </div>
         <div class="col-xs-12 col-sm-auto">
-          <a class="nav-link btn btn-light" href="#" role="button">APOIE</a>
+          <a class="nav-link btn btn-light" href="support">APOIE</a>
         </div>
       </div>
     </div>
@@ -75,16 +75,12 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4 projects order-md-last">
-          <h4>Projetos em destaque</h4>
-          <img src="assets/images/ime-building.jpg" class="rounded mx-auto d-block">
-          <h5>Nome do projeto</h5>
-          <h6>Nome do autor</h6>
-          <img src="assets/images/ime-building.jpg" class="rounded mx-auto d-block">
-          <h5>Nome do projeto</h5>
-          <h6>Nome do autor</h6>
-          <img src="assets/images/ime-building.jpg" class="rounded mx-auto d-block">
-          <h5>Nome do projeto</h5>
-          <h6>Nome do autor</h6>
+          <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: '-Views'"
+             ng-click="vm.openProject(project)" ng-if="$index < 3">
+            <img class="rounded mx-auto d-block" alt="Featured project" ng-src="{{project.images[0].Path}}">
+            <h5 class="project-title">{{project.ProjectName}}</h5>
+            <h6 class="team-name">por {{project.TeamName}}</h6>
+          </a>
         </div>
         <div class="col-md-8 news">
           <h4>Principais notícias</h4>
