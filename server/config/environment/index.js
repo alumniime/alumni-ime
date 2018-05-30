@@ -54,9 +54,9 @@ var all = {
   },
 
   email: {
+    name: process.env.MAILER_NAME || 'Alumni IME',
     user: process.env.MAILER_EMAIL || '',
-    pass: process.env.MAILER_PASSWORD || '',
-    provider: process.env.MAILER_PROVIDER || 'gmail'
+    pass: process.env.MAILER_PASSWORD || ''
   }
 };
 

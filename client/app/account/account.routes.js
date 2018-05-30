@@ -5,7 +5,7 @@ export default function routes($stateProvider) {
 
   $stateProvider.state('login', {
     url: '/login/:confirmEmailToken',
-    template: require('./login/login.html'),
+    template: '<main></main>',
     controller: 'LoginController',
     controllerAs: 'vm'
   })
@@ -16,16 +16,21 @@ export default function routes($stateProvider) {
       controller($state, Auth) {
         'ngInject';
 
-        var referrer = $state.params.referrer || 'main'; //$state.current.referrer ||
+        var referrer = $state.params.referrer || 'main'; // || $state.current.referrer
         Auth.logout();
-        // $state.go(referrer);
         location.href = `/${referrer}`;
       }
     })
     .state('signup', {
       url: '/signup/:confirmEmailToken/:showEmailVerified',
-      template: require('./signup/signup.html'),
+      template: '<main></main>',
       controller: 'SignupController',
+      controllerAs: 'vm'
+    })
+    .state('reset', {
+      url: '/reset_password/:resetPasswordToken',
+      template: '<main></main>',
+      controller: 'ResetController',
       controllerAs: 'vm'
     })
     .state('profile', {

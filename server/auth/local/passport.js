@@ -20,6 +20,8 @@ function localAuthenticate(User, email, password, done) {
         if(!authenticated) {
           return done(null, false, {message: 'Senha incorreta.'});
         } else {
+          // User is authenticated
+          user.save(); // Updates LastActivityDate info
           // User aren't a NewUser and his email is verified, so he can login
           if(!user.EmailVerified) {
             return done(null, false, {

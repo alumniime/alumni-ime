@@ -124,6 +124,26 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
     },
 
     /**
+     * Reset password
+     *
+     * @param  {String}   resetPasswordToken
+     * @param  {String}   newPassword
+     * @param  {Function} callback    - function(error, user)
+     * @return {Promise}
+     */
+    resetPassword(resetPasswordToken, newPassword, callback) {
+      return User.resetPasswordByToken({}, {
+        resetPasswordToken,
+        newPassword
+      }, function () {
+        return safeCb(callback)(null);
+      }, function (err) {
+        return safeCb(callback)(err);
+      })
+        .$promise;
+    },
+
+    /**
      * Update user profile using a token
      *
      * @param  {String}   token

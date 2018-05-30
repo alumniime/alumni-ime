@@ -54,8 +54,9 @@ export function professors(req, res) {
       'PersonId',
       'Name'
     ],
-    where:{
-      PersonTypeId: [3, 5]
+    where: {
+      PersonTypeId: [3, 5],
+      IsExcluded: 0
     }
   })
     .then(users => {
@@ -66,7 +67,7 @@ export function professors(req, res) {
 }
 
 /**
- * Get list of professors
+ * Get list of students
  */
 export function students(req, res) {
   return User.findAll({
@@ -74,8 +75,9 @@ export function students(req, res) {
       'PersonId',
       'Name'
     ],
-    where:{
-      PersonTypeId: [2]
+    where: {
+      PersonTypeId: [2],
+      IsExcluded: 0
     }
   })
     .then(users => {
@@ -165,10 +167,10 @@ export function update(req, res, next) {
             .then(() => {
               InitiativeLink.bulkCreate(initiativeLinks)
                 .then(() => {
-                  var token = jwt.sign({ PersonId: newUser.PersonId }, config.secrets.session, {
+                  var token = jwt.sign({PersonId: newUser.PersonId}, config.secrets.session, {
                     expiresIn: 60 * 60 * 5
                   });
-                  return res.json({ token, PersonId: newUser.PersonId });
+                  return res.json({token, PersonId: newUser.PersonId});
                 })
                 .catch(err => next(err));
             })
@@ -346,7 +348,7 @@ export function sendConfirmation(req, res, next) {
           address: user.email
         },
         from: {
-          name: 'Alumni IME',
+          name: config.email.name,
           address: config.email.user
         },
         template: 'confirm-account-email',
@@ -372,7 +374,6 @@ export function sendConfirmation(req, res, next) {
       .json({message: err});
   });
 
-
 }
 
 /**
@@ -386,7 +387,6 @@ export function confirmEmail(req, res, next) {
     }
   })
     .then(user => {
-      // console.log(JSON.stringify(user));
       if(!user) {
         return res.status(422)
           .json({message: 'User not found.'});
@@ -395,8 +395,8 @@ export function confirmEmail(req, res, next) {
       if(user.ConfirmEmailExpires > Date.now()) {
         user.update({EmailVerified: true})
           .then(newUser => {
-            return res.redirect(`/signup/${newUser.ConfirmEmailToken}/1`); // redirect user to complete his registry
-            // return res.json({message: 'Success! Email verified'});
+            // redirect user to complete his registry
+            return res.redirect(`/signup/${newUser.ConfirmEmailToken}/1`);
           })
           .catch(err => next(err));
       } else {
@@ -411,7 +411,127 @@ export function confirmEmail(req, res, next) {
  * Allow user change his password using a token sent by email
  */
 export function forgotPassword(req, res) {
-  // TODO
+  var email = req.body.email;
+
+  async.waterfall([
+    function (done) {
+      User.find({
+        where: {
+          email: email,
+          IsExcluded: 0
+        }
+      })
+        .then(user => {
+          if(user) {
+            done(null, user);
+          } else {
+            done('User not found.');
+          }
+        })
+        .catch(err => next(err));
+    },
+    function (user, done) {
+      // create the random token
+      crypto.randomBytes(20, function (err, buffer) {
+        var token = buffer.toString('hex');
+        done(err, user, token);
+      });
+    },
+    function (user, token, done) {
+      user.update({ResetPasswordToken: token, ResetPasswordExpires: Date.now() + 86400000})
+        .then(new_user => {
+          done(null, new_user, token);
+        })
+        .catch(err => next(err));
+    },
+    function (user, token, done) {
+      var data = {
+        to: {
+          name: user.name,
+          address: user.email
+        },
+        from: {
+          name: config.email.name,
+          address: config.email.user
+        },
+        template: 'forgot-password-email',
+        subject: 'Redefinir Senha - Alumni IME', // ✔
+        context: {
+          url: `${config.domain}/reset_password/${token}`,
+          name: user.name.split(' ')[0]
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions',
+            email: email
+          });
+        } else {
+          return done(err);
+        }
+      });
+    }
+  ], function (err) {
+    return res.status(422)
+      .json({message: err});
+  });
+
+}
+
+/**
+ * Change a users password
+ */
+export function resetPassword(req, res) {
+  var token = String(req.body.resetPasswordToken);
+  var newPass = String(req.body.newPassword);
+
+  return User.find({
+    where: {
+      ResetPasswordToken: token,
+      IsExcluded: 0
+    }
+  })
+    .then(user => {
+
+      if(!user) {
+        return res.status(422)
+          .json({message: 'User not found.'});
+      }
+
+      if(user.ResetPasswordExpires > Date.now()) {
+        user.ResetPasswordToken = null;
+        user.password = newPass;
+        return user.save()
+          .then(() => {
+            var data = {
+              to: {
+                name: user.name,
+                address: user.email
+              },
+              from: {
+                name: config.email.name,
+                address: config.email.user
+              },
+              template: 'reset-password-email',
+              subject: 'Senha Alterada - Alumni IME',
+              context: {
+                name: user.name.split(' ')[0]
+              }
+            };
+            transporter.sendMail(data, function (err) {
+              res.status(204)
+                .end();
+            });
+
+          })
+          .catch(validationError(res));
+      } else {
+        return res.status(422)
+          .json({message: 'Token expired.'});
+      }
+
+    });
 }
 
 /**
@@ -437,7 +557,7 @@ export function sendContactEmail(req, res, next) {
           address: config.email.user
         },
         from: {
-          name: 'Alumni IME',
+          name: config.email.name,
           address: config.email.user
         },
         template: 'contact-email',

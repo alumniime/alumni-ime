@@ -8,9 +8,10 @@ import routing from './account.routes';
 import login from './login';
 import profile from './profile';
 import signup from './signup';
+import reset from './reset';
 import oauthButtons from '../../components/oauth-buttons';
 
-export default angular.module('alumniApp.account', [uiRouter, login, profile, signup, oauthButtons])
+export default angular.module('alumniApp.account', [uiRouter, login, profile, signup, reset, oauthButtons])
   .config(routing)
   .run(function($rootScope) {
     'ngInject';

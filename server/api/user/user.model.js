@@ -3,7 +3,7 @@
 import crypto from 'crypto';
 
 var validatePresenceOf = function (value) {
-  return value && value.length;
+  return value && value.length >= 6;
 };
 
 export default function (sequelize, DataTypes) {
@@ -130,6 +130,11 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.STRING(100),
       allowNull: true
     },
+    LastActivityDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null
+    },
     IsExcluded: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
@@ -167,6 +172,7 @@ export default function (sequelize, DataTypes) {
       beforeBulkCreate(users, fields, fn) {
         var totalUpdated = 0;
         users.forEach(user => {
+          user.LastActivityDate = Date.now();
           user.updatePassword(err => {
             if(err) {
               return fn(err);
@@ -179,9 +185,11 @@ export default function (sequelize, DataTypes) {
         });
       },
       beforeCreate(user, fields, fn) {
+        user.LastActivityDate = Date.now();
         user.updatePassword(fn);
       },
       beforeUpdate(user, fields, fn) {
+        user.LastActivityDate = Date.now();
         if(user.changed('password')) {
           return user.updatePassword(fn);
         }

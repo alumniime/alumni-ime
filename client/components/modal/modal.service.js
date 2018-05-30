@@ -10,6 +10,8 @@ import ModalAlertController from './alert/alert.controller';
 import ModalPhotoController from './photo/photo.controller';
 import ModalLoadingController from './loading/loading.controller';
 import ModalSentReceiptController from './sent-receipt/sent-receipt.controller';
+import ModalForgotPassword from './forgot-password/forgot-password.controller';
+import ModalResetPassword from './reset-password/reset-password.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $interval) {
@@ -34,6 +36,37 @@ export function ModalService($uibModal, $interval) {
         animation: true,
         component: 'modalSignup',
         size: 'dialog-centered'
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
+    openForgotPassword() {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalForgotPassword',
+        size: 'dialog-centered'
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
+    openResetPassword(resetPasswordToken) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalResetPassword',
+        size: 'dialog-centered',
+        resolve: {
+          resetPasswordToken: function () {
+            return resetPasswordToken;
+          }
+        }
       });
       modalInstance.result.then(function () {
         console.log('Success');
@@ -225,6 +258,26 @@ export default angular.module('alumniApp.modal', [])
   .component('modalSentReceipt', {
     template: require('./sent-receipt/sent-receipt.html'),
     controller: ModalSentReceiptController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalForgotPassword', {
+    template: require('./forgot-password/forgot-password.html'),
+    controller: ModalForgotPassword,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalResetPassword', {
+    template: require('./reset-password/reset-password.html'),
+    controller: ModalResetPassword,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

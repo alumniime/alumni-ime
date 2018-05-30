@@ -86,6 +86,10 @@ export default class ModalLoginController {
 
   }
 
+  openForgot() {
+    this.Modal.openForgotPassword();
+  }
+
   callSignup() {
     this.cancelModal();
     this.Modal.openSignup();

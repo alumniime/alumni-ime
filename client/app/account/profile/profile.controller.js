@@ -217,5 +217,9 @@ export default class ProfileController {
     this.$state.go('result', {ProjectId: project.ProjectId});
   }
 
+  logoutUser(referrer) {
+    this.Auth.logout();
+    location.href = `/${referrer || 'main'}`;
+  }
 
 }

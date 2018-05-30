@@ -14,13 +14,13 @@ router.put('/:id/profile', auth.isAuthenticated(), controller.update);
 router.put('/:token/registry', controller.update);
 router.get('/professors', controller.professors);
 router.get('/students', controller.students);
-router.get('/:id', controller.show); 
+router.get('/:id', controller.show);
 router.post('/', controller.create);
 
 router.post('/send_confirmation', controller.sendConfirmation);
 router.get('/confirm_email/:token', controller.confirmEmail);
 router.post('/forgot_password', controller.forgotPassword);
-router.get('/reset_password/:token', controller.forgotPassword);
+router.put('/reset_password', controller.resetPassword);
 router.post('/contact', controller.sendContactEmail);
 
 module.exports = router;

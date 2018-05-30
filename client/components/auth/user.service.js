@@ -24,6 +24,12 @@ export function UserResource($resource) {
         controller: 'registry'
       }
     },
+    resetPasswordByToken: {
+      method: 'PUT',
+      params: {
+        id: 'reset_password'
+      }
+    },
     get: {
       method: 'GET',
       params: {
