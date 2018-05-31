@@ -29,7 +29,7 @@ export default class ModalForgotPasswordController {
           console.log(res);
           loading.close();
           this.ok();
-          this.Modal.showAlert('Email enviado', 'Para redefinir a senha, verifique sua caixa de emails e clique no link enviado.')
+          this.Modal.showAlert('Email enviado', 'Para redefinir sua senha, verifique sua caixa de emails e clique no link enviado.')
         })
         .catch(err => {
           loading.close();

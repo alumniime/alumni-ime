@@ -78,22 +78,22 @@ export class NavbarComponent {
 }
 
 
-// var prevScrollpos = window.pageYOffset;
-// window.onscroll = function() {
-//   var currentScrollPos = window.pageYOffset;
-//   if (prevScrollpos > currentScrollPos) { 
-//     // scroll up
-//     document.getElementById("navbar").style.visibility = "visible";
-//     document.getElementById("navbar").style.position = "fixed";
-//     // document.getElementById("navbar").style.marginLeft = 
-//     // document.getElementById("navbar").style.justifyContent = "center";
-//     document.getElementById("navbar").style.top = "0px";
-//   } else {
-//     // scroll down
-//     document.getElementById("navbar").style.visibility = "hidden";
-//   }
-//   prevScrollpos = currentScrollPos;
-// }
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) { 
+    // scroll up
+    document.getElementById("header").style.visibility = "visible";
+    document.getElementById("header").style.position = "fixed";
+    // document.getElementById("navbar").style.marginLeft = 
+    // document.getElementById("navbar").style.justifyContent = "center";
+    document.getElementById("header").style.top = "0px";
+  } else if(prevScrollpos > 70) {
+    // scroll down
+    document.getElementById("header").style.visibility = "hidden";
+  }
+  prevScrollpos = currentScrollPos;
+}
 
 export default angular.module('directives.navbar', [])
   .component('navbar', {

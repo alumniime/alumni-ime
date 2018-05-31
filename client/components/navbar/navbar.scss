@@ -28,6 +28,109 @@ header {
     height: 100px;
   }
 
+  nav {
+
+    border-top: 1px solid #ccc;
+    background-color: #fff;
+    width: 100%;
+    // height: 60px;
+    margin-top: 0px;
+  
+    @include media-breakpoint-down(sm) {
+      border-top: none;
+      height: auto;
+      margin-top: 0;
+    }
+  
+    a.nav-link {
+      font-size: 14px;
+      font-weight: 700;
+      color: #333 !important;
+    }
+  
+    li {
+      margin-right: 15px;
+      margin-bottom: 2px;
+    }
+  
+    img {
+      width: 25px;
+    }
+  
+    li:hover, li.active, .navbar-brand .nav-link:hover, .navbar-brand .nav-link.active {
+      margin-top: -1px;
+      margin-bottom: 0;
+      border-bottom: 3px #E84E0F solid;
+    }
+  
+    @include media-breakpoint-down(md) {
+      li {
+        margin-right: 0;
+      }
+  
+      li:hover, li.active {
+        margin-top: 0;
+        margin-bottom: 2px;
+        border-bottom: none;
+      }
+      .navbar-collapse, ul.navbar-nav {
+        margin-top: 5px;
+        padding-bottom: 2px;
+      }
+      .dropdown-item, .navbar-nav .nav-link {
+        padding-top: 10px;
+        text-align: center;
+      }
+    }
+  
+    .navbar-brand, .navbar-collapse {
+      li:hover a, li.active a {
+        color: #E84E0F !important;
+      }
+    }
+  
+    .nav-link:hover, .nav-link.active {
+      color: #E84E0F !important;
+    }
+  
+    @include media-breakpoint-up(lg) {
+      li.dropdown:hover div.dropdown-menu {
+        display: block;
+      }
+    }
+  
+    li, .dropdown-item {
+      cursor: pointer;
+      font-size: 13px;
+    }
+  
+    .dropdown-item:hover, .dropdown-item.active {
+      color: #E84E0F !important;
+      background-color: #fff;
+    }
+  
+    .social-media {
+      padding-left: 0;
+      float: right;
+    }
+  
+    .navbar-toggler {
+      border: none;
+      font-size: 25px;
+    }
+  
+    .navbar-collapse {
+      background-color: #fff !important;
+      z-index: 1030;
+    }
+  
+    .navbar-mobile {
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+    }
+  
+  }
+
 }
 
 li .btn-danger {

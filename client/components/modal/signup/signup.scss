@@ -1,5 +1,4 @@
-modal-signup {
-
+modal-signup{
   .nav-pills .nav-link {
     background-color: #bdbdbd;
     border-radius: 0;
@@ -7,7 +6,7 @@ modal-signup {
   }
 
   .nav-pills .nav-link .active {
-    background-color: #E84E0F;
+    background-color: #E84E0F !important;
   }
 
   .nav-pills .nav-item.space {
@@ -62,8 +61,18 @@ modal-signup {
 
   .btn-signup {
     background-color: #E84E0F;
+    border: #E84E0F;
     border-radius: 30px;
     //margin-top: 40px;
+  }
+  .btn-signup:hover{
+    background-color: rgb(199, 66, 14);
+    border-radius: 30px;
+    border: rgb(199, 66, 14);
+  }
+  .btn-signup:active{
+    background-color: rgb(199, 66, 14) !important;
+    border: rgb(199, 66, 14) !important;
   }
 
   @include media-breakpoint-up(lg) {
@@ -110,7 +119,7 @@ modal-signup {
   .help-block {
     margin-top: 10px;
     font-size: 12px;
-    color: red;
+    color: #E84E0F;
   }
 
   .accept-terms {
@@ -138,5 +147,4 @@ modal-signup {
     display: inherit;
     text-align: center;
   }
-
 }
