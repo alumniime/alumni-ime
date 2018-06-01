@@ -11,7 +11,7 @@
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import {Project, Image, User, Se} from '../../sqldb';
+import {Project, Image, User, Se, Donation} from '../../sqldb';
 import multer from 'multer';
 import $q from 'q';
 
@@ -102,6 +102,14 @@ export function index(req, res) {
       model: User,
       attributes: ['name'],
       as: 'professor'
+    }, {
+      model: Donation,
+      attributes: ['ValueInCents'],
+      as: 'donations',
+      required: false,
+      where: {
+        IsApproved: 1
+      }
     }],
     attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
     where: {
@@ -131,6 +139,14 @@ export function show(req, res) {
     }, {
       model: Se,
       as: 'se'
+    }, {
+      model: Donation,
+      attributes: ['ValueInCents'],
+      as: 'donations',
+      required: false,
+      where: {
+        IsApproved: 1
+      }
     }],
     order: [
       [{model: Image, as: 'images'}, 'OrderIndex']

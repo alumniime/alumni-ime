@@ -19,6 +19,13 @@ export function ProjectService($http, $q, $state, Util) {
         $http.get('/api/projects')
           .then(response => {
             this.list = response.data;
+            for(var project of this.list) {
+              project.CollectedPriceInCents = 0;
+              project.DonationsNumber = project.donations.length;
+              for(var donation of project.donations) {
+                project.CollectedPriceInCents += donation.ValueInCents;
+              }
+            }
             d.resolve(this.list);
           })
           .catch(err => {
@@ -39,9 +46,11 @@ export function ProjectService($http, $q, $state, Util) {
         $http.get(`/api/projects/${ProjectId}${preview ? '/preview' : ''}`)
           .then(response => {
             var project = response.data;
-            // TODO load collected money
-            project.CollectedPriceInCents = 300000;
-            project.SupportersNumber = 2;
+            project.CollectedPriceInCents = 0;
+            project.DonationsNumber = project.donations.length;
+            for(var donation of project.donations) {
+              project.CollectedPriceInCents += donation.ValueInCents;
+            }
             this.loadedProjects[ProjectId] = project;
             d.resolve(project);
           })
