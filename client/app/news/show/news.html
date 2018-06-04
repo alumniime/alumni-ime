@@ -20,7 +20,7 @@
     <div class="card-deck news-deck">
 
         <div class="col-12 col-sm-6 col-md-4" ng-repeat="news in vm.News.list">
-            <a class="card news-card mb-3 c-pointer" ng-click="vm.openNews(news)">
+            <a class="card news-card mb-3 c-pointer ml-0 mr-3" ng-click="vm.openNews(news)">
                 <img class="w-100" ng-src="{{news.constructions[0].images[0].Path}}" alt="News card image">
                 <div class="card-body pl-3 pr-2">
                     <div class="form-group">

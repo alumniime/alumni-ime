@@ -14,6 +14,8 @@ var db = {
 };
 
 // Insert models below
+db.Company = db.sequelize.import('../api/company/company.model');
+db.Position = db.sequelize.import('../api/position/position.model');
 db.NewsCategory = db.sequelize.import('../api/news_category/news_category.model');
 db.News = db.sequelize.import('../api/news/news.model');
 db.NewsElement = db.sequelize.import('../api/news_element/news_element.model');
@@ -37,6 +39,7 @@ db.User.belongsTo(db.Se, {sourceKey: 'SEId', foreignKey: 'ProfessorSEId', as: 's
 db.User.belongsTo(db.Engineering, {sourceKey: 'EngineeringId', foreignKey: 'GraduationEngineeringId', as: 'engineering'});
 db.User.belongsTo(db.OptionToKnowType, {sourceKey: 'OptionTypeId', foreignKey: 'OptionToKnowThePageId', as: 'optionToKnowType'});
 db.User.hasMany(db.InitiativeLink, {foreignKey: 'PersonId', as: 'userInitiativeLinks'});
+db.User.hasMany(db.Position, {foreignKey: 'PersonId', as: 'positions'});
 
 db.InitiativeLink.belongsTo(db.Initiative, {sourceKey: 'InitiativeId', foreignKey: 'InitiativeId', as: 'initiative'});
 
@@ -57,4 +60,7 @@ db.Donation.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'DonatorId', 
 db.Donation.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});
 db.TransferReceipt = db.Donation.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'TransferReceiptId', as: 'transferReceipt'});
 
+db.Position.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'CompanyId', as: 'company'});
+
+console.log(db);
 module.exports = db;

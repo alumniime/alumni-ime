@@ -74,6 +74,30 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
+    LinkedinProfileURL: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    Headline: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    Location: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    Industry: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    Summary: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    Specialties: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     ImageURL: {
       type: DataTypes.STRING(255),
       allowNull: true
@@ -129,6 +153,11 @@ export default function (sequelize, DataTypes) {
     InitiativeLinkOther: {
       type: DataTypes.STRING(100),
       allowNull: true
+    },
+    CreateDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
     LastActivityDate: {
       type: DataTypes.DATE,
