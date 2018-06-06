@@ -57,4 +57,19 @@ modal-email-verified {
     text-align: center;
   }
 
+  .btn-outline-info:hover{
+    color: #fafafa;
+    background: #E84E0F;
+  }
+
+  .btn-outline-info{
+    color: #E84E0F;
+    background: #fafafa;
+    border-color: #E84E0F !important;
+  }
+
+  .btn-outline-info.active {
+    color: #fafafa !important;
+    background-color: rgb(199, 66, 14) !important;
+  }
 }
