@@ -53,10 +53,6 @@ header {
       margin-bottom: 2px;
     }
 
-    img {
-      width: 25px;
-    }
-
     li:hover, li.active, .navbar-brand .nav-link:hover, .navbar-brand .nav-link.active {
       margin-top: -1px;
       margin-bottom: 0;
@@ -182,8 +178,8 @@ nav {
     margin-bottom: 2px;
   }
 
-  img {
-    width: 25px;
+  img.logo {
+    height: 100px;
   }
 
   li:hover, li.active, .navbar-brand .nav-link:hover, .navbar-brand .nav-link.active {

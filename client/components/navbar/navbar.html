@@ -1,179 +1,205 @@
-<header id="header">
-    <div class="container">
-      <div class="row align-items-center justify-content-between">
-        <div class="col-auto d-none d-md-block">
-          <a ui-sref="main">
-            <img src="assets/images/logo.svg" class="logo" style="margin-top: 10px; margin-bottom: 10px;">
-          </a>
+<header>
+  <div class="container">
+    <div class="row align-items-center justify-content-between">
+      <!-- Up Medium Size -->
+      <div class="col-auto d-none d-md-block">
+        <a ui-sref="main">
+          <img src="assets/images/logo.svg" class="logo" style="margin-top: 10px; margin-bottom: 10px;">
+        </a>
+      </div>
+      <!-- Up Medium Size -->
+      <div class="col-md-9 col-lg-10 d-none d-md-block">
+        <div class="row align-items-center justify-content-end">
+          <div class="col-auto" style="padding: 15px 0 15px;">
+            <ul class="nav">
+              <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+                <a class="nav-link text-dark d-none d-lg-block" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
+              </li>
+              <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+                <a class="nav-link text-dark d-none d-lg-block" ng-click="$ctrl.Modal.openSignup()"
+                   href="#">CADASTRAR</a>
+              </li>
+              <li class="nav-item" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
+                <a class="nav-link text-dark d-none d-lg-block" ui-sref="profile">MEU PERFIL</a>
+              </li>
+              <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
+                <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin">ADMIN</a>
+              </li>
+              <!--<li class="nav-item" ui-sref-active="active">-->
+              <!--<a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>-->
+              <!--</li>-->
+              <li class="nav-item">
+                <a class="nav-link btn btn-danger d-none d-md-block" href="support" role="button">APOIE</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="col-md-9 col-lg-10 d-none d-md-block">
-          <div class="row align-items-center justify-content-between">
-            <div class="col d-none d-md-block"></div>
-            <div class="col-auto" style="padding: 15px 0 15px;">
-              <ul class="nav">
-                <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-                  <a class="nav-link text-dark d-none d-lg-block" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
+        <nav class="navbar navbar-expand-lg navbar-light container">
+
+          <div class="navbar-brand d-none d-md-block d-lg-none">
+            <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openLogin()" href="#"
+               ui-sref-active="active">ENTRAR</a>
+            <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openSignup()" href="#"
+               ui-sref-active="active">CADASTRAR</a>
+            <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU
+              PERFIL</a>
+            <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
+          </div>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
+                  aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation"
+                  ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
+            <!--<span class="navbar-toggler-icon"></span>-->
+            <i class="fa fa-bars" ng-show="$ctrl.isCollapsed"></i>
+            <i class="fa fa-close" ng-hide="$ctrl.isCollapsed"></i>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
+
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item p-0" ng-repeat="item in $ctrl.menu" ng-class="{dropdown: item.dropdown}"
+                  ui-sref-active="active">
+                <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+                   ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
+                <a class="nav-link dropdown-toggle" ui-sref="{{item.state}}" id="navbarDropdown{{$index}}"
+                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                   ng-if="item.dropdown">
+                  {{item.title}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
+                  <div ng-repeat="drop in item.dropdown">
+                    <button class="dropdown-item" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+                            ui-sref="{{drop.state}}" ui-sref-active="active">
+                      {{drop.title}}
+                    </button>
+                    <div class="dropdown-divider" ng-if="!$last"></div>
+                  </div>
+                </div>
+              </li>
+              <li class="nav-item p-0" ui-sref-active="active">
+                <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+                   ui-sref="submission">SUBMETER PROJETO</a>
+              </li>
+              <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+                <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
+              </li>
+              <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+                <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
+              </li>
+              <li class="nav-item d-block d-md-none" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
+                <a class="nav-link font-weight-normal" ui-sref="profile">MEU PERFIL</a>
+              </li>
+              <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
+                <a class="nav-link font-weight-normal" ui-sref="admin">ADMIN</a>
+              </li>
+            </ul>
+
+            <div class="d-none d-lg-block social-media col-auto">
+              <a class="btn btn-light" href="https://www.facebook.com/AlumniIME/" target="_blank">
+                <i class="fa fa-facebook"></i>
+              </a>
+              <a class="btn btn-light" href="https://www.linkedin.com/company/alumni-ime" target="_blank">
+                <i class="fa fa-linkedin"></i>
+              </a>
+              <a class="btn btn-light" href="https://www.instagram.com/alumniime/" target="_blank">
+                <i class="fa fa-twitter"></i>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Down Small Size -->
+      <div class="col-auto d-md-none" ng-if="$ctrl.isCollapsed">
+        <a ui-sref="main">
+          <img src="assets/images/logo.svg" class="logo" style="margin: 10px 0 10px 10px;">
+        </a>
+      </div>
+      <!-- Down Small Size -->
+      <div class="col d-md-none">
+        <div class="row align-items-center justify-content-between" style="padding: 10px 0 10px">
+
+          <ul class="nav ml-4" ng-if="$ctrl.isCollapsed">
+            <li class="nav-item p-0" ui-sref-active="active">
+              <a class="nav-link text-dark p-0" ui-sref="submission">SUBMETER PROJETO</a>
+            </li>
+          </ul>
+
+          <nav class="navbar navbar-expand-lg navbar-light"
+               ng-class="{'col': !$ctrl.isCollapsed, 'col-auto': $ctrl.isCollapsed}">
+            <a class="navbar-brand d-block d-md-none" ui-sref="main" ng-if="!$ctrl.isCollapsed">
+              <img src="assets/images/logo.svg" class="logo">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
+                    aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation"
+                    ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
+              <i class="fa fa-bars" ng-show="$ctrl.isCollapsed"></i>
+              <i class="fa fa-close" ng-hide="$ctrl.isCollapsed"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
+
+              <ul class="navbar-nav mr-auto" style="margin-top: -5px;">
+                <li class="nav-item p-0" ng-repeat="item in $ctrl.menu" ng-class="{dropdown: item.dropdown}"
+                    ui-sref-active="active">
+                  <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+                     ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
+                  <a class="nav-link dropdown-toggle" ui-sref="{{item.state}}" id="navbarDropdown{{$index}}"
+                     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                     ng-if="item.dropdown">
+                    {{item.title}}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
+                    <div ng-repeat="drop in item.dropdown">
+                      <button class="dropdown-item" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+                              ui-sref="{{drop.state}}" ui-sref-active="active">
+                        {{drop.title}}
+                      </button>
+                      <div class="dropdown-divider" ng-if="!$last"></div>
+                    </div>
+                  </div>
                 </li>
-                <li class="nav-item" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-                  <a class="nav-link text-dark d-none d-lg-block" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
+                <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+                  <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
                 </li>
-                <li class="nav-item" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
-                  <a class="nav-link text-dark d-none d-lg-block" ui-sref="profile">MEU PERFIL</a>
+                <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+                  <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
                 </li>
-                <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
-                  <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin">ADMIN</a>
+                <li class="nav-item d-block d-md-none" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
+                  <a class="nav-link font-weight-normal" ui-sref="profile">MEU PERFIL</a>
                 </li>
-                <li class="nav-item" ui-sref-active="active">
-                  <a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link btn btn-danger d-none d-md-block" href="support" role="button">APOIE</a>
+                <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
+                  <a class="nav-link font-weight-normal" ui-sref="admin">ADMIN</a>
                 </li>
               </ul>
             </div>
-          </div>
-          <div class="row">
-              <nav class="navbar navbar-expand-lg navbar-light container">
-
-                  <div class="navbar-brand d-none d-md-block d-lg-none">
-                    <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openLogin()" href="#" ui-sref-active="active">ENTRAR</a>
-                    <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openSignup()" href="#" ui-sref-active="active">CADASTRAR</a>
-                    <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU PERFIL</a>
-                    <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
-                  </div>
-              
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
-                          aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation"
-                          ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
-                    <!--<span class="navbar-toggler-icon"></span>-->
-                    <i class="fa fa-bars" ng-show="$ctrl.isCollapsed"></i>
-                    <i class="fa fa-close" ng-hide="$ctrl.isCollapsed"></i>
-                  </button>
-              
-                  <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
-              
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item" ng-repeat="item in $ctrl.menu" ng-class="{dropdown: item.dropdown}" ui-sref-active="active" style="padding: 0">
-                        <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
-                           ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
-                        <a class="nav-link dropdown-toggle" ui-sref="{{item.state}}" id="navbarDropdown{{$index}}"
-                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-if="item.dropdown">
-                          {{item.title}}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
-                          <div ng-repeat="drop in item.dropdown">
-                            <button class="dropdown-item" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
-                              ui-sref="{{drop.state}}" ui-sref-active="active">
-                              {{drop.title}}
-                            </button>
-                            <div class="dropdown-divider" ng-if="!$last"></div>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-                        <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
-                      </li>
-                      <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-                        <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
-                      </li>
-                      <li class="nav-item d-block d-md-none" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
-                        <a class="nav-link font-weight-normal" ui-sref="profile">MEU PERFIL</a>
-                      </li>
-                      <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
-                        <a class="nav-link font-weight-normal" ui-sref="admin">ADMIN</a>
-                      </li>
-                    </ul>
-                    
-                    <div class="d-none d-lg-block social-media col-auto">
-                      <a class="btn btn-light" href="https://www.facebook.com/AlumniIME/" target="_blank">
-                        <i class="fa fa-facebook"></i>
-                      </a> 
-                        <a class="btn btn-light" href="https://www.linkedin.com/company/alumni-ime" target="_blank">
-                          <i class="fa fa-linkedin"></i>
-                        </a>
-                        <a class="btn btn-light" href="https://www.instagram.com/alumniime/" target="_blank">
-                          <i class="fa fa-twitter"></i>
-                        </a>
-                    </div>
-                  </div>
-                </nav>
-          </div>
+          </nav>
         </div>
-        <div class="col-auto d-md-none">
-          <a ui-sref="main">
-            <img src="assets/images/logo.svg" class="logo" style="margin: 10px 0 10px 10px;">
-          </a>
-        </div>
-        <div class="col d-md-none">
-          <div class="row align-items-center justify-content-center" style="padding: 10px 0 10px">
-              <ul class="nav">
-                <li class="nav-item" style="padding: 0" ui-sref-active="active">
-                  <a class="nav-link text-dark" style="padding: 0" ui-sref="submission">SUBMETER PROJETO</a>
-                </li>
-              </ul>
-
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
-                      aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation"
-                      ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed" style="padding: 0 20px 0;">
-                <i class="fa fa-bars" ng-show="$ctrl.isCollapsed"></i>
-                <i class="fa fa-close" ng-hide="$ctrl.isCollapsed"></i>
-              </button>
-
-              <nav class="col-auto navbar navbar-expand-lg navbar-light container" style="padding: 0; margin: 0">
-
-                  <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
-              
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item" ng-repeat="item in $ctrl.menu" ng-class="{dropdown: item.dropdown}" ui-sref-active="active" style="padding: 0">
-                        <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
-                          ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
-                        <a class="nav-link dropdown-toggle" ui-sref="{{item.state}}" id="navbarDropdown{{$index}}"
-                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-if="item.dropdown">
-                          {{item.title}}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
-                          <div ng-repeat="drop in item.dropdown">
-                            <button class="dropdown-item" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
-                              ui-sref="{{drop.state}}" ui-sref-active="active">
-                              {{drop.title}}
-                            </button>
-                            <div class="dropdown-divider" ng-if="!$last"></div>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-                        <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
-                      </li>
-                      <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
-                        <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
-                      </li>
-                      <li class="nav-item d-block d-md-none" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
-                        <a class="nav-link font-weight-normal" ui-sref="profile">MEU PERFIL</a>
-                      </li>
-                      <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
-                        <a class="nav-link font-weight-normal" ui-sref="admin">ADMIN</a>
-                      </li>
-                    </ul>
-                  </div>
-                </nav>
-          </div>
-          <div class="row align-items-center" style="border-top: 1px solid #ccc; padding-top: 10px; margin-right: 10px">
-              <div class="navbar-mobile w-100 d-block d-md-none">
-                <ul class="nav">
-                  <li class="nav-item m-auto">
+        <div style="border-top: 1px solid #ccc; padding-top: 10px; margin-right: 10px">
+          <div class="navbar-mobile d-block d-md-none">
+            <div class="row">
+              <div class="col-auto" ng-if="!$ctrl.isCollapsed">
+                <ul class="nav ml-4">
+                  <li class="nav-item p-0 mt-2" ui-sref-active="active">
+                    <a class="nav-link text-dark p-0" ui-sref="submission">SUBMETER PROJETO</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col">
+                <ul class="nav pull-right">
+                  <li class="nav-item pb-2 pr-0">
                     <a class="btn btn-danger" href="support" role="button">APOIE</a>
                   </li>
                 </ul>
               </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="navbar-shadow"></div>
+  </div>
+  <div class="navbar-shadow"></div>
 </header>
 
-<nav class="navbar navbar-expand-lg navbar-light container d-none d-md-block" style="margin-top: 70px !important;">
-</nav>
-
-<nav class="navbar navbar-expand-lg navbar-light container d-md-none" style="margin-top: 105px !important;">
-</nav>
+<div style="height: 128px;"></div>

@@ -87,6 +87,8 @@ export default class ProfileController {
       for(var i = 1950; i <= today.getFullYear() + 4; i++) {
         this.graduationYears.push(i);
       }
+      this.Project.loadMyProjects(false);
+      this.Donation.loadMyDonations(false);
 
     });
     if(this.$stateParams.view !== null) {
@@ -96,8 +98,6 @@ export default class ProfileController {
         }
       }
     }
-    this.Project.loadMyProjects(false);
-    this.Donation.loadMyDonations(false);
   }
 
   selectPage(route) {

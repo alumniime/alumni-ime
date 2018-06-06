@@ -362,7 +362,7 @@ export function sendConfirmation(req, res, next) {
         if(!err) {
           return res.json({
             message: 'Success! Kindly check your email for further instructions',
-            PersonID: userId
+            PersonId: userId
           });
         } else {
           return done(err);

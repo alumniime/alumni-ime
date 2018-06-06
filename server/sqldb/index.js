@@ -62,5 +62,4 @@ db.TransferReceipt = db.Donation.belongsTo(db.Image, {sourceKey: 'ImageId', fore
 
 db.Position.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'CompanyId', as: 'company'});
 
-console.log(db);
 module.exports = db;

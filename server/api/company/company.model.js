@@ -10,7 +10,8 @@ export default function(sequelize, DataTypes) {
     },
     LinkedinId: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
+      unique: true
     },
     Name: {
       type: DataTypes.STRING(255),

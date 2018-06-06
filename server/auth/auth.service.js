@@ -33,21 +33,26 @@ export function isAuthenticated() {
       }
     })
     // Attach user to request
-    .use(function (req, res, next) {
-      User.find({
-        where: {
-          PersonId: req.user.PersonId
-        }
-      })
-        .then(user => {
-          if(!user) {
-            return res.status(401)
-              .end();
+    .use(function (err, req, res, next) {
+      if (err) {
+        // User has a invalid token when err.name === 'UnauthorizedError'
+        res.status(401).send('Invalid Token');
+      } else {
+        User.find({
+          where: {
+            PersonId: req.user.PersonId
           }
-          req.user = user;
-          next();
         })
-        .catch(err => next(err));
+          .then(user => {
+            if(!user) {
+              return res.status(401)
+                .end();
+            }
+            req.user = user;
+            next();
+          })
+          .catch(err => next(err));
+      }
     });
 }
 

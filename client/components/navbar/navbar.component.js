@@ -79,21 +79,21 @@ export class NavbarComponent {
 
 
 var prevScrollpos = window.pageYOffset;
-window.onscroll = function() {
+window.onscroll = function () {
   var currentScrollPos = window.pageYOffset;
-  if (prevScrollpos > currentScrollPos) { 
+  if(prevScrollpos > currentScrollPos) {
     // scroll up
-    document.getElementById("header").style.visibility = "visible";
-    document.getElementById("header").style.position = "fixed";
-    // document.getElementById("navbar").style.marginLeft = 
+    document.getElementById('header').style.visibility = 'visible';
+    document.getElementById('header').style.position = 'fixed';
+    // document.getElementById("navbar").style.marginLeft =
     // document.getElementById("navbar").style.justifyContent = "center";
-    document.getElementById("header").style.top = "0px";
+    document.getElementById('header').style.top = '0px';
   } else if(prevScrollpos > 70) {
     // scroll down
-    document.getElementById("header").style.visibility = "hidden";
+    document.getElementById('header').style.visibility = 'hidden';
   }
   prevScrollpos = currentScrollPos;
-}
+};
 
 export default angular.module('directives.navbar', [])
   .component('navbar', {

@@ -16,8 +16,6 @@ export function setup(User, config) {
       ]
     },
     function (token, tokenSecret, profile, done) {
-      // TODO save positions and companies
-      console.log(JSON.stringify(profile));
       var email = profile.emails[0].value;
       var ImageURL = null;
       if(profile._json.pictureUrls) {
@@ -40,9 +38,7 @@ export function setup(User, config) {
             user.Industry = profile._json.industry || null;
             user.Summary = profile._json.summary || null;
             user.Specialties = profile._json.specialties || null;
-            user.save()
-              .then(savedUser => done(null, savedUser))
-              .catch(err => done(err));
+            saveUser(user, profile._json.positions.values || null, done);
           } else {
             // User is new
             crypto.randomBytes(20, function (err, buffer) {
@@ -65,9 +61,7 @@ export function setup(User, config) {
                   EmailVerified: 1,
                   ConfirmEmailToken: token
                 });
-                user.save()
-                  .then(savedUser => done(null, savedUser))
-                  .catch(err => done(err));
+                saveUser(user, profile._json.positions.values || null, done);
               } else {
                 done(err);
               }
@@ -77,4 +71,43 @@ export function setup(User, config) {
         })
         .catch(err => done(err));
     }));
+}
+
+function saveUser(user, positions, done) {
+  user.save()
+    .then(savedUser => {
+
+      for(let position of positions) {
+        Company.findOrCreate({
+          where: {LinkedinId: position.company.id},
+          defaults: {
+            Name: position.company.name,
+            Type: position.company.type,
+            Industry: position.company.industry,
+            Size: position.company.size,
+          }
+        })
+          .then(result => {
+            var company = result[0];
+            Position.upsert({
+              PersonId: savedUser.PersonId,
+              CompanyId: company.CompanyId,
+              LinkedinId: position.id,
+              Title: position.title || null,
+              Summary: position.summary || null,
+              Location: (position.location ? position.location.name : null),
+              StartDateMonth: (position.startDate ? position.startDate.month : null),
+              StartDateYear: (position.startDate ? position.startDate.year : null),
+              EndDateMonth: (position.endDate ? position.endDate.month : null),
+              EndDateYear: (position.endDate ? position.endDate.year : null),
+              IsCurrent: position.isCurrent
+            })
+              .catch(err => console.log(err));
+          })
+          .catch(err => console.log(err));
+
+      }
+      done(null, savedUser);
+    })
+    .catch(err => done(err));
 }
