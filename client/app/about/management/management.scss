@@ -65,7 +65,7 @@
   }
 
   .text-box {
-    padding: 40px 40px 40px 100px;
+    padding: 40px 50px 40px 100px;
     vertical-align: middle;
     float: right;
     max-width: 667px;
@@ -79,17 +79,18 @@
 
     .page-title {
       padding-bottom: 20px;
-
       line-height: 32px;
       font-size: 20px;
       color: #FFFFFF;
+      text-align: justify;
     }
 
     .page-text {
       line-height: 26px;
-      font-size: 14px;
+      font-size: 16px;
       color: #FFFFFF;
       padding-bottom: 10px;
+      text-align: justify;
     }
   }
 

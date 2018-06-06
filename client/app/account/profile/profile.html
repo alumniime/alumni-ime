@@ -58,7 +58,8 @@
                      value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
             </div>
             <div class="form-group mb-0">
-              <label for="InitiativesShow">{{vm.user.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
+              <label for="InitiativesShow">{{vm.user.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU
+                TEVE)'}}
                 LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
               <input type="text" id="InitiativesShow" name="Initiatives" class="form-control-plaintext" readonly
                      ng-value="vm.concatenateInitiativeLinks()">
@@ -84,7 +85,7 @@
           {{ vm.messageUpdate }}
         </p>
 
-        <button class="btn btn-outline-info" ng-click="vm.editFields = !vm.editFields">
+        <button class="btn btn-outline-info" ng-click="vm.callEdit()">
           ALTERAR CADASTRO
         </button>
 
@@ -124,8 +125,15 @@
 
               <div class="form-group">
                 <label for="Birthdate">DATA DE NASCIMENTO*</label>
-                <input type="date" id="Birthdate" name="Birthdate" class="form-control"
-                       ng-model="vm.user.Birthdate">
+                <input type="text" id="Birthdate" name="Birthdate" placeholder="10/03/1980" mask="39/19/9999"
+                       class="form-control" ng-model="vm.Birthdate" required
+                       ng-change="vm.validateDate(vm.Birthdate)">
+                <p class="help-block" ng-show="formUpdate.Birthdate.$error.required && vm.submittedUpdate">
+                  Insira a sua data de nascimento.
+                </p>
+                <p class="help-block" ng-show="(formUpdate.Birthdate.$invalid && vm.submittedUpdate) || vm.dateInvalid">
+                  Insira uma data válida.
+                </p>
               </div>
 
               <div class="form-group"
@@ -134,7 +142,7 @@
                 <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                         ng-model="vm.user.GraduationEngineeringId" required
                         ng-change="vm.updateEngineering(vm.user.GraduationEngineeringId)">
-                  <option ng-repeat="engineering in vm.user.engineeringList | orderBy:'Description'"
+                  <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
                           ng-value="engineering.EngineeringId">{{engineering.Description}}
                   </option>
                 </select>
@@ -196,6 +204,7 @@
                 <select class="form-control" id="Genre" name="Genre" ng-model="vm.user.Genre" required>
                   <option value="M">Masculino</option>
                   <option value="F">Feminino</option>
+                  <option value="O">Outro</option>
                 </select>
                 <p class="help-block" ng-show="formUpdate.Genre.$error.required && vm.submittedUpdate">
                   Insira o seu gênero.
@@ -204,8 +213,8 @@
 
               <div class="form-group">
                 <label for="Phone">TELEFONE*</label>
-                <input type="tel" id="Phone" name="Phone" placeholder="+55 (DDD) 00000-0000" class="form-control"
-                       ng-model="vm.user.Phone" required>
+                <input type="tel" id="Phone" name="Phone" placeholder="+55 (00) 00000-0000" mask="+99 (99) 9?9999-9999"
+                       class="form-control" ng-model="vm.user.Phone" required>
                 <p class="help-block" ng-show="formUpdate.Phone.$error.required && vm.submittedUpdate">
                   Insira o seu telefone.
                 </p>
@@ -215,7 +224,7 @@
                 <label for="PersonTypeId">COMO VOCÊ SE ENCONTRA HOJE*</label>
                 <select class="form-control" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId"
                         required ng-change="vm.updatePersonType(vm.user.PersonTypeId)">
-                  <option ng-repeat="type in vm.user.personTypes" ng-if="type.Description !== 'NewUser'"
+                  <option ng-repeat="type in vm.personTypes" ng-if="type.Description !== 'NewUser'"
                           ng-value="type.PersonTypeId">{{type.PortugueseDescription}}
                   </option>
                 </select>
@@ -240,7 +249,7 @@
                    ng-if="vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'FormerStudentAndProfessor'">
                 <label for="ProfessorSEId">SEÇÃO DE ENSINO ATUAL*</label>
                 <select class="form-control" id="ProfessorSEId" name="ProfessorSEId"
-                        ng-model="vm.user.ProfessorSEId" required>
+                        ng-model="vm.user.ProfessorSEId" required ng-change="vm.updateSe(vm.user.ProfessorSEId)">
                   <option ng-repeat="se in vm.sesList" ng-value="se.SEId">{{se.Description}}
                   </option>
                 </select>
@@ -260,7 +269,7 @@
 
             <div class="row align-items-center mt-4">
               <div class="col-xs-12 col-sm-auto">
-                <button class="btn btn-outline-info" ng-click="vm.editFields = !vm.editFields">
+                <button class="btn btn-outline-info" ng-click="vm.cancelEdit()">
                   CANCELAR
                 </button>
                 <br class="d-block d-sm-none">
@@ -417,7 +426,8 @@
               <div class="col">
                 <div class="form-group">
                   <label>VALOR</label>
-                  <input type="text" class="form-control-plaintext" readonly value="{{donation.ValueInCents/100 | currency}}">
+                  <input type="text" class="form-control-plaintext" readonly
+                         value="{{donation.ValueInCents/100 | currency}}">
                 </div>
               </div>
 

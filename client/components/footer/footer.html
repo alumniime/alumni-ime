@@ -8,25 +8,26 @@
     </div>
     <div class="col-md-4">
       <h6>Associação dos ex-alunos do Instituto Militar de Engenharia</h6>
-      <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas urna dui, sagittis ut nunc et, venenatis
-        faucibus sem.</p>
+      <p>Apoiando o IME e a comunidade IMEana.</p>
       <br>
       <p class="text-center">Acompanhe-nos
         <br class="d-none d-md-block d-lg-none">
-        <a class="btn btn-light" href="https://www.facebook.com/AlumniIME/" target="_blank">
+        <a class="btn btn-light" href="https://www.facebook.com/AlumniIME" target="_blank">
           <i class="fa fa-facebook"></i>
         </a>
         <a class="btn btn-light" href="https://www.linkedin.com/company/alumni-ime" target="_blank">
           <i class="fa fa-linkedin"></i>
         </a>
-        <a class="btn btn-light" href="https://www.instagram.com/alumniime/" target="_blank">
-          <i class="fa fa-twitter"></i>
+        <a class="btn btn-light" href="https://www.instagram.com/alumniime" target="_blank"
+           style="font-size: 17px; padding-top: 0; padding-left: 5px;">
+          <i class="fa fa-instagram"></i>
         </a>
       </p>
       <br>
       <p class="copyrights d-none d-md-block">
-        &copy; 2018 Alumini IME.
+        &copy; {{$ctrl.year}} Alumini IME.
         <br> Todos os direitos reservados.
+        <br> R. Arnaldo Quintela, 51 - Botafogo
         <br> Rio de Janeiro, RJ - Brasil
       </p>
 
@@ -37,31 +38,32 @@
 
       <form class="form" name="form" ng-submit="$ctrl.sendContactEmail(form)" novalidate="">
         <input type="text" id="name" name="name" required ng-model="$ctrl.name" placeholder="nome">
-        <p class="help-block"
-          ng-if="form.name.$error.required && $ctrl.submitted">
+        <p class="help-block mb-2"
+           ng-if="form.name.$error.required && $ctrl.submitted">
           Insira o seu nome, por favor.
         </p>
         <input type="email" name="email" id="email" required ng-model="$ctrl.email" placeholder="email">
-        <p class="help-block"
-          ng-if="(form.email.$error.email || form.email.$error.required) && $ctrl.submitted">
+        <p class="help-block mb-2"
+           ng-if="(form.email.$error.email || form.email.$error.required) && $ctrl.submitted">
           Insira o seu email, por favor.
         </p>
-        <textarea name="message" rows="5" id="message" required ng-model="$ctrl.message" placeholder="mensagem"></textarea>
-        <p class="help-block"
-          ng-if="form.message.$error.required && $ctrl.submitted">
+        <textarea name="message" rows="5" id="message" required ng-model="$ctrl.message"
+                  placeholder="mensagem"></textarea>
+        <button href="#" type="submit" class="btn btn-light">ENVIAR</button>
+        <p class="help-block" style="margin-top: -15px"
+           ng-if="form.message.$error.required && $ctrl.submitted">
           Insira a sua mensagem, por favor.
         </p>
-        <button href="#" type="submit" class="btn btn-light">ENVIAR</button>
       </form>
 
       <p class="copyrights d-block d-md-none">
-        &copy; 2018 Alumini IME.
+        &copy; {{$ctrl.year}} Alumini IME.
         <br> Todos os direitos reservados.
+        <br> R. Arnaldo Quintela, 51 - Botafogo
         <br> Rio de Janeiro, RJ - Brasil
         <br><br>
       </p>
 
     </div>
-    <!--<div class="col-md-1"></div>-->
   </div>
 </div>

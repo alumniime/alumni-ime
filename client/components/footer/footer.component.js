@@ -13,7 +13,12 @@ export class FooterComponent {
     this.Modal = Modal;
     this.$uibModal = $uibModal;
   }
-  
+
+  $onInit() {
+    var date = new Date();
+    this.year = date.getFullYear();
+  }
+
   sendContactEmail(form) {
     this.submitted = true;
 
@@ -26,6 +31,10 @@ export class FooterComponent {
         .then(res => {
           console.log(res);
           this.Modal.showAlert('Email enviado!', 'Por favor, aguarde que lhe responderemos em breve.');
+          this.name = '';
+          this.email = '';
+          this.message = '';
+          this.submitted = false;
         })
         .catch(err => {
           alert('Erro ao enviar email');

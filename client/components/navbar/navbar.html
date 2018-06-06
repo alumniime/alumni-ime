@@ -1,4 +1,4 @@
-<header>
+<header id="header">
   <div class="container">
     <div class="row align-items-center justify-content-between">
       <!-- Up Medium Size -->
@@ -95,14 +95,17 @@
             </ul>
 
             <div class="d-none d-lg-block social-media col-auto">
-              <a class="btn btn-light" href="https://www.facebook.com/AlumniIME/" target="_blank">
+              <a class="btn btn-light" href="https://www.facebook.com/AlumniIME" target="_blank"
+                 style="padding-top: 4px; padding-left: 8px;">
                 <i class="fa fa-facebook"></i>
               </a>
-              <a class="btn btn-light" href="https://www.linkedin.com/company/alumni-ime" target="_blank">
+              <a class="btn btn-light" href="https://www.linkedin.com/company/alumni-ime" target="_blank"
+                 style="padding-left: 7px; padding-top: 2px;">
                 <i class="fa fa-linkedin"></i>
               </a>
-              <a class="btn btn-light" href="https://www.instagram.com/alumniime/" target="_blank">
-                <i class="fa fa-twitter"></i>
+              <a class="btn btn-light" href="https://www.instagram.com/alumniime" target="_blank"
+                 style="font-size: 16px; padding-top: 0; padding-left: 5px;">
+                <i class="fa fa-instagram"></i>
               </a>
             </div>
           </div>
@@ -110,7 +113,7 @@
       </div>
 
       <!-- Down Small Size -->
-      <div class="col-auto d-md-none" ng-if="$ctrl.isCollapsed">
+      <div class="col-auto d-md-none pr-0" ng-if="$ctrl.isCollapsed">
         <a ui-sref="main">
           <img src="assets/images/logo.svg" class="logo" style="margin: 10px 0 10px 10px;">
         </a>
@@ -125,9 +128,9 @@
             </li>
           </ul>
 
-          <nav class="navbar navbar-expand-lg navbar-light"
+          <nav class="navbar navbar-expand-lg navbar-light pl-0 pr-2 py-0"
                ng-class="{'col': !$ctrl.isCollapsed, 'col-auto': $ctrl.isCollapsed}">
-            <a class="navbar-brand d-block d-md-none" ui-sref="main" ng-if="!$ctrl.isCollapsed">
+            <a class="navbar-brand d-block d-md-none ml-4 p-0" ui-sref="main" ng-if="!$ctrl.isCollapsed">
               <img src="assets/images/logo.svg" class="logo">
             </a>
 
@@ -179,14 +182,14 @@
         <div style="border-top: 1px solid #ccc; padding-top: 10px; margin-right: 10px">
           <div class="navbar-mobile d-block d-md-none">
             <div class="row">
-              <div class="col-auto" ng-if="!$ctrl.isCollapsed">
-                <ul class="nav ml-4">
+              <div class="col-auto p-0" ng-if="!$ctrl.isCollapsed">
+                <ul class="nav ml-3">
                   <li class="nav-item p-0 mt-2" ui-sref-active="active">
                     <a class="nav-link text-dark p-0" ui-sref="submission">SUBMETER PROJETO</a>
                   </li>
                 </ul>
               </div>
-              <div class="col">
+              <div class="col pl-0">
                 <ul class="nav pull-right">
                   <li class="nav-item pb-2 pr-0">
                     <a class="btn btn-danger" href="support" role="button">APOIE</a>
@@ -202,4 +205,4 @@
   <div class="navbar-shadow"></div>
 </header>
 
-<div style="height: 128px;"></div>
+<div style="height: 123px;"></div>

@@ -1,4 +1,5 @@
 'use strict';
+import angular from 'angular';
 
 export default class ProfileController {
   user = {
@@ -22,7 +23,9 @@ export default class ProfileController {
     {name: 'Projetos apoiados', route: 'supported_projects'}
   ];
   itemSelected = this.menu[0];
-
+  backupUser = {};
+  dateInvalid = false;
+  Birthdate = '';
 
   constructor(Auth, $http, $state, $location, $anchorScroll, $stateParams, Project, Donation) {
     'ngInject';
@@ -100,14 +103,37 @@ export default class ProfileController {
     }
   }
 
+  validateDate(input) {
+    var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+    var arr = input.split('/');
+    var date = new Date(arr[2], arr[1] - 1, arr[0]);
+    if(input && input.match(reg) && date < Date.now()) {
+      this.dateInvalid = false;
+    } else {
+      this.dateInvalid = true;
+    }
+  }
+
   selectPage(route) {
     this.$state.go('profile', {view: route});
+  }
+
+  callEdit() {
+    this.editFields = !this.editFields;
+    this.backupUser = angular.copy(this.user);
+    this.messageUpdate = '';
+  }
+
+  cancelEdit() {
+    this.editFields = !this.editFields;
+    this.user = angular.copy(this.backupUser);
+    this.messageUpdate = '';
   }
 
   updatePersonType(PersonTypeId) {
     for(var type of this.personTypes) {
       if(type.PersonTypeId === PersonTypeId) {
-        this.personType = type;
+        this.user.personType = type;
       }
     }
   }
@@ -115,7 +141,15 @@ export default class ProfileController {
   updateEngineering(EngineeringId) {
     for(var engineering of this.engineeringList) {
       if(engineering.EngineeringId === EngineeringId) {
-        this.engineering = engineering;
+        this.user.engineering = engineering;
+      }
+    }
+  }
+
+  updateSe(SEId) {
+    for(var se of this.sesList) {
+      if(se.SEId === SEId) {
+        this.user.se = se;
       }
     }
   }
@@ -170,17 +204,21 @@ export default class ProfileController {
     console.log(form);
     console.log(this.user);
 
-    if(form.$valid) {
+    var date = this.Birthdate.split('/');
+    this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
+
+    if(form.$valid && !this.dateInvalid) {
       return this.Auth.updateById(this.PersonId, this.user)
         .then(() => {
           // Account updated
           this.messageUpdate = 'Dados alterados com sucesso!';
           this.editFields = false;
-
+          this.backupUser = {};
           this.$location.hash('myProfile');
           this.$anchorScroll();
         })
         .catch(err => {
+          this.user = angular.copy(this.backupUser);
           this.errors.update = err.data;
           this.messageUpdate = '';
         });

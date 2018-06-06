@@ -108,6 +108,19 @@ header {
     .social-media {
       padding-left: 0;
       float: right;
+
+      .btn-light {
+        border-radius: 100px;
+        border: none;
+        color: #fff;
+        background-color: #828282;
+        font-size: 14px;
+        width: 26px;
+        margin-left: 12px;
+        padding-right: 18px;
+        height: 26px;
+      }
+
     }
 
     .navbar-toggler {

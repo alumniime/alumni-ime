@@ -53,22 +53,34 @@
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: #E84E0F;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
   }
 
   .vision-text {
     line-height: 30px;
-    font-size: 18px;
+    font-size: 20px;
     color: #333333;
 
     ul {
       padding-left: 22px;
       margin-bottom: 5px;
+      padding-right: 60px;
+      text-align: justify;
+
+      @include media-breakpoint-down(sm) {
+        padding-left: 0;
+        padding-right: 15px;
+        text-align: left;
+      }
     }
+
   }
 
   .text-box {
     padding: 50px 30px 50px 100px;
+    @include media-breakpoint-down(sm) {
+      padding-left: 80px;
+    }
   }
 
   .div-img {

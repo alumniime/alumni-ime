@@ -13,31 +13,26 @@
             <br> ex-alunos do Instituto
             <br>Militar de Engenharia
           </h1>
-          <h5>Temos o objetivo de fomentar a integração social e o networking profissional entre seus associados e
-            de seus associados com a comunidade IME</h5>
-          <a class="nav-link btn btn-outline-light" href="#" role="button">SAIBA MAIS</a>
+          <h5>Apoiando o IME e a comunidade IMEana. Agora com novo portal e com novo projeto para ajudar nos projetos de
+            alunos e professores do Instituto.</h5>
+          <a class="nav-link btn btn-outline-light" ui-sref="history">SAIBA MAIS</a>
         </div>
       </div>
-      <div class="carousel-item img-background" style="background-image: url('../assets/images/ime-building.jpg')">
+      <div class="carousel-item img-background bg-shadow"
+           style="background-image: url('../assets/images/management.jpg')">
         <div class="carousel-caption">
-          <h1>Associação dos
-            <br> ex-alunos do Instituto
-            <br>Militar de Engenharia
-          </h1>
-          <h5>Temos o objetivo de fomentar a integração social e o networking profissional entre seus associados e
-            de seus associados com a comunidade IME</h5>
-          <a class="nav-link btn btn-outline-light" href="#" role="button">SAIBA MAIS</a>
+          <h1>São mais de 4,5 mil <br> graduados no IME</h1>
+          <h5>Ajude a aumentar a quantidade de ex-alunos cadastrados na plataforma da Alumni IME.</h5>
+          <a class="nav-link btn btn-outline-light" ng-if="vm.isLoggedIn()" ui-sref="institutional">SAIBA MAIS</a>
+          <a class="nav-link btn btn-outline-light" ng-if="!vm.isLoggedIn()" href="#" ng-click="vm.Modal.openLogin()">CADASTRE-SE</a>
         </div>
       </div>
-      <div class="carousel-item img-background" style="background-image: url('../assets/images/ime-building.jpg')">
+      <div class="carousel-item img-background bg-shadow" style="background-image: url('../assets/images/meeting.jpg')">
         <div class="carousel-caption">
-          <h1>Associação dos
-            <br> ex-alunos do Instituto
-            <br>Militar de Engenharia
-          </h1>
-          <h5>Temos o objetivo de fomentar a integração social e o networking profissional entre seus associados e
-            de seus associados com a comunidade IME</h5>
-          <a class="nav-link btn btn-outline-light" href="#" role="button">SAIBA MAIS</a>
+          <h1>4º Encontro Anual da <br>Alumni IME </h1>
+          <h5>Save the date: será realizado em 11 de Agosto de 2018, dia do 226º aniversário do Instituto Militar de
+            Engenharia. Em breve, mais detalhes.</h5>
+          <!--<a class="nav-link btn btn-outline-light" href="#">SAIBA MAIS</a>-->
         </div>
       </div>
     </div>

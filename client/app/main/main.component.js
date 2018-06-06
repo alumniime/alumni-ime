@@ -5,9 +5,11 @@ import routing from './main.routes';
 export class MainController {
 
   /*@ngInject*/
-  constructor(Project, News) {
+  constructor(Project, News, Auth, Modal) {
     this.Project = Project;
     this.News = News;
+    this.Modal = Modal;
+    this.isLoggedIn = Auth.isLoggedInSync;
   }
 
   $onInit() {
