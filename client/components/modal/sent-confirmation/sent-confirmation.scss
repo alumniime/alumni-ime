@@ -15,6 +15,11 @@ modal-sent-confirmation {
     font-weight: 700;
   }
 
+  .text-primary, .text-primary:hover, .text-primary.active{
+    color: #E84E0F !important;
+    text-decoration-color: #E84E0F !important;
+  }
+
   @include media-breakpoint-down(md) {
     .btn {
       width: 95%;
