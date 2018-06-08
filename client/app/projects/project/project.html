@@ -10,7 +10,8 @@
              ng-if="vm.previewMode" ng-click="vm.editProject(vm.project)"></i>
           <i class="fa fa-line-chart pull-right c-pointer"
              uib-tooltip="{{vm.project.Results ? 'Editar resultado' : 'Inserir resultado'}}" tooltip-placement="bottom"
-             ng-if="vm.project.SubmissionerId === vm.getCurrentUser().PersonId && !vm.previewMode" ng-click="vm.insertResult(vm.project)"></i>
+             ng-if="vm.project.SubmissionerId === vm.getCurrentUser().PersonId && !vm.previewMode"
+             ng-click="vm.insertResult(vm.project)"></i>
         </h5>
         <div class="legend">
           por {{vm.project.TeamName}}
@@ -23,7 +24,8 @@
 
       <div class="carousel-col-4 d-none d-lg-block p-0 mt-4">
         <img class="img-selected img-fluid mb-4 c-pointer" alt="Project image" ng-src="{{vm.selectedProjectImage.Path}}"
-             ng-click="vm.openPhoto(vm.projectImages, vm.selectedProjectImageIndex)" ng-if="vm.selectedProjectImage.Path">
+             ng-click="vm.openPhoto(vm.projectImages, vm.selectedProjectImageIndex)"
+             ng-if="vm.selectedProjectImage.Path">
         <div id="carouselAlumniCol" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item" ng-repeat="image in vm.projectImages"
@@ -88,7 +90,7 @@
               </div>
             </div>
 
-            <a class="btn btn-danger m-auto" href="#">APOIAR PROJETO</a>
+            <a class="btn btn-danger m-auto" href="#" ng-click="vm.openDonate(vm.project)">APOIAR PROJETO</a>
           </div>
         </div>
       </div>
@@ -208,8 +210,10 @@
             </div>
 
             <div class="carousel-col-4 d-none d-lg-block p-0 mt-4">
-              <img class="img-selected img-fluid mb-4 c-pointer" alt="Project image" ng-src="{{vm.selectedResultImage.Path}}"
-                   ng-click="vm.openPhoto(vm.resultImages, vm.selectedResultImageIndex)" ng-if="vm.selectedResultImage.Path">
+              <img class="img-selected img-fluid mb-4 c-pointer" alt="Project image"
+                   ng-src="{{vm.selectedResultImage.Path}}"
+                   ng-click="vm.openPhoto(vm.resultImages, vm.selectedResultImageIndex)"
+                   ng-if="vm.selectedResultImage.Path">
               <div id="carouselAlumniColResult" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item" ng-repeat="image in vm.resultImages"
@@ -244,7 +248,8 @@
             <div class="carousel-mobile d-lg-none p-0 mt-4">
               <div id="carouselAlumniResult" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                  <li data-target="#carouselAlumniResult" ng-repeat="image in vm.resultImages" data-slide-to="{{$index}}"
+                  <li data-target="#carouselAlumniResult" ng-repeat="image in vm.resultImages"
+                      data-slide-to="{{$index}}"
                       ng-class="{active: $index === 0}"></li>
                 </ol>
                 <div class="carousel-inner">
@@ -297,12 +302,13 @@
                        value="{{100*vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents | number: 0}}%">
               </div>
               <div class="col-4">
-                <input type="text" class="form-control-plaintext-right" readonly value="{{vm.project.DonationsNumber}} pessoas apoiaram">
+                <input type="text" class="form-control-plaintext-right" readonly
+                       value="{{vm.project.DonationsNumber}} pessoas apoiaram">
               </div>
             </div>
           </div>
 
-          <a class="btn btn-danger m-auto">APOIAR PROJETO</a>
+          <a class="btn btn-danger m-auto" href="#" ng-click="vm.openDonate(vm.project)">APOIAR PROJETO</a>
         </div>
       </div>
     </div>

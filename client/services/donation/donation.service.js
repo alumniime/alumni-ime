@@ -2,7 +2,7 @@
 const angular = require('angular');
 
 /*@ngInject*/
-export function DonationService($http, $q) {
+export function DonationService($http, $q, $state, Util) {
 
   var Donation = {
 
@@ -62,6 +62,16 @@ export function DonationService($http, $q) {
           });
       }
     },
+
+    /**
+     * Opens donation view with a specified ProjectId
+     * */
+    open(ProjectId, ProjectName) {
+      $state.go('donate', {
+        ProjectId: ProjectId,
+        PrettyURL: Util.convertToSlug(ProjectName),
+      });
+    }
 
   };
 

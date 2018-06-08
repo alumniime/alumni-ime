@@ -17,12 +17,13 @@ export class DonateController {
   maxImages = 1;
   maxSize = '5MB';
 
-  constructor(Auth, Modal, $http, $state, $uibModal, Project, Donation, Upload) {
+  constructor(Auth, Modal, $http, $state, $stateParams, $uibModal, Project, Donation, Upload) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
     this.$http = $http;
     this.$state = $state;
+    this.$stateParams = $stateParams;
     this.Modal = Modal;
     this.Upload = Upload;
     this.Project = Project;
@@ -31,7 +32,13 @@ export class DonateController {
   }
 
   $onInit() {
-    this.Project.load();
+    this.Project.load()
+      .then(() => {
+        if(this.$stateParams.ProjectId) {
+          this.donation.Type = 'project';
+          this.donation.ProjectId = parseInt(this.$stateParams.ProjectId);
+        }
+      });
 
     this.loading = this.Modal.showLoading();
     this.getCurrentUser()
@@ -58,13 +65,17 @@ export class DonateController {
     }
   }
 
-  submitDonation(form){
+  submitDonation(form) {
     this.submitted = true;
+
+    // this.donation.ProjectId = this.Project.list[0].ProjectId;
+    this.donation.ProjectId = this.$stateParams.ProjectId;
+
 
     if(!this.user.PersonId) {
       // User needs to login
       this.Modal.openLogin();
-    } else if(form.$valid && this.uploadImages && this.uploadImages.length === 1 && this.donation.ValueInCents > 0) {
+    } else if(form.$valid && this.uploadImages && this.uploadImages.length === 1 && this.donation.ValueInCents > 0 && this.donation.ProjectId !== '') {
 
       this.donation.ValueInCents *= 100;
       if(this.donation.Type === 'general') {
@@ -73,43 +84,43 @@ export class DonateController {
 
       var loading = this.Modal.showLoading();
 
-        var this_ = this;
-        this.Upload.upload({
-          url: '/api/donations/upload',
-          arrayKey: '',
-          data: {
-            file: this.uploadImages[0],
-            donation: this.donation
+      var this_ = this;
+      this.Upload.upload({
+        url: '/api/donations/upload',
+        arrayKey: '',
+        data: {
+          file: this.uploadImages[0],
+          donation: this.donation
+        }
+      })
+        .then(function success(result) {
+          loading.close();
+          console.log(result);
+          if(result.data.errorCode === 0) {
+            this_.submitted = false;
+            this_.uploadImages = [];
+            this_.$state.go('profile', {view: 'supported_projects'});
+            this_.Donation.loadMyDonations(true);
+            this_.$uibModal.open({
+              animation: true,
+              component: 'modalSentReceipt',
+              size: 'dialog-centered'
+            });
+          } else {
+            this_.Modal.showAlert('Erro no envio', 'Por favor, tente novamente.');
           }
-        })
-          .then(function success(result) {
-            loading.close();
-            console.log(result);
-            if(result.data.errorCode === 0) {
-              this_.submitted = false;
-              this_.uploadImages = [];
-              this_.$state.go('profile', {view: 'supported_projects'});
-              this_.Donation.loadMyDonations(true);
-              this_.$uibModal.open({
-                animation: true,
-                component: 'modalSentReceipt',
-                size: 'dialog-centered'
-              });
-            } else {
-              this_.Modal.showAlert('Erro no envio', 'Por favor, tente novamente.');
-            }
-          }, function error(err) {
-            loading.close();
-            console.log('Error: ' + err);
-            this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
-          }, function event(evt) {
-            console.log(evt);
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ');
-            this_.progress = 'progress: ' + progressPercentage + '% ';
-          });
+        }, function error(err) {
+          loading.close();
+          console.log('Error: ' + err);
+          this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
+        }, function event(evt) {
+          console.log(evt);
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          console.log('progress: ' + progressPercentage + '% ');
+          this_.progress = 'progress: ' + progressPercentage + '% ';
+        });
 
-      }
+    }
 
   }
 

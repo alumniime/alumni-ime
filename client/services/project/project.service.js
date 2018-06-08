@@ -21,9 +21,11 @@ export function ProjectService($http, $q, $state, Util) {
             this.list = response.data;
             for(var project of this.list) {
               project.CollectedPriceInCents = 0;
-              project.DonationsNumber = project.donations.length;
-              for(var donation of project.donations) {
-                project.CollectedPriceInCents += donation.ValueInCents;
+              if(project.hasOwnProperty('donations')) {
+                project.DonationsNumber = project.donations.length;
+                for(var donation of project.donations) {
+                  project.CollectedPriceInCents += donation.ValueInCents;
+                }
               }
             }
             d.resolve(this.list);
@@ -47,9 +49,11 @@ export function ProjectService($http, $q, $state, Util) {
           .then(response => {
             var project = response.data;
             project.CollectedPriceInCents = 0;
-            project.DonationsNumber = project.donations.length;
-            for(var donation of project.donations) {
-              project.CollectedPriceInCents += donation.ValueInCents;
+            if(project.hasOwnProperty('donations')) {
+              project.DonationsNumber = project.donations.length;
+              for(var donation of project.donations) {
+                project.CollectedPriceInCents += donation.ValueInCents;
+              }
             }
             this.loadedProjects[ProjectId] = project;
             d.resolve(project);

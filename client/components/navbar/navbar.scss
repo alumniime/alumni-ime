@@ -7,6 +7,10 @@ header {
   z-index: 1035;
   top: 0;
 
+  a, .btn, button {
+    outline: none !important;
+  }
+
   .row {
     height: 100%;
   }
@@ -98,6 +102,7 @@ header {
     li, .dropdown-item {
       cursor: pointer;
       font-size: 13px;
+      outline: none;
     }
 
     .dropdown-item:hover, .dropdown-item.active {
@@ -270,7 +275,7 @@ nav {
 }
 
 div.navbar-shadow {
-  box-shadow: 0 3px rgba(0,0,0,0.25);
+  box-shadow: 0 3px rgba(0, 0, 0, 0.25);
   height: 3px;
   margin-top: -3px;
 }

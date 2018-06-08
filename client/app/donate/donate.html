@@ -63,13 +63,13 @@
             <div class="col-auto">
               <select class="form-control" ng-if="vm.donation.Type == 'project'"
                       id="ProjectId" name="ProjectId" ng-model="vm.donation.ProjectId">
-                <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-value="project.ProjectId"
-                        ng-init="vm.donation.ProjectId = vm.Project.list[$index].ProjectId">
+                <option value="" selected disabled>Selecione um projeto</option>
+                <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-value="project.ProjectId">
                   {{project.ProjectName}}
                 </option>
               </select>
               <p class="help-block"
-                 ng-if="vm.donation.Type === 'project' && vm.donation.ProjectId === null && vm.submitted">
+                 ng-if="vm.donation.Type === 'project' && (vm.donation.ProjectId === null || vm.donation.ProjectId === '') && vm.submitted">
                 Escolha um projeto para apoiar.
               </p>
             </div>

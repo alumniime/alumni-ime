@@ -13,7 +13,7 @@ export class ProjectController {
   selectedResultImageIndex = 0;
   previewMode = false;
 
-  constructor(Auth, Modal, $state, $stateParams, Project, $anchorScroll) {
+  constructor(Auth, Modal, $state, $stateParams, Project, Donation, $anchorScroll) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUserSync;
@@ -21,6 +21,7 @@ export class ProjectController {
     this.$stateParams = $stateParams;
     this.Modal = Modal;
     this.Project = Project;
+    this.Donation = Donation;
     this.$anchorScroll = $anchorScroll;
   }
 
@@ -78,6 +79,10 @@ export class ProjectController {
 
   insertResult(project) {
     this.$state.go('result', {ProjectId: project.ProjectId});
+  }
+
+  openDonate(project) {
+    this.Donation.open(project.ProjectId, project.ProjectName);
   }
 
 }

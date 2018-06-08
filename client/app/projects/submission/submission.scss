@@ -20,13 +20,17 @@
     color: #828282;
   }
 
-  .btn-info {
+  .btn-danger {
     font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
     font-weight: 600;
     font-size: 14px;
     min-width: 200px;
     height: 45px;
     padding-top: 8px;
+  }
+
+  .btn-danger:hover, .btn-danger.active {
+    background-color: rgb(199, 66, 14);
   }
 
   .btn-submit {
