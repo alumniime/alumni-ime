@@ -577,6 +577,32 @@ export function sendContactEmail(req, res, next) {
           return done(err);
         }
       });
+
+      var data = {
+        to: {
+          name: contactName,
+          address: contactEmail
+        },
+        from: {
+          name: config.email.name,
+          address: config.email.user
+        },
+        template: 'user-contact-email',
+        subject: 'Contato pelo site da Alumni iME',
+        context: {
+          name: contactName,
+          message: contactMessage
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions'
+          });
+        } else {
+          return done(err);
+        }
+      });
     }
   ], function (err) {
     return res.status(422)
