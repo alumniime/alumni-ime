@@ -46,6 +46,15 @@
           </div>
         </div>
 
+        <div ng-if="construction.element.Type === 'Link'" class="text-content">
+          <a href="{{construction.Value}}" target="_blank">{{construction.Value}}</a>
+        </div>
+
+        <div ng-if="construction.element.Type === 'Video'" class="text-content">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/OHi1p684cSQ?rel=0" frameborder="0"
+                  allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+
       </div>
 
     </div>

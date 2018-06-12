@@ -17,6 +17,8 @@ export default class EditController {
   files = [];
   dateInvalid = false;
   ConclusionDate = '';
+  EstimatedPriceInCents = 0;
+
 
   constructor(Auth, Project, $http, $state, $stateParams, Modal, $window, Upload, $anchorScroll, $filter) {
     'ngInject';
@@ -46,7 +48,7 @@ export default class EditController {
           this.savedImages = this.project.images.filter((image) => {
             return image.Type === 'project';
           });
-          this.project.EstimatedPriceInCents /= 100;
+          this.EstimatedPriceInCents = this.project.EstimatedPriceInCents / 100;
           this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');
           this.concatImages = this.savedImages.concat(this.uploadImages);
           console.log(this.project);
@@ -94,7 +96,7 @@ export default class EditController {
     this.errors.projects = undefined;
     console.log(form);
 
-    this.project.EstimatedPriceInCents *= 100;
+    this.project.EstimatedPriceInCents = 100 * this.EstimatedPriceInCents;
     var date = this.ConclusionDate.split('/');
     this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
 
@@ -103,13 +105,13 @@ export default class EditController {
       var savedImages = [];
       var uploadImages = [];
       var uploadIndexes = [];
-      for (var $index in this.concatImages) {
+      for(var $index in this.concatImages) {
         if(this.concatImages[$index].Path) {
           savedImages.push({
             ImageId: this.concatImages[$index].ImageId,
             OrderIndex: $index
-          })
-        } else if (this.concatImages[$index].$ngfName) {
+          });
+        } else if(this.concatImages[$index].$ngfName) {
           uploadImages.push(this.concatImages[$index]);
           uploadIndexes.push({
             OrderIndex: $index
@@ -172,9 +174,9 @@ export default class EditController {
     var uploadIndex = this.uploadImages.indexOf(image);
     var saveIndex = this.savedImages.indexOf(image);
     var concatIndex = this.concatImages.indexOf(image);
-    if (uploadIndex > -1) {
+    if(uploadIndex > -1) {
       this.uploadImages.splice(uploadIndex, 1);
-    } else if (saveIndex > -1){
+    } else if(saveIndex > -1) {
       this.savedImages.splice(saveIndex, 1);
     }
     this.concatImages.splice(concatIndex, 1);
@@ -183,7 +185,7 @@ export default class EditController {
   updateImages(showLoading) {
     if(showLoading === true) {
       this.loading = this.Modal.showLoading();
-    } else if (this.loading) {
+    } else if(this.loading) {
       this.loading.close();
     }
     this.concatImages = this.concatImages.concat(this.uploadImages);

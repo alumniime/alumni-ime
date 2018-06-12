@@ -172,7 +172,7 @@ export function preview(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      attributes: ['Path', 'OrderIndex']
+      attributes: ['Path', 'OrderIndex', 'Type']
     }, {
       model: User,
       attributes: ['name'],

@@ -68,10 +68,6 @@ export class DonateController {
   submitDonation(form) {
     this.submitted = true;
 
-    // this.donation.ProjectId = this.Project.list[0].ProjectId;
-    this.donation.ProjectId = this.$stateParams.ProjectId;
-
-
     if(!this.user.PersonId) {
       // User needs to login
       this.Modal.openLogin();

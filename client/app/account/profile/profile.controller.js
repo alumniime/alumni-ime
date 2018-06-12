@@ -244,7 +244,7 @@ export default class ProfileController {
   }
 
   openProject(project) {
-    this.Project.open(project.ProjectId, project.ProjectName, !project.IsApproved);
+    this.Project.open(project.ProjectId, project.ProjectName, !project.IsApproved, !project.IsApproved);
   }
 
   editProject(project) {

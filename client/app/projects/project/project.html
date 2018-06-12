@@ -7,10 +7,10 @@
         <h5 class="page-title">
           {{vm.project.ProjectName}}
           <i class="fa fa-pencil pull-right c-pointer" uib-tooltip="Editar projeto" tooltip-placement="bottom"
-             ng-if="vm.previewMode" ng-click="vm.editProject(vm.project)"></i>
-          <i class="fa fa-line-chart pull-right c-pointer"
-             uib-tooltip="{{vm.project.Results ? 'Editar resultado' : 'Inserir resultado'}}" tooltip-placement="bottom"
-             ng-if="vm.project.SubmissionerId === vm.getCurrentUser().PersonId && !vm.previewMode"
+             ng-if="vm.previewMode || !vm.project.IsApproved" ng-click="vm.editProject(vm.project)"></i>
+          <i class="fa fa-line-chart pull-right c-pointer" ng-if="vm.project.IsApproved"
+             uib-tooltip="{{vm.project.Results ? 'Editar resultado' : 'Inserir resultado'}}"
+             tooltip-placement="bottom" ng-if="vm.project.SubmissionerId === vm.getCurrentUser().PersonId && !vm.previewMode"
              ng-click="vm.insertResult(vm.project)"></i>
         </h5>
         <div class="legend">
