@@ -98,6 +98,12 @@
   .news-card {
     border: none;
     width: 100%;
+    @include media-breakpoint-up(md) {
+      img {
+        max-height: 196px;
+      }
+    }
+
     .card-title {
       font-weight: bold;
       line-height: 24px;

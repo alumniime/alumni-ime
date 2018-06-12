@@ -6,6 +6,17 @@ const uiRouter = require('angular-ui-router');
 import routes from './news.routes';
 
 export class NewsController {
+  categories = [{
+    name: 'All',
+    description: 'Ver tudo'
+  },{
+    name: 'News',
+    description: 'Apenas Notícias'
+  },{
+    name: 'Events',
+    description: 'Apenas Eventos'
+  }];
+  selected = this.categories[0];
 
   constructor($state, News, Modal) {
     'ngInject';
@@ -28,22 +39,12 @@ export class NewsController {
     this.News.open(news.NewsId, news.Title);
   }
 
-  dropdownChanged() {
-      var elem1 = document.getElementById("dd1");
-      var elem2 = document.getElementById("dd2");
-      var elem3 = document.getElementById("dd3");
-      elem1.className = "dropdown-item";
-      elem2.className = "dropdown-item";
-      elem3.className = "dropdown-item";
-
-      var button = document.getElementById("button");
-      button.textContent = this.click;
-
-      document.getElementById(this.id).className = "dropdown-item active";
+  dropdownChanged(option) {
+    this.selected = option;
   }
 
   currPage = 1;
-  lastPage = 6; // TODO
+  lastPage = 6; // TODO news pagination
 
   pageChanged(){
 

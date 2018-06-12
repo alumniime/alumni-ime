@@ -51,8 +51,10 @@
         </div>
 
         <div ng-if="construction.element.Type === 'Video'" class="text-content">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/OHi1p684cSQ?rel=0" frameborder="0"
-                  allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <ng-youtube-embed
+            video="construction.Value" modestbranding="true" width="100%" disablekb="true"
+            rel="false" ivloadpolicy="false">
+          </ng-youtube-embed>
         </div>
 
       </div>

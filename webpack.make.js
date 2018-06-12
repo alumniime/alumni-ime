@@ -51,6 +51,8 @@ module.exports = function makeWebpackConfig(options) {
         'ng-mask/dist/ngMask.min',
         'ng-money-mask/rw-money-mask',
         'angular-i18n/angular-locale_pt-br',
+        'angucomplete-alt/dist/angucomplete-alt.min',
+        'ng-youtube-embed/build/ng-youtube-embed.min',
         'bootstrap',
         'ui-bootstrap4',
         'angular-ui-router',

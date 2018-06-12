@@ -1,50 +1,51 @@
 <div class="container newsView">
 
-    <div class="row justify-content-between">
-        <div class="col-auto">
-            <h5 class="page-title">Notícias</h5>
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title">Notícias</h5>
+    </div>
+    <div class="col-auto">
+      <div class="dropdown float-right">
+        <button class="dropbtn p-0 mt-4">{{vm.selected.description}}</button>
+        <i class="fa fa-angle-down" style="color: #828282;"></i>
+        <div class="dropdown-content">
+          <a class="dropdown-item" ng-repeat="option in vm.categories" ng-class="{active: vm.selected === option}"
+             ng-click="vm.dropdownChanged(option)" href="#">{{option.description}}</a>
         </div>
-        <div class="col-auto">
-            <div class="dropdown" style="float: right;">
-                <button id="button" class="dropbtn" style="padding: 0; margin-top: 25px">Ver tudo</button>
-                <i class="fa fa-angle-down" aria-hidden="true" style="color: #828282;"></i>
-                <div id="dd" class="dropdown-content">
-                    <a id="dd1" class="dropdown-item active" ng-click="vm.click = 'Ver tudo'; vm.id = 'dd1'; vm.dropdownChanged()" href="#">Ver tudo</a>
-                    <a id="dd2" class="dropdown-item" ng-click="vm.click = 'Apenas Notícias'; vm.id = 'dd2'; vm.dropdownChanged()" href="#">Apenas Notícias</a>
-                    <a id="dd3" class="dropdown-item" ng-click="vm.click = 'Apenas Eventos'; vm.id = 'dd3'; vm.dropdownChanged()" href="#">Apenas Eventos</a>
-                </div>
-            </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-deck news-deck">
+
+    <div class="col-12 col-sm-6 col-md-4" ng-repeat="news in vm.News.list"
+         ng-if="news.category.Description === vm.selected.name || vm.selected.name === 'All'">
+      <a class="card news-card mb-3 c-pointer ml-0 mr-3" ng-click="vm.openNews(news)">
+        <img class="w-100" ng-src="{{news.constructions[0].images[0].Path}}" alt="News card image">
+        <div class="card-body pl-3 pr-2">
+          <div class="form-group">
+            <h5 class="card-title">{{news.Title}}</h5>
+            <label class="mt-2">{{news.Subtitle}}</label>
+            <p class="news-date mt-2">{{news.PublishDate | date: 'dd MMM, yyyy'}}</p>
+          </div>
         </div>
+      </a>
     </div>
 
-    <div class="card-deck news-deck">
+  </div>
 
-        <div class="col-12 col-sm-6 col-md-4" ng-repeat="news in vm.News.list">
-            <a class="card news-card mb-3 c-pointer ml-0 mr-3" ng-click="vm.openNews(news)">
-                <img class="w-100" ng-src="{{news.constructions[0].images[0].Path}}" alt="News card image">
-                <div class="card-body pl-3 pr-2">
-                    <div class="form-group">
-                        <h5 class="card-title">{{news.Title}}</h5>
-                        <label>{{news.Subtitle}}</label>
-                        <p class="news-date">{{news.PublishDate | date: 'dd MMM, yyyy'}}</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
+  <div class="center">
+    <div class="pagination">
+      <a class="fa fa-angle-left" aria-hidden="true" href="#" style="padding-top: 12px" ng-hide="vm.currPage == 1"></a>
+      <a href="#">1</a>
+      <a href="#" class="active">2</a>
+      <a href="#">3</a>
+      <a href="#">4</a>
+      <a href="#">5</a>
+      <a href="#">6</a>
+      <a class="fa fa-angle-right" aria-hidden="true" href="#" style="padding-top: 12px"
+         ng-hide="vm.currPage == vm.lastPage"></a>
     </div>
-
-    <div class="center">
-        <div class="pagination">
-            <a class="fa fa-angle-left" aria-hidden="true" href="#" style="padding-top: 12px" ng-hide="vm.currPage == 1"></a>
-            <a href="#">1</a>
-            <a href="#" class="active">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a class="fa fa-angle-right" aria-hidden="true" href="#" style="padding-top: 12px" ng-hide="vm.currPage == vm.lastPage"></a>
-        </div>
-    </div>
+  </div>
 
 </div>

@@ -11,6 +11,8 @@ import uiRouter from 'angular-ui-router';
 // import uiBootstrap from 'angular-ui-bootstrap';
 import uiBootstrap from 'ui-bootstrap4';
 import 'angular-validation-match';
+import 'angucomplete-alt';
+import 'ng-youtube-embed';
 
 import {
   routeConfig
@@ -42,7 +44,7 @@ import management from './about/management/management.component';
 
 import './app.scss';
 
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', 'angucomplete-alt', 'ngYoutubeEmbed', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
   history, institutional, management
 ])
