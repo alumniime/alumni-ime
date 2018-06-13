@@ -70,63 +70,30 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4 projects order-md-last">
-          <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: '-Views'"
-             ng-click="vm.openProject(project)" ng-if="$index < 3">
+          <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: '-Views' | limitTo: 3"
+             ng-click="vm.openProject(project)">
             <img class="rounded mx-auto d-block" alt="Featured project" ng-src="{{project.images[0].Path}}">
             <h5 class="project-title">{{project.ProjectName}}</h5>
             <h6 class="team-name">por {{project.TeamName}}</h6>
           </a>
         </div>
-        <div class="col-md-8 news">
+        <div class="col-md-8 news pr-md-5">
           <h4>Principais notícias</h4>
           <hr class="divider">
 
-          <h5>
-            <a href="#" class="text-dark">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit
+          <h5 ng-repeat-start="news in vm.News.list | orderBy: '-PublishDate' | limitTo: 5">
+            <a href="#" class="text-dark" ng-click="vm.openNews(news)">
+              {{news.Title}}
             </a>
           </h5>
-          <h6>Subtítulo de notícias aqui, com poucos caracteres</h6>
+          <h6>{{news.Subtitle}}</h6>
           <p class="date">
-            18 Jul, 2018
+            {{news.PublishDate | date: 'dd MMM, yyyy'}}
           </p>
-          <hr class="divider">
-
-          <h5>
-            <a href="#" class="text-dark">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit
-            </a>
-          </h5>
-          <h6>Subtítulo de notícias aqui, com poucos caracteres</h6>
-          <p class="date">
-            18 Jul, 2018
-          </p>
-          <hr class="divider">
-
-          <h5>
-            <a href="#" class="text-dark">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit
-            </a>
-          </h5>
-          <h6>Subtítulo de notícias aqui, com poucos caracteres</h6>
-          <p class="date">
-            18 Jul, 2018
-          </p>
-          <hr class="divider">
-
-          <h5>
-            <a href="#" class="text-dark">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit
-            </a>
-          </h5>
-          <h6>Subtítulo de notícias aqui, com poucos caracteres</h6>
-          <p class="date">
-            18 Jul, 2018
-          </p>
-          <hr class="divider">
+          <hr class="divider" ng-repeat-end>
 
           <br>
-          <a href="#" class="btn btn-link text-dark">VEJA MAIS</a>
+          <a class="btn btn-link text-dark" ui-sref="news">VEJA MAIS</a>
         </div>
       </div>
     </div>

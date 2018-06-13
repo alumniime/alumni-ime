@@ -30,10 +30,12 @@ export default class ModalRegisterInformationController {
   }
 
   $onInit() {
+    var loading = this.Modal.showLoading();
+
     this.$http.get('/api/person_types')
       .then(response => {
         this.personTypes = response.data;
-        // console.log(this.personTypes);
+        loading.close();
         for(var type in this.personTypes) {
           this.personTypes[type].selected = false;
         }

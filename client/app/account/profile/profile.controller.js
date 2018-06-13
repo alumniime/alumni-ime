@@ -27,12 +27,13 @@ export default class ProfileController {
   dateInvalid = false;
   Birthdate = '';
 
-  constructor(Auth, $http, $state, $location, $anchorScroll, $stateParams, Project, Donation) {
+  constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation) {
     'ngInject';
 
     this.Auth = Auth;
     this.$http = $http;
     this.$state = $state;
+    this.$filter = $filter;
     this.$location = $location;
     this.$anchorScroll = $anchorScroll;
     this.$stateParams = $stateParams;
@@ -43,7 +44,7 @@ export default class ProfileController {
   $onInit() {
     this.Auth.getCurrentUser((user) => {
       this.user = user;
-      this.user.Birthdate = new Date(this.user.Birthdate);
+      this.Birthdate = this.$filter('date')(this.user.Birthdate, 'dd/MM/yyyy');
       this.PersonId = user.PersonId;
       console.log(user);
 

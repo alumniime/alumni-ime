@@ -115,11 +115,11 @@
   }
 
   .carousel-inner {
-    max-height: 500px;
+    //max-height: 500px;
   }
 
   .carousel-item, .carousel-item-left, .carousel-item-next {
-    top: -250px !important;
+    //top: -250px !important;
   }
 
   .carousel-item.img-background {
@@ -179,6 +179,15 @@
     width: 100%;
     background: transparent;
     margin: 0;
+    flex: none;
+
+    @include media-breakpoint-up(md) {
+      img {
+        max-height: 196px;
+        width: 100%;
+      }
+    }
+
     .card-title {
       font-weight: bold;
       line-height: 20px;
@@ -186,7 +195,6 @@
       color: #333333;
       margin-bottom: 3px;
     }
-    flex: none;
   }
 
   .news-card:hover {

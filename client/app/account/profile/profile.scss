@@ -134,13 +134,13 @@
     }
   }
 
-  .btn-outline-info{
+  .btn-outline-danger{
     color: #E84E0F;
     border-color: #E84E0F;
   }
-  .btn-outline-info:hover, .btn-outline-info.active{
+  .btn-outline-danger:hover, .btn-outline-danger.active{
     color: #fafafa;
-    background: #E84E0F;
+    background: rgb(199, 66, 14);
   }
 
 }
