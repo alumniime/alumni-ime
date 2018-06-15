@@ -15,7 +15,7 @@ export default class ModalRegisterInformationController {
   page = 1;
   dateInvalid = false;
   Birthdate = '';
-
+  pills = 0;
 
 
   /*@ngInject*/
@@ -66,6 +66,16 @@ export default class ModalRegisterInformationController {
       });
 
     this.confirmEmailToken = this.resolve.confirmEmailToken;
+    this.isLocalProvider = this.resolve.isLocalProvider;
+    this.isLinkedinProvider = !this.isLocalProvider;
+
+    if(this.isLocalProvider) {
+      this.pills = 1;
+    }
+
+    if(this.isLinkedinProvider) {
+      this.pills = 2;
+    }
 
     this.graduationYears = [];
     var today = new Date();
@@ -154,19 +164,40 @@ export default class ModalRegisterInformationController {
 
   nextPage(form) {
     if(form.$valid) {
-      this.page = 2;
+      this.submitted = false;
+      if(this.page === 1 && this.personType.Description === 'Visitor') {
+        this.page++;
+      }
+      this.page++;
+      this.pills++;
     } else {
       this.submitted = true;
     }
   }
 
   backPage() {
-    this.page = 1;
-    Reflect.deleteProperty(this.user, 'GraduationYear');
-    Reflect.deleteProperty(this.user, 'GraduationEngineeringId');
-    Reflect.deleteProperty(this.user, 'OptionToKnowThePageId');
-    Reflect.deleteProperty(this.user, 'OptionToKnowThePageOther');
-    Reflect.deleteProperty(this.user, 'ProfessorSEId');
+    if(this.page === 2) {
+      Reflect.deleteProperty(this.user, 'GraduationYear');
+      Reflect.deleteProperty(this.user, 'GraduationEngineeringId');
+      Reflect.deleteProperty(this.user, 'ProfessorSEId');
+      for(var initiative of this.initiativeList) {
+        initiative.selected = false;
+      }
+    }
+    if(this.page === 3) {
+      Reflect.deleteProperty(this.user, 'Headline');
+      Reflect.deleteProperty(this.user, 'Summary');
+    }
+    if(this.page === 4) {
+      Reflect.deleteProperty(this.user, 'OptionToKnowThePageId');
+      Reflect.deleteProperty(this.user, 'OptionToKnowThePageOther');
+    }
+
+    if(this.page === 3 && this.personType.Description === 'Visitor') {
+      this.page--;
+    }
+    this.page--;
+    this.pills--;
   }
 
   ok() {

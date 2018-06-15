@@ -89,7 +89,7 @@ export function signToken(id, role) {
  * Set token cookie directly for oAuth strategies
  */
 export function setTokenCookie(req, res) {
-  console.log('Server::AuthService::setTokenCookie');
+  // Only for LinkedIn authentication
   if(!req.user) {
     return res.status(404)
       .send('Parece que você já está logado, por favor tente novamente.');

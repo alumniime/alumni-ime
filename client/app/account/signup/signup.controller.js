@@ -27,7 +27,7 @@ export default class SignupController {
         if (this.$stateParams.showEmailVerified === "1") {
           this.Modal.openEmailVerified(confirmEmailToken);
         } else {
-          this.Modal.registryUser(confirmEmailToken);
+          this.Modal.registryUser(confirmEmailToken, false);
         }
       }
     } else {

@@ -14,9 +14,10 @@ export default class ModalLoginController {
 
 
   /*@ngInject*/
-  constructor(Auth, Modal, $state, $window, $interval) {
+  constructor(Auth, Modal, Util, $state, $window, $interval) {
     this.Auth = Auth;
     this.Modal = Modal;
+    this.Util = Util;
     this.$state = $state;
     this.$window = $window;
     this.$interval = $interval;
@@ -37,6 +38,10 @@ export default class ModalLoginController {
           loading.close();
           this.$state.reload();
           console.log(user);
+          if(user.email !== '') {
+            ga('set', 'userId', this.Util.SHA256(user.email));
+            ga('send', 'event', 'authentication', 'user-id available');
+          }
           this.close({$value: true});
         })
         .catch(err => {
@@ -69,7 +74,8 @@ export default class ModalLoginController {
           this_.cancelModal();
           if(popupLinkedin.value !== true && popupLinkedin.value !== '0') {
             this_.$state.go('signup', {
-              confirmEmailToken: popupLinkedin.value
+              confirmEmailToken: popupLinkedin.value,
+              showEmailVerified: 0
             });
           } else {
             if(this_.$state.current.name === 'signup') {

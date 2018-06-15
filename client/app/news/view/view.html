@@ -8,9 +8,9 @@
 
       <div class="construction" ng-repeat="construction in vm.news.constructions">
 
-        <div ng-if="construction.element.Type === 'Paragraph'" class="text-content">
+        <p ng-if="construction.element.Type === 'Paragraph'" class="text-content">
           {{construction.Value}}
-        </div>
+        </p>
 
         <div ng-if="construction.element.Type === 'QuoteParagraph'" class="col-12 col-md-10 block-quote">
           <p>{{construction.Value}}</p>

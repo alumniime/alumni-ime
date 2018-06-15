@@ -1,24 +1,25 @@
 <div class="nav nav-pills nav-fill">
-  <span class="nav-item nav-link active"></span>
+  <span class="nav-item nav-link" ng-class="{active: vm.pills >= 1}"></span>
   <span class="nav-item space"></span>
-  <span class="nav-item nav-link active"></span>
+  <span class="nav-item nav-link" ng-class="{active: vm.pills >= 2}"></span>
   <span class="nav-item space"></span>
-  <span class="nav-item nav-link" ng-class="{active: vm.page === 2}"></span>
+  <span class="nav-item nav-link" ng-class="{active: vm.pills >= 3}"></span>
 </div>
 
 <div class="modal-header d-block">
   <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
-  <h6 class="modal-title text-center modal-title" ng-show="vm.page === 1">Informações gerais</h6>
-  <h6 class="modal-title text-center modal-title"
-      ng-show="vm.page === 2 && vm.personType.Description !== 'Visitor'">Informações complementares</h6>
-  <h6 class="modal-title text-center modal-title"
-      ng-show="vm.page === 2 && vm.personType.Description === 'Visitor'">Como você conheceu a página?</h6>
+  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 1">Informações gerais</h6>
+  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 2">Informações complementares</h6>
+  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 3">Informações profissionais</h6>
+  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 4">Como você conheceu a página?</h6>
 </div>
 
 <div class="modal-body" id="modal-body">
 
+  <!-- There is only a form with many pages -->
   <form class="form" name="form" ng-submit="vm.registerNewUser(form)" novalidate>
 
+    <!-- General information -->
     <div class="page1" ng-show="vm.page === 1">
 
       <input type="hidden" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId" required>
@@ -62,9 +63,10 @@
 
     </div>
 
-    <div class="page2" ng-if="vm.page === 2">
+    <!-- Complementary information -->
+    <div class="page2" ng-if="vm.page >= 2 && vm.personType.Description !== 'Visitor'" ng-show="vm.page === 2">
 
-      <div class="form-group" ng-if="vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'Professor'">
+      <div class="form-group" ng-if="vm.personType.Description !== 'Professor'">
         <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
         <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
                 required>
@@ -75,7 +77,7 @@
         </p>
       </div>
 
-      <div class="form-group" ng-if="vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'Professor'">
+      <div class="form-group" ng-if="vm.personType.Description !== 'Professor'">
         <label for="GraduationEngineeringId">ENGENHARIA*</label>
         <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                 ng-model="vm.user.GraduationEngineeringId" required>
@@ -101,8 +103,7 @@
         </p>
       </div>
 
-      <div class="form-group"
-           ng-if="vm.personType.Description !== 'Visitor'">
+      <div class="form-group">
         <label>{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
           LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
         <div class="custom-control custom-checkbox" ng-repeat="initiative in vm.initiativeList">
@@ -120,6 +121,49 @@
           </div>
         </div>
       </div>
+
+    </div>
+
+    <!-- Professional information - Only for users whose provider is local -->
+    <div class="page3" ng-if="vm.page >= 3" ng-show="vm.page === 3">
+
+      <div class="form-group">
+        <label for="Headline">TÍTULO DO PERFIL*</label>
+        <textarea type="text" id="Headline" name="Headline" class="form-control" rows="3"
+                  ng-model="vm.user.Headline" required ng-maxlength="255"></textarea>
+        <p class="help-block" ng-show="form.Headline.$error.required && vm.submitted">
+          Insira um título para seu perfil.
+        </p>
+        <p class="help-block" ng-show="form.Abstract.$error.maxlength">
+          Título muito longo.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="Summary">RESUMO*</label>
+        <textarea type="text" id="Summary" name="Summary" class="form-control" rows="6"
+                  ng-model="vm.user.Summary" required></textarea>
+        <p class="help-block" ng-show="form.Summary.$error.required && vm.submitted">
+          Insira um resumo para seu perfil.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="Specialties">COMPETÊNCIAS*</label>
+        <textarea type="text" id="Specialties" name="Specialties" class="form-control" rows="6"
+                  ng-model="vm.user.Specialties" required></textarea>
+        <p class="help-block" ng-show="form.Specialties.$error.required && vm.submitted">
+          Insira um resumo para seu perfil.
+        </p>
+      </div>
+
+      <!-- Campos: título, resumo, cargo atual [título do cargo, resumo, localização, data de início e data de término, empresa (nome, tipo, setor, tamanho)],
+      país, estado, cidade, competências, setor, url do perfil externo  -->
+
+    </div>
+
+    <!-- Options to know the page -->
+    <div class="page4" ng-if="vm.page === 4 && vm.personType.Description === 'Visitor'">
 
       <div class="form-group"
            ng-if="vm.personType.Description === 'Visitor'">
@@ -141,7 +185,6 @@
         </p>
       </div>
 
-
     </div>
 
     <div class="form-group has-error">
@@ -150,6 +193,7 @@
 
   </form>
 
+  <!-- General information -->
   <div ng-show="vm.page === 1">
     <h6 class="modal-title text-center">Como você se encontra hoje:</h6>
 
@@ -165,15 +209,18 @@
 
   </div>
 
+  <!-- Links footer -->
   <div class="row footer-links"
-       ng-class="{'justify-content-end': vm.page === 1, 'justify-content-between': vm.page === 2}">
-    <button class="btn btn-link text-dark" ng-if="vm.page === 2" ng-click="vm.backPage()">
+       ng-class="{'justify-content-end': vm.page === 1, 'justify-content-between': vm.page >= 2}">
+    <button class="btn btn-link text-dark" ng-if="vm.page >= 2" ng-click="vm.backPage()">
       VOLTAR
     </button>
-    <button class="btn btn-link text-dark" ng-if="vm.page === 1" ng-click="vm.nextPage(form)">
+    <button class="btn btn-link text-dark" ng-if="vm.page <= 2 || vm.page === 3 && vm.personType.Description === 'Visitor'"
+            ng-click="vm.nextPage(form)">
       AVANÇAR
     </button>
-    <button class="btn btn-link text-dark" ng-if="vm.page === 2" ng-click="vm.registerNewUser(form)">
+    <button class="btn btn-link text-dark" ng-if="vm.page === 4 || vm.page === 3 && vm.personType.Description !== 'Visitor'"
+            ng-click="vm.registerNewUser(form)">
       FINALIZAR
     </button>
   </div>

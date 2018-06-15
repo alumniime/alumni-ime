@@ -65,8 +65,7 @@ export function setup(User, config) {
               } else {
                 done(err);
               }
-            })
-              .catch(err => done(err));
+            }, err => done(err)); 
           }
         })
         .catch(err => done(err));

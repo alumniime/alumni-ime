@@ -57,4 +57,19 @@ modal-completed-registration {
     text-align: center;
   }
 
+  .btn-outline-danger:hover {
+    color: #fafafa;
+    background: #E84E0F;
+  }
+
+  .btn-outline-danger {
+    color: #E84E0F;
+    background: #fafafa;
+    border-color: #E84E0F !important;
+  }
+
+  .btn-outline-danger.active {
+    color: #fafafa !important;
+    background-color: rgb(199, 66, 14) !important;
+  }
 }

@@ -27,7 +27,7 @@ export default class ModalEmailVerifiedController {
   }
 
   continueRegistry() {
-    this.Modal.registryUser(this.confirmEmailToken);
+    this.Modal.registryUser(this.confirmEmailToken, true);
     this.close({$value: true});
   }
 

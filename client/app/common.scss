@@ -3,4 +3,13 @@ body {
   .c-pointer {
     cursor: pointer;
   }
+
+  .btn-danger {
+    background-color: #E84E0F;
+  }
+
+  .btn-danger:hover, .btn-danger.active {
+    background-color: rgb(199, 66, 14);
+  }
+
 }

@@ -93,7 +93,8 @@ export default class ModalLoginController {
           this_.cancelModal();
           if(popupLinkedin.value !== true && popupLinkedin.value !== '0') {
             this_.$state.go('signup', {
-              confirmEmailToken: popupLinkedin.value
+              confirmEmailToken: popupLinkedin.value,
+              showEmailVerified: 0
             });
           } else {
             if(this_.$state.current.name === 'signup') {

@@ -53,21 +53,29 @@ export class NavbarComponent {
 
   isCollapsed = true;
 
-  constructor(Auth, Modal, $state) {
+  constructor(Auth, Modal, Util, $state) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
+    this.getCurrentUserPromise = Auth.getCurrentUser;
     this.Modal = Modal;
+    this.Util = Util;
     this.$state = $state;
   }
 
   $onInit() {
     // this.Modal.openLogin(); // only for tests
     console.log('$onInit');
-    console.log(this.getCurrentUser());
-    // Call Modal to continue the registry of new users
+    this.getCurrentUserPromise(user => {
+      if(user.email !== '') {
+        ga('set', 'userId', this.Util.SHA256(user.email));
+        ga('send', 'event', 'authentication', 'user-id available');
+        console.log(this.Util.SHA256(user.email));
+      }
+    });
+
 
   }
 

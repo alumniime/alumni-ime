@@ -93,7 +93,7 @@ export function ModalService($uibModal, $interval) {
       });
     },
 
-    registryUser(confirmEmailToken) {
+    registryUser(confirmEmailToken, isLocalProvider) {
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalRegisterInformation',
@@ -101,6 +101,9 @@ export function ModalService($uibModal, $interval) {
         resolve: {
           confirmEmailToken: function () {
             return confirmEmailToken;
+          },
+          isLocalProvider: function () {
+            return isLocalProvider;
           }
         }
       });
