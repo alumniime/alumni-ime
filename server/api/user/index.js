@@ -11,6 +11,7 @@ router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.put('/:id/profile', auth.isAuthenticated(), controller.update);
+router.get('/:token/show', controller.showToken);
 router.put('/:token/registry', controller.update);
 router.get('/professors', controller.professors);
 router.get('/students', controller.students);

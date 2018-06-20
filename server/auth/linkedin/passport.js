@@ -43,6 +43,9 @@ export function setup(User, config) {
             // User is new
             crypto.randomBytes(20, function (err, buffer) {
               var token = buffer.toString('hex');
+              if (config.env === 'development'){
+                console.log(token);
+              }
               if(!err) {
                 user = User.build({
                   name: profile.displayName,
@@ -65,7 +68,7 @@ export function setup(User, config) {
               } else {
                 done(err);
               }
-            }, err => done(err)); 
+            }, err => done(err));
           }
         })
         .catch(err => done(err));

@@ -106,6 +106,10 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.BLOB,
       allowNull: true
     },
+    FullName: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
     Birthdate: {
       type: DataTypes.DATE,
       allowNull: true
@@ -163,6 +167,11 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: null
+    },
+    IsApproved: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
     },
     IsExcluded: {
       type: DataTypes.BOOLEAN,

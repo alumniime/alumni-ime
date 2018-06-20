@@ -16,7 +16,8 @@ export default class ModalRegisterInformationController {
   dateInvalid = false;
   Birthdate = '';
   pills = 0;
-
+  selectedCountry = 'br';
+  selectedState = 33;
 
   /*@ngInject*/
   constructor(Auth, Modal, $http, $state, $window, $interval, $uibModal) {
@@ -82,6 +83,20 @@ export default class ModalRegisterInformationController {
     for(var i = 1950; i <= today.getFullYear() + 4; i++) {
       this.graduationYears.push(i);
     }
+
+    this.$http.get(`/api/users/${this.confirmEmailToken}/show`)
+      .then(response => {
+        this.user = response.data;
+      })
+      .catch(err => {
+        this.Modal.showAlert('Link Inválido', 'O link para cadastro expirou. Você deverá se logar para acessar seu perfil.')
+      });
+
+    this.$http.get(`http://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.selectedState}/municipios`)
+      .then(response => {
+        this.states = response.data;
+      });
+
 
   }
 

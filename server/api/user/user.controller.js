@@ -203,6 +203,31 @@ export function show(req, res, next) {
 }
 
 /**
+ * Get a single user using a token
+ */
+export function showToken(req, res, next) {
+  var token = req.params.token;
+
+  return User.find({
+    attributes: [
+      'PersonId',
+      'name',
+    ],
+    where: {
+      ConfirmEmailToken: token
+    }
+  })
+    .then(user => {
+      if(!user) {
+        return res.status(404)
+          .end();
+      }
+      res.json(user);
+    })
+    .catch(err => next(err));
+}
+
+/**
  * Deletes a user
  * restriction: 'admin'
  */
@@ -331,6 +356,9 @@ export function sendConfirmation(req, res, next) {
       // create the random token
       crypto.randomBytes(20, function (err, buffer) {
         var token = buffer.toString('hex');
+        if (config.env === 'development'){
+          console.log(token);
+        }
         done(err, user, token);
       });
     },
@@ -434,6 +462,9 @@ export function forgotPassword(req, res) {
       // create the random token
       crypto.randomBytes(20, function (err, buffer) {
         var token = buffer.toString('hex');
+        if (config.env === 'development'){
+          console.log(token);
+        }
         done(err, user, token);
       });
     },

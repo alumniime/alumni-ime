@@ -37,17 +37,17 @@
       <h5>Contato</h5>
 
       <form class="form" name="form" ng-submit="$ctrl.sendContactEmail(form)" novalidate="">
-        <input type="text" id="name" name="name" required ng-model="$ctrl.name" placeholder="nome">
+        <input type="text" name="name" required ng-model="$ctrl.name" placeholder="nome">
         <p class="help-block mb-2"
            ng-if="form.name.$error.required && $ctrl.submitted">
           Insira o seu nome, por favor.
         </p>
-        <input type="email" name="email" id="email" required ng-model="$ctrl.email" placeholder="email">
+        <input type="email" name="email" required ng-model="$ctrl.email" placeholder="email">
         <p class="help-block mb-2"
            ng-if="(form.email.$error.email || form.email.$error.required) && $ctrl.submitted">
           Insira o seu email, por favor.
         </p>
-        <textarea name="message" rows="5" id="message" required ng-model="$ctrl.message"
+        <textarea name="message" rows="5" required ng-model="$ctrl.message"
                   placeholder="mensagem"></textarea>
         <button href="#" type="submit" class="btn btn-light">ENVIAR</button>
         <p class="help-block" style="margin-top: -15px"

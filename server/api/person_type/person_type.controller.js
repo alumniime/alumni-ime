@@ -66,7 +66,11 @@ function handleError(res, statusCode) {
 
 // Gets a list of PersonTypes
 export function index(req, res) {
-  return PersonType.findAll()
+  return PersonType.findAll({
+    where: {
+      IsExcluded: false
+    }
+  })
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -75,7 +79,8 @@ export function index(req, res) {
 export function show(req, res) {
   return PersonType.find({
     where: {
-      PersonTypeId: req.params.id
+      PersonTypeId: req.params.id,
+      IsExcluded: false
     }
   })
     .then(handleEntityNotFound(res))

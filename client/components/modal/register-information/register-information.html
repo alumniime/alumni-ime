@@ -25,18 +25,40 @@
       <input type="hidden" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId" required>
 
       <div class="form-group">
+        <label for="name">NOME DE EXIBIÇÃO*</label>
+        <input type="text" name="name" id="name" placeholder="nome para exibição no perfil" class="form-control"
+               uib-tooltip="Seu nome de exibição será público." tooltip-placement="bottom"
+               ng-model="vm.user.name" required>
+        <p class="help-block" ng-show="form.name.$error.required && vm.submitted">
+          Insira seu nome de exibição.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="FullName">NOME COMPLETO*</label>
+        <input type="text" name="name" id="FullName" placeholder="nome para validação" class="form-control"
+               uib-tooltip="O nome completo facilitará a aprovação do seu cadastro." tooltip-placement="bottom"
+               ng-model="vm.user.FullName" required>
+        <p class="help-block" ng-show="form.FullName.$error.required && vm.submitted">
+          Insira seu nome completo.
+        </p>
+      </div>
+
+      <div class="form-group">
         <label for="Birthdate">DATA DE NASCIMENTO*</label>
-        <input type="text" id="Birthdate" name="Birthdate" placeholder="10/03/1980" mask="39/19/9999" class="form-control"
+        <input type="text" id="Birthdate" name="Birthdate" placeholder="10/03/1980" mask="39/19/9999"
+               class="form-control"
                ng-model="vm.Birthdate" required
                ng-change="vm.validateDate(vm.Birthdate)">
-        <p class="help-block" ng-show="form.Birthdate.$error.required && vm.submitted">
-          Insira a sua data de nascimento.
-        </p>
+        <!--<p class="help-block" ng-show="form.Birthdate.$error.required && vm.submitted">-->
+        <!--Insira a sua data de nascimento.-->
+        <!--</p>-->
         <p class="help-block" ng-show="(form.Birthdate.$invalid && vm.submitted) || vm.dateInvalid">
           Insira uma data válida.
         </p>
       </div>
 
+      <!--
       <div class="form-group">
         <label for="Genre">GÊNERO*</label>
         <select class="form-control" id="Genre" name="Genre" ng-model="vm.user.Genre" required>
@@ -48,14 +70,16 @@
           Insira o seu gênero.
         </p>
       </div>
+      -->
 
       <div class="form-group">
         <label for="Phone">TELEFONE*</label>
-        <input type="tel" id="Phone" name="Phone" placeholder="+55 (00) 00000-0000" mask="+99 (99) 9?9999-9999" class="form-control"
+        <input type="tel" id="Phone" name="Phone" placeholder="+55 (00) 00000-0000" mask="+99 (99) 9?9999-9999"
+               class="form-control"
                ng-model="vm.user.Phone" required>
-        <p class="help-block" ng-show="form.Phone.$error.required && vm.submitted">
-          Insira o seu telefone.
-        </p>
+        <!--<p class="help-block" ng-show="form.Phone.$error.required && vm.submitted">-->
+        <!--Insira o seu telefone.-->
+        <!--</p>-->
         <p class="help-block" ng-show="form.Phone.$invalid && vm.submitted">
           Insira um telefone válido.
         </p>
@@ -67,7 +91,8 @@
     <div class="page2" ng-if="vm.page >= 2 && vm.personType.Description !== 'Visitor'" ng-show="vm.page === 2">
 
       <div class="form-group" ng-if="vm.personType.Description !== 'Professor'">
-        <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
+        <label for="GraduationYear" ng-if="vm.personType.Description !== 'DropStudent'">ANO DE FORMAÇÃO*</label>
+        <label for="GraduationYear" ng-if="vm.personType.Description === 'DropStudent'">TURMA*</label>
         <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
                 required>
           <option ng-repeat="year in vm.graduationYears | orderBy:'-'" ng-value="year">{{year}}</option>
@@ -82,7 +107,9 @@
         <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                 ng-model="vm.user.GraduationEngineeringId" required>
           <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
-                  ng-value="engineering.EngineeringId">{{engineering.Description}}
+                  ng-value="engineering.EngineeringId"
+                  ng-hide="engineering.SEId === 1 && !(vm.personType.Description === 'Student' || vm.personType.Description === 'DropStudent')">
+            {{engineering.Description}}
           </option>
         </select>
         <p class="help-block" ng-if="form.GraduationEngineeringId.$error.required && vm.submitted">
@@ -126,6 +153,8 @@
 
     <!-- Professional information - Only for users whose provider is local -->
     <div class="page3" ng-if="vm.page >= 3" ng-show="vm.page === 3">
+
+      <div ng-repeat="state in vm.states">{{state.id}} {{state.nome}}</div>
 
       <div class="form-group">
         <label for="Headline">TÍTULO DO PERFIL*</label>
@@ -215,11 +244,13 @@
     <button class="btn btn-link text-dark" ng-if="vm.page >= 2" ng-click="vm.backPage()">
       VOLTAR
     </button>
-    <button class="btn btn-link text-dark" ng-if="vm.page <= 2 || vm.page === 3 && vm.personType.Description === 'Visitor'"
+    <button class="btn btn-link text-dark"
+            ng-if="vm.page <= 2 || vm.page === 3 && vm.personType.Description === 'Visitor'"
             ng-click="vm.nextPage(form)">
       AVANÇAR
     </button>
-    <button class="btn btn-link text-dark" ng-if="vm.page === 4 || vm.page === 3 && vm.personType.Description !== 'Visitor'"
+    <button class="btn btn-link text-dark"
+            ng-if="vm.page === 4 || vm.page === 3 && vm.personType.Description !== 'Visitor'"
             ng-click="vm.registerNewUser(form)">
       FINALIZAR
     </button>
