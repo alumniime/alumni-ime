@@ -158,7 +158,7 @@
 
       <div class="form-group">
         <label for="Headline">TÍTULO DO PERFIL*</label>
-        <textarea type="text" id="Headline" name="Headline" class="form-control" rows="3"
+        <textarea type="text" id="Headline" name="Headline" class="form-control" rows="2"
                   ng-model="vm.user.Headline" required ng-maxlength="255"></textarea>
         <p class="help-block" ng-show="form.Headline.$error.required && vm.submitted">
           Insira um título para seu perfil.
@@ -169,6 +169,53 @@
       </div>
 
       <div class="form-group">
+        <label for="Industry">SETOR*</label>
+        <select class="form-control" id="Industry" name="Industry"
+                ng-model="vm.user.IndustryId" required>
+          <option ng-repeat="industry in vm.industriesList"
+                  ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
+          </option>
+        </select>
+        <p class="help-block" ng-if="form.IndustryId.$error.required && vm.submitted">
+          Insira o seu setor.
+        </p>
+      </div>
+
+      <div class="row p-0">
+        <div class="col-8">
+          <div class="form-group">
+            <label for="Country">PAÍS*</label>
+            <select class="form-control" id="Country" name="Country"
+                    ng-model="vm.user.IndustryId" required>
+              <option ng-repeat="industry in vm.industriesList" ng-value="industry.IndustryId">
+                {{industry.PortugueseDescription}}
+              </option>
+            </select>
+            <p class="help-block" ng-if="form.Country.$error.required && vm.submitted">
+              Insira o seu setor.
+            </p>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="State">ESTADO*</label>
+            <select class="form-control" id="State" name="State"
+                    ng-model="vm.user.IndustryId" required>
+              <option ng-repeat="industry in vm.industriesList" ng-value="industry.IndustryId">
+                {{industry.PortugueseDescription}}
+              </option>
+            </select>
+            <p class="help-block" ng-if="form.State.$error.required && vm.submitted">
+              Insira o seu setor.
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Resumo -->
+      <!--
+      <div class="form-group">
         <label for="Summary">RESUMO*</label>
         <textarea type="text" id="Summary" name="Summary" class="form-control" rows="6"
                   ng-model="vm.user.Summary" required></textarea>
@@ -176,7 +223,10 @@
           Insira um resumo para seu perfil.
         </p>
       </div>
+      -->
 
+      <!-- Competências -->
+      <!--
       <div class="form-group">
         <label for="Specialties">COMPETÊNCIAS*</label>
         <textarea type="text" id="Specialties" name="Specialties" class="form-control" rows="6"
@@ -185,9 +235,11 @@
           Insira um resumo para seu perfil.
         </p>
       </div>
+      -->
 
-      <!-- Campos: título, resumo, cargo atual [título do cargo, resumo, localização, data de início e data de término, empresa (nome, tipo, setor, tamanho)],
-      país, estado, cidade, competências, setor, url do perfil externo  -->
+      <!-- Campos que o Linkedin traz: título, resumo, cargo atual [título do cargo, resumo, localização,
+      data de início e data de término, empresa (nome, tipo, setor, tamanho)], país, estado, cidade,
+      competências, setor, url do perfil externo  -->
 
     </div>
 

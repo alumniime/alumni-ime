@@ -8,18 +8,17 @@ export default function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    Description: {
-      type: DataTypes.STRING(100),
-      allowNull: false
-    },
     SEId: {
       type: DataTypes.INTEGER(1),
       allowNull: false,
-      primaryKey: true,
       references: {
         model: 'SE',
         key: 'SEId'
       }
+    },
+    Description: {
+      type: DataTypes.STRING(100),
+      allowNull: false
     }
   }, {
     tableName: 'Engineering'

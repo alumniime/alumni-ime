@@ -1,39 +1,42 @@
 'use strict';
 
 export default function(sequelize, DataTypes) {
-  return sequelize.define('Company', {
-    CompanyId: {
+  return sequelize.define('Location', {
+    LocationId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    LinkedinId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      unique: true
-    },
-    IndustryId: {
+    CountryId: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
-        model: 'Industry',
-        key: 'IndustryId'
+        model: 'Country',
+        key: 'CountryId'
       }
     },
-    Name: {
-      type: DataTypes.STRING(255),
-      allowNull: false
+    StateId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'State',
+        key: 'StateId'
+      }
     },
-    Type: {
+    CityId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'City',
+        key: 'CityId'
+      }
+    },
+    LinkedinName: {
       type: DataTypes.STRING(100),
-      allowNull: true
-    },
-    Size: {
-      type: DataTypes.STRING(45),
       allowNull: true
     }
   }, {
-    tableName: 'Company'
+    tableName: 'Location'
   });
 }

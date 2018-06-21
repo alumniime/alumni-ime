@@ -1,6 +1,6 @@
 'use strict';
 
-import {User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative} from '../../sqldb';
+import {User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative, Position, Company, Location, City} from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
@@ -56,6 +56,7 @@ export function professors(req, res) {
     ],
     where: {
       PersonTypeId: [3, 5],
+      IsApproved: 1,
       IsExcluded: 0
     }
   })
@@ -77,6 +78,7 @@ export function students(req, res) {
     ],
     where: {
       PersonTypeId: [2],
+      IsApproved: 1,
       IsExcluded: 0
     }
   })
@@ -209,12 +211,41 @@ export function showToken(req, res, next) {
   var token = req.params.token;
 
   return User.find({
+    include: [{
+      model: Position,
+      as: 'positions',
+      include: [{
+        model: Company,
+        as: 'company',
+      }, {
+        model: Location,
+        as: 'location',
+        include: [{
+          model: City,
+          as: 'city'
+        }],
+      }],
+    }, {
+      model: Location,
+      as: 'location',
+      include: [{
+        model: City,
+        as: 'city'
+      }],
+    }],
     attributes: [
       'PersonId',
       'name',
+      'FullName',
+      'Headline',
+      'LocationId',
+      'IndustryId',
+      'Summary',
+      'Specialties',
     ],
     where: {
-      ConfirmEmailToken: token
+      ConfirmEmailToken: token,
+      IsExcluded: 0
     }
   })
     .then(user => {

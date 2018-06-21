@@ -12,12 +12,14 @@ export default class ModalRegisterInformationController {
     register: undefined
   };
   submitted = false;
-  page = 1;
+  page = 3;
   dateInvalid = false;
   Birthdate = '';
   pills = 0;
   selectedCountry = 'br';
   selectedState = 33;
+  states = [];
+  cities = [];
 
   /*@ngInject*/
   constructor(Auth, Modal, $http, $state, $window, $interval, $uibModal) {
@@ -53,6 +55,11 @@ export default class ModalRegisterInformationController {
         this.sesList = response.data;
       });
 
+    this.$http.get('/api/industries')
+      .then(response => {
+        this.industriesList = response.data;
+      });
+
     this.$http.get('/api/initiatives')
       .then(response => {
         this.initiativeList = response.data;
@@ -75,7 +82,7 @@ export default class ModalRegisterInformationController {
     }
 
     if(this.isLinkedinProvider) {
-      this.pills = 2;
+      this.pills = 1;
     }
 
     this.graduationYears = [];
@@ -87,6 +94,7 @@ export default class ModalRegisterInformationController {
     this.$http.get(`/api/users/${this.confirmEmailToken}/show`)
       .then(response => {
         this.user = response.data;
+        console.log('User', this.user);
       })
       .catch(err => {
         this.Modal.showAlert('Link Inválido', 'O link para cadastro expirou. Você deverá se logar para acessar seu perfil.')
@@ -94,7 +102,7 @@ export default class ModalRegisterInformationController {
 
     this.$http.get(`http://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.selectedState}/municipios`)
       .then(response => {
-        this.states = response.data;
+        this.cities = response.data;
       });
 
 

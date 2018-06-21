@@ -82,13 +82,21 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    Location: {
-      type: DataTypes.STRING(100),
-      allowNull: true
+    LocationId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'Location',
+        key: 'LocationId'
+      }
     },
-    Industry: {
-      type: DataTypes.STRING(100),
-      allowNull: true
+    IndustryId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'Industry',
+        key: 'IndustryId'
+      }
     },
     Summary: {
       type: DataTypes.TEXT,
@@ -165,8 +173,7 @@ export default function (sequelize, DataTypes) {
     },
     LastActivityDate: {
       type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: null
+      allowNull: false
     },
     IsApproved: {
       type: DataTypes.BOOLEAN,

@@ -24,6 +24,22 @@ export default function(sequelize, DataTypes) {
         key: 'CompanyId'
       }
     },
+    LevelId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'Level',
+        key: 'LevelId'
+      }
+    },
+    LocationId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'Location',
+        key: 'LocationId'
+      }
+    },
     LinkedinId: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
@@ -35,10 +51,6 @@ export default function(sequelize, DataTypes) {
     },
     Summary: {
       type: DataTypes.TEXT,
-      allowNull: true
-    },
-    Location: {
-      type: DataTypes.STRING(100),
       allowNull: true
     },
     StartDateMonth: {
