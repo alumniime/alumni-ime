@@ -103,7 +103,7 @@ function saveUser(user, positions, done) {
                 StartDateYear: (position.startDate ? position.startDate.year : null),
                 EndDateMonth: (position.endDate ? position.endDate.month : null),
                 EndDateYear: (position.endDate ? position.endDate.year : null),
-                IsCurrent: position.isCurrent
+                IsCurrent: 0
               })
                 .catch(err => console.log(err));
             })

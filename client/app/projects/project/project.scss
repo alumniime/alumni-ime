@@ -58,6 +58,7 @@
     margin-top: 40px;
     color: #333333;
     font-size: 16px;
+    text-align: justify;
   }
 
   .project-card {
@@ -107,6 +108,11 @@
   .info-text {
     font-size: 14px;
     color: #333333;
+    text-align: justify;
+  }
+
+  .text-pre {
+    white-space: pre-wrap;
   }
 
   .result-title {
@@ -238,7 +244,7 @@
       height: 180px;
       padding: 0 30px;
     }
-    .img-fluid{
+    .img-fluid {
       max-height: 400px;
       margin: 0 auto;
       display: inherit;

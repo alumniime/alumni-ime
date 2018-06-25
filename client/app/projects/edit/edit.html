@@ -105,7 +105,7 @@
                   <label for="StudentsNumber">QUANTIDADE DE ALUNOS ENVOLVIDOS*</label>
                   <input type="text" id="StudentsNumber" name="StudentsNumber" class="form-control" required
                          onkeyup="this.value = this.value.replace(/[^0-9]/, '');"
-                         ng-model="vm.project.StudentsNumber">
+                         ng-model="vm.project.StudentsNumber" placeholder="em números">
                   <p class="help-block" ng-if="form.StudentsNumber.$error.required && vm.submitted">
                     Insira a quantidade de alunos envolvidos no projeto.
                   </p>

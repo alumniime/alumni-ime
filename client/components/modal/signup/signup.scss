@@ -147,4 +147,8 @@ modal-signup{
     display: inherit;
     text-align: center;
   }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
+  }
 }

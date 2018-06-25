@@ -63,7 +63,11 @@ function handleError(res, statusCode) {
 
 // Gets a list of Countrys
 export function index(req, res) {
-  return Country.findAll()
+  return Country.findAll({
+    order: [
+      ['Description', 'ASC'],
+    ],
+  })
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

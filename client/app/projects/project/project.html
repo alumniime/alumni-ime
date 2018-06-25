@@ -10,7 +10,8 @@
              ng-if="vm.previewMode || !vm.project.IsApproved" ng-click="vm.editProject(vm.project)"></i>
           <i class="fa fa-line-chart pull-right c-pointer" ng-if="vm.project.IsApproved"
              uib-tooltip="{{vm.project.Results ? 'Editar resultado' : 'Inserir resultado'}}"
-             tooltip-placement="bottom" ng-if="vm.project.SubmissionerId === vm.getCurrentUser().PersonId && !vm.previewMode"
+             tooltip-placement="bottom"
+             ng-if="vm.project.SubmissionerId === vm.getCurrentUser().PersonId && !vm.previewMode"
              ng-click="vm.insertResult(vm.project)"></i>
         </h5>
         <div class="legend">
@@ -18,9 +19,7 @@
         </div>
       </div>
 
-      <div class="text-content">
-        {{vm.project.Abstract}}
-      </div>
+      <div class="text-content text-pre">{{vm.project.Abstract}}</div>
 
       <div class="carousel-col-4 d-none d-lg-block p-0 mt-4">
         <img class="img-selected img-fluid mb-4 c-pointer" alt="Project image" ng-src="{{vm.selectedProjectImage.Path}}"
@@ -181,23 +180,17 @@
       <div class="info-name">
         METAS/RESULTADOS ESPERADOS PARA O PROJETO
       </div>
-      <div class="info-text">
-        {{vm.project.Goals}}
-      </div>
+      <div class="info-text text-pre">{{vm.project.Goals}}</div>
 
       <div class="info-name">
         BENEFÍCIOS CONCRETOS PARA O IME
       </div>
-      <div class="info-text">
-        {{vm.project.Benefits}}
-      </div>
+      <div class="info-text text-pre">{{vm.project.Benefits}}</div>
 
       <div class="info-name">
         CRONOGRAMA FÍSICO-FINANCEIRO
       </div>
-      <div class="info-text">
-        {{vm.project.Schedule}}
-      </div>
+      <div class="info-text text-pre">{{vm.project.Schedule}}</div>
 
       <div class="col results" ng-if="vm.project.Results">
         <div class="card project-card mb-3">
@@ -205,9 +198,7 @@
 
             <div class="result-title mb-3">Resultado do Projeto</div>
 
-            <div class="info-text">
-              {{vm.project.Results}}
-            </div>
+            <div class="info-text text-pre">{{vm.project.Results}}</div>
 
             <div class="carousel-col-4 d-none d-lg-block p-0 mt-4">
               <img class="img-selected img-fluid mb-4 c-pointer" alt="Project image"

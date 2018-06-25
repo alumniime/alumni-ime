@@ -13,6 +13,14 @@ export default function(sequelize, DataTypes) {
       allowNull: true,
       unique: true
     },
+    CompanyTypeId: {
+      type: DataTypes.CHAR(1),
+      allowNull: true,
+      references: {
+        model: 'CompanyType',
+        key: 'CompanyTypeId'
+      }
+    },
     IndustryId: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
@@ -24,10 +32,6 @@ export default function(sequelize, DataTypes) {
     Name: {
       type: DataTypes.STRING(255),
       allowNull: false
-    },
-    Type: {
-      type: DataTypes.STRING(100),
-      allowNull: true
     },
     Size: {
       type: DataTypes.STRING(45),

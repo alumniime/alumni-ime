@@ -1,17 +1,17 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/states              ->  index
- * POST    /api/states              ->  create
- * GET     /api/states/:id          ->  show
- * PUT     /api/states/:id          ->  upsert
- * PATCH   /api/states/:id          ->  patch
- * DELETE  /api/states/:id          ->  destroy
+ * GET     /api/company_types              ->  index
+ * POST    /api/company_types              ->  create
+ * GET     /api/company_types/:id          ->  show
+ * PUT     /api/company_types/:id          ->  upsert
+ * PATCH   /api/company_types/:id          ->  patch
+ * DELETE  /api/company_types/:id          ->  destroy
  */
 
 'use strict';
 
 import { applyPatch } from 'fast-json-patch';
-import {State} from '../../sqldb';
+import {CompanyType} from '../../sqldb';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -61,22 +61,18 @@ function handleError(res, statusCode) {
   };
 }
 
-// Gets a list of States
+// Gets a list of CompanyTypes
 export function index(req, res) {
-  return State.findAll({
-    order: [
-      ['Description', 'ASC'],
-    ],
-  })
+  return CompanyType.findAll()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Gets a single State from the DB
+// Gets a single CompanyType from the DB
 export function show(req, res) {
-  return State.find({
+  return CompanyType.find({
     where: {
-      StateId: req.params.id
+      CompanyTypeId: req.params.id
     }
   })
     .then(handleEntityNotFound(res))
@@ -84,36 +80,36 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
-// Creates a new State in the DB
+// Creates a new CompanyType in the DB
 export function create(req, res) {
-  return State.create(req.body)
+  return CompanyType.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-// Upserts the given State in the DB at the specified ID
+// Upserts the given CompanyType in the DB at the specified ID
 export function upsert(req, res) {
-  if(req.body.StateId) {
-    Reflect.deleteProperty(req.body, 'StateId');
+  if(req.body.CompanyTypeId) {
+    Reflect.deleteProperty(req.body, 'CompanyTypeId');
   }
 
-  return State.upsert(req.body, {
+  return CompanyType.upsert(req.body, {
     where: {
-      StateId: req.params.id
+      CompanyTypeId: req.params.id
     }
   })
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Updates an existing State in the DB
+// Updates an existing CompanyType in the DB
 export function patch(req, res) {
-  if(req.body.StateId) {
-    Reflect.deleteProperty(req.body, 'StateId');
+  if(req.body.CompanyTypeId) {
+    Reflect.deleteProperty(req.body, 'CompanyTypeId');
   }
-  return State.find({
+  return CompanyType.find({
     where: {
-      StateId: req.params.id
+      CompanyTypeId: req.params.id
     }
   })
     .then(handleEntityNotFound(res))
@@ -122,11 +118,11 @@ export function patch(req, res) {
     .catch(handleError(res));
 }
 
-// Deletes a State from the DB
+// Deletes a CompanyType from the DB
 export function destroy(req, res) {
-  return State.find({
+  return CompanyType.find({
     where: {
-      StateId: req.params.id
+      CompanyTypeId: req.params.id
     }
   })
     .then(handleEntityNotFound(res))

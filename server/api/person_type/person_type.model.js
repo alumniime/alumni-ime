@@ -16,6 +16,10 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING(45),
       allowNull: true
     },
+    Legend: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
     IsExcluded: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

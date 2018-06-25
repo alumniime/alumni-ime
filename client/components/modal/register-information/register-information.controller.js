@@ -5,21 +5,21 @@ export default class ModalRegisterInformationController {
     PersonTypeId: undefined,
     Birthdate: '',
     Genre: '',
-    Phone: ''
+    Phone: '',
+    location: {},
+    positions: [{}]
   };
   personType = undefined;
   errors = {
     register: undefined
   };
   submitted = false;
-  page = 3;
+  page = 1;
   dateInvalid = false;
   Birthdate = '';
   pills = 0;
-  selectedCountry = 'br';
-  selectedState = 33;
-  states = [];
-  cities = [];
+  citiesList = [];
+  levelType = null;
 
   /*@ngInject*/
   constructor(Auth, Modal, $http, $state, $window, $interval, $uibModal) {
@@ -60,6 +60,11 @@ export default class ModalRegisterInformationController {
         this.industriesList = response.data;
       });
 
+    this.$http.get('/api/company_types')
+      .then(response => {
+        this.companyTypesList = response.data;
+      });
+
     this.$http.get('/api/initiatives')
       .then(response => {
         this.initiativeList = response.data;
@@ -91,20 +96,47 @@ export default class ModalRegisterInformationController {
       this.graduationYears.push(i);
     }
 
+    var date = new Date();
+    this.year = date.getFullYear();
+
     this.$http.get(`/api/users/${this.confirmEmailToken}/show`)
       .then(response => {
         this.user = response.data;
         console.log('User', this.user);
+        if(!this.user.location) {
+          this.user.location = {
+            CountryId: 1
+          };
+        } else if(this.user.location.StateId) {
+          this.selectState(this.user.location.StateId);
+        }
       })
       .catch(err => {
+        this.user.location = {
+          CountryId: 1
+        };
         this.Modal.showAlert('Link Inválido', 'O link para cadastro expirou. Você deverá se logar para acessar seu perfil.')
       });
 
-    this.$http.get(`http://servicodados.ibge.gov.br/api/v1/localidades/estados/${this.selectedState}/municipios`)
+    this.$http.get(`/api/countries`)
       .then(response => {
-        this.cities = response.data;
+        this.countriesList = response.data;
       });
 
+    this.$http.get(`/api/states`)
+      .then(response => {
+        this.statesList = response.data;
+      });
+
+    this.$http.get(`/api/levels`)
+      .then(response => {
+        this.levelsList = response.data;
+        for(var level of this.levelsList){
+          if(level.Description === 'Outro') {
+            this.levelOtherId = level.LevelId;
+          }
+        }
+      });
 
   }
 
@@ -126,6 +158,24 @@ export default class ModalRegisterInformationController {
     type.selected = true;
     this.user.PersonTypeId = type.PersonTypeId;
     this.personType = type;
+  }
+
+  selectState(stateId) {
+    this.$http.get(`http://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`)
+      .then(response => {
+        this.citiesList = {};
+        for(var city of response.data) {
+          this.citiesList[city.id] = {
+            IBGEId: city.id,
+            Description: city.nome,
+            StateId: city.microrregiao.mesorregiao.UF.id
+          };
+        }
+      });
+  }
+
+  selectCity(IBGEId) {
+    this.user.location.city = this.citiesList[IBGEId];
   }
 
   updateInitiativeLinks(initiativeLinks) {
@@ -160,6 +210,15 @@ export default class ModalRegisterInformationController {
     this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
 
     if(form.$valid && !this.dateInvalid) {
+      if(this.user.positions[0].LevelId !== this.levelOtherId) {
+        Reflect.deleteProperty(this.user.positions[0], 'LevelOther');
+      }
+
+      if(this.user.location.CountryId !== 1) {
+        this.user.location.StateId = null;
+        this.user.location.CityId = null;
+      }
+
       var loading = this.Modal.showLoading();
       return this.Auth.updateByToken(this.confirmEmailToken, this.user)
         .then(data => {
@@ -179,7 +238,7 @@ export default class ModalRegisterInformationController {
           loading.close();
           err = err.data;
           this.errors = {
-            register: err
+            register: err.message
           };
         });
     }

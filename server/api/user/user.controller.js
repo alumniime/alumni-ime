@@ -55,7 +55,7 @@ export function professors(req, res) {
       'Name'
     ],
     where: {
-      PersonTypeId: [3, 5],
+      PersonTypeId: [4, 5],
       IsApproved: 1,
       IsExcluded: 0
     }
@@ -145,14 +145,93 @@ export function update(req, res, next) {
   console.log(req.body);
   console.log(search);
 
-  User.find(search)
-    .then(user => {
+  async.waterfall([
+    // Finding user using a ConfirmEmailToken or a PersonId
+    (done) => {
+      User.find(search)
+        .then(user => done(null, user))
+        .catch(err => done(err));
+    },
+    // Trying to save his company
+    (user, done) => {
       console.log(JSON.stringify(user));
       if(!user) {
         return res.status(422)
-          .json({message: 'User not found.'});
+          .json({message: 'Usuário não encontrado.'});
       }
-      req.body.ConfirmEmailToken = null;
+      if(req.body.positions && req.body.positions[0]) {
+        var company = req.body.positions[0].company;
+        Reflect.deleteProperty(company, 'CompanyId');
+        Reflect.deleteProperty(company, 'LinkedinId');
+        console.log(company);
+        Company.findOrCreate({where: company})
+          .spread((company, created) => done(null, user, company))
+          .catch(err => done(err));
+      } else {
+        done(null, user);
+      }
+    },
+    // Trying to save his current position
+    (user, company, done) => {
+      console.log('Company saved', company);
+      if(company) {
+        var position = req.body.positions[0];
+        Reflect.deleteProperty(position, 'company');
+        Reflect.deleteProperty(position, 'LinkedinId');
+        position.CompanyId = company.CompanyId;
+        position.PersonId = user.PersonId;
+        position.LastActivityDate = Date.now();
+        position.IsCurrent = 1;
+
+        console.log(position);
+        if(position.PositionId) {
+          Position.update(position, {where: {PositionId: position.PositionId}})
+            .then(result => done(null, user))
+            .catch(err => done(err));
+        } else {
+          var newPosition = Position.build(position);
+          newPosition.save()
+            .then(position => done(null, user))
+            .catch(err => done(err));
+        }
+      } else {
+        done(null, user);
+      }
+    },
+    // Trying to save his city
+    (user, done) => {
+      console.log('Position saved');
+      if(req.body.location && req.body.location.city) {
+        var city = req.body.location.city;
+        City.findOrCreate({where: city})
+          .spread((city, created) => done(null, user, city))
+          .catch(err => done(err));
+      } else {
+        done(null, user, {CityId: null});
+      }
+    },
+    // Trying to save his location
+    (user, city, done) => {
+      if(req.body.location) {
+        var location = req.body.location;
+        Reflect.deleteProperty(location, 'city');
+        Reflect.deleteProperty(location, 'LocationId');
+        Reflect.deleteProperty(location, 'LinkedinName');
+        location.CityId = city.CityId;
+        location.StateId = location.StateId || null;
+
+        Location.findOrCreate({where: location})
+          .then((location, created) => done(null, user, location))
+          .catch(err => done(err));
+      } else {
+        done(null, user, {LocationId: null});
+      }
+
+    },
+    // Updating user fields
+    (user, location, done) => {
+      req.body.ConfirmEmailToken = null; // for disable register-information form
+      req.body.LocationId = location.LocationId;
       var initiativeLinks = req.body.initiativeLinks;
       for(var initiative of initiativeLinks) {
         initiative.PersonId = user.PersonId;
@@ -160,27 +239,37 @@ export function update(req, res, next) {
       Reflect.deleteProperty(req.body, 'initiativeLinks');
       Reflect.deleteProperty(req.body, 'role');
       user.update(req.body)
-        .then(newUser => {
-          InitiativeLink.destroy({
-            where: {
-              PersonId: newUser.PersonId
-            }
-          })
-            .then(() => {
-              InitiativeLink.bulkCreate(initiativeLinks)
-                .then(() => {
-                  var token = jwt.sign({PersonId: newUser.PersonId}, config.secrets.session, {
-                    expiresIn: 60 * 60 * 5
-                  });
-                  return res.json({token, PersonId: newUser.PersonId});
-                })
-                .catch(err => next(err));
-            })
-            .catch(err => next(err));
-        })
-        .catch(err => next(err));
-    })
-    .catch(err => next(err));
+        .then(newUser => done(null, newUser, initiativeLinks))
+        .catch(err => done(err));
+    },
+    // Deleting all initiativeLinks
+    (newUser, initiativeLinks, done) => {
+      InitiativeLink.destroy({
+        where: {PersonId: newUser.PersonId}
+      })
+        .then(() => done(null, newUser, initiativeLinks))
+        .catch(err => done(err));
+    },
+    // Creating new initiativeLinks
+    (newUser, initiativeLinks, done) => {
+      InitiativeLink.bulkCreate(initiativeLinks)
+        .then(() => done(null, newUser))
+        .catch(err => done(err));
+    },
+    // Authenticates user
+    (newUser, done) => {
+      var token = jwt.sign({PersonId: newUser.PersonId}, config.secrets.session, {expiresIn: 60 * 60 * 5});
+      done(null, {token, PersonId: newUser.PersonId});
+    }
+
+  ], function (err, result) {
+    if(err) {
+      next(err);
+    } else {
+      return res.json(result);
+    }
+  });
+
 }
 
 /**
@@ -213,15 +302,21 @@ export function showToken(req, res, next) {
   return User.find({
     include: [{
       model: Position,
+      where: {IsCurrent: false},
+      required: false,
       as: 'positions',
+      limit: 1,
       include: [{
         model: Company,
+        attributes: ['Name', 'CompanyTypeId'],
         as: 'company',
       }, {
         model: Location,
+        attributes: ['CountryId', 'StateId', 'CityId'],
         as: 'location',
         include: [{
           model: City,
+          attributes: ['Description', 'IBGEId', 'StateId'],
           as: 'city'
         }],
       }],
@@ -378,7 +473,7 @@ export function sendConfirmation(req, res, next) {
           if(user) {
             done(null, user);
           } else {
-            done('User not found.');
+            done('Usuário não encontrado.');
           }
         })
         .catch(err => next(err));
@@ -387,7 +482,7 @@ export function sendConfirmation(req, res, next) {
       // create the random token
       crypto.randomBytes(20, function (err, buffer) {
         var token = buffer.toString('hex');
-        if (config.env === 'development'){
+        if(config.env === 'development') {
           console.log(token);
         }
         done(err, user, token);
@@ -493,7 +588,7 @@ export function forgotPassword(req, res) {
       // create the random token
       crypto.randomBytes(20, function (err, buffer) {
         var token = buffer.toString('hex');
-        if (config.env === 'development'){
+        if(config.env === 'development') {
           console.log(token);
         }
         done(err, user, token);

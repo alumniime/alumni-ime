@@ -14,6 +14,7 @@ var db = {
 };
 
 // Insert models below
+db.CompanyType = db.sequelize.import('../api/company_type/company_type.model');
 db.City = db.sequelize.import('../api/city/city.model');
 db.State = db.sequelize.import('../api/state/state.model');
 db.Country = db.sequelize.import('../api/country/country.model');

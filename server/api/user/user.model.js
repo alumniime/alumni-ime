@@ -173,7 +173,8 @@ export default function (sequelize, DataTypes) {
     },
     LastActivityDate: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
     IsApproved: {
       type: DataTypes.BOOLEAN,

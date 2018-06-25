@@ -53,6 +53,10 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
+    LevelOther: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
     StartDateMonth: {
       type: DataTypes.INTEGER(1),
       allowNull: true
@@ -68,6 +72,11 @@ export default function(sequelize, DataTypes) {
     EndDateYear: {
       type: DataTypes.INTEGER(11),
       allowNull: true
+    },
+    LastActivityDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
     IsCurrent: {
       type: DataTypes.BOOLEAN,

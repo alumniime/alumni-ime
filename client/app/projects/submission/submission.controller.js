@@ -51,7 +51,7 @@ export default class SubmissionController {
         loading.close();
         if(!user.PersonId) {
           this.Modal.openLogin();
-        } else if(user.PersonTypeId === 2 || user.PersonTypeId === 3 || user.PersonTypeId === 5) {
+        } else if(user.PersonTypeId === 2 || user.PersonTypeId === 4 || user.PersonTypeId === 5) {
           this.project.SubmissionerId = user.PersonId;
         } else {
           // User can't submit a project
@@ -80,7 +80,7 @@ export default class SubmissionController {
     if(!this.user.PersonId) {
       // User needs to login
       this.Modal.openLogin();
-    } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 3 || this.user.PersonTypeId === 5) {
+    } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 4 || this.user.PersonTypeId === 5) {
 
       if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
 

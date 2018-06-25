@@ -112,6 +112,18 @@ modal-register-information {
     margin: 15px auto;
     display: inherit;
     border-color: #bdbdbd;
+    //background: none !important;
+  }
+
+  .person-type:focus, .person-type:hover {
+    background: none;
+    color: #343a40;
+    border: 1px solid #E84E0F;
+  }
+
+  .person-type:active {
+    background-color: #E84E0F !important;
+    border: 1px solid #E84E0F !important;
   }
 
   .person-type.selected {
@@ -131,6 +143,10 @@ modal-register-information {
     .custom-control-label {
       font-size: 14px;
     }
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
   }
 
 }
