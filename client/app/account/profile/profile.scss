@@ -76,6 +76,10 @@
     height: 45px !important;
   }
 
+  textarea.form-control {
+    height: auto !important;
+  }
+
   ::-webkit-input-placeholder {
     font-style: italic;
     color: #828282;

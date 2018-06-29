@@ -1,6 +1,6 @@
 'use strict';
 
-import {User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative, Position, Company, Location, City} from '../../sqldb';
+import {User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative, Position, Company, Location, City, State, Level, Industry} from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
@@ -168,7 +168,7 @@ export function update(req, res, next) {
           .spread((company, created) => done(null, user, company))
           .catch(err => done(err));
       } else {
-        done(null, user);
+        done(null, user, null);
       }
     },
     // Trying to save his current position
@@ -238,6 +238,10 @@ export function update(req, res, next) {
       }
       Reflect.deleteProperty(req.body, 'initiativeLinks');
       Reflect.deleteProperty(req.body, 'role');
+      Reflect.deleteProperty(req.body, 'IsApproved');
+      if(user.PersonTypeId !== req.body.PersonTypeId) {
+        req.body.IsApproved = false;
+      }
       user.update(req.body)
         .then(newUser => done(null, newUser, initiativeLinks))
         .catch(err => done(err));
@@ -415,12 +419,56 @@ export function me(req, res, next) {
       model: Se,
       as: 'se'
     }, {
+      model: Industry,
+      as: 'industry'
+    }, {
       model: InitiativeLink,
       as: 'userInitiativeLinks',
       include: [{
         model: Initiative,
         as: 'initiative'
       }]
+    }, {
+      model: Position,
+      where: {IsCurrent: true},
+      required: false,
+      as: 'positions',
+      limit: 1,
+      include: [{
+        model: Company,
+        attributes: ['Name', 'CompanyTypeId'],
+        as: 'company',
+      }, {
+        model: Level,
+        attributes: ['Description', 'Type'],
+        as: 'level',
+      }, {
+        model: Location,
+        attributes: ['CountryId', 'StateId', 'CityId'],
+        as: 'location',
+        include: [{
+          model: City,
+          attributes: ['Description', 'IBGEId', 'StateId'],
+          as: 'city',
+          include: [{
+            model: State,
+            attributes: ['Code'],
+            as: 'state'
+          }]
+        }],
+      }],
+    }, {
+      model: Location,
+      as: 'location',
+      include: [{
+        model: City,
+        as: 'city',
+        include: [{
+          model: State,
+          attributes: ['Code'],
+          as: 'state'
+        }]
+      }],
     }],
     attributes: [
       'PersonId',
@@ -434,10 +482,15 @@ export function me(req, res, next) {
       'Birthdate',
       'Genre',
       'Phone',
+      'FullName',
+      'Headline',
+      'LocationId',
+      'IndustryId',
       'GraduationEngineeringId',
       'GraduationYear',
       'ProfessorSEId',
-      'InitiativeLinkOther'
+      'InitiativeLinkOther',
+      'IsApproved'
     ],
     where: {
       PersonId: userId

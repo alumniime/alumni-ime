@@ -3,7 +3,8 @@
 
     <div class="d-none d-lg-block col-lg-4">
       <ul class="nav navbar-nav flex-column">
-        <li class="nav-item" ng-repeat="item in vm.menu" ng-class="{active: item === vm.itemSelected}">
+        <li class="nav-item" ng-repeat="item in vm.menu" ng-class="{active: item === vm.itemSelected}"
+            ng-hide="item.route === 'supported_projects' && !(vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student')">
           <a class="nav-link" ng-click="vm.selectPage(item.route)" href="#">{{item.name}}</a>
         </li>
         <li class="nav-item">
@@ -25,24 +26,35 @@
 
         <h1>{{vm.user.name}}</h1>
         <p class="legend"
-           ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'Student'">
+           ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'DropStudent'">
+          {{vm.user.Headline}}
+          <br>
           {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
           <br>
           Formatura {{vm.user.GraduationYear}}
         </p>
         <p class="legend" ng-if="vm.user.personType.Description === 'Professor'">
+          {{vm.user.Headline}}
+          <br>
           {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
         </p>
         <p class="legend" ng-if="vm.user.personType.Description === 'Visitor'">
+          {{vm.user.Headline}}
+          <br>
           {{vm.user.personType.PortugueseDescription | lowercase}}
         </p>
         <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor'">
+          {{vm.user.Headline}}
+          <br>
+          {{vm.user.se.Description}}
+          <br>
           {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
           <br>
           Formatura {{vm.user.GraduationYear}}
-          <br>
-          {{vm.user.se.Description}}
         </p>
+
+        <p class="legend text-warning" ng-if="!vm.user.IsApproved">Cadastro em validação</p>
+        <p class="legend text-success" ng-if="vm.user.IsApproved">Usuário validado</p>
 
         <div class="row">
 
@@ -57,9 +69,19 @@
               <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
                      value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
             </div>
+            <div class="form-group">
+              <label for="PhoneShow">TELEFONE*</label>
+              <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+                     ng-model="vm.user.Phone">
+            </div>
+            <div class="form-group">
+              <label for="LocationShow">LOCALIZAÇÃO*</label>
+              <input type="text" id="LocationShow" name="Location" class="form-control-plaintext" readonly
+                     ng-value="vm.user.location.city ? (vm.user.location.city.Description + ' - ' + vm.user.location.city.state.Code) : vm.user.location.LinkedinName">
+            </div>
             <div class="form-group mb-0">
-              <label for="InitiativesShow">{{vm.user.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU
-                TEVE)'}}
+              <label for="InitiativesShow">
+                {{vm.user.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
                 LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
               <input type="text" id="InitiativesShow" name="Initiatives" class="form-control-plaintext" readonly
                      ng-value="vm.concatenateInitiativeLinks()">
@@ -75,9 +97,29 @@
             </div>
             -->
             <div class="form-group">
-              <label for="PhoneShow">TELEFONE*</label>
-              <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
-                     ng-model="vm.user.Phone">
+              <label for="Position">CARGO ATUAL*</label>
+              <input type="text" id="Position" name="Position" class="form-control-plaintext" readonly
+                     ng-value="vm.user.positions[0].Title">
+            </div>
+            <div class="form-group">
+              <label for="LevelType">MEIO DE ATUAÇÃO*</label>
+              <input type="text" id="LevelType" name="LevelType" class="form-control-plaintext" readonly
+                     ng-if="vm.user.positions[0].level.Type === 'civil'"
+                     value="Civil">
+              <input type="text" name="LevelType" class="form-control-plaintext" readonly
+                     ng-if="vm.user.positions[0].level.Type === 'military'"
+                     value="Militar">
+            </div>
+            <div class="form-group">
+              <label for="Level" ng-if="vm.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO*</label>
+              <label for="Level" ng-if="vm.user.positions[0].level.Type === 'military'">PATENTE*</label>
+              <input type="text" id="Level" name="Level" class="form-control-plaintext" readonly
+                     ng-value="vm.user.positions[0].level.Description">
+            </div>
+            <div class="form-group">
+              <label for="Company">EMPRESA*</label>
+              <input type="text" id="Company" name="Company" class="form-control-plaintext" readonly
+                     ng-value="vm.user.positions[0].company.Name">
             </div>
           </div>
 
@@ -107,10 +149,22 @@
             <div class="col-12 col-sm-6">
 
               <div class="form-group">
-                <label for="name">NOME*</label>
-                <input type="text" id="name" name="name" class="form-control" ng-model="vm.user.name" required>
+                <label for="name">NOME DE EXIBIÇÃO*</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="nome para exibição no perfil"
+                       uib-tooltip="Seu nome de exibição será público." tooltip-placement="bottom"
+                       ng-model="vm.user.name" required>
                 <p class="help-block" ng-show="formUpdate.name.$error.required && vm.submittedUpdate">
                   Insira seu nome.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="FullName">NOME COMPLETO*</label>
+                <input type="text" name="FullName" id="FullName" class="form-control" placeholder="nome para validação"
+                       uib-tooltip="O nome completo facilitará a aprovação do seu cadastro." tooltip-placement="bottom"
+                       ng-model="vm.user.FullName" required ng-disabled="vm.user.IsApproved">
+                <p class="help-block" ng-show="form.FullName.$error.required && vm.submitted">
+                  Insira seu nome completo.
                 </p>
               </div>
 
@@ -138,18 +192,12 @@
                 </p>
               </div>
 
-              <div class="form-group"
-                   ng-if="vm.user.personType.Description !== 'Visitor' && vm.user.personType.Description !== 'Professor'">
-                <label for="GraduationEngineeringId">ENGENHARIA*</label>
-                <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
-                        ng-model="vm.user.GraduationEngineeringId" required
-                        ng-change="vm.updateEngineering(vm.user.GraduationEngineeringId)">
-                  <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
-                          ng-value="engineering.EngineeringId">{{engineering.Description}}
-                  </option>
-                </select>
-                <p class="help-block" ng-if="formUpdate.GraduationEngineeringId.$error.required && vm.submittedUpdate">
-                  Insira a sua engenharia.
+              <div class="form-group">
+                <label for="Phone">TELEFONE*</label>
+                <input type="tel" id="Phone" name="Phone" placeholder="+55 (00) 00000-0000" mask="+99 (99) 9?9999-9999"
+                       class="form-control" ng-model="vm.user.Phone" required>
+                <p class="help-block" ng-show="formUpdate.Phone.$error.required && vm.submittedUpdate">
+                  Insira o seu telefone.
                 </p>
               </div>
 
@@ -216,18 +264,10 @@
               -->
 
               <div class="form-group">
-                <label for="Phone">TELEFONE*</label>
-                <input type="tel" id="Phone" name="Phone" placeholder="+55 (00) 00000-0000" mask="+99 (99) 9?9999-9999"
-                       class="form-control" ng-model="vm.user.Phone" required>
-                <p class="help-block" ng-show="formUpdate.Phone.$error.required && vm.submittedUpdate">
-                  Insira o seu telefone.
-                </p>
-              </div>
-
-              <div class="form-group">
-                <label for="PersonTypeId">COMO VOCÊ SE ENCONTRA HOJE*</label>
+                <label for="PersonTypeId">QUAL SUA RELAÇÃO COM O IME HOJE?*</label>
                 <select class="form-control" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId"
-                        required ng-change="vm.updatePersonType(vm.user.PersonTypeId)">
+                        uib-tooltip="Ao modificar sua relação com o IME, seu perfil será validado novamente pela Alumni IME."
+                        tooltip-placement="bottom" required ng-change="vm.updatePersonType(vm.user.PersonTypeId)">
                   <option ng-repeat="type in vm.personTypes" ng-if="type.Description !== 'NewUser'"
                           ng-value="type.PersonTypeId">{{type.PortugueseDescription}}
                   </option>
@@ -250,6 +290,21 @@
               </div>
 
               <div class="form-group"
+                   ng-if="vm.user.personType.Description !== 'Visitor' && vm.user.personType.Description !== 'Professor'">
+                <label for="GraduationEngineeringId">ENGENHARIA*</label>
+                <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
+                        ng-model="vm.user.GraduationEngineeringId" required
+                        ng-change="vm.updateEngineering(vm.user.GraduationEngineeringId)">
+                  <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
+                          ng-value="engineering.EngineeringId">{{engineering.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="formUpdate.GraduationEngineeringId.$error.required && vm.submittedUpdate">
+                  Insira a sua engenharia.
+                </p>
+              </div>
+
+              <div class="form-group"
                    ng-if="vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'FormerStudentAndProfessor'">
                 <label for="ProfessorSEId">SEÇÃO DE ENSINO ATUAL*</label>
                 <select class="form-control" id="ProfessorSEId" name="ProfessorSEId"
@@ -259,6 +314,19 @@
                 </select>
                 <p class="help-block" ng-if="formUpdate.ProfessorSEId.$error.required && vm.submittedUpdate">
                   Insira a sua seção de ensino.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="Headline">TÍTULO DO PERFIL*</label>
+                <textarea type="text" id="Headline" name="Headline" class="form-control" rows="2"
+                          placeholder="Ex: Especialista em Gestão de Projetos"
+                          ng-model="vm.user.Headline" required ng-maxlength="255"></textarea>
+                <p class="help-block" ng-show="form.Headline.$error.required && vm.submitted">
+                  Insira um título para seu perfil.
+                </p>
+                <p class="help-block" ng-show="form.Abstract.$error.maxlength">
+                  Título muito longo.
                 </p>
               </div>
 
@@ -342,12 +410,14 @@
     </div>
 
     <!-- Submitted projects -->
-    <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
+    <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none"
+        ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student'">
       <li class="nav-item" ng-class="{active: vm.itemSelected.route === 'submitted_projects'}">
         <a class="nav-link" ng-click="vm.selectPage('submitted_projects')" href="#">Projetos submetidos</a>
       </li>
     </ul>
-    <div class="col-12 col-lg-8" ng-if="vm.itemSelected.route === 'submitted_projects'">
+    <div class="col-12 col-lg-8"
+         ng-if="vm.itemSelected.route === 'submitted_projects' && (vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student')">
 
       <div class="card-columns">
 

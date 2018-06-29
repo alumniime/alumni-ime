@@ -17,6 +17,7 @@ export default class ProfileController {
   submittedPassword = false;
   editFields = false;
   personType = undefined;
+  personTypeId = 1;
   menu = [
     {name: 'Meus dados', route: 'me'},
     {name: 'Projetos submetidos', route: 'submitted_projects'},
@@ -44,6 +45,7 @@ export default class ProfileController {
   $onInit() {
     this.Auth.getCurrentUser((user) => {
       this.user = user;
+      this.personTypeId = this.user.PersonTypeId;
       this.Birthdate = this.$filter('date')(this.user.Birthdate, 'dd/MM/yyyy');
       this.PersonId = user.PersonId;
       console.log(user);
@@ -137,6 +139,9 @@ export default class ProfileController {
         this.user.personType = type;
       }
     }
+    if (this.personTypeId !== this.user.PersonTypeId) {
+      this.user.IsApproved = false;
+    }
   }
 
   updateEngineering(EngineeringId) {
@@ -208,8 +213,12 @@ export default class ProfileController {
     var date = this.Birthdate.split('/');
     this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
 
+    var user = angular.copy(this.user);
+    Reflect.deleteProperty(user, 'positions');
+    Reflect.deleteProperty(user, 'location');
+
     if(form.$valid && !this.dateInvalid) {
-      return this.Auth.updateById(this.PersonId, this.user)
+      return this.Auth.updateById(this.PersonId, user)
         .then(() => {
           // Account updated
           this.messageUpdate = 'Dados alterados com sucesso!';
