@@ -74,10 +74,15 @@
     border-bottom: 1px solid #bdbdbd;
     padding: 10px 20px !important;
     height: 45px !important;
+    margin-bottom: 10px;
   }
 
   textarea.form-control {
     height: auto !important;
+  }
+
+  textarea.form-control.headline {
+    height: 100px !important;
   }
 
   ::-webkit-input-placeholder {

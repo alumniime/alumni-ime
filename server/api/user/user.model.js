@@ -208,7 +208,13 @@ export default function (sequelize, DataTypes) {
           PersonId: this.PersonId,
           role: this.role
         };
+      },
+
+      // Return if user has a password (both for local or linkedin provider)
+      hasPassword() {
+        return this.password !== null;
       }
+
     },
 
     /**

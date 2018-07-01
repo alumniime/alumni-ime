@@ -78,6 +78,26 @@ export default class ModalRegisterInformationController {
         this.optionsToKnowList = response.data;
       });
 
+    this.$http.get(`/api/countries`)
+      .then(response => {
+        this.countriesList = response.data;
+      });
+
+    this.$http.get(`/api/states`)
+      .then(response => {
+        this.statesList = response.data;
+      });
+
+    this.$http.get(`/api/levels`)
+      .then(response => {
+        this.levelsList = response.data;
+        for(var level of this.levelsList){
+          if(level.Description === 'Outro') {
+            this.levelOtherId = level.LevelId;
+          }
+        }
+      });
+
     this.confirmEmailToken = this.resolve.confirmEmailToken;
     this.isLocalProvider = this.resolve.isLocalProvider;
     this.isLinkedinProvider = !this.isLocalProvider;
@@ -116,26 +136,6 @@ export default class ModalRegisterInformationController {
           CountryId: 1
         };
         this.Modal.showAlert('Link Inválido', 'O link para cadastro expirou. Você deverá se logar para acessar seu perfil.')
-      });
-
-    this.$http.get(`/api/countries`)
-      .then(response => {
-        this.countriesList = response.data;
-      });
-
-    this.$http.get(`/api/states`)
-      .then(response => {
-        this.statesList = response.data;
-      });
-
-    this.$http.get(`/api/levels`)
-      .then(response => {
-        this.levelsList = response.data;
-        for(var level of this.levelsList){
-          if(level.Description === 'Outro') {
-            this.levelOtherId = level.LevelId;
-          }
-        }
       });
 
   }
@@ -222,9 +222,9 @@ export default class ModalRegisterInformationController {
       var loading = this.Modal.showLoading();
       return this.Auth.updateByToken(this.confirmEmailToken, this.user)
         .then(data => {
-          loading.close();
           // Account updated
           this.Auth.loginWithToken(data.token);
+          loading.close();
 
           this.$uibModal.open({
             animation: true,

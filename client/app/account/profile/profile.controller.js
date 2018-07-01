@@ -27,8 +27,9 @@ export default class ProfileController {
   backupUser = {};
   dateInvalid = false;
   Birthdate = '';
+  locationName = '';
 
-  constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation) {
+  constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Modal) {
     'ngInject';
 
     this.Auth = Auth;
@@ -40,6 +41,7 @@ export default class ProfileController {
     this.$stateParams = $stateParams;
     this.Project = Project;
     this.Donation = Donation;
+    this.Modal = Modal;
   }
 
   $onInit() {
@@ -48,6 +50,15 @@ export default class ProfileController {
       this.personTypeId = this.user.PersonTypeId;
       this.Birthdate = this.$filter('date')(this.user.Birthdate, 'dd/MM/yyyy');
       this.PersonId = user.PersonId;
+      if(!this.user.location) {
+        this.user.location = {
+          CountryId: 1
+        };
+      } else if(this.user.location.StateId) {
+        this.selectState(this.user.location.StateId);
+      }
+      this.updateLocationName();
+
       console.log(user);
 
       this.$http.get('/api/person_types')
@@ -63,6 +74,26 @@ export default class ProfileController {
       this.$http.get('/api/ses')
         .then(response => {
           this.sesList = response.data;
+        });
+
+      this.$http.get('/api/option_to_know_types')
+        .then(response => {
+          this.optionsToKnowList = response.data;
+        });
+
+      this.$http.get('/api/industries')
+        .then(response => {
+          this.industriesList = response.data;
+        });
+
+      this.$http.get(`/api/countries`)
+        .then(response => {
+          this.countriesList = response.data;
+        });
+
+      this.$http.get(`/api/states`)
+        .then(response => {
+          this.statesList = response.data;
         });
 
       this.$http.get('/api/initiatives')
@@ -83,11 +114,6 @@ export default class ProfileController {
             });
         });
 
-      this.$http.get('/api/option_to_know_types')
-        .then(response => {
-          this.optionsToKnowList = response.data;
-        });
-
       this.graduationYears = [];
       var today = new Date();
       for(var i = 1950; i <= today.getFullYear() + 4; i++) {
@@ -97,6 +123,7 @@ export default class ProfileController {
       this.Donation.loadMyDonations(false);
 
     });
+
     if(this.$stateParams.view !== null) {
       for(var item of this.menu) {
         if(item.route === this.$stateParams.view) {
@@ -121,6 +148,24 @@ export default class ProfileController {
     this.$state.go('profile', {view: route});
   }
 
+  selectState(stateId) {
+    this.$http.get(`http://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`)
+      .then(response => {
+        this.citiesList = {};
+        for(var city of response.data) {
+          this.citiesList[city.id] = {
+            IBGEId: city.id,
+            Description: city.nome,
+            StateId: city.microrregiao.mesorregiao.UF.id
+          };
+        }
+      });
+  }
+
+  selectCity(IBGEId) {
+    this.user.location.city = this.citiesList[IBGEId];
+  }
+
   callEdit() {
     this.editFields = !this.editFields;
     this.backupUser = angular.copy(this.user);
@@ -139,7 +184,7 @@ export default class ProfileController {
         this.user.personType = type;
       }
     }
-    if (this.personTypeId !== this.user.PersonTypeId) {
+    if(this.personTypeId !== this.user.PersonTypeId) {
       this.user.IsApproved = false;
     }
   }
@@ -171,6 +216,15 @@ export default class ProfileController {
     }
     this.user.initiativeLinks = result;
     // this.concatenateInitiativeLinks();
+  }
+
+  updateLocationName() {
+    this.locationName = this.user.location.LinkedinName;
+    if(this.user.location.CountryId === 1 || this.user.location.city) {
+      this.locationName = (this.user.location.city.state ? `${this.user.location.city.Description} - ${this.user.location.city.state.Code}` : this.user.location.city.Description);
+    } else {
+      this.locationName = this.user.location.country.Description;
+    }
   }
 
   userHasInitiative(initiativeId) {
@@ -215,12 +269,21 @@ export default class ProfileController {
 
     var user = angular.copy(this.user);
     Reflect.deleteProperty(user, 'positions');
-    Reflect.deleteProperty(user, 'location');
+
+    if(this.user.location.CountryId !== 1) {
+      this.user.location.StateId = null;
+      this.user.location.CityId = null;
+      Reflect.deleteProperty(this.user.location, 'city');
+    }
+
+    this.updateLocationName();
 
     if(form.$valid && !this.dateInvalid) {
+      var loading = this.Modal.showLoading();
       return this.Auth.updateById(this.PersonId, user)
         .then(() => {
           // Account updated
+          loading.close();
           this.messageUpdate = 'Dados alterados com sucesso!';
           this.editFields = false;
           this.backupUser = {};
@@ -228,6 +291,7 @@ export default class ProfileController {
           this.$anchorScroll();
         })
         .catch(err => {
+          loading.close();
           this.user = angular.copy(this.backupUser);
           this.errors.update = err.data;
           this.messageUpdate = '';

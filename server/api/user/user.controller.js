@@ -1,6 +1,7 @@
 'use strict';
 
-import {User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative, Position, Company, Location, City, State, Level, Industry} from '../../sqldb';
+import {User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
+  Position, Company, Location, City, State, Level, Industry, Country} from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
@@ -204,7 +205,7 @@ export function update(req, res, next) {
       if(req.body.location && req.body.location.city) {
         var city = req.body.location.city;
         City.findOrCreate({where: city})
-          .spread((city, created) => done(null, user, city))
+          .spread((newCity, created) => done(null, user, newCity))
           .catch(err => done(err));
       } else {
         done(null, user, {CityId: null});
@@ -215,13 +216,15 @@ export function update(req, res, next) {
       if(req.body.location) {
         var location = req.body.location;
         Reflect.deleteProperty(location, 'city');
+        Reflect.deleteProperty(location, 'country');
         Reflect.deleteProperty(location, 'LocationId');
         Reflect.deleteProperty(location, 'LinkedinName');
         location.CityId = city.CityId;
         location.StateId = location.StateId || null;
 
+        console.log('Location', location);
         Location.findOrCreate({where: location})
-          .then((location, created) => done(null, user, location))
+          .spread((location, created) => done(null, user, location))
           .catch(err => done(err));
       } else {
         done(null, user, {LocationId: null});
@@ -238,10 +241,12 @@ export function update(req, res, next) {
       }
       Reflect.deleteProperty(req.body, 'initiativeLinks');
       Reflect.deleteProperty(req.body, 'role');
+      Reflect.deleteProperty(req.body, 'location');
       Reflect.deleteProperty(req.body, 'IsApproved');
       if(user.PersonTypeId !== req.body.PersonTypeId) {
         req.body.IsApproved = false;
       }
+      console.log('Saving...\n', req.body);
       user.update(req.body)
         .then(newUser => done(null, newUser, initiativeLinks))
         .catch(err => done(err));
@@ -468,6 +473,9 @@ export function me(req, res, next) {
           attributes: ['Code'],
           as: 'state'
         }]
+      }, {
+        model: Country,
+        as: 'country'
       }],
     }],
     attributes: [
