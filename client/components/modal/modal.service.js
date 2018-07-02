@@ -12,6 +12,7 @@ import ModalLoadingController from './loading/loading.controller';
 import ModalSentReceiptController from './sent-receipt/sent-receipt.controller';
 import ModalForgotPassword from './forgot-password/forgot-password.controller';
 import ModalResetPassword from './reset-password/reset-password.controller';
+import ModalTermsOfUse from './terms-of-use/terms-of-use.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $interval) {
@@ -85,6 +86,19 @@ export function ModalService($uibModal, $interval) {
             return confirmEmailToken;
           }
         }
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
+    openTermsOfUse() {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalTermsOfUse',
+        size: 'dialog-centered'
       });
       modalInstance.result.then(function () {
         console.log('Success');
@@ -281,6 +295,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalResetPassword', {
     template: require('./reset-password/reset-password.html'),
     controller: ModalResetPassword,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalTermsOfUse', {
+    template: require('./terms-of-use/terms-of-use.html'),
+    controller: ModalTermsOfUse,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

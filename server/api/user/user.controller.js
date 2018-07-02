@@ -143,8 +143,10 @@ export function update(req, res, next) {
     search.where.ConfirmEmailToken = token;
   }
 
-  console.log(req.body);
-  console.log(search);
+  if(config.debug) {
+  console.log('\n=>req.body', JSON.stringify(req.body));
+  console.log('\n=>search', JSON.stringify(search));
+  }
 
   async.waterfall([
     // Finding user using a ConfirmEmailToken or a PersonId
@@ -155,7 +157,9 @@ export function update(req, res, next) {
     },
     // Trying to save his company
     (user, done) => {
-      console.log(JSON.stringify(user));
+      if(config.debug) {
+        console.log('\n=>Found user', JSON.stringify(user));
+      }
       if(!user) {
         return res.status(422)
           .json({message: 'Usuário não encontrado.'});
@@ -164,7 +168,9 @@ export function update(req, res, next) {
         var company = req.body.positions[0].company;
         Reflect.deleteProperty(company, 'CompanyId');
         Reflect.deleteProperty(company, 'LinkedinId');
-        console.log(company);
+        if(config.debug) {
+          console.log('\n=>company', company);
+        }
         Company.findOrCreate({where: company})
           .spread((company, created) => done(null, user, company))
           .catch(err => done(err));
@@ -174,7 +180,9 @@ export function update(req, res, next) {
     },
     // Trying to save his current position
     (user, company, done) => {
-      console.log('Company saved', company);
+      if(config.debug) {
+        console.log('\n=>Company saved', JSON.stringify(company));
+      }
       if(company) {
         var position = req.body.positions[0];
         Reflect.deleteProperty(position, 'company');
@@ -184,7 +192,9 @@ export function update(req, res, next) {
         position.LastActivityDate = Date.now();
         position.IsCurrent = 1;
 
-        console.log(position);
+        if(config.debug) {
+          console.log('\n=>position', position);
+        }
         if(position.PositionId) {
           Position.update(position, {where: {PositionId: position.PositionId}})
             .then(result => done(null, user))
@@ -201,9 +211,16 @@ export function update(req, res, next) {
     },
     // Trying to save his city
     (user, done) => {
-      console.log('Position saved');
+      if(config.debug) {
+        console.log('\n=>Position saved');
+      }
       if(req.body.location && req.body.location.city) {
         var city = req.body.location.city;
+        Reflect.deleteProperty(city, 'state');
+
+        if(config.debug) {
+          console.log('\n=>city', JSON.stringify(city));
+        }
         City.findOrCreate({where: city})
           .spread((newCity, created) => done(null, user, newCity))
           .catch(err => done(err));
@@ -213,6 +230,9 @@ export function update(req, res, next) {
     },
     // Trying to save his location
     (user, city, done) => {
+      if(config.debug) {
+        console.log('\n=>City saved', JSON.stringify(city));
+      }
       if(req.body.location) {
         var location = req.body.location;
         Reflect.deleteProperty(location, 'city');
@@ -222,7 +242,9 @@ export function update(req, res, next) {
         location.CityId = city.CityId;
         location.StateId = location.StateId || null;
 
-        console.log('Location', location);
+        if(config.debug) {
+          console.log('\n=>Location', location);
+        }
         Location.findOrCreate({where: location})
           .spread((location, created) => done(null, user, location))
           .catch(err => done(err));
@@ -233,6 +255,9 @@ export function update(req, res, next) {
     },
     // Updating user fields
     (user, location, done) => {
+      if(config.debug) {
+        console.log('\n=>Location saved', JSON.stringify(location));
+      }
       req.body.ConfirmEmailToken = null; // for disable register-information form
       req.body.LocationId = location.LocationId;
       var initiativeLinks = req.body.initiativeLinks;
@@ -246,7 +271,9 @@ export function update(req, res, next) {
       if(user.PersonTypeId !== req.body.PersonTypeId) {
         req.body.IsApproved = false;
       }
-      console.log('Saving...\n', req.body);
+      if(config.debug) {
+        console.log('\n=>Saving...\n', req.body);
+      }
       user.update(req.body)
         .then(newUser => done(null, newUser, initiativeLinks))
         .catch(err => done(err));
@@ -530,7 +557,9 @@ export function sendConfirmation(req, res, next) {
         }
       })
         .then(user => {
-          console.log(JSON.stringify(user));
+          if(config.debug) {
+            console.log(JSON.stringify(user));
+          }
           if(user) {
             done(null, user);
           } else {

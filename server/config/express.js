@@ -19,6 +19,7 @@ import passport from 'passport';
 import session from 'express-session';
 import sqldb from '../sqldb';
 import expressSequelizeSession from 'express-sequelize-session';
+import Promise from 'bluebird';
 var Store = expressSequelizeSession(session.Store);
 
 export default function(app) {
@@ -127,4 +128,11 @@ export default function(app) {
   if(env === 'development' || env === 'test') {
     app.use(errorHandler()); // Error handler - has to be last
   }
+
+  Promise.config({
+    // Enables all warnings except forgotten return statements.
+    warnings: {
+      wForgottenReturn: false
+    }
+  });
 }

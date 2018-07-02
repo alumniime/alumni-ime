@@ -97,11 +97,6 @@
             </div>
             -->
             <div class="form-group">
-              <label for="Position">CARGO ATUAL*</label>
-              <input type="text" id="Position" name="Position" class="form-control-plaintext" readonly
-                     ng-value="vm.user.positions[0].Title">
-            </div>
-            <div class="form-group">
               <label for="LevelType">MEIO DE ATUAÇÃO*</label>
               <input type="text" id="LevelType" name="LevelType" class="form-control-plaintext" readonly
                      ng-if="vm.user.positions[0].level.Type === 'civil'"
@@ -109,6 +104,11 @@
               <input type="text" name="LevelType" class="form-control-plaintext" readonly
                      ng-if="vm.user.positions[0].level.Type === 'military'"
                      value="Militar">
+            </div>
+            <div class="form-group">
+              <label for="Position">CARGO ATUAL*</label>
+              <input type="text" id="Position" name="Position" class="form-control-plaintext" readonly
+                     ng-value="vm.user.positions[0].Title">
             </div>
             <div class="form-group">
               <label for="Level" ng-if="vm.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO*</label>

@@ -111,7 +111,7 @@ export function index(req, res) {
         IsApproved: 1
       }
     }],
-    attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+    attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule']},
     where: {
       IsApproved: 1,
       IsExcluded: 0
@@ -205,6 +205,10 @@ export function me(req, res) {
   var userId = req.user.PersonId;
   return Project.findAll({
     include: [{
+      model: Image,
+      as: 'images',
+      attributes: ['Path', 'OrderIndex', 'Type']
+    }, {
       model: User,
       attributes: ['name'],
       as: 'leader'
@@ -212,8 +216,14 @@ export function me(req, res) {
       model: User,
       attributes: ['name'],
       as: 'professor'
+    }, {
+      model: Se,
+      as: 'se'
     }],
-    attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+    attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule']},
+    order: [
+      [{model: Image, as: 'images'}, 'OrderIndex']
+    ],
     where: {
       SubmissionerId: userId,
       IsExcluded: 0

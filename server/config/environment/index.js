@@ -57,7 +57,9 @@ var all = {
     name: process.env.MAILER_NAME || 'Alumni IME',
     user: process.env.MAILER_EMAIL || '',
     pass: process.env.MAILER_PASSWORD || ''
-  }
+  },
+
+  debug: process.env.DEBUG || false
 };
 
 // Export the config object based on the NODE_ENV

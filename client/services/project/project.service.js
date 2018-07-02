@@ -75,20 +75,6 @@ export function ProjectService($http, $q, $state, Util) {
         $http.get('/api/projects/me')
           .then(response => {
             this.submittedProjects = response.data;
-            for(let project of this.submittedProjects) {
-              $http.get(`/api/images/${project.ProjectId})`)
-                .then(images => {
-                  project.images = images.data;
-                });
-              $http.get(`/api/users/${project.LeaderId})`)
-                .then(leader => {
-                  project.leader = leader.data;
-                });
-              $http.get(`/api/users/${project.ProfessorId})`)
-                .then(professor => {
-                  project.professor = professor.data;
-                });
-            }
           });
       }
     },

@@ -1,11 +1,22 @@
 .submission-view {
-  margin: 40px 0 50px;
+  margin: 50px 0 50px;
 
   .title {
     font-weight: 700;
     color: #333333;
     font-size: 20px;
     margin-bottom: 30px;
+  }
+
+  .btn-outline-dark {
+    display: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    height: 45px;
+    border-radius: 30px;
+    min-width: 200px;
+    padding-top: 10px;
+    margin-bottom: 20px;
   }
 
   .field {

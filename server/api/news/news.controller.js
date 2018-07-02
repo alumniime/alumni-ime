@@ -65,7 +65,7 @@ function handleError(res, statusCode) {
   };
 }
 
-// Gets a list of Newss
+// Gets a list of News
 export function index(req, res) {
   return News.findAll({
     include: [{
@@ -86,6 +86,9 @@ export function index(req, res) {
         attributes: ['Path', 'OrderIndex'],
       }]
     }],
+    order: [
+      ['PublishDate', 'DESC']
+    ],
     where: {
       IsExcluded: 0
     }
