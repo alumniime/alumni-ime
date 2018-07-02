@@ -7,12 +7,13 @@ import routes from './show.routes';
 
 export class ShowController {
 
-  constructor($state, Project, Modal) {
+  constructor($state, Project, Modal, Util) {
     'ngInject';
 
     this.$state = $state;
     this.Project = Project;
     this.Modal = Modal;
+    this.Util = Util;
   }
 
   $onInit() {
@@ -22,10 +23,6 @@ export class ShowController {
     }).catch(() => {
       loading.close();
     })
-  }
-
-  openProject(project) {
-    this.Project.open(project.ProjectId, project.ProjectName);
   }
 
 }

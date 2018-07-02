@@ -8,7 +8,7 @@ import routes from './view.routes';
 export class ViewController {
   news = {};
 
-  constructor(Modal, $state, $stateParams, News, Project, $anchorScroll) {
+  constructor(Modal, $state, $stateParams, News, Project, Util, $anchorScroll) {
     'ngInject';
 
     this.$state = $state;
@@ -16,6 +16,7 @@ export class ViewController {
     this.Modal = Modal;
     this.News = News;
     this.Project = Project;
+    this.Util = Util;
     this.$anchorScroll = $anchorScroll;
   }
 
@@ -43,14 +44,6 @@ export class ViewController {
 
   openPhoto(images, index) {
     this.Modal.openPhoto(images, index);
-  }
-
-  openProject(project) {
-    this.Project.open(project.ProjectId, project.ProjectName);
-  }
-
-  openNews(news) {
-    this.News.open(news.NewsId, news.Title);
   }
 
 }

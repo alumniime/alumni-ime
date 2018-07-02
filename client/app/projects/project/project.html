@@ -88,7 +88,13 @@
               </div>
             </div>
 
-            <a class="btn btn-danger m-auto" href="#" ng-click="vm.openDonate(vm.project)">APOIAR PROJETO</a>
+            <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto já foi encerrada' : ''}}"
+                 tooltip-placement="bottom">
+              <a class="btn btn-danger m-auto" href="#" ng-class="{'disabled': !vm.acceptDonation}"
+                 ui-sref="donate({ProjectId: vm.project.ProjectId, PrettyURL: vm.Util.convertToSlug(vm.project.ProjectName)})">
+                APOIAR PROJETO
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -298,7 +304,13 @@
             </div>
           </div>
 
-          <a class="btn btn-danger m-auto" href="#" ng-click="vm.openDonate(vm.project)">APOIAR PROJETO</a>
+          <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto já foi encerrada' : ''}}"
+               tooltip-placement="bottom">
+            <a class="btn btn-danger m-auto" href="#" ng-class="{'disabled': !vm.acceptDonation}"
+               ui-sref="donate({ProjectId: vm.project.ProjectId, PrettyURL: vm.Util.convertToSlug(vm.project.ProjectName)})">
+              APOIAR PROJETO
+            </a>
+          </div>
         </div>
       </div>
     </div>

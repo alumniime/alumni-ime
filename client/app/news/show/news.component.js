@@ -18,12 +18,13 @@ export class NewsController {
   }];
   selected = this.categories[0];
 
-  constructor($state, News, Modal) {
+  constructor($state, News, Modal, Util) {
     'ngInject';
 
     this.$state = $state;
     this.News = News;
     this.Modal = Modal;
+    this.Util = Util;
   }
 
   $onInit() {
@@ -33,10 +34,6 @@ export class NewsController {
     }).catch(() => {
       loading.close();
     })
-  }
-
-  openNews(news) {
-    this.News.open(news.NewsId, news.Title);
   }
 
   dropdownChanged(option) {

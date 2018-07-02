@@ -6,14 +6,17 @@ const uiRouter = require('angular-ui-router');
 import routes from './project.routes';
 
 export class ProjectController {
-  project = {};
+  project = {
+    ProjectName: ''
+  };
   selectedProjectImage = {};
   selectedProjectImageIndex = 0;
   selectedResultImage = {};
   selectedResultImageIndex = 0;
   previewMode = false;
+  acceptDonation = true;
 
-  constructor(Auth, Modal, $state, $stateParams, Project, Donation, $anchorScroll) {
+  constructor(Auth, Modal, $state, $stateParams, Project, Donation, Util, $anchorScroll) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUserSync;
@@ -22,6 +25,7 @@ export class ProjectController {
     this.Modal = Modal;
     this.Project = Project;
     this.Donation = Donation;
+    this.Util = Util;
     this.$anchorScroll = $anchorScroll;
   }
 
@@ -34,6 +38,11 @@ export class ProjectController {
         .then(project => {
           loading.close();
           this.project = project;
+          var conclusionDate = new Date(this.project.ConclusionDate);
+          var today = new Date();
+          if(today > conclusionDate) {
+            this.acceptDonation = false;
+          }
           this.projectImages = this.project.images.filter((image) => {
             return image.Type === 'project';
           });
@@ -79,10 +88,6 @@ export class ProjectController {
 
   insertResult(project) {
     this.$state.go('result', {ProjectId: project.ProjectId});
-  }
-
-  openDonate(project) {
-    this.Donation.open(project.ProjectId, project.ProjectName);
   }
 
 }

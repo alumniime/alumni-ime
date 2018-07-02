@@ -5,10 +5,11 @@ import routing from './main.routes';
 export class MainController {
 
   /*@ngInject*/
-  constructor(Project, News, Auth, Modal, $stateParams) {
+  constructor(Project, News, Auth, Modal, Util, $stateParams) {
     this.Project = Project;
     this.News = News;
     this.Modal = Modal;
+    this.Util = Util;
     this.$stateParams = $stateParams;
     this.isLoggedIn = Auth.isLoggedInSync;
   }
@@ -16,21 +17,16 @@ export class MainController {
   $onInit() {
     this.Project.load();
     this.News.load();
-    if(this.$stateParams.load) {
-      if(this.$stateParams.load === 'signup') {
-        this.Modal.openSignup();
-      } else if(this.$stateParams.load === 'login') {
-        this.Modal.openSignup();
+    if(!this.isLoggedIn()) {
+      if(this.$stateParams.load) {
+        if(this.$stateParams.load === 'signup') {
+          this.Modal.openSignup();
+        } else if(this.$stateParams.load === 'login') {
+          this.Modal.openLogin();
+        }
+        this.$stateParams = {};
       }
     }
-  }
-
-  openProject(project) {
-    this.Project.open(project.ProjectId, project.ProjectName);
-  }
-
-  openNews(news) {
-    this.News.open(news.NewsId, news.Title);
   }
 
 }

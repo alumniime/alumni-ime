@@ -72,7 +72,7 @@
       <div class="row">
         <div class="col-md-4 projects order-md-last">
           <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: '-Views' | limitTo: 3"
-             ng-click="vm.openProject(project)">
+             ui-sref="project({ProjectId: project.ProjectId, PrettyURL: vm.Util.convertToSlug(project.ProjectName), preview: false, forceReload: false})">
             <img class="rounded mx-auto d-block" alt="Featured project" ng-src="{{project.images[0].Path}}">
             <h5 class="project-title">{{project.ProjectName}}</h5>
             <h6 class="team-name">por {{project.TeamName}}</h6>
@@ -83,7 +83,8 @@
           <hr class="divider">
 
           <h5 ng-repeat-start="news in vm.News.list | orderBy: '-PublishDate' | limitTo: 5">
-            <a href="#" class="text-dark" ng-click="vm.openNews(news)">
+            <a href="#" class="text-dark"
+               ui-sref="view({NewsId: news.NewsId, PrettyURL: vm.Util.convertToSlug(news.Title), forceReload: false})">
               {{news.Title}}
             </a>
           </h5>

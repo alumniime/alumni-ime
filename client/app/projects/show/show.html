@@ -4,7 +4,8 @@
   <div class="card-deck project-deck">
 
     <div class="col-12 col-md-6 col-lg-4 pl-0 pr-0 pr-md-4" ng-repeat="project in vm.Project.list">
-      <div class="card project-card mb-3 c-pointer" ng-click="vm.openProject(project)">
+      <a class="card project-card mb-3 c-pointer"
+           ui-sref="project({ProjectId: project.ProjectId, PrettyURL: vm.Util.convertToSlug(project.ProjectName), preview: false, forceReload: false})">
         <div class="card-img-top" ng-if="project.images[0].Path">
           <img ng-src="{{project.images[0].Path}}" alt="{{project.ProjectName}}">
         </div>
@@ -42,7 +43,7 @@
             <input type="text" class="form-control-plaintext" readonly ng-value="project.professor.name">
           </div>
         </div>
-      </div>
+      </a>
     </div>
 
   </div>

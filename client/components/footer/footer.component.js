@@ -23,6 +23,7 @@ export class FooterComponent {
     this.submitted = true;
 
     if(form.$valid){
+      var loading = this.Modal.showLoading();
       this.$http.post('/api/users/contact', {
         Name: this.name,
         Email: this.email,
@@ -30,14 +31,16 @@ export class FooterComponent {
       })
         .then(res => {
           console.log(res);
-          this.Modal.showAlert('Email enviado!', 'Por favor, aguarde que lhe responderemos em breve.');
+loading.close();
+this.Modal.showAlert('Email enviado!', 'Por favor, aguarde que lhe responderemos em breve.');
           this.name = '';
           this.email = '';
           this.message = '';
           this.submitted = false;
         })
         .catch(err => {
-          alert('Erro ao enviar email');
+          this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o email, tente novamente.');
+          loading.close();
           console.log(err);
         });
       }

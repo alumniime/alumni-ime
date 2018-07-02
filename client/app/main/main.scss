@@ -183,11 +183,16 @@
 
   .news-projects h5 {
     font-weight: 700;
+    color: #000;
   }
 
   .news-projects h6 {
     font-size: 14px;
     color: #808080;
     line-height: 24px;
+  }
+
+  a.project-group {
+    text-decoration: none;
   }
 }
