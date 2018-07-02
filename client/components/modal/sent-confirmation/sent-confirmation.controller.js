@@ -18,11 +18,13 @@ export default class ModalSentConfirmationController {
 
   sendEmailAgain() {
     var user = this.user;
+    var loading = this.Modal.showLoading();
     this.$http.post('/api/users/send_confirmation', {
       PersonId: user.PersonId
     })
       .then(res => {
         console.log(res);
+        loading.close();
         this.$uibModal.open({
           animation: true,
           component: 'modalSentConfirmation',
@@ -36,7 +38,8 @@ export default class ModalSentConfirmationController {
         this.close({$value: true});
       })
       .catch(err => {
-        alert('Erro ao enviar email');
+        loading.close();
+        this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o email, tente novamente.');
         console.log(err);
       });
   }

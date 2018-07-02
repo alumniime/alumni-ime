@@ -20,6 +20,7 @@ export default class ModalRegisterInformationController {
   pills = 0;
   citiesList = [];
   levelType = null;
+  hasPosition = true;
 
   /*@ngInject*/
   constructor(Auth, Modal, $http, $state, $window, $interval, $uibModal) {
@@ -209,8 +210,12 @@ export default class ModalRegisterInformationController {
     var date = this.Birthdate.split('/');
     this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
 
+    if(!this.hasPosition) {
+      Reflect.deleteProperty(this.user, 'positions');
+    }
+
     if(form.$valid && !this.dateInvalid) {
-      if(this.user.positions[0].LevelId !== this.levelOtherId) {
+      if(this.hasPosition && this.user.positions[0].LevelId !== this.levelOtherId) {
         Reflect.deleteProperty(this.user.positions[0], 'LevelOther');
       }
 
@@ -247,6 +252,9 @@ export default class ModalRegisterInformationController {
   nextPage(form) {
     if(form.$valid) {
       this.submitted = false;
+      if(this.page === 1 && (this.personType.Description === 'Student' || this.personType.Description === 'DropStudent')) {
+        this.hasPosition = false;
+      }
       if(this.page === 1 && this.personType.Description === 'Visitor') {
         this.page++;
       }
@@ -267,8 +275,7 @@ export default class ModalRegisterInformationController {
       }
     }
     if(this.page === 3) {
-      Reflect.deleteProperty(this.user, 'Headline');
-      Reflect.deleteProperty(this.user, 'Summary');
+      // Reflect.deleteProperty(this.user, 'Headline');
     }
     if(this.page === 4) {
       Reflect.deleteProperty(this.user, 'OptionToKnowThePageId');
