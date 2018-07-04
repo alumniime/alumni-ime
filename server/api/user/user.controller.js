@@ -1,7 +1,9 @@
 'use strict';
 
-import {User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
-  Position, Company, Location, City, State, Level, Industry, Country} from '../../sqldb';
+import {
+  User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
+  Position, Company, Location, City, State, Level, Industry, Country
+} from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
@@ -144,8 +146,8 @@ export function update(req, res, next) {
   }
 
   if(config.debug) {
-  console.log('\n=>req.body', JSON.stringify(req.body));
-  console.log('\n=>search', JSON.stringify(search));
+    console.log('\n=>req.body', JSON.stringify(req.body));
+    console.log('\n=>search', JSON.stringify(search));
   }
 
   async.waterfall([
@@ -169,7 +171,7 @@ export function update(req, res, next) {
         Reflect.deleteProperty(company, 'CompanyId');
         Reflect.deleteProperty(company, 'LinkedinId');
         if(config.debug) {
-          console.log('\n=>company', company);
+          console.log('\n=>company', JSON.stringify(company));
         }
         Company.findOrCreate({where: company})
           .spread((company, created) => done(null, user, company))
@@ -193,7 +195,7 @@ export function update(req, res, next) {
         position.IsCurrent = 1;
 
         if(config.debug) {
-          console.log('\n=>position', position);
+          console.log('\n=>position', JSON.stringify(position));
         }
         if(position.PositionId) {
           Position.update(position, {where: {PositionId: position.PositionId}})
@@ -243,7 +245,7 @@ export function update(req, res, next) {
         location.StateId = location.StateId || null;
 
         if(config.debug) {
-          console.log('\n=>Location', location);
+          console.log('\n=>Location', JSON.stringify(location));
         }
         Location.findOrCreate({where: location})
           .spread((location, created) => done(null, user, location))
@@ -272,7 +274,7 @@ export function update(req, res, next) {
         req.body.IsApproved = false;
       }
       if(config.debug) {
-        console.log('\n=>Saving...\n', req.body);
+        console.log('\n=>Saving...\n', JSON.stringify(req.body));
       }
       user.update(req.body)
         .then(newUser => done(null, newUser, initiativeLinks))
@@ -566,7 +568,7 @@ export function sendConfirmation(req, res, next) {
             done('Usuário não encontrado.');
           }
         })
-        .catch(err => next(err));
+        .catch(err => done(err));
     },
     function (user, done) {
       // create the random token

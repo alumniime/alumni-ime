@@ -27,6 +27,7 @@ export class ViewController {
       this.News.get(NewsId, this.$stateParams.forceReload)
         .then(news => {
           loading.close();
+          // TODO add SEO meta tags
           this.news = news;
           this.Project.load();
           this.News.load();

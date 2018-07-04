@@ -142,13 +142,15 @@ export default class ModalRegisterInformationController {
   }
 
   validateDate(input) {
-    var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-    var arr = input.split('/');
-    var date = new Date(arr[2], arr[1] - 1, arr[0]);
-    if(input && input.match(reg) && date < Date.now()) {
-      this.dateInvalid = false;
-    } else {
-      this.dateInvalid = true;
+    if(input) {
+      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+      var arr = input.split('/');
+      var date = new Date(arr[2], arr[1] - 1, arr[0]);
+      if(input && input.match(reg) && date < Date.now()) {
+        this.dateInvalid = false;
+      } else {
+        this.dateInvalid = true;
+      }
     }
   }
 
@@ -177,6 +179,7 @@ export default class ModalRegisterInformationController {
 
   selectCity(IBGEId) {
     this.user.location.city = this.citiesList[IBGEId];
+    console.log(this.user.location.city);
   }
 
   updateInitiativeLinks(initiativeLinks) {

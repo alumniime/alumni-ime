@@ -168,10 +168,14 @@ export function UtilService($window) {
 
       var d = 8,
         v = 0;
-      return r = g(r), A(h(C(r), r.length * d));
+      if(r) {
+        return r = g(r), A(h(C(r), r.length * d));
+      } else {
+        return r;
+      }
     }
 
-};
+  };
 
   return Util;
 }

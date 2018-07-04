@@ -17,7 +17,9 @@ export function setup(User, config) {
       ]
     },
     function (token, tokenSecret, profile, done) {
-      // console.log(profile);
+      if(config.debug) {
+        console.log('\n=>profile', JSON.stringify(profile));
+      }
       var email = profile.emails[0].value;
       var ImageURL = null;
       if(profile._json.pictureUrls) {
@@ -50,7 +52,9 @@ export function setup(User, config) {
         },
         // Trying to save his location
         (user, industry, next) => {
-          console.log(industry);
+          if(config.debug) {
+            console.log('\n=>industry', JSON.stringify(industry));
+          }
           Location.findOrCreate({where: {LinkedinName: profile._json.location.name}})
             .spread((location, created) => next(null, user, industry, location))
             .catch(err => next(null, user, industry, null));
@@ -59,6 +63,10 @@ export function setup(User, config) {
         (user, industry, location, next) => {
           var industryId = null;
           var locationId = null;
+          var positions = profile._json.positions.values;
+          if(config.debug) {
+            console.log('\n=>location', JSON.stringify(location));
+          }
           if(industry) {
             industryId = industry.IndustryId;
           }
@@ -67,6 +75,9 @@ export function setup(User, config) {
           }
           if(user) {
             // User just has his LinkedinId saved or has an account with the same email
+            if (user.LinkedinId) {
+              positions = null;
+            }
             user.ImageURL = ImageURL;
             user.LinkedinId = profile.id;
             user.LinkedinProfileURL = profile._json.publicProfileUrl;
@@ -77,7 +88,7 @@ export function setup(User, config) {
             //  user.Headline = profile._json.headline || null;
             //  user.LocationId = profile._json.location.name || null;
             //  user.IndustryId = profile._json.industry || null;
-            next(null, user, null);
+            next(null, user, positions);
           } else {
             // User is new
             crypto.randomBytes(20, function (err, buffer) {
@@ -103,7 +114,7 @@ export function setup(User, config) {
                   EmailVerified: 1,
                   ConfirmEmailToken: token
                 });
-                next(null, user, profile._json.positions.values);
+                next(null, user, positions);
               } else {
                 next(err);
               }

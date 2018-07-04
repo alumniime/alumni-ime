@@ -212,7 +212,7 @@ export default function (sequelize, DataTypes) {
 
       // Return if user has a password (both for local or linkedin provider)
       hasPassword() {
-        return this.password !== null;
+        return this.password !== null && this.password !== '';
       }
 
     },

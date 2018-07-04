@@ -1,6 +1,6 @@
 'use strict';
 
-export default function($stateProvider) {
+export default function($stateProvider, appConfig) {
   'ngInject';
   $stateProvider
     .state('donate', {
@@ -11,6 +11,14 @@ export default function($stateProvider) {
       },
       template: require('./donate.html'),
       controller: 'DonateController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      data: {
+        meta: {
+          title: 'Faça sua contribuição',
+          description: 'Apoiando a Alumni IME, você colabora para o fortalecimento do IME, além de fortalecer a própria comunidade IMEana ao possibilitar que as atividade da Associação sejam desenvolvidas e que sejam apoiados projetos de professores e alunos da graduação do IME.',
+          'og:url': `${appConfig.url}/support`
+        }
+      }
+
     });
 }

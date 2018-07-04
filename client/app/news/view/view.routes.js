@@ -12,6 +12,12 @@ export default function ($stateProvider) {
       },
       template: require('./view.html'),
       controller: 'ViewController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      data: {
+        meta: {
+          author: 'Alumni IME',
+          'og:type': 'article'
+        }
+      }
     });
 }

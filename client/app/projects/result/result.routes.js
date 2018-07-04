@@ -8,6 +8,12 @@ export default function($stateProvider) {
       template: require('./result.html'),
       controller: 'ResultController',
       controllerAs: 'vm',
-      authenticate: true
+      authenticate: true,
+      data: {
+        meta: {
+          title: 'Inserir Resultados do Projeto',
+          description: 'Insira o resultado do projeto realizado com descrição e fotos.',
+        }
+      }
     });
 }

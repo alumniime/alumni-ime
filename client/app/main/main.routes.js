@@ -5,6 +5,12 @@ export default function routes($stateProvider) {
 
   $stateProvider.state('main', {
     url: '/?load',
-    template: '<main></main>'
+    template: '<main></main>',
+    data: {
+      meta: {
+        description: 'A Alumni IME tem como objetivo apoiar o Instituto Militar de Engenharia e a comunidade IMEana. Agora com novo portal para divulgar e ajudar os projetos do Instituto.',
+        titleSuffix: ''
+      }
+    }
   });
 }

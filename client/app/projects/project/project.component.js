@@ -37,6 +37,7 @@ export class ProjectController {
       this.Project.get(ProjectId, this.previewMode, this.$stateParams.forceReload)
         .then(project => {
           loading.close();
+          // TODO add SEO meta tags
           this.project = project;
           var conclusionDate = new Date(this.project.ConclusionDate);
           var today = new Date();

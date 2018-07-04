@@ -48,6 +48,7 @@ module.exports = function makeWebpackConfig(options) {
         'angular-resource',
         'angular-sanitize',
         'ng-file-upload',
+        'ng-meta/dist/ngMeta.min',
         'ng-mask/dist/ngMask.min',
         'ng-money-mask/rw-money-mask',
         'angular-i18n/angular-locale_pt-br',

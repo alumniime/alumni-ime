@@ -24,7 +24,7 @@ export default class SignupController {
     if(this.$stateParams) {
       var confirmEmailToken = this.$stateParams.confirmEmailToken;
       if(!this.isLoggedIn()) {
-        if (this.$stateParams.showEmailVerified === "1") {
+        if (this.$stateParams.showEmailVerified === '1') {
           this.Modal.openEmailVerified(confirmEmailToken);
         } else {
           this.Modal.registryUser(confirmEmailToken, false);

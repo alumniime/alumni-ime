@@ -1,32 +1,52 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <base href="/">
-    <title>Alumni IME - Associação de Ex-Alunos do IME</title>
-    <meta name="description" content="A Alumni IME tem como objetivo apoiar o Instituto Militar de Engenharia e a comunidade IMEana. Agora com novo projeto para ajudar nos projetos do Instituto.">
-    <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <base href="/">
+  <title ng-bind="ngMeta.title"></title>
+
+  <meta name="description" content="{{ngMeta.description}}">
+  <meta name="author" content="{{ngMeta.author}}">
+  <meta name="theme-color" content="{{ngMeta['theme-color']}}">
+
+  <meta property="og:title" content="{{ngMeta.title}}">
+  <meta property="og:description" content="{{ngMeta.description}}">
+  <meta property="og:type" content="{{ngMeta['og:type']}}">
+  <meta property="og:url" content="{{ngMeta['og:url']}}">
+  <meta property="og:image" content="{{ngMeta['og:image']}}">
+  <meta property="og:locale" content="{{ngMeta['og:locale']}}">
+  <meta property="og:site_name" content="{{ngMeta['og:site_name']}}">
+
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 </head>
 <body>
-    <!--[if lt IE 9]>
-      <p class="browserupgrade">Você está utilizando um navegador <strong>desatualizado</strong>. Por favor <a href="http://browsehappy.com/">atualize seu navegador</a> para melhorar sua experiência.</p>
-    <![endif]-->
+  <!--[if lt IE 9]>
+  <p class="browserupgrade">Você está utilizando um navegador <strong>desatualizado</strong>. Por favor
+    <a href="http://browsehappy.com/">atualize seu navegador</a> para melhorar sua experiência.</p>
+  <![endif]-->
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments);
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m);
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-120472787-1');
-      ga('send', 'pageview');
-    </script>
+    ga('create', 'UA-120472787-1');
+    ga('send', 'pageview');
+  </script>
 
-    <navbar></navbar>
-    <div ui-view=""></div>
-    <footer></footer>
+  <navbar></navbar>
+  <div ui-view=""></div>
+  <footer></footer>
 </body>
 </html>

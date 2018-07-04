@@ -44,12 +44,12 @@ import management from './about/management/management.component';
 
 import './app.scss';
 
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'rw.moneymask', 'angucomplete-alt', 'ngYoutubeEmbed', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'ngMeta', 'rw.moneymask', 'angucomplete-alt', 'ngYoutubeEmbed', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
   history, institutional, management
 ])
   .config(routeConfig)
-  .run(function ($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location, Auth, ngMeta) {
     'ngInject';
     // Redirect to login if route requires auth and you're not logged in
 
@@ -60,6 +60,7 @@ angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'n
         }
       });
     });
+    ngMeta.init();
   });
 
 angular.element(document)
