@@ -62,6 +62,10 @@ angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'n
     });
     ngMeta.init();
   });
+  // .controller('mainController', function ($scope, ngMeta) {
+  //   $scope.title = 'Hello World!';
+  //   $scope.ngMeta = ngMeta;
+  // });
 
 angular.element(document)
   .ready(() => {

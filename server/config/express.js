@@ -20,6 +20,7 @@ import session from 'express-session';
 import sqldb from '../sqldb';
 import expressSequelizeSession from 'express-sequelize-session';
 import Promise from 'bluebird';
+import prerender from 'prerender-node';
 var Store = expressSequelizeSession(session.Store);
 
 export default function(app) {
@@ -40,13 +41,15 @@ export default function(app) {
   app.set('views', `${config.root}/server/views`);
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
+  // app.use(prerender.set('prerenderToken', config.prerenderToken));
+  app.use(require('prerender-node').set('prerenderToken', config.prerenderToken));
+  // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:3003'));
   app.use(shrinkRay());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());
-
 
   // Persist sessions with MongoStore / sequelizeStore
   // We need to enable sessions for passport-twitter because it's an

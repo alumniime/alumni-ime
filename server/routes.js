@@ -6,8 +6,26 @@
 
 import errors from './components/errors';
 import path from 'path';
+import config from './config/environment';
 
 export default function (app) {
+  if(config.env === 'production') {
+    app.use('*', function (req, res, next) {
+      // Redirects urls to www and to https
+      if(req.headers.host.match(/^www\./) === null) {
+        console.log('\n=>Redirecting(1) to:', `https://www.${req.headers.host}${req.url}`);
+        res.status(301).redirect(`https://www.${req.headers.host}${req.url}`);
+      } else {
+        if(req.headers['x-forwarded-proto'] !== 'https'){
+          console.log('\n=>Redirecting(2) to:', `https://${req.headers.host}${req.url}`);
+          res.status(301).redirect(`https://${req.headers.host}${req.url}`);
+        } else {
+          next();
+        }
+      }
+    });
+  }
+
   // Insert routes below
   app.use('/api/company_types', require('./api/company_type'));
   app.use('/api/cities', require('./api/city'));

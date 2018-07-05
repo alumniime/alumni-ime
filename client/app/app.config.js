@@ -22,4 +22,5 @@ export function routeConfig($urlRouterProvider, $locationProvider, ngMetaProvide
   $urlRouterProvider.otherwise('/');
 
   $locationProvider.html5Mode(true);
+  $locationProvider.hashPrefix('!');
 }

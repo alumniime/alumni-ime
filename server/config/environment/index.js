@@ -59,6 +59,8 @@ var all = {
     pass: process.env.MAILER_PASSWORD || ''
   },
 
+  prerenderToken: process.env.PRERENDER_TOKEN || '',
+
   debug: process.env.DEBUG || false
 };
 

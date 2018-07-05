@@ -73,7 +73,7 @@
         <div class="col-md-4 projects order-md-last">
           <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: '-Views' | limitTo: 3"
              ui-sref="project({ProjectId: project.ProjectId, PrettyURL: vm.Util.convertToSlug(project.ProjectName), preview: false, forceReload: false})">
-            <img class="rounded mx-auto d-block" alt="Featured project" ng-src="{{project.images[0].Path}}">
+            <img class="rounded mx-auto d-block" alt="{{project.ProjectName}}" ng-src="{{project.images[0].Path}}">
             <h5 class="project-title">{{project.ProjectName}}</h5>
             <h6 class="team-name">por {{project.TeamName}}</h6>
           </a>

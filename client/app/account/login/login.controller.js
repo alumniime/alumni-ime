@@ -18,7 +18,7 @@ export default class LoginController {
     } else {
       $window.value = true;
     }
-    this.$state.go('main');
+    close(); // or window.open('','_self').close();
   }
 
   login(form) {
