@@ -12,7 +12,7 @@ export default function (app) {
   if(config.env === 'production') {
     app.use('*', function (req, res, next) {
       // Redirects urls to www and to https
-      if(req.headers.host.match(/^www\./) === null) {
+      if(req.headers.host.match(/^www\.*/) === null) {
         console.log('\n=>Redirecting(1) to:', `https://www.${req.headers.host}${req.url}`);
         res.status(301).redirect(`https://www.${req.headers.host}${req.url}`);
       } else {
