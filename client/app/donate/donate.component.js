@@ -17,11 +17,10 @@ export class DonateController {
   maxImages = 1;
   maxSize = '5MB';
 
-  constructor(Auth, Modal, $http, $state, $stateParams, $uibModal, Project, Donation, Upload, $anchorScroll) {
+  constructor(Auth, Modal, $state, $stateParams, $uibModal, Project, Donation, Upload, $anchorScroll) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
-    this.$http = $http;
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.Modal = Modal;

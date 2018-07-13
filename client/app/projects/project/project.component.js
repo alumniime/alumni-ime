@@ -16,7 +16,7 @@ export class ProjectController {
   previewMode = false;
   acceptDonation = true;
 
-  constructor(Auth, Modal, $state, $stateParams, Project, Donation, Util, $anchorScroll) {
+  constructor(Auth, Modal, $state, $stateParams, Project, Donation, Util, ngMeta, $anchorScroll) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUserSync;
@@ -26,6 +26,7 @@ export class ProjectController {
     this.Project = Project;
     this.Donation = Donation;
     this.Util = Util;
+    this.ngMeta = ngMeta;
     this.$anchorScroll = $anchorScroll;
   }
 
@@ -37,7 +38,11 @@ export class ProjectController {
       this.Project.get(ProjectId, this.previewMode, this.$stateParams.forceReload)
         .then(project => {
           loading.close();
-          // TODO add SEO meta tags
+
+          this.ngMeta.setTitle(project.ProjectName);
+          this.ngMeta.setTag('description', project.Abstract.slice(0, 200));
+          this.ngMeta.setTag('author', project.leader.name);
+
           this.project = project;
           var conclusionDate = new Date(this.project.ConclusionDate);
           var today = new Date();

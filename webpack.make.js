@@ -48,6 +48,7 @@ module.exports = function makeWebpackConfig(options) {
         'angular-resource',
         'angular-sanitize',
         'ng-file-upload',
+        'ng-img-crop/compile/minified/ng-img-crop',
         'ng-meta/dist/ngMeta.min',
         'ng-mask/dist/ngMask.min',
         'ng-money-mask/rw-money-mask',
@@ -201,6 +202,7 @@ module.exports = function makeWebpackConfig(options) {
       include: [
         // path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
         path.resolve(__dirname, 'node_modules/bootstrap/scss/*.scss'),
+        path.resolve(__dirname, 'node_modules/ng-img-crop/compile/minified/ng-img-crop.css'),
         path.resolve(__dirname, 'client/app/app.scss')
       ]
 

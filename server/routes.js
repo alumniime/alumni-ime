@@ -10,17 +10,19 @@ import config from './config/environment';
 
 export default function (app) {
   if(config.env === 'production') {
-    app.use('*', function (req, res, next) {
+    app.use(function (req, res, next) {
       // Redirects urls to www and to https
-      if(req.headers.host.match(/^www\.*/) === null) {
+      if(req.headers.host.match(/^www\./) === null) {
         console.log('\n=>Redirecting(1) to:', `https://www.${req.headers.host}${req.url}`);
         res.status(301).redirect(`https://www.${req.headers.host}${req.url}`);
       } else {
-        if(req.headers['x-forwarded-proto'] !== 'https'){
+        if(req.secure) {
+          // request was via https, so do no special handling
+          next();
+        } else {
+          // request was via http, so redirect to https
           console.log('\n=>Redirecting(2) to:', `https://${req.headers.host}${req.url}`);
           res.status(301).redirect(`https://${req.headers.host}${req.url}`);
-        } else {
-          next();
         }
       }
     });

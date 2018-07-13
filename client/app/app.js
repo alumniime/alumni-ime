@@ -44,7 +44,7 @@ import management from './about/management/management.component';
 
 import './app.scss';
 
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngMask', 'ngMeta', 'rw.moneymask', 'angucomplete-alt', 'ngYoutubeEmbed', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'rw.moneymask', 'angucomplete-alt', 'ngYoutubeEmbed', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
   history, institutional, management
 ])
@@ -62,10 +62,6 @@ angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'n
     });
     ngMeta.init();
   });
-  // .controller('mainController', function ($scope, ngMeta) {
-  //   $scope.title = 'Hello World!';
-  //   $scope.ngMeta = ngMeta;
-  // });
 
 angular.element(document)
   .ready(() => {

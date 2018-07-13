@@ -8,7 +8,7 @@ import routes from './view.routes';
 export class ViewController {
   news = {};
 
-  constructor(Modal, $state, $stateParams, News, Project, Util, $anchorScroll) {
+  constructor(Modal, $state, $stateParams, News, Project, Util, ngMeta, $anchorScroll) {
     'ngInject';
 
     this.$state = $state;
@@ -17,6 +17,7 @@ export class ViewController {
     this.News = News;
     this.Project = Project;
     this.Util = Util;
+    this.ngMeta = ngMeta;
     this.$anchorScroll = $anchorScroll;
   }
 
@@ -27,7 +28,10 @@ export class ViewController {
       this.News.get(NewsId, this.$stateParams.forceReload)
         .then(news => {
           loading.close();
-          // TODO add SEO meta tags
+
+          this.ngMeta.setTitle(news.Title);
+          this.ngMeta.setTag('description', news.Subtitle);
+
           this.news = news;
           this.Project.load();
           this.News.load();

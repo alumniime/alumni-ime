@@ -2,13 +2,14 @@
 
 import {
   User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
-  Position, Company, Location, City, State, Level, Industry, Country
+  Image, Position, Company, Location, City, State, Level, Industry, Country
 } from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
 import async from 'async';
 import crypto from 'crypto';
+import multer from 'multer';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -24,6 +25,20 @@ function handleError(res, statusCode) {
     return res.status(statusCode)
       .send(err);
   };
+}
+
+function configureStorage() {
+  return multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './client/assets/profiles/');
+    },
+    filename: function (req, file, cb) {
+      file.timestamp = Date.now();
+      var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
+      var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
+      cb(null, `${file.timestamp}-${name}.${format}`);
+    }
+  });
 }
 
 /**
@@ -59,7 +74,7 @@ export function professors(req, res) {
     ],
     where: {
       PersonTypeId: [4, 5],
-      IsApproved: 1,
+      // IsApproved: 1,
       IsExcluded: 0
     }
   })
@@ -81,7 +96,7 @@ export function students(req, res) {
     ],
     where: {
       PersonTypeId: [2],
-      IsApproved: 1,
+      // IsApproved: 1,
       IsExcluded: 0
     }
   })
@@ -129,7 +144,7 @@ export function create(req, res, next) {
 }
 
 /**
- * Update a user profile
+ * Updates a user profile
  */
 export function update(req, res, next) {
   var userId = req.params.id;
@@ -306,6 +321,50 @@ export function update(req, res, next) {
     } else {
       return res.json(result);
     }
+  });
+
+}
+
+/**
+ * Updates a user profile
+ */
+export function upload(req, res) {
+
+  var upload = multer({
+    storage: configureStorage()
+  })
+    .single('file');
+
+  upload(req, res, function (err) {
+    if(err) {
+      console.log(err);
+      res.json({errorCode: 1, errorDesc: err});
+      return;
+    }
+
+    User.update({
+      ImageURL: `assets/profiles/${req.file.filename}`
+    }, {
+      where: {
+        PersonId: req.user.PersonId
+      }
+    }).then(() => {
+      var image = {
+        Path: `assets/profiles/${req.file.filename}`,
+        Filename: req.file.filename,
+        Type: 'profile',
+        Timestamp: req.file.timestamp,
+        IsExcluded: 0
+      };
+
+      Image.create(image)
+        .then(newImage => {
+          res.json({errorCode: 0, errorDesc: null, path: newImage.Path});
+        })
+        .catch(handleError(res));
+    })
+      .catch(handleError(res));
+
   });
 
 }

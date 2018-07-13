@@ -18,7 +18,8 @@ export default class LoginController {
     } else {
       $window.value = true;
     }
-    close(); // or window.open('','_self').close();
+    window.open('','_self').close(); // or close();
+    location.href = '/login';
   }
 
   login(form) {

@@ -47,6 +47,9 @@ export default class ModalLoginController {
         .catch(err => {
           loading.close();
           this.errors.login = err.message;
+          if (err.name === 'SequelizeConnectionError') {
+            this.errors.login = 'Erro de conexão com o banco de dados, tente novamente.';
+          }
         });
     }
   }

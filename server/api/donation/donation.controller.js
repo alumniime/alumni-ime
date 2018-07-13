@@ -153,7 +153,7 @@ export function upload(req, res) {
     donation.DonationDate = Date.now();
     donation.DonatorId = req.user.PersonId;
     donation.transferReceipt = {
-      Path: `assets/images/uploads/${req.file.filename}`,
+      Path: `assets/donations/${req.file.filename}`,
       Filename: req.file.filename,
       Type: 'donation',
       Timestamp: req.file.timestamp,

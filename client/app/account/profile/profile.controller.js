@@ -134,13 +134,15 @@ export default class ProfileController {
   }
 
   validateDate(input) {
-    var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-    var arr = input.split('/');
-    var date = new Date(arr[2], arr[1] - 1, arr[0]);
-    if(input && input.match(reg) && date < Date.now()) {
-      this.dateInvalid = false;
-    } else {
-      this.dateInvalid = true;
+    if(input) {
+      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+      var arr = input.split('/');
+      var date = new Date(arr[2], arr[1] - 1, arr[0]);
+      if(input && input.match(reg) && date < Date.now()) {
+        this.dateInvalid = false;
+      } else {
+        this.dateInvalid = true;
+      }
     }
   }
 
@@ -149,7 +151,7 @@ export default class ProfileController {
   }
 
   selectState(stateId) {
-    this.$http.get(`http://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`)
+    this.$http.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`)
       .then(response => {
         this.citiesList = {};
         for(var city of response.data) {
@@ -225,6 +227,13 @@ export default class ProfileController {
     } else {
       this.locationName = this.user.location.country.Description;
     }
+  }
+
+  updatePhoto() {
+    this.Modal.openUpdatePhoto()
+      .then(path => {
+        this.user.ImageURL = path;
+      });
   }
 
   userHasInitiative(initiativeId) {

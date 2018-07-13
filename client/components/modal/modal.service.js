@@ -13,9 +13,10 @@ import ModalSentReceiptController from './sent-receipt/sent-receipt.controller';
 import ModalForgotPassword from './forgot-password/forgot-password.controller';
 import ModalResetPassword from './reset-password/reset-password.controller';
 import ModalTermsOfUse from './terms-of-use/terms-of-use.controller';
+import ModalUpdatePhoto from './update-photo/update-photo.controller';
 
 /*@ngInject*/
-export function ModalService($uibModal, $interval) {
+export function ModalService($uibModal, $q) {
   'ngInject';
 
   var Modal = {
@@ -107,6 +108,38 @@ export function ModalService($uibModal, $interval) {
       });
     },
 
+    openPhoto(images, index){
+      $uibModal.open({
+        animation: true,
+        component: 'modalPhoto',
+        size: 'auto-width modal-dialog-centered',
+        resolve: {
+          images: function () {
+            return images;
+          },
+          index: function () {
+            return index;
+          }
+        },
+      });
+    },
+
+    openUpdatePhoto() {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalUpdatePhoto',
+        size: 'dialog-centered'
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
     registryUser(confirmEmailToken, isLocalProvider) {
       var modalInstance = $uibModal.open({
         animation: true,
@@ -138,22 +171,6 @@ export function ModalService($uibModal, $interval) {
             return {title, message};
           }
         }
-      });
-    },
-
-    openPhoto(images, index){
-      $uibModal.open({
-        animation: true,
-        component: 'modalPhoto',
-        size: 'auto-width modal-dialog-centered',
-        resolve: {
-          images: function () {
-            return images;
-          },
-          index: function () {
-            return index;
-          }
-        },
       });
     },
 
@@ -305,6 +322,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalTermsOfUse', {
     template: require('./terms-of-use/terms-of-use.html'),
     controller: ModalTermsOfUse,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalUpdatePhoto', {
+    template: require('./update-photo/update-photo.html'),
+    controller: ModalUpdatePhoto,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

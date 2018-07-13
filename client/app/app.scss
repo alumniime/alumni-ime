@@ -1,6 +1,7 @@
 $icon-font-path: '/assets/fonts/bootstrap/';
 //@import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import '~bootstrap/scss/bootstrap';
+@import '~ng-img-crop/compile/minified/ng-img-crop';
 $fa-font-path: '/assets/fonts/font-awesome/';
 @import '~font-awesome/scss/font-awesome';
 
@@ -57,6 +58,7 @@ $danger: #E84E0F !important;
 @import '../components/modal/sent-receipt/sent-receipt';
 @import '../components/modal/signup/signup';
 @import '../components/modal/terms-of-use/terms-of-use';
+@import '../components/modal/update-photo/update-photo';
 @import '../components/navbar/navbar';
 @import '../components/oauth-buttons/oauth-buttons';
 /* endinject */

@@ -78,13 +78,13 @@ export function setup(User, config) {
             if (user.LinkedinId) {
               positions = null;
             }
-            user.ImageURL = ImageURL;
             user.LinkedinId = profile.id;
             user.LinkedinProfileURL = profile._json.publicProfileUrl;
             user.Summary = profile._json.summary || null;
             user.Specialties = profile._json.specialties || null;
             // Fields that won't be changed for each login
             //  user.name = profile.displayName;
+            //  user.ImageURL = ImageURL;
             //  user.Headline = profile._json.headline || null;
             //  user.LocationId = profile._json.location.name || null;
             //  user.IndustryId = profile._json.industry || null;

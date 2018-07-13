@@ -1,0 +1,74 @@
+<div class="modal-header d-block">
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h6 class="modal-title text-center mt-3" id="modal-title">Alterar foto de perfil</h6>
+</div>
+
+<div class="modal-body" id="modal-body">
+
+  <form class="form" name="form" ng-submit="vm.submitImage()" novalidate>
+
+    <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
+         ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
+         ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
+         ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
+         accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages"
+         ngf-max-size="vm.maxSize">
+
+      <div class="card-deck upload-images mb-3 mx-5 p-0">
+
+        <div class="col p-0 mx-2" ng-repeat="file in vm.uploadImages">
+          <div class="card m-0">
+            <img-crop image="file | ngfDataUrl" result-image="vm.croppedDataUrl">
+            </img-crop>
+            <i ng-if="file.size" class="fa fa-trash close-button" ng-click="vm.removeImage(file)"
+               uib-tooltip="Remover foto" tooltip-placement="left"></i>
+          </div>
+        </div>
+
+        <div class="col p-0 mx-2 mt-2 mb-3" ng-if="vm.uploadImages.length < vm.maxImages">
+          <div class="card card-plus d-flex align-items-center justify-content-center m-auto"
+               ngf-resize="{quality: vm.imageQuality}"
+               ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
+               ng-model="vm.uploadImages" ngf-keep="true"
+               ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+               ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
+            <div class="row">
+              <div class="col-auto">
+                <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
+              </div>
+              <div class="col">
+                <p class="upload-text">
+                  <a class="btn btn-link text-info upload-link p-0" href="#">
+                    Faça upload
+                  </a> de uma foto para seu perfil.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="help-block" ng-show="form.files.$error.maxSize">
+        O arquivo inserido ultrapassa o tamanho máximo. Tente novamente.
+      </p>
+
+      <p class="help-block" ng-show="vm.updateImages.length === 0 && vm.submitted">
+        Insira uma foto para seu perfil.
+      </p>
+    </div>
+
+    <div ng-if="vm.croppedDataUrl">
+      <img class="cropped-image m-auto" ng-src="{{vm.croppedDataUrl}}"/>
+    </div>
+
+    <div class="form-group has-error">
+      <p class="help-block">{{ vm.errors.upload }}</p>
+    </div>
+
+    <button href="#" class="btn btn-danger m-auto" type="submit">
+      SALVAR
+    </button>
+
+  </form>
+
+</div>

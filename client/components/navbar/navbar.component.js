@@ -53,7 +53,7 @@ export class NavbarComponent {
 
   isCollapsed = true;
 
-  constructor(Auth, Modal, Util, $state) {
+  constructor(Auth, Modal, Util, appConfig, $state) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
@@ -62,6 +62,7 @@ export class NavbarComponent {
     this.getCurrentUserPromise = Auth.getCurrentUser;
     this.Modal = Modal;
     this.Util = Util;
+    this.appConfig = appConfig;
     this.$state = $state;
   }
 
@@ -76,6 +77,21 @@ export class NavbarComponent {
       }
     });
 
+    if (this.appConfig.env === 'production') {
+      // Redirects urls to www and to https
+      var url = location.href;
+      console.log(url);
+      if(url.match(/^http:\/\//) !== null) {
+        url = url.replace(/^http:\/\//, 'https://');
+      }
+      if(url.match(/^https:\/\/www\./) === null) {
+        url = url.replace(/^https:\/\//, 'https://www.');
+      }
+      console.log('Redirecting to:', url);
+      if(location.href !== url) {
+        location.href = url;
+      }
+    }
 
   }
 

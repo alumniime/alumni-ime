@@ -244,7 +244,9 @@
         <h6 class="modal-title text-center modal-title mb-3 mt-4">
           Cargo atual
           <i class="fa fa-trash c-pointer ml-3" ng-click="vm.hasPosition = !vm.hasPosition"
-             uib-tooltip="Remover cargo" tooltip-placement="bottom"></i>
+             uib-tooltip="Remover cargo" tooltip-placement="bottom"
+             ng-if="vm.personType.Description === 'Student' || vm.personType.Description === 'DropStudent'">
+          </i>
         </h6>
 
         <div class="form-group">

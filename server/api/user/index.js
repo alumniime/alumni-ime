@@ -17,6 +17,7 @@ router.get('/professors', controller.professors);
 router.get('/students', controller.students);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
+router.post('/upload', auth.isAuthenticated(), controller.upload);
 
 router.post('/send_confirmation', controller.sendConfirmation);
 router.get('/confirm_email/:token', controller.confirmEmail);

@@ -4,7 +4,7 @@
     <div class="d-none d-lg-block col-lg-4">
       <ul class="nav navbar-nav flex-column">
         <li class="nav-item" ng-repeat="item in vm.menu" ng-class="{active: item === vm.itemSelected}"
-            ng-hide="item.route === 'supported_projects' && !(vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student')">
+            ng-hide="item.route === 'submitted_projects' && !(vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student')">
           <a class="nav-link" ng-click="vm.selectPage(item.route)" href="#">{{item.name}}</a>
         </li>
         <li class="nav-item">
@@ -24,37 +24,45 @@
       <!-- Show profile -->
       <div class="" ng-if="!vm.editFields">
 
-        <h1>{{vm.user.name}}</h1>
-        <p class="legend"
-           ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'DropStudent'">
-          {{vm.user.Headline}}
-          <br>
-          {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
-          <br>
-          Formatura {{vm.user.GraduationYear}}
-        </p>
-        <p class="legend" ng-if="vm.user.personType.Description === 'Professor'">
-          {{vm.user.Headline}}
-          <br>
-          {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
-        </p>
-        <p class="legend" ng-if="vm.user.personType.Description === 'Visitor'">
-          {{vm.user.Headline}}
-          <br>
-          {{vm.user.personType.PortugueseDescription | lowercase}}
-        </p>
-        <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor'">
-          {{vm.user.Headline}}
-          <br>
-          {{vm.user.se.Description}}
-          <br>
-          {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
-          <br>
-          Formatura {{vm.user.GraduationYear}}
-        </p>
+        <div class="row p-0">
+          <div class="col-auto c-pointer" ng-click="vm.updatePhoto()">
+            <img class="profile-photo pb-2" ng-src="{{vm.user.ImageURL || 'assets/images/profile.svg'}}" alt="{{vm.user.name}}"
+                 uib-tooltip="Alterar foto" tooltip-placement="bottom">
+          </div>
+          <div class="col-auto">
+            <h1>{{vm.user.name}}</h1>
+            <p class="legend"
+               ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'DropStudent'">
+              {{vm.user.Headline}}
+              <br>
+              {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+              <br>
+              Formatura {{vm.user.GraduationYear}}
+            </p>
+            <p class="legend" ng-if="vm.user.personType.Description === 'Professor'">
+              {{vm.user.Headline}}
+              <br>
+              {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+            </p>
+            <p class="legend" ng-if="vm.user.personType.Description === 'Visitor'">
+              {{vm.user.Headline}}
+              <br>
+              {{vm.user.personType.PortugueseDescription | lowercase}}
+            </p>
+            <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor'">
+              {{vm.user.Headline}}
+              <br>
+              {{vm.user.se.Description}}
+              <br>
+              {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+              <br>
+              Formatura {{vm.user.GraduationYear}}
+            </p>
 
-        <p class="legend text-warning" ng-if="!vm.user.IsApproved">Cadastro em validação</p>
-        <p class="legend text-success" ng-if="vm.user.IsApproved">Usuário validado</p>
+            <p class="legend text-warning" ng-if="!vm.user.IsApproved">Cadastro em validação</p>
+            <p class="legend text-success" ng-if="vm.user.IsApproved">Usuário validado</p>
+          </div>
+        </div>
 
         <div class="row">
 

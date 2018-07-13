@@ -164,7 +164,7 @@ export default class ModalRegisterInformationController {
   }
 
   selectState(stateId) {
-    this.$http.get(`http://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`)
+    this.$http.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`)
       .then(response => {
         this.citiesList = {};
         for(var city of response.data) {
@@ -257,6 +257,8 @@ export default class ModalRegisterInformationController {
       this.submitted = false;
       if(this.page === 1 && (this.personType.Description === 'Student' || this.personType.Description === 'DropStudent')) {
         this.hasPosition = false;
+      } else {
+        this.hasPosition = true;
       }
       if(this.page === 1 && this.personType.Description === 'Visitor') {
         this.page++;
