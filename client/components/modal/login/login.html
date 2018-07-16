@@ -39,7 +39,13 @@
       <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
         Por favor, insira um email válido.
       </p>
-      <p class="help-block">{{ vm.errors.login }}</p>
+      <p class="help-block">
+        {{ vm.errors.login }}
+        <a href="#" ng-click="vm.registerUser()" ng-if="vm.confirmEmailToken"
+           class="text-dark font-weight-bold mt-2 d-block"> Completar cadastro</a>
+        <a href="#" ng-click="vm.sendEmailAgain()" ng-if="vm.PersonId"
+           class="text-dark font-weight-bold mt-2 d-block"> Reenviar email de confirmação</a>
+      </p>
     </div>
 
     <div class="d-flex justify-content-end">

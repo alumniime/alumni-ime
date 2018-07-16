@@ -39,7 +39,7 @@ export default class ModalSentConfirmationController {
       })
       .catch(err => {
         loading.close();
-        this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar a mensagem, tente novamente.');
+        this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o email, tente novamente.');
         console.log(err);
       });
   }

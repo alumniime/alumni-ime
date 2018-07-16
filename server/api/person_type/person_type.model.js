@@ -20,6 +20,10 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.STRING(100),
       allowNull: true
     },
+    OrderIndex: {
+      type: DataTypes.INTEGER(1),
+      allowNull: true
+    },
     IsExcluded: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

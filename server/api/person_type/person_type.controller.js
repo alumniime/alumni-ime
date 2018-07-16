@@ -69,7 +69,10 @@ export function index(req, res) {
   return PersonType.findAll({
     where: {
       IsExcluded: false
-    }
+    },
+    order: [
+      ['OrderIndex', 'ASC'],
+    ]
   })
     .then(respondWithResult(res))
     .catch(handleError(res));

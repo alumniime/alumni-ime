@@ -11,14 +11,18 @@ export default class ModalLoginController {
     login: undefined
   };
   submitted = false;
+  confirmEmailToken = null;
+  PersonId = null;
 
 
   /*@ngInject*/
-  constructor(Auth, Modal, Util, $state, $window, $interval) {
+  constructor(Auth, Modal, Util, $state, $http, $uibModal, $window, $interval) {
     this.Auth = Auth;
     this.Modal = Modal;
     this.Util = Util;
     this.$state = $state;
+    this.$http = $http;
+    this.$uibModal = $uibModal;
     this.$window = $window;
     this.$interval = $interval;
   }
@@ -26,6 +30,8 @@ export default class ModalLoginController {
   login(form) {
     console.log('login');
     this.submitted = true;
+    this.confirmEmailToken = null;
+    this.PersonId = null;
 
     if(form.$valid) {
       var loading = this.Modal.showLoading();
@@ -47,6 +53,12 @@ export default class ModalLoginController {
         .catch(err => {
           loading.close();
           this.errors.login = err.message;
+          if(err.confirmEmailToken) {
+            this.confirmEmailToken = err.confirmEmailToken;
+          }
+          if(err.PersonId) {
+            this.PersonId = err.PersonId;
+          }
           if (err.name === 'SequelizeConnectionError') {
             this.errors.login = 'Erro de conexão com o banco de dados, tente novamente.';
           }
@@ -102,6 +114,42 @@ export default class ModalLoginController {
   callSignup() {
     this.cancelModal();
     this.Modal.openSignup();
+  }
+
+  registerUser() {
+    this.close({$value: true});
+    location.href = `/signup/${this.confirmEmailToken}/0`;
+  }
+
+  sendEmailAgain() {
+    var user = {
+      PersonId: this.PersonId,
+      email: this.user.email
+    };
+    var loading = this.Modal.showLoading();
+    this.$http.post('/api/users/send_confirmation', {
+      PersonId: user.PersonId
+    })
+      .then(res => {
+        console.log(res);
+        loading.close();
+        this.$uibModal.open({
+          animation: true,
+          component: 'modalSentConfirmation',
+          size: 'dialog-centered',
+          resolve: {
+            user: function () {
+              return user;
+            }
+          }
+        });
+        this.close({$value: true});
+      })
+      .catch(err => {
+        loading.close();
+        this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o email, tente novamente.');
+        console.log(err);
+      });
   }
 
   ok() {
