@@ -350,6 +350,7 @@ export function upload(req, res) {
       }
     }).then(() => {
       var image = {
+        PersonId: req.user.PersonId,
         Path: `assets/profiles/${req.file.filename}`,
         Filename: req.file.filename,
         Type: 'profile',

@@ -14,6 +14,7 @@ var db = {
 };
 
 // Insert models below
+db.FormerStudent = db.sequelize.import('../api/former_student/former_student.model');
 db.CompanyType = db.sequelize.import('../api/company_type/company_type.model');
 db.City = db.sequelize.import('../api/city/city.model');
 db.State = db.sequelize.import('../api/state/state.model');
@@ -49,6 +50,10 @@ db.User.belongsTo(db.Industry, {sourceKey: 'IndustryId', foreignKey: 'IndustryId
 db.User.belongsTo(db.Location, {sourceKey: 'LocationId', foreignKey: 'LocationId', as: 'location'});
 db.User.hasMany(db.InitiativeLink, {foreignKey: 'PersonId', as: 'userInitiativeLinks'});
 db.User.hasMany(db.Position, {foreignKey: 'PersonId', as: 'positions'});
+db.User.hasMany(db.Image, {foreignKey: 'PersonId', as: 'images'});
+
+db.FormerStudent.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonId', as: 'profile'});
+db.FormerStudent.belongsTo(db.Engineering, {sourceKey: 'EngineeringId', foreignKey: 'EngineeringId', as: 'engineering'});
 
 db.InitiativeLink.belongsTo(db.Initiative, {sourceKey: 'InitiativeId', foreignKey: 'InitiativeId', as: 'initiative'});
 

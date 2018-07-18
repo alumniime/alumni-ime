@@ -16,6 +16,14 @@ export default function(sequelize, DataTypes) {
         key: 'ProjectId'
       }
     },
+    PersonId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'Person',
+        key: 'PersonId'
+      }
+    },
     NewsConstructionId: {
       type: DataTypes.INTEGER(11),
       allowNull: true,

@@ -11,7 +11,7 @@
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import {Project, Image, User, Se, Donation} from '../../sqldb';
+import {Project, Image, User, Se, Donation, sequelize} from '../../sqldb';
 import multer from 'multer';
 import $q from 'q';
 
@@ -104,14 +104,21 @@ export function index(req, res) {
       as: 'professor'
     }, {
       model: Donation,
-      attributes: ['ValueInCents'],
+      attributes: ['ProjectId'],
       as: 'donations',
       required: false,
       where: {
         IsApproved: 1
       }
     }],
-    attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule']},
+    attributes: {
+      include: [
+        [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber'],
+        [sequelize.fn('SUM', sequelize.col('donations.ValueInCents')), 'CollectedPriceInCents']
+      ],
+      exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule']
+    },
+    group: 'ProjectId',
     where: {
       IsApproved: 1,
       IsExcluded: 0
@@ -141,13 +148,20 @@ export function show(req, res) {
       as: 'se'
     }, {
       model: Donation,
-      attributes: ['ValueInCents'],
+      attributes: ['ProjectId'],
       as: 'donations',
       required: false,
       where: {
         IsApproved: 1
       }
     }],
+    group: ['images.ImageId'],
+    attributes: {
+      include: [
+        [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber'],
+        [sequelize.fn('SUM', sequelize.col('donations.ValueInCents')), 'CollectedPriceInCents']
+      ]
+    },
     order: [
       [{model: Image, as: 'images'}, 'OrderIndex']
     ],
