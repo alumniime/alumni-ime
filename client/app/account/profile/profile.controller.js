@@ -221,7 +221,7 @@ export default class ProfileController {
   }
 
   updateLocationName() {
-    this.locationName = this.user.location.LinkedinName;
+    this.locationName = (this.user.location.LinkedinName ? this.user.location.LinkedinName.replace(' Area,', ',') : '');
     if(this.user.location.CountryId === 1 || this.user.location.city) {
       this.locationName = (this.user.location.city.state ? `${this.user.location.city.Description} - ${this.user.location.city.state.Code}` : this.user.location.city.Description);
     } else {

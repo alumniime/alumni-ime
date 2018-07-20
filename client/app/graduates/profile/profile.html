@@ -1,0 +1,110 @@
+<div class="container viewProfileView">
+
+  <!-- Show profile -->
+  <div class="row p-0">
+    <div class="col-auto c-pointer">
+      <img class="profile-photo pb-2" ng-src="{{vm.user.ImageURL || 'assets/images/profile.svg'}}"
+           alt="{{vm.user.name}}">
+    </div>
+    <div class="col-auto">
+      <h1>{{vm.user.name}}</h1>
+      <p class="legend"
+         ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'DropStudent'">
+        {{vm.user.Headline}}
+        <br>
+        {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+        <br>
+        Formatura {{vm.user.GraduationYear}}
+      </p>
+      <p class="legend" ng-if="vm.user.personType.Description === 'Professor'">
+        {{vm.user.Headline}}
+        <br>
+        {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+      </p>
+      <p class="legend" ng-if="vm.user.personType.Description === 'Visitor'">
+        {{vm.user.Headline}}
+        <br>
+        {{vm.user.personType.PortugueseDescription | lowercase}}
+      </p>
+      <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor'">
+        {{vm.user.Headline}}
+        <br>
+        {{vm.user.se.Description}}
+        <br>
+        {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+        <br>
+        Formatura {{vm.user.GraduationYear}}
+      </p>
+
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-12 col-sm-6">
+      <div class="form-group">
+        <label for="emailShow">EMAIL*</label>
+        <input type="text" id="emailShow" name="email" class="form-control-plaintext" readonly
+               ng-model="vm.user.email">
+      </div>
+      <div class="form-group">
+        <label for="BirthdateShow">DATA DE NASCIMENTO*</label>
+        <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
+               value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
+      </div>
+      <div class="form-group">
+        <label for="PhoneShow">TELEFONE*</label>
+        <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+               ng-model="vm.user.Phone">
+      </div>
+      <div class="form-group">
+        <label for="LocationShow">LOCALIZAÇÃO*</label>
+        <input type="text" id="LocationShow" name="Location" class="form-control-plaintext" readonly
+               ng-value="vm.locationName">
+      </div>
+      <div class="form-group mb-0">
+        <label for="InitiativesShow">
+          {{vm.user.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
+          LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
+        <input type="text" id="InitiativesShow" name="Initiatives" class="form-control-plaintext" readonly
+               ng-value="vm.concatenateInitiativeLinks()">
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6">
+      <!--
+      <div class="form-group">
+        <label for="GenreShow">GÊNERO*</label>
+        <input type="text" id="GenreShow" name="Genre" class="form-control-plaintext" readonly
+               value="{{vm.user.Genre === 'M' ? 'Masculino' :  (vm.user.Genre === 'F' ? 'Feminino' : 'Outro')}}">
+      </div>
+      -->
+      <div class="form-group">
+        <label for="LevelType">MEIO DE ATUAÇÃO*</label>
+        <input type="text" id="LevelType" name="LevelType" class="form-control-plaintext" readonly
+               ng-if="vm.user.positions[0].level.Type === 'civil'"
+               value="Civil">
+        <input type="text" name="LevelType" class="form-control-plaintext" readonly
+               ng-if="vm.user.positions[0].level.Type === 'military'"
+               value="Militar">
+      </div>
+      <div class="form-group">
+        <label for="Position">CARGO ATUAL*</label>
+        <input type="text" id="Position" name="Position" class="form-control-plaintext" readonly
+               ng-value="vm.user.positions[0].Title">
+      </div>
+      <div class="form-group">
+        <label for="Level" ng-if="vm.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO*</label>
+        <label for="Level" ng-if="vm.user.positions[0].level.Type === 'military'">PATENTE*</label>
+        <input type="text" id="Level" name="Level" class="form-control-plaintext" readonly
+               ng-value="vm.user.positions[0].level.Description">
+      </div>
+      <div class="form-group">
+        <label for="Company">EMPRESA*</label>
+        <input type="text" id="Company" name="Company" class="form-control-plaintext" readonly
+               ng-value="vm.user.positions[0].company.Name">
+      </div>
+    </div>
+
+  </div>
+</div>

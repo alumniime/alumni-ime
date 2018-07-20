@@ -10,21 +10,23 @@
 
 'use strict';
 
-import { applyPatch } from 'fast-json-patch';
-import {FormerStudent, User, Engineering, Industry, sequelize} from '../../sqldb';
+import {applyPatch} from 'fast-json-patch';
+import {FormerStudent, User, Engineering, Industry, Position, Company, Level,
+  Country, State, City, Location, sequelize} from '../../sqldb';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
-  return function(entity) {
+  return function (entity) {
     if(entity) {
-      return res.status(statusCode).json(entity);
+      return res.status(statusCode)
+        .json(entity);
     }
     return null;
   };
 }
 
 function patchUpdates(patches) {
-  return function(entity) {
+  return function (entity) {
     try {
       applyPatch(entity, patches, /*validate*/ true);
     } catch(err) {
@@ -36,18 +38,20 @@ function patchUpdates(patches) {
 }
 
 function removeEntity(res) {
-  return function(entity) {
+  return function (entity) {
     if(entity) {
       return entity.destroy()
-        .then(() => res.status(204).end());
+        .then(() => res.status(204)
+          .end());
     }
   };
 }
 
 function handleEntityNotFound(res) {
-  return function(entity) {
+  return function (entity) {
     if(!entity) {
-      res.status(404).end();
+      res.status(404)
+        .end();
       return null;
     }
     return entity;
@@ -56,36 +60,61 @@ function handleEntityNotFound(res) {
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
-  return function(err) {
-    res.status(statusCode).send(err);
+  return function (err) {
+    res.status(statusCode)
+      .send(err);
   };
 }
 
 // Gets a list of FormerStudents
 export function index(req, res) {
-  return FormerStudent.findAll({
-    include: [{
-      model: Engineering,
-      as: 'engineering',
-    }, {
-      model: User,
-      attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
-      as: 'profile',
-      required: false,
-      where: {
-        IsApproved: 1
-      }
-    }],
-    raw: true
+  User.find({
+    where: {
+      PersonId: req.user.PersonId,
+      PersonTypeId: [3, 4],
+      IsApproved: 1
+    }
   })
-    .then(respondWithResult(res))
+    .then(user => {
+      if(!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return FormerStudent.findAll({
+        include: [{
+          model: Engineering,
+          as: 'engineering',
+        }, {
+          model: User,
+          attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
+          as: 'profile',
+          required: false,
+          where: {
+            IsApproved: 1
+          }
+        }],
+        order: [
+          ['GraduationYear', 'DESC']
+        ],
+        limit: 300,
+        raw: true
+      })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    })
     .catch(handleError(res));
 }
 
 // Gets a list of available years to search
 export function years(req, res) {
+  console.log(req.user);
   return FormerStudent.findAll({
-    attributes: ['GraduationYear', [sequelize.fn('COUNT', sequelize.col('PersonId')), 'UsersNumber']],
+    attributes: [
+      'GraduationYear',
+      [sequelize.fn('COUNT', sequelize.col('PersonId')), 'UsersNumber'],
+      [sequelize.fn('COUNT', sequelize.col('FormerStudentId')), 'TotalNumber']
+    ],
     group: 'GraduationYear',
     raw: true
   })
@@ -121,15 +150,133 @@ export function industries(req, res) {
     .catch(handleError(res));
 }
 
-// Gets a single FormerStudent from the DB
+// Gets a list of a single year with FormerStudents
 export function show(req, res) {
-  return FormerStudent.find({
+  User.find({
     where: {
-      FormerStudentId: req.params.id
+      PersonId: req.user.PersonId,
+      PersonTypeId: [3, 4],
+      IsApproved: 1
     }
   })
-    .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
+    .then(user => {
+      if(!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return FormerStudent.findAll({
+        include: [{
+          model: Engineering,
+          as: 'engineering',
+        }, {
+          model: User,
+          attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
+          as: 'profile',
+          include: [{
+            model: Position,
+            attributes: ['PositionId'],
+            where: {
+              IsCurrent: 1
+            },
+            required: false,
+            as: 'positions',
+            include: [{
+              model: Company,
+              attributes: ['Name'],
+              as: 'company',
+            }, {
+              model: Level,
+              attributes: ['Description', 'Type'],
+              as: 'level',
+            }, {
+              model: Location,
+              as: 'location',
+              attributes: ['LinkedinName'],
+              include: [{
+                model: City,
+                as: 'city',
+                attributes: ['Description'],
+                include: [{
+                  model: State,
+                  attributes: ['Code'],
+                  as: 'state'
+                }]
+              }, {
+                model: Country,
+                as: 'country',
+                attributes: ['Description']
+              }],
+            }],
+          }, {
+            model: Location,
+            as: 'location',
+            attributes: ['LinkedinName'],
+            include: [{
+              model: City,
+              as: 'city',
+              attributes: ['Description'],
+              include: [{
+                model: State,
+                attributes: ['Code'],
+                as: 'state'
+              }]
+            }, {
+              model: Country,
+              as: 'country',
+              attributes: ['Description']
+            }],
+          }],
+          required: false,
+          where: {
+            IsApproved: 1
+          }
+        }],
+        where: {
+          GraduationYear: req.params.year
+        }
+      })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    })
+    .catch(handleError(res));
+}
+
+// Gets a list of FormerStudents with params
+export function search(req, res) {
+  User.find({
+    where: {
+      PersonId: req.user.PersonId,
+      PersonTypeId: [3, 4],
+      IsApproved: 1
+    }
+  })
+    .then(user => {
+      if(!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return FormerStudent.findAll({
+        include: [{
+          model: Engineering,
+          as: 'engineering',
+        }, {
+          model: User,
+          attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
+          as: 'profile',
+          required: false,
+          where: {
+            IsApproved: 1
+          }
+        }],
+        where: {
+          GraduationYear: req.params.year
+        }
+      })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    })
     .catch(handleError(res));
 }
 
