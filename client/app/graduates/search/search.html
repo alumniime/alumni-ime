@@ -3,13 +3,13 @@
   <h5 class="page-title">
     Consultar ex-alunos graduados no IME
     <br class="d-block d-lg-none">
-    <span class="font-weight-normal ml-5">
+    <span class="font-weight-normal ml-5" ng-if="!vm.search.GraduationYear">
       {{vm.graduationYears | sumByKey: 'UsersNumber'}} cadastrados de {{vm.graduationYears | sumByKey: 'TotalNumber'}}
     </span>
   </h5>
 
   <!-- List with years -->
-  <div class="row">
+  <div class="row" ng-if="!vm.search.GraduationYear">
     <div class="col-12 col-md-6 col-xl-4 mb-3" ng-repeat="year in vm.graduationYears | orderBy: '-GraduationYear'">
 
       <div class="row">
@@ -56,6 +56,7 @@
               </label>
               <select class="form-control" id="GraduationYear" name="GraduationYear"
                       ng-model="vm.search.GraduationYear">
+                <option value=""></option>
                 <option ng-repeat="year in vm.graduationYears | orderBy:'-GraduationYear'"
                         ng-value="year.GraduationYear">
                   {{year.GraduationYear}}
@@ -69,6 +70,7 @@
               <label for="Industry">SETOR</label>
               <select class="form-control" id="Industry" name="Industry"
                       ng-model="vm.search.IndustryId">
+                <option value=""></option>
                 <option ng-repeat="industry in vm.industriesList"
                         ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
                 </option>
@@ -82,6 +84,7 @@
                 <div class="form-group">
                   <label for="LevelType">MEIO DE ATUAÇÃO</label>
                   <select class="form-control" id="LevelType" name="LevelType" ng-model="vm.levelType">
+                    <option value=""></option>
                     <option value="civil">Civil</option>
                     <option value="military">Militar</option>
                   </select>
@@ -111,6 +114,7 @@
               <label for="GraduationEngineeringId">ENGENHARIA</label>
               <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                       ng-model="vm.search.EngineeringId">
+                <option value=""></option>
                 <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
                         ng-value="engineering.EngineeringId"
                         ng-hide="engineering.SEId === 1">
@@ -125,6 +129,7 @@
               <label for="Location">LOCALIZAÇÃO</label>
               <select class="form-control" id="Location" name="Location"
                       ng-model="vm.search.Location">
+                <!--<option value=""></option>-->
                 <!--<option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"-->
                         <!--ng-value="engineering.EngineeringId"-->
                         <!--ng-hide="engineering.SEId === 1">-->

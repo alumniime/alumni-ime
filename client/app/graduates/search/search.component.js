@@ -65,8 +65,8 @@ export class SearchController {
     this.getCurrentUser()
       .then(user => {
         this.user = user;
-        loading.close();
         if(!user.PersonId) {
+          loading.close();
           this.Modal.openLogin();
         } else if(user.IsApproved && (user.personType.Description === 'FormerStudent' || user.personType.Description === 'FormerStudentAndProfessor')) {
 
@@ -74,6 +74,7 @@ export class SearchController {
             this.search.GraduationYear = parseInt(this.$stateParams.year);
             this.$http.get(`/api/former_students/${this.search.GraduationYear}`)
               .then(response => {
+                loading.close();
                 this.formerStudents = response.data;
                 for(var student of this.formerStudents) {
                   if(student.profile && student.profile.positions) {
@@ -82,10 +83,16 @@ export class SearchController {
                 }
                 this.$location.hash('formerStudents');
                 this.$anchorScroll();
+              })
+              .catch(() => {
+                loading.close();
               });
+          } else {
+            loading.close();
           }
 
         } else {
+          loading.close();
           this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar consultas.');
         }
       });
@@ -106,6 +113,28 @@ export class SearchController {
 
   searchStudents(form) {
 
+    var loading = this.Modal.showLoading();
+
+    if(form.$valid) {
+
+      this.search.GraduationYear = parseInt(this.$stateParams.year);
+      this.$http.post('/api/former_students', this.search)
+        .then(response => {
+          loading.close();
+          this.formerStudents = response.data;
+          for(var student of this.formerStudents) {
+            if(student.profile && student.profile.positions) {
+              student.profile.locationName = this.updateLocationName(student.profile.positions[0].location);
+            }
+          }
+          this.$location.hash('formerStudents');
+          this.$anchorScroll();
+        })
+        .catch(() => {
+          loading.close();
+        });
+
+    }
   }
 
 }

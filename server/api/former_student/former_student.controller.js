@@ -11,8 +11,11 @@
 'use strict';
 
 import {applyPatch} from 'fast-json-patch';
-import {FormerStudent, User, Engineering, Industry, Position, Company, Level,
-  Country, State, City, Location, sequelize} from '../../sqldb';
+import {
+  FormerStudent, User, Engineering, Industry, Position, Company, Level,
+  PersonType, Se, InitiativeLink, Initiative,
+  Country, State, City, Location, sequelize
+} from '../../sqldb';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -151,7 +154,7 @@ export function industries(req, res) {
 }
 
 // Gets a list of a single year with FormerStudents
-export function show(req, res) {
+export function year(req, res) {
   User.find({
     where: {
       PersonId: req.user.PersonId,
@@ -242,6 +245,119 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a single FormerStudent
+export function show(req, res) {
+
+  User.find({
+    where: {
+      PersonId: req.user.PersonId,
+      PersonTypeId: [3, 4],
+      IsApproved: 1
+    }
+  })
+    .then(user => {
+      if(!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return User.find({
+        include: [{
+          model: Engineering,
+          as: 'engineering'
+        }, {
+          model: PersonType,
+          as: 'personType'
+        }, {
+          model: Se,
+          as: 'se'
+        }, {
+          model: Industry,
+          as: 'industry'
+        }, {
+          model: InitiativeLink,
+          as: 'userInitiativeLinks',
+          include: [{
+            model: Initiative,
+            as: 'initiative'
+          }]
+        }, {
+          model: Position,
+          where: {IsCurrent: true},
+          required: false,
+          as: 'positions',
+          limit: 1,
+          include: [{
+            model: Company,
+            attributes: ['Name', 'CompanyTypeId'],
+            as: 'company',
+          }, {
+            model: Level,
+            attributes: ['Description', 'Type'],
+            as: 'level',
+          }, {
+            model: Location,
+            attributes: ['CountryId', 'StateId', 'CityId'],
+            as: 'location',
+            include: [{
+              model: City,
+              attributes: ['Description', 'IBGEId', 'StateId'],
+              as: 'city',
+              include: [{
+                model: State,
+                attributes: ['Code'],
+                as: 'state'
+              }]
+            }],
+          }],
+        }, {
+          model: Location,
+          as: 'location',
+          attributes: ['LocationId'],
+          include: [{
+            model: City,
+            as: 'city',
+            include: [{
+              model: State,
+              attributes: ['Code'],
+              as: 'state'
+            }]
+          }, {
+            model: Country,
+            as: 'country'
+          }],
+        }],
+        attributes: [
+          'PersonId',
+          'PersonTypeId',
+          'name',
+          'email',
+          'Phone',
+          'ImageURL',
+          'Birthdate',
+          'LinkedinProfileURL',
+          'FullName',
+          'Headline',
+          'LocationId',
+          'IndustryId',
+          'GraduationEngineeringId',
+          'GraduationYear',
+          'ProfessorSEId',
+          'InitiativeLinkOther',
+          'IsApproved'
+        ],
+        where: {
+          PersonId: req.params.id,
+          IsApproved: true
+        }
+      })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    })
+    .catch(handleError(res));
+
+}
+
 // Gets a list of FormerStudents with params
 export function search(req, res) {
   User.find({
@@ -257,6 +373,29 @@ export function search(req, res) {
           .send('Forbidden');
       }
 
+      var where = {};
+      var required = false;
+
+      console.log(req.body);
+
+      if(req.body.GraduationYear) {
+        where.GraduationYear = req.body.GraduationYear;
+      }
+
+      if(req.body.LevelId) {
+        where.profile.LevelId = req.body.LevelId;
+        required = true;
+      }
+
+      if(req.body.IndustryId) {
+        where.profile.IndustryId = req.body.IndustryId;
+        required = true;
+      }
+
+      if(req.body.name) {
+        where.Name = {$like: `%${req.body.name}%`};
+      }
+
       return FormerStudent.findAll({
         include: [{
           model: Engineering,
@@ -265,14 +404,66 @@ export function search(req, res) {
           model: User,
           attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
           as: 'profile',
-          required: false,
+          include: [{
+            model: Position,
+            attributes: ['PositionId'],
+            where: {
+              IsCurrent: 1
+            },
+            required: false,
+            as: 'positions',
+            include: [{
+              model: Company,
+              attributes: ['Name'],
+              as: 'company',
+            }, {
+              model: Level,
+              attributes: ['Description', 'Type'],
+              as: 'level',
+            }, {
+              model: Location,
+              as: 'location',
+              attributes: ['LinkedinName'],
+              include: [{
+                model: City,
+                as: 'city',
+                attributes: ['Description'],
+                include: [{
+                  model: State,
+                  attributes: ['Code'],
+                  as: 'state'
+                }]
+              }, {
+                model: Country,
+                as: 'country',
+                attributes: ['Description']
+              }],
+            }],
+          }, {
+            model: Location,
+            as: 'location',
+            attributes: ['LinkedinName'],
+            include: [{
+              model: City,
+              as: 'city',
+              attributes: ['Description'],
+              include: [{
+                model: State,
+                attributes: ['Code'],
+                as: 'state'
+              }]
+            }, {
+              model: Country,
+              as: 'country',
+              attributes: ['Description']
+            }],
+          }],
+          required: required,
           where: {
             IsApproved: 1
           }
         }],
-        where: {
-          GraduationYear: req.params.year
-        }
+        where: where
       })
         .then(respondWithResult(res))
         .catch(handleError(res));
