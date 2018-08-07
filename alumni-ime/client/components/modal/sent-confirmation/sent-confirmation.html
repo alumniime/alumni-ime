@@ -1,0 +1,18 @@
+<div class="modal-header d-block">
+  <div class="w-100">
+    <img src="assets/images/logo.svg" class="logo mx-auto my-2">
+  </div>
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h6 class="modal-title text-center" id="modal-title">Confirmação de email</h6>
+</div>
+
+<div class="modal-body" id="modal-body">
+  <p class="text-center">
+    Para continuar seu cadastro, por favor, verifique seu endereço de email. Enviamos um email de confirmação para:
+  </p>
+  <span class="text-danger text-center w-100 d-block p-3">{{vm.user.email}}</span>
+  <span class="description m-auto">
+      Não recebeu o email? Reenvie o email de confirmação
+      <a href="#" ng-click="vm.sendEmailAgain()" class="btn btn-link text-danger d-inline">clicando aqui.</a>
+  </span>
+</div>

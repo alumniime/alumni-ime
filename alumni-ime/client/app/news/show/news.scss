@@ -1,0 +1,204 @@
+.newsView {
+  padding: 40px 20px 60px;
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  h4 {
+    font-weight: 700;
+  }
+
+  h5 {
+    margin-bottom: 0;
+    color: #333333;
+  }
+
+  .legend {
+    font-size: 16px;
+  }
+
+  .page-title {
+    color: #333333 !important;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 25px !important;
+  }
+
+  li {
+    margin-right: 30px;
+    margin-bottom: 10px;
+    border-bottom: 1px #828282 solid;
+    .nav-link {
+      padding: 12px 20px;
+      font-weight: 300;
+      color: #333 !important;
+    }
+  }
+
+  li:hover, li.active {
+    margin-bottom: 8px;
+    .nav-link {
+      font-weight: 700;
+    }
+  }
+
+  .btn {
+    display: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    height: 45px;
+    border-radius: 30px;
+    min-width: 200px;
+    padding-top: 10px;
+  }
+
+  .card-columns {
+    column-count: 2;
+    @include media-breakpoint-down(sm) {
+      column-count: 1;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .form-group label {
+    font-size: 12px;
+    margin-left: 0;
+    color: #828282;
+    margin-bottom: 0;
+  }
+
+  .form-group .news-date {
+    font-size: 12px;
+    color: #828282;
+  }
+
+  .form-control-plaintext {
+    padding-top: 0;
+    font-size: 14px;
+    padding-bottom: 0;
+  }
+  .form-control-plaintext-right {
+    padding-top: 0;
+    font-size: 14px;
+    text-align: right;
+    float: right;
+    border: none;
+    background: transparent;
+    padding-bottom: 0;
+  }
+
+  .news-deck {
+    box-sizing: content-box;
+  }
+  .news-card {
+    border: none;
+    width: 100%;
+    @include media-breakpoint-up(md) {
+      img {
+        max-height: 196px;
+      }
+    }
+
+    .card-title {
+      font-weight: bold;
+      line-height: 24px;
+      font-size: 14px;
+      color: #333333;
+    }
+
+    .card-link {
+      font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding-top: 12px;
+    }
+  }
+
+  .news-card:hover {
+    text-decoration: none;
+    border-radius: 0px;
+    background-color: #fafafa;
+    box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .dropbtn {
+    font-size: 12px;
+    color: #828282;
+    background-color: inherit;
+    padding: 16px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #FFFFFF;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+
+    border: 1px solid #BDBDBD;
+    box-sizing: border-box;
+
+  }
+
+  .dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    color: #4F4F4F;
+  }
+
+  .dropdown-content a:hover {
+    background: #F2F2F2;
+  }
+
+  .dropdown-content .active {
+    background: #F2F2F2;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block !important;
+  }
+
+  .dropbtn:focus {
+    outline: none;
+  }
+
+  .pagination {
+    display: inline-block;
+    text-align: center;
+  }
+
+  .pagination a {
+    color: #333333;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+  }
+
+  .pagination a.active {
+    color: #E84E0F;
+  }
+  .center {
+    text-align: center;
+  }
+  .pagination a:hover:not(.active) {
+    color: #828282;
+  }
+
+}

@@ -1,0 +1,110 @@
+<div class="container viewView">
+  <div class="row justify-content-between">
+    <div class="col-12 col-md-7 col-lg-7">
+
+      <div class="page-date">{{vm.news.PublishDate | date: 'dd MMM, yyyy'}}</div>
+      <h5 class="page-title">{{vm.news.Title}}</h5>
+      <label class="page-subtitle">{{vm.news.Subtitle}}</label>
+
+      <div class="construction" ng-repeat="construction in vm.news.constructions">
+
+        <p ng-if="construction.element.Type === 'Paragraph'" class="text-content">
+          {{construction.Value}}
+        </p>
+
+        <div ng-if="construction.element.Type === 'QuoteParagraph'" class="col-12 col-md-10 block-quote">
+          <p>{{construction.Value}}</p>
+        </div>
+
+        <div ng-if="construction.element.Type === 'Image'" class="mb-4">
+          <img class="img-fluid" ng-src="{{construction.images[0].Path}}">
+        </div>
+
+        <div ng-if="construction.element.Type === 'ImageLink'" class="mb-4">
+          <a href="{{construction.Value}}" target="_blank">
+            <img class="img-fluid" ng-src="{{construction.images[0].Path}}">
+          </a>
+        </div>
+
+        <div ng-if="construction.element.Type === 'CarouselImages'" class="col-12 carousel-block">
+          <div id="carouselAlumniNews{{construction.NewsConstructionId}}" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carouselAlumniNews{{construction.NewsConstructionId}}"
+                  ng-repeat="image in construction.images"
+                  data-slide-to="{{$index}}" ng-class="{active: $index === 0}"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item" ng-repeat="image in construction.images"
+                   ng-class="{active: $index === 0}">
+                <img class="d-block w-100" ng-src="{{image.Path}}">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselAlumniNews{{construction.NewsConstructionId}}"
+               role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselAlumniNews{{construction.NewsConstructionId}}"
+               role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Próximo</span>
+            </a>
+          </div>
+        </div>
+
+        <div ng-if="construction.element.Type === 'Link'" class="text-content">
+          <a href="{{construction.Value}}" target="_blank">{{construction.Value}}</a>
+        </div>
+
+        <div ng-if="construction.element.Type === 'Video'" class="text-content">
+          <ng-youtube-embed
+            video="construction.Value" modestbranding="true" width="100%" disablekb="true"
+            rel="false" ivloadpolicy="false">
+          </ng-youtube-embed>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-12 col-md-5 col-lg-4 project-block-sticky">
+      <div class="card news-card mb-3">
+        <div class="card-body">
+          <div class="card-title">Projetos em destaque</div>
+
+          <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: '-Views' | limitTo: 2"
+             ui-sref="project({ProjectId: project.ProjectId, PrettyURL: vm.Util.convertToSlug(project.ProjectName), preview: false, forceReload: false})">
+            <img class="img-fluid m-auto" alt="Featured project" ng-src="{{project.images[0].Path}}">
+            <h5 class="project-title">{{project.ProjectName}}</h5>
+            <div class="team-name">por {{project.TeamName}}</div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="view-footer">
+  <div class="container">
+    <div class="row justify-content-center footerRow">
+      <div class="card-deck news-deck">
+
+        <a class="col-12 col-sm-4 card news-card mb-3" href="#"
+           ng-repeat="news in vm.News.list | filter: {NewsId: '!' + vm.news.NewsId} | orderBy: '-Views' | limitTo: 3"
+           ui-sref="view({NewsId: news.NewsId, PrettyURL: vm.Util.convertToSlug(news.Title), forceReload: false})">
+          <img class="img-fluid m-auto" alt="Featured news" ng-src="{{news.constructions[0].images[0].Path}}">
+          <div class="card-body px-0 py-3">
+            <div class="form-group">
+              <h5 class="card-title">{{news.Title}}</h5>
+              <label>{{news.Subtitle}}</label>
+              <p class="news-date">{{news.PublishDate | date: 'dd MMM, yyyy'}}</p>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</div>

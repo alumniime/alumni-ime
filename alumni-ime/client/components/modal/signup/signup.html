@@ -1,0 +1,90 @@
+<div class="nav nav-pills nav-fill">
+  <span class="nav-item nav-link active"></span>
+  <span class="nav-item space"></span>
+  <span class="nav-item nav-link"></span>
+  <span class="nav-item space"></span>
+  <span class="nav-item nav-link"></span>
+</div>
+
+<div class="modal-header d-block">
+  <div class="w-100">
+    <img src="assets/images/logo.svg" class="logo mx-auto my-2">
+  </div>
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <!-- <h6 class="modal-title text-center" id="modal-title">Faça seu cadastro para continuar</h6> -->
+</div>
+
+<div class="modal-body" id="modal-body">
+
+  <a class="btn btn-primary m-auto btn-linkedin" href="#" ng-click="vm.loginOauth('linkedin')">
+    <i class="fa fa-linkedin"></i>
+    CADASTRAR COM O LINKEDIN
+  </a>
+  <br>
+
+  <div class="row justify-content-center">
+    <div class="line-hr"></div>
+    <span class="mr-3 ml-3">ou</span>
+    <div class="line-hr"></div>
+  </div>
+  <br>
+
+  <form class="form" name="form" ng-submit="vm.registerNewUser(form)" novalidate>
+
+    <div class="form-group">
+      <input type="text" name="name" placeholder="Nome" class="form-control" ng-model="vm.user.name" required>
+      <p class="help-block" ng-show="form.name.$error.required && vm.submitted">
+        Insira seu nome.
+      </p>
+    </div>
+
+    <div class="form-group">
+      <input type="email" name="email" placeholder="Email" class="form-control" ng-model="vm.user.email" required>
+      <p class="help-block" ng-show="form.email.$error.required && vm.submitted">
+        Por favor, insira seu email.
+      </p>
+      <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
+        Por favor, insira um email válido.
+      </p>
+    </div>
+
+    <div class="form-group">
+      <input type="password" name="password" placeholder="Senha" class="form-control"
+             ng-model="vm.user.password" ng-minlength="6" required>
+      <!-- TODO password validation with Caps and Numbers -->
+      <p class="help-block"
+         ng-show="(form.password.$error.minlength || form.password.$error.required) && vm.submitted">
+        A senha deve ter pelo menos 6 caracteres.
+      </p>
+    </div>
+
+    <div class="form-group has-error">
+      <p class="help-block">{{ vm.errors.signup }}</p>
+    </div>
+
+    <div class="accept-terms">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" name="checkTerms" class="custom-control-input" id="checkTerms" ng-model="vm.checkTerms" required>
+        <label class="custom-control-label" for="checkTerms">
+          Aceito os
+          <a href="#" class="btn btn-link text-dark text-left" ng-click="vm.Modal.openTermsOfUse()">
+            termos de uso.
+          </a>
+        </label>
+      </div>
+      <p class="help-block" ng-show="form.checkTerms.$error.required && vm.submitted">
+        Por favor, aceite os termos de uso.
+      </p>
+    </div>
+
+    <button href="#" class="btn btn-danger m-auto btn-signup" type="submit">
+      CRIAR CONTA
+    </button>
+
+    <span class="description m-auto">
+      Possui uma conta?
+      <a href="#" ng-click="vm.callLogin()" class="btn btn-link text-dark d-inline pl-1">Faça login!</a>
+    </span>
+  </form>
+
+</div>

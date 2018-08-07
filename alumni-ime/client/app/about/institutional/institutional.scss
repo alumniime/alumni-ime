@@ -1,0 +1,125 @@
+.institutionalView {
+  padding: 40px 20px 40px !important;
+  @include media-breakpoint-up(md) {
+    padding: 100px 20px 100px !important;
+  }
+
+  h5 {
+    margin-bottom: 0;
+    color: #333333;
+  }
+
+  .section-title {
+    font-weight: bold;
+    line-height: normal;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #E84E0F;
+    padding-bottom: 20px;
+  }
+
+  .mission-text {
+    line-height: 45px !important;
+    font-size: 28px;
+    color: #333333;
+    text-align: justify;
+    @include media-breakpoint-down(sm) {
+      text-align: center;
+    }
+  }
+  .values-text {
+    line-height: 39px !important;
+    font-size: 22px;
+    color: #333333;
+  }
+
+  ul {
+    padding-left: 22px;
+    margin-bottom: 5px;
+  }
+
+  .btn-outline-dark {
+    font-weight: 600;
+    font-size: 14px;
+    height: 45px;
+    border-radius: 30px;
+    min-width: 200px;
+    padding-top: 10px;
+  }
+}
+
+.vision {
+  background: #F2F2F2;
+  padding: 0 !important;
+
+  .row {
+    margin-right: 0;
+  }
+
+  h5 {
+    margin-bottom: 0;
+    color: #333333;
+  }
+
+  .section-title {
+    font-weight: bold;
+    line-height: normal;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #E84E0F;
+    padding-bottom: 20px;
+  }
+
+  .vision-text {
+    line-height: 30px;
+    font-size: 20px;
+    color: #333333;
+
+    ul {
+      padding-left: 22px;
+      margin-bottom: 5px;
+      padding-right: 60px;
+      text-align: justify;
+
+      @include media-breakpoint-down(sm) {
+        padding-left: 0;
+        padding-right: 15px;
+        text-align: left;
+      }
+      li {
+        padding-bottom: 15px;
+      }
+    }
+
+  }
+
+  .text-box {
+    padding: 50px 30px 50px 100px;
+    @include media-breakpoint-down(sm) {
+      padding-left: 80px;
+    }
+  }
+
+  .div-img {
+    padding: 0;
+    margin-top: -22px;
+    margin-bottom: -22px;
+    align-items: flex-start;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  img {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    align-self: center;
+    @include media-breakpoint-up(lg) {
+      max-height: 600px;
+    }
+  }
+}

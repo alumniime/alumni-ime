@@ -1,0 +1,14 @@
+<svg width="155" height="134" viewBox="0 0 155 134" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Group</title>
+  <desc>Created using Figma</desc>
+  <g id="Canvas" transform="translate(-6357 -1717)">
+    <g id="Group">
+      <g id="Vector">
+        <use xlink:href="#path0_fill" transform="translate(6357 1717)" fill="#6FCF97"/>
+      </g>
+    </g>
+  </g>
+  <defs>
+    <path id="path0_fill" d="M 0 67.971L 13.5625 55.6715C 29.0625 63.4396 38.75 68.6184 56.1875 81.5652C 88.4792 44.0193 110.438 25.2464 150.479 0L 155 9.71014C 122.062 38.8406 97.5208 71.2077 62.6458 134C 40.6875 108.754 26.4792 92.57 0 67.971Z"/>
+  </defs>
+</svg>

@@ -1,0 +1,38 @@
+/**
+ * Position model events
+ */
+
+'use strict';
+
+import {EventEmitter} from 'events';
+var Position = require('../../sqldb').Position;
+var PositionEvents = new EventEmitter();
+
+// Set max event listeners (0 == unlimited)
+PositionEvents.setMaxListeners(0);
+
+// Model events
+var events = {
+  afterCreate: 'save',
+  afterUpdate: 'save',
+  afterDestroy: 'remove'
+};
+
+// Register the event emitter to the model events
+function registerEvents(Position) {
+  for(var e in events) {
+    let event = events[e];
+    Position.hook(e, emitEvent(event));
+  }
+}
+
+function emitEvent(event) {
+  return function(doc, options, done) {
+    PositionEvents.emit(`${event}:${doc.PositionId}`, doc);
+    PositionEvents.emit(event, doc);
+    done(null);
+  };
+}
+
+registerEvents(Position);
+export default PositionEvents;

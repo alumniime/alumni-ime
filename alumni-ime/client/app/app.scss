@@ -1,0 +1,66 @@
+$icon-font-path: '/assets/fonts/bootstrap/';
+//@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import '~bootstrap/scss/bootstrap';
+@import '~ng-img-crop/compile/minified/ng-img-crop';
+$fa-font-path: '/assets/fonts/font-awesome/';
+@import '~font-awesome/scss/font-awesome';
+
+// @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,900|Roboto:300,500,700,900);
+
+/**
+ * App-wide Styles
+ */
+
+$primary: #00456F !important;
+$danger: #E84E0F !important;
+
+
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+// Component styles are injected through gulp
+/* inject:scss */
+@import 'about/history/history';
+@import 'about/institutional/institutional';
+@import 'about/management/management';
+@import 'account/profile/profile';
+@import 'admin/admin';
+@import 'common';
+@import 'donate/donate';
+@import 'graduates/profile/profile';
+@import 'graduates/search/search';
+@import 'main/main';
+@import 'media';
+@import 'MerriweatherSans';
+@import 'news/show/news';
+@import 'news/view/view';
+@import 'projects/edit/edit';
+@import 'projects/project/project';
+@import 'projects/result/result';
+@import 'projects/show/show';
+@import 'projects/submission/submission';
+@import 'Roboto';
+@import '../components/footer/footer';
+@import '../components/modal/alert/alert';
+@import '../components/modal/completed-registration/completed-registration';
+@import '../components/modal/email-verified/email-verified';
+@import '../components/modal/forgot-password/forgot-password';
+@import '../components/modal/loading/loading';
+@import '../components/modal/login/login';
+@import '../components/modal/modal';
+@import '../components/modal/photo/photo';
+@import '../components/modal/register-information/register-information';
+@import '../components/modal/reset-password/reset-password';
+@import '../components/modal/sent-confirmation/sent-confirmation';
+@import '../components/modal/sent-receipt/sent-receipt';
+@import '../components/modal/signup/signup';
+@import '../components/modal/terms-of-use/terms-of-use';
+@import '../components/modal/update-photo/update-photo';
+@import '../components/navbar/navbar';
+@import '../components/oauth-buttons/oauth-buttons';
+/* endinject */

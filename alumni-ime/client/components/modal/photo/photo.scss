@@ -1,0 +1,10 @@
+.photoView{
+  padding: 0;
+
+  .carousel-item {
+    img {
+      max-height: 600px;
+      max-width: 800px;
+    }
+  }
+}
