@@ -88,6 +88,10 @@ export class NavbarComponent {
           state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
         });
       }
+      dropdown.push({
+        title: 'SUBMETER PROJETO',
+        state: 'submission'
+      })
       this.menu[3].dropdown = dropdown;
     });
 

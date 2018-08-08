@@ -76,9 +76,13 @@
                   </div>
                 </div>
               </li>
-              <li class="nav-item p-0" ui-sref-active="active">
+              <!-- <li class="nav-item p-0" ui-sref-active="active"> -->
+                <!-- <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed" -->
+                   <!-- ui-sref="submission">SUBMETER PROJETO</a> -->
+              <!-- </li> -->
+              <li class="nav-item p-0" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
                 <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
-                   ui-sref="submission">SUBMETER PROJETO</a>
+                   ui-sref="search">ÁREA RESTRITA</a>
               </li>
               <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
                 <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
@@ -163,7 +167,11 @@
                     </div>
                   </div>
                 </li>
-                <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+                <li class="nav-item p-0" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
+                  <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+                     ui-sref="search">ÁREA RESTRITA</a>
+                </li>
+                  <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
                   <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin(); $ctrl.isCollapsed = !$ctrl.isCollapsed;" href="#">ENTRAR</a>
                 </li>
                 <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">

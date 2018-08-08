@@ -3,13 +3,13 @@
   <h5 class="page-title">
     Consultar ex-alunos graduados no IME
     <br class="d-block d-lg-none">
-    <span class="font-weight-normal ml-5" ng-if="!vm.search.GraduationYear">
+    <span class="font-weight-normal ml-5" ng-if="!vm.$stateParams.year">
       {{vm.graduationYears | sumByKey: 'UsersNumber'}} cadastrados de {{vm.graduationYears | sumByKey: 'TotalNumber'}}
     </span>
   </h5>
 
   <!-- List with years -->
-  <div class="row" ng-if="!vm.search.GraduationYear">
+  <div class="row" ng-if="!vm.$stateParams.year">
     <div class="col-12 col-md-6 col-xl-4 mb-3" ng-repeat="year in vm.graduationYears | orderBy: '-GraduationYear'">
 
       <div class="row">
@@ -57,7 +57,7 @@
               <select class="form-control" id="GraduationYear" name="GraduationYear"
                       ng-model="vm.search.GraduationYear">
                 <option value=""></option>
-                <option ng-repeat="year in vm.graduationYears | orderBy:'-GraduationYear'"
+                <option ng-repeat="year in vm.graduationYears | orderBy: '-GraduationYear'"
                         ng-value="year.GraduationYear">
                   {{year.GraduationYear}}
                 </option>
@@ -71,7 +71,7 @@
               <select class="form-control" id="Industry" name="Industry"
                       ng-model="vm.search.IndustryId">
                 <option value=""></option>
-                <option ng-repeat="industry in vm.industriesList"
+                <option ng-repeat="industry in vm.industriesList | orderBy: 'PortugueseDescription'"
                         ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
                 </option>
               </select>
@@ -115,7 +115,7 @@
               <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                       ng-model="vm.search.EngineeringId">
                 <option value=""></option>
-                <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
+                <option ng-repeat="engineering in vm.engineeringList | orderBy: 'Description'"
                         ng-value="engineering.EngineeringId"
                         ng-hide="engineering.SEId === 1">
                   {{engineering.Description}}
@@ -128,13 +128,12 @@
             <div class="form-group">
               <label for="Location">LOCALIZAÇÃO</label>
               <select class="form-control" id="Location" name="Location"
-                      ng-model="vm.search.Location">
-                <!--<option value=""></option>-->
-                <!--<option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"-->
-                        <!--ng-value="engineering.EngineeringId"-->
-                        <!--ng-hide="engineering.SEId === 1">-->
-                  <!--{{engineering.Description}}-->
-                <!--</option>-->
+                      ng-model="vm.search.LocationId">
+                <option value=""></option>
+                <option ng-repeat="location in vm.locationsList | orderBy: 'locationName'"
+                        ng-value="location.LocationId">
+                  {{location.locationName}}
+                </option>
               </select>
             </div>
           </div>
@@ -161,16 +160,18 @@
 
   <br>
 
-  <table class="table table-striped table-responsive-md table-sm" ng-if="vm.formerStudents.length > 0">
+  <!-- Former Students list -->
+  <table class="table table-striped table-fixed table-responsive-md table-sm" 
+         ng-if="vm.formerStudents.length > 0">
     <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Carreira</th>
+      <!-- <th scope="col">Carreira</th> -->
       <th scope="col">Nome</th>
       <th scope="col">Graduação</th>
       <th scope="col">Engenharia</th>
       <th scope="col">Cargo atual</th>
-      <!--<th scope="col">Empresa</th>-->
+      <th scope="col">Empresa</th>
       <th scope="col">Localização</th>
       <th scope="col">LinkedIn</th>
     </tr>
@@ -178,7 +179,7 @@
     <tbody>
     <tr ng-repeat="student in vm.formerStudents">
       <th scope="row">{{$index + 1}}</th>
-      <td>{{student.profile.positions[0].level.Type === 'civil' ? 'Civil': (student.LevelType === 'civil' ? 'Civil' : 'Militar')}}</td>
+      <!-- <td>{{student.profile.positions[0].level.Type === 'civil' ? 'Civil': (student.LevelType === 'civil' ? 'Civil' : 'Militar')}}</td> -->
       <td ng-if="!student.profile">{{student.Name}}</td>
       <td ng-if="student.profile">
         <a class="text-dark c-pointer font-weight-bold"
@@ -186,12 +187,12 @@
           {{student.Name}}</a>
       </td>
       <td>{{student.GraduationYear}}</td>
-      <td>{{student.engineering.Description.replace('Eng. de ', '').replace('Eng. ', '')}}</td>
+      <td>{{student.engineering.Legend}}</td>
       <td>{{student.profile.positions[0].level.Description}}</td>
-      <!--<td>{{student.profile.positions[0].company.Name}}</td>-->
+      <td>{{student.profile.positions[0].company.Name}}</td>
       <td>{{student.profile.locationName}}</td>
       <td>
-        <a class="text-dark" target="_blank"
+        <a class="text-dark c-pointer font-weight-bold" target="_blank"
            href="{{student.profile.LinkedinProfileURL}}" ng-if="student.profile.LinkedinProfileURL">Acessar</a>
         {{student.profile.LinkedinProfileURL ? '' : '-'}}
       </td>

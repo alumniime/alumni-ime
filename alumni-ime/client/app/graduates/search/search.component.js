@@ -14,13 +14,14 @@ export class SearchController {
     GraduationYear: null
   };
 
-  constructor(Auth, Modal, Util, $http, $stateParams, $location, $anchorScroll) {
+  constructor(Auth, Modal, Util, $http, $state, $stateParams, $location, $anchorScroll) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
     this.Modal = Modal;
     this.Util = Util;
     this.$http = $http;
+    this.$state = $state;
     this.$stateParams = $stateParams;
     this.$location = $location;
     this.$anchorScroll = $anchorScroll;
@@ -37,6 +38,35 @@ export class SearchController {
     this.$http.get('/api/former_students/industries')
       .then(response => {
         this.industriesList = response.data;
+      });
+
+    this.$http.get('/api/former_students/locations')
+      .then(response => {
+        this.locationsList = response.data;
+        for(var location of this.locationsList) {
+          if(location['profile.location.LocationId']) {
+            location.profile = {
+              location: {
+                LocationId: location['profile.location.LocationId'],
+                LinkedinName: location['profile.location.LinkedinName'],
+                city: {
+                  CityId: location['profile.location.city.CityId'],
+                  Description: location['profile.location.city.Description'],
+                  state: {
+                    Code: location['profile.location.city.state.Code'],
+                    StateId: location['profile.location.city.state.StateId'],
+                  }
+                },
+                country: {
+                  CountryId: location['profile.location.country.CountryId'],
+                  Description: location['profile.location.country.Description'],
+                }
+              }
+            }
+            location.locationName = this.updateLocationName(location.profile.location);
+          }
+        }
+        console.log(this.locationsList);
       });
 
     this.$http.get('/api/engineering')
@@ -59,16 +89,15 @@ export class SearchController {
         this.levelsList = response.data;
       });
 
-
     var loading = this.Modal.showLoading();
 
     this.getCurrentUser()
       .then(user => {
         this.user = user;
-        if(!user.PersonId) {
+        if(!this.user.PersonId) {
           loading.close();
           this.Modal.openLogin();
-        } else if(user.IsApproved && (user.personType.Description === 'FormerStudent' || user.personType.Description === 'FormerStudentAndProfessor')) {
+        } else if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor')) {
 
           if(this.$stateParams.year) {
             this.search.GraduationYear = parseInt(this.$stateParams.year);
@@ -77,8 +106,8 @@ export class SearchController {
                 loading.close();
                 this.formerStudents = response.data;
                 for(var student of this.formerStudents) {
-                  if(student.profile && student.profile.positions) {
-                    student.profile.locationName = this.updateLocationName(student.profile.positions[0].location);
+                  if(student.profile && student.profile.location) {
+                    student.profile.locationName = this.updateLocationName(student.profile.location);
                   }
                 }
                 this.$location.hash('formerStudents');
@@ -102,10 +131,10 @@ export class SearchController {
   updateLocationName(location) {
     if(location) {
       var locationName = (location.LinkedinName ? location.LinkedinName.replace(' Area,', ',') : '');
-      if(location.CountryId === 1 || location.city) {
+      if(location.country.CountryId === 1 || (location.city && location.city.Description)) {
         locationName = (location.city.state ? `${location.city.Description} - ${location.city.state.Code}` : location.city.Description);
       } else {
-        locationName = location.country.Description;
+        locationName = (location.country ? location.country.Description : '');
       }
     }
     return locationName || '';
@@ -113,27 +142,51 @@ export class SearchController {
 
   searchStudents(form) {
 
-    var loading = this.Modal.showLoading();
 
-    if(form.$valid) {
+    for (var field in this.search) {
+      if(this.search[field] === null || this.search[field] === undefined || this.search[field] === '') {
+        Reflect.deleteProperty(this.search, field);
+      }
+    }
+    console.log(this.search);
 
-      this.search.GraduationYear = parseInt(this.$stateParams.year);
-      this.$http.post('/api/former_students', this.search)
-        .then(response => {
-          loading.close();
-          this.formerStudents = response.data;
-          for(var student of this.formerStudents) {
-            if(student.profile && student.profile.positions) {
-              student.profile.locationName = this.updateLocationName(student.profile.positions[0].location);
+    if(form.$valid && Object.keys(this.search).length > 0) {
+      if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor')) {
+        var loading = this.Modal.showLoading();
+        this.$http.post('/api/former_students', this.search)
+          .then(response => {
+            loading.close();
+            this.formerStudents = response.data;
+            for(var student of this.formerStudents) {
+              if(student.profile && student.profile.positions) {
+                student.profile.locationName = this.updateLocationName(student.profile.positions[0].location);
+              }
             }
-          }
-          this.$location.hash('formerStudents');
-          this.$anchorScroll();
-        })
-        .catch(() => {
-          loading.close();
-        });
+            this.$location.hash('formerStudents');
+            this.$anchorScroll();
 
+            // if (this.search.GraduationYear) {
+            //   this.$state.go('search', {year: this.search.GraduationYear}, {
+            //     // prevent the events onStart and onSuccess from firing
+            //     notify: false,
+            //     // prevent reload of the current state
+            //     reload: false, 
+            //     // replace the last record when changing the params so you don't hit the back button and get old params
+            //     location: 'replace', 
+            //     // inherit the current params on the url
+            //     inherit: true
+            //   });
+            // }
+          })
+          .catch(err => {
+            loading.close();
+              this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
+          });
+        } else {
+          this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar consultas.');
+        }
+    } else {
+      this.Modal.showAlert('Erro na consulta', 'Por favor, selecione um ou mais filtros.');
     }
   }
 
