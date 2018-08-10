@@ -6,6 +6,8 @@
     <span class="font-weight-normal ml-5" ng-if="!vm.$stateParams.year">
       {{vm.graduationYears | sumByKey: 'UsersNumber'}} cadastrados de {{vm.graduationYears | sumByKey: 'TotalNumber'}}
     </span>
+    <a href="#formerStudents" class="text-dark ml-5" ng-if="!vm.$stateParams.year">Busca avançada</a>
+    <a href="/graduates/search" class="text-dark ml-5" ng-if="vm.$stateParams.year">Visualizar todos os anos</a>
   </h5>
 
   <!-- List with years -->
@@ -172,7 +174,7 @@
       <th scope="col">Engenharia</th>
       <th scope="col">Cargo atual</th>
       <th scope="col">Empresa</th>
-      <th scope="col">Localização</th>
+      <!-- <th scope="col">Localização</th> -->
       <th scope="col">LinkedIn</th>
     </tr>
     </thead>
@@ -190,7 +192,7 @@
       <td>{{student.engineering.Legend}}</td>
       <td>{{student.profile.positions[0].level.Description}}</td>
       <td>{{student.profile.positions[0].company.Name}}</td>
-      <td>{{student.profile.locationName}}</td>
+      <!-- <td>{{student.profile.locationName}}</td> -->
       <td>
         <a class="text-dark c-pointer font-weight-bold" target="_blank"
            href="{{student.profile.LinkedinProfileURL}}" ng-if="student.profile.LinkedinProfileURL">Acessar</a>

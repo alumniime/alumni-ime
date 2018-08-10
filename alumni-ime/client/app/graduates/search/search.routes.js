@@ -11,7 +11,6 @@ export default function($stateProvider, appConfig) {
       template: require('./search.html'),
       controller: 'SearchController',
       controllerAs: 'vm',
-      authenticate: true,
       data: {
         meta: {
           title: 'Consultar Ex-Alunos',

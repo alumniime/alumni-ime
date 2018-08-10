@@ -48,7 +48,7 @@ function removeEntity(res) {
           .end());
     }
   };
-}
+} 
 
 function handleEntityNotFound(res) {
   return function (entity) {
@@ -436,7 +436,7 @@ export function search(req, res) {
       }
 
       if(req.body.LevelId) {
-        level = {LevelId: req.body.LevelId};
+        level.LevelId = req.body.LevelId;
         required = true;
         requiredLevel = true;
       }

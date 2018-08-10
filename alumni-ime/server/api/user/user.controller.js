@@ -22,6 +22,7 @@ function validationError(res, statusCode) {
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function (err) {
+    console.log('user.controller =>\n', err);
     return res.status(statusCode)
       .send(err);
   };

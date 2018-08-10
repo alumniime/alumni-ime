@@ -66,7 +66,6 @@ export class SearchController {
             location.locationName = this.updateLocationName(location.profile.location);
           }
         }
-        console.log(this.locationsList);
       });
 
     this.$http.get('/api/engineering')
@@ -97,6 +96,7 @@ export class SearchController {
         if(!this.user.PersonId) {
           loading.close();
           this.Modal.openLogin();
+          this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos aprovados e logados podem realizar consultas.');
         } else if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor')) {
 
           if(this.$stateParams.year) {
@@ -150,16 +150,20 @@ export class SearchController {
     }
     console.log(this.search);
 
-    if(form.$valid && Object.keys(this.search).length > 0) {
+    if(form.$valid && Object.keys(this.search).length > 0 && !(this.search.name && this.search.name.length < 3)) {
       if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor')) {
         var loading = this.Modal.showLoading();
         this.$http.post('/api/former_students', this.search)
           .then(response => {
             loading.close();
             this.formerStudents = response.data;
-            for(var student of this.formerStudents) {
-              if(student.profile && student.profile.positions) {
-                student.profile.locationName = this.updateLocationName(student.profile.positions[0].location);
+            if(this.formerStudents.length === 0) {
+              this.Modal.showAlert('Sem resultados', 'Nenhum ex-aluno foi encontrado com base nos filtros selecionados.');
+            } else {
+              for(var student of this.formerStudents) {
+                if(student.profile && student.profile.location) {
+                  student.profile.locationName = this.updateLocationName(student.profile.location);
+                }
               }
             }
             this.$location.hash('formerStudents');
@@ -180,13 +184,17 @@ export class SearchController {
           })
           .catch(err => {
             loading.close();
-              this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
+            this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
           });
         } else {
           this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar consultas.');
         }
     } else {
-      this.Modal.showAlert('Erro na consulta', 'Por favor, selecione um ou mais filtros.');
+      if(this.search.name) {
+        this.Modal.showAlert('Erro na consulta', 'O nome inserido é muito curto.');
+      } else {
+        this.Modal.showAlert('Erro na consulta', 'Por favor, selecione um ou mais filtros.');
+      }
     }
   }
 
