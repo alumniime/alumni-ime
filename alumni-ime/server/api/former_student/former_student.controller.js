@@ -113,16 +113,32 @@ export function index(req, res) {
 // Gets a list of available years to search
 export function years(req, res) {
   console.log(req.user);
-  return FormerStudent.findAll({
-    attributes: [
-      'GraduationYear',
-      [sequelize.fn('COUNT', sequelize.col('PersonId')), 'UsersNumber'],
-      [sequelize.fn('COUNT', sequelize.col('FormerStudentId')), 'TotalNumber']
-    ],
-    group: 'GraduationYear',
-    raw: true
+  User.find({
+    where: {
+      PersonId: req.user.PersonId,
+      PersonTypeId: [3, 4],
+      IsApproved: 1
+    }
   })
-    .then(respondWithResult(res))
+    .then(user => {
+      if(!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return FormerStudent.findAll({
+        attributes: [
+          'GraduationYear',
+          [sequelize.fn('COUNT', sequelize.col('PersonId')), 'UsersNumber'],
+          [sequelize.fn('COUNT', sequelize.col('FormerStudentId')), 'TotalNumber']
+        ],
+        group: 'GraduationYear',
+        raw: true
+      })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    
+    })
     .catch(handleError(res));
 }
 
@@ -435,11 +451,17 @@ export function search(req, res) {
         where.EngineeringId = req.body.EngineeringId;
       }
 
+      if(req.body.LevelType) {
+        level.Type = req.body.LevelType;
+        required = true; 
+        requiredLevel = true;
+      }
+
       if(req.body.LevelId) {
         level.LevelId = req.body.LevelId;
         required = true;
         requiredLevel = true;
-      }
+      }  
 
       if(req.body.LocationId) {
         location = {LocationId: req.body.LocationId};
@@ -455,6 +477,10 @@ export function search(req, res) {
       if(req.body.name) {
         where.Name = {$like: `%${req.body.name}%`};
       }
+
+      if(req.body.required) {
+        required = true;
+      } 
       
       console.log(where);
       console.log(profile);
@@ -532,6 +558,9 @@ export function search(req, res) {
           where: profile
         }],
         where: where,
+        order: [
+          ['Name', 'ASC']
+        ],
         // limit: 200
       })
         .then(respondWithResult(res))

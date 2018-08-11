@@ -96,7 +96,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-sm-6">
+          <div class="col-12 col-sm-6" ng-if="vm.hasPosition">
             <!--
             <div class="form-group">
               <label for="GenreShow">GÊNERO*</label>
@@ -146,9 +146,9 @@
       </div>
 
       <!-- Edit profile -->
-      <div class="" ng-if="vm.editFields">
+      <div ng-if="vm.editFields">
 
-        <h4>Edição de dados</h4>
+        <h4 class="mb-4">Edição de dados</h4>
 
         <form class="form" name="formUpdate" ng-submit="vm.saveUser(formUpdate)" novalidate>
           <div class="row">
@@ -170,7 +170,7 @@
                 <input type="text" name="FullName" id="FullName" class="form-control" placeholder="nome para validação"
                        uib-tooltip="O nome completo facilitará a aprovação do seu cadastro." tooltip-placement="bottom"
                        ng-model="vm.user.FullName" required ng-disabled="vm.user.IsApproved">
-                <p class="help-block" ng-show="form.FullName.$error.required && vm.submitted">
+                <p class="help-block" ng-show="formUpdate.FullName.$error.required && vm.submittedUpdate">
                   Insira seu nome completo.
                 </p>
               </div>
@@ -205,6 +205,20 @@
                        class="form-control" ng-model="vm.user.Phone" required>
                 <p class="help-block" ng-show="formUpdate.Phone.$error.required && vm.submittedUpdate">
                   Insira o seu telefone.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="PersonTypeId">QUAL SUA RELAÇÃO COM O IME HOJE?*</label>
+                <select class="form-control" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId"
+                        uib-tooltip="Ao modificar sua relação com o IME, seu perfil será validado novamente pela Alumni IME."
+                        tooltip-placement="bottom" required ng-change="vm.updatePersonType(vm.user.PersonTypeId)">
+                  <option ng-repeat="type in vm.personTypes" ng-if="type.Description !== 'NewUser'"
+                          ng-value="type.PersonTypeId">{{type.PortugueseDescription}}
+                  </option>
+                </select>
+                <p class="help-block" ng-show="formUpdate.PersonTypeId.$error.required && vm.submittedUpdate">
+                  Escolha uma opção.
                 </p>
               </div>
 
@@ -270,20 +284,6 @@
               </div>
               -->
 
-              <div class="form-group">
-                <label for="PersonTypeId">QUAL SUA RELAÇÃO COM O IME HOJE?*</label>
-                <select class="form-control" id="PersonTypeId" name="PersonTypeId" ng-model="vm.user.PersonTypeId"
-                        uib-tooltip="Ao modificar sua relação com o IME, seu perfil será validado novamente pela Alumni IME."
-                        tooltip-placement="bottom" required ng-change="vm.updatePersonType(vm.user.PersonTypeId)">
-                  <option ng-repeat="type in vm.personTypes" ng-if="type.Description !== 'NewUser'"
-                          ng-value="type.PersonTypeId">{{type.PortugueseDescription}}
-                  </option>
-                </select>
-                <p class="help-block" ng-show="formUpdate.PersonTypeId.$error.required && vm.submittedUpdate">
-                  Escolha uma opção.
-                </p>
-              </div>
-
               <div class="form-group"
                    ng-if="vm.user.personType.Description !== 'Visitor' && vm.user.personType.Description !== 'Professor'">
                 <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
@@ -330,10 +330,10 @@
                 <textarea type="text" id="Headline" name="Headline" class="form-control headline" rows="3"
                           placeholder="Ex: Especialista em Gestão de Projetos"
                           ng-model="vm.user.Headline" required ng-maxlength="255"></textarea>
-                <p class="help-block" ng-show="form.Headline.$error.required && vm.submitted">
+                <p class="help-block" ng-show="formUpdate.Headline.$error.required && vm.submittedUpdate">
                   Insira um título para seu perfil.
                 </p>
-                <p class="help-block" ng-show="form.Abstract.$error.maxlength">
+                <p class="help-block" ng-show="formUpdate.Abstract.$error.maxlength">
                   Título muito longo.
                 </p>
               </div>
@@ -346,7 +346,7 @@
                           ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
                   </option>
                 </select>
-                <p class="help-block" ng-if="form.IndustryId.$error.required && vm.submitted">
+                <p class="help-block" ng-if="formUpdate.IndustryId.$error.required && vm.submittedUpdate">
                   Insira o seu setor.
                 </p>
               </div>
@@ -361,7 +361,7 @@
                         {{country.Description}}
                       </option>
                     </select>
-                    <p class="help-block" ng-if="form.Country.$error.required && vm.submitted">
+                    <p class="help-block" ng-if="formUpdate.Country.$error.required && vm.submittedUpdate">
                       Insira o seu país.
                     </p>
                   </div>
@@ -376,7 +376,7 @@
                         {{state.Code}}
                       </option>
                     </select>
-                    <p class="help-block" ng-if="form.State.$error.required && vm.submitted">
+                    <p class="help-block" ng-if="formUpdate.State.$error.required && vm.submittedUpdate">
                       Insira o seu estado.
                     </p>
                   </div>
@@ -391,20 +391,154 @@
                     {{city.Description}}
                   </option>
                 </select>
-                <p class="help-block" ng-if="form.City.$error.required && vm.submitted">
+                <p class="help-block" ng-if="formUpdate.City.$error.required && vm.submittedUpdate">
                   Insira a sua cidade.
                 </p>
               </div>
 
+              <a class="btn btn-outline-dark add-position mt-5 mx-auto" href="#" ng-click="vm.hasPosition = !vm.hasPosition"
+                 ng-if="!vm.hasPosition && (vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'DropStudent')">
+                  ADICIONAR CARGO ATUAL
+              </a>
+     
+              <!-- Current position -->
+              <div ng-if="vm.hasPosition">
+                <h5 class="modal-title text-center modal-title mb-3 mt-4">
+                  Cargo atual
+                  <!-- <i class="fa fa-trash c-pointer ml-3" ng-click="vm.hasPosition = !vm.hasPosition"
+                      uib-tooltip="Remover cargo" tooltip-placement="bottom"
+                      ng-if="vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'DropStudent'">
+                  </i> -->
+                </h5>
+        
+                <div class="form-group">
+                  <label for="PositionTitle">TÍTULO DO CARGO*</label>
+                  <input type="text" name="PositionTitle" id="PositionTitle" class="form-control"
+                          placeholder="Ex: Gerente Comercial, Chefe da 1ª Seção"
+                          ng-model="vm.user.positions[0].Title" required>
+                  <p class="help-block" ng-show="formUpdate.PositionTitle.$error.required && vm.submittedUpdate">
+                    Insira o título do cargo.
+                  </p>
+                </div>
+        
+                <div class="row p-0">
+                  <div class="col-5">
+                    <div class="form-group">
+                      <label for="LevelType">MEIO DE ATUAÇÃO*</label>
+                      <select class="form-control" id="LevelType" name="LevelType" ng-model="vm.levelType" required>
+                        <option value="civil">Civil</option>
+                        <option value="military">Militar</option>
+                      </select>
+                      <p class="help-block" ng-show="formUpdate.LevelType.$error.required && vm.submittedUpdate">
+                        Insira o meio de atuação do cargo.
+                      </p>
+                    </div>
+                  </div>
+        
+                  <div class="col-7">
+                    <div class="form-group">
+                      <label for="Level" ng-if="vm.levelType === 'civil' || !vm.levelType">NÍVEL DO CARGO*</label>
+                      <label for="Level" ng-if="vm.levelType === 'military'">PATENTE*</label>
+        
+                      <select class="form-control" id="Level" name="Level" ng-model="vm.user.positions[0].LevelId" required
+                              uib-tooltip="{{!vm.levelType ? 'selecione primeiramente o meio de atuação' : null}}"
+                              tooltip-placement="bottom">
+                        <option value=""></option>
+                        <option ng-repeat="level in vm.levelsList | filter: {Type: vm.levelType}" ng-value="level.LevelId">
+                          {{level.Description}}
+                        </option>
+                      </select>
+                      <p class="help-block" ng-show="formUpdate.Level.$error.required && vm.submittedUpdate && vm.levelType === 'civil'">
+                        Insira o nível do cargo.
+                      </p>
+                      <p class="help-block" ng-show="formUpdate.Level.$error.required && vm.submittedUpdate && vm.levelType === 'military'">
+                        Insira a patente.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="form-group" ng-if="vm.user.positions[0].LevelId === vm.levelOtherId">
+                  <label for="LevelOther">OUTRO NÍVEL DO CARGO*</label>
+                  <input type="text" name="LevelOther" id="LevelOther" class="form-control"
+                          ng-model="vm.user.positions[0].LevelOther" required>
+                  <p class="help-block" ng-show="formUpdate.LevelOther.$error.required && vm.submittedUpdate">
+                    Insira outro nível do cargo.
+                  </p>
+                </div>
+        
+                <div class="form-group">
+                  <label for="CompanyName">NOME DA EMPRESA*</label>
+                  <input type="text" name="CompanyName" id="CompanyName" class="form-control"
+                          placeholder="Ex: Microsoft, 1º Btl DQBRN (sigla)"
+                          ng-model="vm.user.positions[0].company.Name" required>
+                  <p class="help-block" ng-show="formUpdate.CompanyName.$error.required && vm.submittedUpdate">
+                    Insira o nome da empresa.
+                  </p>
+                </div>
+        
+                <div class="form-group">
+                  <label for="CompanyType">TIPO DE EMPRESA*</label>
+                  <select class="form-control" id="CompanyType" name="CompanyType"
+                          ng-model="vm.user.positions[0].company.CompanyTypeId" required>
+                    <option ng-repeat="companyType in vm.companyTypesList"
+                            ng-value="companyType.CompanyTypeId">{{companyType.PortugueseDescription}}
+                    </option>
+                  </select>
+                  <p class="help-block" ng-show="formUpdate.CompanyType.$error.required && vm.submittedUpdate">
+                    Insira o tipo da empresa.
+                  </p>
+                </div>
+        
+                <div class="form-group">
+                  <label for="StartDateMonth">DATA DE INÍCIO*</label>
+                  <div class="row p-0">
+                    <div class="col">
+                      <select class="form-control" name="StartDateMonth" id="StartDateMonth"
+                              ng-model="vm.user.positions[0].StartDateMonth" required>
+                        <option value="">Mês</option>
+                        <option ng-value="1">janeiro</option>
+                        <option ng-value="2">fevereiro</option>
+                        <option ng-value="3">março</option>
+                        <option ng-value="4">abril</option>
+                        <option ng-value="5">maio</option>
+                        <option ng-value="6">junho</option>
+                        <option ng-value="7">julho</option>
+                        <option ng-value="8">agosto</option>
+                        <option ng-value="9">setembro</option>
+                        <option ng-value="10">outubro</option>
+                        <option ng-value="11">novembro</option>
+                        <option ng-value="12">dezembro</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <select class="form-control" name="StartDateYear" id="StartDateYear"
+                              ng-model="vm.user.positions[0].StartDateYear" required>
+                        <option value="">Ano</option>
+                        <option ng-repeat="year in vm.graduationYears | orderBy:'-'"
+                                ng-value="year" ng-if="year <= vm.year">{{year}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <p class="help-block" ng-if="formUpdate.StartDateMonth.$error.required && vm.submittedUpdate">
+                    Insira o mês de início do cargo.
+                  </p>
+                  <p class="help-block" ng-if="formUpdate.StartDateYear.$error.required && vm.submittedUpdate">
+                    Insira o ano de início do cargo.
+                  </p>
+                </div>
+              </div>
+     
               <br>
             </div>
 
             <br>
-            <p class="help-block mb-4" ng-show="vm.errors.update && vm.submittedUpdate">
+            <p class="help-block mb-4" ng-if="vm.errors.update && vm.submittedUpdate">
               {{vm.errors.update}}
             </p>
 
-            <div class="row align-items-center mt-4">
+            <div class="row align-items-center mt-3">
               <div class="col-xs-12 col-sm-auto">
                 <button class="btn btn-outline-danger" ng-click="vm.cancelEdit()">
                   CANCELAR
@@ -424,7 +558,7 @@
         <form class="form" name="formPassword" ng-submit="vm.changePassword(formPassword)" novalidate>
           <div class="row mt-5">
             <div class="col-12 col-sm-6">
-              <div class="card" ng-if="vm.user.hasPassword">
+              <div class="card mt-3" ng-if="vm.user.hasPassword">
                 <div class="card-body">
                   <h5 class="card-title">Alterar senha</h5>
 

@@ -127,8 +127,14 @@
         <div class="row align-items-center justify-content-between" style="padding: 10px 0 10px">
 
           <ul class="nav ml-4" ng-if="$ctrl.isCollapsed">
-            <li class="nav-item p-0" ui-sref-active="active">
+            <!-- <li class="nav-item p-0" ui-sref-active="active">
               <a class="nav-link text-dark p-0" ui-sref="submission">SUBMETER PROJETO</a>
+            </li> -->
+            <li class="nav-item p-0" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+              <a class="nav-link text-dark p-0" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
+            </li>
+            <li class="nav-item p-0" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
+              <a class="nav-link text-dark p-0" ui-sref="profile">MEU PERFIL</a>
             </li>
           </ul>
 

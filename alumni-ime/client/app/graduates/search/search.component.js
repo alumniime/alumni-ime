@@ -148,6 +148,9 @@ export class SearchController {
         Reflect.deleteProperty(this.search, field);
       }
     }
+    if(!this.search.required) {
+      this.search.required = false;
+    }
     console.log(this.search);
 
     if(form.$valid && Object.keys(this.search).length > 0 && !(this.search.name && this.search.name.length < 3)) {

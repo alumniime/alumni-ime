@@ -133,6 +133,10 @@
     font-size: 15px;
   }
 
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
+  }
+
   // tr {
   //   width: max-content;
   //   // display: inline-table;

@@ -36,6 +36,9 @@
         Formatura {{vm.user.GraduationYear}}
       </p>
 
+      <a class="text-dark c-pointer font-weight-bold" target="_blank"
+           href="{{vm.user.LinkedinProfileURL}}" ng-if="vm.user.LinkedinProfileURL">Acessar Linkedin</a>
+
     </div>
   </div>
 
@@ -47,11 +50,11 @@
         <input type="text" id="emailShow" name="email" class="form-control-plaintext" readonly
                ng-model="vm.user.email">
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="BirthdateShow">DATA DE NASCIMENTO*</label>
         <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
                value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
-      </div>
+      </div> -->
       <!-- <div class="form-group">
         <label for="PhoneShow">TELEFONE*</label>
         <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly

@@ -42,6 +42,7 @@
     "mysql2": "^1.5.3",
     "ng-file-upload": "^12.2.13",
     "ng-img-crop": "^0.2.0",
+    "ng-intl-tel-input": "^2.0.0",
     "ng-mask": "^3.1.1",
     "ng-meta": "^1.0.3",
     "ng-money-mask": "^2.0.2",

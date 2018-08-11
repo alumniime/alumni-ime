@@ -699,7 +699,7 @@ export function confirmEmail(req, res, next) {
           .json({message: 'User not found.'});
       }
 
-      if(user.ConfirmEmailExpires > Date.now()) {
+      if(user.ConfirmEmailExpires) { // > Date.now()
         user.update({EmailVerified: true})
           .then(newUser => {
             // redirect user to complete his registry
