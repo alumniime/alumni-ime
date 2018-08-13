@@ -51,11 +51,11 @@ var all = {
     clientID: process.env.LINKEDIN_ID || 'id',
     clientSecret: process.env.LINKEDIN_SECRET || 'secret',
     callbackURL: `${process.env.DOMAIN || ''}/auth/linkedin/callback`
-  },
+  }, 
 
   email: {
     name: process.env.MAILER_NAME || 'Alumni IME',
-    user: process.env.MAILER_EMAIL || '',
+    user: process.env.MAILER_EMAIL || '', 
     pass: process.env.MAILER_PASSWORD || ''
   },
 

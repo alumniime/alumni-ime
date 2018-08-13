@@ -1,6 +1,6 @@
 'use strict';
 
-export function routeConfig($urlRouterProvider, $locationProvider, ngMetaProvider, appConfig) {
+export function routeConfig($urlRouterProvider, $locationProvider, ngMetaProvider, ngIntlTelInputProvider, appConfig) {
   'ngInject';
 
   // Configuration for SEO meta tags
@@ -18,6 +18,13 @@ export function routeConfig($urlRouterProvider, $locationProvider, ngMetaProvide
   ngMetaProvider.setDefaultTag('og:image', `${appConfig.url}/assets/images/ime-building.jpg`);
   ngMetaProvider.setDefaultTag('og:locale', 'pt_BR');
   ngMetaProvider.setDefaultTag('og:site_name', 'Alumni IME');
+
+  ngIntlTelInputProvider.set({
+    initialCountry: 'br',
+    preferredCountries: ['br'],
+    utilsScript: '../components/phone-input/utils.js',
+    // separateDialCode: true
+  });
 
   $urlRouterProvider.otherwise('/');
 
