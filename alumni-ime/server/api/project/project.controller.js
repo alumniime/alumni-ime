@@ -275,7 +275,10 @@ export function menu(req, res) {
       ['Year', 'DESC'],
       ['Semester', 'DESC'],
     ],
-    raw: true
+    raw: true,
+    where: {
+      IsApproved: true
+    }
   })
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -297,11 +300,17 @@ export function upload(req, res) {
     .array('files', 12); // maxImages = 12
 
   upload(req, res, function (err) {
+
     var project = Project.build(req.body.project);
+    var date = new Date();
+
     project.setDataValue('IsApproved', 0);
     project.setDataValue('IsExcluded', 0);
-    project.setDataValue('SubmissionDate', Date.now());
     project.setDataValue('SubmissionerId', req.user.PersonId);
+    // First semester: Dec to May, Second semester: Jun to Nov 
+    project.setDataValue('Semester', (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1); 
+    project.setDataValue('Year', date.getFullYear());
+    project.setDataValue('SubmissionDate', date.getTime());
 
     if(err) {
       console.log(err);

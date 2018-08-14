@@ -133,7 +133,6 @@ export default class ProfileController {
               this.levelOtherId = level.LevelId;
             }
           }
-          console.log(this.levelsList);
         });
 
       this.graduationYears = [];

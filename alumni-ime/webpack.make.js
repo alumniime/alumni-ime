@@ -41,8 +41,6 @@ module.exports = function makeWebpackConfig(options) {
       app: './client/app/app.js',
       polyfills: './client/polyfills.js',
       vendor: [
-        'jquery/dist/jquery.min',
-        'intl-tel-input/build/js/intlTelInput',
         'angular',
         'angular-animate',
         'angular-aria',
@@ -58,9 +56,6 @@ module.exports = function makeWebpackConfig(options) {
         'ng-intl-tel-input/ng-intl-tel-input.module',
         'ng-intl-tel-input/ng-intl-tel-input.provider',
         'ng-intl-tel-input/ng-intl-tel-input.directive',
-
-        // 'intl-tel-input/build/js/utils',
-        // 'international-phone-number/releases/international-phone-number',
         'angular-i18n/angular-locale_pt-br',
         'angucomplete-alt/dist/angucomplete-alt.min',
         'ng-youtube-embed/build/ng-youtube-embed.min',

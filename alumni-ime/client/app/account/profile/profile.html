@@ -79,8 +79,12 @@
             </div>
             <div class="form-group">
               <label for="PhoneShow">TELEFONE*</label>
+              <!-- International phone -->
               <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
-                     ng-model="vm.user.Phone">
+                     ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') === -1" ng-intl-tel-input>
+              <!-- National phone -->
+              <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+                     ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') > -1" mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
             </div>
             <div class="form-group">
               <label for="LocationShow">LOCALIZAÇÃO*</label>
@@ -201,10 +205,11 @@
 
               <div class="form-group">
                 <label for="Phone">TELEFONE*</label>
-                <input type="tel" id="Phone" name="Phone" placeholder="+55 (00) 00000-0000" mask="+99 (99) 9?9999-9999"
-                       class="form-control" ng-model="vm.user.Phone" required>
-                <p class="help-block" ng-show="formUpdate.Phone.$error.required && vm.submittedUpdate">
-                  Insira o seu telefone.
+                <input type="tel" id="Phone" name="Phone" ng-intl-tel-input
+                class="form-control ml-5"
+                ng-model="vm.user.Phone" required>
+                <p class="help-block" ng-show="formUpdate.Phone.$invalid && vm.submittedUpdate">
+                  Insira um telefone válido.
                 </p>
               </div>
 
