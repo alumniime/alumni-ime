@@ -1,8 +1,9 @@
 import passport from 'passport';
 import {Strategy as LinkedInStrategy} from 'passport-linkedin';
 import crypto from 'crypto';
-import {Position, Company, Location, Industry} from '../../sqldb';
+import {Position, Company, Location, Industry, Image} from '../../sqldb';
 import async from 'async';
+import download from 'image-downloader';
 
 export function setup(User, config) {
   passport.use(new LinkedInStrategy({
@@ -59,8 +60,46 @@ export function setup(User, config) {
             .spread((location, created) => next(null, user, industry, location))
             .catch(err => next(null, user, industry, null));
         },
-        // Assigning user fields
+        // Saving user photo
         (user, industry, location, next) => {
+          if (!user.ImageURL) {
+            var time = Date.now();
+            var name = user.name.replace(/[^a-zA-Z0-9]/, '');
+            var imagePath = `assets/profiles/${time}-${name}.jpg`;
+            download.image({
+              url: ImageURL,
+              dest: `./client/${imagePath}`
+            })
+              .then(({ filename, image }) => {
+                if(config.debug) {
+                  console.log('\n=>profile image', filename);
+                }
+                var image = {
+                  PersonId: user.PersonId,
+                  Path: imagePath,
+                  Filename: `${time}-${name}.jpg`,
+                  Type: 'profile',
+                  Timestamp: time,
+                  IsExcluded: 0
+                };          
+                Image.create(image)
+                  .then(newImage => {
+                    next(null, user, industry, location, imagePath);
+                  })
+                  .catch(err => next(err));
+              })
+              .catch(err => {
+                if(config.debug) {
+                  console.log('\n=>profile image', err);
+                }
+                next(null, user, industry, location, null);
+              })
+          } else {
+            next(null, user, industry, location, null);
+          }
+        },
+        // Assigning user fields
+        (user, industry, location, imagePath, next) => {
           var industryId = null;
           var locationId = null;
           var positions = profile._json.positions.values;
@@ -82,9 +121,9 @@ export function setup(User, config) {
             user.LinkedinProfileURL = profile._json.publicProfileUrl;
             user.Summary = profile._json.summary || null;
             user.Specialties = profile._json.specialties || null;
+            user.ImageURL = imagePath ? imagePath : user.ImageURL;
             // Fields that won't be changed for each login
             //  user.name = profile.displayName;
-            //  user.ImageURL = ImageURL;
             //  user.Headline = profile._json.headline || null;
             //  user.LocationId = profile._json.location.name || null;
             //  user.IndustryId = profile._json.industry || null;
@@ -102,7 +141,7 @@ export function setup(User, config) {
                   email: email,
                   role: 'user',
                   provider: 'linkedin',
-                  ImageURL: ImageURL,
+                  ImageURL: imagePath,
                   LinkedinId: profile.id,
                   LinkedinProfileURL: profile._json.publicProfileUrl,
                   Headline: profile._json.headline || null,
@@ -213,6 +252,7 @@ export function setup(User, config) {
 
       ], function (err, result) {
         if(err) {
+          console.log('linkedin/passport =>\n', err);
           done(err);
         } else {
           done(null, result);

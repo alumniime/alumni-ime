@@ -126,8 +126,8 @@
               <label for="Level" ng-if="vm.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO*</label>
               <label for="Level" ng-if="vm.user.positions[0].level.Type === 'military'">PATENTE*</label>
               <input type="text" id="Level" name="Level" class="form-control-plaintext" readonly
-                     ng-value="vm.user.positions[0].level.Description">
-            </div>
+                     ng-value="vm.user.positions[0].level.Description !== 'Outro' ? vm.user.positions[0].level.Description : vm.user.positions[0].LevelOther">
+              </div>
             <div class="form-group">
               <label for="Company">EMPRESA*</label>
               <input type="text" id="Company" name="Company" class="form-control-plaintext" readonly

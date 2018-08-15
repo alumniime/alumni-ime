@@ -9,9 +9,9 @@ export class SearchController {
 
   graduationYears = [];
   formerStudents = [];
-  levelType = null;
   search = {
-    GraduationYear: null
+    GraduationYear: null,
+    LevelType: null
   };
 
   constructor(Auth, Modal, Util, $http, $state, $stateParams, $location, $anchorScroll) {

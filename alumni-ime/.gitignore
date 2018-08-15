@@ -11,5 +11,6 @@ coverage
 /dev.sqlite
 #/client/assets/images/uploads/
 #/client/assets/donations/
+/client/assets/profiles/
 /package-lock.json
 client/index.html
