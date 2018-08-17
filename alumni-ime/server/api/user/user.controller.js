@@ -580,6 +580,7 @@ export function me(req, res, next) {
       'Birthdate',
       'Genre',
       'Phone',
+      'ShowPhone',
       'FullName',
       'Headline',
       'LocationId',

@@ -55,15 +55,13 @@
         <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
                value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
       </div> -->
-      <!-- <div class="form-group">
+      <div class="form-group" ng-if="vm.user.ShowPhone">
         <label for="PhoneShow">TELEFONE*</label>
-        International phone
         <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
                 ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') === -1" ng-intl-tel-input>
-        National phone
         <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
                 ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') > -1" mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
-      </div> -->
+      </div>
       <div class="form-group">
         <label for="LocationShow">LOCALIZAÇÃO*</label>
         <input type="text" id="LocationShow" name="Location" class="form-control-plaintext" readonly

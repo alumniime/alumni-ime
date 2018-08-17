@@ -91,7 +91,7 @@ export function index(req, res) {
           as: 'engineering',
         }, {
           model: User,
-          attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
+          attributes: ['name', 'ImageURL', 'LinkedinProfileURL'],
           as: 'profile',
           required: false,
           where: {
@@ -232,7 +232,7 @@ export function year(req, res) {
           as: 'engineering',
         }, {
           model: User,
-          attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
+          attributes: ['name', 'ImageURL', 'LinkedinProfileURL'],
           as: 'profile',
           include: [{
             model: Position,
@@ -391,6 +391,7 @@ export function show(req, res) {
           'name',
           'email',
           'Phone',
+          'ShowPhone',
           'ImageURL',
           'Birthdate',
           'LinkedinProfileURL',
@@ -491,7 +492,7 @@ export function search(req, res) {
           as: 'engineering',
         }, {
           model: User,
-          attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL', 'LocationId',
+          attributes: ['name', 'ImageURL', 'LinkedinProfileURL', 'LocationId',
           // ['positions.level.LevelId', 'positions.LevelId'],
           // ['positions.LevelId', 'LevelId']
         ],

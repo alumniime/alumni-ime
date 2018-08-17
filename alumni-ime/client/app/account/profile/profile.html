@@ -270,6 +270,14 @@
                   </div>
                 </div>
               </div>
+              <br>
+
+              <div class="custom-control custom-checkbox" ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'FormerStudentAndProfessor'">
+                <input type="checkbox" name="ShowPhone" class="custom-control-input" id="ShowPhone" ng-model="vm.user.ShowPhone">
+                <label class="custom-control-label" for="ShowPhone">
+                  Desejo exibir meu telefone na área restrita do site para os ex-alunos aprovados.
+                </label>
+              </div>              
 
             </div>
 

@@ -23,6 +23,7 @@ export function setup(User, config) {
       }
       var email = profile.emails[0].value;
       var ImageURL = null;
+      var profileImage = null;
       if(profile._json.pictureUrls) {
         ImageURL = profile._json.pictureUrls.values[0];
       }
@@ -62,9 +63,9 @@ export function setup(User, config) {
         },
         // Saving user photo
         (user, industry, location, next) => {
-          if (!user.ImageURL) {
+          if (!user || (user && !user.ImageURL)) {
             var time = Date.now();
-            var name = user.name.replace(/[^a-zA-Z0-9]/, '');
+            var name = profile.displayName.replace(/[^a-zA-Z0-9]/, '');
             var imagePath = `assets/profiles/${time}-${name}.jpg`;
             download.image({
               url: ImageURL,
@@ -74,19 +75,14 @@ export function setup(User, config) {
                 if(config.debug) {
                   console.log('\n=>profile image', filename);
                 }
-                var image = {
-                  PersonId: user.PersonId,
+                profileImage = {
                   Path: imagePath,
                   Filename: `${time}-${name}.jpg`,
                   Type: 'profile',
                   Timestamp: time,
                   IsExcluded: 0
-                };          
-                Image.create(image)
-                  .then(newImage => {
-                    next(null, user, industry, location, imagePath);
-                  })
-                  .catch(err => next(err));
+                };      
+                next(null, user, industry, location, image);
               })
               .catch(err => {
                 if(config.debug) {
@@ -99,7 +95,7 @@ export function setup(User, config) {
           }
         },
         // Assigning user fields
-        (user, industry, location, imagePath, next) => {
+        (user, industry, location, image, next) => {
           var industryId = null;
           var locationId = null;
           var positions = profile._json.positions.values;
@@ -121,7 +117,7 @@ export function setup(User, config) {
             user.LinkedinProfileURL = profile._json.publicProfileUrl;
             user.Summary = profile._json.summary || null;
             user.Specialties = profile._json.specialties || null;
-            user.ImageURL = imagePath ? imagePath : user.ImageURL;
+            user.ImageURL = (profileImage && profileImage.Path) ? profileImage.Path : (profile._json.pictureUrls ? profile._json.pictureUrls.values[0] : null);
             // Fields that won't be changed for each login
             //  user.name = profile.displayName;
             //  user.Headline = profile._json.headline || null;
@@ -133,7 +129,7 @@ export function setup(User, config) {
             crypto.randomBytes(20, function (err, buffer) {
               var token = buffer.toString('hex');
               if(config.env === 'development') {
-                console.log(token);
+                console.log('\n=>token', token);
               }
               if(!err) {
                 user = User.build({
@@ -141,7 +137,7 @@ export function setup(User, config) {
                   email: email,
                   role: 'user',
                   provider: 'linkedin',
-                  ImageURL: imagePath,
+                  ImageURL: (profileImage && profileImage.Path) ? profileImage.Path : (profile._json.pictureUrls ? profile._json.pictureUrls.values[0] : null),
                   LinkedinId: profile.id,
                   LinkedinProfileURL: profile._json.publicProfileUrl,
                   Headline: profile._json.headline || null,
@@ -165,6 +161,14 @@ export function setup(User, config) {
           user.save()
             .then(savedUser => {
 
+              // Saving user profile image
+              if(profileImage) {
+                profileImage.PersonId = savedUser.PersonId;                
+                Image.create(profileImage)
+                .then(newImage => {})
+                .catch(err => {});
+              }
+
               if(positions) {
                 async.eachSeries(positions, function (position, cb) {
                   async.waterfall([
@@ -187,6 +191,8 @@ export function setup(User, config) {
                         Location.findOrCreate({where: {LinkedinName: position.location.name}})
                           .spread((location, created) => next(null, industry, location))
                           .catch(err => next(null, industry, null));
+                      } else {
+                        next(null, industry, null);
                       }
                     },
                     // Trying to save company
@@ -229,7 +235,10 @@ export function setup(User, config) {
                           IsCurrent: 0
                         })
                           .then(result => next(null, savedUser))
-                          .catch(err => console.log(err));
+                          .catch(err => {
+                            console.log(err);
+                            next(null, savedUser);
+                          });
                       } else {
                         next(null, savedUser);
                       }

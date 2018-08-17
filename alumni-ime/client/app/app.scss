@@ -34,6 +34,7 @@ $danger: #E84E0F !important;
 @import 'donate/donate';
 @import 'graduates/profile/profile';
 @import 'graduates/search/search';
+@import 'intlTelInput';
 @import 'main/main';
 @import 'media';
 @import 'MerriweatherSans';
@@ -63,5 +64,4 @@ $danger: #E84E0F !important;
 @import '../components/modal/update-photo/update-photo';
 @import '../components/navbar/navbar';
 @import '../components/oauth-buttons/oauth-buttons';
-@import '../components/phone-input/intlTelInput';
 /* endinject */

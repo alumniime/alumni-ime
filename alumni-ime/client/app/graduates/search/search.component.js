@@ -115,6 +115,7 @@ export class SearchController {
               })
               .catch(() => {
                 loading.close();
+                this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
               });
           } else {
             loading.close();
