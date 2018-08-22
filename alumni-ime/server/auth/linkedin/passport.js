@@ -23,7 +23,9 @@ export function setup(User, config) {
       }
       var email = profile.emails[0].value;
       var ImageURL = null;
-      var profileImage = null;
+      var profileImage = {
+        Path: null
+      };
       if(profile._json.pictureUrls) {
         ImageURL = profile._json.pictureUrls.values[0];
       }
@@ -110,14 +112,14 @@ export function setup(User, config) {
           }
           if(user) {
             // User just has his LinkedinId saved or has an account with the same email
-            if (user.LinkedinId) {
+            if (user.LinkedinId) { 
               positions = null;
             }
             user.LinkedinId = profile.id;
             user.LinkedinProfileURL = profile._json.publicProfileUrl;
             user.Summary = profile._json.summary || null;
             user.Specialties = profile._json.specialties || null;
-            user.ImageURL = (profileImage && profileImage.Path) ? profileImage.Path : (profile._json.pictureUrls ? profile._json.pictureUrls.values[0] : null);
+            user.ImageURL = profileImage.Path ? profileImage.Path : (profile._json.pictureUrls ? profile._json.pictureUrls.values[0] : null);
             // Fields that won't be changed for each login
             //  user.name = profile.displayName;
             //  user.Headline = profile._json.headline || null;
@@ -137,7 +139,7 @@ export function setup(User, config) {
                   email: email,
                   role: 'user',
                   provider: 'linkedin',
-                  ImageURL: (profileImage && profileImage.Path) ? profileImage.Path : (profile._json.pictureUrls ? profile._json.pictureUrls.values[0] : null),
+                  ImageURL: profileImage.Path ? profileImage.Path : (profile._json.pictureUrls ? profile._json.pictureUrls.values[0] : null),
                   LinkedinId: profile.id,
                   LinkedinProfileURL: profile._json.publicProfileUrl,
                   Headline: profile._json.headline || null,
@@ -162,7 +164,8 @@ export function setup(User, config) {
             .then(savedUser => {
 
               // Saving user profile image
-              if(profileImage) {
+              if(profileImage.Path) {
+                console.log('Creating image');
                 profileImage.PersonId = savedUser.PersonId;                
                 Image.create(profileImage)
                 .then(newImage => {})

@@ -3,15 +3,15 @@
   <h5 class="page-title">
     Consultar ex-alunos graduados no IME
     <br class="d-block d-lg-none">
-    <span class="font-weight-normal ml-5" ng-if="!vm.$stateParams.year">
+    <span class="font-weight-normal ml-5" ng-if="vm.showYears">
       {{vm.graduationYears | sumByKey: 'UsersNumber'}} cadastrados de {{vm.graduationYears | sumByKey: 'TotalNumber'}}
     </span>
-    <a href="#formerStudents" class="text-dark ml-5" ng-if="!vm.$stateParams.year">Busca avançada</a>
-    <a href="/graduates/search" class="text-dark ml-5" ng-if="vm.$stateParams.year">Visualizar todos os anos</a>
+    <a href="#formerStudents" class="text-dark ml-5" ng-if="vm.showYears">Busca avançada</a>
+    <a href="/graduates/search" class="text-dark ml-5" ng-if="!vm.showYears">Visualizar todos os anos</a>
   </h5>
 
   <!-- List with years -->
-  <div class="row" ng-if="!vm.$stateParams.year">
+  <div class="row" ng-if="vm.showYears">
     <div class="col-12 col-md-6 col-xl-4 mb-3" ng-repeat="year in vm.graduationYears | orderBy: '-GraduationYear'">
 
       <div class="row">

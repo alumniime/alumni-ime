@@ -9,9 +9,16 @@ export class SearchController {
 
   graduationYears = [];
   formerStudents = [];
+  showYears = true;
   search = {
     GraduationYear: null,
-    LevelType: null
+    LevelType: null,
+    LevelId: null,
+    EngineeringId: null,
+    IndustryId: null,
+    LocationId: null,
+    name: null,
+    required: false,
   };
 
   constructor(Auth, Modal, Util, $http, $state, $stateParams, $location, $anchorScroll) {
@@ -100,6 +107,7 @@ export class SearchController {
         } else if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor')) {
 
           if(this.$stateParams.year) {
+            this.showYears = false;
             this.search.GraduationYear = parseInt(this.$stateParams.year);
             this.$http.get(`/api/former_students/${this.search.GraduationYear}`)
               .then(response => {
@@ -118,7 +126,61 @@ export class SearchController {
                 this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
               });
           } else {
-            loading.close();
+
+            this.search = this.$stateParams;
+
+            for (var field in this.search) {
+              if(this.search[field] === null || this.search[field] === undefined || this.search[field] === '') {
+                Reflect.deleteProperty(this.search, field);
+              }
+            }
+            
+            if(Object.keys(this.search).length > (this.search.required ? 0 : 1)) {
+              
+              this.showYears = false;
+
+              if(this.search.GraduationYear) {
+                this.search.GraduationYear = parseInt(this.$stateParams.GraduationYear);
+              }
+              if(this.search.EngineeringId) {
+                this.search.EngineeringId = parseInt(this.$stateParams.EngineeringId);
+              }
+              if(this.search.IndustryId) {
+                this.search.IndustryId = parseInt(this.$stateParams.IndustryId);
+              }
+              if(this.search.LevelId) {
+                this.search.LevelId = parseInt(this.$stateParams.LevelId);
+              }
+              if(this.search.LocationId) {
+                this.search.LocationId = parseInt(this.$stateParams.LocationId);
+              }
+              this.search.required = this.search.required === 'true';
+              
+              console.log(this.search);
+              
+              this.$http.post('/api/former_students', this.search)
+                .then(response => {
+                  loading.close();
+                  this.formerStudents = response.data;
+                  if(this.formerStudents.length === 0) {
+                    this.Modal.showAlert('Sem resultados', 'Nenhum ex-aluno foi encontrado com base nos filtros selecionados.');
+                  } else {
+                    for(var student of this.formerStudents) {
+                      if(student.profile && student.profile.location) {
+                        student.profile.locationName = this.updateLocationName(student.profile.location);
+                      }
+                    }
+                  }
+                  this.$location.hash('formerStudents');
+                  this.$anchorScroll();
+                })
+                .catch(err => {
+                  loading.close();
+                  this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
+                });
+            } else {
+              loading.close();
+            }
           }
 
         } else {
@@ -142,57 +204,25 @@ export class SearchController {
   }
 
   searchStudents(form) {
-
-
-    for (var field in this.search) {
-      if(this.search[field] === null || this.search[field] === undefined || this.search[field] === '') {
-        Reflect.deleteProperty(this.search, field);
-      }
-    }
+    var valid = 0;
     if(!this.search.required) {
       this.search.required = false;
     }
+    for (var field of ['GraduationYear', 'EngineeringId', 'IndustryId', 'LevelId', 'LevelType', 'LocationId', 'name', 'required', 'year']) {
+      if(this.search[field] === '' || this.search[field] === undefined || this.search[field] === null) {
+        this.search[field] = undefined;
+      } else {
+        valid++;
+      }
+    }
     console.log(this.search);
-
-    if(form.$valid && Object.keys(this.search).length > 0 && !(this.search.name && this.search.name.length < 3)) {
+    
+    if(form.$valid && valid > (this.search.required ? 0 : 1) && !(this.search.name && this.search.name.length < 3)) {
       if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor')) {
-        var loading = this.Modal.showLoading();
-        this.$http.post('/api/former_students', this.search)
-          .then(response => {
-            loading.close();
-            this.formerStudents = response.data;
-            if(this.formerStudents.length === 0) {
-              this.Modal.showAlert('Sem resultados', 'Nenhum ex-aluno foi encontrado com base nos filtros selecionados.');
-            } else {
-              for(var student of this.formerStudents) {
-                if(student.profile && student.profile.location) {
-                  student.profile.locationName = this.updateLocationName(student.profile.location);
-                }
-              }
-            }
-            this.$location.hash('formerStudents');
-            this.$anchorScroll();
-
-            // if (this.search.GraduationYear) {
-            //   this.$state.go('search', {year: this.search.GraduationYear}, {
-            //     // prevent the events onStart and onSuccess from firing
-            //     notify: false,
-            //     // prevent reload of the current state
-            //     reload: false, 
-            //     // replace the last record when changing the params so you don't hit the back button and get old params
-            //     location: 'replace', 
-            //     // inherit the current params on the url
-            //     inherit: true
-            //   });
-            // }
-          })
-          .catch(err => {
-            loading.close();
-            this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
-          });
-        } else {
-          this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar consultas.');
-        }
+        this.$state.go('search', this.search);
+      } else {
+        this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar consultas.');
+      }
     } else {
       if(this.search.name) {
         this.Modal.showAlert('Erro na consulta', 'O nome inserido é muito curto.');
