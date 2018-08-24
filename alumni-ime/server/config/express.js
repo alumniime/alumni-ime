@@ -26,6 +26,10 @@ var Store = expressSequelizeSession(session.Store);
 export default function(app) {
   var env = app.get('env');
 
+  // app.use(prerender.set('prerenderToken', config.prerenderToken));
+  app.use(prerender.set('prerenderToken', config.prerenderToken));
+  // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:3003'));
+
   if(env === 'development' || env === 'test') {
     app.use(express.static(path.join(config.root, '.tmp')));
   }
@@ -42,9 +46,6 @@ export default function(app) {
   app.set('views', `${config.root}/server/views`);
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
-  // app.use(prerender.set('prerenderToken', config.prerenderToken));
-  app.use(require('prerender-node').set('prerenderToken', config.prerenderToken));
-  // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:3003'));
   app.use(shrinkRay());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());

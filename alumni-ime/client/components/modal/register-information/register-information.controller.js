@@ -21,6 +21,8 @@ export default class ModalRegisterInformationController {
   citiesList = [];
   levelType = null;
   hasPosition = true;
+  levelOtherId = null;
+  optionOtherId = null;
 
   /*@ngInject*/
   constructor(Auth, Modal, $http, $state, $window, $interval, $uibModal) {
@@ -77,7 +79,12 @@ export default class ModalRegisterInformationController {
     this.$http.get('/api/option_to_know_types')
       .then(response => {
         this.optionsToKnowList = response.data;
-      });
+        for(var option of this.optionsToKnowList){
+          if(option.Description === 'Outros') {
+            this.optionOtherId = option.OptionTypeId;
+          }
+        }
+    });
 
     this.$http.get(`/api/countries`)
       .then(response => {
@@ -219,7 +226,11 @@ export default class ModalRegisterInformationController {
 
     if(form.$valid && !this.dateInvalid) {
       if(this.hasPosition && this.user.positions[0].LevelId !== this.levelOtherId) {
-        Reflect.deleteProperty(this.user.positions[0], 'LevelOther');
+        this.user.positions[0].LevelOther = null;
+      }
+
+      if(this.user.personType.Description === 'Visitor' && this.user.OptionToKnowThePageId !== this.optionOtherId) {
+        this.user.OptionToKnowThePageOther = null;
       }
 
       if(this.user.location.CountryId !== 1) {

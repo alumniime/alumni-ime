@@ -30,6 +30,8 @@ export default class ProfileController {
   locationName = '';
   levelType = null;
   hasPosition = true;
+  levelOtherId = null;
+  optionOtherId = null;
 
   constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Modal) {
     'ngInject';
@@ -85,6 +87,11 @@ export default class ProfileController {
       this.$http.get('/api/option_to_know_types')
         .then(response => {
           this.optionsToKnowList = response.data;
+          for(var option of this.optionsToKnowList){
+            if(option.Description === 'Outros') {
+              this.optionOtherId = option.OptionTypeId;
+            }
+          }
         });
 
       this.$http.get('/api/industries')
@@ -306,21 +313,25 @@ export default class ProfileController {
     var user = angular.copy(this.user);
     
     if(!this.hasPosition) {
-      Reflect.deleteProperty(this.user, 'positions');
+      Reflect.deleteProperty(user, 'positions');
     }
 
-    if(this.user.location.CountryId !== 1) {
-      this.user.location.StateId = null;
-      this.user.location.CityId = null;
-      Reflect.deleteProperty(this.user.location, 'city');
+    if(user.location.CountryId !== 1) {
+      user.location.StateId = null;
+      user.location.CityId = null;
+      Reflect.deleteProperty(user.location, 'city');
     }
 
     this.updateLocationName();
 
     if(form.$valid && !this.dateInvalid) {
       
-      if(this.hasPosition && this.user.positions[0].LevelId !== this.levelOtherId) {
-        Reflect.deleteProperty(this.user.positions[0], 'LevelOther');
+      if(this.hasPosition && user.positions[0].LevelId !== this.levelOtherId) {
+        user.positions[0].LevelOther = null;
+      }
+
+      if(user.personType.Description === 'Visitor' && user.OptionToKnowThePageId !== this.optionOtherId) {
+        user.OptionToKnowThePageOther = null;
       }
       
       var loading = this.Modal.showLoading();
@@ -334,7 +345,7 @@ export default class ProfileController {
           this.backupUser = {};
           this.$location.hash('myProfile');
           this.$anchorScroll();
-          this.user.positions[0].level = this.findLevel(this.user.positions[0].LevelId);
+          this.user.positions[0].level = this.findLevel(user.positions[0].LevelId);
         })
         .catch(err => {
           loading.close();
