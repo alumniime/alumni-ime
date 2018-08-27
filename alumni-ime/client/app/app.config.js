@@ -15,7 +15,7 @@ export function routeConfig($urlRouterProvider, $locationProvider, ngMetaProvide
   // ngMetaProvider.setDefaultTag('og:description', '');
   ngMetaProvider.setDefaultTag('og:type', 'website');
   ngMetaProvider.setDefaultTag('og:url', appConfig.url);
-  ngMetaProvider.setDefaultTag('og:image', `${appConfig.url}/assets/profiles/ime-building.jpg`);
+  ngMetaProvider.setDefaultTag('og:image', `${appConfig.url}/assets/images/ime-building.jpg`);
   ngMetaProvider.setDefaultTag('og:locale', 'pt_BR');
   ngMetaProvider.setDefaultTag('og:site_name', 'Alumni IME');
 
