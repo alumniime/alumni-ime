@@ -46,7 +46,7 @@ import viewProfile from './graduates/profile/profile.component';
 
 import './app.scss';
 
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'rw.moneymask', 'angucomplete-alt', 'ngYoutubeEmbed', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
   history, institutional, management, search, viewProfile
 ])

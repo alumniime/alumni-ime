@@ -73,9 +73,9 @@
       -->
 
       <div class="form-group">
-        <label for="Phone">TELEFONE*</label>
-        <input type="tel" id="Phone" name="Phone" placeholder="+55 (00) 00000-0000" mask="+99 (99) 9?9999-9999"
-               class="form-control"
+        <label for="Phone" class="d-block">TELEFONE*</label>
+        <input type="tel" id="Phone" name="Phone" ng-intl-tel-input
+               class="form-control ml-5"
                ng-model="vm.user.Phone" required>
         <!--<p class="help-block" ng-show="form.Phone.$error.required && vm.submitted">-->
         <!--Insira o seu telefone.-->

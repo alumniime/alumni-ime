@@ -16,7 +16,7 @@ import multer from 'multer';
 import $q from 'q';
 
 function respondWithResult(res, statusCode) {
-  statusCode = statusCode || 200;
+  statusCode = statusCode || 200; 
   return function (entity) {
     if(entity) {
       return res.status(statusCode)
@@ -93,7 +93,10 @@ export function index(req, res) {
       order: [
         ['OrderIndex', 'ASC'],
       ],
-      limit: 1
+      limit: 1,
+      where: {
+        IsExcluded: 0
+      }
     }, {
       model: User,
       attributes: ['name'],
@@ -134,7 +137,11 @@ export function show(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      attributes: ['Path', 'OrderIndex', 'Type']
+      attributes: ['Path', 'OrderIndex', 'Type'],
+      required: false,
+      where: {
+        IsExcluded: 0
+      }
     }, {
       model: User,
       attributes: ['name'],
@@ -186,7 +193,11 @@ export function preview(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      attributes: ['Path', 'OrderIndex', 'Type']
+      attributes: ['Path', 'OrderIndex', 'Type'],
+      required: false,
+      where: {
+        IsExcluded: 0
+      }
     }, {
       model: User,
       attributes: ['name'],
@@ -206,7 +217,7 @@ export function preview(req, res) {
       ProjectId: req.params.id,
       SubmissionerId: userId,
       IsApproved: 0,
-      IsExcluded: 0
+      // IsExcluded: 0
     }
   })
     .then(handleEntityNotFound(res))
@@ -221,7 +232,11 @@ export function me(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      attributes: ['Path', 'OrderIndex', 'Type']
+      attributes: ['Path', 'OrderIndex', 'Type'],
+      required: false,
+      where: {
+        IsExcluded: 0
+      }
     }, {
       model: User,
       attributes: ['name'],
@@ -240,7 +255,29 @@ export function me(req, res) {
     ],
     where: {
       SubmissionerId: userId,
-      IsExcluded: 0
+      // IsExcluded: 0 
+    }
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Gets a list with semesters
+export function menu(req, res) {
+  return Project.findAll({
+    attributes: [
+      'Year',
+      'Semester',
+      [sequelize.fn('COUNT', sequelize.col('ProjectId')), 'ProjectsNumber']
+    ],
+    group: ['Year', 'Semester'],
+    order: [
+      ['Year', 'DESC'],
+      ['Semester', 'DESC'],
+    ],
+    raw: true,
+    where: {
+      IsApproved: true
     }
   })
     .then(respondWithResult(res))
@@ -263,11 +300,17 @@ export function upload(req, res) {
     .array('files', 12); // maxImages = 12
 
   upload(req, res, function (err) {
+
     var project = Project.build(req.body.project);
+    var date = new Date();
+
     project.setDataValue('IsApproved', 0);
     project.setDataValue('IsExcluded', 0);
-    project.setDataValue('SubmissionDate', Date.now());
     project.setDataValue('SubmissionerId', req.user.PersonId);
+    // First semester: Dec to May, Second semester: Jun to Nov 
+    project.setDataValue('Semester', (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1); 
+    project.setDataValue('Year', date.getFullYear());
+    project.setDataValue('SubmissionDate', date.getTime());
 
     if(err) {
       console.log(err);
@@ -352,6 +395,8 @@ export function edit(req, res) {
               .then(images => {
 
                 var promises = [];
+
+                // TODO add promises waterfall
 
                 // Removing images that user have chose
                 var imagesToSave = req.body.savedImages;

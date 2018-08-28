@@ -12,6 +12,10 @@
   h5 {
     margin-bottom: 0;
     color: #333333;
+    a {
+      font-size: 16px;
+      display: inline-block;
+    }
   }
 
   .btn {
@@ -128,5 +132,26 @@
   table {
     font-size: 15px;
   }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
+  }
+
+  // tr {
+  //   width: max-content;
+  //   // display: inline-table;
+  //   // table-layout: fixed;
+  //   }
+    
+  //   table{
+  //    height:300px;              // <-- Select the height of the table
+  //    display: -moz-groupbox;    // Firefox Bad Effect
+  //   }
+  //   tbody{
+  //     overflow-y: scroll;      
+  //     height: 300px;            //  <-- Select the height of the body
+  //     width: max-content;
+  //     position: absolute;
+  //   }
 
 }

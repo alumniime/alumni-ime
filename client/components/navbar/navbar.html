@@ -76,9 +76,13 @@
                   </div>
                 </div>
               </li>
+              <!-- <li class="nav-item p-0" ui-sref-active="active"> -->
+                <!-- <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed" -->
+                   <!-- ui-sref="submission">SUBMETER PROJETO</a> -->
+              <!-- </li> -->
               <li class="nav-item p-0" ui-sref-active="active">
                 <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
-                   ui-sref="submission">SUBMETER PROJETO</a>
+                   ui-sref="search">ÁREA RESTRITA</a>
               </li>
               <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
                 <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
@@ -123,8 +127,14 @@
         <div class="row align-items-center justify-content-between" style="padding: 10px 0 10px">
 
           <ul class="nav ml-4" ng-if="$ctrl.isCollapsed">
-            <li class="nav-item p-0" ui-sref-active="active">
+            <!-- <li class="nav-item p-0" ui-sref-active="active">
               <a class="nav-link text-dark p-0" ui-sref="submission">SUBMETER PROJETO</a>
+            </li> -->
+            <li class="nav-item p-0" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+              <a class="nav-link text-dark p-0" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
+            </li>
+            <li class="nav-item p-0" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
+              <a class="nav-link text-dark p-0" ui-sref="profile">MEU PERFIL</a>
             </li>
           </ul>
 
@@ -163,7 +173,11 @@
                     </div>
                   </div>
                 </li>
-                <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+                <li class="nav-item p-0" ui-sref-active="active">
+                  <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+                     ui-sref="search">ÁREA RESTRITA</a>
+                </li>
+                  <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
                   <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin(); $ctrl.isCollapsed = !$ctrl.isCollapsed;" href="#">ENTRAR</a>
                 </li>
                 <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">

@@ -53,7 +53,7 @@ export class NavbarComponent {
 
   isCollapsed = true;
 
-  constructor(Auth, Modal, Util, appConfig, $state) {
+  constructor(Auth, Modal, Util, appConfig, $state, $http) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
@@ -64,6 +64,7 @@ export class NavbarComponent {
     this.Util = Util;
     this.appConfig = appConfig;
     this.$state = $state;
+    this.$http = $http;
   }
 
   $onInit() {
@@ -75,6 +76,23 @@ export class NavbarComponent {
         ga('send', 'event', 'authentication', 'user-id available');
         console.log(this.Util.SHA256(user.email));
       }
+    });
+
+    this.$http.get('/api/projects/menu')
+    .then(response => {
+      this.projectsMenu = response.data;
+      var dropdown = [];
+      for(var semester of this.projectsMenu) {
+        dropdown.push({
+          title: `APROVADOS ${semester.Year}.${semester.Semester}`,
+          state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
+        });
+      }
+      dropdown.push({
+        title: 'SUBMETER PROJETO',
+        state: 'submission'
+      })
+      this.menu[3].dropdown = dropdown;
     });
 
     if (this.appConfig.env === 'production') {

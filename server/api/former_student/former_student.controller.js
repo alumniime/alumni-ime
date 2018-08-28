@@ -48,7 +48,7 @@ function removeEntity(res) {
           .end());
     }
   };
-}
+} 
 
 function handleEntityNotFound(res) {
   return function (entity) {
@@ -64,6 +64,7 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function (err) {
+    console.log('former_student.controller =>\n', err);
     res.status(statusCode)
       .send(err);
   };
@@ -90,7 +91,7 @@ export function index(req, res) {
           as: 'engineering',
         }, {
           model: User,
-          attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
+          attributes: ['name', 'ImageURL', 'LinkedinProfileURL'],
           as: 'profile',
           required: false,
           where: {
@@ -112,16 +113,32 @@ export function index(req, res) {
 // Gets a list of available years to search
 export function years(req, res) {
   console.log(req.user);
-  return FormerStudent.findAll({
-    attributes: [
-      'GraduationYear',
-      [sequelize.fn('COUNT', sequelize.col('PersonId')), 'UsersNumber'],
-      [sequelize.fn('COUNT', sequelize.col('FormerStudentId')), 'TotalNumber']
-    ],
-    group: 'GraduationYear',
-    raw: true
+  User.find({
+    where: {
+      PersonId: req.user.PersonId,
+      PersonTypeId: [3, 4],
+      IsApproved: 1
+    }
   })
-    .then(respondWithResult(res))
+    .then(user => {
+      if(!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return FormerStudent.findAll({
+        attributes: [
+          'GraduationYear',
+          [sequelize.fn('COUNT', sequelize.col('PersonId')), 'UsersNumber'],
+          [sequelize.fn('COUNT', sequelize.col('FormerStudentId')), 'TotalNumber']
+        ],
+        group: 'GraduationYear',
+        raw: true
+      })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    
+    })
     .catch(handleError(res));
 }
 
@@ -153,6 +170,47 @@ export function industries(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a list of available locations to search
+export function locations(req, res) {
+  return FormerStudent.findAll({
+    attributes: [
+      'profile.location.LocationId',
+      [sequelize.fn('COUNT', sequelize.col('profile.PersonId')), 'UsersNumber']
+    ],
+    include: [{  
+      model: User,
+      attributes: [], 
+      as: 'profile',
+      include: [ {
+        model: Location,
+        as: 'location',
+        attributes: ['LinkedinName'],
+        include: [{
+          model: City,
+          as: 'city',
+          attributes: ['Description'],
+          include: [{
+            model: State,
+            attributes: ['Code'],
+            as: 'state'
+          }]
+        }, {
+          model: Country,
+          as: 'country',
+          attributes: ['Description']
+        }],
+      }],
+      where: {
+        IsApproved: 1
+      }
+    }],
+    group: 'profile.LocationId',
+    raw: true
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Gets a list of a single year with FormerStudents
 export function year(req, res) {
   User.find({
@@ -174,7 +232,7 @@ export function year(req, res) {
           as: 'engineering',
         }, {
           model: User,
-          attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
+          attributes: ['name', 'ImageURL', 'LinkedinProfileURL'],
           as: 'profile',
           include: [{
             model: Position,
@@ -333,6 +391,7 @@ export function show(req, res) {
           'name',
           'email',
           'Phone',
+          'ShowPhone',
           'ImageURL',
           'Birthdate',
           'LinkedinProfileURL',
@@ -374,7 +433,14 @@ export function search(req, res) {
       }
 
       var where = {};
+      var level = {};
+      var location = {};
+      var profile = {
+        IsApproved: 1
+      };
       var required = false;
+      var requiredLevel = false;
+      var requiredLocation = false;
 
       console.log(req.body);
 
@@ -382,13 +448,30 @@ export function search(req, res) {
         where.GraduationYear = req.body.GraduationYear;
       }
 
+      if(req.body.EngineeringId) { 
+        where.EngineeringId = req.body.EngineeringId;
+      }
+
+      if(req.body.LevelType) {
+        level.Type = req.body.LevelType;
+        required = true; 
+        requiredLevel = true;
+      }
+
       if(req.body.LevelId) {
-        where.profile.LevelId = req.body.LevelId;
+        level.LevelId = req.body.LevelId;
         required = true;
+        requiredLevel = true;
+      }  
+
+      if(req.body.LocationId) {
+        location = {LocationId: req.body.LocationId};
+        required = true;
+        requiredLocation = true;
       }
 
       if(req.body.IndustryId) {
-        where.profile.IndustryId = req.body.IndustryId;
+        profile.IndustryId = req.body.IndustryId;
         required = true;
       }
 
@@ -396,17 +479,27 @@ export function search(req, res) {
         where.Name = {$like: `%${req.body.name}%`};
       }
 
+      if(req.body.required) {
+        required = true;
+      } 
+      
+      console.log(where);
+      console.log(profile);
+
       return FormerStudent.findAll({
         include: [{
           model: Engineering,
           as: 'engineering',
         }, {
           model: User,
-          attributes: ['name', 'email', 'Phone', 'ImageURL', 'LinkedinProfileURL'],
+          attributes: ['name', 'ImageURL', 'LinkedinProfileURL', 'LocationId',
+          // ['positions.level.LevelId', 'positions.LevelId'],
+          // ['positions.LevelId', 'LevelId']
+        ],
           as: 'profile',
           include: [{
             model: Position,
-            attributes: ['PositionId'],
+            attributes: ['PositionId', 'LevelId'],
             where: {
               IsCurrent: 1
             },
@@ -418,8 +511,10 @@ export function search(req, res) {
               as: 'company',
             }, {
               model: Level,
-              attributes: ['Description', 'Type'],
+              attributes: ['LevelId', 'Description', 'Type'],
               as: 'level',
+              where: level, 
+              required: requiredLevel
             }, {
               model: Location,
               as: 'location',
@@ -432,7 +527,7 @@ export function search(req, res) {
                   model: State,
                   attributes: ['Code'],
                   as: 'state'
-                }]
+                }] 
               }, {
                 model: Country,
                 as: 'country',
@@ -443,7 +538,9 @@ export function search(req, res) {
             model: Location,
             as: 'location',
             attributes: ['LinkedinName'],
-            include: [{
+            where: location, 
+            required: requiredLocation,
+          include: [{
               model: City,
               as: 'city',
               attributes: ['Description'],
@@ -457,18 +554,20 @@ export function search(req, res) {
               as: 'country',
               attributes: ['Description']
             }],
-          }],
+          }], 
           required: required,
-          where: {
-            IsApproved: 1
-          }
+          where: profile
         }],
-        where: where
+        where: where,
+        order: [
+          ['Name', 'ASC']
+        ],
+        // limit: 200
       })
         .then(respondWithResult(res))
         .catch(handleError(res));
     })
-    .catch(handleError(res));
+    .catch(handleError(res)); 
 }
 
 // Creates a new FormerStudent in the DB

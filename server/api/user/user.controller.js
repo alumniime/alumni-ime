@@ -22,6 +22,7 @@ function validationError(res, statusCode) {
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function (err) {
+    console.log('user.controller =>\n', err);
     return res.status(statusCode)
       .send(err);
   };
@@ -579,6 +580,7 @@ export function me(req, res, next) {
       'Birthdate',
       'Genre',
       'Phone',
+      'ShowPhone',
       'FullName',
       'Headline',
       'LocationId',
@@ -587,6 +589,8 @@ export function me(req, res, next) {
       'GraduationYear',
       'ProfessorSEId',
       'InitiativeLinkOther',
+      'OptionToKnowThePageId',
+      'OptionToKnowThePageOther',
       'IsApproved'
     ],
     where: {
@@ -632,13 +636,17 @@ export function sendConfirmation(req, res, next) {
     },
     function (user, done) {
       // create the random token
-      crypto.randomBytes(20, function (err, buffer) {
-        var token = buffer.toString('hex');
-        if(config.env === 'development') {
-          console.log(token);
-        }
-        done(err, user, token);
-      });
+      if(!user.ConfirmEmailToken) {
+        crypto.randomBytes(20, function (err, buffer) {
+          var token = buffer.toString('hex');
+          if(config.env === 'development') {
+            console.log(token);
+          }
+          done(err, user, token);
+        });
+      } else {
+        done(null, user, user.ConfirmEmailToken);
+      }
     },
     function (user, token, done) {
       user.update({ConfirmEmailToken: token, ConfirmEmailExpires: Date.now() + 86400000})
@@ -698,7 +706,7 @@ export function confirmEmail(req, res, next) {
           .json({message: 'User not found.'});
       }
 
-      if(user.ConfirmEmailExpires > Date.now()) {
+      if(user.ConfirmEmailExpires) { // > Date.now()
         user.update({EmailVerified: true})
           .then(newUser => {
             // redirect user to complete his registry

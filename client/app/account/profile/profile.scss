@@ -23,7 +23,7 @@
     font-size: 16px;
   }
 
-  li {
+  li.nav-item {
     margin-right: 30px;
     @include media-breakpoint-down(md) {
       margin-right: 0;
@@ -38,7 +38,7 @@
     }
   }
 
-  li:hover, li.active {
+  li.nav-item:hover, li.nav-item.active {
     margin-bottom: 8px;
     border-bottom: 3px #E84E0F solid;
     .nav-link {
@@ -156,6 +156,18 @@
   .btn-outline-danger:hover, .btn-outline-danger.active{
     color: #fafafa;
     background: rgb(199, 66, 14);
+  }
+
+  .intl-tel-input {
+    width: 100%;
+    margin-bottom: 10px;
+    input {
+      width: -webkit-fill-available;
+    }
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
   }
 
 }

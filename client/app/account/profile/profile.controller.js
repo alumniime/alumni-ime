@@ -28,6 +28,10 @@ export default class ProfileController {
   dateInvalid = false;
   Birthdate = '';
   locationName = '';
+  levelType = null;
+  hasPosition = true;
+  levelOtherId = null;
+  optionOtherId = null;
 
   constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Modal) {
     'ngInject';
@@ -50,6 +54,10 @@ export default class ProfileController {
       this.personTypeId = this.user.PersonTypeId;
       this.Birthdate = this.$filter('date')(this.user.Birthdate, 'dd/MM/yyyy');
       this.PersonId = user.PersonId;
+      this.levelType = (this.user.positions && this.user.positions.length > 0 && this.user.positions[0].level) ? this.user.positions[0].level.Type : null;
+      if((this.user.personType.Description === 'Student' || this.user.personType.Description === 'DropStudent') && !(this.user.positions && this.user.positions.length > 0)) {
+        this.hasPosition = false;
+      }
       if(!this.user.location) {
         this.user.location = {
           CountryId: 1
@@ -79,11 +87,21 @@ export default class ProfileController {
       this.$http.get('/api/option_to_know_types')
         .then(response => {
           this.optionsToKnowList = response.data;
+          for(var option of this.optionsToKnowList){
+            if(option.Description === 'Outros') {
+              this.optionOtherId = option.OptionTypeId;
+            }
+          }
         });
 
       this.$http.get('/api/industries')
         .then(response => {
           this.industriesList = response.data;
+        });
+
+      this.$http.get('/api/company_types')
+        .then(response => {
+          this.companyTypesList = response.data;
         });
 
       this.$http.get(`/api/countries`)
@@ -114,11 +132,25 @@ export default class ProfileController {
             });
         });
 
+      this.$http.get(`/api/levels`)
+        .then(response => {
+          this.levelsList = response.data;
+          for(var level of this.levelsList){
+            if(level.Description === 'Outro') {
+              this.levelOtherId = level.LevelId;
+            }
+          }
+        });
+
       this.graduationYears = [];
       var today = new Date();
       for(var i = 1950; i <= today.getFullYear() + 4; i++) {
         this.graduationYears.push(i);
       }
+
+      var date = new Date();
+      this.year = date.getFullYear();  
+  
       this.Project.loadMyProjects(false);
       this.Donation.loadMyDonations(false);
 
@@ -172,12 +204,14 @@ export default class ProfileController {
     this.editFields = !this.editFields;
     this.backupUser = angular.copy(this.user);
     this.messageUpdate = '';
+    this.$anchorScroll('top');
   }
 
   cancelEdit() {
     this.editFields = !this.editFields;
     this.user = angular.copy(this.backupUser);
     this.messageUpdate = '';
+    this.$anchorScroll('top');
   }
 
   updatePersonType(PersonTypeId) {
@@ -277,32 +311,50 @@ export default class ProfileController {
     this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
 
     var user = angular.copy(this.user);
-    Reflect.deleteProperty(user, 'positions');
+    
+    if(!this.hasPosition) {
+      Reflect.deleteProperty(user, 'positions');
+    }
 
-    if(this.user.location.CountryId !== 1) {
-      this.user.location.StateId = null;
-      this.user.location.CityId = null;
-      Reflect.deleteProperty(this.user.location, 'city');
+    if(user.location.CountryId !== 1) {
+      user.location.StateId = null;
+      user.location.CityId = null;
+      Reflect.deleteProperty(user.location, 'city');
     }
 
     this.updateLocationName();
 
     if(form.$valid && !this.dateInvalid) {
+      
+      if(this.hasPosition && user.positions[0].LevelId !== this.levelOtherId) {
+        user.positions[0].LevelOther = null;
+      }
+
+      if(user.personType.Description === 'Visitor' && user.OptionToKnowThePageId !== this.optionOtherId) {
+        user.OptionToKnowThePageOther = null;
+      }
+      
       var loading = this.Modal.showLoading();
       return this.Auth.updateById(this.PersonId, user)
         .then(() => {
           // Account updated
           loading.close();
+          this.submittedUpdate = false;
           this.messageUpdate = 'Dados alterados com sucesso!';
           this.editFields = false;
           this.backupUser = {};
           this.$location.hash('myProfile');
           this.$anchorScroll();
+          this.user.positions[0].level = this.findLevel(user.positions[0].LevelId);
         })
         .catch(err => {
           loading.close();
           this.user = angular.copy(this.backupUser);
           this.errors.update = err.data;
+          this.errors.update = 'Não foi possível atualizar os dados. Por favor, tente novamente.';
+          if(err.data.error.code === 'ETIMEDOUT') {
+            this.errors.update = 'Não foi possível enviar os dados para o banco de dados. Por favor, tente novamente.';
+          }
           this.messageUpdate = '';
         });
     }
@@ -324,6 +376,15 @@ export default class ProfileController {
           this.messagePassword = '';
         });
     }
+  }
+
+  findLevel(levelId) {
+    for(var level of this.levelsList) {
+      if(level.LevelId === levelId) {
+        return level;
+      }
+    }
+    return this.user.positions[0].level;
   }
 
   openProject(project) {

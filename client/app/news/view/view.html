@@ -72,7 +72,7 @@
         <div class="card-body">
           <div class="card-title">Projetos em destaque</div>
 
-          <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: '-Views' | limitTo: 2"
+          <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: ['-Year', '-Semester', '-Views'] | limitTo: 2"
              ui-sref="project({ProjectId: project.ProjectId, PrettyURL: vm.Util.convertToSlug(project.ProjectName), preview: false, forceReload: false})">
             <img class="img-fluid m-auto" alt="Featured project" ng-src="{{project.images[0].Path}}">
             <h5 class="project-title">{{project.ProjectName}}</h5>

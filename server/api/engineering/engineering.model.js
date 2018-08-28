@@ -19,6 +19,10 @@ export default function(sequelize, DataTypes) {
     Description: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    Legend: {
+      type: DataTypes.STRING(100),
+      allowNull: false
     }
   }, {
     tableName: 'Engineering'

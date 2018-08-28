@@ -1,9 +1,9 @@
 <div class="container showView">
-  <h5 class="page-title">Aprovados 2018.1</h5>
+  <h5 class="page-title">Aprovados {{vm.Year}}.{{vm.Semester}}</h5>
 
   <div class="card-deck project-deck">
 
-    <div class="col-12 col-md-6 col-lg-4 pl-0 pr-0 pr-md-4" ng-repeat="project in vm.Project.list">
+    <div class="col-12 col-md-6 col-lg-4 pl-0 pr-0 pr-md-4" ng-repeat="project in vm.Project.list | filter: {Year: vm.Year, Semester: vm.Semester}">
       <a class="card project-card mb-3 c-pointer"
            ui-sref="project({ProjectId: project.ProjectId, PrettyURL: vm.Util.convertToSlug(project.ProjectName), preview: false, forceReload: false})">
         <div class="card-img-top" ng-if="project.images[0].Path">
@@ -15,7 +15,7 @@
             <label>por {{project.TeamName}}</label>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" ng-if="project.CollectedPriceInCents > 0">
             <label>ARRECADADO</label>
             <div class="row">
               <div class="col-8">
@@ -30,6 +30,16 @@
             <div class="progress mt-2">
               <div class="progress-bar progress-bar-custom" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                    style="width: {{project.CollectedPriceInCents/project.EstimatedPriceInCents*100}}%;">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" ng-if="project.CollectedPriceInCents <= 0">
+            <label>ORÇAMENTO</label>
+            <div class="row">
+              <div class="col-8">
+                <input type="text" class="form-control-plaintext pb-0" readonly
+                       value="{{project.EstimatedPriceInCents/100 | currency}}">
               </div>
             </div>
           </div>

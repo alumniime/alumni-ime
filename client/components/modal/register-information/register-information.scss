@@ -162,4 +162,11 @@ modal-register-information {
     font-size: 22px !important;
   }
 
+  .intl-tel-input {
+    width: 100%;
+    input {
+      width: -webkit-fill-available;
+    }
+  }
+
 }

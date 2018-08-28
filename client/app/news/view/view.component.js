@@ -8,7 +8,7 @@ import routes from './view.routes';
 export class ViewController {
   news = {};
 
-  constructor(Modal, $state, $stateParams, News, Project, Util, ngMeta, $anchorScroll) {
+  constructor(Modal, $state, $stateParams, News, Project, Util, ngMeta, appConfig, $anchorScroll) {
     'ngInject';
 
     this.$state = $state;
@@ -18,6 +18,7 @@ export class ViewController {
     this.Project = Project;
     this.Util = Util;
     this.ngMeta = ngMeta;
+    this.appConfig = appConfig;
     this.$anchorScroll = $anchorScroll;
   }
 
@@ -31,6 +32,7 @@ export class ViewController {
 
           this.ngMeta.setTitle(news.Title);
           this.ngMeta.setTag('description', news.Subtitle);
+          this.ngMeta.setTag('og:image', `${this.appConfig.url}/${news.constructions[0].images[0].Path}`);
 
           this.news = news;
           this.Project.load();

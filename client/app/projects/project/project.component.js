@@ -16,7 +16,7 @@ export class ProjectController {
   previewMode = false;
   acceptDonation = true;
 
-  constructor(Auth, Modal, $state, $stateParams, Project, Donation, Util, ngMeta, $anchorScroll) {
+  constructor(Auth, Modal, $state, $stateParams, Project, Donation, Util, ngMeta, appConfig, $anchorScroll) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUserSync;
@@ -27,6 +27,7 @@ export class ProjectController {
     this.Donation = Donation;
     this.Util = Util;
     this.ngMeta = ngMeta;
+    this.appConfig = appConfig;
     this.$anchorScroll = $anchorScroll;
   }
 
@@ -42,6 +43,7 @@ export class ProjectController {
           this.ngMeta.setTitle(project.ProjectName);
           this.ngMeta.setTag('description', project.Abstract.slice(0, 200));
           this.ngMeta.setTag('author', project.leader.name);
+          this.ngMeta.setTag('og:image', `${this.appConfig.url}/${project.images[0].Path}`);
 
           this.project = project;
           var conclusionDate = new Date(this.project.ConclusionDate);

@@ -15,7 +15,7 @@ export default class SubmissionController {
   dateInvalid = false;
   ConclusionDate = '';
 
-  constructor(Auth, Project, $http, $state, Modal, $window, Upload) {
+  constructor(Auth, Project, $http, $state, Modal, $window, Upload, appConfig) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -25,7 +25,7 @@ export default class SubmissionController {
     this.Modal = Modal;
     this.$window = $window;
     this.Upload = Upload;
-
+    this.appConfig = appConfig;    
   }
 
   $onInit() {
@@ -49,13 +49,17 @@ export default class SubmissionController {
       .then(user => {
         this.user = user;
         loading.close();
-        if(!user.PersonId) {
-          this.Modal.openLogin();
-        } else if(user.PersonTypeId === 2 || user.PersonTypeId === 4 || user.PersonTypeId === 5) {
-          this.project.SubmissionerId = user.PersonId;
+        if(this.appConfig.submission) {
+          if(!user.PersonId) {
+            this.Modal.openLogin();
+          } else if(user.PersonTypeId === 2 || user.PersonTypeId === 4 || user.PersonTypeId === 5) {
+            this.project.SubmissionerId = user.PersonId;
+          } else {
+            // User can't submit a project
+            this.Modal.showAlert('Submissão indisponível', 'Apenas alunos e professores podem submeter projetos para a avaliação.');
+          }
         } else {
-          // User can't submit a project
-          this.Modal.showAlert('Submissão indisponível', 'Apenas alunos e professores podem submeter projetos para a avaliação.');
+          this.Modal.showAlert('Submissão indisponível', 'O período de submissão de projetos para este semestre foi encerrado.');
         }
       });
 
@@ -79,58 +83,62 @@ export default class SubmissionController {
     this.errors.projects = undefined;
     console.log(form);
 
-    if(!this.user.PersonId) {
-      // User needs to login
-      this.Modal.openLogin();
-    } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 4 || this.user.PersonTypeId === 5) {
+    if(this.appConfig.submission) {
+      if(!this.user.PersonId) {
+        // User needs to login
+        this.Modal.openLogin();
+      } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 4 || this.user.PersonTypeId === 5) {
 
-      if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
+        if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
 
-        this.project.EstimatedPriceInCents *= 100;
-        var date = this.ConclusionDate.split('/');
-        this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
+          this.project.EstimatedPriceInCents *= 100;
+          var date = this.ConclusionDate.split('/');
+          this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
 
-        var loading = this.Modal.showLoading();
+          var loading = this.Modal.showLoading();
 
-        var this_ = this;
-        this.Upload.upload({
-          url: '/api/projects/upload',
-          arrayKey: '',
-          data: {
-            files: this.uploadImages,
-            project: this.project
-          }
-        })
-          .then(function success(result) {
-            loading.close();
-            console.log(result);
-            if(result.data.errorCode === 0) {
-              this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
-              this_.$state.go('profile', {view: 'submitted_projects'});
-              this_.Project.loadMyProjects(true);
-              this_.submitted = false;
-              this_.uploadImages = [];
-              this_.ConclusionDate = '';
-            } else {
-              this_.Modal.showAlert('Erro na submissão', 'Por favor, tente novamente.');
+          var this_ = this;
+          this.Upload.upload({
+            url: '/api/projects/upload',
+            arrayKey: '',
+            data: {
+              files: this.uploadImages,
+              project: this.project
             }
-          }, function error(err) {
-            loading.close();
-            console.log('Error: ' + err);
-            this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
-            this_.errors.projects = err.message;
-          }, function event(evt) {
-            console.log(evt);
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ');
-            this_.progress = 'progress: ' + progressPercentage + '% ';
-          });
+          })
+            .then(function success(result) {
+              loading.close();
+              console.log(result);
+              if(result.data.errorCode === 0) {
+                this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
+                this_.$state.go('profile', {view: 'submitted_projects'});
+                this_.Project.loadMyProjects(true);
+                this_.submitted = false;
+                this_.uploadImages = [];
+                this_.ConclusionDate = '';
+              } else {
+                this_.Modal.showAlert('Erro na submissão', 'Por favor, tente novamente.');
+              }
+            }, function error(err) {
+              loading.close();
+              console.log('Error: ' + err);
+              this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
+              this_.errors.projects = err.message;
+            }, function event(evt) {
+              console.log(evt);
+              var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+              console.log('progress: ' + progressPercentage + '% ');
+              this_.progress = 'progress: ' + progressPercentage + '% ';
+            });
 
+        }
+
+      } else {
+        // User can't submit a project
+        this.Modal.showAlert('Submissão indisponível', 'Apenas alunos e professores podem submeter projetos para a avaliação.');
       }
-
     } else {
-      // User can't submit a project
-      this.Modal.showAlert('Submissão indisponível', 'Apenas alunos e professores podem submeter projetos para a avaliação.');
+      this.Modal.showAlert('Submissão indisponível', 'O período de submissão de projetos para este semestre foi encerrado.');
     }
 
   }

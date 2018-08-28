@@ -7,9 +7,9 @@
         <h5 class="page-title">
           {{vm.project.ProjectName}}
           <i class="fa fa-pencil pull-right c-pointer" uib-tooltip="Editar projeto" tooltip-placement="bottom"
-             ng-if="vm.previewMode || !vm.project.IsApproved" ng-click="vm.editProject(vm.project)"></i>
+             ng-if="(vm.previewMode || (!vm.project.IsApproved && !project.IsExcluded)) && vm.project.SubmissionerId === vm.getCurrentUser().PersonId" ng-click="vm.editProject(vm.project)"></i>
           <i class="fa fa-line-chart pull-right c-pointer" ng-click="vm.insertResult(vm.project)"
-             ng-if="vm.project.IsApproved &&vm.project.SubmissionerId === vm.getCurrentUser().PersonId && !vm.previewMode"
+             ng-if="vm.project.IsApproved && vm.project.SubmissionerId === vm.getCurrentUser().PersonId && !vm.previewMode"
              uib-tooltip="{{vm.project.Results ? 'Editar resultado' : 'Inserir resultado'}}"
              tooltip-placement="bottom"></i>
         </h5>
@@ -88,7 +88,7 @@
               </div>
             </div>
 
-            <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto já foi encerrada' : ''}}"
+            <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
                  tooltip-placement="bottom">
               <a class="btn btn-danger m-auto" href="#" ng-class="{'disabled': !vm.acceptDonation}"
                  ui-sref="donate({ProjectId: vm.project.ProjectId, PrettyURL: vm.Util.convertToSlug(vm.project.ProjectName)})">
@@ -304,7 +304,7 @@
             </div>
           </div>
 
-          <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto já foi encerrada' : ''}}"
+          <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
                tooltip-placement="bottom">
             <a class="btn btn-danger m-auto" href="#" ng-class="{'disabled': !vm.acceptDonation}"
                ui-sref="donate({ProjectId: vm.project.ProjectId, PrettyURL: vm.Util.convertToSlug(vm.project.ProjectName)})">

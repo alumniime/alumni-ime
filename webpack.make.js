@@ -52,6 +52,10 @@ module.exports = function makeWebpackConfig(options) {
         'ng-meta/dist/ngMeta.min',
         'ng-mask/dist/ngMask.min',
         'ng-money-mask/rw-money-mask',
+        'ng-intl-tel-input/dist/ng-intl-tel-input.min',
+        'ng-intl-tel-input/ng-intl-tel-input.module',
+        'ng-intl-tel-input/ng-intl-tel-input.provider',
+        'ng-intl-tel-input/ng-intl-tel-input.directive',
         'angular-i18n/angular-locale_pt-br',
         'angucomplete-alt/dist/angucomplete-alt.min',
         'ng-youtube-embed/build/ng-youtube-embed.min',
@@ -203,6 +207,7 @@ module.exports = function makeWebpackConfig(options) {
         // path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/stylesheets/*.scss'),
         path.resolve(__dirname, 'node_modules/bootstrap/scss/*.scss'),
         path.resolve(__dirname, 'node_modules/ng-img-crop/compile/minified/ng-img-crop.css'),
+        path.resolve(__dirname, 'node_modules/intl-tel-input/build/css/intlTelInput.min.css'),
         path.resolve(__dirname, 'client/app/app.scss')
       ]
 

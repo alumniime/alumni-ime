@@ -88,6 +88,14 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
+    Year: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
+    },
+    Semester: {
+      type: DataTypes.INTEGER(4),
+      allowNull: true
+    },
     Views: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
