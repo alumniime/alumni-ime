@@ -1,12 +1,42 @@
 <div class="container adminView">
-  <p>The delete user and user index api routes are restricted to users with the 'admin' role.</p>
-  <ul class="list-group user-list">
-    <li class="list-group-item" ng-repeat="user in admin.users">
-	    <div class="user-info">
-	        <strong>{{user.name}}</strong><br>
-	        <span class="text-muted">{{user.email}}</span>
-	    </div>
-        <a ng-click="admin.delete(user)" class="trash"><span class="fa fa-trash fa-2x"></span></a>
-    </li>
-  </ul>
+  <h5 class="page-title pb-2">Aprovações de Ex-Alunos Pendentes</h5>
+
+  <table class="table table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome Completo</th>
+      <th scope="col">Base</th>
+      <!-- <th scope="col">Email</th> -->
+      <th scope="col">Turma</th>
+      <th scope="col">Base</th>
+      <th scope="col">Engenharia</th>
+      <th scope="col">Base</th>
+      <th scope="col">Cadastro</th>
+      <th scope="col">Atividade</th>
+      <!-- <th scope="col">Deletar</th> -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in admin.users" 
+        ng-class="{'table-success': admin.verifyFields(user), 'table-danger': !admin.verifyFields(user)}">
+      <th scope="row">{{user.PersonId}}</th>
+      <td>{{user.FullName}}</td>
+      <td>{{user.former[0].Name}}</td>
+      <!-- <td>{{user.email}}</td> -->
+      <td>{{user.GraduationYear}}</td>
+      <td>{{user.former[0].GraduationYear}}</td>
+      <td>{{user.engineering.Legend}}</td>
+      <td>{{user.former[0].engineering.Legend}}</td>
+      <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+      <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+      <!-- <td>
+        <a ng-click="admin.delete(user)" class="trash" href="#"><span class="fa fa-trash"></span></a>
+      </td> -->
+    </tr>
+    </tbody>
+  </table>
+
+
+
 </div>

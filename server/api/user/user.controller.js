@@ -2,7 +2,7 @@
 
 import {
   User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
-  Image, Position, Company, Location, City, State, Level, Industry, Country
+  Image, Position, Company, Location, City, State, Level, Industry, Country, FormerStudent
 } from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
@@ -53,9 +53,35 @@ export function index(req, res) {
       'PersonTypeId',
       'name',
       'email',
-      'role',
-      'provider'
-    ]
+      'provider',
+      'FullName',
+      'GraduationYear',
+      'LastActivityDate',
+      'IsApproved'
+    ],
+    include: [{
+      model: Engineering,
+      as: 'engineering'
+    }, {
+      model: PersonType,
+      as: 'personType',
+      attributes: ['Description', 'PortugueseDescription']
+    }, {
+      model: FormerStudent,
+      as: 'former',
+      attributes: ['FormerStudentId', 'PersonId', 'Name', 'GraduationYear', 'EngineeringId'],
+      include: [{
+        model: Engineering,
+        as: 'engineering'
+      }]
+    }],
+    where: {
+      PersonTypeId: [3, 4],
+      IsApproved: 0
+    },
+    order: [
+      ['LastActivityDate', 'DESC']
+    ],
   })
     .then(users => {
       res.status(200)
