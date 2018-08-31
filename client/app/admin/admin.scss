@@ -6,4 +6,17 @@
     font-size: 15px;
   }
 
+  a.text-dark:hover, a.text-dark:focus, a.text-dark.active {
+    color: #E84E0F !important;
+  }
+
+  .btn {
+    display: inherit;
+    font-size: 14px;
+    height: 45px;
+    border-radius: 30px;
+    min-width: 200px;
+    padding-top: 10px;
+  }
+
 }

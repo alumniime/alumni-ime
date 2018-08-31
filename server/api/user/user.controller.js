@@ -11,6 +11,17 @@ import async from 'async';
 import crypto from 'crypto';
 import multer from 'multer';
 
+function respondWithResult(res, statusCode) {
+  statusCode = statusCode || 200;
+  return function (entity) {
+    if(entity) {
+      return res.status(statusCode)
+        .json(entity);
+    }
+    return null;
+  };
+}
+
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function (err) {
@@ -80,7 +91,7 @@ export function index(req, res) {
       IsApproved: 0
     },
     order: [
-      ['LastActivityDate', 'DESC']
+      ['LastActivityDate', 'DESC'] 
     ],
   })
     .then(users => {
@@ -401,21 +412,107 @@ export function upload(req, res) {
  * Get a single user
  */
 export function show(req, res, next) {
-  var userId = req.params.id;
 
   return User.find({
+    include: [{
+      model: Engineering,
+      as: 'engineering'
+    }, {
+      model: PersonType,
+      as: 'personType'
+    }, {
+      model: Se,
+      as: 'se'
+    }, {
+      model: Industry,
+      as: 'industry'
+    }, {
+      model: InitiativeLink,
+      as: 'userInitiativeLinks',
+      include: [{
+        model: Initiative,
+        as: 'initiative'
+      }]
+    }, {
+      model: FormerStudent,
+      as: 'former',
+      attributes: ['FormerStudentId', 'PersonId', 'Name', 'GraduationYear', 'EngineeringId'],
+      include: [{
+        model: Engineering,
+        as: 'engineering'
+      }]
+    }, {
+      model: Position,
+      where: {IsCurrent: true},
+      required: false,
+      as: 'positions',
+      limit: 1,
+      include: [{
+        model: Company,
+        attributes: ['Name', 'CompanyTypeId'],
+        as: 'company',
+      }, {
+        model: Level,
+        attributes: ['Description', 'Type'],
+        as: 'level',
+      }, {
+        model: Location,
+        attributes: ['CountryId', 'StateId', 'CityId'],
+        as: 'location',
+        include: [{
+          model: City,
+          attributes: ['Description', 'IBGEId', 'StateId'],
+          as: 'city',
+          include: [{
+            model: State,
+            attributes: ['Code'],
+            as: 'state'
+          }]
+        }],
+      }],
+    }, {
+      model: Location,
+      as: 'location',
+      attributes: ['LocationId'],
+      include: [{
+        model: City,
+        as: 'city',
+        include: [{
+          model: State,
+          attributes: ['Code'],
+          as: 'state'
+        }]
+      }, {
+        model: Country,
+        as: 'country'
+      }],
+    }],
+    attributes: [
+      'PersonId',
+      'PersonTypeId',
+      'name',
+      'email',
+      'Phone',
+      'ImageURL',
+      'Birthdate',
+      'LinkedinProfileURL',
+      'FullName',
+      'Headline',
+      'LocationId',
+      'IndustryId',
+      'GraduationEngineeringId',
+      'GraduationYear',
+      'ProfessorSEId',
+      'InitiativeLinkOther',
+      'IsApproved'
+    ],
     where: {
-      PersonId: userId
+      PersonId: req.params.id
     }
   })
-    .then(user => {
-      if(!user) {
-        return res.status(404)
-          .end();
-      }
-      res.json(user.profile);
-    })
-    .catch(err => next(err));
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+
 }
 
 /**

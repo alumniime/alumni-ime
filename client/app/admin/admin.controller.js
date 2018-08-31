@@ -2,9 +2,10 @@
 
 export default class AdminController {
   /*@ngInject*/
-  constructor(User, Util) {
+  constructor(User, Util, Modal) {
     this.Util = Util;
     this.User = User;
+    this.Modal = Modal;
   }
   
   $onInit() {
@@ -13,9 +14,13 @@ export default class AdminController {
   }
 
   verifyFields(user) {
-    return (this.Util.convertToSlug(user.FullName) === this.Util.convertToSlug(user.former[0].Name)
-            && user.GraduationYear === user.former[0].GraduationYear 
-            && user.engineering.EngineeringId === user.former[0].engineering.EngineeringId);
+    return (user.former[0] && this.Util.convertToSlug(user.FullName) === this.Util.convertToSlug(user.former[0].Name)
+          && user.GraduationYear === user.former[0].GraduationYear 
+          && user.engineering.EngineeringId === user.former[0].engineering.EngineeringId);
+  }
+
+  openProfile(personId) {
+    this.Modal.openProfile(personId);
   }
 
   delete(user) {
