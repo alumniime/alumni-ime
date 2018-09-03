@@ -570,6 +570,49 @@ export function search(req, res) {
     .catch(handleError(res)); 
 }
 
+// Autocomplete for admin search
+export function complete(req, res) {
+  console.log(req.user);
+  User.find({
+    where: {
+      PersonId: req.user.PersonId,
+      role: 'admin',
+      IsApproved: 1
+    }
+  })
+    .then(user => {
+      if(!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return FormerStudent.findAll({
+        attributes: ['FormerStudentId', 'PersonId', 'Name', 'GraduationYear', 'EngineeringId'],
+        include: [{
+          model: Engineering,
+          as: 'engineering'
+        }], 
+        where: {
+          $or: [{
+            Name: {$like: `%${req.params.name}%`},
+            GraduationYear: req.params.year
+          }, {
+            Name: {$like: `%${req.params.name}%`},
+            $not: [{GraduationYear: req.params.year}]
+          }]          
+        },
+        order: [
+          [sequelize.literal(`(GraduationYear - ${req.params.year})*(GraduationYear - ${req.params.year})`), 'ASC'],
+          ['Name', 'ASC']
+        ],
+        limit: 10
+      })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    })
+    .catch(handleError(res));
+}
+
 // Creates a new FormerStudent in the DB
 export function create(req, res) {
   return FormerStudent.create(req.body)
