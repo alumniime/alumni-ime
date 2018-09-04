@@ -10,7 +10,10 @@ export default class AdminController {
   
   $onInit() {
     // Use the User $resource to fetch all users
-    this.users = this.User.query();
+    var loading = this.Modal.showLoading();
+    this.users = this.User.query(() => {
+        loading.close();
+      });
   }
 
   verifyFields(user) {

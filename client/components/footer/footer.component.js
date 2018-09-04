@@ -31,8 +31,8 @@ export class FooterComponent {
       })
         .then(res => {
           console.log(res);
-loading.close();
-this.Modal.showAlert('Email enviado!', 'Por favor, aguarde que lhe responderemos em breve.');
+          loading.close();
+          this.Modal.showAlert('Email enviado!', 'Por favor, aguarde que lhe responderemos em breve.');
           this.name = '';
           this.email = '';
           this.message = '';

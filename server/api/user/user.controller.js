@@ -10,6 +10,7 @@ import transporter from '../../email';
 import async from 'async';
 import crypto from 'crypto';
 import multer from 'multer';
+import $q from 'q';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -67,6 +68,7 @@ export function index(req, res) {
       'provider',
       'FullName',
       'GraduationYear',
+      'LinkedinProfileURL',
       'LastActivityDate',
       'IsApproved'
     ],
@@ -99,6 +101,40 @@ export function index(req, res) {
         .json(users);
     })
     .catch(handleError(res));
+}
+
+/**
+ * Approve an user and associate him with a former student
+ * restriction: 'admin'
+ */
+export function approve(req, res) {
+  var promises = [];
+
+  if(req.body.person && req.body.person.PersonId) {
+    promises.push(User.update(req.body.person, {
+      where: {
+        PersonId: req.body.person.PersonId
+      }
+    }));  
+  }
+
+  if(req.body.former && req.body.former.FormerStudentId) {
+    promises.push(FormerStudent.update(req.body.former, {
+      where: {
+        FormerStudentId: req.body.former.FormerStudentId
+      }
+    }));  
+  }
+
+  $q.all(promises)
+  .then(() => {
+    res.status(200).json({errorCode: 0, errorDesc: null});
+  })
+  .catch(err => {
+    console.log(err);
+    handleError(res);
+  });
+  
 }
 
 /**

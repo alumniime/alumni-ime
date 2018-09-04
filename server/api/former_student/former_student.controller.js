@@ -572,44 +572,28 @@ export function search(req, res) {
 
 // Autocomplete for admin search
 export function complete(req, res) {
-  console.log(req.user);
-  User.find({
+  return FormerStudent.findAll({
+    attributes: ['FormerStudentId', 'PersonId', 'Name', 'GraduationYear', 'EngineeringId'],
+    include: [{
+      model: Engineering,
+      as: 'engineering'
+    }], 
     where: {
-      PersonId: req.user.PersonId,
-      role: 'admin',
-      IsApproved: 1
-    }
+      $or: [{
+        Name: {$like: `%${req.params.name}%`},
+        GraduationYear: req.params.year
+      }, {
+        Name: {$like: `%${req.params.name}%`},
+        $not: [{GraduationYear: req.params.year}]
+      }]          
+    },
+    order: [
+      [sequelize.literal(`(GraduationYear - ${parseInt(req.params.year)})*(GraduationYear - ${parseInt(req.params.year)})`), 'ASC'],
+      ['Name', 'ASC']
+    ],
+    limit: 10
   })
-    .then(user => {
-      if(!user) {
-        return res.status(403)
-          .send('Forbidden');
-      }
-
-      return FormerStudent.findAll({
-        attributes: ['FormerStudentId', 'PersonId', 'Name', 'GraduationYear', 'EngineeringId'],
-        include: [{
-          model: Engineering,
-          as: 'engineering'
-        }], 
-        where: {
-          $or: [{
-            Name: {$like: `%${req.params.name}%`},
-            GraduationYear: req.params.year
-          }, {
-            Name: {$like: `%${req.params.name}%`},
-            $not: [{GraduationYear: req.params.year}]
-          }]          
-        },
-        order: [
-          [sequelize.literal(`(GraduationYear - ${req.params.year})*(GraduationYear - ${req.params.year})`), 'ASC'],
-          ['Name', 'ASC']
-        ],
-        limit: 10
-      })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-    })
+    .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
