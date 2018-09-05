@@ -7,6 +7,7 @@ import ModalSentConfirmationController from './sent-confirmation/sent-confirmati
 import ModalCompletedRegistrationController from './completed-registration/completed-registration.controller';
 import ModalRegisterInformationController from './register-information/register-information.controller';
 import ModalAlertController from './alert/alert.controller';
+import ModalDialogController from './dialog/dialog.controller';
 import ModalPhotoController from './photo/photo.controller';
 import ModalLoadingController from './loading/loading.controller';
 import ModalSentReceiptController from './sent-receipt/sent-receipt.controller';
@@ -196,6 +197,22 @@ export function ModalService($uibModal, $q) {
       });
     },
 
+    showDialog(title, message, content, result, callback) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalDialog',
+        size: 'dialog-centered',
+        resolve: {
+          dialog: function () {
+            return {title, message, content, result};
+          }
+        }
+      });
+      modalInstance.result.then(callback, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
     showLoading() {
       var loading = $uibModal.open({
         animation: true,
@@ -282,6 +299,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalAlert', {
     template: require('./alert/alert.html'),
     controller: ModalAlertController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalDialog', {
+    template: require('./dialog/dialog.html'),
+    controller: ModalDialogController,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

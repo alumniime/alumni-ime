@@ -51,7 +51,7 @@ function configureStorage() {
       var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
       cb(null, `${file.timestamp}-${name}.${format}`);
     }
-  });
+  }); 
 }
 
 /**
@@ -80,6 +80,9 @@ export function index(req, res) {
       as: 'personType',
       attributes: ['Description', 'PortugueseDescription']
     }, {
+      model: Se,
+      as: 'se' 
+    }, {
       model: FormerStudent,
       as: 'former',
       attributes: ['FormerStudentId', 'PersonId', 'Name', 'GraduationYear', 'EngineeringId'],
@@ -89,8 +92,7 @@ export function index(req, res) {
       }]
     }],
     where: {
-      PersonTypeId: [3, 4],
-      IsApproved: 0
+      $not: {PersonTypeId: 1}
     },
     order: [
       ['LastActivityDate', 'DESC'] 

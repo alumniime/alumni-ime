@@ -1,10 +1,10 @@
 <div class="container adminView">
   <div class="row justify-content-between">
     <div class="col-auto">
-      <h5 class="page-title pb-2">Aprovações de Ex-Alunos Pendentes</h5>
+      <h5 class="page-title pb-2">Aprovações Pendentes de Ex-Alunos</h5>
     </div>
     <div class="col-auto">
-      <a href="#" class="btn btn-success mb-2">Aprovar Ex-Alunos</a>
+      <a href="#" class="btn btn-success mb-2" ng-click="admin.approveGreen()">Aprovar Ex-Alunos</a>
     </div>
   </div>
 
@@ -14,38 +14,105 @@
       <th scope="col">#</th>
       <th scope="col">Nome Completo</th>
       <th scope="col">Base</th>
-      <!-- <th scope="col">Email</th> -->
       <th scope="col">Turma</th>
       <th scope="col">Base</th>
       <th scope="col">Engenharia</th>
       <th scope="col">Base</th>
       <th scope="col">Cadastro</th>
       <th scope="col">Atividade</th>
-      <!-- <th scope="col">Deletar</th> -->
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="user in admin.users" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
-        ng-class="{'table-success': admin.verifyFields(user), 'table-danger': !admin.verifyFields(user)}">
+    <tr ng-repeat="user in admin.users | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+        ng-class="{'table-success': admin.verifyFields(user), 'table-danger': !admin.verifyFields(user)}"
+        ng-if="user.PersonTypeId === 3 || user.PersonTypeId === 4">
       <th scope="row">{{user.PersonId}}</th>
-      <td>
-          {{user.FullName}}
-        </td>
+        <td>{{user.FullName}}</td>
         <td>{{user.former[0].Name}}</td>
-        <!-- <td>{{user.email}}</td> -->
         <td>{{user.GraduationYear}}</td>
         <td>{{user.former[0].GraduationYear}}</td>
         <td>{{user.engineering.Legend}}</td>
         <td>{{user.former[0].engineering.Legend}}</td>
         <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
         <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
-        <!-- <td>
-          <a ng-click="admin.delete(user)" class="trash" href="#"><span class="fa fa-trash"></span></a>
-        </td> -->
       </tr>
     </tbody>
   </table>
 
+  <br>
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pb-2">Outras Aprovações Pendentes</h5>
+    </div>
+  </div>
+
+  <table class="table table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome Completo</th>
+      <th scope="col">Email</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Turma</th>
+      <th scope="col">Engenharia</th>
+      <th scope="col">SE</th>
+      <th scope="col">Cadastro</th>
+      <th scope="col">Atividade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in admin.users | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+        ng-if="!(user.PersonTypeId === 3 || user.PersonTypeId === 4)">
+      <th scope="row">{{user.PersonId}}</th>
+        <td>{{user.FullName}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.personType.PortugueseDescription}}</td>
+        <td>{{user.GraduationYear}}</td>
+        <td>{{user.engineering.Legend}}</td>
+        <td>{{user.se.SEId ? 'SE/' + user.se.SEId : ''}}</td>
+        <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+        <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pb-2">Usuários Aprovados</h5>
+    </div>
+  </div>
+
+  <table class="table table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Email</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Turma</th>
+      <th scope="col">Engenharia</th>
+      <th scope="col">Cadastro</th>
+      <th scope="col">Atividade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in admin.users | orderBy: 'name' | filter: {IsApproved: true}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)">
+      <th scope="row">{{user.PersonId}}</th>
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.personType.PortugueseDescription}}</td>
+        <td>{{user.GraduationYear}}</td>
+        <td>{{user.engineering.Legend}}</td>
+        <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+        <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
 
 
 </div>

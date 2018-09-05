@@ -617,7 +617,7 @@ export function upsert(req, res) {
   })
     .then(respondWithResult(res))
     .catch(handleError(res));
-}
+} 
 
 // Updates an existing FormerStudent in the DB
 export function patch(req, res) {
