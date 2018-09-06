@@ -140,6 +140,42 @@ export function approve(req, res) {
 }
 
 /**
+ * Approve multiple users and associate them with former students
+ * restriction: 'admin'
+ */
+export function bulkApprove(req, res) {
+  
+  console.log(req.body);
+  
+  var users = req.body;
+
+  async.eachSeries(users, function (user, done) {
+    console.log(user);
+    $q.all([
+      User.update({IsApproved: 1}, {
+        where: {
+          PersonId: user.PersonId
+        }
+      }),
+      FormerStudent.update({PersonId: user.PersonId}, {
+        where: {
+          FormerStudentId: user.FormerStudentId
+        }
+      })
+    ])
+    .then(() => done(null, true))
+    .catch(err => done(err));
+  }, (err, result) => {
+    if(err) {
+      handleError(res);
+    } else {
+      res.status(200).json({errorCode: 0, errorDesc: null});
+    }
+  });
+  
+}
+
+/**
  * Get list of professors
  */
 export function professors(req, res) {

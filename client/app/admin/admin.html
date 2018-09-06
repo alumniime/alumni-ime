@@ -27,15 +27,15 @@
         ng-class="{'table-success': admin.verifyFields(user), 'table-danger': !admin.verifyFields(user)}"
         ng-if="user.PersonTypeId === 3 || user.PersonTypeId === 4">
       <th scope="row">{{user.PersonId}}</th>
-        <td>{{user.FullName}}</td>
-        <td>{{user.former[0].Name}}</td>
-        <td>{{user.GraduationYear}}</td>
-        <td>{{user.former[0].GraduationYear}}</td>
-        <td>{{user.engineering.Legend}}</td>
-        <td>{{user.former[0].engineering.Legend}}</td>
-        <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
-        <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
-      </tr>
+      <td>{{user.FullName}}</td>
+      <td>{{user.former[0].Name}}</td>
+      <td>{{user.GraduationYear}}</td>
+      <td>{{user.former[0].GraduationYear}}</td>
+      <td>{{user.engineering.Legend}}</td>
+      <td>{{user.former[0].engineering.Legend}}</td>
+      <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+      <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+    </tr>
     </tbody>
   </table>
 
@@ -65,15 +65,15 @@
     <tr ng-repeat="user in admin.users | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
         ng-if="!(user.PersonTypeId === 3 || user.PersonTypeId === 4)">
       <th scope="row">{{user.PersonId}}</th>
-        <td>{{user.FullName}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.personType.PortugueseDescription}}</td>
-        <td>{{user.GraduationYear}}</td>
-        <td>{{user.engineering.Legend}}</td>
-        <td>{{user.se.SEId ? 'SE/' + user.se.SEId : ''}}</td>
-        <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
-        <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
-      </tr>
+      <td>{{user.FullName}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.personType.PortugueseDescription}}</td>
+      <td>{{user.GraduationYear}}</td>
+      <td>{{user.engineering.Legend}}</td>
+      <td>{{user.se.SEId ? 'SE/' + user.se.SEId : ''}}</td>
+      <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+      <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+    </tr>
     </tbody>
   </table>
 
@@ -82,6 +82,12 @@
   <div class="row justify-content-between">
     <div class="col-auto">
       <h5 class="page-title pb-2">Usuários Aprovados</h5>
+    </div>
+    <div class="col-auto">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Pesquisar usuários..." class="form-control" 
+               ng-model="admin.searchFullName" ng-change="admin.refreshFilter()">
+      </div>      
     </div>
   </div>
 
@@ -99,19 +105,23 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="user in admin.users | orderBy: 'name' | filter: {IsApproved: true}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)">
+    <tr ng-repeat="user in admin.users | orderBy: 'name' | filter: {FullName: admin.searchFullName, IsApproved: true}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+        ng-if="$index >= (admin.currentPage - 1) * admin.itemsPerPage && $index < admin.currentPage * admin.itemsPerPage">
       <th scope="row">{{user.PersonId}}</th>
-        <td>{{user.name}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.personType.PortugueseDescription}}</td>
-        <td>{{user.GraduationYear}}</td>
-        <td>{{user.engineering.Legend}}</td>
-        <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
-        <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
-      </tr>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.personType.PortugueseDescription}}</td>
+      <td>{{user.GraduationYear}}</td>
+      <td>{{user.engineering.Legend}}</td>
+      <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+      <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+    </tr>
     </tbody>
   </table>
 
+  <ul uib-pagination total-items="admin.usersNumber" ng-model="admin.currentPage" max-size="10" 
+      class="pagination-sm justify-content-center mt-4" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
+      previous-text="Anterior" next-text="Próximo"></ul>
   <br>
 
 
