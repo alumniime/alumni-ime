@@ -119,7 +119,9 @@ export function setup(User, config) {
             user.LinkedinProfileURL = profile._json.publicProfileUrl;
             user.Summary = profile._json.summary || null;
             user.Specialties = profile._json.specialties || null;
-            user.ImageURL = profileImage.Path ? profileImage.Path : (profile._json.pictureUrls ? profile._json.pictureUrls.values[0] : null);
+            if(profileImage.Path) {
+              user.ImageURL = profileImage.Path;
+            }
             // Fields that won't be changed for each login
             //  user.name = profile.displayName;
             //  user.Headline = profile._json.headline || null;
