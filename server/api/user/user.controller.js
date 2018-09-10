@@ -2,7 +2,7 @@
 
 import {
   User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
-  Image, Position, Company, Location, City, State, Level, Industry, Country
+  Image, Position, Company, Location, City, State, Level, Industry, Country, FormerStudent
 } from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
@@ -10,6 +10,18 @@ import transporter from '../../email';
 import async from 'async';
 import crypto from 'crypto';
 import multer from 'multer';
+import $q from 'q';
+
+function respondWithResult(res, statusCode) {
+  statusCode = statusCode || 200;
+  return function (entity) {
+    if(entity) {
+      return res.status(statusCode)
+        .json(entity);
+    }
+    return null;
+  };
+}
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -39,7 +51,7 @@ function configureStorage() {
       var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
       cb(null, `${file.timestamp}-${name}.${format}`);
     }
-  });
+  }); 
 }
 
 /**
@@ -53,15 +65,114 @@ export function index(req, res) {
       'PersonTypeId',
       'name',
       'email',
-      'role',
-      'provider'
-    ]
+      'provider',
+      'FullName',
+      'GraduationYear',
+      'LinkedinProfileURL',
+      'LastActivityDate',
+      'IsApproved'
+    ],
+    include: [{
+      model: Engineering,
+      as: 'engineering'
+    }, {
+      model: PersonType,
+      as: 'personType',
+      attributes: ['Description', 'PortugueseDescription']
+    }, {
+      model: Se,
+      as: 'se' 
+    }, {
+      model: FormerStudent,
+      as: 'former',
+      attributes: ['FormerStudentId', 'PersonId', 'Name', 'GraduationYear', 'EngineeringId'],
+      include: [{
+        model: Engineering,
+        as: 'engineering'
+      }]
+    }],
+    where: {
+      $not: {PersonTypeId: 1}
+    },
+    order: [
+      ['LastActivityDate', 'DESC'] 
+    ],
   })
     .then(users => {
       res.status(200)
         .json(users);
     })
     .catch(handleError(res));
+}
+
+/**
+ * Approve an user and associate him with a former student
+ * restriction: 'admin'
+ */
+export function approve(req, res) {
+  var promises = [];
+
+  if(req.body.person && req.body.person.PersonId) {
+    promises.push(User.update(req.body.person, {
+      where: {
+        PersonId: req.body.person.PersonId
+      }
+    }));  
+  }
+
+  if(req.body.former && req.body.former.FormerStudentId) {
+    promises.push(FormerStudent.update(req.body.former, {
+      where: {
+        FormerStudentId: req.body.former.FormerStudentId
+      }
+    }));  
+  }
+
+  $q.all(promises)
+  .then(() => {
+    res.status(200).json({errorCode: 0, errorDesc: null});
+  })
+  .catch(err => {
+    console.log(err);
+    handleError(res);
+  });
+  
+}
+
+/**
+ * Approve multiple users and associate them with former students
+ * restriction: 'admin'
+ */
+export function bulkApprove(req, res) {
+  
+  console.log(req.body);
+  
+  var users = req.body;
+
+  async.eachSeries(users, function (user, done) {
+    console.log(user);
+    $q.all([
+      User.update({IsApproved: 1}, {
+        where: {
+          PersonId: user.PersonId
+        }
+      }),
+      FormerStudent.update({PersonId: user.PersonId}, {
+        where: {
+          FormerStudentId: user.FormerStudentId
+        }
+      })
+    ])
+    .then(() => done(null, true))
+    .catch(err => done(err));
+  }, (err, result) => {
+    if(err) {
+      handleError(res);
+    } else {
+      res.status(200).json({errorCode: 0, errorDesc: null});
+    }
+  });
+  
 }
 
 /**
@@ -375,21 +486,107 @@ export function upload(req, res) {
  * Get a single user
  */
 export function show(req, res, next) {
-  var userId = req.params.id;
 
   return User.find({
+    include: [{
+      model: Engineering,
+      as: 'engineering'
+    }, {
+      model: PersonType,
+      as: 'personType'
+    }, {
+      model: Se,
+      as: 'se'
+    }, {
+      model: Industry,
+      as: 'industry'
+    }, {
+      model: InitiativeLink,
+      as: 'userInitiativeLinks',
+      include: [{
+        model: Initiative,
+        as: 'initiative'
+      }]
+    }, {
+      model: FormerStudent,
+      as: 'former',
+      attributes: ['FormerStudentId', 'PersonId', 'Name', 'GraduationYear', 'EngineeringId'],
+      include: [{
+        model: Engineering,
+        as: 'engineering'
+      }]
+    }, {
+      model: Position,
+      where: {IsCurrent: true},
+      required: false,
+      as: 'positions',
+      limit: 1,
+      include: [{
+        model: Company,
+        attributes: ['Name', 'CompanyTypeId'],
+        as: 'company',
+      }, {
+        model: Level,
+        attributes: ['Description', 'Type'],
+        as: 'level',
+      }, {
+        model: Location,
+        attributes: ['CountryId', 'StateId', 'CityId'],
+        as: 'location',
+        include: [{
+          model: City,
+          attributes: ['Description', 'IBGEId', 'StateId'],
+          as: 'city',
+          include: [{
+            model: State,
+            attributes: ['Code'],
+            as: 'state'
+          }]
+        }],
+      }],
+    }, {
+      model: Location,
+      as: 'location',
+      attributes: ['LocationId'],
+      include: [{
+        model: City,
+        as: 'city',
+        include: [{
+          model: State,
+          attributes: ['Code'],
+          as: 'state'
+        }]
+      }, {
+        model: Country,
+        as: 'country'
+      }],
+    }],
+    attributes: [
+      'PersonId',
+      'PersonTypeId',
+      'name',
+      'email',
+      'Phone',
+      'ImageURL',
+      'Birthdate',
+      'LinkedinProfileURL',
+      'FullName',
+      'Headline',
+      'LocationId',
+      'IndustryId',
+      'GraduationEngineeringId',
+      'GraduationYear',
+      'ProfessorSEId',
+      'InitiativeLinkOther',
+      'IsApproved'
+    ],
     where: {
-      PersonId: userId
+      PersonId: req.params.id
     }
   })
-    .then(user => {
-      if(!user) {
-        return res.status(404)
-          .end();
-      }
-      res.json(user.profile);
-    })
-    .catch(err => next(err));
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+
 }
 
 /**

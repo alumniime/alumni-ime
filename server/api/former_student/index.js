@@ -14,6 +14,7 @@ router.get('/:year', auth.isAuthenticated(), controller.year);
 router.get('/show/:id', auth.isAuthenticated(), controller.show);
 router.post('/', auth.isAuthenticated(), controller.search);
 router.post('/create', auth.hasRole('admin'), controller.create);
+router.get('/autocomplete/:year/:name', auth.hasRole('admin'), controller.complete);
 router.put('/:id', auth.hasRole('admin'), controller.upsert);
 router.patch('/:id', auth.hasRole('admin'), controller.patch);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);

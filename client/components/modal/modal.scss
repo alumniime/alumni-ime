@@ -37,6 +37,15 @@
   .modal-dialog {
     max-width: 380px !important;
   }
+  .modal-lg {
+    max-width: 500px !important;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .modal-lg {
+    max-width: 800px !important;
+  }
 }
 
 .modal-content .close-button {

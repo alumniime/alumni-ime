@@ -24,7 +24,7 @@
       <p class="legend" ng-if="vm.user.personType.Description === 'Visitor'">
         {{vm.user.Headline}}
         <br>
-        {{vm.user.personType.PortugueseDescription | lowercase}}
+        {{vm.user.personType.PortugueseDescription}}
       </p>
       <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor'">
         {{vm.user.Headline}}
@@ -67,7 +67,7 @@
         <input type="text" id="LocationShow" name="Location" class="form-control-plaintext" readonly
                ng-value="vm.locationName">
       </div>
-      <div class="form-group mb-0">
+      <div class="form-group mb-0" ng-if="vm.concatenateInitiativeLinks()">
         <label for="InitiativesShow">
           {{vm.user.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
           LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>

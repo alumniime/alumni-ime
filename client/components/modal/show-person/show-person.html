@@ -1,0 +1,207 @@
+<div class="modal-header d-block">
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h5 class="modal-title text-center mt-3" id="modal-title">{{vm.user.name}}</h5>
+</div>
+
+<div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
+
+  <div class="row justify-content-center p-0">
+    <div class="col-auto">
+      <img class="profile-photo pb-2" ng-src="{{vm.user.ImageURL || 'assets/images/profile.svg'}}" alt="{{vm.user.name}}">
+    </div>
+    <div class="col-auto pt-2">
+      <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'DropStudent'">
+        {{vm.user.Headline}}
+        <br> {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+        <br> Formatura {{vm.user.GraduationYear}}
+      </p>
+      <p class="legend" ng-if="vm.user.personType.Description === 'Professor'">
+        {{vm.user.Headline}}
+        <br> {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+      </p>
+      <p class="legend" ng-if="vm.user.personType.Description === 'Visitor'">
+        {{vm.user.Headline}}
+        <br> {{vm.user.personType.PortugueseDescription}}
+      </p>
+      <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor'">
+        {{vm.user.Headline}}
+        <br> {{vm.user.se.Description}}
+        <br> {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+        <br> Formatura {{vm.user.GraduationYear}}
+      </p>
+
+      <a class="text-dark c-pointer font-weight-bold" target="_blank" href="{{vm.user.LinkedinProfileURL}}" ng-if="vm.user.LinkedinProfileURL">Acessar Linkedin</a>
+
+    </div>
+  </div>
+
+  <div class="row mt-2 p-0">
+
+    <div class="col-12 col-sm-6">
+      <div class="form-group">
+        <label for="emailShow">EMAIL*</label>
+        <input type="text" id="emailShow" name="email" class="form-control-plaintext" readonly ng-model="vm.user.email">
+      </div>
+      <div class="form-group">
+        <label for="BirthdateShow">DATA DE NASCIMENTO*</label>
+        <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
+      </div>
+      <div class="form-group" ng-if="vm.user.ShowPhone">
+        <label for="PhoneShow">TELEFONE*</label>
+        <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') === -1"
+          ng-intl-tel-input>
+        <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') > -1"
+          mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
+      </div>
+      <div class="form-group">
+        <label for="LocationShow">LOCALIZAÇÃO*</label>
+        <input type="text" id="LocationShow" name="Location" class="form-control-plaintext" readonly ng-value="vm.locationName">
+      </div>
+      <div class="form-group">
+        <label for="PhoneShow">TELEFONE*</label>
+        <!-- International phone -->
+        <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+               ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') === -1" ng-intl-tel-input>
+        <!-- National phone -->
+        <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+               ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') > -1" mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6">
+      <div class="form-group">
+        <label for="LevelType">MEIO DE ATUAÇÃO*</label>
+        <input type="text" id="LevelType" name="LevelType" class="form-control-plaintext" readonly ng-if="vm.user.positions[0].level.Type === 'civil'"
+          value="Civil">
+        <input type="text" name="LevelType" class="form-control-plaintext" readonly ng-if="vm.user.positions[0].level.Type === 'military'"
+          value="Militar">
+      </div>
+      <div class="form-group">
+        <label for="Position">CARGO ATUAL*</label>
+        <input type="text" id="Position" name="Position" class="form-control-plaintext" readonly ng-value="vm.user.positions[0].Title">
+      </div>
+      <div class="form-group">
+        <label for="Level" ng-if="vm.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO*</label>
+        <label for="Level" ng-if="vm.user.positions[0].level.Type === 'military'">PATENTE*</label>
+        <input type="text" id="Level" name="Level" class="form-control-plaintext" readonly ng-value="vm.user.positions[0].level.Description !== 'Outro' ? vm.user.positions[0].level.Description : vm.user.positions[0].LevelOther">
+      </div>
+      <div class="form-group">
+        <label for="Company">EMPRESA*</label>
+        <input type="text" id="Company" name="Company" class="form-control-plaintext" readonly ng-value="vm.user.positions[0].company.Name">
+      </div>
+    </div>
+
+  </div>
+
+  <form class="form" name="form" ng-submit="vm.submitPerson(form)" ng-if="!vm.user.IsApproved" novalidate>
+      
+    <div class="line-hr"></div>
+    
+    <div class="row mt-2">
+  
+      <div class="col-12 col-sm-6 align-self-end">
+        <div class="form-group">
+          <label for="FullName">NOME COMPLETO*</label>
+          <input type="text" name="FullName" id="FullName" placeholder="nome para validação" class="form-control"
+                 ng-model="vm.user.FullName" required>
+          <p class="help-block" ng-show="form.FullName.$error.required && vm.submitted">
+            Insira o nome completo.
+          </p>
+        </div>
+        <div class="form-group" ng-if="vm.personType.Description !== 'Professor'">
+          <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
+          <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
+                  required>
+            <option ng-repeat="year in vm.graduationYears | orderBy:'-'" ng-value="year"
+                    ng-hide="year > vm.year">
+              {{year}}
+            </option>
+          </select>
+          <p class="help-block" ng-if="form.GraduationYear.$error.required && vm.submitted">
+            Insira o ano de formação.
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="GraduationEngineeringId">ENGENHARIA*</label>
+          <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
+                  ng-model="vm.user.GraduationEngineeringId" required>
+            <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
+                    ng-value="engineering.EngineeringId"
+                    ng-hide="engineering.SEId === 1">
+              {{engineering.Description}}
+            </option>
+          </select>
+          <p class="help-block" ng-if="form.GraduationEngineeringId.$error.required && vm.submitted">
+            Insira a engenharia.
+          </p>
+        </div>    
+      </div>
+  
+      <div class="col-12 col-sm-6" ng-if="vm.user.PersonTypeId === 3 || vm.user.PersonTypeId === 4">
+        <div class="form-group">
+          <label for="name">PESQUISAR EX-ALUNO</label>
+          <angucomplete-alt id="members"
+            placeholder="Digite parte do nome desejado"
+            pause="400"
+            selected-object="vm.selectFormer"
+            remote-url="{{vm.appConfig.url}}/api/former_students/autocomplete/{{vm.user.GraduationYear}}/"
+            remote-url-data-field=""
+            text-searching="Pesquisando..."
+            text-no-results="Nenhum ex-aluno encontrado."
+            title-field="Name"
+            description-field="GraduationYear"
+            match-class="highlight"
+            input-class="form-control"
+            clear-selected="true"/>
+        </div>
+        <div class="form-group" ng-if="vm.former">
+          <label for="Name">NOME NA BASE*</label>
+          <input type="text" name="Name" id="Name" placeholder="nome para validação" class="form-control"
+                 ng-model="vm.former.Name" required>
+          <p class="help-block" ng-show="form.Name.$error.required && vm.submitted">
+            Insira o nome do ex-aluno.
+          </p>
+        </div>
+        <div class="form-group" ng-if="vm.former">
+            <label for="BaseGraduationYear">TURMA NA BASE*</label>
+            <select class="form-control" id="BaseGraduationYear" name="BaseGraduationYear" 
+                    ng-model="vm.former.GraduationYear" required match="vm.user.GraduationYear">
+              <option ng-repeat="year in vm.graduationYears | orderBy:'-'" ng-value="year"
+                      ng-hide="year > vm.year">
+                {{year}}
+              </option>
+            </select>
+            <p class="help-block" ng-if="form.BaseGraduationYear.$error.match && vm.submitted">
+              Ano de formação diferente do cadastro.
+            </p>
+          </div>
+          <div class="form-group" ng-if="vm.former">
+            <label for="BaseBaseGraduationEngineeringId">ENGENHARIA NA BASE*</label>
+            <select class="form-control" id="BaseGraduationEngineeringId" name="BaseGraduationEngineeringId"
+                  ng-model="vm.former.EngineeringId" required match="vm.user.GraduationEngineeringId">
+              <option ng-repeat="engineering in vm.engineeringList | orderBy:'Description'"
+                      ng-value="engineering.EngineeringId"
+                      ng-hide="engineering.SEId === 1">
+                {{engineering.Description}}
+              </option>
+            </select>
+            <p class="help-block" ng-if="form.BaseGraduationEngineeringId.$error.match && vm.submitted"> 
+              Engenharia diferente do cadastro.
+            </p>
+          </div>    
+      </div>
+  
+    </div>
+
+    <button href="#" class="btn btn-danger mx-auto mt-3" ng-if="vm.user.PersonTypeId === 3 || vm.user.PersonTypeId === 4" type="submit">
+      VINCULAR EX-ALUNO E APROVAR
+    </button>
+    <button href="#" class="btn btn-danger mx-auto mt-3" ng-if="!(vm.user.PersonTypeId === 3 || vm.user.PersonTypeId === 4)" type="submit">
+      APROVAR USUÁRIO
+    </button>
+
+  </form>
+
+  
+
+</div>
