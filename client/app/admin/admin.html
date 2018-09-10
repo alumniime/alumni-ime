@@ -1,12 +1,128 @@
 <div class="container adminView">
-  <p>The delete user and user index api routes are restricted to users with the 'admin' role.</p>
-  <ul class="list-group user-list">
-    <li class="list-group-item" ng-repeat="user in admin.users">
-	    <div class="user-info">
-	        <strong>{{user.name}}</strong><br>
-	        <span class="text-muted">{{user.email}}</span>
-	    </div>
-        <a ng-click="admin.delete(user)" class="trash"><span class="fa fa-trash fa-2x"></span></a>
-    </li>
-  </ul>
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pb-2">Aprovações Pendentes de Ex-Alunos</h5>
+    </div>
+    <div class="col-auto">
+      <a href="#" class="btn btn-success mb-2" ng-click="admin.approveGreen()">Aprovar Ex-Alunos</a>
+    </div>
+  </div>
+
+  <table class="table table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome Completo</th>
+      <th scope="col">Base</th>
+      <th scope="col">Turma</th>
+      <th scope="col">Base</th>
+      <th scope="col">Engenharia</th>
+      <th scope="col">Base</th>
+      <th scope="col">Cadastro</th>
+      <th scope="col">Atividade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in admin.users | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+        ng-class="{'table-success': admin.verifyFields(user), 'table-danger': !admin.verifyFields(user)}"
+        ng-if="user.PersonTypeId === 3 || user.PersonTypeId === 4">
+      <th scope="row">{{user.PersonId}}</th>
+      <td>{{user.FullName}}</td>
+      <td>{{user.former[0].Name}}</td>
+      <td>{{user.GraduationYear}}</td>
+      <td>{{user.former[0].GraduationYear}}</td>
+      <td>{{user.engineering.Legend}}</td>
+      <td>{{user.former[0].engineering.Legend}}</td>
+      <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+      <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <br>
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pb-2">Outras Aprovações Pendentes</h5>
+    </div>
+  </div>
+
+  <table class="table table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome Completo</th>
+      <th scope="col">Email</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Turma</th>
+      <th scope="col">Engenharia</th>
+      <th scope="col">SE</th>
+      <th scope="col">Cadastro</th>
+      <th scope="col">Atividade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in admin.users | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+        ng-if="!(user.PersonTypeId === 3 || user.PersonTypeId === 4)">
+      <th scope="row">{{user.PersonId}}</th>
+      <td>{{user.FullName}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.personType.PortugueseDescription}}</td>
+      <td>{{user.GraduationYear}}</td>
+      <td>{{user.engineering.Legend}}</td>
+      <td>{{user.se.SEId ? 'SE/' + user.se.SEId : ''}}</td>
+      <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+      <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <br>
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pb-2">Usuários Aprovados</h5>
+    </div>
+    <div class="col-auto">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Pesquisar usuários..." class="form-control" 
+               ng-model="admin.searchFullName" ng-change="admin.refreshFilter()">
+      </div>      
+    </div>
+  </div>
+
+  <table class="table table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Email</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Turma</th>
+      <th scope="col">Engenharia</th>
+      <th scope="col">Cadastro</th>
+      <th scope="col">Atividade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in admin.users | orderBy: 'name' | filter: {FullName: admin.searchFullName, IsApproved: true}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+        ng-if="$index >= (admin.currentPage - 1) * admin.itemsPerPage && $index < admin.currentPage * admin.itemsPerPage">
+      <th scope="row">{{user.PersonId}}</th>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.personType.PortugueseDescription}}</td>
+      <td>{{user.GraduationYear}}</td>
+      <td>{{user.engineering.Legend}}</td>
+      <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+      <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <ul uib-pagination total-items="admin.usersNumber" ng-model="admin.currentPage" max-size="10" 
+      class="pagination-sm justify-content-center mt-4" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
+      previous-text="Anterior" next-text="Próximo"></ul>
+  <br>
+
+
 </div>

@@ -74,9 +74,14 @@ function handleError(res, statusCode) {
 export function index(req, res) {
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
@@ -115,9 +120,14 @@ export function years(req, res) {
   console.log(req.user);
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
@@ -215,9 +225,14 @@ export function locations(req, res) {
 export function year(req, res) {
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
@@ -308,9 +323,14 @@ export function show(req, res) {
 
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
@@ -421,9 +441,14 @@ export function show(req, res) {
 export function search(req, res) {
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
@@ -570,6 +595,33 @@ export function search(req, res) {
     .catch(handleError(res)); 
 }
 
+// Autocomplete for admin search
+export function complete(req, res) {
+  return FormerStudent.findAll({
+    attributes: ['FormerStudentId', 'PersonId', 'Name', 'GraduationYear', 'EngineeringId'],
+    include: [{
+      model: Engineering,
+      as: 'engineering'
+    }], 
+    where: {
+      $or: [{
+        Name: {$like: `%${req.params.name}%`},
+        GraduationYear: req.params.year
+      }, {
+        Name: {$like: `%${req.params.name}%`},
+        $not: [{GraduationYear: req.params.year}]
+      }]          
+    },
+    order: [
+      [sequelize.literal(`(GraduationYear - ${parseInt(req.params.year)})*(GraduationYear - ${parseInt(req.params.year)})`), 'ASC'],
+      ['Name', 'ASC']
+    ],
+    limit: 10
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Creates a new FormerStudent in the DB
 export function create(req, res) {
   return FormerStudent.create(req.body)
@@ -590,7 +642,7 @@ export function upsert(req, res) {
   })
     .then(respondWithResult(res))
     .catch(handleError(res));
-}
+} 
 
 // Updates an existing FormerStudent in the DB
 export function patch(req, res) {

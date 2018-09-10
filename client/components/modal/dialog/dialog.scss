@@ -1,0 +1,34 @@
+modal-dialog {
+
+    .btn {
+      display: inherit;
+      font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      height: 45px;
+      border-radius: 30px;
+      min-width: 150px;
+      padding-top: 10px;
+    }
+
+    .btn-danger {
+      background-color: #E84E0F;
+      border-color: #E84E0F;
+    }
+
+    .btn-danger:hover, .btn-danger.active {
+      background-color: rgb(199, 66, 14);
+      border-color: rgb(199, 66, 14);
+    }
+
+    .btn-outline-danger{
+      color: #E84E0F;
+      border-color: #E84E0F;
+    }
+
+    .btn-outline-danger:hover, .btn-outline-danger.active{
+      color: #fafafa;
+      background: rgb(199, 66, 14);
+    }
+
+}

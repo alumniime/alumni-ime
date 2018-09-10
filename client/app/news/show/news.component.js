@@ -17,11 +17,16 @@ export class NewsController {
     description: 'Apenas Eventos'
   }];
   selected = this.categories[0];
+  currentPage = 1;
+  newsNumber = 0;
+  itemsPerPage = 6;
 
-  constructor($state, News, Modal, Util) {
+  constructor($state, $filter, $anchorScroll, News, Modal, Util) {
     'ngInject';
 
     this.$state = $state;
+    this.$filter = $filter;
+    this.$anchorScroll = $anchorScroll;
     this.News = News;
     this.Modal = Modal;
     this.Util = Util;
@@ -31,20 +36,20 @@ export class NewsController {
     var loading = this.Modal.showLoading();
     this.News.load().then(() => {
       loading.close();
+      this.newsNumber = this.selected.name === 'All' ? this.News.list.length : this.$filter('filter')(this.News.list, {category: {Description: this.selected.name}}).length;
     }).catch(() => {
       loading.close();
     })
   }
 
   dropdownChanged(option) {
+    this.currentPage = 1;
     this.selected = option;
+    this.newsNumber = this.selected.name === 'All' ? this.News.list.length : this.$filter('filter')(this.News.list, {category: {Description: this.selected.name}}).length;
   }
 
-  currPage = 1;
-  lastPage = 6; // TODO news pagination
-
-  pageChanged(){
-
+  goTop() {
+    this.$anchorScroll('top');
   }
 
 }

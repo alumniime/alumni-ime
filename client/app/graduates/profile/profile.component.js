@@ -56,6 +56,9 @@ export class ViewProfileController {
                 });
             });
 
+        })
+        .catch(() => {
+          this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
         });
     } else {
       loading.close();

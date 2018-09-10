@@ -7,6 +7,7 @@ import ModalSentConfirmationController from './sent-confirmation/sent-confirmati
 import ModalCompletedRegistrationController from './completed-registration/completed-registration.controller';
 import ModalRegisterInformationController from './register-information/register-information.controller';
 import ModalAlertController from './alert/alert.controller';
+import ModalDialogController from './dialog/dialog.controller';
 import ModalPhotoController from './photo/photo.controller';
 import ModalLoadingController from './loading/loading.controller';
 import ModalSentReceiptController from './sent-receipt/sent-receipt.controller';
@@ -14,6 +15,7 @@ import ModalForgotPassword from './forgot-password/forgot-password.controller';
 import ModalResetPassword from './reset-password/reset-password.controller';
 import ModalTermsOfUse from './terms-of-use/terms-of-use.controller';
 import ModalUpdatePhoto from './update-photo/update-photo.controller';
+import ModalShowPerson from './show-person/show-person.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -140,6 +142,27 @@ export function ModalService($uibModal, $q) {
       return d.promise;
     },
 
+    openProfile(personId) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalShowPerson',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          PersonId: function () {
+            return personId;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
     registryUser(confirmEmailToken, isLocalProvider) {
       var modalInstance = $uibModal.open({
         animation: true,
@@ -171,6 +194,22 @@ export function ModalService($uibModal, $q) {
             return {title, message};
           }
         }
+      });
+    },
+
+    showDialog(title, message, content, result, callback) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalDialog',
+        size: 'dialog-centered',
+        resolve: {
+          dialog: function () {
+            return {title, message, content, result};
+          }
+        }
+      });
+      modalInstance.result.then(callback, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
       });
     },
 
@@ -267,6 +306,16 @@ export default angular.module('alumniApp.modal', [])
       dismiss: '&'
     },
   })
+  .component('modalDialog', {
+    template: require('./dialog/dialog.html'),
+    controller: ModalDialogController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
   .component('modalPhoto', {
     template: require('./photo/photo.html'),
     controller: ModalPhotoController,
@@ -332,6 +381,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalUpdatePhoto', {
     template: require('./update-photo/update-photo.html'),
     controller: ModalUpdatePhoto,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalShowPerson', {
+    template: require('./show-person/show-person.html'),
+    controller: ModalShowPerson,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

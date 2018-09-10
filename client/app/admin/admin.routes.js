@@ -1,6 +1,6 @@
 'use strict';
 
-export default function routes($stateProvider) {
+export default function routes($stateProvider, appConfig) {
   'ngInject';
 
   $stateProvider.state('admin', {
@@ -8,6 +8,13 @@ export default function routes($stateProvider) {
     template: require('./admin.html'),
     controller: 'AdminController',
     controllerAs: 'admin',
-    authenticate: 'admin'
+    authenticate: 'admin',
+    data: {
+      meta: {
+        title: 'Admin',
+        description: 'Painel administrativo para gerenciamento dos usuários, projetos e notícias do site da associação.',
+        'og:url': `${appConfig.url}/admin`
+      }
+    }
   });
 }
