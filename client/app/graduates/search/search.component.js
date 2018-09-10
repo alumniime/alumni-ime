@@ -104,7 +104,7 @@ export class SearchController {
           loading.close();
           this.Modal.openLogin();
           this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos aprovados e logados podem realizar consultas.');
-        } else if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor')) {
+        } else if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin') {
 
           if(this.$stateParams.year) {
             this.showYears = false;
@@ -218,7 +218,7 @@ export class SearchController {
     console.log(this.search);
     
     if(form.$valid && valid > (this.search.required ? 0 : 1) && !(this.search.name && this.search.name.length < 3)) {
-      if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor')) {
+      if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin') {
         this.$state.go('search', this.search);
       } else {
         this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar consultas.');

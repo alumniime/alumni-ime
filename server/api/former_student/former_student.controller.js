@@ -74,9 +74,14 @@ function handleError(res, statusCode) {
 export function index(req, res) {
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
@@ -115,9 +120,14 @@ export function years(req, res) {
   console.log(req.user);
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
@@ -215,9 +225,14 @@ export function locations(req, res) {
 export function year(req, res) {
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
@@ -308,9 +323,14 @@ export function show(req, res) {
 
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
@@ -421,9 +441,14 @@ export function show(req, res) {
 export function search(req, res) {
   User.find({
     where: {
-      PersonId: req.user.PersonId,
-      PersonTypeId: [3, 4],
-      IsApproved: 1
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
     }
   })
     .then(user => {
