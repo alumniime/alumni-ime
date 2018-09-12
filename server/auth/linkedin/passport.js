@@ -192,7 +192,7 @@ export function setup(User, config) {
                     },
                     // Trying to save position location
                     (industry, next) => {
-                      if(position.location) {
+                      if(position.location && position.location.name) {
                         Location.findOrCreate({where: {LinkedinName: position.location.name}})
                           .spread((location, created) => next(null, industry, location))
                           .catch(err => next(null, industry, null));
