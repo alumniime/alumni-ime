@@ -145,12 +145,9 @@ export function approve(req, res) {
  */
 export function bulkApprove(req, res) {
   
-  console.log(req.body);
-  
   var users = req.body;
 
   async.eachSeries(users, function (user, done) {
-    console.log(user);
     $q.all([
       User.update({IsApproved: 1}, {
         where: {

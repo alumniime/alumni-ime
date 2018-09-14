@@ -4,6 +4,7 @@ export default class AdminController {
   currentPage = 1;
   usersNumber = 0;
   itemsPerPage = 12;
+  searchPersonTypeId = '';
   searchFullName = '';
 
   /*@ngInject*/
@@ -21,7 +22,12 @@ export default class AdminController {
     var loading = this.Modal.showLoading();
     this.users = this.User.query(() => {
         loading.close();
-        this.usersNumber = this.$filter('filter')(this.users, {FullName: this.searchFullName, IsApproved: true}).length;
+        this.usersNumber = this.$filter('filter')(this.users, {PersonTypeId: this.searchPersonTypeId, FullName: this.searchFullName, IsApproved: true}).length;
+      });
+
+    this.$http.get('/api/person_types')
+      .then(response => {
+        this.personTypes = response.data;
       });
   }
 
@@ -73,7 +79,7 @@ export default class AdminController {
   }
 
   refreshFilter() {
-    this.usersNumber = this.$filter('filter')(this.users, {FullName: this.searchFullName, IsApproved: true}).length;
+    this.usersNumber = this.$filter('filter')(this.users, {PersonTypeId: this.searchPersonTypeId, FullName: this.searchFullName, IsApproved: true}).length;
   }
 
 }
