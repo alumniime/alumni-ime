@@ -46,24 +46,24 @@
 
     <div class="col-12 col-sm-6">
       <div class="form-group">
-        <label for="emailShow">EMAIL*</label>
+        <label for="emailShow">EMAIL</label>
         <input type="text" id="emailShow" name="email" class="form-control-plaintext" readonly
                ng-model="vm.user.email">
       </div>
       <!-- <div class="form-group">
-        <label for="BirthdateShow">DATA DE NASCIMENTO*</label>
+        <label for="BirthdateShow">DATA DE NASCIMENTO</label>
         <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
                value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
       </div> -->
-      <div class="form-group" ng-if="vm.user.ShowPhone">
-        <label for="PhoneShow">TELEFONE*</label>
+      <div class="form-group">
+        <label for="PhoneShow">TELEFONE</label>
         <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
                 ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') === -1" ng-intl-tel-input>
         <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
                 ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') > -1" mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
       </div>
       <div class="form-group">
-        <label for="LocationShow">LOCALIZAÇÃO*</label>
+        <label for="LocationShow">LOCALIZAÇÃO</label>
         <input type="text" id="LocationShow" name="Location" class="form-control-plaintext" readonly
                ng-value="vm.locationName">
       </div>
@@ -79,13 +79,13 @@
     <div class="col-12 col-sm-6">
       <!--
       <div class="form-group">
-        <label for="GenreShow">GÊNERO*</label>
+        <label for="GenreShow">GÊNERO</label>
         <input type="text" id="GenreShow" name="Genre" class="form-control-plaintext" readonly
                value="{{vm.user.Genre === 'M' ? 'Masculino' :  (vm.user.Genre === 'F' ? 'Feminino' : 'Outro')}}">
       </div>
       -->
       <div class="form-group">
-        <label for="LevelType">MEIO DE ATUAÇÃO*</label>
+        <label for="LevelType">MEIO DE ATUAÇÃO</label>
         <input type="text" id="LevelType" name="LevelType" class="form-control-plaintext" readonly
                ng-if="vm.user.positions[0].level.Type === 'civil'"
                value="Civil">
@@ -94,18 +94,18 @@
                value="Militar">
       </div>
       <div class="form-group">
-        <label for="Position">CARGO ATUAL*</label>
+        <label for="Position">CARGO ATUAL</label>
         <input type="text" id="Position" name="Position" class="form-control-plaintext" readonly
                ng-value="vm.user.positions[0].Title">
       </div>
       <div class="form-group">
-        <label for="Level" ng-if="vm.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO*</label>
-        <label for="Level" ng-if="vm.user.positions[0].level.Type === 'military'">PATENTE*</label>
+        <label for="Level" ng-if="vm.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO</label>
+        <label for="Level" ng-if="vm.user.positions[0].level.Type === 'military'">PATENTE</label>
         <input type="text" id="Level" name="Level" class="form-control-plaintext" readonly
                ng-value="vm.user.positions[0].level.Description !== 'Outro' ? vm.user.positions[0].level.Description : vm.user.positions[0].LevelOther">
       </div>
       <div class="form-group">
-        <label for="Company">EMPRESA*</label>
+        <label for="Company">EMPRESA</label>
         <input type="text" id="Company" name="Company" class="form-control-plaintext" readonly
                ng-value="vm.user.positions[0].company.Name">
       </div>

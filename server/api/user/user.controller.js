@@ -145,12 +145,9 @@ export function approve(req, res) {
  */
 export function bulkApprove(req, res) {
   
-  console.log(req.body);
-  
   var users = req.body;
 
   async.eachSeries(users, function (user, done) {
-    console.log(user);
     $q.all([
       User.update({IsApproved: 1}, {
         where: {
@@ -160,7 +157,7 @@ export function bulkApprove(req, res) {
       FormerStudent.update({PersonId: user.PersonId}, {
         where: {
           FormerStudentId: user.FormerStudentId
-        }
+        } 
       })
     ])
     .then(() => done(null, true))
@@ -777,7 +774,7 @@ export function me(req, res, next) {
       'Birthdate',
       'Genre',
       'Phone',
-      'ShowPhone',
+      'ShowInformation',
       'FullName',
       'Headline',
       'LocationId',
