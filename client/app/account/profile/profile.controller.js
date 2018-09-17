@@ -55,7 +55,7 @@ export default class ProfileController {
       this.Birthdate = this.$filter('date')(this.user.Birthdate, 'dd/MM/yyyy');
       this.PersonId = user.PersonId;
       this.levelType = (this.user.positions && this.user.positions.length > 0 && this.user.positions[0].level) ? this.user.positions[0].level.Type : null;
-      if((this.user.personType.Description === 'Student' || this.user.personType.Description === 'DropStudent') && !(this.user.positions && this.user.positions.length > 0)) {
+      if(!(this.user.positions && this.user.positions.length > 0)) {
         this.hasPosition = false;
       }
       if(!this.user.location) {
@@ -175,6 +175,8 @@ export default class ProfileController {
       } else {
         this.dateInvalid = true;
       }
+    } else {
+      this.dateInvalid = false;
     }
   }
 
@@ -257,7 +259,7 @@ export default class ProfileController {
   updateLocationName() {
     this.locationName = (this.user.location.LinkedinName ? this.user.location.LinkedinName.replace(' Area,', ',') : '');
     if(this.user.location.CountryId === 1 || this.user.location.city) {
-      this.locationName = (this.user.location.city.state ? `${this.user.location.city.Description} - ${this.user.location.city.state.Code}` : this.user.location.city.Description);
+      this.locationName = (this.user.location.city ? (this.user.location.city.state ? `${this.user.location.city.Description} - ${this.user.location.city.state.Code}` : this.user.location.city.Description) : this.user.location.country.Description);
     } else {
       this.locationName = this.user.location.country.Description;
     }
@@ -307,8 +309,10 @@ export default class ProfileController {
     console.log(form);
     console.log(this.user);
 
-    var date = this.Birthdate.split('/');
-    this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
+    if(this.Birthdate) {
+      var date = this.Birthdate.split('/');
+      this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
+    }
 
     var user = angular.copy(this.user);
     
@@ -316,7 +320,7 @@ export default class ProfileController {
       Reflect.deleteProperty(user, 'positions');
     }
 
-    if(user.location.CountryId !== 1) {
+    if(user.location && user.location.CountryId !== 1) {
       user.location.StateId = null;
       user.location.CityId = null;
       Reflect.deleteProperty(user.location, 'city');
@@ -345,7 +349,9 @@ export default class ProfileController {
           this.backupUser = {};
           this.$location.hash('myProfile');
           this.$anchorScroll();
-          this.user.positions[0].level = this.findLevel(user.positions[0].LevelId);
+          if(this.user.positions.length > 0) {
+            this.user.positions[0].level = this.findLevel(user.positions[0].LevelId);
+          }
         })
         .catch(err => {
           loading.close();

@@ -157,7 +157,7 @@ export function bulkApprove(req, res) {
       FormerStudent.update({PersonId: user.PersonId}, {
         where: {
           FormerStudentId: user.FormerStudentId
-        }
+        } 
       })
     ])
     .then(() => done(null, true))
@@ -774,7 +774,7 @@ export function me(req, res, next) {
       'Birthdate',
       'Genre',
       'Phone',
-      'ShowPhone',
+      'ShowInformation',
       'FullName',
       'Headline',
       'LocationId',

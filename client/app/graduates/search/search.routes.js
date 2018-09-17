@@ -13,7 +13,7 @@ export default function($stateProvider, appConfig) {
       controllerAs: 'vm',
       data: {
         meta: {
-          title: 'Consultar Ex-Alunos',
+          title: 'Consultar Turmas',
           description: 'Pesquise e encontre todos os ex-alunos graduados no IME.',
           'og:url': `${appConfig.url}/graduates/search`
         }

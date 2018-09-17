@@ -68,17 +68,17 @@
 
           <div class="col-12 col-sm-6">
             <div class="form-group">
-              <label for="emailShow">EMAIL*</label>
+              <label for="emailShow">EMAIL</label>
               <input type="text" id="emailShow" name="email" class="form-control-plaintext" readonly
                      ng-model="vm.user.email">
             </div>
             <div class="form-group">
-              <label for="BirthdateShow">DATA DE NASCIMENTO*</label>
+              <label for="BirthdateShow">DATA DE NASCIMENTO</label>
               <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly
-                     value="{{vm.user.Birthdate| date:'dd/MM/yyyy'}}">
+                     value="{{vm.user.Birthdate | date:'dd/MM/yyyy'}}">
             </div>
             <div class="form-group">
-              <label for="PhoneShow">TELEFONE*</label>
+              <label for="PhoneShow">TELEFONE</label>
               <!-- International phone -->
               <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
                      ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') === -1" ng-intl-tel-input>
@@ -87,7 +87,7 @@
                      ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') > -1" mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
             </div>
             <div class="form-group">
-              <label for="LocationShow">LOCALIZAÇÃO*</label>
+              <label for="LocationShow">LOCALIZAÇÃO</label>
               <input type="text" id="LocationShow" name="Location" class="form-control-plaintext" readonly
                      ng-value="vm.locationName">
             </div>
@@ -103,13 +103,13 @@
           <div class="col-12 col-sm-6" ng-if="vm.hasPosition">
             <!--
             <div class="form-group">
-              <label for="GenreShow">GÊNERO*</label>
+              <label for="GenreShow">GÊNERO</label>
               <input type="text" id="GenreShow" name="Genre" class="form-control-plaintext" readonly
                      value="{{vm.user.Genre === 'M' ? 'Masculino' :  (vm.user.Genre === 'F' ? 'Feminino' : 'Outro')}}">
             </div>
             -->
             <div class="form-group">
-              <label for="LevelType">MEIO DE ATUAÇÃO*</label>
+              <label for="LevelType">MEIO DE ATUAÇÃO</label>
               <input type="text" id="LevelType" name="LevelType" class="form-control-plaintext" readonly
                      ng-if="vm.user.positions[0].level.Type === 'civil'"
                      value="Civil">
@@ -118,18 +118,18 @@
                      value="Militar">
             </div>
             <div class="form-group">
-              <label for="Position">CARGO ATUAL*</label>
+              <label for="Position">CARGO ATUAL</label>
               <input type="text" id="Position" name="Position" class="form-control-plaintext" readonly
                      ng-value="vm.user.positions[0].Title">
             </div>
             <div class="form-group">
-              <label for="Level" ng-if="vm.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO*</label>
-              <label for="Level" ng-if="vm.user.positions[0].level.Type === 'military'">PATENTE*</label>
+              <label for="Level" ng-if="vm.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO</label>
+              <label for="Level" ng-if="vm.user.positions[0].level.Type === 'military'">PATENTE</label>
               <input type="text" id="Level" name="Level" class="form-control-plaintext" readonly
                      ng-value="vm.user.positions[0].level.Description !== 'Outro' ? vm.user.positions[0].level.Description : vm.user.positions[0].LevelOther">
               </div>
             <div class="form-group">
-              <label for="Company">EMPRESA*</label>
+              <label for="Company">EMPRESA</label>
               <input type="text" id="Company" name="Company" class="form-control-plaintext" readonly
                      ng-value="vm.user.positions[0].company.Name">
             </div>
@@ -191,23 +191,22 @@
               </div>
 
               <div class="form-group">
-                <label for="Birthdate">DATA DE NASCIMENTO*</label>
+                <label for="Birthdate">DATA DE NASCIMENTO</label>
                 <input type="text" id="Birthdate" name="Birthdate" placeholder="10/03/1980" mask="39/19/9999"
-                       class="form-control" ng-model="vm.Birthdate" required
+                       class="form-control" ng-model="vm.Birthdate"
                        ng-change="vm.validateDate(vm.Birthdate)">
                 <p class="help-block" ng-show="formUpdate.Birthdate.$error.required && vm.submittedUpdate">
                   Insira a sua data de nascimento.
                 </p>
-                <p class="help-block" ng-show="(formUpdate.Birthdate.$invalid && vm.submittedUpdate) || vm.dateInvalid">
+                <p class="help-block" ng-show="((formUpdate.Birthdate.$invalid || vm.dateInvalid) && vm.submittedUpdate)">
                   Insira uma data válida.
                 </p>
               </div>
 
               <div class="form-group">
-                <label for="Phone">TELEFONE*</label>
+                <label for="Phone">TELEFONE</label>
                 <input type="tel" id="Phone" name="Phone" ng-intl-tel-input
-                class="form-control ml-5"
-                ng-model="vm.user.Phone" required>
+                class="form-control ml-5" ng-model="vm.user.Phone">
                 <p class="help-block" ng-show="formUpdate.Phone.$invalid && vm.submittedUpdate">
                   Insira um telefone válido.
                 </p>
@@ -227,8 +226,7 @@
                 </p>
               </div>
 
-              <div class="form-group"
-                   ng-if="vm.user.personType.Description === 'Visitor'">
+              <div class="form-group" ng-if="vm.user.personType.Description === 'Visitor'">
                 <label>COMO VOCÊ CONHECEU A PÁGINA?*</label>
                 <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnowList">
                   <input type="radio" id="customRadio{{$index}}" name="OptionToKnowThePage" class="custom-control-input"
@@ -250,8 +248,7 @@
                 </p>
               </div>
 
-              <div class="form-group"
-                   ng-if="vm.user.personType.Description !== 'Visitor'">
+              <div class="form-group" ng-if="vm.user.personType.Description !== 'Visitor'">
                 <label>{{vm.user.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
                   LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
                 <div class="custom-control custom-checkbox" ng-repeat="initiative in vm.initiativeList">
@@ -273,9 +270,9 @@
               <br>
 
               <div class="custom-control custom-checkbox" ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'FormerStudentAndProfessor'">
-                <input type="checkbox" name="ShowPhone" class="custom-control-input" id="ShowPhone" ng-model="vm.user.ShowPhone">
-                <label class="custom-control-label" for="ShowPhone">
-                  Desejo exibir meu telefone na área restrita do site para os ex-alunos aprovados.
+                <input type="checkbox" name="ShowInformation" class="custom-control-input" id="ShowInformation" ng-model="vm.user.ShowInformation">
+                <label class="custom-control-label" for="ShowInformation">
+                  Autorizo outros ex-alunos aprovados na plataforma a visualizarem meus dados.
                 </label>
               </div>              
 
@@ -339,10 +336,10 @@
 
               <br>
               <div class="form-group">
-                <label for="Headline">TÍTULO DO PERFIL*</label>
+                <label for="Headline">TÍTULO DO PERFIL</label>
                 <textarea type="text" id="Headline" name="Headline" class="form-control headline" rows="3"
                           placeholder="Ex: Especialista em Gestão de Projetos"
-                          ng-model="vm.user.Headline" required ng-maxlength="255"></textarea>
+                          ng-model="vm.user.Headline" ng-maxlength="255"></textarea>
                 <p class="help-block" ng-show="formUpdate.Headline.$error.required && vm.submittedUpdate">
                   Insira um título para seu perfil.
                 </p>
@@ -352,9 +349,9 @@
               </div>
 
               <div class="form-group">
-                <label for="Industry">SETOR*</label>
+                <label for="Industry">SETOR</label>
                 <select class="form-control" id="Industry" name="Industry"
-                        ng-model="vm.user.IndustryId" required>
+                        ng-model="vm.user.IndustryId">
                   <option ng-repeat="industry in vm.industriesList"
                           ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
                   </option>
@@ -367,9 +364,9 @@
               <div class="row p-0">
                 <div class="col" ng-class="{'col-8': vm.user.location.CountryId === 1}">
                   <div class="form-group">
-                    <label for="Country">PAÍS*</label>
+                    <label for="Country">PAÍS</label>
                     <select class="form-control" id="Country" name="Country"
-                            ng-model="vm.user.location.CountryId" required>
+                            ng-model="vm.user.location.CountryId">
                       <option ng-repeat="country in vm.countriesList" ng-value="country.CountryId">
                         {{country.Description}}
                       </option>
@@ -382,9 +379,9 @@
 
                 <div class="col-4" ng-if="vm.user.location.CountryId === 1">
                   <div class="form-group">
-                    <label for="State">ESTADO*</label>
+                    <label for="State">ESTADO</label>
                     <select class="form-control" id="State" name="State" ng-change="vm.selectState(vm.user.location.StateId)"
-                            ng-model="vm.user.location.StateId" required>
+                            ng-model="vm.user.location.StateId">
                       <option ng-repeat="state in vm.statesList" ng-value="state.StateId">
                         {{state.Code}}
                       </option>
@@ -397,9 +394,9 @@
               </div>
 
               <div class="form-group" ng-if="vm.user.location.CountryId === 1">
-                <label for="City">CIDADE*</label>
+                <label for="City">CIDADE</label>
                 <select class="form-control" id="City" name="City" ng-change="vm.selectCity(vm.user.location.city.IBGEId)"
-                        ng-model="vm.user.location.city.IBGEId" required>
+                        ng-model="vm.user.location.city.IBGEId">
                   <option ng-repeat="city in vm.citiesList" ng-value="city.IBGEId">
                     {{city.Description}}
                   </option>
@@ -410,7 +407,7 @@
               </div>
 
               <a class="btn btn-outline-dark add-position mt-5 mx-auto" href="#" ng-click="vm.hasPosition = !vm.hasPosition"
-                 ng-if="!vm.hasPosition && (vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'DropStudent')">
+                 ng-if="!vm.hasPosition">
                   ADICIONAR CARGO ATUAL
               </a>
      
