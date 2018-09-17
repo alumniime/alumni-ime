@@ -6,6 +6,7 @@ export default class ModalRegisterInformationController {
     Birthdate: '',
     Genre: '',
     Phone: '',
+    ShowInformation: true,
     location: {},
     positions: [{}]
   };
@@ -158,6 +159,8 @@ export default class ModalRegisterInformationController {
       } else {
         this.dateInvalid = true;
       }
+    } else {
+      this.dateInvalid = false;
     }
   }
 
@@ -266,13 +269,12 @@ export default class ModalRegisterInformationController {
   nextPage(form) {
     if(form.$valid) {
       this.submitted = false;
-      if(this.page === 1 && (this.personType.Description === 'Student' || this.personType.Description === 'DropStudent')) {
-        this.hasPosition = false;
-      } else {
-        this.hasPosition = true;
-      }
-      if(this.page === 1 && this.personType.Description === 'Visitor') {
-        this.page++;
+      if(this.page === 1) {
+        if (this.personType.Description === 'Student' || this.personType.Description === 'DropStudent' || this.personType.Description === 'Visitor') {
+          this.hasPosition = false;
+        } else {
+          this.hasPosition = true;
+        }
       }
       this.page++;
       this.pills++;
@@ -286,6 +288,8 @@ export default class ModalRegisterInformationController {
       Reflect.deleteProperty(this.user, 'GraduationYear');
       Reflect.deleteProperty(this.user, 'GraduationEngineeringId');
       Reflect.deleteProperty(this.user, 'ProfessorSEId');
+      Reflect.deleteProperty(this.user, 'OptionToKnowThePageId');
+      Reflect.deleteProperty(this.user, 'OptionToKnowThePageOther');
       for(var initiative of this.initiativeList) {
         initiative.selected = false;
       }
@@ -293,14 +297,7 @@ export default class ModalRegisterInformationController {
     if(this.page === 3) {
       // Reflect.deleteProperty(this.user, 'Headline');
     }
-    if(this.page === 4) {
-      Reflect.deleteProperty(this.user, 'OptionToKnowThePageId');
-      Reflect.deleteProperty(this.user, 'OptionToKnowThePageOther');
-    }
 
-    if(this.page === 3 && this.personType.Description === 'Visitor') {
-      this.page--;
-    }
     this.page--;
     this.pills--;
   }

@@ -132,9 +132,13 @@ export default function (sequelize, DataTypes) {
     },
     ShowPhone: {
       type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
+    ShowInformation: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: 0
-    },    
+      defaultValue: 1
+    },
     GraduationEngineeringId: {
       type: DataTypes.INTEGER(1),
       allowNull: true,

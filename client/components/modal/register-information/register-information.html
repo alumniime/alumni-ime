@@ -9,9 +9,9 @@
 <div class="modal-header d-block">
   <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
   <h6 class="modal-title text-center modal-title" ng-if="vm.page === 1">Informações gerais</h6>
-  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 2">Informações complementares</h6>
+  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 2 && vm.personType.Description !== 'Visitor'">Informações complementares</h6>
+  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 2 && vm.personType.Description === 'Visitor'">Como você conheceu a página?</h6>
   <h6 class="modal-title text-center modal-title" ng-if="vm.page === 3">Informações profissionais</h6>
-  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 4">Como você conheceu a página?</h6>
 </div>
 
 <div class="modal-body" id="modal-body">
@@ -45,11 +45,9 @@
       </div>
 
       <div class="form-group">
-        <label for="Birthdate">DATA DE NASCIMENTO*</label>
+        <label for="Birthdate">DATA DE NASCIMENTO</label>
         <input type="text" id="Birthdate" name="Birthdate" placeholder="10/03/1980" mask="39/19/9999"
-               class="form-control"
-               ng-model="vm.Birthdate" required
-               ng-change="vm.validateDate(vm.Birthdate)">
+               class="form-control" ng-model="vm.Birthdate" ng-change="vm.validateDate(vm.Birthdate)">
         <!--<p class="help-block" ng-show="form.Birthdate.$error.required && vm.submitted">-->
         <!--Insira a sua data de nascimento.-->
         <!--</p>-->
@@ -73,10 +71,10 @@
       -->
 
       <div class="form-group">
-        <label for="Phone" class="d-block">TELEFONE*</label>
+        <label for="Phone" class="d-block">TELEFONE</label>
         <input type="tel" id="Phone" name="Phone" ng-intl-tel-input
                class="form-control ml-5"
-               ng-model="vm.user.Phone" required>
+               ng-model="vm.user.Phone">
         <!--<p class="help-block" ng-show="form.Phone.$error.required && vm.submitted">-->
         <!--Insira o seu telefone.-->
         <!--</p>-->
@@ -154,6 +152,30 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- For visitors: Options to know the page -->
+    <div class="page2" ng-if="vm.page >=2 && vm.personType.Description === 'Visitor'" ng-show="vm.page === 2">
+
+      <div class="form-group"
+           ng-if="vm.personType.Description === 'Visitor'">
+        <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnowList">
+          <input type="radio" id="customRadio{{$index}}" name="OptionToKnowThePage" class="custom-control-input"
+                 ng-value="option.OptionTypeId" ng-model="vm.user.OptionToKnowThePageId" required>
+          <label class="custom-control-label" for="customRadio{{$index}}">{{option.Description}}</label>
+          <div class="form-group"
+               ng-if="option.Description === 'Outros' && vm.user.OptionToKnowThePageId == option.OptionTypeId">
+            <input type="text" id="OptionToKnowThePageOther" name="OptionToKnowThePageOther" class="form-control"
+                   ng-model="vm.user.OptionToKnowThePageOther" required>
+            <p class="help-block" ng-show="form.OptionToKnowThePageOther.$error.required && vm.submitted">
+              Insira outra opção.
+            </p>
+          </div>
+        </div>
+        <p class="help-block" ng-show="form.OptionToKnowThePage.$error.required && vm.submitted">
+          Escolha uma opção.
+        </p>
+      </div>
 
     </div>
 
@@ -163,10 +185,10 @@
       <!-- Headline, industry and location -->
       <div>
         <div class="form-group">
-          <label for="Headline">TÍTULO DO PERFIL*</label>
+          <label for="Headline">TÍTULO DO PERFIL</label>
           <textarea type="text" id="Headline" name="Headline" class="form-control" rows="2"
                     placeholder="Ex: Especialista em Gestão de Projetos"
-                    ng-model="vm.user.Headline" required ng-maxlength="255"></textarea>
+                    ng-model="vm.user.Headline" ng-maxlength="255"></textarea>
           <p class="help-block" ng-show="form.Headline.$error.required && vm.submitted">
             Insira um título para seu perfil.
           </p>
@@ -176,9 +198,9 @@
         </div>
 
         <div class="form-group">
-          <label for="Industry">SETOR*</label>
+          <label for="Industry">SETOR</label>
           <select class="form-control" id="Industry" name="Industry"
-                  ng-model="vm.user.IndustryId" required>
+                  ng-model="vm.user.IndustryId">
             <option ng-repeat="industry in vm.industriesList"
                     ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
             </option>
@@ -191,9 +213,9 @@
         <div class="row p-0">
           <div class="col" ng-class="{'col-8': vm.user.location.CountryId === 1}">
             <div class="form-group">
-              <label for="Country">PAÍS*</label>
+              <label for="Country">PAÍS</label>
               <select class="form-control" id="Country" name="Country"
-                      ng-model="vm.user.location.CountryId" required>
+                      ng-model="vm.user.location.CountryId">
                 <option ng-repeat="country in vm.countriesList" ng-value="country.CountryId">
                   {{country.Description}}
                 </option>
@@ -206,9 +228,9 @@
 
           <div class="col-4" ng-if="vm.user.location.CountryId === 1">
             <div class="form-group">
-              <label for="State">ESTADO*</label>
+              <label for="State">ESTADO</label>
               <select class="form-control" id="State" name="State" ng-change="vm.selectState(vm.user.location.StateId)"
-                      ng-model="vm.user.location.StateId" required>
+                      ng-model="vm.user.location.StateId">
                 <option ng-repeat="state in vm.statesList" ng-value="state.StateId">
                   {{state.Code}}
                 </option>
@@ -221,9 +243,9 @@
         </div>
 
         <div class="form-group" ng-if="vm.user.location.CountryId === 1">
-          <label for="City">CIDADE*</label>
+          <label for="City">CIDADE</label>
           <select class="form-control" id="City" name="City" ng-change="vm.selectCity(vm.user.location.city.IBGEId)"
-                  ng-model="vm.user.location.city.IBGEId" required>
+                  ng-model="vm.user.location.city.IBGEId">
             <option ng-repeat="city in vm.citiesList" ng-value="city.IBGEId">
               {{city.Description}}
             </option>
@@ -235,7 +257,7 @@
       </div>
 
       <a class="btn btn-outline-dark add-position mt-5 mx-auto" href="#" ng-click="vm.hasPosition = !vm.hasPosition"
-         ng-if="!vm.hasPosition && (vm.personType.Description === 'Student' || vm.personType.Description === 'DropStudent')">
+         ng-if="!vm.hasPosition">
         ADICIONAR CARGO ATUAL
       </a>
 
@@ -244,8 +266,7 @@
         <h6 class="modal-title text-center modal-title mb-3 mt-4">
           Cargo atual
           <i class="fa fa-trash c-pointer ml-3" ng-click="vm.hasPosition = !vm.hasPosition"
-             uib-tooltip="Remover cargo" tooltip-placement="bottom"
-             ng-if="vm.personType.Description === 'Student' || vm.personType.Description === 'DropStudent'">
+             uib-tooltip="Remover cargo" tooltip-placement="bottom">
           </i>
         </h6>
 
@@ -366,7 +387,15 @@
             Insira o ano de início do cargo.
           </p>
         </div>
+
       </div>
+      
+      <div class="custom-control custom-checkbox mt-5" ng-if="vm.personType.Description === 'FormerStudent' || vm.personType.Description === 'FormerStudentAndProfessor'">
+        <input type="checkbox" name="ShowInformation" class="custom-control-input" id="ShowInformation" ng-model="vm.user.ShowInformation" ng-checked="true">
+        <label class="custom-control-label" for="ShowInformation">
+          Autorizo outros ex-alunos aprovados na plataforma a visualizarem meus dados.
+        </label>
+      </div>              
 
 
       <!-- Resumo -->
@@ -399,32 +428,7 @@
 
     </div>
 
-    <!-- Options to know the page -->
-    <div class="page4" ng-if="vm.page === 4 && vm.personType.Description === 'Visitor'">
-
-      <div class="form-group"
-           ng-if="vm.personType.Description === 'Visitor'">
-        <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnowList">
-          <input type="radio" id="customRadio{{$index}}" name="OptionToKnowThePage" class="custom-control-input"
-                 ng-value="option.OptionTypeId" ng-model="vm.user.OptionToKnowThePageId" required>
-          <label class="custom-control-label" for="customRadio{{$index}}">{{option.Description}}</label>
-          <div class="form-group"
-               ng-if="option.Description === 'Outros' && vm.user.OptionToKnowThePageId == option.OptionTypeId">
-            <input type="text" id="OptionToKnowThePageOther" name="OptionToKnowThePageOther" class="form-control"
-                   ng-model="vm.user.OptionToKnowThePageOther" required>
-            <p class="help-block" ng-show="form.OptionToKnowThePageOther.$error.required && vm.submitted">
-              Insira outra opção.
-            </p>
-          </div>
-        </div>
-        <p class="help-block" ng-show="form.OptionToKnowThePage.$error.required && vm.submitted">
-          Escolha uma opção.
-        </p>
-      </div>
-
-    </div>
-
-    <div class="form-group has-error">
+    <div class="form-group has-error mt-3">
       <p class="help-block">{{ vm.errors.register }}</p>
     </div>
 
@@ -453,12 +457,12 @@
       VOLTAR
     </button>
     <button class="btn btn-link text-dark"
-            ng-if="vm.page <= 2 || vm.page === 3 && vm.personType.Description === 'Visitor'"
+            ng-if="vm.page <= 2"
             ng-click="vm.nextPage(form)">
       AVANÇAR
     </button>
     <button class="btn btn-link text-dark"
-            ng-if="vm.page === 4 || vm.page === 3 && vm.personType.Description !== 'Visitor'"
+            ng-if="vm.page === 3"
             ng-click="vm.registerNewUser(form)">
       FINALIZAR
     </button>
