@@ -50,6 +50,11 @@ export default class ModalShowPersonController {
   submitPerson(form) {
     this.submitted = true;
     console.log(this.former);
+
+    if((this.user.PersonTypeId === 3 || this.user.PersonTypeId === 4) && !this.former) {
+      this.Modal.showAlert('Erro', 'Por favor, selecione primeiro um ex-aluno da base para vincular.');
+      return;
+    }
     
     if(form.$valid){
       var loading = this.Modal.showLoading();
