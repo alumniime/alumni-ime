@@ -1,0 +1,39 @@
+<div class="container adminNewsView">
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pt-3 pb-2 pb-md-0">Notícias Publicadas <br class="d-block d-sm-none"> </h5>
+    </div>
+    <div class="col-auto pb-2">
+      <a href="#" class="btn btn-success mb-2" ng-click="admin.approveGreen()">Cadastrar Notícia</a>
+    </div>
+  </div>
+
+
+  <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Título</th>
+      <!-- <th scope="col">Subtítulo</th> -->
+      <th scope="col">Categoria</th>
+      <th scope="col">Views</th>
+      <th scope="col">Publicação</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="news in admin.news" class="c-pointer" ng-click="admin.editNews(news.NewsId)">
+      <th scope="row">{{news.NewsId}}</th>
+      <td>{{news.Title}}</td>
+      <!-- <td>{{news.Subtitle}}</td> -->
+      <td>{{news.category.PortugueseDescription}}</td> 
+      <td>{{news.Views}}</td>
+      <td>{{news.PublishDate | date: 'dd/MM/yyyy'}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+
+
+
+</div>

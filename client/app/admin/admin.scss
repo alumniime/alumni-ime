@@ -1,59 +1,8 @@
 .adminView {
   padding: 40px 20px 60px;
 
-  nav {
-    // background-color: #e3f2fd;
-    // background-color: rgba(0,0,0,0.05);
-    background-color: rgb(212, 216, 237);
-  }
-
-  table {
-    font-size: 15px;
-  }
-
-  .btn {
-    display: inherit;
-    font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    height: 45px;
-    border-radius: 30px;
-    min-width: 200px;
-    padding-top: 10px;
-  }
-
-  input {
-    height: 38px;
-    border-radius: 0 !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-bottom: 1px solid #bdbdbd;
-    padding: 10px 20px !important;
-  }
-
-  ::-webkit-input-placeholder {
-    font-style: italic;
-    color: #828282;
-  }
-
-  input::placeholder {
-    font-style: italic;
-    color: #828282;
-  }
-
-  .page-link {
-    color: #00456F;
-  }
-
-  .page-item.active .page-link {
-    background-color: #00456F;
-    border-color: #00456F;
-    color: #fff;
-  }
-
-  .pagination-sm{
-    overflow: auto;
+  .adminMenu .nav-item, .adminMenu .nav-link {
+    outline: none !important;
   }
 
 }

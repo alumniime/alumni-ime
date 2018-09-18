@@ -23,7 +23,7 @@
                 <a class="nav-link text-dark d-none d-lg-block" ui-sref="profile">MEU PERFIL</a>
               </li>
               <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
-                <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin">ADMIN</a>
+                <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin.users">ADMIN</a>
               </li>
               <!--<li class="nav-item" ui-sref-active="active">-->
               <!--<a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>-->
@@ -43,7 +43,7 @@
                ui-sref-active="active">CADASTRAR</a>
             <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU
               PERFIL</a>
-            <a class="nav-link d-inline" ui-sref="admin" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
+            <a class="nav-link d-inline" ui-sref="admin.users" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
           </div>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
@@ -94,7 +94,7 @@
                 <a class="nav-link font-weight-normal" ui-sref="profile">MEU PERFIL</a>
               </li>
               <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
-                <a class="nav-link font-weight-normal" ui-sref="admin">ADMIN</a>
+                <a class="nav-link font-weight-normal" ui-sref="admin.users">ADMIN</a>
               </li>
             </ul>
 
@@ -187,7 +187,7 @@
                   <a class="nav-link font-weight-normal" ui-sref="profile">MEU PERFIL</a>
                 </li>
                 <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed" ui-sref-active="active">
-                  <a class="nav-link font-weight-normal" ui-sref="admin">ADMIN</a>
+                  <a class="nav-link font-weight-normal" ui-sref="admin.users">ADMIN</a>
                 </li>
               </ul>
             </div>
