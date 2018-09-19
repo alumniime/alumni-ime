@@ -13,7 +13,7 @@ export default class AdminNewsController {
   $onInit() {
 
     var loading = this.Modal.showLoading();
-    this.$http.get('/api/news')
+    this.$http.get('/api/news/all')
       .then(response => {
         loading.close();
         this.news = response.data;

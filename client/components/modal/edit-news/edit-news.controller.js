@@ -4,11 +4,23 @@ import { runInThisContext } from "vm";
 
 export default class ModalEditNewsController {
   submitted = false;
+  PublishDate = '';
+  dateInvalid = false;
+  NewsId = null;
+  newElementId = null;
+  news = {
+    constructions: []
+  };
+  uploadImages = [];
+  imageQuality = 1;
+  maxImages = 1;
+  maxSize = '5MB';
 
   /*@ngInject*/
-  constructor(Modal, $http) {
+  constructor(Modal, $http, $filter) {
     this.Modal = Modal;
     this.$http = $http;
+    this.$filter = $filter;
   }
 
   $onInit() {
@@ -18,13 +30,24 @@ export default class ModalEditNewsController {
       this.newsElements = response.data;
     });
 
-    var loading = this.Modal.showLoading();
-    this.NewsId = this.resolve.NewsId;
-    this.$http.get(`api/news/${this.NewsId}`)
-      .then(response => {
-        this.news = response.data;
-        loading.close();
-      });
+    this.$http.get('/api/news_categories')
+    .then(response => {
+      this.newsCategories = response.data;
+    });
+
+    if(this.resolve.NewsId) {
+      this.NewsId = this.resolve.NewsId;
+      var loading = this.Modal.showLoading();
+      this.$http.get(`api/news/admin/${this.NewsId}`)
+        .then(response => {
+          this.news = response.data;
+          this.PublishDate = this.$filter('date')(this.news.PublishDate, 'dd/MM/yyyy');
+          console.log(this.news);
+          loading.close();
+        });
+    } else {
+      this.PublishDate = this.$filter('date')(Date.now(), 'dd/MM/yyyy');
+    }
 
   }
 
@@ -49,6 +72,47 @@ export default class ModalEditNewsController {
     }    
 
   }
+
+  addConstruction(elementId) {
+    for(var element of this.newsElements) {
+      if(elementId === element.NewsElementId) {
+        var construction = {
+          NewsElementId: elementId,
+          OrderIndex: this.news.constructions.length,
+          Value: null,
+          element: element,
+          images: []
+        };
+        if(this.NewsId) {
+          construction.NewsId = this.NewsId;          
+        }
+        this.news.constructions.push(construction);
+      }
+    }
+  }
+
+  upConstruction(index) {
+    var aux = this.news.constructions[index];
+    aux.OrderIndex ? aux.OrderIndex-- : '';
+    this.news.constructions[index] = this.news.constructions[index - 1];
+    this.news.constructions[index].OrderIndex ? this.news.constructions[index].OrderIndex++ : '';
+    this.news.constructions[index - 1] = aux;
+    console.log(this.news.constructions);
+  }  
+  
+  downConstruction(index) {
+    var aux = this.news.constructions[index];
+    aux.OrderIndex ? aux.OrderIndex++ : '';
+    this.news.constructions[index] = this.news.constructions[index + 1];
+    this.news.constructions[index].OrderIndex ? this.news.constructions[index].OrderIndex-- : '';
+    this.news.constructions[index + 1] = aux;
+    console.log(this.news.constructions);
+  }  
+
+  removeConstruction(index) {
+    this.news.constructions.splice(index, 1);
+    // TODO fill again OrderIndex
+  }  
 
   ok(value) {
     this.close({$value: value});

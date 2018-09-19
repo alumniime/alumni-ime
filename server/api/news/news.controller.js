@@ -97,6 +97,35 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a list of all News for admin
+export function indexAll(req, res) {
+  return News.findAll({
+    include: [{
+      model: NewsCategory,
+      as: 'category',
+    }, {
+      model: NewsConstruction,
+      as: 'constructions',
+      include: [{
+        model: NewsElement,
+        as: 'element',
+        where: {
+          Type: 'PrincipalImage'
+        }
+      }, {
+        model: Image,
+        as: 'images',
+        attributes: ['Path', 'OrderIndex'],
+      }]
+    }],
+    order: [
+      ['PublishDate', 'DESC']
+    ]
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Gets a single News from the DB
 export function show(req, res) {
   return News.find({
@@ -129,6 +158,39 @@ export function show(req, res) {
     .then(news => {
       return news.increment('Views', {by: 1});
     })
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Gets a single News from the DB for admin
+export function showAdmin(req, res) {
+  return News.find({
+    include: [{
+      model: NewsCategory,
+      as: 'category',
+    }, {
+      model: NewsConstruction,
+      as: 'constructions',
+      include: [{
+        model: NewsElement,
+        as: 'element'
+      }, {
+        model: Image,
+        as: 'images',
+        attributes: ['Path', 'OrderIndex'],
+      }],
+      order: [
+        [{model: Image, as: 'images'}, 'OrderIndex']
+      ]
+    }],
+    order: [
+      [{model: NewsConstruction, as: 'constructions'}, 'OrderIndex']
+    ],
+    where: {
+      NewsId: req.params.id
+    }
+  })
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
