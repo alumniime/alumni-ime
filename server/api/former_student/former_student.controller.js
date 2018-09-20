@@ -152,6 +152,43 @@ export function years(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a list of years ranking
+export function ranking(req, res) {
+  console.log(req.user);
+  User.find({
+    where: {
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
+    }
+  })
+    .then(user => {
+      if(!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return FormerStudent.findAll({ 
+        attributes: [
+          'GraduationYear',
+          [sequelize.fn('COUNT', sequelize.col('PersonId')), 'UsersNumber'],
+          [sequelize.fn('COUNT', sequelize.col('FormerStudentId')), 'TotalNumber']
+        ],
+        group: 'GraduationYear',
+        raw: true
+      })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    
+    })
+    .catch(handleError(res));
+}
+
 // Gets a list of available industries to search
 export function industries(req, res) {
   return FormerStudent.findAll({

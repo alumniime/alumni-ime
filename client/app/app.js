@@ -21,6 +21,7 @@ import {
 import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
+import graduates from './graduates';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
@@ -41,7 +42,6 @@ import donate from './donate/donate.component';
 import history from './about/history/history.component';
 import institutional from './about/institutional/institutional.component';
 import management from './about/management/management.component';
-import graduates from './graduates/graduates.controller';
 
 import './app.scss';
 

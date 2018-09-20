@@ -1,11 +1,6 @@
 'use strict';
-const angular = require('angular');
 
-const uiRouter = require('angular-ui-router');
-
-import routes from './profile.routes';
-
-export class ViewProfileController {
+export default class GraduatesProfileController {
   news = {};
   user = {};
 
@@ -97,9 +92,3 @@ export class ViewProfileController {
   }
 
 }
-
-export default angular.module('alumniApp.viewProfile', [uiRouter])
-  .config(routes)
-  .controller('ViewProfileController', ViewProfileController)
-  .name;
-

@@ -29,6 +29,7 @@ export default function (app) {
   }
 
   // Insert routes below
+  app.use('/api/years', require('./api/year'));
   app.use('/api/former_students', require('./api/former_student'));
   app.use('/api/company_types', require('./api/company_type'));
   app.use('/api/cities', require('./api/city'));
