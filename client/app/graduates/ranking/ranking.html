@@ -1,0 +1,213 @@
+<div class="container rankingView">
+
+  <h5 class="page-title">
+    Consultar ex-alunos graduados no IME
+    <br class="d-block d-lg-none">
+    <span class="font-weight-normal ml-5" ng-if="vm.showYears">
+      {{vm.graduationYears | sumByKey: 'UsersNumber'}} cadastrados de {{vm.graduationYears | sumByKey: 'TotalNumber'}}
+    </span>
+    <a href="#formerStudents" class="text-dark ml-5" ng-if="vm.showYears">Busca avançada</a>
+    <a href="/graduates/search" class="text-dark ml-5" ng-if="!vm.showYears">Visualizar todos os anos</a>
+  </h5>
+
+  <!-- List with years -->
+  <div class="row" ng-if="vm.showYears">
+    <div class="col-12 col-md-6 col-xl-4 mb-3" ng-repeat="year in vm.graduationYears | orderBy: '-GraduationYear'">
+
+      <div class="row">
+
+        <div class="col-2">
+          <a href="/graduates/search/{{year.GraduationYear}}" class="year-link pt-3 pr-3 text-dark"
+             ng-class="{active: year.GraduationYear === vm.search.GraduationYear}">{{year.GraduationYear}}</a>
+        </div>
+
+        <div class="col-9">
+          <div class="row">
+            <div class="col-9">
+              <input type="text" class="form-control-plaintext pb-0 font-weight-normal" readonly
+                     value="{{year.UsersNumber}} cadastrados de {{year.TotalNumber}}">
+            </div>
+            <div class="col-3">
+              <input type="text" class="form-control-plaintext-right" readonly
+                     value="{{100*year.UsersNumber/year.TotalNumber | number: 0}}%">
+            </div>
+          </div>
+          <div class="progress mt-1">
+            <div class="progress-bar progress-bar-custom" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                 style="width: {{100*year.UsersNumber/year.TotalNumber}}%;">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Search form -->
+  <div id="formerStudents" class="card mb-3 mt-4">
+    <h5 class="card-header">Busca avançada</h5>
+    <div class="card-body pb-4">
+      <form class="form" name="form" ng-submit="vm.searchStudents(form)" novalidate>
+        <div class="row p-0">
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label for="GraduationYear">
+                FORMATURA
+              </label>
+              <select class="form-control" id="GraduationYear" name="GraduationYear"
+                      ng-model="vm.search.GraduationYear">
+                <option value=""></option>
+                <option ng-repeat="year in vm.graduationYears | orderBy: '-GraduationYear'"
+                        ng-value="year.GraduationYear">
+                  {{year.GraduationYear}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label for="Industry">SETOR</label>
+              <select class="form-control" id="Industry" name="Industry"
+                      ng-model="vm.search.IndustryId">
+                <option value=""></option>
+                <option ng-repeat="industry in vm.industriesList | orderBy: 'PortugueseDescription'"
+                        ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="row p-0">
+              <div class="col-5">
+                <div class="form-group">
+                  <label for="LevelType">MEIO DE ATUAÇÃO</label>
+                  <select class="form-control" id="LevelType" name="LevelType" ng-model="vm.search.LevelType">
+                    <option value=""></option>
+                    <option value="civil">Civil</option>
+                    <option value="military">Militar</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-7">
+                <div class="form-group">
+                  <label for="Level" ng-if="vm.search.LevelType === 'civil' || !vm.search.LevelType">NÍVEL DO CARGO</label>
+                  <label for="Level" ng-if="vm.search.LevelType === 'military'">PATENTE</label>
+
+                  <select class="form-control" id="Level" name="Level" ng-model="vm.search.LevelId"
+                          uib-tooltip="{{!vm.search.LevelType ? 'selecione primeiramente o meio de atuação' : null}}"
+                          tooltip-placement="bottom">
+                    <option value=""></option>
+                    <option ng-repeat="level in vm.levelsList | filter: {Type: vm.search.LevelType}" ng-value="level.LevelId">
+                      {{level.Description}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label for="GraduationEngineeringId">ENGENHARIA</label>
+              <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
+                      ng-model="vm.search.EngineeringId">
+                <option value=""></option>
+                <option ng-repeat="engineering in vm.engineeringList | orderBy: 'Description'"
+                        ng-value="engineering.EngineeringId"
+                        ng-hide="engineering.SEId === 1">
+                  {{engineering.Description}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label for="Location">LOCALIZAÇÃO</label>
+              <select class="form-control" id="Location" name="Location"
+                      ng-model="vm.search.LocationId">
+                <option value=""></option>
+                <option ng-repeat="location in vm.locationsList | orderBy: 'locationName'"
+                        ng-value="location.LocationId">
+                  {{location.locationName}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label for="name">NOME</label>
+              <input type="text" name="name" id="name" class="form-control" ng-model="vm.search.name">
+            </div>
+          </div>
+
+        </div>
+        
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" name="onlyPerson" class="custom-control-input" id="onlyPerson" ng-model="vm.search.required">
+          <label class="custom-control-label" for="onlyPerson">
+            Buscar apenas ex-alunos cadastrados
+          </label>
+        </div>
+
+        <div class="row justify-content-end p-0">
+          <div class="col-auto">
+            <button class="btn btn-danger" type="submit">
+              BUSCAR
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <br>
+
+  <!-- Former Students list -->
+  <table class="table table-striped table-fixed table-responsive-md table-sm" 
+         ng-if="vm.formerStudents.length > 0">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <!-- <th scope="col">Carreira</th> -->
+      <th scope="col">Nome</th>
+      <th scope="col">Graduação</th>
+      <th scope="col">Engenharia</th>
+      <th scope="col">Nível do cargo</th>
+      <th scope="col">Empresa</th>
+      <!-- <th scope="col">Localização</th> -->
+      <th scope="col">LinkedIn</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="student in vm.formerStudents">
+      <th scope="row">{{$index + 1}}</th>
+      <!-- <td>{{student.profile.positions[0].level.Type === 'civil' ? 'Civil': (student.LevelType === 'civil' ? 'Civil' : 'Militar')}}</td> -->
+      <td ng-if="!student.profile">{{student.Name}}</td>
+      <td ng-if="student.profile">
+        <a class="text-dark c-pointer font-weight-bold"
+           ui-sref="viewProfile({PersonId: student.PersonId, PrettyURL: vm.Util.convertToSlug(student.Name)})">
+          <u>{{student.Name}}</u></a>
+      </td>
+      <td>{{student.GraduationYear}}</td>
+      <td>{{student.engineering.Legend}}</td>
+      <td>{{student.profile.positions[0].level.Description}}</td>
+      <td>{{student.profile.positions[0].company.Name}}</td>
+      <!-- <td>{{student.profile.locationName}}</td> -->
+      <td>
+        <a class="text-dark c-pointer font-weight-bold" target="_blank"
+           href="{{student.profile.LinkedinProfileURL}}" ng-if="student.profile.LinkedinProfileURL">Acessar</a>
+        {{student.profile.LinkedinProfileURL ? '' : '-'}}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+
+</div>

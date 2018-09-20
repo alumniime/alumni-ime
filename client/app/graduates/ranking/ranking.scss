@@ -1,0 +1,157 @@
+.rankingView {
+  padding: 40px 20px 60px;
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  h4 {
+    font-weight: 700;
+  }
+
+  h5 {
+    margin-bottom: 0;
+    color: #333333;
+    a {
+      font-size: 16px;
+      display: inline-block;
+    }
+  }
+
+  .btn {
+    display: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    height: 45px;
+    border-radius: 30px;
+    min-width: 200px;
+    padding-top: 10px;
+  }
+
+  .form-group label {
+    font-size: 11px;
+    margin-left: 5px;
+    white-space: nowrap;
+    color: #828282;
+  }
+
+  form {
+    padding-bottom: 10px;
+  }
+
+  form input, form select {
+    height: 38px;
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #bdbdbd;
+  }
+
+  ::-webkit-input-placeholder {
+    font-style: italic;
+    color: #828282;
+  }
+
+  form input::placeholder, form textarea::placeholder {
+    font-style: italic;
+    color: #828282;
+  }
+
+  form input {
+    padding: 10px 20px !important;
+  }
+
+  .help-block {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #E84E0F;
+  }
+
+  .form-control-plaintext, h5 span {
+    padding-top: 0;
+    font-size: 14px;
+    padding-bottom: 0;
+    color: #4F4F4F;
+    font-weight: 700;
+  }
+
+  .form-control-plaintext-right {
+    padding-top: 0;
+    font-size: 14px;
+    text-align: right;
+    float: right;
+    border: none;
+    background: transparent;
+    padding-bottom: 0;
+    color: #4F4F4F;
+    font-weight: 700;
+  }
+
+  .page-title {
+    font-weight: bold;
+    line-height: 35px;
+    font-size: 28px;
+    color: #333333;
+    padding-top: 15px;
+    padding-bottom: 20px;
+  }
+
+  .year-link {
+    font-weight: 700;
+    text-align: right;
+  }
+
+  a.text-dark:hover, a.text-dark:focus, a.text-dark.active {
+    color: #E84E0F !important;
+  }
+
+  .text-content {
+    line-height: 23px;
+    font-size: 14px;
+    color: #333333;
+    margin-bottom: 24px;
+    text-align: justify;
+  }
+
+  .card-body {
+    padding: 25px 25px 0 25px;
+  }
+
+  .progress {
+    background: #FAFAFA;
+    border: 1px solid #BDBDBD;
+    border-radius: 30px;
+    height: 12px;
+  }
+
+  .progress-bar-custom {
+    background: #6FCF97;
+  }
+
+  table {
+    font-size: 15px;
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
+  }
+
+  // tr {
+  //   width: max-content;
+  //   // display: inline-table;
+  //   // table-layout: fixed;
+  //   }
+    
+  //   table{
+  //    height:300px;              // <-- Select the height of the table
+  //    display: -moz-groupbox;    // Firefox Bad Effect
+  //   }
+  //   tbody{
+  //     overflow-y: scroll;      
+  //     height: 300px;            //  <-- Select the height of the body
+  //     width: max-content;
+  //     position: absolute;
+  //   }
+
+}
