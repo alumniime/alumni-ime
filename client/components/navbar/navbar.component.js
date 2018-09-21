@@ -32,17 +32,22 @@ export class NavbarComponent {
       state: 'news'
     },
     {
+      // Position 3 will have the menu loaded below
       title: 'PROJETOS APOIADOS',
-      state: 'projects',
+      state: 'projects'
+    },
+    {
+      title: 'TURMAS',
+      state: 'graduates',
       dropdown: [
         {
-          title: 'APROVADOS 2018.1',
-          state: 'show'
+          title: 'PESQUISA',
+          state: 'graduates.search'
         },
-        // {
-        //   title: 'CHAMADA DE PROJETOS',
-        //   state: 'call_projects'
-        // }
+        {
+          title: 'RANKING',
+          state: 'graduates.ranking'
+        },
       ]
     },
     // {
@@ -68,7 +73,6 @@ export class NavbarComponent {
   }
 
   $onInit() {
-    // this.Modal.openLogin(); // only for tests
     console.log('$onInit');
     this.getCurrentUserPromise(user => {
       if(user.email !== '') {
