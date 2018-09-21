@@ -90,4 +90,6 @@ db.State.belongsTo(db.Country, {sourceKey: 'CountryId', foreignKey: 'CountryId',
 
 db.City.belongsTo(db.State, {sourceKey: 'StateId', foreignKey: 'StateId', as: 'state'});
 
+db.Year.hasMany(db.FormerStudent, {foreignKey: 'GraduationYear', as: 'formers'});
+
 module.exports = db;
