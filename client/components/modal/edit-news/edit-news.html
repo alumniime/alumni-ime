@@ -74,57 +74,53 @@
       <div class="col-auto">
 
         <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
-            ng-change="vm.updateImages(vm.uploadImages)"
-            ng-model="vm.uploadImages"
-            ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
-            ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
-            accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages"
-            ngf-max-size="vm.maxSize">
+              ng-change="vm.updateImages(vm.uploadImages)"
+              ng-model="vm.uploadImages"
+              ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
+              ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
+              accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages"
+              ngf-max-size="vm.maxSize">
 
-        <div class="card-deck upload-images">
+          <div class="card-deck upload-images">
 
-          <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
-            <div class="card mb-3">
-              <img ng-if="file && file.type !== 'application/pdf'" ngf-thumbnail="file"/>
-              <span ng-if="file.type === 'application/pdf'" class="text-center w-100">
-                {{file.name}}
-                <i class="fa fa-file-pdf-o"></i>
-              </span>
-              <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
-                  uib-tooltip="Remover comprovante" tooltip-placement="left"></i>
+            <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
+              <div class="card mb-3">
+                <img ng-if="file" ngf-thumbnail="file"/>
+                <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
+                    uib-tooltip="Remover imagem" tooltip-placement="left"></i>
+              </div>
             </div>
-          </div>
 
-          <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
-            <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
-                  ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
-                  ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
-                  ng-model="vm.uploadImages" ngf-keep="true"
-                  ngf-multiple="false" ngf-allow-dir="true" accept="image/*,application/pdf"
-                  ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-              <div class="row">
-                <div class="col-auto">
-                  <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
-                </div>
-                <div class="col">
-                  <p class="upload-text">
-                    <a class="btn btn-link text-info upload-link p-0" href="#">
-                      Faça upload
-                    </a> da imagem principal da notícia.
-                  </p>
+            <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
+              <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
+                    ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
+                    ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
+                    ng-model="vm.uploadImages" ngf-keep="true"
+                    ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+                    ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
+                <div class="row">
+                  <div class="col-auto">
+                    <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
+                  </div>
+                  <div class="col">
+                    <p class="upload-text">
+                      <a class="btn btn-link text-info upload-link p-0" href="#">
+                        Faça upload
+                      </a> da imagem principal da notícia.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <p class="help-block" ng-show="form.files.$error.maxSize">
-          O arquivo inserido ultrapassa o tamanho máximo. Tente novamente.
-        </p>
+          <p class="help-block" ng-show="form.files.$error.maxSize">
+            O arquivo inserido ultrapassa o tamanho máximo. Tente novamente.
+          </p>
 
-        <p class="help-block" ng-show="vm.updateImages.length === 0 && vm.submitted">
-          Insira o comprovante de transferência.
-        </p>
+          <p class="help-block" ng-show="vm.updateImages.length === 0 && vm.submitted">
+            Insira a imagem principal da notícia.
+          </p>
 
         </div>
       </div>

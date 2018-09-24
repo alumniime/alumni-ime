@@ -178,7 +178,7 @@ export function showAdmin(req, res) {
       }, {
         model: Image,
         as: 'images',
-        attributes: ['Path', 'OrderIndex'],
+        attributes: ['ImageId', 'Path', 'OrderIndex'],
       }],
       order: [
         [{model: Image, as: 'images'}, 'OrderIndex']

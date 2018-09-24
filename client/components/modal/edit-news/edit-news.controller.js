@@ -15,6 +15,8 @@ export default class ModalEditNewsController {
   imageQuality = 1;
   maxImages = 1;
   maxSize = '5MB';
+  newsImages = {};
+  newsImagesIndexes = {};
 
   /*@ngInject*/
   constructor(Modal, $http, $filter) {
@@ -40,10 +42,29 @@ export default class ModalEditNewsController {
       var loading = this.Modal.showLoading();
       this.$http.get(`api/news/admin/${this.NewsId}`)
         .then(response => {
+          loading.close();
           this.news = response.data;
           this.PublishDate = this.$filter('date')(this.news.PublishDate, 'dd/MM/yyyy');
+          console.log(this.news); 
+
+          for(var constructionIndex in this.news.constructions) {
+            this.news.constructions[constructionIndex].OrderIndex = constructionIndex;
+            this.newsImages[constructionIndex] = [];
+            this.newsImagesIndexes[constructionIndex] = [];
+            for(var imageIndex in this.news.constructions[constructionIndex].images) {
+              this.newsImagesIndexes[constructionIndex].push({
+                ImageId: this.news.constructions[constructionIndex].images[imageIndex].ImageId,
+                OrderIndex: imageIndex
+              });
+              this.news.constructions[constructionIndex].images[imageIndex].OrderIndex = imageIndex;
+            }
+          }
+
           console.log(this.news);
-          loading.close();
+          console.log(this.newsImages);
+          console.log(this.newsImagesIndexes);
+
+
         });
     } else {
       this.PublishDate = this.$filter('date')(Date.now(), 'dd/MM/yyyy');
