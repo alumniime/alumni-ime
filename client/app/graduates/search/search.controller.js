@@ -1,11 +1,6 @@
 'use strict';
-const angular = require('angular');
 
-const uiRouter = require('angular-ui-router');
-
-import routes from './search.routes';
-
-export class SearchController {
+export default class GraduatesSearchController {
 
   graduationYears = [];
   formerStudents = [];
@@ -233,21 +228,3 @@ export class SearchController {
   }
 
 }
-
-export default angular.module('alumniApp.search', [uiRouter])
-  .config(routes)
-  .controller('SearchController', SearchController)
-  .filter('sumByKey', function () {
-    return function (data, key) {
-      var sum = 0;
-      if(typeof(data) === 'undefined' || typeof(key) === 'undefined') {
-        return 0;
-      }
-      for(var i = data.length - 1; i >= 0; i--) {
-        sum += parseInt(data[i][key]);
-      }
-      return sum;
-    };
-  })
-  .name;
-

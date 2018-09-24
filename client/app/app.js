@@ -21,6 +21,7 @@ import {
 import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
+import graduates from './graduates';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
@@ -41,14 +42,12 @@ import donate from './donate/donate.component';
 import history from './about/history/history.component';
 import institutional from './about/institutional/institutional.component';
 import management from './about/management/management.component';
-import search from './graduates/search/search.component';
-import viewProfile from './graduates/profile/profile.component';
 
 import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
-  history, institutional, management, search, viewProfile
+  history, institutional, management, graduates
 ])
   .config(routeConfig)
   .run(function ($rootScope, $location, Auth, ngMeta) {

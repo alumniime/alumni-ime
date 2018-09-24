@@ -10,7 +10,7 @@
 
 'use strict';
 
-import {applyPatch} from 'fast-json-patch';
+import { applyPatch } from 'fast-json-patch';
 import {
   FormerStudent, User, Engineering, Industry, Position, Company, Level,
   PersonType, Se, InitiativeLink, Initiative,
@@ -20,7 +20,7 @@ import {
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function (entity) {
-    if(entity) {
+    if (entity) {
       return res.status(statusCode)
         .json(entity);
     }
@@ -32,7 +32,7 @@ function patchUpdates(patches) {
   return function (entity) {
     try {
       applyPatch(entity, patches, /*validate*/ true);
-    } catch(err) {
+    } catch (err) {
       return Promise.reject(err);
     }
 
@@ -42,17 +42,17 @@ function patchUpdates(patches) {
 
 function removeEntity(res) {
   return function (entity) {
-    if(entity) {
+    if (entity) {
       return entity.destroy()
         .then(() => res.status(204)
           .end());
     }
   };
-} 
+}
 
 function handleEntityNotFound(res) {
   return function (entity) {
-    if(!entity) {
+    if (!entity) {
       res.status(404)
         .end();
       return null;
@@ -85,7 +85,7 @@ export function index(req, res) {
     }
   })
     .then(user => {
-      if(!user) {
+      if (!user) {
         return res.status(403)
           .send('Forbidden');
       }
@@ -131,7 +131,7 @@ export function years(req, res) {
     }
   })
     .then(user => {
-      if(!user) {
+      if (!user) {
         return res.status(403)
           .send('Forbidden');
       }
@@ -147,7 +147,48 @@ export function years(req, res) {
       })
         .then(respondWithResult(res))
         .catch(handleError(res));
-    
+
+    })
+    .catch(handleError(res));
+}
+
+// Gets a list of years ranking
+export function ranking(req, res) {
+  console.log(req.user);
+  User.find({
+    where: {
+      $or: [{
+        PersonId: req.user.PersonId,
+        PersonTypeId: [3, 4],
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
+    }
+  })
+    .then(user => {
+      if (!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return sequelize.query(`
+        SELECT 
+          y.GraduationYear,
+          DonatorsNumber,
+          DonationsValueInCents,
+          COUNT(f.PersonId) AS UsersNumber,
+          COUNT(f.FormerStudentId) AS TotalNumber,
+            CAST(COUNT(f.PersonId) / COUNT(f.FormerStudentId) * 100 AS DECIMAL(10, 2)) AS UsersPercentage,
+            CAST(DonatorsNumber / COUNT(f.FormerStudentId) * 100 AS DECIMAL(10, 2)) AS DonatorsPercentage
+        FROM Year y
+        JOIN FormerStudent f ON y.GraduationYear = f.GraduationYear
+        GROUP BY y.GraduationYear;
+          `, { type: sequelize.QueryTypes.SELECT })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+
     })
     .catch(handleError(res));
 }
@@ -187,11 +228,11 @@ export function locations(req, res) {
       'profile.location.LocationId',
       [sequelize.fn('COUNT', sequelize.col('profile.PersonId')), 'UsersNumber']
     ],
-    include: [{  
+    include: [{
       model: User,
-      attributes: [], 
+      attributes: [],
       as: 'profile',
-      include: [ {
+      include: [{
         model: Location,
         as: 'location',
         attributes: ['LinkedinName'],
@@ -236,7 +277,7 @@ export function year(req, res) {
     }
   })
     .then(user => {
-      if(!user) {
+      if (!user) {
         return res.status(403)
           .send('Forbidden');
       }
@@ -334,7 +375,7 @@ export function show(req, res) {
     }
   })
     .then(user => {
-      if(!user) {
+      if (!user) {
         return res.status(403)
           .send('Forbidden');
       }
@@ -361,7 +402,7 @@ export function show(req, res) {
           }]
         }, {
           model: Position,
-          where: {IsCurrent: true},
+          where: { IsCurrent: true },
           required: false,
           as: 'positions',
           limit: 1,
@@ -452,7 +493,7 @@ export function search(req, res) {
     }
   })
     .then(user => {
-      if(!user) {
+      if (!user) {
         return res.status(403)
           .send('Forbidden');
       }
@@ -469,45 +510,45 @@ export function search(req, res) {
 
       console.log(req.body);
 
-      if(req.body.GraduationYear) {
+      if (req.body.GraduationYear) {
         where.GraduationYear = req.body.GraduationYear;
       }
 
-      if(req.body.EngineeringId) { 
+      if (req.body.EngineeringId) {
         where.EngineeringId = req.body.EngineeringId;
       }
 
-      if(req.body.LevelType) {
+      if (req.body.LevelType) {
         level.Type = req.body.LevelType;
-        required = true; 
+        required = true;
         requiredLevel = true;
       }
 
-      if(req.body.LevelId) {
+      if (req.body.LevelId) {
         level.LevelId = req.body.LevelId;
         required = true;
         requiredLevel = true;
-      }  
+      }
 
-      if(req.body.LocationId) {
-        location = {LocationId: req.body.LocationId};
+      if (req.body.LocationId) {
+        location = { LocationId: req.body.LocationId };
         required = true;
         requiredLocation = true;
       }
 
-      if(req.body.IndustryId) {
+      if (req.body.IndustryId) {
         profile.IndustryId = req.body.IndustryId;
         required = true;
       }
 
-      if(req.body.name) {
-        where.Name = {$like: `%${req.body.name}%`};
+      if (req.body.name) {
+        where.Name = { $like: `%${req.body.name}%` };
       }
 
-      if(req.body.required) {
+      if (req.body.required) {
         required = true;
-      } 
-      
+      }
+
       console.log(where);
       console.log(profile);
 
@@ -518,9 +559,9 @@ export function search(req, res) {
         }, {
           model: User,
           attributes: ['name', 'ImageURL', 'LinkedinProfileURL', 'LocationId',
-          // ['positions.level.LevelId', 'positions.LevelId'],
-          // ['positions.LevelId', 'LevelId']
-        ],
+            // ['positions.level.LevelId', 'positions.LevelId'],
+            // ['positions.LevelId', 'LevelId']
+          ],
           as: 'profile',
           include: [{
             model: Position,
@@ -538,7 +579,7 @@ export function search(req, res) {
               model: Level,
               attributes: ['LevelId', 'Description', 'Type'],
               as: 'level',
-              where: level, 
+              where: level,
               required: requiredLevel
             }, {
               model: Location,
@@ -552,7 +593,7 @@ export function search(req, res) {
                   model: State,
                   attributes: ['Code'],
                   as: 'state'
-                }] 
+                }]
               }, {
                 model: Country,
                 as: 'country',
@@ -563,9 +604,9 @@ export function search(req, res) {
             model: Location,
             as: 'location',
             attributes: ['LinkedinName'],
-            where: location, 
+            where: location,
             required: requiredLocation,
-          include: [{
+            include: [{
               model: City,
               as: 'city',
               attributes: ['Description'],
@@ -579,7 +620,7 @@ export function search(req, res) {
               as: 'country',
               attributes: ['Description']
             }],
-          }], 
+          }],
           required: required,
           where: profile
         }],
@@ -592,7 +633,7 @@ export function search(req, res) {
         .then(respondWithResult(res))
         .catch(handleError(res));
     })
-    .catch(handleError(res)); 
+    .catch(handleError(res));
 }
 
 // Autocomplete for admin search
@@ -602,15 +643,15 @@ export function complete(req, res) {
     include: [{
       model: Engineering,
       as: 'engineering'
-    }], 
+    }],
     where: {
       $or: [{
-        Name: {$like: `%${req.params.name}%`},
+        Name: { $like: `%${req.params.name}%` },
         GraduationYear: req.params.year
       }, {
-        Name: {$like: `%${req.params.name}%`},
-        $not: [{GraduationYear: req.params.year}]
-      }]          
+        Name: { $like: `%${req.params.name}%` },
+        $not: [{ GraduationYear: req.params.year }]
+      }]
     },
     order: [
       [sequelize.literal(`(GraduationYear - ${parseInt(req.params.year)})*(GraduationYear - ${parseInt(req.params.year)})`), 'ASC'],
@@ -631,7 +672,7 @@ export function create(req, res) {
 
 // Upserts the given FormerStudent in the DB at the specified ID
 export function upsert(req, res) {
-  if(req.body.FormerStudentId) {
+  if (req.body.FormerStudentId) {
     Reflect.deleteProperty(req.body, 'FormerStudentId');
   }
 
@@ -642,11 +683,11 @@ export function upsert(req, res) {
   })
     .then(respondWithResult(res))
     .catch(handleError(res));
-} 
+}
 
 // Updates an existing FormerStudent in the DB
 export function patch(req, res) {
-  if(req.body.FormerStudentId) {
+  if (req.body.FormerStudentId) {
     Reflect.deleteProperty(req.body, 'FormerStudentId');
   }
   return FormerStudent.find({

@@ -14,6 +14,7 @@ var db = {
 };
 
 // Insert models below
+db.Year = db.sequelize.import('../api/year/year.model');
 db.FormerStudent = db.sequelize.import('../api/former_student/former_student.model');
 db.CompanyType = db.sequelize.import('../api/company_type/company_type.model');
 db.City = db.sequelize.import('../api/city/city.model');
@@ -88,5 +89,7 @@ db.Location.belongsTo(db.City, {sourceKey: 'CityId', foreignKey: 'CityId', as: '
 db.State.belongsTo(db.Country, {sourceKey: 'CountryId', foreignKey: 'CountryId', as: 'country'});
 
 db.City.belongsTo(db.State, {sourceKey: 'StateId', foreignKey: 'StateId', as: 'state'});
+
+db.Year.hasMany(db.FormerStudent, {foreignKey: 'GraduationYear', as: 'formers'});
 
 module.exports = db;

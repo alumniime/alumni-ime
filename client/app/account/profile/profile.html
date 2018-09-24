@@ -192,7 +192,7 @@
 
               <div class="form-group">
                 <label for="Birthdate">DATA DE NASCIMENTO</label>
-                <input type="text" id="Birthdate" name="Birthdate" placeholder="10/03/1980" mask="39/19/9999"
+                <input type="text" id="Birthdate" name="Birthdate" placeholder="dd/mm/yyyy" mask="39/19/9999"
                        class="form-control" ng-model="vm.Birthdate"
                        ng-change="vm.validateDate(vm.Birthdate)">
                 <p class="help-block" ng-show="formUpdate.Birthdate.$error.required && vm.submittedUpdate">

@@ -1,4 +1,4 @@
-<div class="container searchView">
+<div class="container graduatesSearchView">
 
   <h5 class="page-title">
     Consultar ex-alunos graduados no IME
@@ -192,7 +192,7 @@
       <td ng-if="!student.profile">{{student.Name}}</td>
       <td ng-if="student.profile">
         <a class="text-dark c-pointer font-weight-bold"
-           ui-sref="viewProfile({PersonId: student.PersonId, PrettyURL: vm.Util.convertToSlug(student.Name)})">
+           ui-sref="graduates.profile({PersonId: student.PersonId, PrettyURL: vm.Util.convertToSlug(student.Name)})">
           <u>{{student.Name}}</u></a>
       </td>
       <td>{{student.GraduationYear}}</td>
