@@ -70,70 +70,12 @@
 
     <br>
 
-    <div class="row justify-content-center">
-      <div class="col-auto">
-
-        <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
-              ng-change="vm.updateImages(vm.uploadImages)"
-              ng-model="vm.uploadImages"
-              ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
-              ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
-              accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages"
-              ngf-max-size="vm.maxSize">
-
-          <div class="card-deck upload-images">
-
-            <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
-              <div class="card mb-3">
-                <img ng-if="file" ngf-thumbnail="file"/>
-                <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
-                    uib-tooltip="Remover imagem" tooltip-placement="left"></i>
-              </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
-              <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
-                    ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
-                    ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
-                    ng-model="vm.uploadImages" ngf-keep="true"
-                    ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
-                    ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-                <div class="row">
-                  <div class="col-auto">
-                    <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
-                  </div>
-                  <div class="col">
-                    <p class="upload-text">
-                      <a class="btn btn-link text-info upload-link p-0" href="#">
-                        Faça upload
-                      </a> da imagem principal da notícia.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <p class="help-block" ng-show="form.files.$error.maxSize">
-            O arquivo inserido ultrapassa o tamanho máximo. Tente novamente.
-          </p>
-
-          <p class="help-block" ng-show="vm.updateImages.length === 0 && vm.submitted">
-            Insira a imagem principal da notícia.
-          </p>
-
-        </div>
-      </div>
-
-    </div>
-    
-
-    <div class="row justify-content-end">
+    <div class="row justify-content-end pb-4">
       <div class="col-auto">
         <div class="form-group">
           <label for="Element">TIPOS DE ELEMENTOS</label>
           <select class="form-control" id="Element" name="Element" ng-model="vm.newElementId">
-            <option ng-repeat="element in vm.newsElements" ng-value="element.NewsElementId">
+            <option ng-repeat="element in vm.newsElements" ng-value="element.NewsElementId" ng-if="element.Type !== 'PrincipalImage'">
               {{element.PortugueseDescription}}
             </option>
           </select>
@@ -146,86 +88,119 @@
       </div>
     </div>
 
-    <div class="row pb-3 construction" ng-repeat="construction in vm.news.constructions">
+    <div class="row pb-3 construction" ng-repeat="(cIndex, construction) in vm.news.constructions">
       <div class="col-9">
 
         <div class="form-group" ng-if="construction.element.Type === 'Paragraph'">
-          <label for="Paragraph{{$index}}">{{$index + 1}} - PARÁGRAFO*</label>
-          <textarea type="text" id="Paragraph{{$index}}" name="Paragraph{{$index}}" class="form-control" rows="3" 
+          <label for="Paragraph{{cIndex}}">{{cIndex + 1}} - PARÁGRAFO*</label>
+          <textarea type="text" id="Paragraph{{cIndex}}" name="Paragraph{{cIndex}}" class="form-control" rows="3" 
                     ng-model="construction.Value" required></textarea>
-          <p class="help-block" ng-show="form['Paragraph' + $index].$error.required && vm.submitted">
+          <p class="help-block" ng-show="form['Paragraph' + cIndex].$error.required && vm.submitted">
             Insira o texto.
           </p>
         </div>
 
         <div class="form-group" ng-if="construction.element.Type === 'QuoteParagraph'">
-          <label for="Paragraph{{$index}}">{{$index + 1}} - PARÁGRAFO EM DESTAQUE*</label>
-          <textarea type="text" id="Paragraph{{$index}}" name="Paragraph{{$index}}" class="form-control" rows="3" 
+          <label for="Paragraph{{cIndex}}">{{cIndex + 1}} - PARÁGRAFO EM DESTAQUE*</label>
+          <textarea type="text" id="Paragraph{{cIndex}}" name="Paragraph{{cIndex}}" class="form-control" rows="3" 
                     ng-model="construction.Value" required></textarea>
-          <p class="help-block" ng-show="form['Paragraph' + $index].$error.required && vm.submitted">
+          <p class="help-block" ng-show="form['Paragraph' + cIndex].$error.required && vm.submitted">
             Insira o texto.
           </p>
         </div>
 
-        <!-- <div ng-if="construction.element.Type === 'Image'" class="mb-4">
-          <img class="img-fluid" ng-src="{{construction.images[0].Path}}">
-        </div> -->
 
         <div class="form-group" ng-if="construction.element.Type === 'ImageLink'">
-          <label for="ImageLink{{$index}}">{{$index + 1}} - IMAGEM COM LINK*</label>
-          <input type="text" id="ImageLink{{$index}}" name="ImageLink{{$index}}" class="form-control"
+          <label for="ImageLink{{cIndex}}">{{cIndex + 1}} - IMAGEM COM LINK*</label>
+          <input type="text" id="ImageLink{{cIndex}}" name="ImageLink{{cIndex}}" class="form-control"
                     ng-model="construction.Value" required>
-          <p class="help-block" ng-show="form['ImageLink' + $index].$error.required && vm.submitted">
+          <p class="help-block" ng-show="form['ImageLink' + cIndex].$error.required && vm.submitted">
             Insira o link.
           </p>
         </div>
 
-        <!-- <div ng-if="construction.element.Type === 'ImageLink'" class="mb-4">
-          <a href="{{construction.Value}}" target="_blank">
-            <img class="img-fluid" ng-src="{{construction.images[0].Path}}">
-          </a>
-        </div> -->
+        <div ng-if="['PrincipalImage', 'Image', 'ImageLink', 'CarouselImages'].includes(construction.element.Type)">
 
-        <div ng-if="construction.element.Type === 'CarouselImages'" class="col-12 carousel-block">
-          <div id="carouselAlumniNews{{construction.NewsConstructionId}}" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-              <li data-target="#carouselAlumniNews{{construction.NewsConstructionId}}"
-                  ng-repeat="image in construction.images"
-                  data-slide-to="{{$index}}" ng-class="{active: $index === 0}"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item" ng-repeat="image in construction.images"
-                    ng-class="{active: $index === 0}">
-                <img class="d-block w-100" ng-src="{{image.Path}}">
+          <div class="row justify-content-center">
+            <div class="col-auto">
+      
+              <div class="form-group drop-images" ngf-drop="vm.updateImages(false, cIndex)"
+                    ng-change="vm.updateImages(false, cIndex)"
+                    ng-model="vm.uploadImages[cIndex]"
+                    ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
+                    ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
+                    accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxFiles(construction)"
+                    ngf-max-size="vm.maxSize">
+      
+                <div class="card-deck upload-images">
+      
+                  <div class="col-12 col-sm-6 pl-0 pr-0" ng-repeat="file in vm.concatImages[cIndex]">
+                    <div class="card mb-3">
+                      <img ng-if="file && file.$ngfName" ngf-thumbnail="file"/>
+                      <img ng-if="file && !file.$ngfName" ng-src="{{file.Path}}"/>
+                      <i ng-if="(file.size || file.Path) && $index === 0" class="fa fa-bookmark principal-image-button"
+                         uib-tooltip="Imagem principal" tooltip-placement="right"></i>
+                      <i ng-if="(file.size || file.Path) && $index !== 0" class="fa fa-bookmark-o principal-image-button"
+                         uib-tooltip="Selecionar como imagem principal" tooltip-placement="right"
+                         ng-click="vm.choosePrincipal(file, cIndex)"></i>
+                      <i ng-if="file.size || file.Path" class="fa fa-close close-button" ng-click="vm.removeImage(file, cIndex)"
+                          uib-tooltip="Remover imagem" tooltip-placement="left"></i>
+                    </div>
+                  </div>
+      
+                  <div class="col-12 col-sm-6 pl-0 pr-0">
+                    <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
+                          ng-if="vm.concatImages[cIndex].length < vm.maxFiles(construction)" ngf-resize="{quality: vm.imageQuality}"
+                          ng-click="vm.updateImages(true, cIndex)" ngf-select ng-change="vm.updateImages(false, cIndex)"
+                          ng-model="vm.uploadImages[cIndex]" ngf-keep="true"
+                          ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+                          ngf-pattern="'image/*'" ngf-max-files="vm.maxFiles(construction)" ngf-max-size="vm.maxSize">
+                      <div class="row">
+                        <div class="col-auto">
+                          <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
+                        </div>
+                        <div class="col">
+                          <p class="upload-text">
+                            <a class="btn btn-link text-info upload-link p-0" href="#">
+                              Faça upload
+                            </a> de uma imagem.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      
+                <p class="help-block" ng-show="form.files.$error.maxSize">
+                  O arquivo inserido ultrapassa o tamanho máximo. Tente novamente.
+                </p>
+      
+                <p class="help-block" ng-show="vm.concatImages[cIndex].length === 0 && vm.submitted">
+                  Insira uma imagem.
+                </p>
+      
               </div>
+      
             </div>
-            <a class="carousel-control-prev" href="#carouselAlumniNews{{construction.NewsConstructionId}}"
-                role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Anterior</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselAlumniNews{{construction.NewsConstructionId}}"
-                role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Próximo</span>
-            </a>
           </div>
+      
+
         </div>
 
         <div class="form-group" ng-if="construction.element.Type === 'Link'">
-          <label for="Link{{$index}}">{{$index + 1}} - LINK*</label>
-          <input type="text" id="Link{{$index}}" name="Link{{$index}}" class="form-control"
+          <label for="Link{{cIndex}}">{{cIndex + 1}} - LINK*</label>
+          <input type="text" id="Link{{cIndex}}" name="Link{{cIndex}}" class="form-control"
                     ng-model="construction.Value" required>
-          <p class="help-block" ng-show="form['Link' + $index].$error.required && vm.submitted">
+          <p class="help-block" ng-show="form['Link' + cIndex].$error.required && vm.submitted">
             Insira o link.
           </p>
         </div>
 
         <div class="form-group" ng-if="construction.element.Type === 'Video'">
-          <label for="Video{{$index}}">{{$index + 1}} - LINK VÍDEO YOUTUBE*</label>
-          <input type="text" id="Video{{$index}}" name="Video{{$index}}" class="form-control"
+          <label for="Video{{cIndex}}">{{cIndex + 1}} - LINK VÍDEO YOUTUBE*</label>
+          <input type="text" id="Video{{cIndex}}" name="Video{{cIndex}}" class="form-control"
                     ng-model="construction.Value" required>
-          <p class="help-block" ng-show="form['Video' + $index].$error.required && vm.submitted">
+          <p class="help-block" ng-show="form['Video' + cIndex].$error.required && vm.submitted">
             Insira o link.
           </p>
         </div>
@@ -235,12 +210,12 @@
       <div class="col-3 align-self-center order-buttons">
         {{construction.element.PortugueseDescription}}
         <br>
+        <button type="button" class="btn btn-light mt-2" ng-class="{disabled: cIndex <= 1}" 
+                ng-click="vm.upConstruction(cIndex, cIndex > 1)"><i class="fa fa-arrow-up"></i></button>
+        <button type="button" class="btn btn-light mt-2" ng-class="{disabled: $first || $last}"
+                ng-click="vm.downConstruction(cIndex, !$first && !$last)"><i class="fa fa-arrow-down"></i></button>
         <button type="button" class="btn btn-light mt-2" ng-class="{disabled: $first}" 
-                ng-click="vm.upConstruction($index)"><i class="fa fa-arrow-up"></i></button>
-        <button type="button" class="btn btn-light mt-2" ng-class="{disabled: $last}"
-                ng-click="vm.downConstruction($index)"><i class="fa fa-arrow-down"></i></button>
-        <button type="button" class="btn btn-light mt-2" 
-                ng-click="vm.removeConstruction($index)"><i class="fa fa-times"></i></button>
+                ng-click="vm.removeConstruction(cIndex, !$first)"><i class="fa fa-times"></i></button>
       </div>
 
     </div>

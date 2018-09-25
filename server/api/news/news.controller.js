@@ -12,6 +12,8 @@
 
 import {applyPatch} from 'fast-json-patch';
 import {News, NewsCategory, NewsConstruction, NewsElement, Image} from '../../sqldb';
+import multer from 'multer';
+import $q from 'q';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -63,6 +65,20 @@ function handleError(res, statusCode) {
     res.status(statusCode)
       .send(err);
   };
+}
+
+function configureStorage() {
+  return multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './client/assets/images/uploads/news/');
+    },
+    filename: function (req, file, cb) {
+      file.timestamp = Date.now();
+      var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
+      var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
+      cb(null, `${file.timestamp}-${name}.${format}`);
+    }
+  });
 }
 
 // Gets a list of News
@@ -194,6 +210,121 @@ export function showAdmin(req, res) {
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
+}
+
+// Insert or update News in the DB with his images
+export function edit(req, res) {
+
+  var upload = multer({
+    storage: configureStorage()
+  })
+    .array('files', 48); // maxImages = 12 * constructions
+
+  upload(req, res, function (err) {
+    if(err) {
+      console.log(err);
+      res.json({errorCode: 1, errorDesc: err});
+      return;
+    }
+
+    var news = req.body.news;
+
+    var where = {};
+    if(news.NewsId) {
+      where.NewsId = news.NewsId;
+    }
+    News.findOrCreate(news, {
+      where: where
+    })
+      .spread((news, created) => {
+        
+        var constructions = req.body.news.constructions;
+        var promises = [];
+
+
+
+        for(var constructionIndex in constructions) {
+
+        }
+
+
+
+      })
+      .catch(handleError(res));
+
+      
+/*
+
+        oldProject.update(project, {
+          fields: ['Results']
+        })
+          .then(newProject => {
+
+            var projectId = newProject.ProjectId;
+
+            Image.findAll({
+              where: {
+                ProjectId: projectId,
+                Type: 'result',
+                IsExcluded: 0
+              }
+            })
+              .then(images => {
+
+                var promises = [];
+
+                // Removing images that user have chose
+                var imagesToSave = req.body.savedImages;
+
+                for(let imageIndex in images) {
+                  images[imageIndex].IsExcluded = 1;
+
+                  // Changing image OrderIndex knowing that index 0 is the principal image
+                  for(let searchIndex in imagesToSave.ImageId) {
+                    if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {
+                      images[imageIndex].IsExcluded = 0;
+                      images[imageIndex].OrderIndex = imagesToSave.OrderIndex[searchIndex];
+                    }
+                  }
+                }
+                for(let imageIndex in images) {
+                  promises.push(images[imageIndex].save());
+                }
+
+                // Adding new images in database
+                var uploadImages = [];
+                for(var fileIndex in req.files) {
+                  uploadImages.push({
+                    ProjectId: projectId,
+                    Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
+                    Filename: req.files[fileIndex].filename,
+                    Type: 'result',
+                    Timestamp: req.files[fileIndex].timestamp,
+                    OrderIndex: req.body.uploadIndexes.OrderIndex[fileIndex],
+                    IsExcluded: 0
+                  });
+                }
+                if(uploadImages.length > 0) {
+                  promises.push(Image.bulkCreate(uploadImages));
+                }
+
+                $q.all(promises)
+                  .then(() => {
+                    res.json({errorCode: 0, errorDesc: null});
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    handleError(res);
+                  });
+
+              })
+              .catch(handleError(res));
+
+          })
+          .catch(handleError(res));
+*/
+
+  });
 }
 
 // Creates a new News in the DB
