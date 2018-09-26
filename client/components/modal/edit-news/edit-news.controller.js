@@ -12,7 +12,7 @@ export default class ModalEditNewsController {
     constructions: []
   };
   uploadImages = [];
-  imageQuality = 1;
+  imageQuality = .9;
   maxImages = 12;
   maxSize = '5MB';
   uploadImages = {};
@@ -76,6 +76,7 @@ export default class ModalEditNewsController {
 
     if(form.$valid){
 
+      // TODO validation for images inputs
       var savedImages = [];
       var uploadImages = [];
       var uploadIndexes = [];
@@ -97,9 +98,11 @@ export default class ModalEditNewsController {
               OrderIndex: imageIndex,
               ConstructionIndex: constructionIndex
             };
-            if(this.news.constructions[constructionIndex].NewsConstructionId) {
-              image.NewsConstructionId = this.news.constructions[constructionIndex].NewsConstructionId;
-            }
+            // if(this.news.constructions[constructionIndex].NewsConstructionId) {
+            //   image.NewsConstructionId = this.news.constructions[constructionIndex].NewsConstructionId;
+            // } else {
+            //   image.NewsConstructionId = null;
+            // }
             uploadImages.push(this.concatImages[constructionIndex][imageIndex]);
             uploadIndexes.push(image);
           }
@@ -112,6 +115,7 @@ export default class ModalEditNewsController {
       console.log('uploadImages', uploadImages);
       console.log('uploadIndexes', uploadIndexes);
 
+      var loading = this.Modal.showLoading();
 
       var this_ = this;
       this.Upload.upload({
@@ -119,9 +123,9 @@ export default class ModalEditNewsController {
         arrayKey: '',
         data: {
           files: uploadImages,
-          news: this.news,
-          savedImages: savedImages,
-          uploadIndexes: uploadIndexes || null
+          news: JSON.stringify(this.news),
+          savedImages: JSON.stringify(savedImages),
+          uploadIndexes: JSON.stringify(uploadIndexes)
         }
       })
         .then(function success(result) {

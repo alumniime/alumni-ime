@@ -10,15 +10,16 @@
 
 'use strict';
 
-import {applyPatch} from 'fast-json-patch';
-import {News, NewsCategory, NewsConstruction, NewsElement, Image} from '../../sqldb';
+import { applyPatch } from 'fast-json-patch';
+import { News, NewsCategory, NewsConstruction, NewsElement, Image } from '../../sqldb';
 import multer from 'multer';
+import async from 'async';
 import $q from 'q';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function (entity) {
-    if(entity) {
+    if (entity) {
       return res.status(statusCode)
         .json(entity);
     }
@@ -30,7 +31,7 @@ function patchUpdates(patches) {
   return function (entity) {
     try {
       applyPatch(entity, patches, /*validate*/ true);
-    } catch(err) {
+    } catch (err) {
       return Promise.reject(err);
     }
 
@@ -40,7 +41,7 @@ function patchUpdates(patches) {
 
 function removeEntity(res) {
   return function (entity) {
-    if(entity) {
+    if (entity) {
       return entity.destroy()
         .then(() => res.status(204)
           .end());
@@ -50,7 +51,7 @@ function removeEntity(res) {
 
 function handleEntityNotFound(res) {
   return function (entity) {
-    if(!entity) {
+    if (!entity) {
       res.status(404)
         .end();
       return null;
@@ -100,6 +101,9 @@ export function index(req, res) {
         model: Image,
         as: 'images',
         attributes: ['Path', 'OrderIndex'],
+        where: {
+          IsExcluded: 0
+        }      
       }]
     }],
     order: [
@@ -132,6 +136,9 @@ export function indexAll(req, res) {
         model: Image,
         as: 'images',
         attributes: ['Path', 'OrderIndex'],
+        where: {
+          IsExcluded: 0
+        }
       }]
     }],
     order: [
@@ -158,13 +165,17 @@ export function show(req, res) {
         model: Image,
         as: 'images',
         attributes: ['Path', 'OrderIndex'],
+        required: false,
+        where: {
+          IsExcluded: 0
+        }
       }],
-      order: [
-        [{model: Image, as: 'images'}, 'OrderIndex']
-      ]
+      where: {
+        IsExcluded: 0
+      }
     }],
     order: [
-      [{model: NewsConstruction, as: 'constructions'}, 'OrderIndex']
+      [{ model: NewsConstruction, as: 'constructions' }, 'OrderIndex']
     ],
     where: {
       NewsId: req.params.id,
@@ -172,7 +183,7 @@ export function show(req, res) {
     }
   })
     .then(news => {
-      return news.increment('Views', {by: 1});
+      return news.increment('Views', { by: 1 });
     })
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
@@ -195,13 +206,17 @@ export function showAdmin(req, res) {
         model: Image,
         as: 'images',
         attributes: ['ImageId', 'Path', 'OrderIndex'],
+        required: false,
+        where: {
+          IsExcluded: 0
+        }
       }],
-      order: [
-        [{model: Image, as: 'images'}, 'OrderIndex']
-      ]
+      where: {
+        IsExcluded: 0
+      }
     }],
     order: [
-      [{model: NewsConstruction, as: 'constructions'}, 'OrderIndex']
+      [{ model: NewsConstruction, as: 'constructions' }, 'OrderIndex']
     ],
     where: {
       NewsId: req.params.id
@@ -221,108 +236,157 @@ export function edit(req, res) {
     .array('files', 48); // maxImages = 12 * constructions
 
   upload(req, res, function (err) {
-    if(err) {
+    if (err) {
       console.log(err);
-      res.json({errorCode: 1, errorDesc: err});
+      res.json({ errorCode: 1, errorDesc: err });
       return;
     }
 
-    var news = req.body.news;
+    var files = req.files;
+    var news = JSON.parse(req.body.news);
+    var savedImages = JSON.parse(req.body.savedImages);
+    var uploadIndexes = JSON.parse(req.body.uploadIndexes);
+    var constructions = news.constructions;
 
-    var where = {};
-    if(news.NewsId) {
-      where.NewsId = news.NewsId;
-    }
-    News.findOrCreate(news, {
-      where: where
-    })
-      .spread((news, created) => {
-        
-        var constructions = req.body.news.constructions;
-        var promises = [];
-
-
-
-        for(var constructionIndex in constructions) {
-
-        }
-
-
-
-      })
-      .catch(handleError(res));
-
-      
-/*
-
-        oldProject.update(project, {
-          fields: ['Results']
-        })
-          .then(newProject => {
-
-            var projectId = newProject.ProjectId;
-
-            Image.findAll({
-              where: {
-                ProjectId: projectId,
-                Type: 'result',
-                IsExcluded: 0
-              }
-            })
-              .then(images => {
-
-                var promises = [];
-
-                // Removing images that user have chose
-                var imagesToSave = req.body.savedImages;
-
-                for(let imageIndex in images) {
-                  images[imageIndex].IsExcluded = 1;
-
-                  // Changing image OrderIndex knowing that index 0 is the principal image
-                  for(let searchIndex in imagesToSave.ImageId) {
-                    if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {
-                      images[imageIndex].IsExcluded = 0;
-                      images[imageIndex].OrderIndex = imagesToSave.OrderIndex[searchIndex];
-                    }
-                  }
-                }
-                for(let imageIndex in images) {
-                  promises.push(images[imageIndex].save());
-                }
-
-                // Adding new images in database
-                var uploadImages = [];
-                for(var fileIndex in req.files) {
-                  uploadImages.push({
-                    ProjectId: projectId,
-                    Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
-                    Filename: req.files[fileIndex].filename,
-                    Type: 'result',
-                    Timestamp: req.files[fileIndex].timestamp,
-                    OrderIndex: req.body.uploadIndexes.OrderIndex[fileIndex],
-                    IsExcluded: 0
-                  });
-                }
-                if(uploadImages.length > 0) {
-                  promises.push(Image.bulkCreate(uploadImages));
-                }
-
-                $q.all(promises)
-                  .then(() => {
-                    res.json({errorCode: 0, errorDesc: null});
-                  })
-                  .catch(err => {
-                    console.log(err);
-                    handleError(res);
-                  });
-
-              })
-              .catch(handleError(res));
-
+    async.waterfall([
+      // Updates or creates a news
+      (next) => {
+        if (news.NewsId) {
+          News.update(news, {
+            where: {
+              NewsId: news.NewsId
+            }
           })
-          .catch(handleError(res));
-*/
+            .then(() => {
+              News.find({
+                where: {
+                  NewsId: news.NewsId
+                }
+              })
+                .then(result => next(null, result));
+            })
+            .catch(err => next(err));
+        } else {
+          News.create(news)
+            .then(result => next(null, result))
+            .catch(err => next(err));
+        }
+      },
+      // Excluding all constructions
+      (newsRetrieved, next) => {
+
+        NewsConstruction.update({ IsExcluded: 1 }, {
+          where: { NewsId: newsRetrieved.NewsId }
+        })
+          .then(() => next(null, newsRetrieved))
+          .catch(err => next(err));
+
+      },
+      // Constructions and images
+      (newsRetrieved, next) => {
+
+        async.eachSeries(constructions, function (construction, done) {
+
+          async.waterfall([
+            // Updates or creates a construction
+            (skip) => {
+              construction.NewsId = newsRetrieved.NewsId;
+              construction.OrderIndex = constructions.indexOf(construction);
+              construction.IsExcluded = 0;
+              if (construction.NewsConstructionId) {
+                NewsConstruction.update(construction, {
+                  where: {
+                    NewsConstructionId: construction.NewsConstructionId
+                  }
+                })
+                  .then(() => {
+                    NewsConstruction.find({
+                      where: {
+                        NewsConstructionId: construction.NewsConstructionId
+                      }
+                    })
+                      .then(result => skip(null, result));
+                  })
+                  .catch(err => skip(err));
+              } else {
+                NewsConstruction.create(construction)
+                  .then(result => skip(null, result))
+                  .catch(err => skip(err));
+              }
+            },
+            // Excluding all images
+            (newConstruction, skip) => {
+
+              Image.update({ IsExcluded: 1 }, {
+                where: { NewsConstructionId: newConstruction.NewsConstructionId }
+              })
+                .then(() => skip(null, newConstruction))
+                .catch(err => skip(err));
+
+            },
+            // Upload images
+            (newConstruction, skip) => {
+
+              async.eachSeries(uploadIndexes, function (image, cb) {
+
+                console.log('newConstruction', newConstruction);
+                console.log('image.ConstructionIndex', image.ConstructionIndex);
+                console.log('constructions.indexOf(construction)', constructions.indexOf(construction));
+
+                if (parseInt(image.ConstructionIndex) === constructions.indexOf(construction)) {
+                  var imageToSave = image;
+                  var imageIndex = uploadIndexes.indexOf(image);
+
+                  Reflect.deleteProperty(imageToSave, 'ConstructionIndex');
+                  imageToSave.NewsConstructionId = newConstruction.NewsConstructionId;
+                  imageToSave.Path = `assets/images/uploads/news/${files[imageIndex].filename}`;
+                  imageToSave.Filename = files[imageIndex].filename;
+                  imageToSave.Type = 'news';
+                  imageToSave.Timestamp = files[imageIndex].timestamp;
+                  imageToSave.IsExcluded = 0;
+                  console.log('imageToSave', imageToSave);
+                  Image.create(imageToSave)
+                    .then(() => cb(null, true))
+                    .catch(err => {
+                      console.log(err);
+                      cb(err);
+                    });
+                } else {
+                  cb(null, true);
+                }
+
+              }, skip);
+
+            }], done);
+
+        }, (err, result) => {
+          if(err) {
+            next(err);
+          } else {
+            next(null, newsRetrieved);
+          }
+        });
+
+      },
+      // Saved images
+      (newsRetrieved, next) => {
+
+        async.eachSeries(savedImages, function (image, cb) {
+          image.IsExcluded = 0;
+          Image.update(image, {
+            where: { ImageId: image.ImageId }
+          })
+            .then(() => cb(null, newsRetrieved))
+            .catch(err => cb(err));
+        }, next);
+
+      }], function (err, result) {
+        if (err) {
+          handleError(res);
+        } else {
+          res.json({ errorCode: 0, errorDesc: null });
+        }
+      });
 
   });
 }
@@ -336,7 +400,7 @@ export function create(req, res) {
 
 // Upserts the given News in the DB at the specified ID
 export function upsert(req, res) {
-  if(req.body.NewsId) {
+  if (req.body.NewsId) {
     Reflect.deleteProperty(req.body, 'NewsId');
   }
 
@@ -351,7 +415,7 @@ export function upsert(req, res) {
 
 // Updates an existing News in the DB
 export function patch(req, res) {
-  if(req.body.NewsId) {
+  if (req.body.NewsId) {
     Reflect.deleteProperty(req.body, 'NewsId');
   }
   return News.find({

@@ -31,6 +31,11 @@ export default function (sequelize, DataTypes) {
     OrderIndex: {
       type: DataTypes.INTEGER(1),
       allowNull: true
+    },
+    IsExcluded: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
     }
   }, {
     tableName: 'NewsConstruction'

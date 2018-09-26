@@ -128,7 +128,7 @@
                     ng-change="vm.updateImages(false, cIndex)"
                     ng-model="vm.uploadImages[cIndex]"
                     ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
-                    ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
+                    ngf-drag-over-class="'drag-over'" ngf-multiple="construction.element.Type === 'CarouselImages'" ngf-allow-dir="true"
                     accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxFiles(construction)"
                     ngf-max-size="vm.maxSize">
       
@@ -153,7 +153,7 @@
                           ng-if="vm.concatImages[cIndex].length < vm.maxFiles(construction)" ngf-resize="{quality: vm.imageQuality}"
                           ng-click="vm.updateImages(true, cIndex)" ngf-select ng-change="vm.updateImages(false, cIndex)"
                           ng-model="vm.uploadImages[cIndex]" ngf-keep="true"
-                          ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+                          ngf-multiple="construction.element.Type === 'CarouselImages'" ngf-allow-dir="true" accept="image/*"
                           ngf-pattern="'image/*'" ngf-max-files="vm.maxFiles(construction)" ngf-max-size="vm.maxSize">
                       <div class="row">
                         <div class="col-auto">

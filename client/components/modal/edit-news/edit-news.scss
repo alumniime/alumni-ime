@@ -177,11 +177,12 @@ modal-edit-news {
     line-height: 21px !important;
     font-size: 14px !important;
     color: #E84E0F !important;
+    text-decoration: none !important;
   }
-
+  
   .upload-link:hover {
     color: rgb(199, 66, 14) !important;
-    text-decoration: none;
+    text-decoration: none !important;
   }
 
   .icon-images {
