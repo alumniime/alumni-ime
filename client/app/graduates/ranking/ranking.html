@@ -18,7 +18,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="year in vm.yearsRanking | orderBy: ['ranking', 'DonationsValueInCents', '-GraduationYear']">
-          <th scope="row">{{$index + 1}}º</th>
+          <th scope="row">{{(year.DonatorsPercentage + year.UsersPercentage > 0) ? ($index + 1) + 'º' : '-'}}</th>
           <td>{{year.GraduationYear}}</td>
           <td>{{year.DonatorsPercentage | number: 2}}%</td>
           <td>{{year.UsersPercentage | number: 2}}%</td>
@@ -40,6 +40,7 @@
         <b>Ranking Combinado:</b>
         ranking da soma das posições nos dois rankings anteriores.
       </p>
+      <p class="text-small">* critério de desempate: volume total de contribuições.</p>
     </div>
   </div>
 
