@@ -11,6 +11,8 @@ import async from 'async';
 import crypto from 'crypto';
 import multer from 'multer';
 import $q from 'q';
+import Mailchimp from 'mailchimp-api-v3';
+import md5 from 'md5';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -110,7 +112,42 @@ export function index(req, res) {
  * restriction: 'admin'
  */
 export function approve(req, res) {
+  
+  var mailchimp = new Mailchimp(config.mailchimp.ApiKey);
   var promises = [];
+
+  //Validate if email already exists
+  var email = 'gb_2012@live.com';
+  var emailHash = md5(email);
+  mailchimp.get({
+      path: '/lists/' + config.mailchimp.listId + '/members/' + emailHash
+  }).then(function (result) {
+  // Member, do something
+    console.log('result get', result);
+  }).catch(function (err) {
+    // Not Member, do somehing
+    console.log('err get', err);
+
+    //Subscribe new email to list with proper merge fields
+    mailchimp.post('/lists/' + config.mailchimp.listId + '/members', {
+      email_address: email,
+      status: 'subscribed',
+      merge_fields: {
+          // 'CTA': 'NEWCLIENT',
+          'FNAME': 'Gabriel',
+          'LNAME': 'Dilly',
+          'BIRTHDAY': '',
+      }
+    }).then(function (results) {
+      //console.log('Subscription works');
+      console.log('results post', results);
+    }).catch(function (err) {
+          //console.log('Subscription fail');
+          console.log('err post', err);
+    });
+
+  });
+
 
   if(req.body.person && req.body.person.PersonId) {
     promises.push(User.update(req.body.person, {
@@ -144,7 +181,7 @@ export function approve(req, res) {
  * restriction: 'admin'
  */
 export function bulkApprove(req, res) {
-  
+
   var users = req.body;
 
   async.eachSeries(users, function (user, done) {
