@@ -16,6 +16,8 @@ export class DonateController {
   imageQuality = 1;
   maxImages = 1;
   maxSize = '5MB';
+  currentYear = '';
+  currentSemester = '';
 
   constructor(Auth, Modal, $state, $stateParams, $uibModal, Project, Donation, Upload, $anchorScroll) {
     'ngInject';
@@ -52,6 +54,11 @@ export class DonateController {
           this.donation.DonatorId = user.PersonId;
         }
       });
+
+    var date = new Date();
+    this.currentSemester = (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1; 
+    this.currentYear = date.getFullYear();
+
   }
 
   removeImage(image) {

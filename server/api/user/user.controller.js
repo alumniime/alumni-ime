@@ -628,6 +628,7 @@ export function showToken(req, res, next) {
       'Headline',
       'LocationId',
       'IndustryId',
+      'ShowInformation',
       'Summary',
       'Specialties',
     ],

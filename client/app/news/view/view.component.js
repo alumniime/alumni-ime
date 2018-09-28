@@ -29,7 +29,7 @@ export class ViewController {
       this.News.get(NewsId, this.$stateParams.forceReload)
         .then(news => {
           loading.close();
-
+console.log(news);
           this.ngMeta.setTitle(news.Title);
           this.ngMeta.setTag('description', news.Subtitle);
           this.ngMeta.setTag('og:image', `${this.appConfig.url}/${news.constructions[0].images[0].Path}`);

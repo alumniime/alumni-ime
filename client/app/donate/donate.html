@@ -65,7 +65,8 @@
               <select class="form-control" ng-if="vm.donation.Type == 'project'"
                       id="ProjectId" name="ProjectId" ng-model="vm.donation.ProjectId">
                 <option value="" selected disabled>Selecione um projeto</option>
-                <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-value="project.ProjectId">
+                <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName' | filter: {Year: vm.currentYear, Semester: vm.currentSemester}" 
+                        ng-value="project.ProjectId">
                   {{project.ProjectName}}
                 </option>
               </select>
