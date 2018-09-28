@@ -100,6 +100,7 @@ export function index(req, res) {
           as: 'profile',
           required: false,
           where: {
+            ShowInformation: 1,
             IsApproved: 1
           }
         }],
@@ -346,6 +347,7 @@ export function year(req, res) {
           }],
           required: false,
           where: {
+            ShowInformation: 1,
             IsApproved: 1
           }
         }],
@@ -468,7 +470,8 @@ export function show(req, res) {
         ],
         where: {
           PersonId: req.params.id,
-          IsApproved: true
+          ShowInformation: 1,
+          IsApproved: 1
         }
       })
         .then(respondWithResult(res))
@@ -502,6 +505,7 @@ export function search(req, res) {
       var level = {};
       var location = {};
       var profile = {
+        ShowInformation: 1,
         IsApproved: 1
       };
       var required = false;
@@ -558,10 +562,7 @@ export function search(req, res) {
           as: 'engineering',
         }, {
           model: User,
-          attributes: ['name', 'ImageURL', 'LinkedinProfileURL', 'LocationId',
-            // ['positions.level.LevelId', 'positions.LevelId'],
-            // ['positions.LevelId', 'LevelId']
-          ],
+          attributes: ['name', 'ImageURL', 'LinkedinProfileURL', 'LocationId'],
           as: 'profile',
           include: [{
             model: Position,

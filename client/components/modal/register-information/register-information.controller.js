@@ -6,7 +6,6 @@ export default class ModalRegisterInformationController {
     Birthdate: '',
     Genre: '',
     Phone: '',
-    ShowInformation: true,
     location: {},
     positions: [{}]
   };

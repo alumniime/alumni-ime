@@ -6,7 +6,7 @@
       <h5 class="page-title">{{vm.news.Title}}</h5>
       <label class="page-subtitle">{{vm.news.Subtitle}}</label>
 
-      <div class="construction" ng-repeat="construction in vm.news.constructions">
+      <div class="construction" ng-repeat="construction in vm.news.constructions | orderBy: 'OrderIndex'">
 
         <p ng-if="construction.element.Type === 'Paragraph'" class="text-content">
           {{construction.Value}}
@@ -30,11 +30,11 @@
           <div id="carouselAlumniNews{{construction.NewsConstructionId}}" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
               <li data-target="#carouselAlumniNews{{construction.NewsConstructionId}}"
-                  ng-repeat="image in construction.images"
+                  ng-repeat="image in construction.images | orderBy: 'OrderIndex'" 
                   data-slide-to="{{$index}}" ng-class="{active: $index === 0}"></li>
             </ol>
             <div class="carousel-inner">
-              <div class="carousel-item" ng-repeat="image in construction.images"
+              <div class="carousel-item" ng-repeat="image in construction.images | orderBy: 'OrderIndex'"
                    ng-class="{active: $index === 0}">
                 <img class="d-block w-100" ng-src="{{image.Path}}">
               </div>

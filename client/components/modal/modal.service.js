@@ -16,6 +16,7 @@ import ModalResetPassword from './reset-password/reset-password.controller';
 import ModalTermsOfUse from './terms-of-use/terms-of-use.controller';
 import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
+import ModalEditNews from './edit-news/edit-news.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -151,6 +152,27 @@ export function ModalService($uibModal, $q) {
         resolve: {
           PersonId: function () {
             return personId;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
+    editNews(newsId) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalEditNews',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          NewsId: function () {
+            return newsId;
           }
         }
       });
@@ -391,6 +413,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalShowPerson', {
     template: require('./show-person/show-person.html'),
     controller: ModalShowPerson,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalEditNews', {
+    template: require('./edit-news/edit-news.html'),
+    controller: ModalEditNews,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',
