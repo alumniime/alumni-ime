@@ -93,9 +93,6 @@ export function index(req, res) {
         as: 'engineering'
       }]
     }],
-    where: {
-      $not: {PersonTypeId: 1}
-    },
     order: [
       ['LastActivityDate', 'DESC'] 
     ],
@@ -116,6 +113,7 @@ export function approve(req, res) {
   var mailchimp = new Mailchimp(config.mailchimp.ApiKey);
   var promises = [];
 
+  /*
   //Validate if email already exists
   var email = 'gb_2012@live.com';
   var emailHash = md5(email);
@@ -147,14 +145,134 @@ export function approve(req, res) {
     });
 
   });
-
+  */
 
   if(req.body.person && req.body.person.PersonId) {
     promises.push(User.update(req.body.person, {
       where: {
         PersonId: req.body.person.PersonId
       }
-    }));  
+    }));
+    promises.push(
+      User.find({
+        include: [{
+          model: Engineering,
+          as: 'engineering'
+        }, {
+          model: PersonType,
+          as: 'personType'
+        }, {
+          model: InitiativeLink,
+          as: 'userInitiativeLinks',
+          include: [{
+            model: Initiative,
+            as: 'initiative'
+          }]
+        }, {
+          model: Position,
+          where: {IsCurrent: true},
+          required: false,
+          as: 'positions',
+          limit: 1,
+          include: [{
+            model: Company,
+            attributes: ['Name', 'CompanyTypeId'],
+            as: 'company',
+          }, {
+            model: Level,
+            attributes: ['Description', 'Type'],
+            as: 'level',
+          }, {
+            model: Location,
+            attributes: ['CountryId', 'StateId', 'CityId'],
+            as: 'location',
+            include: [{
+              model: City,
+              attributes: ['Description', 'IBGEId', 'StateId'],
+              as: 'city',
+              include: [{
+                model: State,
+                as: 'state'
+              }]
+            }],
+          }],
+        }, {
+          model: Location,
+          as: 'location',
+          attributes: ['LocationId'],
+          include: [{
+            model: City,
+            as: 'city',
+            include: [{
+              model: State,
+              as: 'state'
+            }]
+          }, {
+            model: Country,
+            as: 'country'
+          }],
+        }],
+        attributes: [
+          'PersonId',
+          'PersonTypeId',
+          'name',
+          'email',
+          'Phone',
+          'ImageURL',
+          'Birthdate',
+          'LinkedinProfileURL',
+          'FullName',
+          'Headline',
+          'LocationId',
+          'IndustryId',
+          'GraduationEngineeringId',
+          'GraduationYear',
+          'ProfessorSEId',
+          'InitiativeLinkOther',
+          'IsApproved'
+        ],
+        where: {
+          PersonId: 59 //req.body.person.PersonId
+        }
+      })
+        .then(user => {
+          if(user) {
+            console.log(user.email);
+            // Subscribe new email to list with proper merge fields
+            return mailchimp.put(`/lists/${config.mailchimp.listId}/members/${md5(user.email)}`, {
+              email_address: user.email,
+              status: 'subscribed',
+              merge_fields: {
+                'EMAIL': user.email,
+                'USER_TYPE': user.personType.Description,
+                'FNAME': user.name.split(' ')[0],
+                'PHONE': user.Phone,
+                'PERSON_ID': user.PersonId,
+                'NAME': user.name,
+                'FULL_NAME': user.FullName,
+                'EVERIFIED': user.EmailVerified ? 1 : 0,
+                'CITY': (user.location && user.location.city) ? user.location.city.Description : '',
+                'STATE': (user.location && user.location.state) ? user.location.state.Code : '',
+                'COUNTRY': (user.location && user.location.country) ? user.location.country.Description : '',
+                'ENG': (user.engineering) ? user.engineering.Description : '',
+                'YEAR': user.GraduationYear,
+                'LINKEDIN': user.LinkedinId ? 'Sim' : 'Não',
+                'LEVEL_TYPE': (user.positions.length > 0 && user.positions[0].level) ? user.positions[0].level.Type : '',
+                'LEVEL_DESC': (user.positions.length > 0 && user.positions[0].level) ? user.positions[0].level.Description : '',
+                'BIRTHDAY': user.Bithdate,
+              }
+            }).then(function (results) {
+              //console.log('Subscription works');
+              console.log('results post', results);
+            }).catch(function (err) {
+                  //console.log('Subscription fail');
+                  console.log('err post', err);
+            });
+          } else {
+            return null;
+          }
+        })
+    );
   }
 
   if(req.body.former && req.body.former.FormerStudentId) {

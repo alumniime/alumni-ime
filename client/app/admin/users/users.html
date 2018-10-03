@@ -64,7 +64,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="user in admin.users | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
-        ng-if="!(user.PersonTypeId === 3 || user.PersonTypeId === 4)">
+        ng-if="!(user.PersonTypeId === 1 || user.PersonTypeId === 3 || user.PersonType === 4)">
       <th scope="row">{{user.PersonId}}</th>
       <td>{{user.FullName}}</td>
       <td>{{user.email}}</td>
@@ -135,5 +135,36 @@
       class="pagination-sm justify-content-center mt-5" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
       previous-text="Anterior" next-text="Próximo"></ul>
   <br>
+
+  <br>
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pb-2" uib-tooltip="Usuários que não completaram o cadastro" tooltip-placement="right">Novos Usuários</h5>
+    </div>
+  </div>
+
+  <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Email</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Cadastro</th>
+      <th scope="col">Atividade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in admin.users | filter: {PersonTypeId: 1}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)">
+      <th scope="row">{{user.PersonId}}</th>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.personType.PortugueseDescription}}</td>
+      <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+      <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+    </tr>
+    </tbody>
+  </table>
 
 </div>
