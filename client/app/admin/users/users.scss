@@ -4,6 +4,10 @@
     font-size: 15px;
   }
 
+  th {
+    cursor: pointer;
+  }
+
   .btn {
     display: inherit;
     font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
@@ -47,6 +51,10 @@
 
   .pagination-sm{
     overflow: auto;
+  }
+
+  a.badge {
+    opacity: 0.6;
   }
 
 }

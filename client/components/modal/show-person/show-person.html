@@ -90,6 +90,16 @@
       
     <div class="line-hr"></div>
     
+    <div class="form-group mt-2">
+      <label for="PersonType">TIPO DE USUÁRIO*</label>
+      <select class="form-control" id="PersonType" name="PersonType"
+              ng-model="vm.user.PersonTypeId">
+        <option ng-repeat="personType in vm.personTypes"
+                ng-value="personType.PersonTypeId">{{personType.PortugueseDescription}}
+        </option>
+      </select>
+    </div>    
+
     <div class="row mt-2">
   
       <div class="col-12 col-sm-6 align-self-end">
@@ -189,7 +199,7 @@
     <button href="#" class="btn btn-danger mx-auto mt-3" ng-if="vm.user.PersonTypeId === 3 || vm.user.PersonTypeId === 4" type="submit">
       VINCULAR EX-ALUNO E APROVAR
     </button>
-    <button href="#" class="btn btn-danger mx-auto mt-3" ng-if="!(vm.user.PersonTypeId === 3 || vm.user.PersonTypeId === 4)" type="submit">
+    <button href="#" class="btn btn-danger mx-auto mt-3" ng-if="![1, 3, 4].includes(vm.user.PersonTypeId)" type="submit">
       APROVAR USUÁRIO
     </button>
 
