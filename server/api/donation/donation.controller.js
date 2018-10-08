@@ -11,7 +11,9 @@
 'use strict';
 
 import {applyPatch} from 'fast-json-patch';
-import {Donation, Project, TransferReceipt, Image, User} from '../../sqldb';
+import {Donation, Project, TransferReceipt, User} from '../../sqldb';
+import config from '../../config/environment';
+import transporter from '../../email';
 import multer from 'multer';
 
 function respondWithResult(res, statusCode) {
@@ -61,6 +63,7 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function (err) {
+    console.log(err);
     res.status(statusCode)
       .send(err);
   };
@@ -82,7 +85,19 @@ function configureStorage() {
 
 // Gets a list of Donations
 export function index(req, res) {
-  return Donation.findAll()
+  return Donation.findAll({
+    include: [{
+      model: Project,
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      as: 'project'
+    }, {
+      model: User,
+      attributes: ['PersonId', 'FullName'],
+      as: 'donator'
+    },
+      TransferReceipt
+    ]
+  })
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -167,8 +182,43 @@ export function upload(req, res) {
       include: [TransferReceipt]
     })
       .then(newDonation => {
-        var donationId = newDonation.DonationId;
-        res.json({errorCode: 0, errorDesc: null});
+        User.find({
+          attributes: ['PersonId', 'name', 'email'],
+          where: {
+            PersonId: req.user.PersonId
+          }
+        })
+          .then(user => {
+            if(!user) {
+              res.json({errorCode: 0, errorDesc: null});
+            }
+            var data = {
+              to: {
+                name: user.name,
+                address: user.email
+              },
+              from: {
+                name: config.email.name,
+                address: config.email.user
+              },
+              template: 'sent-donation-email',
+              subject: 'Contribuição Recebida - Alumni IME',
+              context: {
+                name: user.name.split(' ')[0],
+                value: newDonation.ValueInCents / 100, 
+                date: newDonation.DonationDate
+              }
+            };
+            transporter.sendMail(data, function (err) {
+              if(!err) {
+                console.log('Email de doação recebida enviado para', user.email);
+              } else {
+                console.log('Erro ao enviar email ', err);
+                handleError(res);
+              }
+            });  
+            res.json({errorCode: 0, errorDesc: null});
+          });        
       })
       .catch(handleError(res));
   });

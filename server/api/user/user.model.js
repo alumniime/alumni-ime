@@ -180,6 +180,10 @@ export default function (sequelize, DataTypes) {
       allowNull: false,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
+    ApprovedDate: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
     LastActivityDate: {
       type: DataTypes.DATE,
       allowNull: false,

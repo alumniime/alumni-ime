@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import {Position, Company, Location, Industry, Image} from '../../sqldb';
 import async from 'async';
 import download from 'image-downloader';
+import mailchimp from '../../email/mailchimp';
 
 export function setup(User, config) {
   passport.use(new LinkedInStrategy({
@@ -21,7 +22,7 @@ export function setup(User, config) {
       if(config.debug) {
         console.log('\n=>profile', JSON.stringify(profile));
       }
-      var email = profile.emails[0].value;
+      var email = profile.emails[0].value.toLowerCase();
       var ImageURL = null;
       var profileImage = {
         Path: null
@@ -252,12 +253,14 @@ export function setup(User, config) {
                     if(err) {
                       cb(err);
                     } else {
+                      mailchimp.updateUser(savedUser.PersonId, 'subscribed');
                       cb(null, result);
                     }
                   });
                 }, next);
 
               } else {
+                mailchimp.updateUser(savedUser.PersonId, 'subscribed');
                 next(null, savedUser);
               }
             })

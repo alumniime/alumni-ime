@@ -112,13 +112,16 @@ export function approve(req, res) {
   var promises = [];
 
   if(req.body.person && req.body.person.PersonId) {
+    req.body.person.ApprovedDate = Date.now();
     promises.push(
       User.update(req.body.person, {
-        where: {
+        where: { 
           PersonId: req.body.person.PersonId
         }
       })
-        .then(mailchimp.updateUser(req.body.person.PersonId))
+        .then(() => {
+          mailchimp.updateUser(req.body.person.PersonId, 'subscribed');
+        }),
     );
   }
 
@@ -149,14 +152,43 @@ export function bulkApprove(req, res) {
 
   var users = req.body;
 
+  /* // Updates all users
+  User.findAll({
+    attributes: ['PersonId'], 
+    // where: {
+    //   PersonId: [54]
+    // }
+  })
+    .then(users => {
+      console.log('user.length', users.length);
+      async.eachSeries(users, function (user, done) {
+        mailchimp.updateUser(user.PersonId, 'subscribed')
+          .then(() => done(null, true))
+          .catch(err => done(null, true));
+      }, (err, result) => {
+        if(err) {
+          console.log(err);
+          handleError(res);
+        } else {
+          res.status(200).json({errorCode: 0, errorDesc: null});
+        }
+      });
+    });
+    */
+
   async.eachSeries(users, function (user, done) {
     $q.all([
-      User.update({IsApproved: 1}, {
+      User.update({
+        IsApproved: 1, 
+        ApprovedDate: Date.now()
+      }, {
         where: {
           PersonId: user.PersonId
         }
       })
-        .then(mailchimp.updateUser(user.PersonId)),
+        .then(() => {
+          mailchimp.updateUser(user.PersonId, 'subscribed');
+        }),
       FormerStudent.update({PersonId: user.PersonId}, {
         where: {
           FormerStudentId: user.FormerStudentId
@@ -420,6 +452,11 @@ export function update(req, res, next) {
       InitiativeLink.bulkCreate(initiativeLinks)
         .then(() => done(null, newUser))
         .catch(err => done(err));
+    },
+    // Updating user into Mailchimp
+    (newUser, done) => {
+      mailchimp.updateUser(newUser.PersonId, 'subscribed');
+      done(null, newUser);
     },
     // Authenticates user
     (newUser, done) => {
@@ -907,6 +944,7 @@ export function confirmEmail(req, res, next) {
       if(user.ConfirmEmailExpires) { // > Date.now()
         user.update({EmailVerified: true})
           .then(newUser => {
+            mailchimp.updateUser(newUser.PersonId, 'subscribed');
             // redirect user to complete his registry
             return res.redirect(`/signup/${newUser.ConfirmEmailToken}/1`);
           })

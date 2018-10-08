@@ -42,4 +42,19 @@ export default function routes($stateProvider, appConfig) {
       }
     }
   });
+
+  $stateProvider.state('admin.donations', {
+    url: '/donations',
+    template: require('./donations/donations.html'),
+    controller: 'AdminDonationsController',
+    controllerAs: 'admin',
+    authenticate: 'admin',
+    data: {
+      meta: {
+        title: 'Gerenciar Contribuições',
+        'og:url': `${appConfig.url}/admin/donations`
+      }
+    }
+  });
+
 }

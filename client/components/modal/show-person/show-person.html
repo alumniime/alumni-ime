@@ -111,7 +111,7 @@
             Insira o nome completo.
           </p>
         </div>
-        <div class="form-group" ng-if="vm.personType.Description !== 'Professor' && vm.user.personType.Description !== 'Visitor'">
+        <div class="form-group" ng-if="vm.user.personType.Description !== 'Professor' && vm.user.personType.Description !== 'Visitor'">
           <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
           <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
                   required>
@@ -124,7 +124,7 @@
             Insira o ano de formação.
           </p>
         </div>
-        <div class="form-group" ng-if="vm.personType.Description !== 'Professor' && vm.user.personType.Description !== 'Visitor'">
+        <div class="form-group" ng-if="vm.user.personType.Description !== 'Professor' && vm.user.personType.Description !== 'Visitor'">
           <label for="GraduationEngineeringId">ENGENHARIA*</label>
           <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                   ng-model="vm.user.GraduationEngineeringId" required>

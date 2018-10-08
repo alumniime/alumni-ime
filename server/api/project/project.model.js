@@ -60,6 +60,11 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: false
     },
+    CollectedPriceInCents: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      defaultValue: 0
+    },
     Abstract: {
       type: DataTypes.TEXT,
       allowNull: true
