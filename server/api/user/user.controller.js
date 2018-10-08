@@ -60,6 +60,30 @@ function configureStorage() {
  * restriction: 'admin'
  */
 export function index(req, res) {
+
+  // Updates all users
+  // User.findAll({
+  //   attributes: ['PersonId'], 
+  //   where: {
+  //     IsApproved: 0
+  //   }
+  // })
+  //   .then(users => {
+  //     console.log('user.length', users.length);
+  //     async.eachSeries(users, function (user, done) {
+  //       mailchimp.updateUser(user.PersonId, 'subscribed')
+  //         .then(() => done(null, true))
+  //         .catch(err => done(null, true));
+  //     }, (err, result) => {
+  //       if(err) {
+  //         console.log(err);
+  //         handleError(res);
+  //       } else {
+  //         res.status(200).json({errorCode: 0, errorDesc: null});
+  //       }
+  //     });
+  //   });
+
   return User.findAll({
     attributes: [
       'PersonId',
@@ -151,30 +175,6 @@ export function approve(req, res) {
 export function bulkApprove(req, res) {
 
   var users = req.body;
-
-  /* // Updates all users
-  User.findAll({
-    attributes: ['PersonId'], 
-    // where: {
-    //   PersonId: [54]
-    // }
-  })
-    .then(users => {
-      console.log('user.length', users.length);
-      async.eachSeries(users, function (user, done) {
-        mailchimp.updateUser(user.PersonId, 'subscribed')
-          .then(() => done(null, true))
-          .catch(err => done(null, true));
-      }, (err, result) => {
-        if(err) {
-          console.log(err);
-          handleError(res);
-        } else {
-          res.status(200).json({errorCode: 0, errorDesc: null});
-        }
-      });
-    });
-    */
 
   async.eachSeries(users, function (user, done) {
     $q.all([

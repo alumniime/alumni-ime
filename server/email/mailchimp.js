@@ -151,6 +151,7 @@ self.updateUser = function (personId, status) {
             'NAME': nameCase(user.name),
             'FULL_NAME': nameCase(user.FullName),
             'EVERIFIED': user.EmailVerified ? 1 : 0,
+            'ISAPPROVED': user.IsApproved ? 1 : 0,
             'BIRTHDAY': user.Birthdate && moment(birthdate).isValid() ? moment(birthdate).format('MM/DD') : '',
             'CITY': (user.location && user.location.city) ? user.location.city.Description : '',
             'STATE': (user.location && user.location.city && user.location.city.state) ? user.location.city.state.Code : '',

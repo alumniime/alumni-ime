@@ -128,7 +128,7 @@ export function setup(User, config) {
             //  user.Headline = profile._json.headline || null;
             //  user.LocationId = profile._json.location.name || null;
             //  user.IndustryId = profile._json.industry || null;
-            next(null, user, positions);
+            next(null, user, positions, false);
           } else {
             // User is new
             crypto.randomBytes(20, function (err, buffer) {
@@ -154,7 +154,7 @@ export function setup(User, config) {
                   EmailVerified: 1,
                   ConfirmEmailToken: token
                 });
-                next(null, user, positions);
+                next(null, user, positions, true);
               } else {
                 next(err);
               }
@@ -162,9 +162,13 @@ export function setup(User, config) {
           }
         },
         // Saving user
-        (user, positions, next) => {
+        (user, positions, isNew, next) => {
           user.save()
             .then(savedUser => {
+
+              if(isNew) {
+                mailchimp.updateUser(savedUser.PersonId, 'subscribed');
+              }
 
               // Saving user profile image
               if(profileImage.Path) {
@@ -253,14 +257,12 @@ export function setup(User, config) {
                     if(err) {
                       cb(err);
                     } else {
-                      mailchimp.updateUser(savedUser.PersonId, 'subscribed');
                       cb(null, result);
                     }
                   });
                 }, next);
 
               } else {
-                mailchimp.updateUser(savedUser.PersonId, 'subscribed');
                 next(null, savedUser);
               }
             })
