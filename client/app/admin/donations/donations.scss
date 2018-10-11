@@ -1,11 +1,7 @@
-.adminUsersView {
-  
+.adminDonationsView {
+
   table {
     font-size: 15px;
-  }
-
-  th {
-    cursor: pointer;
   }
 
   .btn {
@@ -51,10 +47,6 @@
 
   .pagination-sm{
     overflow: auto;
-  }
-
-  a.badge {
-    opacity: 0.6;
   }
 
 }

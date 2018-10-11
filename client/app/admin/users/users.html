@@ -12,19 +12,19 @@
   <table class="table table-hover table-fixed table-responsive-md table-sm">
     <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nome Completo</th>
-      <th scope="col">Base</th>
-      <th scope="col">Turma</th>
-      <th scope="col">Base</th>
-      <th scope="col">Engenharia</th>
-      <th scope="col">Base</th>
-      <th scope="col">Cadastro</th>
-      <th scope="col">Atividade</th>
+      <th scope="col" ng-click="admin.orderBy('former', 'PersonId')">#</th>
+      <th scope="col" ng-click="admin.orderBy('former', 'FullName')">Nome Completo</th>
+      <th scope="col" ng-click="admin.orderBy('former', 'former[0].Name')">Base</th>
+      <th scope="col" ng-click="admin.orderBy('former', 'GraduationYear')">Turma</th>
+      <th scope="col" ng-click="admin.orderBy('former', 'former[0].GraduationYear')">Base</th>
+      <th scope="col" ng-click="admin.orderBy('former', 'engineering.Legend')">Engenharia</th>
+      <th scope="col" ng-click="admin.orderBy('former', 'former[0].engineering.Legend')">Base</th>
+      <th scope="col" ng-click="admin.orderBy('former', 'provider')">Cadastro</th>
+      <th scope="col" ng-click="admin.orderBy('former', 'LastActivityDate')">Atividade</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="user in admin.users | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+    <tr ng-repeat="user in admin.users | orderBy: admin.order.former | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
         ng-class="{'table-success': admin.verifyFields(user), 'table-danger': !admin.verifyFields(user)}"
         ng-if="user.PersonTypeId === 3 || user.PersonTypeId === 4">
       <th scope="row">{{user.PersonId}}</th>
@@ -40,6 +40,17 @@
     </tbody>
   </table>
 
+  <div class="row">
+    <div class="col-6">
+      <a class="badge badge-success">&nbsp;&nbsp;</a>
+      Usuários encontrados na base de ex-alunos com nome completo, turma e engenharia em concordância.
+    </div>
+    <div class="col-6">
+        <a class="badge badge-danger">&nbsp;&nbsp;</a>
+        Usuários não encontrados na base de ex-alunos ou com alguma divergência nos campos.
+    </div>
+  </div>
+
   <br>
 
   <div class="row justify-content-between">
@@ -51,20 +62,20 @@
   <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
     <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nome Completo</th>
-      <th scope="col">Email</th>
-      <th scope="col">Tipo</th>
-      <th scope="col">Turma</th>
-      <th scope="col">Engenharia</th>
-      <th scope="col">SE</th>
-      <th scope="col">Cadastro</th>
-      <th scope="col">Atividade</th>
+      <th scope="col" ng-click="admin.orderBy('other', 'PersonId')">#</th>
+      <th scope="col" ng-click="admin.orderBy('other', 'FullName')">Nome Completo</th>
+      <th scope="col" ng-click="admin.orderBy('other', 'email')">Email</th>
+      <th scope="col" ng-click="admin.orderBy('other', 'personType.PortugueseDescription')">Tipo</th>
+      <th scope="col" ng-click="admin.orderBy('other', 'GraduationYear')">Turma</th>
+      <th scope="col" ng-click="admin.orderBy('other', 'engineering.Legend')">Engenharia</th>
+      <th scope="col" ng-click="admin.orderBy('other', 'se.SEId')">SE</th>
+      <th scope="col" ng-click="admin.orderBy('other', 'provider')">Cadastro</th>
+      <th scope="col" ng-click="admin.orderBy('other', 'LastActivityDate')">Atividade</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="user in admin.users | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
-        ng-if="!(user.PersonTypeId === 3 || user.PersonTypeId === 4)">
+    <tr ng-repeat="user in admin.users | orderBy: admin.order.other | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+        ng-if="!(user.PersonTypeId === 1 || user.PersonTypeId === 3 || user.PersonType === 4)">
       <th scope="row">{{user.PersonId}}</th>
       <td>{{user.FullName}}</td>
       <td>{{user.email}}</td>
@@ -87,7 +98,7 @@
     <div class="col-auto">
       <div class="form-group">
         <select class="form-control" id="PersonType" name="PersonType"
-                ng-model="admin.searchPersonTypeId" ng-change="admin.refreshFilter()">
+                ng-model="admin.searchPersonTypeId" ng-change="admin.refreshFilters()">
           <option value="">Exibir todos usuários</option>
           <option ng-repeat="personType in admin.personTypes"
                   ng-value="personType.PersonTypeId">{{personType.PortugueseDescription}}
@@ -98,7 +109,7 @@
     <div class="col-auto">
       <div class="form-group">
         <input type="text" name="name" placeholder="Pesquisar usuários..." class="form-control" 
-               ng-model="admin.searchFullName" ng-change="admin.refreshFilter()">
+               ng-model="admin.searchFullName" ng-change="admin.refreshFilters()">
       </div>      
     </div>
   </div>
@@ -106,18 +117,18 @@
   <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
     <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nome</th>
-      <th scope="col">Email</th>
-      <th scope="col">Tipo</th>
-      <th scope="col">Turma</th>
-      <th scope="col">Engenharia</th>
-      <th scope="col">Cadastro</th>
-      <th scope="col">Atividade</th>
+      <th scope="col" ng-click="admin.orderBy('approved', 'PersonId')">#</th>
+      <th scope="col" ng-click="admin.orderBy('approved', 'name')">Nome</th>
+      <th scope="col" ng-click="admin.orderBy('approved', 'email')">Email</th>
+      <th scope="col" ng-click="admin.orderBy('approved', 'personType.PortugueseDescription')">Tipo</th>
+      <th scope="col" ng-click="admin.orderBy('approved', 'GraduationYear')">Turma</th>
+      <th scope="col" ng-click="admin.orderBy('approved', 'engineering.Legend')">Engenharia</th>
+      <th scope="col" ng-click="admin.orderBy('approved', 'provider')">Cadastro</th>
+      <th scope="col" ng-click="admin.orderBy('approved', 'LastActivityDate')">Atividade</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="user in admin.users | orderBy: 'name' | filter: {PersonTypeId: admin.searchPersonTypeId, FullName: admin.searchFullName, IsApproved: true}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+    <tr ng-repeat="user in admin.users | orderBy: admin.order.approved | filter: {PersonTypeId: admin.searchPersonTypeId, FullName: admin.searchFullName, IsApproved: true}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
         ng-if="$index >= (admin.currentPage - 1) * admin.itemsPerPage && $index < admin.currentPage * admin.itemsPerPage">
       <th scope="row">{{user.PersonId}}</th>
       <td>{{user.name}}</td>
@@ -133,7 +144,52 @@
 
   <ul uib-pagination total-items="admin.usersNumber" ng-model="admin.currentPage" max-size="8" 
       class="pagination-sm justify-content-center mt-5" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
-      previous-text="Anterior" next-text="Próximo"></ul>
+      previous-text="Anterior" next-text="Próximo">
+  </ul>
+  <br>
+
+  <br>
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pb-2" uib-tooltip="Usuários que não completaram o cadastro" tooltip-placement="right">Novos Usuários</h5>
+    </div>
+    <div class="col-auto">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Pesquisar usuários..." class="form-control" 
+               ng-model="admin.newUsersSearchName" ng-change="admin.refreshFilters()">
+      </div>      
+    </div>
+  </div>
+
+  <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col" ng-click="admin.orderBy('new', 'PersonId')">#</th>
+      <th scope="col" ng-click="admin.orderBy('new', 'name')">Nome</th>
+      <th scope="col" ng-click="admin.orderBy('new', 'email')">Email</th>
+      <th scope="col" ng-click="admin.orderBy('new', 'personType.PortugueseDescription')">Tipo</th>
+      <th scope="col" ng-click="admin.orderBy('new', 'provider')">Cadastro</th>
+      <th scope="col" ng-click="admin.orderBy('new', 'LastActivityDate')">Atividade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in admin.users | orderBy: admin.order.new | filter: {PersonTypeId: 1, name: admin.newUsersSearchName}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+        ng-if="$index >= (admin.newUsersCurrentPage - 1) * admin.itemsPerPage && $index < admin.newUsersCurrentPage * admin.itemsPerPage">
+      <th scope="row">{{user.PersonId}}</th>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.personType.PortugueseDescription}}</td>
+      <td>{{user.provider === 'local' ? 'Email' : 'LinkedIn'}}</td>
+      <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <ul uib-pagination total-items="admin.newUsersNumber" ng-model="admin.newUsersCurrentPage" max-size="8" 
+      class="pagination-sm justify-content-center mt-5" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
+      previous-text="Anterior" next-text="Próximo">
+  </ul>
   <br>
 
 </div>

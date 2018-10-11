@@ -1,11 +1,23 @@
 'use strict';
 
 export default class AdminUsersController {
+  itemsPerPage = 12;
+
   currentPage = 1;
   usersNumber = 0;
-  itemsPerPage = 12;
   searchPersonTypeId = '';
   searchFullName = '';
+
+  newUsersCurrentPage = 1;
+  newUsersNumber = 0;
+  newUsersSearchName = '';
+
+  order = {
+    approved: 'name',
+    former: '-LastActivityDate',
+    new: '-LastActivityDate',
+    other: '-LastActivityDate'
+  };
 
   /*@ngInject*/
   constructor(User, Util, Modal, $http, $state, $filter) {
@@ -23,6 +35,7 @@ export default class AdminUsersController {
     this.users = this.User.query(() => {
         loading.close();
         this.usersNumber = this.$filter('filter')(this.users, {PersonTypeId: this.searchPersonTypeId, FullName: this.searchFullName, IsApproved: true}).length;
+        this.newUsersNumber = this.$filter('filter')(this.users, {PersonTypeId: 1, name: this.newUsersSearchName}).length;
       });
 
     this.$http.get('/api/person_types')
@@ -78,8 +91,22 @@ export default class AdminUsersController {
       });
   }
 
-  refreshFilter() {
+  refreshFilters() {
     this.usersNumber = this.$filter('filter')(this.users, {PersonTypeId: this.searchPersonTypeId, FullName: this.searchFullName, IsApproved: true}).length;
+    this.newUsersNumber = this.$filter('filter')(this.users, {PersonTypeId: 1, name: this.newUsersSearchName}).length;
+  }
+
+  orderBy(table, field) {
+    if(this.order[table] === field) {
+      this.order[table] = '-' + field;
+    } else {
+      this.order[table] = field;
+    }
+    if(table === 'approved') {
+      this.currentPage = 1;      
+    } else if( table === 'new') {
+      this.newUsersCurrentPage = 1;      
+    }
   }
 
 }

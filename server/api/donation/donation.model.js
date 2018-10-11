@@ -10,7 +10,7 @@ export default function (sequelize, DataTypes) {
     },
     DonatorId: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'Person',
         key: 'PersonId'
@@ -31,6 +31,10 @@ export default function (sequelize, DataTypes) {
         model: 'Project',
         key: 'ProjectId'
       }
+    },
+    DonatorName: {
+      type: DataTypes.STRING(100),
+      allowNull: true
     },
     Type: {
       type: DataTypes.STRING(25),

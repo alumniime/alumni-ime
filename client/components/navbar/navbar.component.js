@@ -99,7 +99,7 @@ export class NavbarComponent {
       this.menu[3].dropdown = dropdown;
     });
 
-    if (this.appConfig.env === 'production') {
+    if (this.appConfig.env === 'production' && (this.appConfig.redirectHttps === 'true' || this.appConfig.redirectHttps === '1')) {
       // Redirects urls to www and to https
       var url = location.href;
       console.log(url);

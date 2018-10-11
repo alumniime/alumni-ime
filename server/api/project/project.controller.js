@@ -116,8 +116,7 @@ export function index(req, res) {
     }],
     attributes: {
       include: [
-        [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber'],
-        [sequelize.fn('SUM', sequelize.col('donations.ValueInCents')), 'CollectedPriceInCents']
+        [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber']
       ],
       exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule']
     },
@@ -165,8 +164,7 @@ export function show(req, res) {
     group: ['images.ImageId'],
     attributes: {
       include: [
-        [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber'],
-        [sequelize.fn('SUM', sequelize.col('donations.ValueInCents')), 'CollectedPriceInCents']
+        [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber']
       ]
     },
     order: [
