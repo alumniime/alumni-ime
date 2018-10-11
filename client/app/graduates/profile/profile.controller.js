@@ -57,7 +57,7 @@ export default class GraduatesProfileController {
         });
     } else {
       loading.close();
-      this.$state.go('search');
+      this.$state.go('graduates.search');
     }
 
   }
