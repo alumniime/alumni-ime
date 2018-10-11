@@ -53,6 +53,7 @@ db.User.hasMany(db.InitiativeLink, {foreignKey: 'PersonId', as: 'userInitiativeL
 db.User.hasMany(db.Position, {foreignKey: 'PersonId', as: 'positions'});
 db.User.hasMany(db.Image, {foreignKey: 'PersonId', as: 'images'});
 db.User.hasMany(db.FormerStudent, {sourceKey: 'FullName', foreignKey: 'Name', as: 'former'});
+db.User.hasMany(db.Donation, {sourceKey: 'PersonId', foreignKey: 'DonatorId', as: 'donations'});
 
 db.FormerStudent.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonId', as: 'profile'});
 db.FormerStudent.belongsTo(db.Engineering, {sourceKey: 'EngineeringId', foreignKey: 'EngineeringId', as: 'engineering'});

@@ -1,0 +1,35 @@
+<div class="container adminDonationsView">
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pt-3 pb-2 pb-md-0">Contribuições <br class="d-block d-sm-none"> </h5>
+    </div>
+    <div class="col-auto pb-2">
+      <a href="#" class="btn btn-danger mb-2" ng-click="admin.editDonation()">Cadastrar Contribuição</a>
+    </div>
+  </div>
+
+  <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome do Apoiador</th>
+      <th scope="col">Projeto</th>
+      <th scope="col">Data da Contribuição</th>
+      <th scope="col">Valor</th>
+      <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="donation in admin.donations" class="c-pointer" ng-click="admin.editDonation(donation.DonationsId)">
+      <th scope="row">{{donation.DonationId}}</th>
+      <td>{{admin.Util.nameCase(donation.donator.FullName)}}</td>
+      <td>{{donation.Type === 'general' ? 'Geral' : donation.project.ProjectName}}</td> 
+      <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
+      <td>{{donation.ValueInCents/100 | number: 2}}</td>
+      <td>{{donation.IsApproved ? 'Aprovada' : 'Pendente'}}</td>
+    </tr>
+    </tbody>
+  </table>
+  
+</div>

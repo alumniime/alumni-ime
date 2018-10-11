@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import {Position, Company, Location, Industry, Image} from '../../sqldb';
 import async from 'async';
 import download from 'image-downloader';
+import mailchimp from '../../email/mailchimp';
 
 export function setup(User, config) {
   passport.use(new LinkedInStrategy({
@@ -21,7 +22,7 @@ export function setup(User, config) {
       if(config.debug) {
         console.log('\n=>profile', JSON.stringify(profile));
       }
-      var email = profile.emails[0].value;
+      var email = profile.emails[0].value.toLowerCase();
       var ImageURL = null;
       var profileImage = {
         Path: null
@@ -127,7 +128,7 @@ export function setup(User, config) {
             //  user.Headline = profile._json.headline || null;
             //  user.LocationId = profile._json.location.name || null;
             //  user.IndustryId = profile._json.industry || null;
-            next(null, user, positions);
+            next(null, user, positions, false);
           } else {
             // User is new
             crypto.randomBytes(20, function (err, buffer) {
@@ -153,7 +154,7 @@ export function setup(User, config) {
                   EmailVerified: 1,
                   ConfirmEmailToken: token
                 });
-                next(null, user, positions);
+                next(null, user, positions, true);
               } else {
                 next(err);
               }
@@ -161,9 +162,13 @@ export function setup(User, config) {
           }
         },
         // Saving user
-        (user, positions, next) => {
+        (user, positions, isNew, next) => {
           user.save()
             .then(savedUser => {
+
+              if(isNew) {
+                mailchimp.updateUser(savedUser.PersonId, 'subscribed');
+              }
 
               // Saving user profile image
               if(profileImage.Path) {
