@@ -30,7 +30,7 @@ function nameCase(str) {
   }
 };
 
-self.updateUser = function (personId, status) {
+self.updateUser = function (personId) {
 
   var d = $q.defer();
   var mailchimp = new Mailchimp(config.mailchimp.ApiKey);
@@ -105,6 +105,7 @@ self.updateUser = function (personId, status) {
       'PersonTypeId',
       'name',
       'email',
+      'MailchimpStatus',
       'EmailVerified',
       'Phone',
       'ImageURL',
@@ -131,17 +132,12 @@ self.updateUser = function (personId, status) {
         var create = new Date(user.CreateDate);
         var approved = new Date(user.ApprovedDate);
         var lastDonation = new Date(user.dataValues.LastDonationDate);
-          // console.log('user', user);
-          // console.log('birthdate', birthdate);
-          // console.log('create', create);
-          // console.log('approved', approved);
-          // console.log('lastDonation', lastDonation);
-          // console.log('LastDonationDate', user.dataValues.LastDonationDate);
-          // console.log('DonationsValueInCents', user.dataValues.DonationsValueInCents);
+
+        console.log('user', user.MailchimpStatus);
         // Subscribe new email to list with proper merge fields
         mailchimp.put(`/lists/${config.mailchimp.listId}/members/${md5(user.email)}`, {
           email_address: user.email,
-          status: status,
+          status: user.MailchimpStatus,
           merge_fields: {
             'EMAIL': user.email,
             'USER_TYPE': user.personType.PortugueseDescription,
@@ -168,14 +164,13 @@ self.updateUser = function (personId, status) {
           }
         })
           .then(function (results) {
-            console.log('User ', status, ' to Mailchimp', results.email_address);
+            console.log('User ', user.MailchimpStatus, ' to Mailchimp', results.email_address);
             //console.log('results post', results);
             d.resolve(results);
           }).catch(function (err) {
             console.log('Subscription fail');
             //console.log('err post', err);
             console.log('Erro', user.PersonId, '\t', user.email);
-
             d.reject(err);
           });
       } else {
@@ -185,8 +180,6 @@ self.updateUser = function (personId, status) {
     .catch(err => d.reject(err));
 
     return d.promise;
-
 };
-
 
 module.exports = self;

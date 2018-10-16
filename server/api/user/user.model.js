@@ -74,6 +74,11 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
+    MailchimpStatus: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      defaultValue: 'subscribed'
+    },
     LinkedinProfileURL: {
       type: DataTypes.STRING(255),
       allowNull: true

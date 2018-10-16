@@ -61,17 +61,64 @@ function configureStorage() {
  */
 export function index(req, res) {
 
-  // Updates all users
+  // Send confirmation email again
   // User.findAll({
-  //   attributes: ['PersonId'], 
+  //   attributes: ['PersonId', 'name', 'email', 'ConfirmEmailToken'], 
   //   where: {
-  //     IsApproved: 0
+  //     PersonId: []
   //   }
   // })
   //   .then(users => {
   //     console.log('user.length', users.length);
   //     async.eachSeries(users, function (user, done) {
-  //       mailchimp.updateUser(user.PersonId, 'subscribed')
+  //         var data = {
+  //           to: {
+  //             name: user.name,
+  //             address: user.email
+  //           },
+  //           from: {
+  //             name: config.email.name,
+  //             address: config.email.user
+  //           },
+  //           template: 'confirm-account-email',
+  //           subject: 'Novo Link - Confirmação de Cadastro - Alumni', // ✔
+  //           context: {
+  //             url: `https://www.alumniime.com.br/api/users/confirm_email/${user.ConfirmEmailToken}`,
+  //             name: user.name.split(' ')[0]
+  //           }
+  //         };
+  //         transporter.sendMail(data, function (err) {
+  //           if(!err) {
+  //             console.log('sucesso', user.email);
+  //             done(null, true);
+  //           } else {
+  //             console.log(err);
+  //             done(err);
+  //           }
+  //         });
+  //     }, (err, result) => {
+  //       if(err) {
+  //         console.log(err);
+  //         handleError(res);
+  //       } else {
+  //         console.log('success');
+  //       }
+  //     });
+  //   });
+
+
+  // Updates all users to Mailchimp
+  // User.findAll({
+  //   attributes: ['PersonId'], 
+  //   where: {
+  //     PersonId: [41, 48, 49, 50, 51, 448]
+  //     // IsApproved: 0
+  //   }
+  // })
+  //   .then(users => {
+  //     console.log('user.length', users.length);
+  //     async.eachSeries(users, function (user, done) {
+  //       mailchimp.updateUser(user.PersonId)
   //         .then(() => done(null, true))
   //         .catch(err => done(null, true));
   //     }, (err, result) => {
@@ -144,7 +191,7 @@ export function approve(req, res) {
         }
       })
         .then(() => {
-          mailchimp.updateUser(req.body.person.PersonId, 'subscribed');
+          mailchimp.updateUser(req.body.person.PersonId);
         }),
     );
   }
@@ -187,7 +234,7 @@ export function bulkApprove(req, res) {
         }
       })
         .then(() => {
-          mailchimp.updateUser(user.PersonId, 'subscribed');
+          mailchimp.updateUser(user.PersonId);
         }),
       FormerStudent.update({PersonId: user.PersonId}, {
         where: {
@@ -455,7 +502,7 @@ export function update(req, res, next) {
     },
     // Updating user into Mailchimp
     (newUser, done) => {
-      mailchimp.updateUser(newUser.PersonId, 'subscribed');
+      mailchimp.updateUser(newUser.PersonId);
       done(null, newUser);
     },
     // Authenticates user
@@ -944,7 +991,7 @@ export function confirmEmail(req, res, next) {
       if(user.ConfirmEmailExpires) { // > Date.now()
         user.update({EmailVerified: true})
           .then(newUser => {
-            mailchimp.updateUser(newUser.PersonId, 'subscribed');
+            mailchimp.updateUser(newUser.PersonId);
             // redirect user to complete his registry
             return res.redirect(`/signup/${newUser.ConfirmEmailToken}/1`);
           })

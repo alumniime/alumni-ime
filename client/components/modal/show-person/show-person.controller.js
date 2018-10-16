@@ -103,7 +103,7 @@ export default class ModalShowPersonController {
       if(this.user.location.CountryId === 1 || this.user.location.city) {
         this.locationName = (this.user.location.city ? (this.user.location.city.state ? `${this.user.location.city.Description} - ${this.user.location.city.state.Code}` : this.user.location.city.Description) : this.user.location.country.Description);
       } else {
-        this.locationName = this.user.location.country.Description;
+        this.locationName = this.user.location.country ? this.user.location.country.Description : '';
       }
     }
   }
