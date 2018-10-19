@@ -116,8 +116,9 @@ export default class GraduatesSearchController {
                 this.$location.hash('formerStudents');
                 this.$anchorScroll();
               })
-              .catch(() => {
+              .catch(err => {
                 loading.close();
+                console.log(err);
                 this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
               });
           } else {
@@ -171,6 +172,7 @@ export default class GraduatesSearchController {
                 })
                 .catch(err => {
                   loading.close();
+                  console.log(err);
                   this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
                 });
             } else {
@@ -187,9 +189,9 @@ export default class GraduatesSearchController {
   }
 
   updateLocationName(location) {
-    if(location) {
+    if(location) { 
       var locationName = (location.LinkedinName ? location.LinkedinName.replace(' Area,', ',') : '');
-      if(location.country.CountryId === 1 || (location.city && location.city.Description)) {
+      if(location.country && (location.country.CountryId === 1 || (location.city && location.city.Description))) {
         locationName = (location.city.state ? `${location.city.Description} - ${location.city.state.Code}` : location.city.Description);
       } else {
         locationName = (location.country ? location.country.Description : '');

@@ -68,13 +68,25 @@ export default class ModalEditNewsController {
 
   }
 
+  validateDate(input) {
+    if(input) {
+      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+      var arr = input.split('/');
+      if(input && input.match(reg)) {
+        this.dateInvalid = false;
+      } else {
+        this.dateInvalid = true;
+      }
+    }
+  }
+
   submitNews(form) {
     this.submitted = true;
     
     var date = this.PublishDate.split('/');
     this.news.PublishDate = new Date(date[2], date[1] - 1, date[0]);
 
-    if(form.$valid){
+    if(form.$valid && !this.dateInvalid){
 
       // TODO validation for images inputs
       var savedImages = [];

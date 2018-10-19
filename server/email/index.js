@@ -6,10 +6,9 @@ import hbs from 'nodemailer-express-handlebars';
 import path from 'path';
 
 var smtpTransport = nodemailer.createTransport({
-  // service: config.email.provider,
   host: 'email-ssl.com.br',
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false,
   auth: {
     user: config.email.user,
     pass: config.email.pass

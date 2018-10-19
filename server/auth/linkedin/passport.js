@@ -167,7 +167,7 @@ export function setup(User, config) {
             .then(savedUser => {
 
               if(isNew) {
-                mailchimp.updateUser(savedUser.PersonId, 'subscribed');
+                mailchimp.updateUser(savedUser.PersonId);
               }
 
               // Saving user profile image

@@ -9,9 +9,9 @@ import path from 'path';
 import config from './config/environment';
 
 export default function (app) {
-  if(config.env === 'production' && (config.redirectHttps === 'true' || config.redirectHttps === '1')) {
+  if(config.env === 'production' && config.redirectHttps === 1) {
     app.use(function (req, res, next) {
-      // Redirects urls to www and to https
+      // Redirects urls to www and to https 
       if (req.headers.host.match(/^www\./) === null) {
         console.log('\n=>Redirecting(1) to:', 'https://www.' + req.headers.host + req.url);
         res.status(301).redirect('https://www.' + req.headers.host + req.url);

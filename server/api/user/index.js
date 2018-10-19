@@ -13,6 +13,7 @@ router.post('/bulk_approve', auth.hasRole('admin'), controller.bulkApprove);
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.put('/:id/profile', auth.isAuthenticated(), controller.update);
+router.get('/autocomplete/:name', auth.hasRole('admin'), controller.complete);
 router.get('/:token/show', controller.showToken);
 router.put('/:token/registry', controller.update);
 router.get('/professors', controller.professors);

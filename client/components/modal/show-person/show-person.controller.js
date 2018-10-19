@@ -14,7 +14,7 @@ export default class ModalShowPersonController {
   }
 
   $onInit() {
-    
+  
     this.$http.get('/api/person_types')
     .then(response => {
       this.personTypes = response.data;
@@ -56,6 +56,10 @@ export default class ModalShowPersonController {
       this.Modal.showAlert('Erro', 'Por favor, selecione primeiro um ex-aluno da base para vincular.');
       return;
     }
+
+    if(!(this.user.PersonTypeId === 3 || this.user.PersonTypeId === 4)) {
+      this.former = null;
+    }
     
     if(form.$valid){
       var loading = this.Modal.showLoading();
@@ -65,6 +69,7 @@ export default class ModalShowPersonController {
       this.$http.post('/api/users/approve', {
         person: {
           PersonId: this.user.PersonId,
+          PersonTypeId: this.user.PersonTypeId,
           FullName: this.user.FullName,
           GraduationYear: this.user.GraduationYear,
           GraduationEngineeringId: this.user.GraduationEngineeringId,
@@ -103,7 +108,7 @@ export default class ModalShowPersonController {
       if(this.user.location.CountryId === 1 || this.user.location.city) {
         this.locationName = (this.user.location.city ? (this.user.location.city.state ? `${this.user.location.city.Description} - ${this.user.location.city.state.Code}` : this.user.location.city.Description) : this.user.location.country.Description);
       } else {
-        this.locationName = this.user.location.country.Description;
+        this.locationName = this.user.location.country ? this.user.location.country.Description : '';
       }
     }
   }

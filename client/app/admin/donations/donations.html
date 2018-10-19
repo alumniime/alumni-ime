@@ -18,16 +18,22 @@
       <th scope="col">Data da Contribuição</th>
       <th scope="col">Valor</th>
       <th scope="col">Status</th>
+      <th scope="col">Comprovante</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="donation in admin.donations" class="c-pointer" ng-click="admin.editDonation(donation.DonationsId)">
+    <tr ng-repeat="donation in admin.donations" class="c-pointer" ng-click="admin.editDonation(donation.DonationId)">
       <th scope="row">{{donation.DonationId}}</th>
-      <td>{{admin.Util.nameCase(donation.donator.FullName)}}</td>
+      <td>{{admin.Util.nameCase(donation.donator.FullName) || donation.DonatorName}}</td>
       <td>{{donation.Type === 'general' ? 'Geral' : donation.project.ProjectName}}</td> 
       <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
       <td>{{donation.ValueInCents/100 | number: 2}}</td>
       <td>{{donation.IsApproved ? 'Aprovada' : 'Pendente'}}</td>
+      <td>
+        <a ng-if="donation.transferReceipt" href="{{donation.transferReceipt.Path}}" target="_blank" class="text-dark text-center d-block">
+          <i class="fa fa-external-link-square"></i>
+        </a>
+      </td>
     </tr>
     </tbody>
   </table>

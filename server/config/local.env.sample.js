@@ -6,8 +6,25 @@
 // You will need to set these on the server you deploy to.
 
 module.exports = {
-  DOMAIN: 'http://localhost:9000',
-  SESSION_SECRET: 'alumni-secret',
+  domain: 'http://localhost:3000',
+  secrets: {
+    session: 'alumni-secret'
+  },
+  sequelize_url: 'mysql://user:password@server:port/database',
+  linkedin: {
+    clientID: '',
+    clientSecret: '',
+    callbackURL: 'http://localhost:3000/auth/linkedin/callback'
+  },
+  email: {
+    user: '',
+    pass: ''
+  },
+  prerenderToken: '',
+  mailchimp: {
+    ApiKey: '',
+    listId: ''
+  },
 
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
