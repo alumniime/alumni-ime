@@ -133,7 +133,6 @@ self.updateUser = function (personId) {
         var approved = new Date(user.ApprovedDate);
         var lastDonation = new Date(user.dataValues.LastDonationDate);
 
-        console.log('user', user.MailchimpStatus);
         // Subscribe new email to list with proper merge fields
         mailchimp.put(`/lists/${config.mailchimp.listId}/members/${md5(user.email)}`, {
           email_address: user.email,

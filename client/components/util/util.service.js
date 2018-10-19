@@ -84,17 +84,19 @@ export function UtilService($window) {
      * Make pretty names
      */
     nameCase(str) {
-      str = str.toLowerCase().split(' ');
-      for (var i = 0; i < str.length; i++) {
-        if (!['e', 'y', 'da', 'de', 'di', 'do', 'das', 'dos'].includes(str[i])) {
-          if (str[i].indexOf('d\'') === 0) {
-            str[i] = 'd\'' + str[i].charAt(2).toUpperCase() + str[i].slice(3);
-          } else {
-            str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+      if(str) {
+        str = str.toLowerCase().split(' ');
+        for (var i = 0; i < str.length; i++) {
+          if (!['e', 'y', 'da', 'de', 'di', 'do', 'das', 'dos'].includes(str[i])) {
+            if (str[i].indexOf('d\'') === 0) {
+              str[i] = 'd\'' + str[i].charAt(2).toUpperCase() + str[i].slice(3);
+            } else {
+              str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+            }
           }
         }
-      }
-      return str.join(' ');
+        return str.join(' ');
+      } else return '';
     },
     
     /**

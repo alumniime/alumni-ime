@@ -14,7 +14,7 @@ export default class ModalShowPersonController {
   }
 
   $onInit() {
-    
+  
     this.$http.get('/api/person_types')
     .then(response => {
       this.personTypes = response.data;
@@ -56,6 +56,10 @@ export default class ModalShowPersonController {
       this.Modal.showAlert('Erro', 'Por favor, selecione primeiro um ex-aluno da base para vincular.');
       return;
     }
+
+    if(!(this.user.PersonTypeId === 3 || this.user.PersonTypeId === 4)) {
+      this.former = null;
+    }
     
     if(form.$valid){
       var loading = this.Modal.showLoading();
@@ -65,6 +69,7 @@ export default class ModalShowPersonController {
       this.$http.post('/api/users/approve', {
         person: {
           PersonId: this.user.PersonId,
+          PersonTypeId: this.user.PersonTypeId,
           FullName: this.user.FullName,
           GraduationYear: this.user.GraduationYear,
           GraduationEngineeringId: this.user.GraduationEngineeringId,

@@ -298,6 +298,42 @@ export function students(req, res) {
     .catch(handleError(res));
 }
 
+// Autocomplete for admin search
+export function complete(req, res) {
+  return User.findAll({
+    attributes: [
+      'PersonId',
+      'name',
+      'email',
+      'Phone',
+      'ImageURL',
+      'LinkedinProfileURL',
+      'FullName',
+      'Headline',
+      'GraduationYear'
+    ],
+    include: [{
+      model: Engineering,
+      as: 'engineering'
+    }, {
+      model: PersonType,
+      as: 'personType'
+    }, {
+      model: Se,
+      as: 'se'
+    }],
+    where: {
+      FullName: { $like: `%${req.params.name}%` } 
+    },
+    order: [
+      ['GraduationYear', 'DESC']
+    ],
+    limit: 10
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 /**
  * Creates a new user
  */

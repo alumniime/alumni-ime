@@ -17,6 +17,7 @@ import ModalTermsOfUse from './terms-of-use/terms-of-use.controller';
 import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
 import ModalEditNews from './edit-news/edit-news.controller';
+import ModalEditDonation from './edit-donation/edit-donation.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -173,6 +174,27 @@ export function ModalService($uibModal, $q) {
         resolve: {
           NewsId: function () {
             return newsId;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
+    editDonation(donationId) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalEditDonation',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          DonationId: function () {
+            return donationId;
           }
         }
       });
@@ -423,6 +445,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalEditNews', {
     template: require('./edit-news/edit-news.html'),
     controller: ModalEditNews,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalEditDonation', {
+    template: require('./edit-donation/edit-donation.html'),
+    controller: ModalEditDonation,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

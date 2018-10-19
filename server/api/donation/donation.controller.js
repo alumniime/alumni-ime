@@ -11,10 +11,11 @@
 'use strict';
 
 import {applyPatch} from 'fast-json-patch';
-import {Donation, Project, TransferReceipt, User} from '../../sqldb';
+import {Donation, Project, TransferReceipt, User, Engineering, PersonType, Se} from '../../sqldb';
 import config from '../../config/environment';
 import transporter from '../../email';
 import multer from 'multer';
+import moment from 'moment';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -105,11 +106,41 @@ export function index(req, res) {
 // Gets a single Donation from the DB
 export function show(req, res) {
   return Donation.find({
+    include: [{
+      model: Project,
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      as: 'project'
+    }, {
+      model: User,
+      attributes: [
+        'PersonId',
+        'name',
+        'email',
+        'Phone',
+        'ImageURL',
+        'LinkedinProfileURL',
+        'FullName',
+        'Headline',
+        'GraduationYear'
+      ],
+      as: 'donator',
+      include: [{
+        model: Engineering,
+        as: 'engineering'
+      }, {
+        model: PersonType,
+        as: 'personType'
+      }, {
+        model: Se,
+        as: 'se'
+      }]
+    },
+      TransferReceipt
+    ],
     where: {
       DonationId: req.params.id
     }
   })
-    .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -183,7 +214,7 @@ export function upload(req, res) {
     })
       .then(newDonation => {
         User.find({
-          attributes: ['PersonId', 'name', 'email'],
+          attributes: ['PersonId', 'name', 'email', 'FullName'],
           where: {
             PersonId: req.user.PersonId
           }
@@ -192,6 +223,7 @@ export function upload(req, res) {
             if(!user) {
               res.json({errorCode: 0, errorDesc: null});
             }
+
             var data = {
               to: {
                 name: user.name,
@@ -201,28 +233,73 @@ export function upload(req, res) {
                 name: config.email.name,
                 address: config.email.user
               },
-              template: 'sent-donation-email',
+              template: 'user-donation-email',
               subject: 'Contribuição Recebida - Alumni IME',
               context: {
                 name: user.name.split(' ')[0],
-                value: newDonation.ValueInCents / 100, 
-                date: newDonation.DonationDate
+                value: newDonation.ValueInCents / 100
               }
             };
             transporter.sendMail(data, function (err) {
               if(!err) {
                 console.log('Email de doação recebida enviado para', user.email);
               } else {
-                console.log('Erro ao enviar email ', err);
+                console.error('Erro ao enviar email ', err);
                 handleError(res);
               }
             });  
+
             res.json({errorCode: 0, errorDesc: null});
+
+            data = {
+              to: {
+                name: 'Donation Alumni Page',
+                address: config.email.user
+              },
+              from: {
+                name: config.email.name,
+                address: config.email.user
+              },
+              template: 'donation-email',
+              subject: `Contribuição recebida de ${user.name}`,
+              context: {
+                name: user.FullName,
+                value: newDonation.ValueInCents / 100, 
+                date: moment().format('DD/MM/YYYY - HH:mm'),
+                type: donation.Type === 'general' ? 'Geral' : 'Por projeto',
+                email: user.email,
+                url: `${config.domain}/assets/donations/${req.file.filename}`,
+              }
+            };
+            transporter.sendMail(data, function (err) {
+              if(err) {
+                console.error('Erro ao enviar email ', err);
+                handleError(res);
+              }
+            });  
           });        
       })
       .catch(handleError(res));
   });
 
+}
+
+// Updates or creates a donation
+export function edit(req, res) {
+  var donation = req.body;
+  if (donation.DonationId) {
+    Donation.update(donation, {
+      where: {
+        DonationId: donation.DonationId
+      }
+    })
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+  } else {
+    Donation.create(donation)
+      .then(respondWithResult(res))
+      .catch(handleError(res));
+  }  
 }
 
 // Upserts the given Donation in the DB at the specified ID
