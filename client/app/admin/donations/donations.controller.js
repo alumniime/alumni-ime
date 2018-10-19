@@ -23,10 +23,10 @@ export default class AdminDonationsController {
   }
 
   editDonation(donationId) {
-    // this.Modal.editDonation(donationId)
-    // .then(() => {
-    //   this.$state.reload();
-    // });
+    this.Modal.editDonation(donationId)
+    .then(() => {
+      this.$state.reload();
+    });
   }
 
 }
