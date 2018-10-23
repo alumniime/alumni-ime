@@ -10,7 +10,7 @@ export default function($stateProvider, appConfig) {
       controllerAs: 'vm',
       data: {
         meta: {
-          'og:url': `${appConfig.url}/projects`
+          author: 'Alumni IME'
         }
       }
     });

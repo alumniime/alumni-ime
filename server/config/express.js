@@ -27,7 +27,7 @@ export default function(app) {
   var env = app.get('env');
 
   // app.use(prerender.set('prerenderToken', config.prerenderToken));
-  app.use(prerender.set('prerenderToken', config.prerenderToken));
+  // app.use(prerender.set('prerenderToken', config.prerenderToken));
   // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:3003'));
 
   if(env === 'development' || env === 'test') {

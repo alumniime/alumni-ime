@@ -1,6 +1,6 @@
 {
   "name": "alumni",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "main": "server/index.js",
   "dependencies": {
     "angucomplete-alt": "^3.0.0",
