@@ -33,6 +33,7 @@ export class ViewController {
           this.ngMeta.setTitle(news.Title);
           this.ngMeta.setTag('description', news.Subtitle);
           this.ngMeta.setTag('og:image', `${this.appConfig.url}/${news.constructions[0].images[0].Path}`);
+          this.ngMeta.setTag('og:url', `${this.appConfig.url}/news/view/${news.NewsId}/${this.Util.convertToSlug(news.Title)}`);
 
           this.news = news;
           this.Project.load();
