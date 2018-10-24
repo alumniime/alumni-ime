@@ -7,7 +7,7 @@ import routes from './show.routes';
 
 export class ShowController {
 
-  constructor($state, $stateParams, Project, Modal, Util, ngMeta) {
+  constructor($state, $stateParams, Project, Modal, Util, ngMeta, appConfig) {
     'ngInject';
 
     this.$state = $state;
@@ -16,6 +16,7 @@ export class ShowController {
     this.Modal = Modal;
     this.Util = Util;
     this.ngMeta = ngMeta;
+    this.appConfig = appConfig;
   }
 
   $onInit() {
@@ -25,7 +26,7 @@ export class ShowController {
 
       this.ngMeta.setTitle(`Projetos Apoiados ${this.Year}.${this.Semester}`);
       this.ngMeta.setTag('description', `Confira a lista de projetos apoiados pela Alumni IME no ${this.Semester}º semestre de ${this.Year}`);
-      this.ngMeta.setTag('og:url', `${appConfig.url}/projects/${this.Year}.${this.Semester}`);
+      this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/${this.Year}.${this.Semester}`);
 
       var loading = this.Modal.showLoading();
       this.Project.load().then(() => {
