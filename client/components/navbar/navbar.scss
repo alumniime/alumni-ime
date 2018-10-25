@@ -93,6 +93,11 @@ navbar {
     .nav-link:hover, .nav-link.active {
       color: #E84E0F !important;
     }
+    
+    @include media-breakpoint-only(lg) {
+      padding-right: 0 !important;
+      padding-left: 0 !important;
+    }
 
     @include media-breakpoint-up(lg) {
       li.dropdown:hover div.dropdown-menu {
