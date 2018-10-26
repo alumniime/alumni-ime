@@ -8,7 +8,7 @@ import routes from './view.routes';
 export class ViewController {
   news = {};
 
-  constructor(Modal, $state, $stateParams, News, Project, Util, ngMeta, appConfig, $anchorScroll) {
+  constructor(Modal, $state, $stateParams, News, Project, Util, Auth, ngMeta, appConfig, $anchorScroll) {
     'ngInject';
 
     this.$state = $state;
@@ -17,6 +17,7 @@ export class ViewController {
     this.News = News;
     this.Project = Project;
     this.Util = Util;
+    this.isAdmin = Auth.isAdminSync;
     this.ngMeta = ngMeta;
     this.appConfig = appConfig;
     this.$anchorScroll = $anchorScroll;
@@ -26,7 +27,7 @@ export class ViewController {
     var loading = this.Modal.showLoading();
     if(this.$stateParams.NewsId && this.$stateParams.forceReload !== null) {
       var NewsId = this.$stateParams.NewsId;
-      this.News.get(NewsId, this.$stateParams.forceReload)
+      this.News.get(NewsId, this.$stateParams.forceReload, this.isAdmin)
         .then(news => {
           loading.close();
 

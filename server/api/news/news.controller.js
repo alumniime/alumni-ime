@@ -190,6 +190,46 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a single News from the DB for preview
+export function preview(req, res) {
+  return News.find({
+    include: [{
+      model: NewsCategory,
+      as: 'category',
+    }, {
+      model: NewsConstruction,
+      as: 'constructions',
+      include: [{
+        model: NewsElement,
+        as: 'element'
+      }, {
+        model: Image,
+        as: 'images',
+        attributes: ['Path', 'OrderIndex'],
+        required: false,
+        where: {
+          IsExcluded: 0
+        }
+      }],
+      where: {
+        IsExcluded: 0
+      }
+    }],
+    order: [
+      [{ model: NewsConstruction, as: 'constructions' }, 'OrderIndex']
+    ],
+    where: {
+      NewsId: req.params.id
+    }
+  })
+    .then(news => {
+      return news.increment('Views', { by: 1 });
+    })
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Gets a single News from the DB for admin
 export function showAdmin(req, res) {
   return News.find({

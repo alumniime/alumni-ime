@@ -27,6 +27,7 @@ export class MainController {
         this.$stateParams = {};
       }
     }
+    this.Modal.openMainHighlight();
   }
 
 }

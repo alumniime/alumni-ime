@@ -10,6 +10,7 @@ router.get('/', controller.index);
 router.get('/all', auth.hasRole('admin'), controller.indexAll);
 router.get('/admin/:id', auth.hasRole('admin'), controller.showAdmin);
 router.get('/:id', controller.show);
+router.get('/preview/:id', auth.hasRole('admin'), controller.preview);
 router.post('/edit', auth.hasRole('admin'), controller.edit);
 router.post('/', auth.hasRole('admin'), controller.create);
 router.put('/:id', auth.hasRole('admin'), controller.upsert);

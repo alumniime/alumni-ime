@@ -18,6 +18,7 @@ import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
 import ModalEditNews from './edit-news/edit-news.controller';
 import ModalEditDonation from './edit-donation/edit-donation.controller';
+import ModalMainHightlight from './main-highlight/main-highlight.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -104,6 +105,19 @@ export function ModalService($uibModal, $q) {
         animation: true,
         component: 'modalTermsOfUse',
         size: 'dialog-centered'
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
+    openMainHighlight() {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalMainHighlight',
+        size: 'md modal-dialog-centered'
       });
       modalInstance.result.then(function () {
         console.log('Success');
@@ -455,6 +469,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalEditDonation', {
     template: require('./edit-donation/edit-donation.html'),
     controller: ModalEditDonation,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalMainHighlight', {
+    template: require('./main-highlight/main-highlight.html'),
+    controller: ModalMainHightlight,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',
