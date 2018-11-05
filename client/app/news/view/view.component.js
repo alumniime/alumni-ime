@@ -18,6 +18,7 @@ export class ViewController {
     this.Project = Project;
     this.Util = Util;
     this.isAdmin = Auth.isAdminSync;
+    this.getCurrentUserPromise = Auth.getCurrentUser;
     this.ngMeta = ngMeta;
     this.appConfig = appConfig;
     this.$anchorScroll = $anchorScroll;
@@ -27,24 +28,27 @@ export class ViewController {
     var loading = this.Modal.showLoading();
     if(this.$stateParams.NewsId && this.$stateParams.forceReload !== null) {
       var NewsId = this.$stateParams.NewsId;
-      this.News.get(NewsId, this.$stateParams.forceReload, this.isAdmin)
-        .then(news => {
-          loading.close();
-
-          this.ngMeta.setTitle(news.Title);
-          this.ngMeta.setTag('description', news.Subtitle);
-          this.ngMeta.setTag('og:image', `${this.appConfig.url}/${news.constructions[0].images[0].Path}`);
-          this.ngMeta.setTag('og:url', `${this.appConfig.url}/news/view/${news.NewsId}/${this.Util.convertToSlug(news.Title)}`);
-
-          this.news = news;
-          this.Project.load();
-          this.News.load();
-          this.$anchorScroll('top');
-        })
-        .catch(() => {
-          loading.close();
-          this.$state.go('news');
-        });
+      this.getCurrentUserPromise(() => {
+          var preview = this.isAdmin();
+          this.News.get(NewsId, this.$stateParams.forceReload, preview)
+          .then(news => {
+            loading.close();
+  
+            this.ngMeta.setTitle(news.Title);
+            this.ngMeta.setTag('description', news.Subtitle);
+            this.ngMeta.setTag('og:image', `${this.appConfig.url}/${news.constructions[0].images[0].Path}`);
+            this.ngMeta.setTag('og:url', `${this.appConfig.url}/news/view/${news.NewsId}/${this.Util.convertToSlug(news.Title)}`);
+  
+            this.news = news;
+            this.Project.load();
+            this.News.load();
+            this.$anchorScroll('top');
+          })
+          .catch(() => {
+            loading.close();
+            this.$state.go('news');
+          });
+        });        
     } else {
       loading.close();
       this.$state.go('news');

@@ -183,7 +183,11 @@ export function show(req, res) {
     }
   })
     .then(news => {
-      return news.increment('Views', { by: 1 });
+      if (news) {
+        return news.increment('Views', { by: 1 });
+      } else {
+        return news;
+      }
     })
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
@@ -222,9 +226,6 @@ export function preview(req, res) {
       NewsId: req.params.id
     }
   })
-    .then(news => {
-      return news.increment('Views', { by: 1 });
-    })
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));

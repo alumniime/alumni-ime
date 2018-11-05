@@ -35,7 +35,8 @@ export function NewsService($http, $q, $state, Util) {
     get (NewsId, forceReload, preview) {
       var d = $q.defer();
       if(!this.loadedNews[NewsId] || forceReload === true) {
-        $http.get(`/api/news/${preview ? 'preview/' : ''}${NewsId}`)
+        var url = `/api/news/${preview ? 'preview/' : ''}${NewsId}`;
+        $http.get(url)
           .then(response => {
             var news = response.data;
             this.loadedNews[NewsId] = news;
