@@ -29,6 +29,12 @@ export default function (app) {
   }
 
   // Insert routes below
+  app.use('/api/favorite_opportunities', require('./api/favorite_opportunity'));
+  app.use('/api/opportunity_applications', require('./api/opportunity_application'));
+  app.use('/api/opportunity_functions', require('./api/opportunity_function'));
+  app.use('/api/experience_levels', require('./api/experience_level'));
+  app.use('/api/opportunities', require('./api/opportunity'));
+  app.use('/api/opportunity_types', require('./api/opportunity_type'));
   app.use('/api/years', require('./api/year'));
   app.use('/api/former_students', require('./api/former_student'));
   app.use('/api/company_types', require('./api/company_type'));
