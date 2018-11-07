@@ -1,53 +1,21 @@
-<div class="container graduatesSearchView">
+<div class="container opportunitiesSearchView">
 
   <h5 class="page-title">
-    Pesquisar ex-alunos graduados no IME
-    <br class="d-block d-lg-none">
-    <span class="font-weight-normal ml-5" ng-if="vm.showYears">
-      {{vm.graduationYears | sumByKey: 'UsersNumber'}} cadastrados de {{vm.graduationYears | sumByKey: 'TotalNumber'}}
-    </span>
-    <a href="#formerStudents" class="text-dark ml-5" ng-if="vm.showYears">Busca avançada</a>
-    <a href="/graduates/search" class="text-dark ml-5" ng-if="!vm.showYears">Visualizar todos os anos</a>
+    Pesquisar vagas de emprego
   </h5>
 
-  <!-- List with years -->
-  <div class="row" ng-if="vm.showYears">
-    <div class="col-12 col-md-6 col-xl-4 mb-3" ng-repeat="year in vm.graduationYears | orderBy: '-GraduationYear'">
-
-      <div class="row">
-
-        <div class="col-2">
-          <a href="/graduates/search/{{year.GraduationYear}}" class="year-link pt-3 pr-3 text-dark"
-             ng-class="{active: year.GraduationYear === vm.search.GraduationYear}">{{year.GraduationYear}}</a>
-        </div>
-
-        <div class="col-9">
-          <div class="row">
-            <div class="col-9">
-              <input type="text" class="form-control-plaintext pb-0 font-weight-normal" readonly
-                     value="{{year.UsersNumber}} cadastrados de {{year.TotalNumber}}">
-            </div>
-            <div class="col-3">
-              <input type="text" class="form-control-plaintext-right" readonly
-                     value="{{100*year.UsersNumber/year.TotalNumber | number: 0}}%">
-            </div>
-          </div>
-          <div class="progress mt-1">
-            <div class="progress-bar progress-bar-custom" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                 style="width: {{100*year.UsersNumber/year.TotalNumber}}%;">
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
   <!-- Search form -->
-  <div id="formerStudents" class="card mb-3 mt-4">
-    <h5 class="card-header">Busca avançada</h5>
-    <div class="card-body pb-4">
+  <div id="searchForm" class="card mb-3 mt-3">
+    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseSearch = !vm.collapseSearch">
+      <h5 class="card-header">
+        Busca avançada
+        <!-- <span class="pull-right collapse-icon"> -->
+          <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseSearch"></i> 
+          <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseSearch"></i> 
+        <!-- </span> -->
+      </h5>
+    </a>
+    <div class="card-body pb-4" ng-hide="vm.collapseSearch">
       <form class="form" name="form" ng-submit="vm.searchStudents(form)" novalidate>
         <div class="row p-0">
 
@@ -188,22 +156,22 @@
     <tbody>
     <tr ng-repeat="student in vm.formerStudents">
       <th scope="row">{{$index + 1}}</th>
-      <!-- <td>{{student.profile.positions[0].level.Type === 'civil' ? 'Civil': (student.LevelType === 'civil' ? 'Civil' : 'Militar')}}</td> -->
-      <td ng-if="!student.profile">{{student.Name}}</td>
-      <td ng-if="student.profile">
+      <!-- <td>{{student.view.positions[0].level.Type === 'civil' ? 'Civil': (student.LevelType === 'civil' ? 'Civil' : 'Militar')}}</td> -->
+      <td ng-if="!student.view">{{student.Name}}</td>
+      <td ng-if="student.view">
         <a class="text-dark c-pointer font-weight-bold"
-           ui-sref="graduates.profile({PersonId: student.PersonId, PrettyURL: vm.Util.convertToSlug(student.Name)})">
+           ui-sref="opportunities.view({PersonId: student.PersonId, PrettyURL: vm.Util.convertToSlug(student.Name)})">
           <u>{{student.Name}}</u></a>
       </td>
       <td>{{student.GraduationYear}}</td>
       <td>{{student.engineering.Legend}}</td>
-      <td>{{student.profile.positions[0].level.Description}}</td>
-      <td>{{student.profile.positions[0].company.Name}}</td>
-      <!-- <td>{{student.profile.locationName}}</td> -->
+      <td>{{student.view.positions[0].level.Description}}</td>
+      <td>{{student.view.positions[0].company.Name}}</td>
+      <!-- <td>{{student.view.locationName}}</td> -->
       <td>
         <a class="text-dark c-pointer font-weight-bold" target="_blank"
-           href="{{student.profile.LinkedinProfileURL}}" ng-if="student.profile.LinkedinProfileURL">Acessar</a>
-        {{student.profile.LinkedinProfileURL ? '' : '-'}}
+           href="{{student.view.LinkedinProfileURL}}" ng-if="student.view.LinkedinProfileURL">Acessar</a>
+        {{student.view.LinkedinProfileURL ? '' : '-'}}
       </td>
     </tr>
     </tbody>

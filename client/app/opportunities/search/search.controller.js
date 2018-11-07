@@ -1,10 +1,11 @@
 'use strict';
 
-export default class GraduatesSearchController {
+export default class OpportunitiesSearchController {
 
   graduationYears = [];
   formerStudents = [];
   showYears = true;
+  collapseSearch = true;
   search = {
     GraduationYear: null,
     LevelType: null,
@@ -46,26 +47,26 @@ export default class GraduatesSearchController {
       .then(response => {
         this.locationsList = response.data;
         for(var location of this.locationsList) {
-          if(location['profile.location.LocationId']) {
-            location.profile = {
+          if(location['view.location.LocationId']) {
+            location.view = {
               location: {
-                LocationId: location['profile.location.LocationId'],
-                LinkedinName: location['profile.location.LinkedinName'],
+                LocationId: location['view.location.LocationId'],
+                LinkedinName: location['view.location.LinkedinName'],
                 city: {
-                  CityId: location['profile.location.city.CityId'],
-                  Description: location['profile.location.city.Description'],
+                  CityId: location['view.location.city.CityId'],
+                  Description: location['view.location.city.Description'],
                   state: {
-                    Code: location['profile.location.city.state.Code'],
-                    StateId: location['profile.location.city.state.StateId'],
+                    Code: location['view.location.city.state.Code'],
+                    StateId: location['view.location.city.state.StateId'],
                   }
                 },
                 country: {
-                  CountryId: location['profile.location.country.CountryId'],
-                  Description: location['profile.location.country.Description'],
+                  CountryId: location['view.location.country.CountryId'],
+                  Description: location['view.location.country.Description'],
                 }
               }
             }
-            location.locationName = this.updateLocationName(location.profile.location);
+            location.locationName = this.updateLocationName(location.view.location);
           }
         }
       });
@@ -98,8 +99,8 @@ export default class GraduatesSearchController {
         if(!this.user.PersonId) {
           loading.close();
           this.Modal.openLogin();
-          this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos aprovados e logados podem realizar pesquisas.');
-        } else if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin') {
+          this.Modal.showAlert('Pesquisa indisponível', 'Apenas usuários aprovados e logados podem realizar pesquisas.');
+        } else if(this.user.IsApproved || this.user.role === 'admin') {
 
           if(this.$stateParams.year) {
             this.showYears = false;
@@ -109,8 +110,8 @@ export default class GraduatesSearchController {
                 loading.close();
                 this.formerStudents = response.data;
                 for(var student of this.formerStudents) {
-                  if(student.profile && student.profile.location) {
-                    student.profile.locationName = this.updateLocationName(student.profile.location);
+                  if(student.view && student.view.location) {
+                    student.view.locationName = this.updateLocationName(student.view.location);
                   }
                 }
                 this.$location.hash('formerStudents');
@@ -162,8 +163,8 @@ export default class GraduatesSearchController {
                     this.Modal.showAlert('Sem resultados', 'Nenhum ex-aluno foi encontrado com base nos filtros selecionados.');
                   } else {
                     for(var student of this.formerStudents) {
-                      if(student.profile && student.profile.location) {
-                        student.profile.locationName = this.updateLocationName(student.profile.location);
+                      if(student.view && student.view.location) {
+                        student.view.locationName = this.updateLocationName(student.view.location);
                       }
                     }
                   }
@@ -182,7 +183,7 @@ export default class GraduatesSearchController {
 
         } else {
           loading.close();
-          this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar pesquisas.');
+          this.Modal.showAlert('Pesquisa indisponível', 'Apenas usuários cadastrados e aprovados podem realizar pesquisas.');
         }
       });
 
@@ -215,10 +216,10 @@ export default class GraduatesSearchController {
     console.log(this.search);
     
     if(form.$valid && valid > (this.search.required ? 0 : 1) && !(this.search.name && this.search.name.length < 3)) {
-      if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin') {
-        this.$state.go('graduates.search', this.search);
+      if(this.user.IsApproved || this.user.role === 'admin') {
+        this.$state.go('opportunities.search', this.search);
       } else {
-        this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar pesquisas.');
+        this.Modal.showAlert('Pesquisa indisponível', 'Apenas usuários cadastrados e aprovados podem realizar pesquisas.');
       }
     } else {
       if(this.search.name) {

@@ -1,6 +1,6 @@
 'use strict';
 
-export default class GraduatesProfileController {
+export default class OpportunitiesViewController {
   news = {};
   user = {};
 
@@ -57,7 +57,7 @@ export default class GraduatesProfileController {
         });
     } else {
       loading.close();
-      this.$state.go('graduates.search');
+      this.$state.go('opportunities.search');
     }
 
   }
@@ -71,26 +71,6 @@ export default class GraduatesProfileController {
         this.locationName = this.user.location.country ? this.user.location.country.Description : '';
       }
     }
-  }
-
-  concatenateInitiativeLinks() {
-    var s = '';
-    var links = [];
-    if(this.initiativeList) {
-      for(var initiative of this.initiativeList) {
-        if(initiative.selected) {
-          links.push(initiative);
-        }
-      }
-      for(var i = 0; i < links.length; i++) {
-        if(links[i].Description !== 'Outros') {
-          s = `${s}${links[i].Description}; `;
-        } else {
-          s = `${s}${this.user.InitiativeLinkOther}; `;
-        }
-      }
-    }
-    return s;
   }
 
 }
