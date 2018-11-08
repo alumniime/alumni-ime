@@ -27,7 +27,10 @@ export class MainController {
         this.$stateParams = {};
       }
     }
+    var check = localStorage.getItem('checkboxModel');
+    if(!check){
     this.Modal.openMainHighlight();
+    }
   }
 
 }
