@@ -25,10 +25,10 @@ export default function routes($stateProvider, appConfig) {
       controllerAs: 'vm',
       data: {
         meta: {
-          title: 'Pesquisar Turmas',
-          description: 'Pesquise e encontre todos os ex-alunos graduados no IME.',
+          title: 'Pesquisar Vagas de Emprego',
+          description: 'Pesquise e encontre vagas de emprego dentro da comunidade de ex-alunos do IME.',
           'og:url': `${appConfig.url}/opportunities/search`
-        } 
+        }
       }
     })
     .state('opportunities.view', {
@@ -43,8 +43,7 @@ export default function routes($stateProvider, appConfig) {
       authenticate: true,
       data: {
         meta: {
-          author: 'Alumni IME',
-          'og:type': 'view'
+          author: 'Alumni IME'
         }
       }
     })
@@ -55,8 +54,8 @@ export default function routes($stateProvider, appConfig) {
       controllerAs: 'vm',
       data: {
         meta: {
-          title: 'Pesquisar Ranking',
-          description: 'Confira o post das turmas do IME mais engajadas na Alumni IME.',
+          title: 'Anunciar Vaga',
+          description: 'Anuncie uma vaga de emprego para a comunidade IMEana e conte com o apoio da Alumni IME para a divulgação de oportunidades.',
           'og:url': `${appConfig.url}/opportunities/post`
         }
       }
