@@ -74,6 +74,7 @@ db.NewsConstruction.belongsTo(db.NewsElement, {sourceKey: 'NewsElementId', forei
 db.NewsConstruction.hasMany(db.Image, {foreignKey: 'NewsConstructionId', as: 'images'});
 
 db.Donation.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'DonatorId', as: 'donator'});
+db.Donation.belongsTo(db.FormerStudent, {sourceKey: 'FormerStudentId', foreignKey: 'FormerStudentId', as: 'former'});
 db.Donation.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});
 db.TransferReceipt = db.Donation.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'TransferReceiptId', as: 'transferReceipt'});
 

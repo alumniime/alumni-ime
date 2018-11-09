@@ -185,7 +185,7 @@ export function ranking(req, res) {
             CAST(DonatorsNumber / COUNT(f.FormerStudentId) * 100 AS DECIMAL(10, 2)) AS DonatorsPercentage
         FROM Year y
         LEFT JOIN FormerStudent f ON y.GraduationYear = f.GraduationYear
-        LEFT JOIN Donation d ON (d.FormerStudentId = f.FormerStudentId OR f.PersonId = d.DonatorId)
+        LEFT JOIN Donation d ON ((d.FormerStudentId = f.FormerStudentId OR f.PersonId = d.DonatorId) AND d.IsApproved)
         GROUP BY y.GraduationYear;
           `, { type: sequelize.QueryTypes.SELECT })
         .then(respondWithResult(res))
