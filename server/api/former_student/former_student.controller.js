@@ -177,14 +177,15 @@ export function ranking(req, res) {
       return sequelize.query(`
         SELECT 
           y.GraduationYear,
-          DonatorsNumber,
-          DonationsValueInCents,
+		      COUNT(d.DonatorId) + COUNT(d.FormerStudentId) AS DonatorsNumber,
+          SUM(d.ValueInCents) AS DonationsValueInCents,
           COUNT(f.PersonId) AS UsersNumber,
           COUNT(f.FormerStudentId) AS TotalNumber,
             CAST(COUNT(f.PersonId) / COUNT(f.FormerStudentId) * 100 AS DECIMAL(10, 2)) AS UsersPercentage,
             CAST(DonatorsNumber / COUNT(f.FormerStudentId) * 100 AS DECIMAL(10, 2)) AS DonatorsPercentage
         FROM Year y
-        JOIN FormerStudent f ON y.GraduationYear = f.GraduationYear
+        LEFT JOIN FormerStudent f ON y.GraduationYear = f.GraduationYear
+        LEFT JOIN Donation d ON (d.FormerStudentId = f.FormerStudentId OR f.PersonId = d.DonatorId)
         GROUP BY y.GraduationYear;
           `, { type: sequelize.QueryTypes.SELECT })
         .then(respondWithResult(res))
