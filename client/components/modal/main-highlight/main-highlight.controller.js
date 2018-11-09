@@ -15,7 +15,14 @@ export default class ModalMainHighlightController {
 
   cancelModal() {
     this.dismiss({$value: 'cancel'});
+
+    console.log(this.checkboxModel);
+
+    if(this.checkboxModel === true){
+      localStorage.setItem('checkboxModel', true);
+    }
   }
+
 
 }
 
