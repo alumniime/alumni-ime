@@ -6,80 +6,73 @@
         <h1 class="title">
           Anunciar Vaga
         </h1>
-          <p class="page-text">
-            O portal de vagas é destinado para que os usuários do portal publiquem vagas para a comunidade 
-            IMEana. Após o preenchimento do formulário, nossa equipe poderá entrar em contato para colher 
-            mais informações ou tirar dúvidas sobre a vaga. 
-            Enviaremos um email assim que a vaga for publicada. 
-          </p>
-        </div>
+        <p class="page-text">
+          O portal de vagas é destinado para que os usuários do portal publiquem vagas para a comunidade 
+          IMEana. Após o preenchimento do formulário, nossa equipe poderá entrar em contato para colher 
+          mais informações ou tirar dúvidas sobre a vaga. 
+          Enviaremos um email assim que a vaga for publicada. 
+        </p>
 
-        <form class="form" name="form" ng-submit="vm.submitProject(form)" novalidate="">
+        <form class="form mt-4" name="form" ng-submit="vm.submitPost(form)" novalidate="">
 
           <div class="row">
             <div class="col-12 col-md-6">
 
               <div class="form-group">
-                <label for="ProjectName">TÍTULO DO PROJETO*</label>
-                <input type="text" id="ProjectName" name="ProjectName" class="form-control" required
-                       ng-model="vm.project.ProjectName">
-                <p class="help-block" ng-if="form.ProjectName.$error.required && vm.submitted">
-                  Insira o título do projeto.
+                <label for="Title">CARGO*</label>
+                <input type="text" id="Title" name="Title" class="form-control" required
+                       ng-model="vm.opportunity.Title">
+                <p class="help-block" ng-if="form.Title.$error.required && vm.submitted">
+                  Insira o cargo da vaga.
                 </p>
               </div>
 
               <div class="form-group">
-                <label for="SEId">SEÇÃO DE ENSINO*</label>
-                <select class="form-control" id="SEId" name="SEId" required ng-model="vm.project.ProjectSEId">
-                  <option></option>
-                  <option ng-repeat="se in vm.sesList" ng-value="se.SEId">{{se.Description}}
+                <label for="OpportunityFunction">FUNÇÃO DO CARGO*</label>
+                <select class="form-control" id="OpportunityFunction" name="OpportunityFunction"
+                        ng-model="vm.opportunity.OpportunityFunctionId" required>
+                  <option ng-repeat="opportunity in vm.opportunityFunctionsList"
+                          ng-value="opportunity.OpportunityFunctionId">{{opportunity.Description}}
                   </option>
                 </select>
-                <p class="help-block" ng-if="form.SEId.$error.required && vm.submitted">
-                  Insira a seção de ensino.
+                <p class="help-block" ng-if="form.OpportunityFunction.$error.required && vm.submitted">
+                  Insira a função do cargo.
                 </p>
               </div>
 
               <div class="form-group">
-                <label for="TeamName">NOME DA INICIATIVA OU EQUIPE*</label>
-                <input type="text" id="TeamName" name="TeamName" class="form-control" required
-                       ng-model="vm.project.TeamName">
-                <p class="help-block" ng-if="form.TeamName.$error.required && vm.submitted">
-                  Insira o nome da iniciativa ou da equipe.
+                <label for="CompanyName">NOME DA EMPRESA*</label>
+                <input type="text" name="CompanyName" id="CompanyName" class="form-control"
+                       placeholder="Ex: Microsoft"
+                       ng-model="vm.opportunity.positions[0].company.Name" required>
+                <p class="help-block" ng-show="form.CompanyName.$error.required && vm.submitted">
+                  Insira o nome da empresa.
                 </p>
               </div>
-
+      
               <div class="form-group">
-                <label for="ProfessorId">PROFESSOR RESPONSÁVEL*</label>
-                <select class="form-control" id="ProfessorId" name="ProfessorId" required
-                        ng-model="vm.project.ProfessorId">
-                  <option></option>
-                  <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">
-                    {{professor.Name}}
+                <label for="CompanyType">TIPO DE EMPRESA*</label>
+                <select class="form-control" id="CompanyType" name="CompanyType"
+                        ng-model="vm.opportunity.positions[0].company.CompanyTypeId" required>
+                  <option ng-repeat="companyType in vm.companyTypesList"
+                          ng-value="companyType.CompanyTypeId">{{companyType.PortugueseDescription}}
                   </option>
                 </select>
-                <p class="help-block" ng-show="form.ProfessorId.$error.required && vm.submitted">
-                  Insira o professor responsável. Caso ele não esteja na lista, será necessário o cadastro do professor.
+                <p class="help-block" ng-show="form.CompanyType.$error.required && vm.submitted">
+                  Insira o tipo da empresa.
                 </p>
               </div>
 
               <div class="form-group">
-                <label for="LeaderId">LÍDER DA EQUIPE*</label>
-                <select class="form-control" id="LeaderId" name="LeaderId" required
-                        ng-model="vm.project.LeaderId">
-                  <option></option>
-                  <optgroup label="Alunos">
-                    <option ng-repeat="student in vm.studentsList | orderBy: 'Name'" ng-value="student.PersonId">
-                      {{student.Name}}
-                  </optgroup>
-                  <optgroup label="Professores">
-                    <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">
-                      {{professor.Name}}
-                  </optgroup>
+                <label for="Industry">SETOR DA EMPRESA*</label>
+                <select class="form-control" id="Industry" name="Industry"
+                        ng-model="vm.opportunity.IndustryId" required>
+                  <option ng-repeat="industry in vm.industriesList"
+                          ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
                   </option>
                 </select>
-                <p class="help-block" ng-show="form.LeaderId.$error.required && vm.submitted">
-                  Insira o aluno líder da equipe. Caso ele não esteja na lista, será necessário o cadastro do aluno.
+                <p class="help-block" ng-if="form.Industry.$error.required && vm.submitted">
+                  Insira o setor da empresa.
                 </p>
               </div>
 
@@ -88,48 +81,85 @@
             <div class="col-12 col-md-6">
 
               <div class="form-group">
-
-                <div class="form-group">
-                  <label for="TeamMembers">EQUIPE*</label>
-                  <input type="text" id="TeamMembers" name="TeamMembers" class="form-control" required
-                         ng-model="vm.project.TeamMembers" placeholder="Aluno 1, Aluno 2, Aluno 3"
-                         onkeyup="this.value = this.value.replace(/[^a-zA-ZçáàãâéèêẽíìĩîóòôõúùũüûÇÀÁÂÃÈÉÊẼÌÍÎĨÒÓÔÕÙÚÛŨ ,]/, '');">
-                  <p class="help-block" ng-show="form.TeamMembers.$error.required && vm.submitted">
-                    Insira o nome dos integrantes da equipe do projeto.
-                  </p>
+                <label for="OpportunityType">TIPO DE VAGA*</label>
+                <select class="form-control" id="OpportunityType" name="OpportunityType"
+                        ng-model="vm.opportunity.OpportunityTypeId" required>
+                  <option ng-repeat="opportunity in vm.opportunityTypesList"
+                          ng-value="opportunity.OpportunityTypeId">{{opportunity.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="form.OpportunityType.$error.required && vm.submitted">
+                  Insira o tipo de vaga.
+                </p>
+              </div>
+              
+              <div class="form-group">
+                <label for="ExperienceLevel">NÍVEL DE EXPERIÊNCIA*</label>
+                <select class="form-control" id="ExperienceLevel" name="ExperienceLevel"
+                        ng-model="vm.experience.ExperienceLevelId" required>
+                  <option ng-repeat="experience in vm.experienceLevelsList"
+                          ng-value="experience.ExperienceLevelId">{{experience.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="form.ExperienceLevel.$error.required && vm.submitted">
+                  Insira o tipo de vaga.
+                </p>
+              </div>
+              
+              <div class="row p-0">
+                <div class="col" ng-class="{'col-8': vm.opportunity.location.CountryId === 1}">
+                  <div class="form-group">
+                    <label for="Country">PAÍS</label>
+                    <select class="form-control" id="Country" name="Country"
+                            ng-model="vm.opportunity.location.CountryId">
+                      <option ng-repeat="country in vm.countriesList" ng-value="country.CountryId">
+                        {{country.Description}}
+                      </option>
+                    </select>
+                    <p class="help-block" ng-if="form.Country.$error.required && vm.submitted">
+                      Insira o país.
+                    </p>
+                  </div>
                 </div>
-
-                <div class="form-group">
-                  <label for="EstimatedPriceInCents">ORÇAMENTO*</label>
-                  <input type="text" id="EstimatedPriceInCents" name="EstimatedPriceInCents" class="form-control"
-                         required
-                         ng-model="vm.project.EstimatedPriceInCents" money-mask money-mask-prepend="R$">
-                  <p class="help-block" ng-if="form.EstimatedPriceInCents.$error.required && vm.submitted">
-                    Insira o valor estimado para o projeto.
-                  </p>
+      
+                <div class="col-4" ng-if="vm.opportunity.location.CountryId === 1">
+                  <div class="form-group">
+                    <label for="State">ESTADO</label>
+                    <select class="form-control" id="State" name="State" ng-change="vm.selectState(vm.opportunity.location.StateId)"
+                            ng-model="vm.opportunity.location.StateId">
+                      <option ng-repeat="state in vm.statesList" ng-value="state.StateId">
+                        {{state.Code}}
+                      </option>
+                    </select>
+                    <p class="help-block" ng-if="form.State.$error.required && vm.submitted">
+                      Insira o estado.
+                    </p>
+                  </div>
                 </div>
+              </div>
 
-                <div class="form-group">
-                  <label for="StudentsNumber">QUANTIDADE DE ALUNOS ENVOLVIDOS*</label>
-                  <input type="text" id="StudentsNumber" name="StudentsNumber" class="form-control" required
-                         onkeyup="this.value = this.value.replace(/[^0-9]/, '');"
-                         ng-model="vm.project.StudentsNumber" placeholder="em números">
-                  <p class="help-block" ng-if="form.StudentsNumber.$error.required && vm.submitted">
-                    Insira a quantidade de alunos envolvidos no projeto.
-                  </p>
-                </div>
+              <div class="form-group" ng-if="vm.opportunity.location.CountryId === 1">
+                <label for="City">CIDADE</label>
+                <select class="form-control" id="City" name="City" ng-change="vm.selectCity(vm.opportunity.location.city.IBGEId)"
+                        ng-model="vm.opportunity.location.city.IBGEId">
+                  <option ng-repeat="city in vm.citiesList" ng-value="city.IBGEId">
+                    {{city.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="form.City.$error.required && vm.submitted">
+                  Insira a cidade.
+                </p>
+              </div>
 
-                <div class="form-group">
-                  <label for="ConclusionDate">TÉRMINO ESTIMADO*</label>
-                  <input type="text" id="ConclusionDate" name="ConclusionDate"
-                         class="form-control" placeholder="dd/mm/yyyy" mask="39/19/2999"
-                         ng-model="vm.ConclusionDate" required
-                         ng-change="vm.validateDate(vm.ConclusionDate)">
-                  <p class="help-block" ng-show="(form.ConclusionDate.$invalid && vm.submitted) || vm.dateInvalid">
-                    Insira uma data válida para o término estimado.
-                  </p>
-                </div>
-
+              <div class="form-group">
+                <label for="ExpirationDate">DATA LIMITE*</label>
+                <input type="text" id="ExpirationDate" name="ExpirationDate"
+                        class="form-control" placeholder="dd/mm/yyyy" mask="39/19/2999"
+                        ng-model="vm.ExpirationDate" required
+                        ng-change="vm.validateDate(vm.ExpirationDate)">
+                <p class="help-block" ng-show="(form.ExpirationDate.$invalid && vm.submitted) || vm.dateInvalid">
+                  Insira uma data válida para o término do período de candidaturas da vaga.
+                </p>
               </div>
 
             </div>
@@ -139,52 +169,26 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label for="Abstract">RESUMO DO PROJETO* ({{ 1200 - form.Abstract.$viewValue.length }})</label>
-                <textarea type="text" id="Abstract" name="Abstract" class="form-control" rows="6"
-                          ng-model="vm.project.Abstract" required ng-maxlength="1200"></textarea>
-                <p class="help-block" ng-show="form.Abstract.$error.required && vm.submitted">
-                  Insira um resumo do projeto.
+                <label for="Responsabilities">RESPONSABILIDADES* ({{ 1200 - form.Responsabilities.$viewValue.length }})</label>
+                <textarea type="text" id="Responsabilities" name="Responsabilities" class="form-control" rows="6"
+                          ng-model="vm.opportunity.Responsabilities" required ng-maxlength="1200"></textarea>
+                <p class="help-block" ng-show="form.Responsabilities.$error.required && vm.submitted">
+                  Insira as responsabilidades da vaga oferecida.
                 </p>
-                <p class="help-block" ng-show="form.Abstract.$error.maxlength">
+                <p class="help-block" ng-show="form.Responsabilities.$error.maxlength">
                   Texto muito longo.
                 </p>
               </div>
 
               <div class="form-group">
-                <label for="Goals">METAS/RESULTADOS ESPERADOS PARA O PROJETO* ({{ 1200 - form.Goals.$viewValue.length
+                <label for="Requirements">REQUISITOS* ({{ 1200 - form.Requirements.$viewValue.length
                   }})</label>
-                <textarea type="text" id="Goals" name="Goals" class="form-control" rows="6"
-                          ng-model="vm.project.Goals" required ng-maxlength="1200"></textarea>
-                <p class="help-block" ng-show="form.Goals.$error.required && vm.submitted">
-                  Insira as metas/resultados esperados.
+                <textarea type="text" id="Requirements" name="Requirements" class="form-control" rows="6"
+                          ng-model="vm.opportunity.Requirements" required ng-maxlength="1200"></textarea>
+                <p class="help-block" ng-show="form.Requirements.$error.required && vm.submitted">
+                  Insira os requisitos para a vaga oferecida.
                 </p>
-                <p class="help-block" ng-show="form.Goals.$error.maxlength">
-                  Texto muito longo.
-                </p>
-              </div>
-
-              <div class="form-group">
-                <label for="Benefits">BENEFÍCIOS CONCRETOS PARA O IME* ({{ 1200 - form.Benefits.$viewValue.length
-                  }})</label>
-                <textarea type="text" id="Benefits" name="Benefits" class="form-control" rows="6"
-                          ng-model="vm.project.Benefits" required ng-maxlength="1200"></textarea>
-                <p class="help-block" ng-show="form.Benefits.$error.required && vm.submitted">
-                  Insira os benefícios concretos para o IME do projeto.
-                </p>
-                <p class="help-block" ng-show="form.Benefits.$error.maxlength">
-                  Texto muito longo.
-                </p>
-              </div>
-
-              <div class="form-group">
-                <label for="Schedule">CRONOGRAMA FÍSICO-FINANCEIRO* ({{ 1200 - form.Schedule.$viewValue.length
-                  }})</label>
-                <textarea type="text" id="Schedule" name="Schedule" class="form-control" rows="6"
-                          ng-model="vm.project.Schedule" required ng-maxlength="1200"></textarea>
-                <p class="help-block" ng-show="form.Schedule.$error.required && vm.submitted">
-                  Insira um cronograma em detalhes com o planejamento físico-financeiro do projeto.
-                </p>
-                <p class="help-block" ng-show="form.Schedule.$error.maxlength">
+                <p class="help-block" ng-show="form.Requirements.$error.maxlength">
                   Texto muito longo.
                 </p>
               </div>
