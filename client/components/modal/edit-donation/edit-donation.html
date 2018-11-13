@@ -10,7 +10,7 @@
         <img class="profile-photo pb-2" ng-src="{{vm.donation.donator.ImageURL || 'assets/images/profile.svg'}}" alt="{{vm.donation.donator.name}}">
       </div>
       <div class="col-auto pt-2">
-        <p class="legend" ng-if="vm.donation.DonatorName">{{vm.donation.DonatorName}}</p>
+        <p class="legend" ng-if="!vm.donation.donator">{{vm.Util.nameCase(vm.donation.former.Name || vm.donation.DonatorName)}}</p>
         <p class="legend" ng-if="vm.donation.donator.personType.Description === 'FormerStudent' || vm.donation.donator.personType.Description === 'Student' || vm.donation.donator.personType.Description === 'DropStudent'">
           {{vm.donation.donator.FullName}}
           <br> {{vm.donation.donator.Headline}}
@@ -73,8 +73,6 @@
         </div>
       </div>
 
-      <div class="line-hr"></div>
-  
     </div>
   
     <form class="form" name="form" ng-submit="vm.submitDonation(form)" novalidate>

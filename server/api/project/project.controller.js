@@ -177,7 +177,11 @@ export function show(req, res) {
     }
   })
     .then(project => {
-      return project.increment('Views', {by: 1});
+      if (project) {
+        return project.increment('Views', {by: 1});
+      } else {
+        return project;
+      }
     })
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))

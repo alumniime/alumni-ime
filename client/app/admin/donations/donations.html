@@ -24,7 +24,7 @@
     <tbody>
     <tr ng-repeat="donation in admin.donations" class="c-pointer" ng-click="admin.editDonation(donation.DonationId)">
       <th scope="row">{{donation.DonationId}}</th>
-      <td>{{admin.Util.nameCase(donation.donator.FullName) || donation.DonatorName}}</td>
+      <td>{{admin.Util.nameCase(donation.donator.FullName || donation.former.Name || donation.DonatorName)}}</td>
       <td>{{donation.Type === 'general' ? 'Geral' : donation.project.ProjectName}}</td> 
       <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
       <td>{{donation.ValueInCents/100 | number: 2}}</td>
