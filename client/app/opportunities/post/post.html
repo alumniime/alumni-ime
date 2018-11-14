@@ -13,7 +13,7 @@
           Enviaremos um email assim que a vaga for publicada. 
         </p>
 
-        <form class="form mt-4" name="form" ng-submit="vm.submitPost(form)" novalidate="">
+        <form class="form mt-4" name="form" ng-submit="vm.submitOpportunity(form)" novalidate="">
 
           <div class="row">
             <div class="col-12 col-md-6">
@@ -44,7 +44,7 @@
                 <label for="CompanyName">NOME DA EMPRESA*</label>
                 <input type="text" name="CompanyName" id="CompanyName" class="form-control"
                        placeholder="Ex: Microsoft"
-                       ng-model="vm.opportunity.positions[0].company.Name" required>
+                       ng-model="vm.opportunity.company.Name" required>
                 <p class="help-block" ng-show="form.CompanyName.$error.required && vm.submitted">
                   Insira o nome da empresa.
                 </p>
@@ -53,7 +53,7 @@
               <div class="form-group">
                 <label for="CompanyType">TIPO DE EMPRESA*</label>
                 <select class="form-control" id="CompanyType" name="CompanyType"
-                        ng-model="vm.opportunity.positions[0].company.CompanyTypeId" required>
+                        ng-model="vm.opportunity.company.CompanyTypeId" required>
                   <option ng-repeat="companyType in vm.companyTypesList"
                           ng-value="companyType.CompanyTypeId">{{companyType.PortugueseDescription}}
                   </option>
@@ -66,7 +66,7 @@
               <div class="form-group">
                 <label for="Industry">SETOR DA EMPRESA*</label>
                 <select class="form-control" id="Industry" name="Industry"
-                        ng-model="vm.opportunity.IndustryId" required>
+                        ng-model="vm.opportunity.company.IndustryId" required>
                   <option ng-repeat="industry in vm.industriesList"
                           ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
                   </option>
@@ -96,7 +96,7 @@
               <div class="form-group">
                 <label for="ExperienceLevel">NÍVEL DE EXPERIÊNCIA*</label>
                 <select class="form-control" id="ExperienceLevel" name="ExperienceLevel"
-                        ng-model="vm.experience.ExperienceLevelId" required>
+                        ng-model="vm.opportunity.ExperienceLevelId" required>
                   <option ng-repeat="experience in vm.experienceLevelsList"
                           ng-value="experience.ExperienceLevelId">{{experience.Description}}
                   </option>
@@ -194,79 +194,64 @@
               </div>
 
               <br>
-              <label>INSERIR FOTOS*</label>
+              <label>LOGO DA EMPRESA*</label>
               <br>
 
-              <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
-                   ng-change="vm.updateImages(vm.uploadImages)"
-                   ng-model="vm.uploadImages"
-                   ngf-keep="true" ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}"
-                   ngf-drag-over-class="'drag-over'" ngf-multiple="true" ngf-allow-dir="true"
-                   accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
+              <div class="form-group drop-images mt-2" ngf-drop="vm.updateImages(vm.uploadImages)"
+                  ng-change="vm.updateImages(vm.uploadImages)"
+                  ng-model="vm.uploadImages"
+                  ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
+                  ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
+                  accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages"
+                  ngf-max-size="vm.maxSize">
 
-                <div class="row">
-                  <div class="col-auto">
-                    <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
-                  </div>
-                  <div class="col">
-                    <p class="upload-text">
-                      <a class="btn btn-link text-info upload-link" name="files"
-                         ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
-                         ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
-                         ngf-resize="{quality: vm.imageQuality}"
-                         ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-                        Faça upload
-                      </a> de fotos referentes ao projeto.
-                      <br>
-                      <span class="upload-legend">Solte as imagens aqui. Adicione até {{vm.maxImages}} fotos. <br>Tamanho máximo: {{vm.maxSize}}</span>
-                    </p>
+              <div class="card-deck upload-images">
+
+                <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
+                  <div class="card mb-3">
+                    <img ng-if="file && file.type !== 'application/pdf'" ngf-thumbnail="file"/>
+                    <span ng-if="file.type === 'application/pdf'" class="text-center w-100">
+                      {{file.name}}
+                      <i class="fa fa-file-pdf-o"></i>
+                    </span>
+                    <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
+                        uib-tooltip="Remover imagem" tooltip-placement="left"></i>
                   </div>
                 </div>
 
-                <div class="card-deck upload-images">
-
-                  <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
-                    <div class="card mb-3">
-                      <img ng-if="file" ngf-thumbnail="file"/>
-                      <i ng-if="file.size && $index === 0" class="fa fa-bookmark principal-image-button"
-                         uib-tooltip="Imagem principal" tooltip-placement="right"></i>
-                      <i ng-if="file.size && $index !== 0" class="fa fa-bookmark-o principal-image-button"
-                         uib-tooltip="Selecionar como imagem principal" tooltip-placement="right"
-                         ng-click="vm.choosePrincipal(file)"></i>
-                      <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
-                         uib-tooltip="Remover imagem" tooltip-placement="left"></i>
-                    </div>
-                  </div>
-
-                  <!--<div class="col-12 col-sm-6 col-md-4 pl-0 pr-0" ng-repeat="file in vm.thumbnailImages">-->
-                  <!--<div class="card mb-3">-->
-                  <!--</div>-->
-                  <!--</div>-->
-
-                  <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
-                    <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
-                         ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
-                         ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
-                         ng-model="vm.uploadImages"
-                         ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
-                         ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-                      <img class="m-auto" src="assets/images/plus.svg">
+                <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
+                  <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
+                        ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
+                        ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
+                        ng-model="vm.uploadImages" ngf-keep="true"
+                        ngf-multiple="false" ngf-allow-dir="true" accept="image/*,application/pdf"
+                        ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
+                    <div class="row">
+                      <div class="col-auto">
+                        <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
+                      </div>
+                      <div class="col">
+                        <p class="upload-text">
+                          <a class="btn btn-link text-info upload-link p-0" href="#">
+                            Faça upload
+                          </a> do logo da empresa.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                <p class="help-block" ng-show="form.files.$error.maxSize">
-                  Uma ou mais imagens inseridas ultrapassam o tamanho máximo. Tente novamente.
-                </p>
-
-                <p class="help-block" ng-show="vm.uploadImages.length === 0 && vm.submitted">
-                  Insira pelo menos uma imagem para o projeto.
-                </p>
-
-                <!--<p>{{vm.progress}}</p>-->
 
               </div>
 
+              <p class="help-block" ng-show="form.files.$error.maxSize">
+                O arquivo inserido ultrapassa o tamanho máximo. Tente novamente.
+              </p>
+
+              <p class="help-block" ng-show="vm.uploadImages.length === 0 && vm.submitted">
+                Insira o logo da empresa.
+              </p>
+
+              </div>
 
             </div>
           </div>
@@ -275,7 +260,7 @@
           <div class="row justify-content-end">
             <div class="col-auto">
               <button href="#" class="btn btn-danger m-auto btn-submit" type="submit">
-                SUBMETER PROJETO
+                ANUNCIAR VAGA
               </button>
             </div>
           </div>

@@ -63,7 +63,7 @@ export default class ModalEditDonationController {
 
     if(form.$valid && this.donation.ValueInCents > 0 && !this.dateInvalid) {
       
-      if(!this.DonationId) {
+      if(!this.DonationId && this.DonationDate) {
         var date = this.DonationDate.split('/');
         this.donation.DonationDate = new Date(date[2], date[1] - 1, date[0]);
       }

@@ -9,7 +9,12 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import {Opportunity} from '../../sqldb';
+import {Opportunity, User, Company, Location, City, Image} from '../../sqldb';
+import config from '../../config/environment';
+import transporter from '../../email';
+import async from 'async'; 
+import multer from 'multer';
+import moment from 'moment';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -59,6 +64,20 @@ function handleError(res, statusCode) {
     };
 }
 
+function configureStorage() {
+    return multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, './client/assets/images/uploads/');
+      },
+      filename: function (req, file, cb) {
+        file.timestamp = Date.now();
+        var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
+        var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
+        cb(null, `${file.timestamp}-${name}.${format}`);
+      }
+    });
+  }
+
 // Gets a list of Opportunitys
 export function index(req, res) {
     return Opportunity.findAll()
@@ -83,6 +102,243 @@ export function create(req, res) {
     return Opportunity.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
+}
+
+// Creates or updates an opportunity with his company logo
+export function upload(req, res) {
+
+  var upload = multer({
+    storage: configureStorage()
+  })
+    .single('file');
+
+  upload(req, res, function (err) {
+    if(err) {
+      console.log(err);
+      res.json({errorCode: 1, errorDesc: err});
+      return;
+    }
+
+    var opportunity = req.body.opportunity;
+
+    if(!opportunity.OpportunityId) {
+      opportunity.IsApproved = 0;
+      opportunity.PostDate = Date.now();
+      opportunity.RecruiterId = req.user.PersonId;
+    } else {
+      Reflect.deleteProperty(opportunity, 'RecruiterId');
+    }
+    if(req.file) {
+      opportunity.companyLogo = {
+        Path: `assets/images/uploads/${req.file.filename}`,
+        Filename: req.file.filename,
+        Type: 'opportunity',
+        Timestamp: req.file.timestamp,
+        IsExcluded: 0
+      };
+    }
+    console.log('\n=>opportunity', JSON.stringify(opportunity));
+
+    async.waterfall([
+      // Trying to save opportunity company
+      (done) => {
+        var company = opportunity.company; 
+        Reflect.deleteProperty(company, 'CompanyId');
+        Reflect.deleteProperty(company, 'LinkedinId');
+        if(config.debug) {
+          console.log('\n=>company', JSON.stringify(company));
+        }
+        Company.findOrCreate({where: company})
+          .spread((company, created) => done(null, company))
+          .catch(err => done(err));
+      },
+      // Trying to save opportunity city
+      (company, done) => {
+        if(config.debug) {
+          console.log('\n=>Company saved', JSON.stringify(company));
+        }
+        if(company) {
+          //Reflect.deleteProperty(opportunity, 'company');
+          opportunity.CompanyId = company.CompanyId;
+        }
+        if(opportunity.location && opportunity.location.city) {
+          var city = opportunity.location.city;
+          Reflect.deleteProperty(city, 'state');
+  
+          if(config.debug) {
+            console.log('\n=>city', JSON.stringify(city));
+          }
+          City.findOrCreate({where: city})
+            .spread((newCity, created) => done(null, newCity))
+            .catch(err => done(err));
+        } else {
+          done(null, {CityId: null});
+        }
+      },
+      // Trying to save opportunity location
+      (city, done) => {
+        if(config.debug) {
+          console.log('\n=>City saved', JSON.stringify(city));
+        }
+        if(opportunity.location) {
+          var location = opportunity.location;
+          Reflect.deleteProperty(location, 'city');
+          Reflect.deleteProperty(location, 'country');
+          Reflect.deleteProperty(location, 'LocationId');
+          Reflect.deleteProperty(location, 'LinkedinName');
+          location.CityId = city.CityId;
+          location.StateId = location.StateId || null;
+  
+          if(config.debug) {
+            console.log('\n=>Location', JSON.stringify(location));
+          }
+          Location.findOrCreate({where: location})
+            .spread((location, created) => done(null, location))
+            .catch(err => done(err));
+        } else {
+          done(null, {LocationId: null});
+        }  
+      },
+      // Updates or creates an companyLogo
+      (location, done) => {
+        if(config.debug) {
+          console.log('\n=>Location saved', JSON.stringify(location));
+        }
+        opportunity.LocationId = location.LocationId;
+        Reflect.deleteProperty(opportunity, 'location');
+        Reflect.deleteProperty(opportunity, 'IsApproved');
+        if(config.debug) {
+          console.log('\n=>Saving...\n', JSON.stringify(opportunity));
+        }
+
+        if(opportunity.companyLogo) {
+          if(opportunity.ImageId) {
+            Image.update({ IsExcluded: 1 }, { 
+              where: {ImageId: opportunity.ImageId}
+            });
+          }
+          Image.create(opportunity.companyLogo)
+            .then(result => done(null, result))
+            .catch(err => done(err));
+        } else {
+          done(null, {ImageId: opportunity.ImageId});
+        }
+      },
+      // Updates or creates an opportunity
+      (companyLogo, done) => {
+        if(config.debug) {
+          console.log('\n=>Company logo saved', JSON.stringify(companyLogo));
+        }
+        opportunity.ImageId = companyLogo.ImageId;
+        Reflect.deleteProperty(opportunity, 'companyLogo');
+        if(config.debug) {
+          console.log('\n=>Saving...\n', JSON.stringify(opportunity));
+        }
+
+        if (opportunity.OpportunityId) {
+          Opportunity.update(opportunity, {
+            where: {
+              OpportunityId: opportunity.OpportunityId,
+              IsApproved: 0
+            }
+          })
+            .then(() => {
+              Opportunity.find({
+                where: {
+                  OpportunityId: opportunity.OpportunityId
+                }
+              })
+                .then(result => done(null, result));
+            })
+            .catch(err => done(err));
+        } else {
+          Opportunity.create(opportunity)
+            .then(result => done(null, result))
+            .catch(err => done(err));
+        }
+      },
+      (newOpportunity) => {
+        if(config.debug) {
+          console.log('\n=>Opportunity saved', JSON.stringify(newOpportunity));
+        }
+        User.find({
+          attributes: ['PersonId', 'name', 'email', 'FullName'],
+          where: {
+            PersonId: req.user.PersonId
+          }
+        })
+          .then(user => {
+            if(!user) {
+              res.json({errorCode: 0, errorDesc: null});
+            }
+
+            var data = {
+              to: {
+                name: user.name,
+                address: user.email
+              },
+              from: {
+                name: config.email.name,
+                address: config.email.user
+              },
+              template: 'user-opportunity-email',
+              subject: 'Vaga Recebida - Alumni IME',
+              context: {
+                name: user.name.split(' ')[0],
+                value: newOpportunity.Title,
+                company: opportunity.company.Name
+              }
+            };
+            transporter.sendMail(data, function (err) {
+              if(!err) {
+                console.log('Email de vaga recebida enviado para', user.email);
+              } else {
+                console.error('Erro ao enviar email', err);
+                handleError(res);
+              }
+            });  
+
+            res.json({errorCode: 0, errorDesc: null});
+
+            data = {
+              to: {
+                name: 'Opportunity Alumni Page',
+                address: config.email.user
+              },
+              from: {
+                name: config.email.name,
+                address: config.email.user
+              },
+              template: 'opportunity-email',
+              subject: `Vaga recebida de ${opportunity.company.Name}`,
+              context: {
+                name: user.FullName,
+                email: user.email,
+                value: newOpportunity.Title, 
+                company: opportunity.company.Name,
+                date: moment().format('DD/MM/YYYY - HH:mm')
+              }
+            };
+            transporter.sendMail(data, function (err) {
+              if(err) {
+                console.error('Erro ao enviar email', err);
+                handleError(res);
+              }
+            });  
+          });
+      }  
+    ], function (err, result) {
+      if(err) {
+        res.json({errorCode: 1, errorDesc: err});
+        return;
+      } else {
+        return res.json(result);
+      }
+    });
+
+
+  });
+
 }
 
 // Upserts the given Opportunity in the DB at the specified ID

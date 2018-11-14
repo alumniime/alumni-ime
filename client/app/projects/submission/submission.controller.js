@@ -92,9 +92,11 @@ export default class SubmissionController {
         if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
 
           this.project.EstimatedPriceInCents *= 100;
-          var date = this.ConclusionDate.split('/');
-          this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
-
+          if(this.ConclusionDate) {
+            var date = this.ConclusionDate.split('/');
+            this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
+          }
+          
           var loading = this.Modal.showLoading();
 
           var this_ = this;

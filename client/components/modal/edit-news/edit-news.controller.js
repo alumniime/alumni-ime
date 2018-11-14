@@ -83,8 +83,10 @@ export default class ModalEditNewsController {
   submitNews(form) {
     this.submitted = true;
     
-    var date = this.PublishDate.split('/');
-    this.news.PublishDate = new Date(date[2], date[1] - 1, date[0]);
+    if(this.PublishDate) {
+      var date = this.PublishDate.split('/');
+      this.news.PublishDate = new Date(date[2], date[1] - 1, date[0]);
+    }
 
     if(form.$valid && !this.dateInvalid){
 

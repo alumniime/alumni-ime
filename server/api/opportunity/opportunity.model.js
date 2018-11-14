@@ -30,7 +30,7 @@ export default function(sequelize, DataTypes) {
         key: 'CompanyId'
       }
     },
-    ExperienceTypeId: {
+    ExperienceLevelId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       references: {

@@ -107,7 +107,7 @@ db.Opportunity.belongsTo(db.ExperienceLevel, {sourceKey: 'ExperienceLevelId', fo
 db.Opportunity.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'RecruiterId', as: 'recruiter'});
 db.Opportunity.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'CompanyId', as: 'company'});
 db.Opportunity.belongsTo(db.Location, {sourceKey: 'LocationId', foreignKey: 'LocationId', as: 'location'});
-db.Opportunity.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ImageId', as: 'image'});
+db.Opportunity.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ImageId', as: 'companyLogo'});
 
 db.OpportunityApplication.belongsTo(db.Opportunity, {sourceKey: 'OpportunityId', foreignKey: 'OpportunityId', as: 'opportunity'});
 
