@@ -103,7 +103,7 @@ db.Year.hasMany(db.FormerStudent, {foreignKey: 'GraduationYear', as: 'formers'})
 
 db.Opportunity.belongsTo(db.OpportunityType, {sourceKey: 'OpportunityTypeId', foreignKey: 'OpportunityTypeId', as: 'opportunityType'});
 db.Opportunity.belongsTo(db.OpportunityFunction, {sourceKey: 'OpportunityFunctionId', foreignKey: 'OpportunityFunctionId', as: 'opportunityFunction'});
-db.Opportunity.belongsTo(db.ExperienceLevel, {sourceKey: 'ExperienceLevelId', foreignKey: 'ExperienceLevelId', as: 'ExperienceLevel'});
+db.Opportunity.belongsTo(db.ExperienceLevel, {sourceKey: 'ExperienceLevelId', foreignKey: 'ExperienceLevelId', as: 'experienceLevel'});
 db.Opportunity.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'RecruiterId', as: 'recruiter'});
 db.Opportunity.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'CompanyId', as: 'company'});
 db.Opportunity.belongsTo(db.Location, {sourceKey: 'LocationId', foreignKey: 'LocationId', as: 'location'});

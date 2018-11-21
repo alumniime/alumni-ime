@@ -10,7 +10,7 @@ export default class OpportunitiesPostController {
   uploadImages = [];
   imageQuality = 1;
   maxImages = 1;
-  maxSize = '5MB';
+  maxSize = '1MB';
   dateInvalid = false;
   ExpirationDate = '';
 

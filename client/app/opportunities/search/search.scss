@@ -75,6 +75,12 @@
     color: #E84E0F;
   }
 
+  .opportunity-date {
+    font-size: 12px;
+    color: #828282;
+    margin-left: 5px;
+  }
+
   .form-control-plaintext, h5 span {
     padding-top: 0;
     font-size: 14px;
@@ -121,21 +127,6 @@
     text-align: justify;
   }
 
-  .card-body {
-    padding: 25px 25px 0 25px;
-  }
-
-  .progress {
-    background: #FAFAFA;
-    border: 1px solid #BDBDBD;
-    border-radius: 30px;
-    height: 12px;
-  }
-
-  .progress-bar-custom {
-    background: #6FCF97;
-  }
-
   table {
     font-size: 15px;
   }
@@ -144,21 +135,59 @@
     background-color: #E84E0F !important;
   }
 
-  // tr {
-  //   width: max-content;
-  //   // display: inline-table;
-  //   // table-layout: fixed;
-  //   }
-    
-  //   table{
-  //    height:300px;              // <-- Select the height of the table
-  //    display: -moz-groupbox;    // Firefox Bad Effect
-  //   }
-  //   tbody{
-  //     overflow-y: scroll;      
-  //     height: 300px;            //  <-- Select the height of the body
-  //     width: max-content;
-  //     position: absolute;
-  //   }
+  .opportunities-deck {
+    box-sizing: content-box;
+  }
+  .opportunity-card {
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+    border-radius: 3px;
+    width: 100%;
+    @include media-breakpoint-up(md) {
+      img {
+        max-height: 196px;
+      }
+    }
 
+    .card-body {
+      padding: 15px 25px 0 25px;
+
+      img {
+        width: 50%;
+        max-width: 120px;
+        margin-bottom: 5px;
+      }
+    }
+  
+    .card-title {
+      font-weight: bold;
+      line-height: 24px;
+      font-size: 14px;
+      color: #333333;
+    }
+
+    .card-link {
+      font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding-top: 12px;
+    }
+  }
+
+  .opportunity-card:hover {
+    text-decoration: none;
+    border-radius: 0px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.15), 0 2px 3px rgba(0,0,0,.2)
+  }
+
+  .page-link {
+    color: #333;
+    padding: .6rem .9rem;
+    border: none;
+  }
+  .page-item.active .page-link {
+    background-color: #E84E0F;
+    border-color: #E84E0F;
+    color: #fff;
+  }
+  
 }

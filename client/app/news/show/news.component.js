@@ -39,7 +39,7 @@ export class NewsController {
       this.newsNumber = this.selected.name === 'All' ? this.News.list.length : this.$filter('filter')(this.News.list, {category: {Description: this.selected.name}}).length;
     }).catch(() => {
       loading.close();
-    })
+    });
   }
 
   dropdownChanged(option) {

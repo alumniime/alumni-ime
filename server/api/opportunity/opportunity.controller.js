@@ -9,7 +9,9 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import {Opportunity, User, Company, Location, City, Image} from '../../sqldb';
+import {Opportunity, User, Company, Industry, Location, Country, State, City, 
+        Image, OpportunityType, OpportunityFunction, ExperienceLevel, sequelize} from '../../sqldb';
+
 import config from '../../config/environment';
 import transporter from '../../email';
 import async from 'async'; 
@@ -33,7 +35,6 @@ function patchUpdates(patches) {
         } catch(err) {
             return Promise.reject(err);
         }
-
         return entity.save();
     };
 }
@@ -58,10 +59,12 @@ function handleEntityNotFound(res) {
 }
 
 function handleError(res, statusCode) {
-    statusCode = statusCode || 500;
-    return function(err) {
-        res.status(statusCode).send(err);
-    };
+  statusCode = statusCode || 500;
+  return function (err) {
+    console.log('opportunity.controller =>\n', err);
+    res.status(statusCode)
+      .send(err);
+  };
 }
 
 function configureStorage() {
@@ -80,9 +83,140 @@ function configureStorage() {
 
 // Gets a list of Opportunitys
 export function index(req, res) {
-    return Opportunity.findAll()
+    return Opportunity.findAll({
+      include: [{
+        model: User,
+        attributes: ['name'],
+        as: 'recruiter'
+      }, {
+        model: OpportunityType,
+        as: 'opportunityType'
+      }, {
+        model: OpportunityFunction,
+        as: 'opportunityFunction'
+      }, {
+        model: ExperienceLevel,
+        as: 'experienceLevel'
+      }, {
+        model: Company,
+        as: 'company'
+      }, {
+        model: Image,
+        as: 'companyLogo'
+      }, {
+        model: Location,
+        as: 'location',
+        attributes: ['LinkedinName'],
+        include: [{
+          model: City,
+          as: 'city',
+          attributes: ['Description'],
+          include: [{
+            model: State,
+            attributes: ['Code'],
+            as: 'state'
+          }]
+        }, {
+          model: Country,
+          as: 'country',
+          attributes: ['Description']
+        }],
+      }],
+      where: {
+        IsApproved: 1
+      },
+      order: [
+        ['PostDate', 'DESC']
+      ]
+    })
         .then(respondWithResult(res))
         .catch(handleError(res));
+}
+
+// Gets a list of available industries to search
+export function industries(req, res) {
+  return Opportunity.findAll({
+    attributes: [
+      [sequelize.col('company.industry.IndustryId'), 'IndustryId'],
+      [sequelize.col('company.industry.PortugueseDescription'), 'PortugueseDescription'],
+      [sequelize.fn('COUNT', sequelize.col('OpportunityId')), 'OpportunitiesNumber']
+    ],
+    include: {
+      model: Company,
+      as: 'company',
+      attributes: [],
+      include: [{
+        model: Industry,
+        as: 'industry',
+        attributes: []
+      }]
+    },
+    where: {
+      IsApproved: 1
+    },
+    group: 'company.IndustryId',
+    raw: true
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Gets a list of available locations to search
+export function locations(req, res) {
+  return Opportunity.findAll({
+    attributes: [
+      'LocationId',
+      [sequelize.fn('COUNT', sequelize.col('OpportunityId')), 'OpportunitiesNumber']
+    ],
+    include: [{
+      model: Location,
+      as: 'location',
+      attributes: ['LinkedinName'],
+      include: [{
+        model: City,
+        as: 'city',
+        attributes: ['Description'],
+        include: [{
+          model: State,
+          attributes: ['Code'],
+          as: 'state'
+        }]
+      }, {
+        model: Country,
+        as: 'country',
+        attributes: ['Description']
+      }],
+    }],
+    where: {
+      IsApproved: 1
+    },
+    group: 'LocationId'
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Gets a list of available opportunity functions to search
+export function opportunityFunctions(req, res) {
+  return Opportunity.findAll({
+    attributes: [
+      [sequelize.col('opportunityFunction.OpportunityFunctionId'), 'OpportunityFunctionId'],
+      [sequelize.col('opportunityFunction.Description'), 'Description'],
+      [sequelize.fn('COUNT', sequelize.col('OpportunityId')), 'OpportunitiesNumber']
+    ],
+    include: [{
+      model: OpportunityFunction,
+      as: 'opportunityFunction',
+      attributes: []
+    }],
+    where: {
+      IsApproved: 1
+    },
+    group: 'opportunityFunction.OpportunityFunctionId',
+    raw: true
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
 // Gets a single Opportunity from the DB
@@ -95,6 +229,127 @@ export function show(req, res) {
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
+}
+
+// Gets a list of Opportunities with params
+export function search(req, res) {
+  User.find({
+    where: {
+      $or: [{
+        PersonId: req.user.PersonId,
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
+    }
+  })
+    .then(user => {
+      if (!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      var where = {
+        IsApproved: 1
+      };
+      var level = {};
+      var location = {};
+      var required = false;
+      var requiredLevel = false;
+      var requiredLocation = false;
+
+      console.log(req.body);
+
+      if (req.body.GraduationYear) {
+        where.GraduationYear = req.body.GraduationYear;
+      }
+
+      if (req.body.EngineeringId) {
+        where.EngineeringId = req.body.EngineeringId;
+      }
+
+      if (req.body.LevelType) {
+        level.Type = req.body.LevelType;
+        required = true;
+        requiredLevel = true;
+      }
+
+      if (req.body.LevelId) {
+        level.LevelId = req.body.LevelId;
+        required = true;
+        requiredLevel = true;
+      }
+
+      if (req.body.LocationId) {
+        location = { LocationId: req.body.LocationId };
+        required = true;
+        requiredLocation = true;
+      }
+
+      if (req.body.IndustryId) {
+        profile.IndustryId = req.body.IndustryId;
+        required = true;
+      }
+
+      if (req.body.name) {
+        where.Name = { $like: `%${req.body.name}%` };
+      }
+
+      if (req.body.required) {
+        required = true;
+      }
+
+      console.log(where);
+
+      return Opportunity.findAll({
+        include: [{
+          model: User,
+          attributes: ['name'],
+          as: 'recruiter'
+        }, {
+          model: OpportunityType,
+          as: 'opportunityType'
+        }, {
+          model: OpportunityFunction,
+          as: 'opportunityFunction'
+        }, {
+          model: ExperienceLevel,
+          as: 'experienceLevel'
+        }, {
+          model: Company,
+          as: 'company'
+        }, {
+          model: Image,
+          as: 'companyLogo'
+        }, {
+          model: Location,
+          as: 'location',
+          attributes: ['LinkedinName'],
+          include: [{
+            model: City,
+            as: 'city',
+            attributes: ['Description'],
+            include: [{
+              model: State,
+              attributes: ['Code'],
+              as: 'state'
+            }]
+          }, {
+            model: Country,
+            as: 'country',
+            attributes: ['Description']
+          }],
+        }],
+        where: where,
+        order: [
+          ['PostDate', 'DESC']
+        ]
+      })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    })
+    .catch(handleError(res));
 }
 
 // Creates a new Opportunity in the DB

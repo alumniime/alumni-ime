@@ -3,7 +3,7 @@
 export default class OpportunitiesSearchController {
 
   graduationYears = [];
-  formerStudents = [];
+  opportunitiesList = [];
   showYears = true;
   collapseSearch = true;
   search = {
@@ -16,14 +16,19 @@ export default class OpportunitiesSearchController {
     name: null,
     required: false,
   };
+  currentPage = 1;
+  opportunitiesNumber = 0;
+  itemsPerPage = 8;
 
-  constructor(Auth, Modal, Util, $http, $state, $stateParams, $location, $anchorScroll) {
+  constructor(Auth, Modal, Util, Opportunity, $http, $filter, $state, $stateParams, $location, $anchorScroll) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
     this.Modal = Modal;
     this.Util = Util;
+    this.Opportunity = Opportunity;
     this.$http = $http;
+    this.$filter = $filter;
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.$location = $location;
@@ -33,66 +38,42 @@ export default class OpportunitiesSearchController {
   $onInit() {
     this.$anchorScroll('top');
 
-    this.$http.get('/api/former_students/graduation_years')
-      .then(response => {
-        this.graduationYears = response.data;
-      });
-
-    this.$http.get('/api/former_students/industries')
+    this.$http.get('/api/opportunities/industries')
       .then(response => {
         this.industriesList = response.data;
       });
 
-    this.$http.get('/api/former_students/locations')
+    this.$http.get('/api/opportunities/locations')
       .then(response => {
         this.locationsList = response.data;
         for(var location of this.locationsList) {
-          if(location['view.location.LocationId']) {
-            location.view = {
-              location: {
-                LocationId: location['view.location.LocationId'],
-                LinkedinName: location['view.location.LinkedinName'],
-                city: {
-                  CityId: location['view.location.city.CityId'],
-                  Description: location['view.location.city.Description'],
-                  state: {
-                    Code: location['view.location.city.state.Code'],
-                    StateId: location['view.location.city.state.StateId'],
-                  }
-                },
-                country: {
-                  CountryId: location['view.location.country.CountryId'],
-                  Description: location['view.location.country.Description'],
-                }
-              }
-            }
-            location.locationName = this.updateLocationName(location.view.location);
-          }
+          location.locationName = this.updateLocationName(location.location);
         }
       });
 
-    this.$http.get('/api/engineering')
+      this.$http.get(`/api/opportunities/opportunity_functions`)
       .then(response => {
-        this.engineeringList = response.data;
+        this.opportunityFunctionsList = response.data;
       });
 
-    this.$http.get('/api/countries')
+    this.$http.get(`/api/opportunity_types`)
       .then(response => {
-        this.countriesList = response.data;
+        this.opportunityTypesList = response.data;
       });
 
-    this.$http.get('/api/states')
+    this.$http.get(`/api/experience_levels`)
       .then(response => {
-        this.statesList = response.data;
-      });
-
-    this.$http.get('/api/levels')
-      .then(response => {
-        this.levelsList = response.data;
+        this.experienceLevelsList = response.data;
       });
 
     var loading = this.Modal.showLoading();
 
+    this.Opportunity.load().then((result) => {
+      this.opportunitiesNumber = this.Opportunity.list.length;
+      console.log(result);
+    }).catch(() => {
+    });
+    
     this.getCurrentUser()
       .then(user => {
         this.user = user;
@@ -102,19 +83,48 @@ export default class OpportunitiesSearchController {
           this.Modal.showAlert('Pesquisa indisponível', 'Apenas usuários aprovados e logados podem realizar pesquisas.');
         } else if(this.user.IsApproved || this.user.role === 'admin') {
 
-          if(this.$stateParams.year) {
-            this.showYears = false;
-            this.search.GraduationYear = parseInt(this.$stateParams.year);
-            this.$http.get(`/api/former_students/${this.search.GraduationYear}`)
+          this.search = this.$stateParams;
+
+          for (var field in this.search) {
+            if(this.search[field] === null || this.search[field] === undefined || this.search[field] === '') {
+              Reflect.deleteProperty(this.search, field);
+            }
+          }
+          
+          // if(Object.keys(this.search).length > (this.search.required ? 0 : 1)) {
+            
+            if(this.search.GraduationYear) {
+              this.search.GraduationYear = parseInt(this.$stateParams.GraduationYear);
+            }
+            if(this.search.EngineeringId) {
+              this.search.EngineeringId = parseInt(this.$stateParams.EngineeringId);
+            }
+            if(this.search.IndustryId) {
+              this.search.IndustryId = parseInt(this.$stateParams.IndustryId);
+            }
+            if(this.search.LevelId) {
+              this.search.LevelId = parseInt(this.$stateParams.LevelId);
+            }
+            if(this.search.LocationId) {
+              this.search.LocationId = parseInt(this.$stateParams.LocationId);
+            }
+            this.search.required = this.search.required === 'true';
+            
+            console.log(this.search);
+            
+            this.$http.get('/api/opportunities') //, this.search)
               .then(response => {
                 loading.close();
-                this.formerStudents = response.data;
-                for(var student of this.formerStudents) {
-                  if(student.view && student.view.location) {
-                    student.view.locationName = this.updateLocationName(student.view.location);
+                this.opportunitiesList = response.data;
+                if(this.opportunitiesList.length === 0) {
+                  this.Modal.showAlert('Sem resultados', 'Nenhum ex-aluno foi encontrado com base nos filtros selecionados.');
+                } else {
+                  for(var opportunity of this.opportunitiesList) {
+                    if(opportunity && opportunity.location) {
+                      opportunity.locationName = this.updateLocationName(opportunity.location);
+                    }
                   }
                 }
-                this.$location.hash('formerStudents');
                 this.$anchorScroll();
               })
               .catch(err => {
@@ -122,64 +132,9 @@ export default class OpportunitiesSearchController {
                 console.log(err);
                 this.Modal.showAlert('Erro na pesquisa', 'Por favor, tente novamente.');
               });
-          } else {
-
-            this.search = this.$stateParams;
-
-            for (var field in this.search) {
-              if(this.search[field] === null || this.search[field] === undefined || this.search[field] === '') {
-                Reflect.deleteProperty(this.search, field);
-              }
-            }
-            
-            if(Object.keys(this.search).length > (this.search.required ? 0 : 1)) {
-              
-              this.showYears = false;
-
-              if(this.search.GraduationYear) {
-                this.search.GraduationYear = parseInt(this.$stateParams.GraduationYear);
-              }
-              if(this.search.EngineeringId) {
-                this.search.EngineeringId = parseInt(this.$stateParams.EngineeringId);
-              }
-              if(this.search.IndustryId) {
-                this.search.IndustryId = parseInt(this.$stateParams.IndustryId);
-              }
-              if(this.search.LevelId) {
-                this.search.LevelId = parseInt(this.$stateParams.LevelId);
-              }
-              if(this.search.LocationId) {
-                this.search.LocationId = parseInt(this.$stateParams.LocationId);
-              }
-              this.search.required = this.search.required === 'true';
-              
-              console.log(this.search);
-              
-              this.$http.post('/api/former_students', this.search)
-                .then(response => {
-                  loading.close();
-                  this.formerStudents = response.data;
-                  if(this.formerStudents.length === 0) {
-                    this.Modal.showAlert('Sem resultados', 'Nenhum ex-aluno foi encontrado com base nos filtros selecionados.');
-                  } else {
-                    for(var student of this.formerStudents) {
-                      if(student.view && student.view.location) {
-                        student.view.locationName = this.updateLocationName(student.view.location);
-                      }
-                    }
-                  }
-                  this.$location.hash('formerStudents');
-                  this.$anchorScroll();
-                })
-                .catch(err => {
-                  loading.close();
-                  console.log(err);
-                  this.Modal.showAlert('Erro na pesquisa', 'Por favor, tente novamente.');
-                });
-            } else {
-              loading.close();
-            }
-          }
+          // } else {
+            // loading.close();
+          // }
 
         } else {
           loading.close();
@@ -201,7 +156,7 @@ export default class OpportunitiesSearchController {
     return locationName || '';
   }
 
-  searchStudents(form) {
+  searchOpportunities(form) {
     var valid = 0;
     if(!this.search.required) {
       this.search.required = false;
@@ -228,6 +183,10 @@ export default class OpportunitiesSearchController {
         this.Modal.showAlert('Erro na pesquisa', 'Por favor, selecione um ou mais filtros.');
       }
     }
+  }
+
+  goTop() {
+    this.$anchorScroll('top');
   }
 
 }

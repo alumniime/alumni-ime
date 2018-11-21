@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Service: project', function() {
+describe('Service: news', function() {
   // load the service's module
-  beforeEach(module('alumniImeApp.project'));
+  beforeEach(module('alumniImeApp.news'));
 
   // instantiate service
-  var project;
-  beforeEach(inject(function(_project_) {
-    project = _project_;
+  var news;
+  beforeEach(inject(function(_news_) {
+    news = _news_;
   }));
 
   it('should do something', function() {
-    expect(!!project).to.be.true;
+    expect(!!news).to.be.true;
   });
 });

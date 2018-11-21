@@ -7,7 +7,7 @@ import {
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
-import async from 'async';
+import async from 'async'; 
 import crypto from 'crypto';
 import multer from 'multer';
 import $q from 'q';
