@@ -14,7 +14,7 @@ export default class OpportunitiesPostController {
   dateInvalid = false;
   ExpirationDate = '';
 
-  constructor(Auth, Modal, Util, Upload, $http, $anchorScroll) {
+  constructor(Auth, Modal, Util, Upload, $http, $state, $anchorScroll) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -22,6 +22,7 @@ export default class OpportunitiesPostController {
     this.Util = Util;
     this.Upload = Upload;
     this.$http = $http;
+    this.$state = $http;
     this.$anchorScroll = $anchorScroll;
   }
 

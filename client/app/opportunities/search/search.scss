@@ -154,6 +154,7 @@
       img {
         width: 50%;
         max-width: 120px;
+        max-height: 120px;
         margin-bottom: 5px;
       }
     }
@@ -177,6 +178,18 @@
     text-decoration: none;
     border-radius: 0px;
     box-shadow: 0 0 0 1px rgba(0,0,0,.15), 0 2px 3px rgba(0,0,0,.2)
+  }
+
+  .custom-checkbox, .custom-radio {
+    padding-bottom: 5px;
+    margin-left: 30px;
+    .custom-control-label {
+      font-size: 14px;
+    }
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
   }
 
   .page-link {

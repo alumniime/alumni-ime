@@ -16,10 +16,7 @@ export default function routes($stateProvider, appConfig) {
       }
     }) 
     .state('opportunities.search', {
-      url: '/search/:year?GraduationYear&EngineeringId&IndustryId&LevelId&LevelType&LocationId&name&required',
-      params: {
-        year: { value: null, squash: true }
-      },
+      url: '/search?LocationId&IndustryId&OpportunityFunctionId&SearchText&OpportunityTypes&ExperienceLevels',
       template: require('./search/search.html'),
       controller: 'OpportunitiesSearchController',
       controllerAs: 'vm',
@@ -32,9 +29,9 @@ export default function routes($stateProvider, appConfig) {
       }
     })
     .state('opportunities.view', {
-      url: '/view/:PersonId/:PrettyURL',
+      url: '/view/:OpportunityId/:PrettyURL',
       params: {
-        PersonId: { value: null, squash: true },
+        OpportunityId: { value: null, squash: true },
         PrettyURL: { value: null, squash: true }
       },
       template: require('./view/view.html'),

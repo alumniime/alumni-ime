@@ -1,20 +1,15 @@
 'use strict';
 
 export default class OpportunitiesSearchController {
-
-  graduationYears = [];
   opportunitiesList = [];
-  showYears = true;
   collapseSearch = true;
   search = {
-    GraduationYear: null,
-    LevelType: null,
-    LevelId: null,
-    EngineeringId: null,
+    OpportunityFunctionId: null,
     IndustryId: null,
     LocationId: null,
-    name: null,
-    required: false,
+    SearchText: '',
+    OpportunityTypes: [],
+    ExperienceLevels: []
   };
   currentPage = 1;
   opportunitiesNumber = 0;
@@ -59,11 +54,23 @@ export default class OpportunitiesSearchController {
     this.$http.get(`/api/opportunity_types`)
       .then(response => {
         this.opportunityTypesList = response.data;
+        for(var opportunityType of this.opportunityTypesList) {
+          opportunityType.selected = false;
+        }
+        if(this.search.OpportunityTypes.length > 0) {
+          this.loadOpportunityTypes();
+        }
       });
 
     this.$http.get(`/api/experience_levels`)
       .then(response => {
         this.experienceLevelsList = response.data;
+        for(var experienceLevel of this.experienceLevelsList) {
+          experienceLevel.selected = false;
+        }
+        if(this.search.ExperienceLevels.length > 0) {
+          this.loadExperienceLevels();
+        }
       });
 
     var loading = this.Modal.showLoading();
@@ -91,50 +98,59 @@ export default class OpportunitiesSearchController {
             }
           }
           
-          // if(Object.keys(this.search).length > (this.search.required ? 0 : 1)) {
-            
-            if(this.search.GraduationYear) {
-              this.search.GraduationYear = parseInt(this.$stateParams.GraduationYear);
+          if(this.search.LocationId) {
+            this.search.LocationId = parseInt(this.search.LocationId);
+          }
+          if(this.search.IndustryId) {
+            this.search.IndustryId = parseInt(this.search.IndustryId);
+          }
+          if(this.search.OpportunityFunctionId) {
+            this.search.OpportunityFunctionId = parseInt(this.search.OpportunityFunctionId);
+          }
+          if(this.search.SearchText) {
+            this.search.SearchText = this.search.SearchText;
+          }
+          if(this.$stateParams.OpportunityTypes) {
+            this.search.OpportunityTypes = this.$stateParams.OpportunityTypes.split(',');
+            for(var i in this.search.OpportunityTypes) {
+              this.search.OpportunityTypes[i] = parseInt(this.search.OpportunityTypes[i]);
             }
-            if(this.search.EngineeringId) {
-              this.search.EngineeringId = parseInt(this.$stateParams.EngineeringId);
+            if(this.opportunityTypesList) {
+              this.loadOpportunityTypes();
             }
-            if(this.search.IndustryId) {
-              this.search.IndustryId = parseInt(this.$stateParams.IndustryId);
+          }
+          if(this.$stateParams.ExperienceLevels) {
+            this.search.ExperienceLevels = this.$stateParams.ExperienceLevels.split(',');
+            for(var i in this.search.ExperienceLevels) {
+              this.search.ExperienceLevels[i] = parseInt(this.search.ExperienceLevels[i]);
             }
-            if(this.search.LevelId) {
-              this.search.LevelId = parseInt(this.$stateParams.LevelId);
+            if(this.experienceLevelsList) {
+              this.loadExperienceLevels();
             }
-            if(this.search.LocationId) {
-              this.search.LocationId = parseInt(this.$stateParams.LocationId);
-            }
-            this.search.required = this.search.required === 'true';
-            
-            console.log(this.search);
-            
-            this.$http.get('/api/opportunities') //, this.search)
-              .then(response => {
-                loading.close();
-                this.opportunitiesList = response.data;
-                if(this.opportunitiesList.length === 0) {
-                  this.Modal.showAlert('Sem resultados', 'Nenhum ex-aluno foi encontrado com base nos filtros selecionados.');
-                } else {
-                  for(var opportunity of this.opportunitiesList) {
-                    if(opportunity && opportunity.location) {
-                      opportunity.locationName = this.updateLocationName(opportunity.location);
-                    }
+          }
+          
+          console.log(this.search);
+          
+          this.$http.get('/api/opportunities') //, this.search)
+            .then(response => {
+              loading.close();
+              this.opportunitiesList = response.data;
+              if(this.opportunitiesList.length === 0) {
+                this.Modal.showAlert('Sem resultados', 'Nenhum ex-aluno foi encontrado com base nos filtros selecionados.');
+              } else {
+                for(var opportunity of this.opportunitiesList) {
+                  if(opportunity && opportunity.location) {
+                    opportunity.locationName = this.updateLocationName(opportunity.location);
                   }
                 }
-                this.$anchorScroll();
-              })
-              .catch(err => {
-                loading.close();
-                console.log(err);
-                this.Modal.showAlert('Erro na pesquisa', 'Por favor, tente novamente.');
-              });
-          // } else {
-            // loading.close();
-          // }
+              }
+              this.$anchorScroll();
+            })
+            .catch(err => {
+              loading.close();
+              console.log(err);
+              this.Modal.showAlert('Erro na pesquisa', 'Por favor, tente novamente.');
+            });
 
         } else {
           loading.close();
@@ -157,32 +173,67 @@ export default class OpportunitiesSearchController {
   }
 
   searchOpportunities(form) {
-    var valid = 0;
-    if(!this.search.required) {
-      this.search.required = false;
-    }
-    for (var field of ['GraduationYear', 'EngineeringId', 'IndustryId', 'LevelId', 'LevelType', 'LocationId', 'name', 'required', 'year']) {
-      if(this.search[field] === '' || this.search[field] === undefined || this.search[field] === null) {
+    for (var field of ['LocationId', 'IndustryId', 'OpportunityFunctionId', 'SearchText', 'OpportunityTypes', 'ExperienceLevels']) {
+      if(this.search[field] === '' || this.search[field] === undefined || this.search[field] === null || this.search[field].length === 0) {
         this.search[field] = undefined;
-      } else {
-        valid++;
       }
     }
     console.log(this.search);
     
-    if(form.$valid && valid > (this.search.required ? 0 : 1) && !(this.search.name && this.search.name.length < 3)) {
+    var search = this.search;
+    search.OpportunityTypes = this.concatenateItems(search.OpportunityTypes);
+    search.ExperienceLevels = this.concatenateItems(search.ExperienceLevels);
+    console.log(search);
+
+    if(form.$valid) {
       if(this.user.IsApproved || this.user.role === 'admin') {
-        this.$state.go('opportunities.search', this.search);
+        this.$state.go('opportunities.search', search);
       } else {
         this.Modal.showAlert('Pesquisa indisponível', 'Apenas usuários cadastrados e aprovados podem realizar pesquisas.');
       }
     } else {
-      if(this.search.name) {
-        this.Modal.showAlert('Erro na pesquisa', 'O nome inserido é muito curto.');
-      } else {
-        this.Modal.showAlert('Erro na pesquisa', 'Por favor, selecione um ou mais filtros.');
+      this.Modal.showAlert('Erro na pesquisa', 'Por favor, selecione um ou mais filtros.');
+    }
+  }
+
+  updateCheckboxes() {
+    this.search.OpportunityTypes = [];
+    this.search.ExperienceLevels = [];
+    for(var opportunityType of this.opportunityTypesList) {
+      if(opportunityType.selected) {
+        this.search.OpportunityTypes.push(opportunityType.OpportunityTypeId);
       }
     }
+    for(var experienceLevel of this.experienceLevelsList) {
+      if(experienceLevel.selected) {
+        this.search.ExperienceLevels.push(experienceLevel.ExperienceLevelId);
+      }
+    }
+    console.log(this.search);
+  }
+
+  loadOpportunityTypes() {
+    for(var opportunityType of this.opportunityTypesList) {
+      if(this.search.OpportunityTypes.includes(opportunityType.OpportunityTypeId)) {
+        opportunityType.selected = true;
+      }
+    }
+  }
+
+  loadExperienceLevels() {
+    for(var experienceLevel of this.experienceLevelsList) {
+      if(this.search.ExperienceLevels.includes(experienceLevel.ExperienceLevelId)) {
+        experienceLevel.selected = true;
+      }
+    }
+  }
+
+  concatenateItems(arr) {
+    var s = '';
+    for(var item of arr) {
+      s = s === '' ? item : `${s},${item}`;
+    }
+    return s;
   }
 
   goTop() {

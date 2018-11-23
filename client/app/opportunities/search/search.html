@@ -40,7 +40,7 @@
                       ng-model="vm.search.IndustryId">
                 <option value=""></option>
                 <option ng-repeat="industry in vm.industriesList | orderBy: 'PortugueseDescription'"
-                        ng-value="IndustryId">{{industry.PortugueseDescription}}
+                        ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
                 </option>
               </select>
             </div>
@@ -52,10 +52,10 @@
                 FUNÇÃO
               </label>
               <select class="form-control" id="OpportunityFunction" name="OpportunityFunction"
-                      ng-model="vm.search.OpportunityFunction">
+                      ng-model="vm.search.OpportunityFunctionId">
                 <option value=""></option>
                 <option ng-repeat="opportunityFunction in vm.opportunityFunctionsList | orderBy: 'Description'"
-                        ng-value="OpportunityFunctionId">
+                        ng-value="opportunityFunction.OpportunityFunctionId">
                   {{opportunityFunction.Description}}
                 </option>
               </select>
@@ -64,11 +64,31 @@
 
           <div class="col-12 col-md-6 col-xl-4 mb-3">
             <div class="form-group">
-              <label for="name">NOME</label>
-              <input type="text" name="name" id="name" class="form-control" ng-model="vm.search.name">
+              <label for="SearchText">DIGITAR TEXTO</label>
+              <input type="text" SearchText="SearchText" id="SearchText" class="form-control" ng-model="vm.search.SearchText">
             </div>
           </div>
 
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label>TIPO DE VAGA</label>
+              <div class="custom-control custom-checkbox" ng-repeat="opportunityType in vm.opportunityTypesList">
+                <input type="checkbox" class="custom-control-input" id="checkOpportunityType{{$index}}" ng-model="opportunityType.selected" ng-change="vm.updateCheckboxes()">
+                <label class="custom-control-label" for="checkOpportunityType{{$index}}">{{opportunityType.Description}}</label>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label>NÍVEL DE EXPERIÊNCIA</label>
+              <div class="custom-control custom-checkbox" ng-repeat="experienceLevel in vm.experienceLevelsList">
+                <input type="checkbox" class="custom-control-input" id="checkExperienceLevel{{$index}}" ng-model="experienceLevel.selected" ng-change="vm.updateCheckboxes()">
+                <label class="custom-control-label" for="checkExperienceLevel{{$index}}">{{experienceLevel.Description}}</label>
+              </div>
+            </div>
+          </div>
+        
         </div>
         
         <div class="row justify-content-end p-0">
@@ -96,7 +116,7 @@
             <h5 class="card-title my-2">{{opportunity.Title}}</h5>
             <label class="mb-1">{{opportunity.company.Name}}</label><br>
             <label class="mb-1"><i class="fa fa-map-marker"></i> {{opportunity.locationName}}</label>
-            <p class="opportunity-date">{{opportunity.PostDate | date: 'dd MMM'}}</p>
+            <p class="opportunity-date">Anúncio em {{opportunity.PostDate | date: 'dd MMM, yyyy'}}</p>
           </div>
         </div>
       </a>
