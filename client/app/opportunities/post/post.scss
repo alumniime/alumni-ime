@@ -152,4 +152,14 @@
     }
   }
 
+  .check-responsability {
+    font-size: 13px;
+    padding: 0 50px 15px 20px;
+    text-align: justify;
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
+  }
+
 }

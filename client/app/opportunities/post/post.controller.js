@@ -13,6 +13,7 @@ export default class OpportunitiesPostController {
   maxSize = '1MB';
   dateInvalid = false;
   ExpirationDate = '';
+  checkResponsability = false;
 
   constructor(Auth, Modal, Util, Upload, $http, $state, $anchorScroll) {
     'ngInject';

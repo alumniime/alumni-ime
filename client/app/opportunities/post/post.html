@@ -152,7 +152,7 @@
               </div>
 
               <div class="form-group">
-                <label for="ExpirationDate">DATA LIMITE*</label>
+                <label for="ExpirationDate">DATA LIMITE DE CANDIDATURA*</label>
                 <input type="text" id="ExpirationDate" name="ExpirationDate"
                         class="form-control" placeholder="dd/mm/yyyy" mask="39/19/2999"
                         ng-model="vm.ExpirationDate" required
@@ -166,33 +166,33 @@
           </div>
           <br>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label for="Responsabilities">RESPONSABILIDADES* ({{ 1200 - form.Responsabilities.$viewValue.length }})</label>
-                <textarea type="text" id="Responsabilities" name="Responsabilities" class="form-control" rows="6"
-                          ng-model="vm.opportunity.Responsabilities" required ng-maxlength="1200"></textarea>
-                <p class="help-block" ng-show="form.Responsabilities.$error.required && vm.submitted">
-                  Insira as responsabilidades da vaga oferecida.
-                </p>
-                <p class="help-block" ng-show="form.Responsabilities.$error.maxlength">
-                  Texto muito longo.
-                </p>
-              </div>
+          <div class="form-group">
+            <label for="Responsabilities">RESPONSABILIDADES* ({{ 1200 - form.Responsabilities.$viewValue.length }})</label>
+            <textarea type="text" id="Responsabilities" name="Responsabilities" class="form-control" rows="6"
+                      ng-model="vm.opportunity.Responsabilities" required ng-maxlength="1200"></textarea>
+            <p class="help-block" ng-show="form.Responsabilities.$error.required && vm.submitted">
+              Insira as responsabilidades da vaga oferecida.
+            </p>
+            <p class="help-block" ng-show="form.Responsabilities.$error.maxlength">
+              Texto muito longo.
+            </p>
+          </div>
 
-              <div class="form-group">
-                <label for="Requirements">REQUISITOS* ({{ 1200 - form.Requirements.$viewValue.length
-                  }})</label>
-                <textarea type="text" id="Requirements" name="Requirements" class="form-control" rows="6"
-                          ng-model="vm.opportunity.Requirements" required ng-maxlength="1200"></textarea>
-                <p class="help-block" ng-show="form.Requirements.$error.required && vm.submitted">
-                  Insira os requisitos para a vaga oferecida.
-                </p>
-                <p class="help-block" ng-show="form.Requirements.$error.maxlength">
-                  Texto muito longo.
-                </p>
-              </div>
+          <div class="form-group">
+            <label for="Requirements">REQUISITOS* ({{ 1200 - form.Requirements.$viewValue.length
+              }})</label>
+            <textarea type="text" id="Requirements" name="Requirements" class="form-control" rows="6"
+                      ng-model="vm.opportunity.Requirements" required ng-maxlength="1200"></textarea>
+            <p class="help-block" ng-show="form.Requirements.$error.required && vm.submitted">
+              Insira os requisitos para a vaga oferecida.
+            </p>
+            <p class="help-block" ng-show="form.Requirements.$error.maxlength">
+              Texto muito longo.
+            </p>
+          </div>
 
+          <div class="row justify-content-between align-items-center">
+            <div class="col-auto">
               <br>
               <label>LOGO DA EMPRESA*</label>
               <br>
@@ -252,8 +252,21 @@
               </p>
 
               </div>
-
             </div>
+
+            <div class="col-12 col-xl-8 check-responsability">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" name="checkResponsability" class="custom-control-input" id="checkResponsability" ng-model="vm.checkResponsability" required>
+                <label class="custom-control-label" for="checkResponsability">
+                    Assumo a responsabilidade pelas informações prestadas neste formulário e estou ciente 
+                    que elas serão disponibilizadas a outros usuários do portal Alumni IME.
+                </label>
+              </div>
+              <p class="help-block" ng-show="form.checkResponsability.$error.required && vm.submitted">
+                Por favor, é necessário aceitar os termos para que a vaga seja anunciada.
+              </p>
+            </div>
+
           </div>
 
           <br>

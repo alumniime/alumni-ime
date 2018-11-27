@@ -6,7 +6,6 @@
   .view-photo {
     max-width: 100px;
     max-height: 100px;
-    border-radius: 50px;
   }
 
   h1 {
@@ -110,42 +109,22 @@
     color: #E84E0F;
   }
 
-  .custom-checkbox, .custom-radio {
-    padding-bottom: 5px;
-    margin-left: 30px;
-    margin-top: 10px;
-    .custom-control-label {
-      color: #495057;
-      font-size: 14px;
-    }
+  .btn-danger {
+    font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 200px;
+    height: 45px;
+    padding-top: 8px;
   }
 
-  .card-columns {
-    column-count: 2;
-    @include media-breakpoint-down(sm) {
-      column-count: 1;
-    }
+  .btn-danger:hover, .btn-danger.active {
+    background-color: rgb(199, 66, 14);
   }
 
-  .project-card {
-    border: none;
-    background-color: #fafafa !important;
-    box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    .card-title {
-      font-size: 18px;
-    }
-
-    .card-body{
-      padding: 30px;
-    }
-
-    .card-link {
-      font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
-      font-weight: 600;
-      font-size: 14px;
-      padding-top: 12px;
-    }
+  .btn-submit {
+    background-color: #E84E0F;
+    border-radius: 30px;
   }
 
   .btn-outline-danger{
@@ -155,6 +134,20 @@
   .btn-outline-danger:hover, .btn-outline-danger.active{
     color: #fafafa;
     background: rgb(199, 66, 14);
+  }
+
+  .info-name {
+    font-size: 10px;
+    color: #828282;
+  }
+
+  .info-text {
+    font-size: 14px;
+    text-align: justify;
+  }
+
+  .text-pre {
+    white-space: pre-wrap;
   }
 
 }

@@ -15,13 +15,12 @@ export default class OpportunitiesSearchController {
   opportunitiesNumber = 0;
   itemsPerPage = 8;
 
-  constructor(Auth, Modal, Util, Opportunity, $http, $filter, $state, $stateParams, $location, $anchorScroll) {
+  constructor(Auth, Modal, Util, $http, $filter, $state, $stateParams, $location, $anchorScroll) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
     this.Modal = Modal;
     this.Util = Util;
-    this.Opportunity = Opportunity;
     this.$http = $http;
     this.$filter = $filter;
     this.$state = $state;

@@ -122,9 +122,9 @@ export function index(req, res) {
           attributes: ['Description']
         }],
       }],
-      where: {
-        IsApproved: 1
-      },
+      attributes: {
+        exclude: ['Responsabilities', 'Requirements']
+      }, 
       order: [
         ['PostDate', 'DESC']
       ]
@@ -221,14 +221,76 @@ export function opportunityFunctions(req, res) {
 
 // Gets a single Opportunity from the DB
 export function show(req, res) {
-    return Opportunity.find({
+  User.find({
+    where: {
+      $or: [{
+        PersonId: req.user.PersonId,
+        IsApproved: 1
+      }, {
+        PersonId: req.user.PersonId,
+        role: 'admin'
+      }]
+    }
+  })
+    .then(user => {
+      if (!user) {
+        return res.status(403)
+          .send('Forbidden');
+      }
+
+      return Opportunity.find({
+        include: [{
+          model: User,
+          attributes: ['name'],
+          as: 'recruiter'
+        }, {
+          model: OpportunityType,
+          as: 'opportunityType'
+        }, {
+          model: OpportunityFunction,
+          as: 'opportunityFunction'
+        }, {
+          model: ExperienceLevel,
+          as: 'experienceLevel'
+        }, {
+          model: Company,
+          as: 'company',
+          include: [{
+            model: Industry,
+            as: 'industry'
+          }]
+        }, {
+          model: Image,
+          as: 'companyLogo'
+        }, {
+          model: Location,
+          as: 'location',
+          attributes: ['LinkedinName'],
+          include: [{
+            model: City,
+            as: 'city',
+            attributes: ['Description'],
+            include: [{
+              model: State,
+              attributes: ['Code'],
+              as: 'state'
+            }]
+          }, {
+            model: Country,
+            as: 'country',
+            attributes: ['Description']
+          }],
+        }],
         where: {
-            OpportunityId: req.params.id
+          OpportunityId: req.params.id,
+          IsApproved: 1
         }
-    })
+      })
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
+    })
+    .catch(handleError(res));
 }
 
 // Gets a list of Opportunities with params
@@ -343,6 +405,9 @@ export function search(req, res) {
             attributes: ['Description']
           }],
         }],
+        attributes: {
+          exclude: ['Responsabilities', 'Requirements']
+        },
         where: where,
         order: [
           ['PostDate', 'DESC']
@@ -592,7 +657,6 @@ export function upload(req, res) {
         return res.json(result);
       }
     });
-
 
   });
 
