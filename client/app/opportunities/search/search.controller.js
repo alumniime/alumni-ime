@@ -57,7 +57,7 @@ export default class OpportunitiesSearchController {
         for(var opportunityType of this.opportunityTypesList) {
           opportunityType.selected = false;
         }
-        if(this.search.OpportunityTypes.length > 0) {
+        if(this.search.OpportunityTypes && this.search.OpportunityTypes.length > 0) {
           this.loadOpportunityTypes();
         }
       });
@@ -68,19 +68,13 @@ export default class OpportunitiesSearchController {
         for(var experienceLevel of this.experienceLevelsList) {
           experienceLevel.selected = false;
         }
-        if(this.search.ExperienceLevels.length > 0) {
+        if(this.search.ExperienceLevels && this.search.ExperienceLevels.length > 0) {
           this.loadExperienceLevels();
         }
       });
 
     var loading = this.Modal.showLoading();
 
-    this.Opportunity.load().then((result) => {
-      this.opportunitiesNumber = this.Opportunity.list.length;
-      console.log(result);
-    }).catch(() => {
-    });
-    
     this.getCurrentUser()
       .then(user => {
         this.user = user;
@@ -111,18 +105,26 @@ export default class OpportunitiesSearchController {
             this.search.SearchText = this.search.SearchText;
           }
           if(this.$stateParams.OpportunityTypes) {
-            this.search.OpportunityTypes = this.$stateParams.OpportunityTypes.split(',');
-            for(var i in this.search.OpportunityTypes) {
-              this.search.OpportunityTypes[i] = parseInt(this.search.OpportunityTypes[i]);
+            var arr = this.$stateParams.OpportunityTypes.split(',');
+            this.search.OpportunityTypes = [];
+            for(var i in arr) {
+              var d = parseInt(arr[i]);
+              if(Number.isInteger(d)) {
+                this.search.OpportunityTypes.push(d);
+              }
             }
             if(this.opportunityTypesList) {
               this.loadOpportunityTypes();
             }
           }
           if(this.$stateParams.ExperienceLevels) {
-            this.search.ExperienceLevels = this.$stateParams.ExperienceLevels.split(',');
-            for(var i in this.search.ExperienceLevels) {
-              this.search.ExperienceLevels[i] = parseInt(this.search.ExperienceLevels[i]);
+            var arr = this.$stateParams.ExperienceLevels.split(',');
+            this.search.ExperienceLevels = [];
+            for(var i in arr) {
+              var d = parseInt(arr[i]);
+              if(Number.isInteger(d)) {
+                this.search.ExperienceLevels.push(d);
+              }
             }
             if(this.experienceLevelsList) {
               this.loadExperienceLevels();
@@ -131,12 +133,13 @@ export default class OpportunitiesSearchController {
           
           console.log(this.search);
           
-          this.$http.get('/api/opportunities') //, this.search)
+          this.$http.post('/api/opportunities', this.search)
             .then(response => {
               loading.close();
               this.opportunitiesList = response.data;
-              if(this.opportunitiesList.length === 0) {
-                this.Modal.showAlert('Sem resultados', 'Nenhum ex-aluno foi encontrado com base nos filtros selecionados.');
+              this.opportunitiesNumber = this.opportunitiesList.length;
+              if(this.opportunitiesNumber === 0) {
+                this.Modal.showAlert('Sem resultados', 'Nenhuma vaga foi encontrada com base nos filtros selecionados.');
               } else {
                 for(var opportunity of this.opportunitiesList) {
                   if(opportunity && opportunity.location) {
@@ -230,8 +233,10 @@ export default class OpportunitiesSearchController {
 
   concatenateItems(arr) {
     var s = '';
-    for(var item of arr) {
-      s = s === '' ? item : `${s},${item}`;
+    if(arr) {
+      for(var item of arr) {
+        s = s === '' ? item : `${s},${item}`;
+      }
     }
     return s;
   }

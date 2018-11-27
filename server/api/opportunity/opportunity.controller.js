@@ -205,7 +205,7 @@ export function opportunityFunctions(req, res) {
       [sequelize.fn('COUNT', sequelize.col('OpportunityId')), 'OpportunitiesNumber']
     ],
     include: [{
-      model: OpportunityFunction,
+      model: OpportunityFunction, 
       as: 'opportunityFunction',
       attributes: []
     }],
@@ -253,51 +253,53 @@ export function search(req, res) {
       var where = {
         IsApproved: 1
       };
-      var level = {};
-      var location = {};
-      var required = false;
-      var requiredLevel = false;
-      var requiredLocation = false;
 
       console.log(req.body);
 
-      if (req.body.GraduationYear) {
-        where.GraduationYear = req.body.GraduationYear;
-      }
-
-      if (req.body.EngineeringId) {
-        where.EngineeringId = req.body.EngineeringId;
-      }
-
-      if (req.body.LevelType) {
-        level.Type = req.body.LevelType;
-        required = true;
-        requiredLevel = true;
-      }
-
-      if (req.body.LevelId) {
-        level.LevelId = req.body.LevelId;
-        required = true;
-        requiredLevel = true;
-      }
-
       if (req.body.LocationId) {
-        location = { LocationId: req.body.LocationId };
-        required = true;
-        requiredLocation = true;
+        where.LocationId = req.body.LocationId;
       }
 
       if (req.body.IndustryId) {
-        profile.IndustryId = req.body.IndustryId;
-        required = true;
+        where.IndustryId = req.body.IndustryId;
       }
 
-      if (req.body.name) {
-        where.Name = { $like: `%${req.body.name}%` };
-      }
+      if (req.body.OpportunityFunctionId) {
+        where.OpportunityFunctionId = req.body.OpportunityFunctionId;
+      } 
 
-      if (req.body.required) {
-        required = true;
+      if (req.body.OpportunityTypes) {
+        where.OpportunityTypeId = req.body.OpportunityTypes;
+      }
+      
+      if (req.body.ExperienceLevels) {
+        where.ExperienceLevelId = req.body.ExperienceLevels;
+      }
+      
+      if (req.body.SearchText) {
+        var text = req.body.SearchText;
+        var arr = text.split(' ');
+        var tmp = [];
+        where.$or = [];
+        var fields = [
+          'Title', 
+          'company.Name', 
+          'location.city.Description', 
+          'opportunityType.Description', 
+          'opportunityFunction.Description', 
+          'experienceLevel.Description'
+        ];
+        
+        for(var field of fields) {
+          for(var i in arr) {
+            tmp.push(
+              sequelize.where(sequelize.col(field), 'LIKE', `%${arr[i]}%`)
+            );
+          }
+          where.$or.push({
+            $or: tmp
+          });
+        }
       }
 
       console.log(where);
