@@ -33,7 +33,7 @@ export default class ProfileController {
   levelOtherId = null;
   optionOtherId = null;
 
-  constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Modal) {
+  constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Modal, Util) {
     'ngInject';
 
     this.Auth = Auth;
@@ -46,6 +46,7 @@ export default class ProfileController {
     this.Project = Project;
     this.Donation = Donation;
     this.Modal = Modal;
+    this.Util = Util;
   }
 
   $onInit() {
@@ -65,7 +66,7 @@ export default class ProfileController {
       } else if(this.user.location.StateId) {
         this.selectState(this.user.location.StateId);
       }
-      this.updateLocationName();
+      this.locationName = this.Util.getLocationName(this.user.location);
 
       console.log(user);
 
@@ -256,17 +257,6 @@ export default class ProfileController {
     // this.concatenateInitiativeLinks();
   }
 
-  updateLocationName() {
-    if(this.user.location) {
-      this.locationName = (this.user.location.LinkedinName ? this.user.location.LinkedinName.replace(' Area,', ',') : '');
-      if(this.user.location.CountryId === 1 || this.user.location.city) {
-        this.locationName = (this.user.location.city ? (this.user.location.city.state ? `${this.user.location.city.Description} - ${this.user.location.city.state.Code}` : this.user.location.city.Description) : this.user.location.country.Description);
-      } else {
-        this.locationName = this.user.location.country ? this.user.location.country.Description : '';
-      }
-    }
-  }
-
   updatePhoto() {
     this.Modal.openUpdatePhoto()
       .then(path => {
@@ -328,7 +318,7 @@ export default class ProfileController {
       Reflect.deleteProperty(user.location, 'city');
     }
 
-    this.updateLocationName();
+    this.locationName = this.Util.getLocationName(this.user.location);
 
     if(form.$valid && !this.dateInvalid) {
       

@@ -42,7 +42,7 @@ export default class OpportunitiesSearchController {
       .then(response => {
         this.locationsList = response.data;
         for(var location of this.locationsList) {
-          location.locationName = this.updateLocationName(location.location);
+          location.locationName = this.Util.getLocationName(location.location);
         }
       });
 
@@ -143,7 +143,7 @@ export default class OpportunitiesSearchController {
               } else {
                 for(var opportunity of this.opportunitiesList) {
                   if(opportunity && opportunity.location) {
-                    opportunity.locationName = this.updateLocationName(opportunity.location);
+                    opportunity.locationName = this.Util.getLocationName(opportunity.location);
                   }
                 }
               }
@@ -161,18 +161,6 @@ export default class OpportunitiesSearchController {
         }
       });
 
-  }
-
-  updateLocationName(location) {
-    if(location) { 
-      var locationName = (location.LinkedinName ? location.LinkedinName.replace(' Area,', ',') : '');
-      if(location.country && (location.country.CountryId === 1 || (location.city && location.city.Description))) {
-        locationName = (location.city.state ? `${location.city.Description} - ${location.city.state.Code}` : location.city.Description);
-      } else {
-        locationName = (location.country ? location.country.Description : '');
-      }
-    }
-    return locationName || '';
   }
 
   searchOpportunities(form) {

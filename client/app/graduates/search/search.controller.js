@@ -65,7 +65,7 @@ export default class GraduatesSearchController {
                 }
               }
             }
-            location.locationName = this.updateLocationName(location.profile.location);
+            location.locationName = this.Util.getLocationName(location.profile.location);
           }
         }
       });
@@ -110,7 +110,7 @@ export default class GraduatesSearchController {
                 this.formerStudents = response.data;
                 for(var student of this.formerStudents) {
                   if(student.profile && student.profile.location) {
-                    student.profile.locationName = this.updateLocationName(student.profile.location);
+                    student.profile.locationName = this.Util.getLocationName(student.profile.location);
                   }
                 }
                 this.$location.hash('formerStudents');
@@ -163,7 +163,7 @@ export default class GraduatesSearchController {
                   } else {
                     for(var student of this.formerStudents) {
                       if(student.profile && student.profile.location) {
-                        student.profile.locationName = this.updateLocationName(student.profile.location);
+                        student.profile.locationName = this.Util.getLocationName(student.profile.location);
                       }
                     }
                   }
@@ -186,18 +186,6 @@ export default class GraduatesSearchController {
         }
       });
 
-  }
-
-  updateLocationName(location) {
-    if(location) { 
-      var locationName = (location.LinkedinName ? location.LinkedinName.replace(' Area,', ',') : '');
-      if(location.country && (location.country.CountryId === 1 || (location.city && location.city.Description))) {
-        locationName = (location.city.state ? `${location.city.Description} - ${location.city.state.Code}` : location.city.Description);
-      } else {
-        locationName = (location.country ? location.country.Description : '');
-      }
-    }
-    return locationName || '';
   }
 
   searchStudents(form) {

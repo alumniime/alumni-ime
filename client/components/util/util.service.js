@@ -100,6 +100,21 @@ export function UtilService($window) {
     },
     
     /**
+     * Concatenate location fields
+     */
+    getLocationName(location) {
+      if(location) { 
+        var locationName = (location.LinkedinName ? location.LinkedinName.replace(' Area,', ',') : '');
+        if(location.country && (location.country.CountryId === 1 || (location.city && location.city.Description))) {
+          locationName = (location.city.state ? `${location.city.Description} - ${location.city.state.Code}` : location.city.Description);
+        } else {
+          locationName = (location.country ? location.country.Description : '');
+        }
+      }
+      return locationName || '';
+    },
+  
+    /**
      * Convert strings using crypto SHA256
      */
     SHA256(r) {
