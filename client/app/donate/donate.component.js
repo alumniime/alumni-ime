@@ -19,6 +19,42 @@ export class DonateController {
   currentYear = '';
   currentSemester = '';
 
+  //custom
+  radioModel = 'mensal';
+  //for dev
+  funding = {
+    type: 'mensal',
+    // contributor: 'ALEX N SOUZA',
+    value: 'D8BC16C543436D2554104FB2EC5D1B96',
+    customValue: null,
+    // email: "alex.maodemartelo@sandbox.pagseguro.com.br",
+    // cpf:"51646013204",
+    // address: {
+    //   city: "Rio de Janeiro",
+    //   complement: "apto 1204",
+    //   country: "Brasil",
+    //   district: "copacabana",
+    //   number: "250",
+    //   postalCode: "22021-020",
+    //   state: "RJ",
+    //   street: "Rua Ronald de Carvalho"
+    // },
+    // paymentMethod: {
+    //   creditCardHolderName: "alex n souza",
+    //   creditCardNumber: "4111111111111111",
+    //   cvv: "123",
+    //   expires: {
+    //     month: "12",
+    //     year: "2030"
+    //   }
+    // },
+    // telefone: {
+    //   area: "21",
+    //   numero: "994378187"
+    // },
+    // creditCardHolderBirthDate: '26/02/1980'
+  };
+
   constructor(Auth, Modal, $state, $stateParams, $uibModal, Project, Donation, Upload, $anchorScroll) {
     'ngInject';
 
@@ -37,7 +73,7 @@ export class DonateController {
     this.$anchorScroll('top');
     this.Project.load()
       .then(() => {
-        if(this.$stateParams.ProjectId) {
+        if (this.$stateParams.ProjectId) {
           this.donation.Type = 'project';
           this.donation.ProjectId = parseInt(this.$stateParams.ProjectId);
         }
@@ -48,15 +84,16 @@ export class DonateController {
       .then(user => {
         this.user = user;
         this.loading.close();
-        if(!user.PersonId) {
+        if (!user.PersonId) {
           this.Modal.openLogin();
         } else {
           this.donation.DonatorId = user.PersonId;
+          this.funding.contributor = user.FullName;
         }
       });
 
     var date = new Date();
-    this.currentSemester = (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1; 
+    this.currentSemester = (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1;
     this.currentYear = date.getFullYear();
 
   }
@@ -66,7 +103,7 @@ export class DonateController {
   }
 
   updateImages(files) {
-    if(files === null) {
+    if (files === null) {
       this.loading = this.Modal.showLoading();
     } else {
       this.loading.close();
@@ -76,13 +113,13 @@ export class DonateController {
   submitDonation(form) {
     this.submitted = true;
 
-    if(!this.user.PersonId) {
+    if (!this.user.PersonId) {
       // User needs to login
       this.Modal.openLogin();
-    } else if(form.$valid && this.uploadImages && this.uploadImages.length === 1 && this.donation.ValueInCents > 0 && this.donation.ProjectId !== '') {
+    } else if (form.$valid && this.uploadImages && this.uploadImages.length === 1 && this.donation.ValueInCents > 0 && this.donation.ProjectId !== '') {
 
       this.donation.ValueInCents *= 100;
-      if(this.donation.Type === 'general') {
+      if (this.donation.Type === 'general') {
         this.donation.ProjectId = null;
       }
 
@@ -100,10 +137,10 @@ export class DonateController {
         .then(function success(result) {
           loading.close();
           console.log(result);
-          if(result.data.errorCode === 0) {
+          if (result.data.errorCode === 0) {
             this_.submitted = false;
             this_.uploadImages = [];
-            this_.$state.go('profile', {view: 'supported_projects'});
+            this_.$state.go('profile', { view: 'supported_projects' });
             this_.Donation.loadMyDonations(true);
             this_.$uibModal.open({
               animation: true,
@@ -124,6 +161,19 @@ export class DonateController {
           this_.progress = 'progress: ' + progressPercentage + '% ';
         });
 
+    }
+
+  }
+
+  submitFunding(form) {
+    this.submitted = true;
+
+    if (!this.user.PersonId) {
+      // User needs to login
+      this.Modal.openLogin();
+    } else if (form.$valid) {
+      console.log(this.funding);
+      this.Modal.openCheckout(this.funding);
     }
 
   }

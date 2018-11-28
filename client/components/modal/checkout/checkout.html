@@ -1,0 +1,159 @@
+<div class="modal-body" id="modal-body">
+    <div class="row">
+        <div class="col-md-12 order-md-1">
+            <h4 class="mb-3"><b>Informações de pagamento</b></h4>
+            <form class="form" name="form" ng-submit="vm.submit(form)" novalidate="">
+                <div class="row">
+                    <div class="col-md-8 mb-6">
+                        <label for="contributor">Nome</label>
+                        <input type="text" ng-model="vm.funding.contributor" class="form-control" id="contributor" name="contributor"
+                            required>
+                        <div class="help-block" ng-if="form.contributor.$error.required && vm.submitted"> Seu nome é
+                            necessário. </div>
+                    </div>
+                    <div class="col-md-4 mb-6">
+                        <label for="creditCardHolderBirthDate">Data de nascimento </label>
+                        <input type="text" mask='39/19/9999' ng-model="vm.funding.creditCardHolderBirthDate" class="form-control" id="creditCardHolderBirthDate" name="creditCardHolderBirthDate"
+                            required>
+                        <div class="help-block" ng-if="form.creditCardHolderBirthDate.$error.required && vm.submitted"> Data de nascimento é necessária. </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email">Email </label>
+                    <input type="email" ng-model="vm.funding.email" class="form-control" id="email" name="email"
+                        placeholder="you@example.com" required>
+                    <div class="help-block" ng-if="(form.email.$error.required || form.email.$error.email) && vm.submitted">
+                        Favor entrar com um e-mail válido. </div>
+                </div>
+                <div class="mb-3">
+                        <label for="cpf">CPF </label>
+                        <input type="text" ng-model="vm.funding.cpf" class="form-control" id="cpf" name="cpf"
+                            placeholder="you@example.com" required>
+                        <div class="help-block" ng-if="form.cpf.$error.required && vm.submitted">
+                            Favor entrar com um CPF válido. </div>
+                    </div>                
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for=" area">Código de área</label>
+                        <input type="text" class="form-control" ng-model="vm.funding.telefone.area" id="area" name="area"
+                            required>
+                        <div class="help-block" ng-if="form.area.$error.required && vm.submitted"> Entre com o código
+                            de área de seu telefone. </div>
+                    </div>
+                    <div class="col-md-9 mb-3"">
+                        <label for=" telefone">Telefone</label>
+                        <input type="tel" class="form-control" ng-model="vm.funding.telefone.numero" id="telefone" name="telefone"
+                            required>
+                        <div class="help-block" ng-if="form.telefone.$error.required && vm.submitted"> Entre com um
+                            número de telefone. </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="street">Endereço</label>
+                    <input type="text" ng-model="vm.funding.address.street" class="form-control" id="street" name="street"
+                        placeholder="Rua da Ajuda" required>
+                    <div class="help-block" ng-if="form.street.$error.required && vm.submitted"> Entrar com seu
+                        endereço. </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="numeroEndereco">Número </label>
+                        <input type="text" ng-model="vm.funding.address.number" class="form-control" id="numeroEndereco"
+                            name="numeroEndereco" placeholder="42" required>
+                        <div class="help-block" ng-if="form.numeroEndereco.$error.required && vm.submitted"> Entrar com
+                            seu endereço. </div>
+                    </div>
+                    <div class="col-md-9 mb-3">
+                        <label for="complemento">Complemento </label>
+                        <input type="text" ng-model="vm.funding.address.complement" class="form-control" id="complemento"
+                            name="complemento" placeholder="Apto 502" required>
+                        <div class="help-block" ng-if="form.complemento.$error.required && vm.submitted"> Necessário
+                            informações de complemento. </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="district">Bairro </label>
+                        <input type="text" ng-model="vm.funding.address.district" class="form-control" id="district" name="district"
+                            placeholder="Copacabana" required>
+                        <div class="help-block" ng-if="form.district.$error.required && vm.submitted"> Entrar com
+                            seu bairro. </div>
+                    </div>
+                    <div class="col-md-9 mb-3">
+                        <label for="city">Cidade </label>
+                        <input type="text" ng-model="vm.funding.address.city" class="form-control" id="city" name="city"
+                            placeholder="Rio de Janeiro" required>
+                        <div class="help-block" ng-if="form.city.$error.required && vm.submitted"> Necessário
+                            informações da sua cidade. </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="country">País</label>
+                        <input type="text" ng-model="vm.funding.address.country" class="form-control" id="country" name="country"
+                            placeholder="Brasil" required>
+                        <div class="help-block" ng-if="form.country.$error.required && vm.submitted"> Informe seu país.
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="state">State</label>
+                        <input type="text" ng-model="vm.funding.address.state" class="form-control" id="state" name="state"
+                            placeholder="Rio de Janeiro" required>
+                        <div class="help-block" ng-if="form.state.$error.required && vm.submitted"> Informe seu estado.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="postalCode">Zip</label>
+                        <input type="text" ng-model="vm.funding.address.postalCode" class="form-control" id="postalCode"
+                            name="postalCode" required>
+                        <div class="help-block" ng-if="form.postalCode.$error.required && vm.submitted"> informe o CEP.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="creditCardHolderName">Nome no cartão</label>
+                        <input type="text" ng-model="vm.funding.paymentMethod.creditCardHolderName" class="form-control"
+                            id="creditCardHolderName" name="creditCardHolderName" required>
+                        <small class="text-muted">Nome completo conforme exibido no cartão</small>
+                        <div class="help-block" ng-if="form.creditCardHolderName.$error.required && vm.submitted"> Nome
+                            no cartão é necessário.</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="creditCardNumber">Número do cartão</label>
+                        <input type="text" ng-model="vm.funding.paymentMethod.creditCardNumber" class="form-control" id="creditCardNumber"
+                            name="creditCardNumber" required>
+                        <div class="help-block" ng-if="form.creditCardNumber.$error.required && vm.submitted"> Número
+                            do cartão é necessario. </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="expiresM">Mês de expiração</label>
+                        <input type="text" ng-model="vm.funding.paymentMethod.expires.month" class="form-control" id="expiresM"
+                            name="expiresM" required>
+                        <div class="help-block" ng-if="form.expiresM.$error.required && vm.submitted"> Mês de expiração
+                            é necessário. </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                            <label for="expiresA">Ano de expiração</label>
+                            <input type="text" ng-model="vm.funding.paymentMethod.expires.year" class="form-control" id="expiresA"
+                                name="expiresA" required>
+                            <div class="help-block" ng-if="form.expiresA.$error.required && vm.submitted"> Data de expiração
+                                é necessária. </div>
+                        </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="cvv">CVV</label>
+                        <input type="text" ng-model="vm.funding.paymentMethod.cvv" class="form-control" id="cvv" name="cvv"
+                            required>
+                        <div class="help-block" ng-if="form.cvv.$error.required && vm.submitted"> CVV necessário. </div>
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-info btn-lg btn-block" type="submit">Confirmar doação</button>
+            </form>
+        </div>
+    </div>
+</div>

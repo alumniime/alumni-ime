@@ -42,12 +42,15 @@ import donate from './donate/donate.component';
 import history from './about/history/history.component';
 import institutional from './about/institutional/institutional.component';
 import management from './about/management/management.component';
+//
+import  PagseguroService  from '../services/pagseguro/pagseguro.service';
 
 import './app.scss';
 
+
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
-  history, institutional, management, graduates
+  history, institutional, management, graduates, PagseguroService
 ])
   .config(routeConfig)
   .run(function ($rootScope, $location, Auth, ngMeta) {

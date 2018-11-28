@@ -9,7 +9,7 @@ export default function($stateProvider, appConfig) {
         ProjectId: {value: null, squash: true},
         PrettyURL: {value: null, squash: true}
       },
-      template: require('./donate.html'),
+      template: require('./donate.2.html'),
       controller: 'DonateController',
       controllerAs: 'vm',
       data: {

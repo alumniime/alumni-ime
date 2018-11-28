@@ -14,3 +14,4 @@ coverage
 /client/assets/profiles/
 /package-lock.json
 client/index.html
+build/config.gypi

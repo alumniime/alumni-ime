@@ -18,6 +18,7 @@ import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
 import ModalEditNews from './edit-news/edit-news.controller';
 import ModalEditDonation from './edit-donation/edit-donation.controller';
+import ModalCheckoutController from './checkout/checkout.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -112,7 +113,7 @@ export function ModalService($uibModal, $q) {
       });
     },
 
-    openPhoto(images, index){
+    openPhoto(images, index) {
       $uibModal.open({
         animation: true,
         component: 'modalPhoto',
@@ -235,7 +236,7 @@ export function ModalService($uibModal, $q) {
         size: 'dialog-centered',
         resolve: {
           alert: function () {
-            return {title, message};
+            return { title, message };
           }
         }
       });
@@ -248,7 +249,7 @@ export function ModalService($uibModal, $q) {
         size: 'dialog-centered',
         resolve: {
           dialog: function () {
-            return {title, message, content, result};
+            return { title, message, content, result };
           }
         }
       });
@@ -265,12 +266,32 @@ export function ModalService($uibModal, $q) {
       });
       loading.close = function () {
         loading.opened.then(result => {
-          if(result) {
+          if (result) {
             loading.dismiss();
           }
         });
       };
       return loading;
+    },
+
+    openCheckout(funding) {
+      // var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalCheckout',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          funding: function () {
+            return funding;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+      // return d.promise;
     }
 
   };
@@ -455,6 +476,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalEditDonation', {
     template: require('./edit-donation/edit-donation.html'),
     controller: ModalEditDonation,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalCheckout', {
+    template: require('./checkout/checkout.html'),
+    controller: ModalCheckoutController,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',
