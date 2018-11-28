@@ -6,11 +6,12 @@ export default class ModalCheckoutController {
   submitted = false;
 
   /*@ngInject*/
-  constructor(Modal, $http, Pagseguro, Auth) {
+  constructor(Modal, $http, Pagseguro, Auth, $filter) {
     this.Modal = Modal;
     this.$http = $http;
     this.pagseguro = Pagseguro;
     this.getCurrentUser = Auth.getCurrentUser;
+    this.$filter = $filter;
   }
 
   $onInit() {
@@ -26,7 +27,7 @@ export default class ModalCheckoutController {
         } else {
           $funding.contributor = user.FullName;
           $funding.email = user.email;
-          $funding.creditCardHolderBirthDate = Birthdate;
+          $funding.creditCardHolderBirthDate = this.$filter('date')(user.Birthdate,'dd/MM/yyyy');
         }
       });
 

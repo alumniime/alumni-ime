@@ -59,14 +59,14 @@
                     <div class="col-md-3 mb-3">
                         <label for="numeroEndereco">Número </label>
                         <input type="text" ng-model="vm.funding.address.number" class="form-control" id="numeroEndereco"
-                            name="numeroEndereco" placeholder="42" required>
+                            name="numeroEndereco" placeholder="ex: 42" required>
                         <div class="help-block" ng-if="form.numeroEndereco.$error.required && vm.submitted"> Entrar com
                             seu endereço. </div>
                     </div>
                     <div class="col-md-9 mb-3">
                         <label for="complemento">Complemento </label>
                         <input type="text" ng-model="vm.funding.address.complement" class="form-control" id="complemento"
-                            name="complemento" placeholder="Apto 502" required>
+                            name="complemento" placeholder="ex: Apto 502" required>
                         <div class="help-block" ng-if="form.complemento.$error.required && vm.submitted"> Necessário
                             informações de complemento. </div>
                     </div>
@@ -75,14 +75,14 @@
                     <div class="col-md-3 mb-3">
                         <label for="district">Bairro </label>
                         <input type="text" ng-model="vm.funding.address.district" class="form-control" id="district" name="district"
-                            placeholder="Copacabana" required>
+                            placeholder="ex: Copacabana" required>
                         <div class="help-block" ng-if="form.district.$error.required && vm.submitted"> Entrar com
                             seu bairro. </div>
                     </div>
                     <div class="col-md-9 mb-3">
                         <label for="city">Cidade </label>
                         <input type="text" ng-model="vm.funding.address.city" class="form-control" id="city" name="city"
-                            placeholder="Rio de Janeiro" required>
+                            placeholder="ex: Rio de Janeiro" required>
                         <div class="help-block" ng-if="form.city.$error.required && vm.submitted"> Necessário
                             informações da sua cidade. </div>
                     </div>
@@ -98,7 +98,7 @@
                     <div class="col-md-4 mb-3">
                         <label for="state">State</label>
                         <input type="text" ng-model="vm.funding.address.state" class="form-control" id="state" name="state"
-                            placeholder="Rio de Janeiro" required>
+                            placeholder="ex: Rio de Janeiro" required>
                         <div class="help-block" ng-if="form.state.$error.required && vm.submitted"> Informe seu estado.
                         </div>
                     </div>

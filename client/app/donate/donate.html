@@ -1,161 +1,87 @@
-<div class="container donateView">
-  <div class="row justify-content-center">
-    <div class="col-10">
-      <h5 class="page-title">Faça sua contribuição</h5>
-      <div class="page-text">
-        Apoiando a Alumni IME, você colabora para o fortalecimento do IME, além de fortalecer a própria comunidade
-        IMEana ao possibilitar que as atividade da Associação sejam desenvolvidas e que sejam apoiados projetos de
-        professores e alunos da graduação do IME.
-        <br>
-        Há duas formas principais de contribuição:
-        <ul class="circle">
-          <li>Por projeto específico, em que você escolhe o projeto do IME que vai receber seu apoio;</li>
-          <li>Ou contribuição geral, em que a Alumni destinará no que for mais prioritário, podendo ir parte para
-            manutenção das próprias atividades da Associação e parte para projetos do IME.
-          </li>
-        </ul>
-        Contribuir é uma forma de gratidão ao IME e tudo o que o Instituto lhe proporcionou, além de financiar as
-        atividades de sua Associação! Fique à vontade para destinar o valor que lhe for conveniente.
-        <br><br>
-        Para isso, basta uma transferência bancária na conta da Alumni, que se encontra abaixo:
-        <br>
-        Nome <span class="bank-data">ASSOC EX AL INST MILIT ENG</span>
-        <br>
-        Banco <span class="bank-data">Itaú</span>
-        <br>
-        Agência <span class="bank-data">0413</span>
-        <br>
-        Conta corrente <span class="bank-data">03888-6</span>
-        <br>
-        CNPJ <span class="bank-data">19.335.957/0001-17</span>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="py-5 donate-container">
+    <div class="container ">
+        <div class="row">
+            <div class="p-5 col-md-6 d-flex flex-column justify-content-center">
+                <h3 class="display-4 mb-3">Sua ajuda pode fazer muita diferença</h3>
+                <p class="mb-4 lead">Apoiando a Alumni IME, você colabora para o fortalecimento do IME, além de
+                    fortalecer a própria comunidade IMEana ao possibilitar que as atividade da Associação sejam
+                    desenvolvidas e que sejam apoiados projetos de professores e alunos da graduação do IME.<br>
+                    <br>
+                    Contribuir é uma forma de gratidão ao IME e tudo o que o Instituto lhe proporcionou, além de
+                    financiar as atividades de sua Associação! Fique à vontade para destinar o valor que lhe for
+                    conveniente.</p>
+            </div>
+            <div class="p-5 col-md-6">
+                <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
+                    <div class="pb-4">
+                        <h3 class="mb-3">Escolha o aporte</h3>
+                        <div class="btn-group">
+                            <label class="btn btn-outline-secondary" ng-model="vm.funding.type" uib-btn-radio="'mensal'">
+                                Mensal</label>
+                            <label class="btn btn-outline-secondary" ng-model="vm.funding.type" uib-btn-radio="'unico'"
+                                ng-disabled="true">
+                                Única Vez</label>
+                        </div>
+                    </div>
+                    <div ng-if="vm.funding.type=='mensal'" class="pb-4">
+                        <h3 class="mb-3">Selecione o valor</h3>
+                        <div class="btn-group">
+                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'D8BC16C543436D2554104FB2EC5D1B96'">
+                                R$ 100,00</label>
+                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'15995A30ABAB8EA1149BCFB99CCAD1A5'">
+                                R$ 200,00</label>
+                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'B6DC5CBAEFEFB83224268FB3F13AC694'">
+                                R$ 300,00</label>
+                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'D35A3FFA0000E12554F4EF8575BFF3B5'">
+                                R$ 400,00</label>
+                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'CA40D80A232392F004008F8CE0C447B3'">
+                                R$ 500,00</label>
+                        </div>
+                    </div>
 
-<div class="donateView box">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-10">
-        <h5 class="page-title">Envie seu comprovante de transferência</h5>
-        <div class="page-text">
-          Para finalizar sua contribuição, é fundamental que você nos forneça o comprovante da transferência efetuada.
-          <br>
-          Esta é a forma mais prática de escolher um projeto específico. Mesmo na contribuição geral, o comprovante é
-          importante para controle interno e planejamento da Alumni, além de possibilitar que o histórico de suas
-          contribuições apareça automaticamente no seu perfil.
+                    <div ng-if="vm.funding.type=='unico'" class="pb-4">
+                        <div class="form-group">
+                            <h3 class="mb-3">Valor (em R$)</h3>
+                            <input type="text" ng-model="vm.funding.customValue" class="form-control" money-mask>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <h3 class="mb-3">Seu nome</h3>
+                        <input type="text" id="contributor" name="contributor" ng-model="vm.funding.contributor" class="form-control"
+                            required>
+                        <p class="help-block" ng-if="form.contributor.$error.required && vm.submitted">
+                            O nome do contribuinte é obrigatório.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Usar cartão de crédito</b></button>
+                </form>
+            </div>
         </div>
-
-        <form class="form" name="form" ng-submit="vm.submitDonation(form)"
-              novalidate="">
-
-          <div class="legend">Tipo de contribuição</div>
-          <label class="checkbox">Geral
-            <input type="radio" name="radio" ng-model="vm.donation.Type" value="general"/>
-            <span class="checkmark"></span>
-          </label>
-          <div class="row">
-            <div class="col-auto pt-2">
-              <label class="checkbox">Por projeto
-                <input type="radio" name="radio" ng-model="vm.donation.Type" value="project"/>
-                <span class="checkmark"></span>
-              </label>
-            </div>
-            <div class="col-auto">
-              <select class="form-control" ng-if="vm.donation.Type == 'project'"
-                      id="ProjectId" name="ProjectId" ng-model="vm.donation.ProjectId">
-                <option value="" selected disabled>Selecione um projeto</option>
-                <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName' | filter: {Year: vm.currentYear, Semester: vm.currentSemester}" 
-                        ng-value="project.ProjectId">
-                  {{project.ProjectName}}
-                </option>
-              </select>
-              <p class="help-block"
-                 ng-if="vm.donation.Type === 'project' && (vm.donation.ProjectId === null || vm.donation.ProjectId === '') && vm.submitted">
-                Escolha um projeto para apoiar.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-sm-auto col-md-6 p-0">
-            <div class="legend">Valor depositado</div>
-            <div class="form-group">
-              <input type="text" id="ValueInCents" name="ValueInCents" class="form-control" required
-                     ng-model="vm.donation.ValueInCents" money-mask money-mask-prepend="R$">
-              <p class="help-block"
-                 ng-if="(form.ValueInCents.$error.required || vm.donation.ValueInCents === 0) && vm.submitted">
-                Insira o valor da contribuição.
-              </p>
-            </div>
-          </div>
-
-          <div class="legend">Anexar comprovante</div>
-
-          <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
-               ng-change="vm.updateImages(vm.uploadImages)"
-               ng-model="vm.uploadImages"
-               ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
-               ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
-               accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages"
-               ngf-max-size="vm.maxSize">
-
-            <div class="card-deck upload-images">
-
-              <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
-                <div class="card mb-3">
-                  <img ng-if="file && file.type !== 'application/pdf'" ngf-thumbnail="file"/>
-                  <span ng-if="file.type === 'application/pdf'" class="text-center w-100">
-                    {{file.name}}
-                    <i class="fa fa-file-pdf-o"></i>
-                  </span>
-                  <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
-                     uib-tooltip="Remover comprovante" tooltip-placement="left"></i>
-                </div>
-              </div>
-
-              <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
-                <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
-                     ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
-                     ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
-                     ng-model="vm.uploadImages" ngf-keep="true"
-                     ngf-multiple="false" ngf-allow-dir="true" accept="image/*,application/pdf"
-                     ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-                  <div class="row">
-                    <div class="col-auto">
-                      <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
-                    </div>
-                    <div class="col">
-                      <p class="upload-text">
-                        <a class="btn btn-link text-info upload-link p-0" href="#">
-                          Faça upload
-                        </a> do comprovante de transferência bancária.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p class="help-block" ng-show="form.files.$error.maxSize">
-              O arquivo inserido ultrapassa o tamanho máximo. Tente novamente.
-            </p>
-
-            <p class="help-block" ng-show="vm.updateImages.length === 0 && vm.submitted">
-              Insira o comprovante de transferência.
-            </p>
-
-          </div>
-
-          <div class="row">
-            <div class="col-auto">
-              <button href="#" class="btn btn-danger m-auto btn-submit" type="submit">
-                ENVIAR
-              </button>
-            </div>
-          </div>
-
-        </form>
-      </div>
     </div>
-  </div>
 </div>
+<div class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 p-0">
+                <div class="embed-responsive embed-responsive-4by3">
+                    <ng-youtube-embed class="d-none d-lg-block d-xl-none" video="'XdkFwnJtgSc'" modestbranding="true"
+                        width="100%" disablekb="true" rel="false" ivloadpolicy="false" height="300px">
+                    </ng-youtube-embed>
+                    <ng-youtube-embed class="d-block d-lg-none d-xl-block" video="'XdkFwnJtgSc'" modestbranding="true"
+                        width="100%" disablekb="true" rel="false" ivloadpolicy="false">
+                    </ng-youtube-embed>
+                </div>
+            </div>
+            <div class="p-5 col-lg-7 d-flex flex-column justify-content-center">
+                <h3 class="display-4 mb-3">Mobilizamos</h3>
+                <p class="lead mb-0">Em 2018, conseguimos mobilizar a comunidade de ex-alunos a apoiarem 17 projetos,
+                    totalizando mais de 200 mil reais investidos na melhoria do ensino e no engrandecimento no nome do
+                    IME mundo afora. Em 2019, queremos dobrar nossa atuação e intensificar as atividades da Associação.
+                    Para isso, contamos a sua participação!</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>

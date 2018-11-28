@@ -1,12 +1,13 @@
 'use strict';
 
+import config from '../../config/environment';
 var rp = require('request-promise');
 var parser = require('xml2js').parseString;
 var request = require("request");
 
-var URI = 'https://ws.sandbox.pagseguro.uol.com.br/';
-var EMAIL = 'contato@alumniime.com.br';
-var TOKEN = '2FF75EDFE1E8416D8E3078155B58F012';
+var URI = config.pagseguro.uri;
+var EMAIL = config.pagseguro.email;
+var TOKEN = config.pagseguro.token;
 
 module.exports = {
     getSessionID: function (req, res) {
