@@ -92,7 +92,7 @@
       <div class="col-9">
 
         <div class="form-group" ng-if="construction.element.Type === 'Paragraph'">
-          <label for="Paragraph{{cIndex}}">{{cIndex + 1}} - PARÁGRAFO*</label>
+          <label for="Paragraph{{cIndex}}">PARÁGRAFO*</label>
           <textarea type="text" id="Paragraph{{cIndex}}" name="Paragraph{{cIndex}}" class="form-control" rows="3" 
                     ng-model="construction.Value" required></textarea>
           <p class="help-block" ng-show="form['Paragraph' + cIndex].$error.required && vm.submitted">
@@ -101,7 +101,7 @@
         </div>
 
         <div class="form-group" ng-if="construction.element.Type === 'QuoteParagraph'">
-          <label for="Paragraph{{cIndex}}">{{cIndex + 1}} - PARÁGRAFO EM DESTAQUE*</label>
+          <label for="Paragraph{{cIndex}}">PARÁGRAFO EM DESTAQUE*</label>
           <textarea type="text" id="Paragraph{{cIndex}}" name="Paragraph{{cIndex}}" class="form-control" rows="3" 
                     ng-model="construction.Value" required></textarea>
           <p class="help-block" ng-show="form['Paragraph' + cIndex].$error.required && vm.submitted">
@@ -111,7 +111,7 @@
 
 
         <div class="form-group" ng-if="construction.element.Type === 'ImageLink'">
-          <label for="ImageLink{{cIndex}}">{{cIndex + 1}} - IMAGEM COM LINK*</label>
+          <label for="ImageLink{{cIndex}}">IMAGEM COM LINK*</label>
           <input type="text" id="ImageLink{{cIndex}}" name="ImageLink{{cIndex}}" class="form-control"
                     ng-model="construction.Value" required>
           <p class="help-block" ng-show="form['ImageLink' + cIndex].$error.required && vm.submitted">
@@ -188,7 +188,7 @@
         </div>
 
         <div class="form-group" ng-if="construction.element.Type === 'Link'">
-          <label for="Link{{cIndex}}">{{cIndex + 1}} - LINK*</label>
+          <label for="Link{{cIndex}}">LINK*</label>
           <input type="text" id="Link{{cIndex}}" name="Link{{cIndex}}" class="form-control"
                     ng-model="construction.Value" required>
           <p class="help-block" ng-show="form['Link' + cIndex].$error.required && vm.submitted">
@@ -197,7 +197,7 @@
         </div>
 
         <div class="form-group" ng-if="construction.element.Type === 'Video'">
-          <label for="Video{{cIndex}}">{{cIndex + 1}} - LINK VÍDEO YOUTUBE*</label>
+          <label for="Video{{cIndex}}">LINK VÍDEO YOUTUBE*</label>
           <input type="text" id="Video{{cIndex}}" name="Video{{cIndex}}" class="form-control"
                     ng-model="construction.Value" required>
           <p class="help-block" ng-show="form['Video' + cIndex].$error.required && vm.submitted">
@@ -223,7 +223,7 @@
     <div class="custom-control custom-checkbox my-2" ng-if="vm.NewsId">
       <input type="checkbox" name="IsExcluded" class="custom-control-input" id="IsExcluded" ng-model="vm.news.IsExcluded">
       <label class="custom-control-label" for="IsExcluded">
-        Excluir notícia
+        Ocultar notícia
       </label>
     </div>              
 

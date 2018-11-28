@@ -32,10 +32,11 @@ export function NewsService($http, $q, $state, Util) {
     /**
      * Load news from database and their images
      */
-    get (NewsId, forceReload) {
+    get (NewsId, forceReload, preview) {
       var d = $q.defer();
       if(!this.loadedNews[NewsId] || forceReload === true) {
-        $http.get(`/api/news/${NewsId}`)
+        var url = `/api/news/${preview ? 'preview/' : ''}${NewsId}`;
+        $http.get(url)
           .then(response => {
             var news = response.data;
             this.loadedNews[NewsId] = news;

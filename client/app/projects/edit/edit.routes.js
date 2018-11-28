@@ -1,6 +1,6 @@
 'use strict';
 
-export default function($stateProvider) {
+export default function($stateProvider, appConfig) {
   'ngInject';
   $stateProvider
     .state('edit', {
@@ -11,6 +11,13 @@ export default function($stateProvider) {
       template: require('./edit.html'),
       controller: 'EditController',
       controllerAs: 'vm',
-      authenticate: true
+      authenticate: true,
+      data: {
+        meta: {
+          title: 'Editar Projeto',
+          description: 'Edite seu projeto submetido no site da Alumni IME.',
+          'og:url': `${appConfig.url}/projects/edit`
+        }
+      }
     });
 }

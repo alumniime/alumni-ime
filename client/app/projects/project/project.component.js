@@ -44,6 +44,7 @@ export class ProjectController {
           this.ngMeta.setTag('description', project.Abstract.slice(0, 200));
           this.ngMeta.setTag('author', project.leader.name);
           this.ngMeta.setTag('og:image', `${this.appConfig.url}/${project.images[0].Path}`);
+          this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/view/${project.ProjectId}/${this.Util.convertToSlug(project.ProjectName)}`);
 
           this.project = project;
           var conclusionDate = new Date(this.project.ConclusionDate);

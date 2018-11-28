@@ -16,6 +16,14 @@ export default function (sequelize, DataTypes) {
         key: 'PersonId'
       }
     },
+    FormerStudentId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'FormerStudent',
+        key: 'FormerStudentId'
+      }
+    },
     TransferReceiptId: {
       type: DataTypes.INTEGER(11),
       allowNull: true,

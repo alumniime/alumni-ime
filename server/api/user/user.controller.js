@@ -2,7 +2,7 @@
 
 import {
   User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
-  Image, Position, Company, Location, City, State, Level, Industry, Country, FormerStudent
+  Image, Position, Company, Location, City, State, Level, Industry, Country, FormerStudent, sequelize
 } from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
@@ -300,35 +300,64 @@ export function students(req, res) {
 
 // Autocomplete for admin search
 export function complete(req, res) {
-  return User.findAll({
-    attributes: [
-      'PersonId',
-      'name',
-      'email',
-      'Phone',
-      'ImageURL',
-      'LinkedinProfileURL',
-      'FullName',
-      'Headline',
-      'GraduationYear'
-    ],
-    include: [{
-      model: Engineering,
-      as: 'engineering'
-    }, {
-      model: PersonType,
-      as: 'personType'
-    }, {
-      model: Se,
-      as: 'se'
-    }],
-    where: {
-      FullName: { $like: `%${req.params.name}%` } 
-    },
-    order: [
-      ['GraduationYear', 'DESC']
-    ],
-    limit: 10
+
+  return sequelize.query(`
+    SELECT
+      u.*,
+      e.EngineeringId AS 'engineering.EngineeringId', 
+      e.SEId AS 'engineering.SEId', 
+      e.Description AS 'engineering.Description',
+      e.Legend AS 'engineering.Legend',
+      pt.PersonTypeId AS 'personType.PersonTypeId',
+      pt.Description AS 'personType.Description',
+      pt.PortugueseDescription AS 'personType.PortugueseDescription',
+      se.SEId AS 'se.SEId',
+      se.Description AS 'se.Description'
+    FROM
+      (SELECT 
+          p.PersonId AS PersonId, 
+          f.FormerStudentId AS FormerStudentId,
+                p.PersonTypeId AS PersonTypeId,
+          COALESCE(p.name, f.Name) AS name, 
+          COALESCE(f.Name, p.FullName) AS FullName,
+          COALESCE(p.GraduationYear, f.GraduationYear) AS GraduationYear,
+          COALESCE(f.EngineeringId, p.GraduationEngineeringId) AS EngineeringId,
+          p.Email AS email,
+          p.Phone AS Phone,
+          p.ImageURL AS ImageURL,
+          p.LinkedinProfileURL AS LinkedinProfileURL,
+          p.Headline AS Headline,
+          p.ProfessorSEId AS ProfessorSEId
+        FROM Person p
+        LEFT JOIN FormerStudent f ON p.PersonId = f.PersonId
+        WHERE (f.Name LIKE :fullName OR p.FullName LIKE :fullName) AND p.IsApproved
+      UNION
+      SELECT 
+          p.PersonId AS PersonId, 
+          f.FormerStudentId AS FormerStudentId,
+                p.PersonTypeId AS PersonTypeId,
+          COALESCE(p.name, f.Name) AS name, 
+          COALESCE(f.Name, p.FullName) AS FullName,
+          COALESCE(p.GraduationYear, f.GraduationYear) AS GraduationYear,
+          COALESCE(f.EngineeringId, p.GraduationEngineeringId) AS EngineeringId,
+          p.Email AS email,
+          p.Phone AS Phone,
+          p.ImageURL AS ImageURL,
+          p.LinkedinProfileURL AS LinkedinProfileURL,
+          p.Headline AS Headline,
+          p.ProfessorSEId AS ProfessorSEId
+        FROM FormerStudent f
+        LEFT JOIN Person p ON (p.PersonId = f.PersonId AND p.IsApproved)
+        WHERE f.Name LIKE :fullName OR p.FullName LIKE :fullName OR p.Name LIKE :fullName
+      LIMIT 10) AS u
+    LEFT JOIN Engineering e ON e.EngineeringId = u.EngineeringId
+    LEFT JOIN PersonType pt ON pt.PersonTypeId = u.PersonTypeId
+    LEFT JOIN SE se ON se.SEId = u.ProfessorSEId
+    ORDER BY u.GraduationYear DESC;
+    `, {
+      type: sequelize.QueryTypes.SELECT,
+      replacements: {fullName: `%${req.params.name}%`},
+      nest: true
   })
     .then(respondWithResult(res))
     .catch(handleError(res));

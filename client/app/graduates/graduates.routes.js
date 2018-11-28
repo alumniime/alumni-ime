@@ -9,6 +9,11 @@ export default function routes($stateProvider, appConfig) {
       abstract: true,
       controller: 'GraduatesController',
       template: require('./graduates.html'),
+      data: {
+        meta: {
+          'og:image': `${appConfig.url}/assets/images/management-93881785e7.jpg`
+        }
+      }
     }) 
     .state('graduates.search', {
       url: '/search/:year?GraduationYear&EngineeringId&IndustryId&LevelId&LevelType&LocationId&name&required',
