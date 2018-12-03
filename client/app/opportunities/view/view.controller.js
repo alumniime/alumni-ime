@@ -43,4 +43,8 @@ export default class OpportunitiesViewController {
 
   }
 
+  doApplication(opportunity) {
+    this.Modal.openOpportunityApplication(opportunity);
+  }
+
 }

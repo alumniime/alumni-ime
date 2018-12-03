@@ -743,6 +743,76 @@
 
     </div>
 
+    <!-- My opportunities -->
+    <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
+      <li class="nav-item" ng-class="{active: vm.itemSelected.route === 'my_opportunities'}">
+        <a class="nav-link" ng-click="vm.selectPage('my_opportunities')" href="#">Minhas vagas</a>
+      </li>
+    </ul>
+    <div class="col-12 col-lg-8" ng-if="vm.itemSelected.route === 'my_opportunities'">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" ng-click="">Minhas candidaturas</a>
+            </li>
+            <li class="nav-item pl-lg-2">
+              <a class="nav-link" ng-click="">Meus anúncios</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="card-columns">
+
+        <div class="card project-card mb-3" ng-repeat="donation in vm.Donation.myDonations">
+          <div class="card-body">
+            <h5 class="card-title">
+              {{donation.Type === 'project' ? donation.project.ProjectName : 'Contribuição Geral'}}
+            </h5>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>VALOR</label>
+                  <input type="text" class="form-control-plaintext" readonly
+                         value="{{donation.ValueInCents/100 | currency}}">
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="form-group">
+                  <label>DATA</label>
+                  <input type="text" class="form-control-plaintext" readonly
+                         value="{{donation.DonationDate | date:'dd/MM/yyyy'}}">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>STATUS</label>
+              <input type="text" class="form-control-plaintext" readonly
+                     value="{{donation.IsApproved ? 'Pagamento confirmado' : 'Comprovante em análise'}}">
+            </div>
+
+            <a href="#" class="card-link text-dark text-right d-block"
+               ng-if="donation.Type === 'project'" ng-click="vm.openProject(donation.project)">VER MAIS INFORMAÇÕES</a>
+
+          </div>
+        </div>
+
+      </div>
+
+      <button class="btn btn-outline-danger mt-3" ui-sref="opportunities.search">
+        PESQUISAR VAGAS
+      </button>
+
+    </div>
+
     <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">
       <li class="nav-item">
         <a class="nav-link" href="#" ng-click="vm.logoutUser()">Sair</a>

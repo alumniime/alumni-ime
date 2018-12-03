@@ -18,6 +18,7 @@ import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
 import ModalEditNews from './edit-news/edit-news.controller';
 import ModalEditDonation from './edit-donation/edit-donation.controller';
+import ModalOpportunityApplication from './opportunity-application/opportunity-application.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -89,6 +90,24 @@ export function ModalService($uibModal, $q) {
         resolve: {
           confirmEmailToken: function () {
             return confirmEmailToken;
+          }
+        }
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
+    openOpportunityApplication(opportunity) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalOpportunityApplication',
+        size: 'md dialog-centered',
+        resolve: {
+          opportunity: function () {
+            return opportunity;
           }
         }
       });
@@ -455,6 +474,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalEditDonation', {
     template: require('./edit-donation/edit-donation.html'),
     controller: ModalEditDonation,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalOpportunityApplication', {
+    template: require('./opportunity-application/opportunity-application.html'),
+    controller: ModalOpportunityApplication,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

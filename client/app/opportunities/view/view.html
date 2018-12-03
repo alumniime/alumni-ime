@@ -55,7 +55,7 @@
           <div class="form-group">
             <label for="ExpirationDateShow">DATA LIMITE DE CANDIDATURA</label>
             <input type="text" id="ExpirationDateShow" name="ExpirationDate" class="form-control-plaintext" readonly
-                  value="{{vm.opportunity.ExpirationDate| date:'dd/MM/yyyy'}}">
+                  value="{{vm.opportunity.ExpirationDate | date:'dd/MM/yyyy'}}">
           </div>
         </div>
 
@@ -74,7 +74,7 @@
       <br>
       <div class="row justify-content-end">
         <div class="col-auto">
-          <button href="#" class="btn btn-danger m-auto btn-submit">
+          <button href="#" class="btn btn-danger m-auto" ng-click="vm.doApplication(vm.opportunity)">
             QUERO ME CANDIDATAR
           </button>
         </div>

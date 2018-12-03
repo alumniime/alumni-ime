@@ -315,6 +315,7 @@ export function search(req, res) {
       var where = {
         IsApproved: 1
       };
+      var industryWhere = {};
 
       console.log(req.body);
 
@@ -323,7 +324,7 @@ export function search(req, res) {
       }
 
       if (req.body.IndustryId) {
-        where.IndustryId = req.body.IndustryId;
+        industryWhere.IndustryId = req.body.IndustryId;
       }
 
       if (req.body.OpportunityFunctionId) {
@@ -382,7 +383,8 @@ export function search(req, res) {
           as: 'experienceLevel'
         }, {
           model: Company,
-          as: 'company'
+          as: 'company',
+          where: industryWhere
         }, {
           model: Image,
           as: 'companyLogo'

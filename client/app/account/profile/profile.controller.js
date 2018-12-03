@@ -21,7 +21,8 @@ export default class ProfileController {
   menu = [
     {name: 'Meus dados', route: 'me'},
     {name: 'Projetos submetidos', route: 'submitted_projects'},
-    {name: 'Projetos apoiados', route: 'supported_projects'}
+    {name: 'Projetos apoiados', route: 'supported_projects'},
+    {name: 'Minhas vagas', route: 'my_opportunities'}
   ];
   itemSelected = this.menu[0];
   backupUser = {};
