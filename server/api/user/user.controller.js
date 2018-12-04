@@ -893,6 +893,7 @@ export function me(req, res, next) {
       'email',
       'role',
       'provider',
+      'LinkedinProfileURL',
       'ImageURL',
       'ImageData',
       'Birthdate',

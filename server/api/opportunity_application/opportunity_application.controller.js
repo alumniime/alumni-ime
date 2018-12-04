@@ -9,7 +9,11 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import {OpportunityApplication} from '../../sqldb';
+import {OpportunityApplication, Resume} from '../../sqldb';
+import config from '../../config/environment';
+import transporter from '../../email';
+import multer from 'multer';
+import moment from 'moment';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -59,6 +63,20 @@ function handleError(res, statusCode) {
     };
 }
 
+function configureStorage() {
+  return multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './client/assets/resumes/');
+    },
+    filename: function (req, file, cb) {
+      file.timestamp = Date.now();
+      var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
+      var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
+      cb(null, `${file.timestamp}-${name}.${format}`);
+    }
+  });
+}
+
 // Gets a list of OpportunityApplications
 export function index(req, res) {
     return OpportunityApplication.findAll()
@@ -83,6 +101,108 @@ export function create(req, res) {
     return OpportunityApplication.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
+}
+
+// Creates a new OpportunityApplication in the DB with his curriculum
+export function upload(req, res) {
+
+  var upload = multer({
+    storage: configureStorage()
+  })
+    .single('file');
+
+  upload(req, res, function (err) {
+    if(err) {
+      console.log(err);
+      res.json({errorCode: 1, errorDesc: err});
+      return;
+    }
+
+    var application = req.body.application;
+
+    application.ApplicationDate = Date.now();
+    application.PersonId = req.user.PersonId;
+    application.resume = {
+      Path: `assets/resumes/${req.file.filename}`,
+      Filename: req.file.filename,
+      Type: 'resume',
+      Timestamp: req.file.timestamp,
+      IsExcluded: 0
+    };
+
+    OpportunityApplication.create(application, {
+      include: [Resume]
+    })
+      .then(newOpportunityApplication => {
+        User.find({
+          attributes: ['PersonId', 'name', 'email', 'FullName'],
+          where: {
+            PersonId: req.user.PersonId
+          }
+        })
+          .then(user => {
+            if(!user) {
+              res.json({errorCode: 0, errorDesc: null});
+            }
+
+            var data = {
+              to: {
+                name: user.name,
+                address: user.email
+              },
+              from: {
+                name: config.email.name,
+                address: config.email.user
+              },
+              template: 'user-application-email',
+              subject: 'Contribuição Recebida - Alumni IME',
+              context: {
+                name: user.name.split(' ')[0],
+                value: newOpportunityApplication.ValueInCents / 100
+              }
+            };
+            transporter.sendMail(data, function (err) {
+              if(!err) {
+                console.log('Email de doação recebida enviado para', user.email);
+              } else {
+                console.error('Erro ao enviar email ', err);
+                handleError(res);
+              }
+            });  
+
+            res.json({errorCode: 0, errorDesc: null});
+
+            data = {
+              to: {
+                name: 'OpportunityApplication Alumni Page',
+                address: config.email.user
+              },
+              from: {
+                name: config.email.name,
+                address: config.email.user
+              },
+              template: 'application-email',
+              subject: `Contribuição recebida de ${user.name}`,
+              context: {
+                name: user.FullName,
+                value: newOpportunityApplication.ValueInCents / 100, 
+                date: moment().format('DD/MM/YYYY - HH:mm'),
+                type: application.Type === 'general' ? 'Geral' : 'Por projeto',
+                email: user.email,
+                url: `${config.domain}/assets/resumes/${req.file.filename}`,
+              }
+            };
+            transporter.sendMail(data, function (err) {
+              if(err) {
+                console.error('Erro ao enviar email ', err);
+                handleError(res);
+              }
+            });  
+          });        
+      })
+      .catch(handleError(res));
+  });
+
 }
 
 // Upserts the given OpportunityApplication in the DB at the specified ID
