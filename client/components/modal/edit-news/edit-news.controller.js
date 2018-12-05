@@ -86,7 +86,7 @@ export default class ModalEditNewsController {
     var date = this.PublishDate.split('/');
     this.news.PublishDate = new Date(date[2], date[1] - 1, date[0]);
 
-    if(form.$valid && !this.dateInvalid){
+    if(form.$valid && !this.dateInvalid && (this.uploadImages['0'].length > 0 || this.concatImages['0'].length > 0)){
 
       // TODO validation for images inputs
       var savedImages = [];
