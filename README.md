@@ -26,16 +26,19 @@ Run `gulp build` for building and `gulp serve` for preview.
 
 Running `npm test` will run the unit tests with karma.
 
-### Useful links
+## Useful links
 
 - [AngularJS Reference](https://docs.angularjs.org/)
 - [Angular Full-Stack](https://angular-fullstack.github.io/)
-- [JavaScript Tutorial](https://www.w3schools.com/js/default.asp) Reference for dates, strings and arrays
+- [JavaScript Tutorial](https://www.w3schools.com/js/default.asp) 
+Reference for dates, strings and arrays
 - [Bootstrap 4.0](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
 - [UI Bootstrap](https://angular-ui.github.io/bootstrap/)
 - [Font Awesome Icons](https://fontawesome.com/v4.7.0/icons/)
 - [Sequelize](http://docs.sequelizejs.com/)
-- [Sequelize-Auto](https://www.npmjs.com/package/sequelize-auto) Automatically generate models (`sequelize-auto -h host -d database -u user -x password -p port --dialect mysql -o "./models"`)
+- [Sequelize-Auto](https://www.npmjs.com/package/sequelize-auto) 
+Automatically generate models 
+(`sequelize-auto -h host -d database -u user -x password -p port --dialect mysql -o "./models"`)
 - [async](https://caolan.github.io/async/docs.html)
 - [Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)
 - [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
