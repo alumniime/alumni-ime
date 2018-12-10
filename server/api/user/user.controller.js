@@ -1,8 +1,8 @@
 'use strict';
 
 import {
-  User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative, Opportunity, OpportunityApplication,
-  Image, Position, Company, Location, City, State, Level, Industry, Country, FormerStudent
+  User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative, Opportunity, OpportunityApplication, 
+  OpportunityType, Image, Position, Company, Location, City, State, Level, Industry, Country, FormerStudent
 } from '../../sqldb';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
@@ -839,7 +839,11 @@ export function me(req, res, next) {
       as: 'userOpportunityApplications',
       include: [{
         model: Opportunity,
-        as: 'opportunity'
+        as: 'opportunity',
+        include: [{
+          model: OpportunityType,
+          as: 'opportunityType'
+        }]
       }]
     }, {
       model: InitiativeLink,

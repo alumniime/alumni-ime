@@ -33,6 +33,7 @@ export default class ProfileController {
   hasPosition = true;
   levelOtherId = null;
   optionOtherId = null;
+  today = 0;
 
   constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Modal, Util) {
     'ngInject';
@@ -51,6 +52,7 @@ export default class ProfileController {
   }
 
   $onInit() {
+    this.today = new Date().getTime();
     this.Auth.getCurrentUser((user) => {
       this.user = user;
       this.personTypeId = this.user.PersonTypeId;
@@ -68,6 +70,10 @@ export default class ProfileController {
         this.selectState(this.user.location.StateId);
       }
       this.locationName = this.Util.getLocationName(this.user.location);
+
+      for(var application of this.user.userOpportunityApplications) {
+        application.ExpirationDate = new Date(application.opportunity.ExpirationDate).getTime();
+      }
 
       console.log(user);
 

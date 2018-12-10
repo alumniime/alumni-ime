@@ -769,18 +769,18 @@
 
       <div class="card-columns">
 
-        <div class="card project-card mb-3" ng-repeat="donation in vm.Donation.myDonations">
+        <div class="card project-card mb-3" ng-repeat="application in vm.user.userOpportunityApplications">
           <div class="card-body">
             <h5 class="card-title">
-              {{donation.Type === 'project' ? donation.project.ProjectName : 'Contribuição Geral'}}
+              {{application.opportunity.Title}}
             </h5>
 
             <div class="row">
               <div class="col">
                 <div class="form-group">
-                  <label>VALOR</label>
+                  <label>TIPO DE VAGA</label>
                   <input type="text" class="form-control-plaintext" readonly
-                         value="{{donation.ValueInCents/100 | currency}}">
+                         value="{{application.opportunity.opportunityType.Description}}">
                 </div>
               </div>
 
@@ -788,7 +788,7 @@
                 <div class="form-group">
                   <label>DATA</label>
                   <input type="text" class="form-control-plaintext" readonly
-                         value="{{donation.DonationDate | date:'dd/MM/yyyy'}}">
+                         value="{{application.ApplicationDate | date:'dd/MM/yyyy'}}">
                 </div>
               </div>
             </div>
@@ -796,11 +796,13 @@
             <div class="form-group">
               <label>STATUS</label>
               <input type="text" class="form-control-plaintext" readonly
-                     value="{{donation.IsApproved ? 'Pagamento confirmado' : 'Comprovante em análise'}}">
+                     value="{{vm.today <= application.ExpirationDate ? 'Cadidatura enviada' : 'Vaga encerrada'}}">
             </div>
 
-            <a href="#" class="card-link text-dark text-right d-block"
-               ng-if="donation.Type === 'project'" ng-click="vm.openProject(donation.project)">VER MAIS INFORMAÇÕES</a>
+            <a ui-sref="opportunities.view({OpportunityId: application.opportunity.OpportunityId, PrettyURL: vm.Util.convertToSlug(application.opportunity.Title), forceReload: false})"
+               class="card-link text-dark text-right d-block">
+              VER MAIS INFORMAÇÕES
+            </a>
 
           </div>
         </div>
