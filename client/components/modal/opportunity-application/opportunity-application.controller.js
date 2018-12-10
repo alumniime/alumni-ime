@@ -72,7 +72,7 @@ export default class ModalOpportunityApplicationController {
             this_.$state.go('profile', {view: 'my_opportunities'});
             this_.ok();
           } else {
-            this_.Modal.showAlert('Erro no envio', 'Por favor, tente novamente.');
+            this_.Modal.showAlert('Erro no envio', result.data.errorDesc || 'Por favor, tente novamente.');
           }
         }, function error(err) {
           loading.close();

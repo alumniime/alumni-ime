@@ -1,12 +1,13 @@
 'use strict';
 
 export default class OpportunitiesViewController {
-  news = {};
   user = {};
+  today = 0;
+  application = null;
 
-  constructor(Modal, $state, $stateParams, $http, Util, ngMeta, $anchorScroll) {
-    'ngInject';
-
+  constructor(Auth, Modal, $state, $stateParams, $http, Util, ngMeta, $anchorScroll) {
+    'ngInject'
+    this.Auth = Auth;
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.$http = $http;
@@ -19,6 +20,15 @@ export default class OpportunitiesViewController {
   $onInit() {
     var loading = this.Modal.showLoading();
     if(this.$stateParams.OpportunityId) {
+      this.today = new Date().getTime();
+      this.Auth.getCurrentUser((user) => {
+        this.user = user;
+        for(var application of this.user.userOpportunityApplications) {
+          if(application.OpportunityId === parseInt(this.$stateParams.OpportunityId)) {
+            this.application = application;
+          }
+        }
+      });
       this.$http.get(`/api/opportunities/${this.$stateParams.OpportunityId}`)
         .then(response => {
           loading.close();
@@ -29,6 +39,7 @@ export default class OpportunitiesViewController {
           this.ngMeta.setTag('description', this.opportunity.Responsabilities);
 
           this.locationName = this.Util.getLocationName(this.opportunity.location);
+          this.ExpirationDate = new Date(this.opportunity.ExpirationDate).getTime();
 
           this.$anchorScroll('top');
         })

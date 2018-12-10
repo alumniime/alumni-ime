@@ -1,7 +1,7 @@
 'use strict';
 
 import {
-  User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
+  User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative, Opportunity, OpportunityApplication,
   Image, Position, Company, Location, City, State, Level, Industry, Country, FormerStudent
 } from '../../sqldb';
 import config from '../../config/environment';
@@ -111,7 +111,7 @@ export function index(req, res) {
   // User.findAll({
   //   attributes: ['PersonId'], 
   //   where: {
-  //     PersonId: [41, 48, 49, 50, 51, 448]
+  //     PersonId: [450]
   //     // IsApproved: 0
   //   }
   // })
@@ -834,6 +834,13 @@ export function me(req, res, next) {
     }, {
       model: Industry,
       as: 'industry'
+    }, {
+      model: OpportunityApplication,
+      as: 'userOpportunityApplications',
+      include: [{
+        model: Opportunity,
+        as: 'opportunity'
+      }]
     }, {
       model: InitiativeLink,
       as: 'userInitiativeLinks',

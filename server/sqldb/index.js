@@ -110,6 +110,7 @@ db.Opportunity.belongsTo(db.Location, {sourceKey: 'LocationId', foreignKey: 'Loc
 db.Opportunity.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ImageId', as: 'companyLogo'});
 
 db.OpportunityApplication.belongsTo(db.Opportunity, {sourceKey: 'OpportunityId', foreignKey: 'OpportunityId', as: 'opportunity'});
+db.Resume = db.OpportunityApplication.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ResumeId', as: 'resume'});
 
 db.FavoriteOpportunity.belongsTo(db.Opportunity, {sourceKey: 'OpportunityId', foreignKey: 'OpportunityId', as: 'opportunity'});
 

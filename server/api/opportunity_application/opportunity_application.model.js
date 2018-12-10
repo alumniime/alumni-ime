@@ -18,6 +18,22 @@ export default function(sequelize, DataTypes) {
         key: 'PersonId'
       }
     },
+    ResumeId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'Image',
+        key: 'ImageId'
+      }
+    },
+    LinkedinLink: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    Message: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     ApplicationDate: {
       type: DataTypes.DATE,
       allowNull: false

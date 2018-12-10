@@ -72,10 +72,21 @@
       <div class="info-text text-pre">{{vm.opportunity.Requirements}}</div>
 
       <br>
-      <div class="row justify-content-end">
-        <div class="col-auto">
+      <div class="row justify-content-end p-0">
+        <div class="col-auto" ng-if="!vm.application && vm.today <= vm.opportunity.ExpirationDate">
           <button href="#" class="btn btn-danger m-auto" ng-click="vm.doApplication(vm.opportunity)">
             QUERO ME CANDIDATAR
+          </button>
+        </div>
+        <div class="col-auto" ng-if="vm.application && vm.today <= vm.opportunity.ExpirationDate">
+          <button href="#" class="btn btn-danger m-auto disabled">
+            CANDIDATURA ENVIADA
+            <i class="fa fa-check"></i>
+          </button>
+        </div>
+        <div class="col-auto" ng-if="vm.today > vm.ExpirationDate">
+          <button href="#" class="btn btn-danger m-auto disabled">
+            VAGA ENCERRADA
           </button>
         </div>
       </div>
