@@ -5,7 +5,7 @@ export default class OpportunitiesViewController {
   today = 0;
   application = null;
 
-  constructor(Auth, Modal, $state, $stateParams, $http, Util, ngMeta, $anchorScroll) {
+  constructor(Auth, Modal, $state, $stateParams, $http, Util, Opportunity, ngMeta, $anchorScroll) {
     'ngInject'
     this.Auth = Auth;
     this.$state = $state;
@@ -13,6 +13,7 @@ export default class OpportunitiesViewController {
     this.$http = $http;
     this.Modal = Modal;
     this.Util = Util;
+    this.Opportunity = Opportunity;
     this.ngMeta = ngMeta;
     this.$anchorScroll = $anchorScroll;
   }
@@ -23,17 +24,19 @@ export default class OpportunitiesViewController {
       this.today = new Date().getTime();
       this.Auth.getCurrentUser((user) => {
         this.user = user;
-        for(var application of this.user.userOpportunityApplications) {
-          if(application.OpportunityId === parseInt(this.$stateParams.OpportunityId)) {
-            this.application = application;
-          }
-        }
+        this.Opportunity.loadMyApplications()
+          .then(list => {
+            for(var application of list) {
+              if(application.OpportunityId === parseInt(this.$stateParams.OpportunityId)) {
+                this.application = application;
+              }
+            }
+          });
       });
       this.$http.get(`/api/opportunities/${this.$stateParams.OpportunityId}`)
         .then(response => {
           loading.close();
           this.opportunity = response.data;
-          console.log(this.opportunity)
 
           this.ngMeta.setTitle(this.opportunity.Title);
           this.ngMeta.setTag('description', this.opportunity.Responsabilities);

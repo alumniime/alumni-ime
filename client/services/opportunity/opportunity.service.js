@@ -8,6 +8,8 @@ export function OpportunityService($http, $q, $state, Util) {
 
     list: [],
     loadedOpportunities: {},
+    myApplications: [],
+    myPosts: [],
 
     /**
      * Load opportunities from database and their images
@@ -60,6 +62,39 @@ export function OpportunityService($http, $q, $state, Util) {
         PrettyURL: Util.convertToSlug(OpportunityTitle),
         forceReload: forceReload || false
       });
+    },
+
+    /**
+     * Load my opportunity applications from database
+     */
+    loadMyApplications(forceReload) {
+      var d = $q.defer();
+      if(this.myApplications.length === 0 || forceReload === true) {
+        $http.get('/api/opportunity_applications/me')
+          .then(response => {
+            this.myApplications = response.data;
+            for(var application of this.myApplications) {
+              application.ExpirationDate = new Date(application.opportunity.ExpirationDate).getTime();
+            }
+            d.resolve(this.myApplications);
+          })
+          .catch(err => d.reject(err));
+      } else {
+        d.resolve(this.myApplications);
+      }
+      return d.promise;
+    },
+
+    /**
+     * Load my opportunity posts from database
+     */
+    loadMyPosts(forceReload) {
+      if(this.myPosts.length === 0 || forceReload === true) {
+        $http.get('/api/opportunities/me')
+          .then(response => {
+            this.myPosts = response.data;
+          });
+      }
     }
 
   };

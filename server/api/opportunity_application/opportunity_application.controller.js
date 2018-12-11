@@ -9,7 +9,7 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import { OpportunityApplication, Resume, Opportunity, User } from '../../sqldb';
+import { OpportunityApplication, Resume, Opportunity, User, OpportunityType } from '../../sqldb';
 import config from '../../config/environment';
 import transporter from '../../email';
 import multer from 'multer';
@@ -94,6 +94,26 @@ export function show(req, res) {
     }
   })
     .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Get my opportunity applications
+export function me(req, res) {
+  var userId = req.user.PersonId;
+  return OpportunityApplication.findAll({
+    include: [{
+      model: Opportunity,
+      as: 'opportunity',
+      include: [{
+        model: OpportunityType,
+        as: 'opportunityType'
+      }]
+    }],
+    where: {
+      PersonId: userId,
+    }
+  })
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

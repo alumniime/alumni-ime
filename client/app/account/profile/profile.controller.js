@@ -34,8 +34,9 @@ export default class ProfileController {
   levelOtherId = null;
   optionOtherId = null;
   today = 0;
+  opportunityPage = 'my_applications';
 
-  constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Modal, Util) {
+  constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Opportunity, Modal, Util) {
     'ngInject';
 
     this.Auth = Auth;
@@ -47,6 +48,7 @@ export default class ProfileController {
     this.$stateParams = $stateParams;
     this.Project = Project;
     this.Donation = Donation;
+    this.Opportunity = Opportunity;
     this.Modal = Modal;
     this.Util = Util;
   }
@@ -70,10 +72,6 @@ export default class ProfileController {
         this.selectState(this.user.location.StateId);
       }
       this.locationName = this.Util.getLocationName(this.user.location);
-
-      for(var application of this.user.userOpportunityApplications) {
-        application.ExpirationDate = new Date(application.opportunity.ExpirationDate).getTime();
-      }
 
       console.log(user);
 
@@ -161,6 +159,8 @@ export default class ProfileController {
   
       this.Project.loadMyProjects(false);
       this.Donation.loadMyDonations(false);
+      this.Opportunity.loadMyApplications(false);
+      this.Opportunity.loadMyPosts(false);
 
     });
 

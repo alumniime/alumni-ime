@@ -60,8 +60,9 @@ db.User.hasMany(db.Position, {foreignKey: 'PersonId', as: 'positions'});
 db.User.hasMany(db.Image, {foreignKey: 'PersonId', as: 'images'});
 db.User.hasMany(db.FormerStudent, {sourceKey: 'FullName', foreignKey: 'Name', as: 'former'});
 db.User.hasMany(db.Donation, {sourceKey: 'PersonId', foreignKey: 'DonatorId', as: 'donations'});
-db.User.hasMany(db.OpportunityApplication, {foreignKey: 'PersonId', as: 'userOpportunityApplications'});
-db.User.hasMany(db.FavoriteOpportunity, {foreignKey: 'PersonId', as: 'userFavoriteOpportunities'});
+db.User.hasMany(db.Opportunity, {foreignKey: 'RecruiterId', as: 'opportunityPosts'});
+db.User.hasMany(db.OpportunityApplication, {foreignKey: 'PersonId', as: 'opportunityApplications'});
+db.User.hasMany(db.FavoriteOpportunity, {foreignKey: 'PersonId', as: 'favoriteOpportunities'});
 
 db.FormerStudent.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonId', as: 'profile'});
 db.FormerStudent.belongsTo(db.Engineering, {sourceKey: 'EngineeringId', foreignKey: 'EngineeringId', as: 'engineering'});
@@ -108,8 +109,10 @@ db.Opportunity.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'Recruiter
 db.Opportunity.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'CompanyId', as: 'company'});
 db.Opportunity.belongsTo(db.Location, {sourceKey: 'LocationId', foreignKey: 'LocationId', as: 'location'});
 db.Opportunity.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ImageId', as: 'companyLogo'});
+db.Opportunity.hasMany(db.OpportunityApplication, {foreignKey: 'OpportunityId', as: 'opportunityApplications'});
 
 db.OpportunityApplication.belongsTo(db.Opportunity, {sourceKey: 'OpportunityId', foreignKey: 'OpportunityId', as: 'opportunity'});
+db.OpportunityApplication.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonId', as: 'user'});
 db.Resume = db.OpportunityApplication.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ResumeId', as: 'resume'});
 
 db.FavoriteOpportunity.belongsTo(db.Opportunity, {sourceKey: 'OpportunityId', foreignKey: 'OpportunityId', as: 'opportunity'});

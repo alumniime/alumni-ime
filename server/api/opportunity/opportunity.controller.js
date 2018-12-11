@@ -9,7 +9,7 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import {Opportunity, User, Company, Industry, Location, Country, State, City, 
+import {Opportunity, User, Company, Industry, Location, Country, State, City, OpportunityApplication,
         Image, OpportunityType, OpportunityFunction, ExperienceLevel, sequelize} from '../../sqldb';
 
 import config from '../../config/environment';
@@ -290,6 +290,29 @@ export function show(req, res) {
         .then(respondWithResult(res))
         .catch(handleError(res));
     })
+    .catch(handleError(res));
+}
+
+// Get my opportunity posts
+export function me(req, res) {
+  var userId = req.user.PersonId;
+  return Opportunity.findAll({
+    include: [{
+      model: OpportunityType,
+      as: 'opportunityType'
+    }, {
+      model: OpportunityApplication,
+      as: 'opportunityApplications',
+      include: [{
+        model: User,
+        as: 'user'
+      }]
+    }],
+    where: {
+      RecruiterId: userId,
+    }
+  })
+    .then(respondWithResult(res))
     .catch(handleError(res));
 }
 

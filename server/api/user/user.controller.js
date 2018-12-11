@@ -835,17 +835,6 @@ export function me(req, res, next) {
       model: Industry,
       as: 'industry'
     }, {
-      model: OpportunityApplication,
-      as: 'userOpportunityApplications',
-      include: [{
-        model: Opportunity,
-        as: 'opportunity',
-        include: [{
-          model: OpportunityType,
-          as: 'opportunityType'
-        }]
-      }]
-    }, {
       model: InitiativeLink,
       as: 'userInitiativeLinks',
       include: [{
