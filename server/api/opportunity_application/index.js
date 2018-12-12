@@ -8,7 +8,7 @@ var router = new Router();
 
 router.get('/', auth.hasRole('admin'), controller.index);
 router.get('/me', auth.isAuthenticated(), controller.me);
-router.get('/:id', auth.hasRole('admin'), controller.show);
+router.get('/:opportunity/:person', auth.hasRole('admin'), controller.show);
 router.post('/upload', auth.isAuthenticated(), controller.upload);
 router.post('/', auth.hasRole('admin'), controller.create);
 router.put('/:id', auth.hasRole('admin'), controller.upsert);

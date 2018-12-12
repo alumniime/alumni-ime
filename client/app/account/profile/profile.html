@@ -771,54 +771,61 @@
       </nav>
 
       <!-- my_applications -->
-      <div class="card-columns" ng-if="vm.opportunityPage === 'my_applications'">
+      <div ng-if="vm.opportunityPage === 'my_applications'">
+        <div class="card-columns">
+          <div class="card project-card mb-3" ng-repeat="application in vm.Opportunity.myApplications">
+            <div class="card-body">
+              <h5 class="card-title">
+                {{application.opportunity.Title}}
+              </h5>
 
-        <div class="card project-card mb-3" ng-repeat="application in vm.Opportunity.myApplications">
-          <div class="card-body">
-            <h5 class="card-title">
-              {{application.opportunity.Title}}
-            </h5>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label>TIPO DE VAGA</label>
+                    <input type="text" class="form-control-plaintext" readonly
+                          value="{{application.opportunity.opportunityType.Description}}">
+                  </div>
+                </div>
 
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label>TIPO DE VAGA</label>
-                  <input type="text" class="form-control-plaintext" readonly
-                         value="{{application.opportunity.opportunityType.Description}}">
+                <div class="col">
+                  <div class="form-group">
+                    <label>DATA</label>
+                    <input type="text" class="form-control-plaintext" readonly
+                          value="{{application.ApplicationDate | date:'dd/MM/yyyy'}}">
+                  </div>
                 </div>
               </div>
 
-              <div class="col">
-                <div class="form-group">
-                  <label>DATA</label>
-                  <input type="text" class="form-control-plaintext" readonly
-                         value="{{application.ApplicationDate | date:'dd/MM/yyyy'}}">
-                </div>
+              <div class="form-group">
+                <label>STATUS</label>
+                <input type="text" class="form-control-plaintext" readonly
+                      value="{{vm.today <= application.ExpirationDate ? 'Cadidatura enviada' : 'Vaga encerrada'}}">
               </div>
+
+              <a ui-sref="opportunities.view({OpportunityId: application.opportunity.OpportunityId, PrettyURL: vm.Util.convertToSlug(application.opportunity.Title), forceReload: false})"
+                class="card-link text-dark text-right d-block">
+                VER MAIS INFORMAÇÕES
+              </a>
+
             </div>
-
-            <div class="form-group">
-              <label>STATUS</label>
-              <input type="text" class="form-control-plaintext" readonly
-                     value="{{vm.today <= application.ExpirationDate ? 'Cadidatura enviada' : 'Vaga encerrada'}}">
-            </div>
-
-            <a ui-sref="opportunities.view({OpportunityId: application.opportunity.OpportunityId, PrettyURL: vm.Util.convertToSlug(application.opportunity.Title), forceReload: false})"
-               class="card-link text-dark text-right d-block">
-              VER MAIS INFORMAÇÕES
-            </a>
-
           </div>
         </div>
 
+        <button class="btn btn-outline-danger mt-3" ui-sref="opportunities.search">
+          PESQUISAR VAGAS
+        </button>
       </div>
 
       <!-- my_posts -->
-      <div class="card project-card mb-3" ng-repeat="opportunity in vm.Opportunity.myPosts"
-            ng-if="vm.opportunityPage === 'my_posts'">
-        <div class="card-body">
+      <div ng-if="vm.opportunityPage === 'my_posts'">
+        <div class="card project-card mb-3" ng-repeat="opportunity in vm.Opportunity.myPosts">
+          <div class="card-body" ng-init="opportunity.collapsed = true">
           <h5 class="card-title">
             {{opportunity.Title}}
+              <a class="text-dark pull-right" ui-sref="opportunities.view({OpportunityId: opportunity.OpportunityId, PrettyURL: vm.Util.convertToSlug(opportunity.Title), forceReload: false})">
+                  <i class="fa fa-external-link" uib-tooltip="Visualizar vaga" tooltip-placement="bottom"></i> 
+              </a>
           </h5>
 
           <div class="row">
@@ -847,22 +854,54 @@
             </div>
           </div>
 
-          <ul class="list-group list-group-flush py-2">
-            <li class="list-group-item" ng-repeat="application in opportunity.opportunityApplications">{{application.user.name}}</li>
+            <ul class="list-group list-group-flush py-2" ng-if="!opportunity.collapsed">
+              <li class="list-group-item" ng-repeat="application in opportunity.opportunityApplications | orderBy: 'ApplicationDate'">
+                <div class="row p-0 justify-content-between">
+                  <div class="col-auto">
+                    <a class="text-dark small-font" ng-click="vm.Modal.openShowApplication(application.OpportunityId, application.PersonId)" href="#">{{application.user.name}}</a>
+                  </div>
+                  <div class="col-auto small-font">
+                    {{application.ApplicationDate | date:'dd/MM/yyyy'}}
+                  </div>
+                  <div class="col-auto">
+                    <a ng-if="application.resume" href="{{application.resume.Path}}" class="text-dark ml-3 pull-right" target="_blank">
+                      <i class="fa fa-file-pdf-o" uib-tooltip="Currículo" tooltip-placement="bottom"></i> 
+                    </a>
+                    <a ng-if="application.LinkedinLink" href="{{application.LinkedinLink}}" class="text-dark ml-3 pull-right" target="_blank">
+                      <i class="fa fa-linkedin" uib-tooltip="LinkedIn" tooltip-placement="bottom"></i> 
+                    </a>
+                    <a ng-if="application.Message" class="text-dark ml-3 pull-right c-pointer" ng-click="vm.Modal.openShowApplication(application.OpportunityId, application.PersonId)">
+                      <i class="fa fa-comment-o" uib-tooltip="Mensagem" tooltip-placement="bottom"></i> 
+                    </a>
+                  </div>
+                </div>
+              </li>
           </ul>
 
-          <a ui-sref="opportunities.view({OpportunityId: opportunity.OpportunityId, PrettyURL: vm.Util.convertToSlug(opportunity.Title), forceReload: false})"
-              class="card-link text-dark text-right d-block">
-            VER MAIS INFORMAÇÕES
-          </a>
+            <div class="row p-0 justify-content-between pt-1">
+              <div class="col-auto small-font">
+                {{opportunity.opportunityApplications.length === 0 ? 'Nenhuma candidatura recebida' : opportunity.opportunityApplications.length === 1 ? '1 candidato' : opportunity.opportunityApplications.length + ' candidatos'}}
+              </div>
+              <div class="col-auto" ng-if="opportunity.opportunityApplications.length > 0">
+                <a class="card-link text-dark d-block pt-0 c-pointer"
+                  ng-click="opportunity.collapsed = !opportunity.collapsed">
+                  <span ng-if="opportunity.collapsed">EXPANDIR</span>
+                  <span ng-if="!opportunity.collapsed">OCULTAR</span>
+                  <i class="fa pull-right icon-font ml-2"
+                     ng-class="{'fa-angle-down': opportunity.collapsed, 'fa-angle-up': !opportunity.collapsed}"></i> 
+                </a>
+              </div>
+            </div>
 
+          </div>
         </div>
+
+        <button class="btn btn-outline-danger mt-4" ui-sref="opportunities.post">
+          ANUNCIAR VAGA
+        </button>
+    
       </div>
-
-      <button class="btn btn-outline-danger mt-3" ui-sref="opportunities.search">
-        PESQUISAR VAGAS
-      </button>
-
+    </div>
     </div>
 
     <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">

@@ -9,7 +9,7 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import {Opportunity, User, Company, Industry, Location, Country, State, City, OpportunityApplication,
+import {Opportunity, User, Company, Industry, Location, Country, State, City, OpportunityApplication, Resume,
         Image, OpportunityType, OpportunityFunction, ExperienceLevel, sequelize} from '../../sqldb';
 
 import config from '../../config/environment';
@@ -61,7 +61,7 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function (err) {
-    console.log('opportunity.controller =>\n', err);
+    console.error('opportunity.controller =>\n', err);
     res.status(statusCode)
       .send(err);
   };
@@ -305,8 +305,11 @@ export function me(req, res) {
       as: 'opportunityApplications',
       include: [{
         model: User,
-        as: 'user'
-      }]
+        as: 'user',
+        attributes: ['name']
+      }, 
+        Resume
+      ]
     }],
     where: {
       RecruiterId: userId,

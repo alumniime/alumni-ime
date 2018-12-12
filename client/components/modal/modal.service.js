@@ -16,6 +16,7 @@ import ModalResetPassword from './reset-password/reset-password.controller';
 import ModalTermsOfUse from './terms-of-use/terms-of-use.controller';
 import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
+import ModalShowApplication from './show-application/show-application.controller';
 import ModalEditNews from './edit-news/edit-news.controller';
 import ModalEditDonation from './edit-donation/edit-donation.controller';
 import ModalOpportunityApplication from './opportunity-application/opportunity-application.controller';
@@ -170,6 +171,30 @@ export function ModalService($uibModal, $q) {
         component: 'modalShowPerson',
         size: 'lg modal-dialog-centered',
         resolve: {
+          PersonId: function () {
+            return personId;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
+    openShowApplication(opportunityId, personId) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalShowApplication',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          OpportunityId: function () {
+            return opportunityId;
+          },
           PersonId: function () {
             return personId;
           }
@@ -454,6 +479,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalShowPerson', {
     template: require('./show-person/show-person.html'),
     controller: ModalShowPerson,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalShowApplication', {
+    template: require('./show-application/show-application.html'),
+    controller: ModalShowApplication,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

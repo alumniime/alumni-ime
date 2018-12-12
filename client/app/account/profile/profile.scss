@@ -169,5 +169,13 @@
   .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #E84E0F !important;
   }
+  
+  .small-font {
+    font-size: 14px;
+  }
+
+  .icon-font {
+    font-size: 18px;
+  }
 
 }

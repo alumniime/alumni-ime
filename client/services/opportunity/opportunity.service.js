@@ -8,6 +8,7 @@ export function OpportunityService($http, $q, $state, Util) {
 
     list: [],
     loadedOpportunities: {},
+    loadedOpportunityApplications: {},
     myApplications: [],
     myPosts: [],
 
@@ -54,10 +55,31 @@ export function OpportunityService($http, $q, $state, Util) {
     },
 
     /**
+     * Load opportunity applications from database
+     */
+    getApplication (opportunityId, personId, forceReload) {
+      var d = $q.defer();
+      if(!this.loadedOpportunityApplications[`${opportunityId}-${personId}`] || forceReload === true) {
+        $http.get(`/api/opportunity_applications/${opportunityId}/${personId}`)
+          .then(response => {
+            var application = response.data;
+            this.loadedOpportunityApplications[`${opportunityId}-${personId}`] = application;
+            d.resolve(application);
+          })
+          .catch(err => {
+            d.reject(err);
+          });
+      } else {
+        d.resolve(this.loadedOpportunityApplications[`${opportunityId}-${personId}`]);
+      }
+      return d.promise;
+    },
+
+    /**
      * Opens a view with opportunities
      * */
     open(OpportunityId, OpportunityTitle, forceReload) {
-      $state.go('view', {
+      $state.go('opportunities.view', {
         OpportunityId: OpportunityId,
         PrettyURL: Util.convertToSlug(OpportunityTitle),
         forceReload: forceReload || false

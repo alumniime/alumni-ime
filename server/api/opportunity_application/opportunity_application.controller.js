@@ -9,7 +9,8 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import { OpportunityApplication, Resume, Opportunity, User, OpportunityType } from '../../sqldb';
+import { OpportunityApplication, Resume, Opportunity, OpportunityType, Location, City, State, Country,
+         User, Engineering, PersonType, Se, Industry, Position, Company, Level } from '../../sqldb';
 import config from '../../config/environment';
 import transporter from '../../email';
 import multer from 'multer';
@@ -89,8 +90,95 @@ export function index(req, res) {
 // Gets a single OpportunityApplication from the DB
 export function show(req, res) {
   return OpportunityApplication.find({
+    include: [{
+      model: User,
+      as: 'user',
+      include: [{
+        model: Engineering,
+        as: 'engineering'
+      }, {
+        model: PersonType,
+        as: 'personType'
+      }, {
+        model: Se,
+        as: 'se'
+      }, {
+        model: Industry,
+        as: 'industry'
+      }, {
+        model: Position,
+        where: {IsCurrent: true},
+        required: false,
+        as: 'positions',
+        limit: 1,
+        include: [{
+          model: Company,
+          attributes: ['Name', 'CompanyTypeId'],
+          as: 'company',
+        }, {
+          model: Level,
+          attributes: ['Description', 'Type'],
+          as: 'level',
+        }, {
+          model: Location,
+          attributes: ['CountryId', 'StateId', 'CityId'],
+          as: 'location',
+          include: [{
+            model: City,
+            attributes: ['Description', 'IBGEId', 'StateId'],
+            as: 'city',
+            include: [{
+              model: State,
+              attributes: ['Code'],
+              as: 'state'
+            }]
+          }],
+        }],
+      }, {
+        model: Location,
+        as: 'location',
+        attributes: ['LocationId'],
+        include: [{
+          model: City,
+          as: 'city',
+          include: [{
+            model: State,
+            attributes: ['Code'],
+            as: 'state'
+          }]
+        }, {
+          model: Country,
+          as: 'country'
+        }],
+      }],
+      attributes: [
+        'PersonId',
+        'PersonTypeId',
+        'name',
+        'email',
+        'Phone',
+        'ImageURL',
+        'Birthdate',
+        'LinkedinProfileURL',
+        'FullName',
+        'Headline',
+        'LocationId',
+        'IndustryId',
+        'GraduationEngineeringId',
+        'GraduationYear',
+        'ProfessorSEId',
+        'InitiativeLinkOther',
+        'IsApproved'
+      ]  
+    }, {
+      model: Opportunity,
+      as: 'opportunity'
+    },
+      Resume
+    ],
     where: {
-      PersonId: req.params.id
+      PersonId: req.params.person,
+      OpportunityId: req.params.opportunity
     }
   })
     .then(handleEntityNotFound(res))
@@ -237,6 +325,7 @@ export function upload(req, res) {
                             email: user.email,
                             type: req.file ? 'Currículo' : 'LinkedIn',
                             value: opportunity.Title,
+                            message: newOpportunityApplication.Message,
                             url: req.file ? `${config.domain}/assets/resumes/${req.file.filename}` : newOpportunityApplication.LinkedinLink,
                           }
                         };

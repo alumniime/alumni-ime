@@ -103,6 +103,7 @@ export function UtilService($window) {
      * Concatenate location fields
      */
     getLocationName(location) {
+      console.log('here');
       if(location) { 
         var locationName = (location.LinkedinName ? location.LinkedinName.replace(' Area,', ',') : '');
         if(location.country && (location.country.CountryId === 1 || (location.city && location.city.Description))) {
