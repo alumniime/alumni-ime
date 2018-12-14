@@ -81,13 +81,16 @@ function configureStorage() {
     });
   }
 
-// Gets a list of Opportunitys
+// Gets a list of Opportunitys only for admin
 export function index(req, res) {
     return Opportunity.findAll({
       include: [{
         model: User,
         attributes: ['name'],
         as: 'recruiter'
+      }, {
+        model: OpportunityApplication,
+        as: 'opportunityApplications'
       }, {
         model: OpportunityType,
         as: 'opportunityType'
@@ -123,8 +126,12 @@ export function index(req, res) {
         }],
       }],
       attributes: {
+        include: [
+          [sequelize.fn('COUNT', sequelize.col('opportunityApplications.PersonId')), 'ApplicationsNumber']
+        ],
         exclude: ['Responsabilities', 'Requirements']
       }, 
+      group: ['OpportunityId'],
       order: [
         ['PostDate', 'DESC']
       ]

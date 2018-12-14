@@ -1,0 +1,166 @@
+<div class="modal-header d-block">
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h5 class="modal-title text-center mt-3" id="modal-title">{{vm.OpportunityId ? 'Editar vaga' : 'Cadastrar vaga'}}</h5>
+</div>
+
+<div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
+
+    <div class="row justify-content-center p-0" ng-if="vm.OpportunityId">
+      <div class="col-auto">
+        <img class="profile-photo pb-2" ng-src="{{vm.opportunity.donator.ImageURL || 'assets/images/profile.svg'}}" alt="{{vm.opportunity.donator.name}}">
+      </div>
+      <div class="col-auto pt-2">
+        <p class="legend" ng-if="vm.opportunity.DonatorName">{{vm.opportunity.DonatorName}}</p>
+        <p class="legend" ng-if="vm.opportunity.donator.personType.Description === 'FormerStudent' || vm.opportunity.donator.personType.Description === 'Student' || vm.opportunity.donator.personType.Description === 'DropStudent'">
+          {{vm.opportunity.donator.FullName}}
+          <br> {{vm.opportunity.donator.Headline}}
+          <br> {{vm.opportunity.donator.engineering.Description}} | {{vm.opportunity.donator.personType.PortugueseDescription | lowercase}}
+          <br> Formatura {{vm.opportunity.donator.GraduationYear}}
+        </p>
+        <p class="legend" ng-if="vm.opportunity.donator.personType.Description === 'Professor'">
+          {{vm.opportunity.donator.FullName}}
+          <br> {{vm.opportunity.donator.Headline}}
+          <br> {{vm.opportunity.donator.se.Description}} | {{vm.opportunity.donator.personType.PortugueseDescription | lowercase}}
+        </p>
+        <p class="legend" ng-if="vm.opportunity.donator.personType.Description === 'Visitor'">
+          {{vm.opportunity.donator.FullName}}
+          <br> {{vm.opportunity.donator.Headline}}
+          <br> {{vm.opportunity.donator.personType.PortugueseDescription}}
+        </p>
+        <p class="legend" ng-if="vm.opportunity.donator.personType.Description === 'FormerStudentAndProfessor'">
+          {{vm.opportunity.donator.FullName}}
+          <br> {{vm.opportunity.donator.Headline}}
+          <br> {{vm.opportunity.donator.se.Description}}
+          <br> {{vm.opportunity.donator.engineering.Description}} | {{vm.opportunity.donator.personType.PortugueseDescription | lowercase}}
+          <br> Formatura {{vm.opportunity.donator.GraduationYear}}
+        </p>
+  
+        <a class="text-dark c-pointer font-weight-bold" target="_blank" href="{{vm.opportunity.donator.LinkedinProfileURL}}" ng-if="vm.opportunity.donator.LinkedinProfileURL">Acessar Linkedin</a>
+  
+      </div>
+    </div>
+  
+    <div class="row mt-2 p-0" ng-if="vm.OpportunityId">
+  
+      <div class="col-12 col-sm-6" ng-if="vm.opportunity.donator">
+        <div class="form-group">
+          <label for="emailShow">EMAIL</label>
+          <input type="text" id="emailShow" name="email" class="form-control-plaintext" readonly ng-model="vm.opportunity.donator.email">
+        </div>
+        <div class="form-group">
+          <label for="PhoneShow">TELEFONE</label>
+          <!-- International phone -->
+          <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+          ng-model="vm.opportunity.donator.Phone" ng-if="vm.opportunity.donator.Phone.indexOf('+55') === -1" ng-intl-tel-input>
+          <!-- National phone -->
+          <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+          ng-model="vm.opportunity.donator.Phone" ng-if="vm.opportunity.donator.Phone.indexOf('+55') > -1" mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
+        </div>
+      </div>
+      
+      <div class="col-12 col-sm-6">
+        <div class="form-group">
+            <label for="dateShow">DATA DA CONTRIBUIÇÃO</label>
+            <input type="text" id="dateShow" name="date" class="form-control-plaintext" readonly ng-model="vm.OpportunityDate">
+        </div>
+        <div class="form-group">
+          <label for="TypeShow">TIPO DE CONTRIBUIÇÃO</label>
+          <input type="text" id="TypeShow" name="Type" class="form-control-plaintext" readonly ng-value="vm.opportunity.Type === 'general' ? 'Geral' : 'Por projeto'">
+        </div>
+        <div class="form-group" ng-if="vm.opportunity.project">
+          <label for="ProjectShow">PROJETO</label>
+          <input type="text" id="ProjectShow" name="Project" class="form-control-plaintext" readonly ng-value="vm.opportunity.project.ProjectName">
+        </div>
+      </div>
+
+      <div class="line-hr"></div>
+  
+    </div>
+  
+    <form class="form" name="form" ng-submit="vm.submitOpportunity(form)" novalidate>
+  
+      <div class="row mt-2">
+    
+        <div class="col-12 col-sm-6" ng-if="!vm.OpportunityId">
+          <div class="form-group">
+            <label>NOME DO APOIADOR</label>
+            <angucomplete-alt id="members"
+              placeholder="Digite parte do nome desejado"
+              pause="400"
+              selected-object="vm.selectUser"
+              input-changed="vm.updateInput"
+              remote-url="{{vm.appConfig.url}}/api/users/autocomplete/"
+              remote-url-data-field=""
+              text-searching="Pesquisando..."
+              text-no-results="Nenhum usuário encontrado."
+              title-field="FullName,GraduationYear"
+              description-field="personType.PortugueseDescription"
+              search-fields="FullName"
+              match-class="highlight"
+              input-class="form-control"/>
+          </div>
+          <div class="form-group mt-2">
+            <label for="Type">TIPO DE CONTRIBUIÇÃO*</label>
+            <select class="form-control" id="Type" name="Type"
+                    ng-model="vm.opportunity.Type">
+              <option value="general">Geral</option>
+              <option value="project">Por projeto</option>
+            </select>
+          </div>    
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label>VALOR DEPOSITADO*</label>
+            <input type="text" id="ValueInCents" name="ValueInCents" class="form-control" required
+                   ng-model="vm.opportunity.ValueInCents" money-mask money-mask-prepend="R$">
+            <p class="help-block"
+               ng-if="(form.ValueInCents.$error.required || vm.opportunity.ValueInCents === 0) && vm.submitted">
+              Insira o valor da vaga.
+            </p>
+          </div>
+          <div class="form-group" ng-if="vm.opportunity.Type == 'project' && !vm.OpportunityId">
+            <label>PROJETO*</label>
+            <select class="form-control" id="ProjectId" name="ProjectId" ng-model="vm.opportunity.ProjectId">
+              <option value="" selected disabled>Selecione um projeto</option>
+              <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName' | filter: {Year: vm.currentYear, Semester: vm.currentSemester}" 
+                      ng-value="project.ProjectId">
+                {{project.ProjectName}}
+              </option>
+            </select>
+            <p class="help-block"
+              ng-if="vm.opportunity.Type === 'project' && (vm.opportunity.ProjectId === null || vm.opportunity.ProjectId === '') && vm.submitted">
+              Escolha um projeto para apoiar.
+            </p>
+          </div>
+          <div class="form-group" ng-if="!vm.OpportunityId">
+            <label for="OpportunityDate">DATA DA CONTRIBUIÇÃO*</label>
+            <input type="text" id="OpportunityDate" name="OpportunityDate"
+                    class="form-control" placeholder="dd/mm/yyyy" mask="39/19/2999"
+                    ng-model="vm.OpportunityDate" required
+                    ng-change="vm.validateDate(vm.OpportunityDate)">
+            <p class="help-block" ng-show="form.OpportunityDate.$error.required && vm.submitted">
+              Insira a data da vaga.
+            </p>
+            <p class="help-block" ng-show="((form.OpportunityDate.$invalid || vm.dateInvalid) && vm.submitted)">
+              Insira uma data válida.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="custom-control custom-checkbox my-2">
+        <input type="checkbox" name="IsApproved" class="custom-control-input" id="IsApproved" ng-model="vm.opportunity.IsApproved">
+        <label class="custom-control-label" for="IsApproved">
+          Aprovar vaga
+        </label>
+      </div>              
+
+      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit">
+        SALVAR
+      </button>
+  
+    </form>
+  
+  </div>
