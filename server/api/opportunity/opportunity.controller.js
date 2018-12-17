@@ -10,7 +10,7 @@
 
 import { applyPatch } from 'fast-json-patch';
 import {Opportunity, User, Company, Industry, Location, Country, State, City, OpportunityApplication, Resume,
-        Image, OpportunityType, OpportunityFunction, ExperienceLevel, sequelize} from '../../sqldb';
+        Image, OpportunityType, OpportunityFunction, ExperienceLevel, Engineering, PersonType, Se, sequelize} from '../../sqldb';
 
 import config from '../../config/environment';
 import transporter from '../../email';
@@ -248,8 +248,28 @@ export function show(req, res) {
       return Opportunity.find({
         include: [{
           model: User,
-          attributes: ['name'],
-          as: 'recruiter'
+          attributes: [
+            'PersonId',
+            'name',
+            'email',
+            'Phone',
+            'ImageURL',
+            'LinkedinProfileURL',
+            'FullName',
+            'Headline',
+            'GraduationYear'
+          ],
+          as: 'recruiter',
+          include: [{
+            model: Engineering,
+            as: 'engineering'
+          }, {
+            model: PersonType,
+            as: 'personType'
+          }, {
+            model: Se,
+            as: 'se'
+          }]
         }, {
           model: OpportunityType,
           as: 'opportunityType'
@@ -262,6 +282,7 @@ export function show(req, res) {
         }, {
           model: Company,
           as: 'company',
+          attributes: ['CompanyTypeId', 'IndustryId', 'Name'],
           include: [{
             model: Industry,
             as: 'industry'
@@ -272,11 +293,11 @@ export function show(req, res) {
         }, {
           model: Location,
           as: 'location',
-          attributes: ['LinkedinName'],
+          attributes: ['LinkedinName', 'CountryId', 'StateId', 'CityId'],
           include: [{
             model: City,
             as: 'city',
-            attributes: ['Description'],
+            attributes: ['Description', 'IBGEId', 'StateId'],
             include: [{
               model: State,
               attributes: ['Code'],
@@ -290,7 +311,7 @@ export function show(req, res) {
         }],
         where: {
           OpportunityId: req.params.id,
-          IsApproved: 1
+          IsApproved: req.user.role === 'admin' ? [0, 1] : 1
         }
       })
         .then(handleEntityNotFound(res))
@@ -478,22 +499,22 @@ export function upload(req, res) {
 
     var opportunity = req.body.opportunity;
 
-    if(!opportunity.OpportunityId) {
-      opportunity.IsApproved = 0;
-      opportunity.PostDate = Date.now();
-      opportunity.RecruiterId = req.user.PersonId;
+    if(req.user.role === 'admin') {
+      if(!opportunity.OpportunityId) {
+        opportunity.PostDate = Date.now();
+        opportunity.RecruiterId = req.user.PersonId;
+      }
     } else {
-      Reflect.deleteProperty(opportunity, 'RecruiterId');
+      Reflect.deleteProperty(opportunity, 'IsApproved');
+      if(!opportunity.OpportunityId) {
+        opportunity.IsApproved = 0;
+        opportunity.PostDate = Date.now();
+        opportunity.RecruiterId = req.user.PersonId;
+      } else {
+        Reflect.deleteProperty(opportunity, 'RecruiterId');
+      }
     }
-    if(req.file) {
-      opportunity.companyLogo = {
-        Path: `assets/images/uploads/${req.file.filename}`,
-        Filename: req.file.filename,
-        Type: 'opportunity',
-        Timestamp: req.file.timestamp,
-        IsExcluded: 0
-      };
-    }
+
     console.log('\n=>opportunity', JSON.stringify(opportunity));
 
     async.waterfall([
@@ -502,6 +523,7 @@ export function upload(req, res) {
         var company = opportunity.company; 
         Reflect.deleteProperty(company, 'CompanyId');
         Reflect.deleteProperty(company, 'LinkedinId');
+        Reflect.deleteProperty(company, 'industry');
         if(config.debug) {
           console.log('\n=>company', JSON.stringify(company));
         }
@@ -563,23 +585,34 @@ export function upload(req, res) {
         }
         opportunity.LocationId = location.LocationId;
         Reflect.deleteProperty(opportunity, 'location');
-        Reflect.deleteProperty(opportunity, 'IsApproved');
         if(config.debug) {
           console.log('\n=>Saving...\n', JSON.stringify(opportunity));
         }
 
-        if(opportunity.companyLogo) {
-          if(opportunity.ImageId) {
-            Image.update({ IsExcluded: 1 }, { 
-              where: {ImageId: opportunity.ImageId}
-            });
+        if(req.file) {
+          console.log('\n=>file', JSON.stringify(req.file));
+          if(opportunity.companyLogo) {
+            if(opportunity.ImageId) {
+              Image.update({ IsExcluded: 1 }, { 
+                where: {ImageId: opportunity.ImageId}
+              });
+            }
           }
+          opportunity.companyLogo = {
+            Path: `assets/images/uploads/${req.file.filename}`,
+            Filename: req.file.filename,
+            Type: 'opportunity',
+            Timestamp: req.file.timestamp,
+            IsExcluded: 0
+          };
           Image.create(opportunity.companyLogo)
             .then(result => done(null, result))
             .catch(err => done(err));
         } else {
+          Reflect.deleteProperty(opportunity, 'companyLogo');
           done(null, {ImageId: opportunity.ImageId});
         }
+
       },
       // Updates or creates an opportunity
       (companyLogo, done) => {
@@ -595,8 +628,7 @@ export function upload(req, res) {
         if (opportunity.OpportunityId) {
           Opportunity.update(opportunity, {
             where: {
-              OpportunityId: opportunity.OpportunityId,
-              IsApproved: 0
+              OpportunityId: opportunity.OpportunityId
             }
           })
             .then(() => {
@@ -605,16 +637,16 @@ export function upload(req, res) {
                   OpportunityId: opportunity.OpportunityId
                 }
               })
-                .then(result => done(null, result));
+                .then(result => done(null, result, false));
             })
             .catch(err => done(err));
         } else {
           Opportunity.create(opportunity)
-            .then(result => done(null, result))
+            .then(result => done(null, result, false))
             .catch(err => done(err));
         }
       },
-      (newOpportunity) => {
+      (newOpportunity, created) => {
         if(config.debug) {
           console.log('\n=>Opportunity saved', JSON.stringify(newOpportunity));
         }
@@ -629,59 +661,64 @@ export function upload(req, res) {
               res.json({errorCode: 0, errorDesc: null});
             }
 
-            var data = {
-              to: {
-                name: user.name,
-                address: user.email
-              },
-              from: {
-                name: config.email.name,
-                address: config.email.user
-              },
-              template: 'user-opportunity-email',
-              subject: 'Vaga Recebida - Alumni IME',
-              context: {
-                name: user.name.split(' ')[0],
-                value: newOpportunity.Title,
-                company: opportunity.company.Name
-              }
-            };
-            transporter.sendMail(data, function (err) {
-              if(!err) {
-                console.log('Email de vaga recebida enviado para', user.email);
-              } else {
-                console.error('Erro ao enviar email', err);
-                handleError(res);
-              }
-            });  
+            console.log(created ? 'Vaga criada' : 'Vaga atualizada');
+
+            if(created) {
+              var data = {
+                to: {
+                  name: user.name,
+                  address: user.email
+                },
+                from: {
+                  name: config.email.name,
+                  address: config.email.user
+                },
+                template: 'user-opportunity-email',
+                subject: 'Vaga Recebida - Alumni IME',
+                context: {
+                  name: user.name.split(' ')[0],
+                  value: newOpportunity.Title,
+                  company: opportunity.company.Name
+                }
+              };
+              transporter.sendMail(data, function (err) {
+                if(!err) {
+                  console.log('Email de vaga recebida enviado para', user.email);
+                } else {
+                  console.error('Erro ao enviar email', err);
+                  handleError(res);
+                }
+              });  
+
+              data = {
+                to: {
+                  name: 'Opportunity Alumni Page',
+                  address: config.email.user
+                },
+                from: {
+                  name: config.email.name,
+                  address: config.email.user
+                },
+                template: 'opportunity-email',
+                subject: `Vaga recebida de ${opportunity.company.Name}`,
+                context: {
+                  name: user.FullName,
+                  email: user.email,
+                  value: newOpportunity.Title, 
+                  company: opportunity.company.Name,
+                  date: moment().format('DD/MM/YYYY - HH:mm')
+                }
+              };
+              transporter.sendMail(data, function (err) {
+                if(err) {
+                  console.error('Erro ao enviar email', err);
+                  handleError(res);
+                }
+              });  
+            }
 
             res.json({errorCode: 0, errorDesc: null});
 
-            data = {
-              to: {
-                name: 'Opportunity Alumni Page',
-                address: config.email.user
-              },
-              from: {
-                name: config.email.name,
-                address: config.email.user
-              },
-              template: 'opportunity-email',
-              subject: `Vaga recebida de ${opportunity.company.Name}`,
-              context: {
-                name: user.FullName,
-                email: user.email,
-                value: newOpportunity.Title, 
-                company: opportunity.company.Name,
-                date: moment().format('DD/MM/YYYY - HH:mm')
-              }
-            };
-            transporter.sendMail(data, function (err) {
-              if(err) {
-                console.error('Erro ao enviar email', err);
-                handleError(res);
-              }
-            });  
           });
       }  
     ], function (err, result) {

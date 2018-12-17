@@ -7,6 +7,7 @@ export function NewsService($http, $q, $state, Util) {
   var News = {
 
     list: [],
+    listAll: [],
     loadedNews: {},
 
     /**
@@ -25,6 +26,26 @@ export function NewsService($http, $q, $state, Util) {
           });
       } else {
         d.resolve(this.list);
+      }
+      return d.promise;
+    },
+
+    /**
+     * Load all news from database and their images
+     */
+    loadAll(forceReload) {
+      var d = $q.defer();
+      if(this.listAll.length === 0 || forceReload === true) {
+        $http.get('/api/news/all')
+          .then(response => {
+            this.listAll = response.data;
+            d.resolve(this.listAll);
+          })
+          .catch(err => {
+            d.reject(err);
+          });
+      } else {
+        d.resolve(this.listAll);
       }
       return d.promise;
     },

@@ -21,7 +21,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="news in admin.news | filter: {IsExcluded: false}" class="c-pointer" ng-click="admin.editNews(news.NewsId)">
+    <tr ng-repeat="news in admin.News.listAll | filter: {IsExcluded: false}" class="c-pointer" ng-click="admin.editNews(news.NewsId)">
       <th scope="row">{{news.NewsId}}</th>
       <td>{{news.Title}}</td>
       <!-- <td>{{news.Subtitle}}</td> -->
@@ -49,7 +49,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="news in admin.news | filter: {IsExcluded: true}" class="c-pointer" ng-click="admin.editNews(news.NewsId)">
+    <tr ng-repeat="news in admin.News.listAll | filter: {IsExcluded: true}" class="c-pointer" ng-click="admin.editNews(news.NewsId)">
       <th scope="row">{{news.NewsId}}</th>
       <td>{{news.Title}}</td>
       <td>{{news.category.PortugueseDescription}}</td> 

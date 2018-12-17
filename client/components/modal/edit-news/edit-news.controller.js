@@ -19,11 +19,12 @@ export default class ModalEditNewsController {
   concatImages = {};
 
   /*@ngInject*/
-  constructor(Modal, $http, $filter, Upload) {
+  constructor(Modal, Upload, News, $http, $filter) {
     this.Modal = Modal;
+    this.Upload = Upload;
+    this.News = News;
     this.$http = $http;
     this.$filter = $filter;
-    this.Upload = Upload;
   }
 
   $onInit() {
@@ -100,23 +101,14 @@ export default class ModalEditNewsController {
           if(this.concatImages[constructionIndex][imageIndex].Path) {
             image = {
               ImageId: this.concatImages[constructionIndex][imageIndex].ImageId,
-              OrderIndex: imageIndex,
-              // ConstructionIndex: constructionIndex
+              OrderIndex: imageIndex
             };
-            // if(this.news.constructions[constructionIndex].NewsConstructionId) {
-            //   image.NewsConstructionId = this.news.constructions[constructionIndex].NewsConstructionId;
-            // }
             savedImages.push(image);
           } else if(this.concatImages[constructionIndex][imageIndex].$ngfName) {
             image = {
               OrderIndex: imageIndex,
               ConstructionIndex: constructionIndex
             };
-            // if(this.news.constructions[constructionIndex].NewsConstructionId) {
-            //   image.NewsConstructionId = this.news.constructions[constructionIndex].NewsConstructionId;
-            // } else {
-            //   image.NewsConstructionId = null;
-            // }
             uploadImages.push(this.concatImages[constructionIndex][imageIndex]);
             uploadIndexes.push(image);
           }
@@ -148,6 +140,7 @@ export default class ModalEditNewsController {
           if(result.data.errorCode === 0) {
             this_.ok(true);
             this_.Modal.showAlert('Notícia salva', 'A notícia foi salva com sucesso.');
+            this_.News.loadAll(true);
             this_.submitted = false;
           } else {
             this_.Modal.showAlert('Erro ao salvar a notícia', 'Por favor, tente novamente.');

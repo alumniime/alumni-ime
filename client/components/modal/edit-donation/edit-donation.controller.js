@@ -14,11 +14,12 @@ export default class ModalEditDonationController {
   };
 
   /*@ngInject*/
-  constructor(Modal, $http, $filter, Project) {
+  constructor(Modal, Donation, Project, $http, $filter) {
     this.Modal = Modal;
+    this.Donation = Donation;
+    this.Project = Project;
     this.$http = $http;
     this.$filter = $filter;
-    this.Project = Project;
   }
 
   $onInit() {
@@ -85,6 +86,7 @@ export default class ModalEditDonationController {
           console.log(res);
           loading.close();
           this.ok(true);
+          this.Donation.load(true);
           this.Modal.showAlert('Sucesso', 'Contribuição salva com sucesso.');
           this.submitted = false;
         })

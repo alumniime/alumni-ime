@@ -23,7 +23,7 @@ export default class OpportunitiesPostController {
     this.Util = Util;
     this.Upload = Upload;
     this.$http = $http;
-    this.$state = $http;
+    this.$state = $state;
     this.$anchorScroll = $anchorScroll;
   }
 
@@ -134,7 +134,7 @@ export default class OpportunitiesPostController {
     if (!this.user.PersonId) {
       // User needs to login
       this.Modal.openLogin();
-    } else if (form.$valid && this.uploadImages && this.uploadImages.length === 1 && (this.user.IsApproved || this.user.role === 'admin')) {
+    } else if (form.$valid && !this.dateInvalid && this.uploadImages && this.uploadImages.length === 1 && (this.user.IsApproved || this.user.role === 'admin')) {
 
       if (this.ExpirationDate) {
         var date = this.ExpirationDate.split('/');
@@ -161,7 +161,7 @@ export default class OpportunitiesPostController {
 
             // TODO: fix route
             this_.$state.go('profile', { view: 'my_opportunities' });
-            this_.Donation.loadMyDonations(true);
+            this_.opportunity.loadMyPosts(true);
             this_.Modal.showAlert('Sucesso no envio', 'Sua vaga foi enviada com sucesso e está aguardando a aprovação da Alumni IME.');
           } else {
             this_.Modal.showAlert('Erro no envio', 'Por favor, tente novamente.');

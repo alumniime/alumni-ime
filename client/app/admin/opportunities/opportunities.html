@@ -22,7 +22,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="opportunity in admin.opportunities | orderBy: 'PostDate'" class="c-pointer" ng-click="admin.editOpportunity(opportunity.OpportunityId)">
+    <tr ng-repeat="opportunity in admin.Opportunity.list | orderBy: 'PostDate'" class="c-pointer" ng-click="admin.editOpportunity(opportunity.OpportunityId)">
       <th scope="row">{{opportunity.OpportunityId}}</th>
       <td>{{opportunity.Title}}</td>
       <td>{{opportunity.company.Name}}</td>

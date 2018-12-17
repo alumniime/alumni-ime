@@ -34,7 +34,7 @@ export default class ProfileController {
   levelOtherId = null;
   optionOtherId = null;
   today = 0;
-  opportunityPage = 'my_posts';
+  opportunityPage = 'my_applications';
 
   constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Opportunity, Modal, Util) {
     'ngInject';

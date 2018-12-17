@@ -202,18 +202,14 @@
                   ng-model="vm.uploadImages"
                   ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
                   ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
-                  accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages"
+                  accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages"
                   ngf-max-size="vm.maxSize">
 
               <div class="card-deck upload-images">
 
                 <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
                   <div class="card mb-3">
-                    <img ng-if="file && file.type !== 'application/pdf'" ngf-thumbnail="file"/>
-                    <span ng-if="file.type === 'application/pdf'" class="text-center w-100">
-                      {{file.name}}
-                      <i class="fa fa-file-pdf-o"></i>
-                    </span>
+                    <img ng-if="file" ngf-thumbnail="file"/>
                     <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
                         uib-tooltip="Remover imagem" tooltip-placement="left"></i>
                   </div>
@@ -224,8 +220,8 @@
                         ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
                         ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
                         ng-model="vm.uploadImages" ngf-keep="true"
-                        ngf-multiple="false" ngf-allow-dir="true" accept="image/*,application/pdf"
-                        ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
+                        ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+                        ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
                     <div class="row">
                       <div class="col-auto">
                         <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">

@@ -17,8 +17,6 @@ export default class AdminOpportunitiesController {
     this.Opportunity.load()
       .then(opportunities => {
         loading.close();
-        this.opportunities = opportunities;
-        console.log(this.opportunities);
       });
 
   }
