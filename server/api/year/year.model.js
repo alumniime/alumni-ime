@@ -5,16 +5,6 @@ export default function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    DonatorsNumber: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      defaultValue: '0'
-    },
-    DonationsValueInCents: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      defaultValue: '0'
-    }
   }, {
     tableName: 'Year'
   });

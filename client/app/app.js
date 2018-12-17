@@ -27,6 +27,7 @@ import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
 import main from './main/main.component';
+import typeform from './typeform/typeform.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
 import submission from './projects/submission';
@@ -51,7 +52,7 @@ angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBoot
   ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt',
   _Auth, _Project, _News, _Donation, _Opportunity,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, 
-  project, news, view, result, donate, history, institutional, management, graduates, opportunities
+  project, news, view, result, donate, history, institutional, management, graduates, opportunities, typeform
 ])
   .config(routeConfig)
   .run(function ($rootScope, $location, Auth, ngMeta) {

@@ -18,6 +18,7 @@
       <th scope="col">Categoria</th>
       <th scope="col">Views</th>
       <th scope="col">Publicação</th>
+      <th scope="col">Visualizar</th>
     </tr>
     </thead>
     <tbody>
@@ -28,13 +29,19 @@
       <td>{{news.category.PortugueseDescription}}</td> 
       <td>{{news.Views}}</td>
       <td>{{news.PublishDate | date: 'dd/MM/yyyy'}}</td>
-    </tr>
+      <td>
+        <a href="/news/view/{{news.NewsId}}/{{admin.Util.convertToSlug(news.Title)}}" 
+           target="_blank" class="text-dark text-center d-block">
+          <i class="fa fa-external-link-square"></i>
+        </a>
+      </td>
+      </tr>
     </tbody>
   </table>
 
   <div class="row justify-content-between">
     <div class="col-auto">
-      <h5 class="page-title pt-3 pb-2 pb-md-0">Notícias Excluídas <br class="d-block d-sm-none"> </h5>
+      <h5 class="page-title pt-3 pb-2 pb-md-0">Notícias Ocultas <br class="d-block d-sm-none"> </h5>
     </div>
   </div>
 
@@ -46,6 +53,7 @@
       <th scope="col">Categoria</th>
       <th scope="col">Views</th>
       <th scope="col">Publicação</th>
+      <th scope="col">Preview</th>
     </tr>
     </thead>
     <tbody>
@@ -55,6 +63,12 @@
       <td>{{news.category.PortugueseDescription}}</td> 
       <td>{{news.Views}}</td>
       <td>{{news.PublishDate | date: 'dd/MM/yyyy'}}</td>
+      <td>
+        <a href="/news/view/{{news.NewsId}}/{{admin.Util.convertToSlug(news.Title)}}" 
+           target="_blank" class="text-dark text-center d-block">
+          <i class="fa fa-external-link-square"></i>
+        </a>
+      </td>
     </tr>
     </tbody>
   </table> 

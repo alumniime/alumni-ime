@@ -14,10 +14,11 @@ export default class ModalEditDonationController {
   };
 
   /*@ngInject*/
-  constructor(Modal, Donation, Project, $http, $filter) {
+  constructor(Modal, Donation, Project, Util, $http, $filter) {
     this.Modal = Modal;
     this.Donation = Donation;
     this.Project = Project;
+    this.Util = Util;
     this.$http = $http;
     this.$filter = $filter;
   }
@@ -73,8 +74,11 @@ export default class ModalEditDonationController {
       if(this.donation.Type === 'general') {
         this.donation.ProjectId = null;
       }
-      if(this.donation.DonatorId) {
+      if(this.donation.DonatorId || this.donation.FormerStudentId) {
         this.donation.DonatorName = null;
+      }
+      if(this.donation.DonatorId) {
+        this.donation.FormerStudentId = null;
       }
 
       var loading = this.Modal.showLoading();
@@ -107,6 +111,7 @@ export default class ModalEditDonationController {
     if (user) {
       this.$parent.vm.user = user.originalObject;
       this.$parent.vm.donation.DonatorId = this.$parent.vm.user.PersonId;
+      this.$parent.vm.donation.FormerStudentId = this.$parent.vm.user.FormerStudentId;
     } else {
       this.$parent.vm.user = null;
     }

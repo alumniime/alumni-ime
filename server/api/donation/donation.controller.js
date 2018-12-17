@@ -11,7 +11,7 @@
 'use strict';
 
 import {applyPatch} from 'fast-json-patch';
-import {Donation, Project, TransferReceipt, User, Engineering, PersonType, Se} from '../../sqldb';
+import {Donation, Project, TransferReceipt, User, FormerStudent, Engineering, PersonType, Se} from '../../sqldb';
 import config from '../../config/environment';
 import transporter from '../../email';
 import multer from 'multer';
@@ -95,6 +95,10 @@ export function index(req, res) {
       model: User,
       attributes: ['PersonId', 'FullName'],
       as: 'donator'
+    }, {
+      model: FormerStudent,
+      attributes: ['FormerStudentId', 'Name'],
+      as: 'former'
     },
       TransferReceipt
     ]
@@ -134,6 +138,10 @@ export function show(req, res) {
         model: Se,
         as: 'se'
       }]
+    }, {
+      model: FormerStudent,
+      attributes: ['FormerStudentId', 'Name'],
+      as: 'former'
     },
       TransferReceipt
     ],

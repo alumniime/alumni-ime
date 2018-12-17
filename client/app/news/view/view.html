@@ -2,6 +2,7 @@
   <div class="row justify-content-between">
     <div class="col-12 col-md-7 col-lg-7">
 
+      <p class="font-italic text-right" ng-if="vm.news.IsExcluded">visualizando preview</p>
       <div class="page-date">{{vm.news.PublishDate | date: 'dd MMM, yyyy'}}</div>
       <h5 class="page-title">{{vm.news.Title}}</h5>
       <label class="page-subtitle">{{vm.news.Subtitle}}</label>
