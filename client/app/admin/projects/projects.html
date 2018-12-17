@@ -1,6 +1,6 @@
 <div class="container adminProjectsView">
-  <div id="Analise" ng-if="(admin.projects | filter: {IsExcluded: false} | filter: {IsApproved: false}).length() > 0">
-    <div class="row justify-content-between" ng-if="(admin.projects | filter: {IsExcluded: false} | filter: {IsApproved: false}).length() > 0">
+  <div id="Analise" ng-if="(admin.projects | filter: {IsExcluded: false} | filter: {IsApproved: false}).length > 0">
+    <div class="row justify-content-between">
       <div class="col-auto">
         <h5 class="page-title pt-3 pb-2 pb-md-0">Projetos em Análise <br class="d-block d-sm-none"> </h5>
       </div>
