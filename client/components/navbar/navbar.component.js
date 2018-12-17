@@ -50,20 +50,20 @@ export class NavbarComponent {
         },
       ]
     },
-    {
-      title: 'VAGAS',
-      state: 'opportunities',
-      dropdown: [
-        {
-          title: 'PESQUISAR',
-          state: 'opportunities.search'
-        },
-        {
-          title: 'ANUNCIAR VAGA',
-          state: 'opportunities.post'
-        },
-      ]
-    },
+    // {
+    //   title: 'VAGAS',
+    //   state: 'opportunities',
+    //   dropdown: [
+    //     {
+    //       title: 'PESQUISAR',
+    //       state: 'opportunities.search'
+    //     },
+    //     {
+    //       title: 'ANUNCIAR VAGA',
+    //       state: 'opportunities.post'
+    //     },
+    //   ]
+    // },
     // {
     //   title: 'PRESTAÇÃO DE CONTAS',
     //   state: 'expose'

@@ -81,7 +81,8 @@ export default class OpportunitiesSearchController {
           loading.close();
           this.Modal.openLogin();
           this.Modal.showAlert('Pesquisa indisponível', 'Apenas usuários aprovados e logados podem realizar pesquisas.');
-        } else if(this.user.IsApproved || this.user.role === 'admin') {
+        // } else if(this.user.IsApproved || this.user.role === 'admin') {
+        } else if(this.user.role === 'admin') {
 
           this.search = this.$stateParams;
 
@@ -176,7 +177,8 @@ export default class OpportunitiesSearchController {
     console.log(search);
 
     if(form.$valid) {
-      if(this.user.IsApproved || this.user.role === 'admin') {
+      // if(this.user.IsApproved || this.user.role === 'admin') {
+      if(this.user.role === 'admin') {
         this.$state.go('opportunities.search', search);
       } else {
         this.Modal.showAlert('Pesquisa indisponível', 'Apenas usuários cadastrados e aprovados podem realizar pesquisas.');
