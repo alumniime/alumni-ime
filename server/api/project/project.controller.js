@@ -130,6 +130,48 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+//Gets a list of all projects
+export function indexAll(req, res) {
+  return Project.findAll({
+    include: [{
+      model: Image,
+      as: 'images',
+      order: [
+        ['OrderIndex', 'ASC'],
+      ],
+      limit: 1,
+      where: {
+        IsExcluded: 0
+      }
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'leader'
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'professor'
+    }, {
+      model: Donation,
+      attributes: ['ProjectId'],
+      as: 'donations',
+      required: false,
+      where: {
+        IsApproved: 1
+      }
+    }],
+    attributes: {
+      include: [
+        [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber']
+      ],
+      exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule']
+    },
+    group: 'ProjectId'
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Gets a single Project from the DB
 export function show(req, res) {
   return Project.find({
