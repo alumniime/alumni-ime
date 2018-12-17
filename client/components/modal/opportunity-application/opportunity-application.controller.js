@@ -69,7 +69,7 @@ export default class ModalOpportunityApplicationController {
             this_.submitted = false;
             this_.uploadImages = [];
             this_.Modal.showAlert('Sucesso no envio', 'Sua candidatura foi enviada com sucesso e será encaminhada para o recrutador da vaga.');
-            this_.$state.go('profile', {view: 'my_opportunities'});
+            this_.$state.go('profile', {view: 'my_opportunities', subView: 'my_applications'});
             this_.ok();
           } else {
             this_.Modal.showAlert('Erro no envio', result.data.errorDesc || 'Por favor, tente novamente.');

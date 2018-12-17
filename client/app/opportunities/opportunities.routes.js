@@ -1,11 +1,11 @@
 'use strict';
 
-export default function routes($stateProvider, appConfig) {
+export default function routes($stateProvider, $urlRouterProvider, appConfig) {
   'ngInject';
 
   $stateProvider
     .state('opportunities', {
-      url: '/opportunities',
+      url: '/vagas',
       abstract: true,
       controller: 'OpportunitiesController',
       template: require('./opportunities.html'),
@@ -16,7 +16,7 @@ export default function routes($stateProvider, appConfig) {
       }
     }) 
     .state('opportunities.search', {
-      url: '/search?LocationId&IndustryId&OpportunityFunctionId&SearchText&OpportunityTypes&ExperienceLevels',
+      url: '/pesquisar?LocationId&IndustryId&OpportunityFunctionId&SearchText&OpportunityTypes&ExperienceLevels',
       template: require('./search/search.html'),
       controller: 'OpportunitiesSearchController',
       controllerAs: 'vm',
@@ -45,7 +45,7 @@ export default function routes($stateProvider, appConfig) {
       }
     })
     .state('opportunities.post', {
-      url: '/post',
+      url: '/anunciar',
       template: require('./post/post.html'),
       controller: 'OpportunitiesPostController',
       controllerAs: 'vm',
@@ -57,5 +57,7 @@ export default function routes($stateProvider, appConfig) {
         }
       }
     });
+
+    $urlRouterProvider.when('/recrutamento', '/vagas/anunciar');
 
 }

@@ -159,8 +159,7 @@ export default class OpportunitiesPostController {
             this_.submitted = false;
             this_.uploadImages = [];
 
-            // TODO: fix route
-            this_.$state.go('profile', { view: 'my_opportunities' });
+            this_.$state.go('profile', { view: 'my_opportunities', subView: 'my_posts' });
             this_.opportunity.loadMyPosts(true);
             this_.Modal.showAlert('Sucesso no envio', 'Sua vaga foi enviada com sucesso e está aguardando a aprovação da Alumni IME.');
           } else {

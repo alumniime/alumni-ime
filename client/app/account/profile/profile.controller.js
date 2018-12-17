@@ -171,6 +171,9 @@ export default class ProfileController {
         }
       }
     }
+    if(this.$stateParams.subView !== null) {
+      this.opportunityPage = this.$stateParams.subView;
+    }
   }
 
   validateDate(input) {

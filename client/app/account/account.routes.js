@@ -71,9 +71,10 @@ export default function routes($stateProvider, appConfig) {
       controllerAs: 'vm'
     })
     .state('profile', {
-      url: '/profile/:view',
+      url: '/profile/:view/:subView',
       params: {
-        view: {value: null, squash: true}
+        view: {value: null, squash: true},
+        subView: {value: null, squash: true}
       },
       template: require('./profile/profile.html'),
       controller: 'ProfileController',
