@@ -74,6 +74,10 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
+    Benefits: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     ExternalLink: {
       type: DataTypes.STRING(255),
       allowNull: true

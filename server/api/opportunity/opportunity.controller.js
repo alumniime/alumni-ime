@@ -129,7 +129,7 @@ export function index(req, res) {
         include: [
           [sequelize.fn('COUNT', sequelize.col('opportunityApplications.PersonId')), 'ApplicationsNumber']
         ],
-        exclude: ['Responsabilities', 'Requirements']
+        exclude: ['Responsabilities', 'Requirements', 'Benefits']
       }, 
       group: ['OpportunityId'],
       order: [
@@ -462,7 +462,7 @@ export function search(req, res) {
           }],
         }],
         attributes: {
-          exclude: ['Responsabilities', 'Requirements']
+          exclude: ['Responsabilities', 'Requirements', 'Benefits']
         },
         where: where,
         order: [
@@ -542,14 +542,18 @@ export function upload(req, res) {
         }
         if(opportunity.location && opportunity.location.city) {
           var city = opportunity.location.city;
-          Reflect.deleteProperty(city, 'state');
-  
-          if(config.debug) {
-            console.log('\n=>city', JSON.stringify(city));
+          if(opportunity.location.CityId != 'null' || city != 'null') {
+            Reflect.deleteProperty(city, 'state');
+            Reflect.deleteProperty(city, 'CityId');
+            if(config.debug) {
+              console.log('\n=>city', JSON.stringify(city));
+            }
+            City.findOrCreate({where: city})
+              .spread((newCity, created) => done(null, newCity))
+              .catch(err => done(err));
+          } else { 
+            done(null, {CityId: null});
           }
-          City.findOrCreate({where: city})
-            .spread((newCity, created) => done(null, newCity))
-            .catch(err => done(err));
         } else {
           done(null, {CityId: null});
         }

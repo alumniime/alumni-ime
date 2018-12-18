@@ -14,6 +14,8 @@ export default class OpportunitiesPostController {
   dateInvalid = false;
   ExpirationDate = '';
   checkResponsability = false;
+  citiesList = [];
+  citiesLoading = false;
 
   constructor(Auth, Modal, Util, Upload, $http, $state, $anchorScroll) {
     'ngInject';
@@ -98,21 +100,23 @@ export default class OpportunitiesPostController {
   }
 
   selectState(stateId) {
-    this.$http.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`)
+    this.citiesLoading = true;
+    this.$http.get(`/api/cities/state/${stateId}`)
       .then(response => {
-        this.citiesList = {};
-        for (var city of response.data) {
-          this.citiesList[city.id] = {
-            IBGEId: city.id,
-            Description: city.nome,
-            StateId: city.microrregiao.mesorregiao.UF.id
-          };
-        }
+        this.citiesLoading = false;
+        this.citiesList = response.data;
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 
-  selectCity(IBGEId) {
-    this.opportunity.location.city = this.citiesList[IBGEId];
+  selectCity(CityId) {
+    for(var city of this.citiesList) {
+      if(city.CityId === CityId) {
+        this.opportunity.location.city = city;
+      }
+    }
     console.log(this.opportunity.location.city);
   }
 

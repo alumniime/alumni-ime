@@ -195,9 +195,10 @@
 
           <div class="form-group" ng-if="vm.opportunity.location.CountryId === 1">
             <label for="City">CIDADE</label>
-            <select class="form-control" id="City" name="City" ng-change="vm.selectCity(vm.opportunity.location.city.IBGEId)"
-                    ng-model="vm.opportunity.location.city.IBGEId">
-              <option ng-repeat="city in vm.citiesList" ng-value="city.IBGEId">
+            <select class="form-control" id="City" name="City" ng-change="vm.selectCity(vm.opportunity.location.city.CityId)"
+                    ng-model="vm.opportunity.location.city.CityId">
+              <option value="" ng-if="vm.citiesLoading">Carregando...</option> 
+              <option ng-repeat="city in vm.citiesList" ng-value="city.CityId">
                 {{city.Description}}
               </option>
             </select>
@@ -247,6 +248,19 @@
       </div>
 
       <div class="form-group">
+        <label for="Benefits">BENEFÍCIOS* ({{ 1200 - form.Benefits.$viewValue.length
+          }})</label>
+        <textarea type="text" id="Benefits" name="Benefits" class="form-control" rows="6"
+                  ng-model="vm.opportunity.Benefits" required ng-maxlength="1200"></textarea>
+        <p class="help-block" ng-show="form.Benefits.$error.required && vm.submitted">
+          Insira os benefícios da vaga oferecida.
+        </p>
+        <p class="help-block" ng-show="form.Benefits.$error.maxlength">
+          Texto muito longo.
+        </p>
+      </div>
+
+      <div class="form-group">
         <br>
         <label>LOGO DA EMPRESA*</label>
         <br>
@@ -270,9 +284,9 @@
             </div>
           </div>
 
-          <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
+          <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-if="vm.concatImages.length < vm.maxImages">
             <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
-                  ng-if="vm.concatImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
+                  ngf-resize="{quality: vm.imageQuality}"
                   ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
                   ng-model="vm.uploadImages" ngf-keep="true"
                   ngf-multiple="false" ngf-allow-dir="true" accept="image/*"

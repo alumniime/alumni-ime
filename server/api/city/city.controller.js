@@ -61,7 +61,7 @@ function handleError(res, statusCode) {
   };
 }
 
-// Gets a list of Citys
+// Gets a list of Cities
 export function index(req, res) {
   return City.findAll()
     .then(respondWithResult(res))
@@ -74,6 +74,21 @@ export function show(req, res) {
     where: {
       CityId: req.params.id
     }
+  })
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Gets a list of Cities from one state
+export function showState(req, res) {
+  return City.findAll({
+    where: {
+      StateId: req.params.id
+    },
+    order: [
+      ['Description', 'ASC']
+    ]
   })
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))

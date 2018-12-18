@@ -71,9 +71,14 @@
       </div>
       <div class="info-text text-pre">{{vm.opportunity.Requirements}}</div>
 
+      <div class="info-name pt-3 pb-2">
+        BENEFÍCIOS
+      </div>
+      <div class="info-text text-pre">{{vm.opportunity.Benefits}}</div>
+
       <br>
       <div class="row justify-content-end p-0">
-        <div class="col-auto" ng-if="!vm.application && vm.today <= vm.ExpirationDate">
+        <div class="col-auto" ng-if="!vm.application && vm.today <= vm.ExpirationDate && vm.opportunity.IsApproved">
           <button href="#" class="btn btn-danger m-auto" ng-click="vm.doApplication(vm.opportunity)">
             QUERO ME CANDIDATAR
           </button>
