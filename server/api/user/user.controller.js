@@ -7,7 +7,7 @@ import {
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
-import async from 'async';
+import async from 'async'; 
 import crypto from 'crypto';
 import multer from 'multer';
 import $q from 'q';
@@ -111,7 +111,7 @@ export function index(req, res) {
   // User.findAll({
   //   attributes: ['PersonId'], 
   //   where: {
-  //     PersonId: [41, 48, 49, 50, 51, 448]
+  //     PersonId: [450]
   //     // IsApproved: 0
   //   }
   // })
@@ -922,6 +922,7 @@ export function me(req, res, next) {
       'email',
       'role',
       'provider',
+      'LinkedinProfileURL',
       'ImageURL',
       'ImageData',
       'Birthdate',

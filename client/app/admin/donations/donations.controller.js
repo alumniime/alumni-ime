@@ -3,9 +3,10 @@
 export default class AdminDonationsController {
 
   /*@ngInject*/
-  constructor(Util, Modal, $http, $state) {
+  constructor(Util, Modal, Donation, $http, $state) {
     this.Util = Util;
     this.Modal = Modal;
+    this.Donation = Donation;
     this.$http = $http;
     this.$state = $state;
   }
@@ -13,11 +14,10 @@ export default class AdminDonationsController {
   $onInit() {
 
     var loading = this.Modal.showLoading();
-    this.$http.get('/api/donations')
-      .then(response => {
+    this.Donation.load()
+      .then(donations => {
         loading.close();
-        this.donations = response.data;
-        console.log(this.donations);
+        console.log(donations);
       });
 
   }

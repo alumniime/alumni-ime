@@ -1,0 +1,297 @@
+<div class="opportunitiesPostView">
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-9">
+        <h1 class="title">
+          Anunciar Vaga
+        </h1>
+        <p class="page-text">
+          O portal de vagas é destinado para que os usuários do portal publiquem vagas para a comunidade 
+          IMEana. Após o preenchimento do formulário, nossa equipe poderá entrar em contato para colher 
+          mais informações ou tirar dúvidas sobre a vaga. 
+          Enviaremos um email assim que a vaga for publicada. 
+        </p>
+
+        <form class="form mt-4" name="form" ng-submit="vm.submitOpportunity(form)" novalidate="">
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+
+              <div class="form-group">
+                <label for="Title">CARGO*</label>
+                <input type="text" id="Title" name="Title" class="form-control" required
+                       ng-model="vm.opportunity.Title">
+                <p class="help-block" ng-if="form.Title.$error.required && vm.submitted">
+                  Insira o cargo da vaga.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="OpportunityFunction">FUNÇÃO DO CARGO*</label>
+                <select class="form-control" id="OpportunityFunction" name="OpportunityFunction"
+                        ng-model="vm.opportunity.OpportunityFunctionId" required>
+                  <option ng-repeat="opportunity in vm.opportunityFunctionsList"
+                          ng-value="opportunity.OpportunityFunctionId">{{opportunity.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="form.OpportunityFunction.$error.required && vm.submitted">
+                  Insira a função do cargo.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="CompanyName">NOME DA EMPRESA*</label>
+                <input type="text" name="CompanyName" id="CompanyName" class="form-control"
+                       placeholder="Ex: Microsoft"
+                       ng-model="vm.opportunity.company.Name" required>
+                <p class="help-block" ng-show="form.CompanyName.$error.required && vm.submitted">
+                  Insira o nome da empresa.
+                </p>
+              </div>
+      
+              <div class="form-group">
+                <label for="CompanyType">TIPO DE EMPRESA*</label>
+                <select class="form-control" id="CompanyType" name="CompanyType"
+                        ng-model="vm.opportunity.company.CompanyTypeId" required>
+                  <option ng-repeat="companyType in vm.companyTypesList"
+                          ng-value="companyType.CompanyTypeId">{{companyType.PortugueseDescription}}
+                  </option>
+                </select>
+                <p class="help-block" ng-show="form.CompanyType.$error.required && vm.submitted">
+                  Insira o tipo da empresa.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="Industry">SETOR DA EMPRESA*</label>
+                <select class="form-control" id="Industry" name="Industry"
+                        ng-model="vm.opportunity.company.IndustryId" required>
+                  <option ng-repeat="industry in vm.industriesList"
+                          ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="form.Industry.$error.required && vm.submitted">
+                  Insira o setor da empresa.
+                </p>
+              </div>
+
+            </div>
+
+            <div class="col-12 col-md-6">
+
+              <div class="form-group">
+                <label for="OpportunityType">TIPO DE VAGA*</label>
+                <select class="form-control" id="OpportunityType" name="OpportunityType"
+                        ng-model="vm.opportunity.OpportunityTypeId" required>
+                  <option ng-repeat="opportunity in vm.opportunityTypesList"
+                          ng-value="opportunity.OpportunityTypeId">{{opportunity.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="form.OpportunityType.$error.required && vm.submitted">
+                  Insira o tipo de vaga.
+                </p>
+              </div>
+              
+              <div class="form-group">
+                <label for="ExperienceLevel">NÍVEL DE EXPERIÊNCIA*</label>
+                <select class="form-control" id="ExperienceLevel" name="ExperienceLevel"
+                        ng-model="vm.opportunity.ExperienceLevelId" required>
+                  <option ng-repeat="experience in vm.experienceLevelsList"
+                          ng-value="experience.ExperienceLevelId">{{experience.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="form.ExperienceLevel.$error.required && vm.submitted">
+                  Insira o tipo de vaga.
+                </p>
+              </div>
+              
+              <div class="row p-0">
+                <div class="col" ng-class="{'col-8': vm.opportunity.location.CountryId === 1}">
+                  <div class="form-group">
+                    <label for="Country">PAÍS</label>
+                    <select class="form-control" id="Country" name="Country"
+                            ng-model="vm.opportunity.location.CountryId">
+                      <option ng-repeat="country in vm.countriesList" ng-value="country.CountryId">
+                        {{country.Description}}
+                      </option>
+                    </select>
+                    <p class="help-block" ng-if="form.Country.$error.required && vm.submitted">
+                      Insira o país.
+                    </p>
+                  </div>
+                </div>
+      
+                <div class="col-4" ng-if="vm.opportunity.location.CountryId === 1">
+                  <div class="form-group">
+                    <label for="State">ESTADO</label>
+                    <select class="form-control" id="State" name="State" ng-change="vm.selectState(vm.opportunity.location.StateId)"
+                            ng-model="vm.opportunity.location.StateId">
+                      <option ng-repeat="state in vm.statesList" ng-value="state.StateId">
+                        {{state.Code}}
+                      </option>
+                    </select>
+                    <p class="help-block" ng-if="form.State.$error.required && vm.submitted">
+                      Insira o estado.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group" ng-if="vm.opportunity.location.CountryId === 1">
+                <label for="City">CIDADE</label>
+                <select class="form-control" id="City" name="City" ng-change="vm.selectCity(vm.opportunity.location.city.CityId)"
+                        ng-model="vm.opportunity.location.city.CityId">
+                  <option value="" ng-if="vm.citiesLoading">Carregando...</option> 
+                  <option ng-repeat="city in vm.citiesList" ng-value="city.CityId">
+                    {{city.Description}}
+                  </option>
+                </select>
+                <p class="help-block" ng-if="form.City.$error.required && vm.submitted">
+                  Insira a cidade.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="ExpirationDate">DATA LIMITE DE CANDIDATURA*</label>
+                <input type="text" id="ExpirationDate" name="ExpirationDate"
+                        class="form-control" placeholder="dd/mm/yyyy" mask="39/19/2999"
+                        ng-model="vm.ExpirationDate" required
+                        ng-change="vm.validateDate(vm.ExpirationDate)">
+                <p class="help-block" ng-show="(form.ExpirationDate.$invalid && vm.submitted) || vm.dateInvalid">
+                  Insira uma data válida para o término do período de candidaturas da vaga.
+                </p>
+              </div>
+
+            </div>
+          </div>
+          <br>
+
+          <div class="form-group">
+            <label for="Responsabilities">RESPONSABILIDADES* ({{ 1200 - form.Responsabilities.$viewValue.length }})</label>
+            <textarea type="text" id="Responsabilities" name="Responsabilities" class="form-control" rows="6"
+                      ng-model="vm.opportunity.Responsabilities" required ng-maxlength="1200"></textarea>
+            <p class="help-block" ng-show="form.Responsabilities.$error.required && vm.submitted">
+              Insira as responsabilidades da vaga oferecida.
+            </p>
+            <p class="help-block" ng-show="form.Responsabilities.$error.maxlength">
+              Texto muito longo.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="Requirements">REQUISITOS* ({{ 1200 - form.Requirements.$viewValue.length
+              }})</label>
+            <textarea type="text" id="Requirements" name="Requirements" class="form-control" rows="6"
+                      ng-model="vm.opportunity.Requirements" required ng-maxlength="1200"></textarea>
+            <p class="help-block" ng-show="form.Requirements.$error.required && vm.submitted">
+              Insira os requisitos para a vaga oferecida.
+            </p>
+            <p class="help-block" ng-show="form.Requirements.$error.maxlength">
+              Texto muito longo.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="Benefits">BENEFÍCIOS* ({{ 1200 - form.Benefits.$viewValue.length
+              }})</label>
+            <textarea type="text" id="Benefits" name="Benefits" class="form-control" rows="6"
+                      ng-model="vm.opportunity.Benefits" required ng-maxlength="1200"></textarea>
+            <p class="help-block" ng-show="form.Benefits.$error.required && vm.submitted">
+              Insira os benefícios da vaga oferecida.
+            </p>
+            <p class="help-block" ng-show="form.Benefits.$error.maxlength">
+              Texto muito longo.
+            </p>
+          </div>
+
+          <div class="row justify-content-between align-items-center">
+            <div class="col-auto">
+              <br>
+              <label>LOGO DA EMPRESA*</label>
+              <br>
+
+              <div class="form-group drop-images mt-2" ngf-drop="vm.updateImages(vm.uploadImages)"
+                  ng-change="vm.updateImages(vm.uploadImages)"
+                  ng-model="vm.uploadImages"
+                  ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
+                  ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
+                  accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages"
+                  ngf-max-size="vm.maxSize">
+
+              <div class="card-deck upload-images">
+
+                <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
+                  <div class="card mb-3">
+                    <img ng-if="file" ngf-thumbnail="file"/>
+                    <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
+                        uib-tooltip="Remover imagem" tooltip-placement="left"></i>
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-if="vm.uploadImages.length < vm.maxImages">
+                  <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
+                        ngf-resize="{quality: vm.imageQuality}"
+                        ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
+                        ng-model="vm.uploadImages" ngf-keep="true"
+                        ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
+                        ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
+                    <div class="row">
+                      <div class="col-auto">
+                        <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
+                      </div>
+                      <div class="col">
+                        <p class="upload-text">
+                          <a class="btn btn-link text-info upload-link p-0" href="#">
+                            Faça upload
+                          </a> do logo da empresa.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <p class="help-block" ng-show="form.files.$error.maxSize">
+                O arquivo inserido ultrapassa o tamanho máximo. Tente novamente.
+              </p>
+
+              <p class="help-block" ng-show="vm.uploadImages.length === 0 && vm.submitted">
+                Insira o logo da empresa.
+              </p>
+
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-8 check-responsability">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" name="checkResponsability" class="custom-control-input" id="checkResponsability" ng-model="vm.checkResponsability" required>
+                <label class="custom-control-label" for="checkResponsability">
+                    Assumo a responsabilidade pelas informações prestadas neste formulário e estou ciente 
+                    que elas serão disponibilizadas a outros usuários do portal Alumni IME.
+                </label>
+              </div>
+              <p class="help-block" ng-show="form.checkResponsability.$error.required && vm.submitted">
+                Por favor, é necessário aceitar os termos para que a vaga seja anunciada.
+              </p>
+            </div>
+
+          </div>
+
+          <br>
+          <div class="row justify-content-end">
+            <div class="col-auto">
+              <button href="#" class="btn btn-danger m-auto btn-submit" type="submit">
+                ANUNCIAR VAGA
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
