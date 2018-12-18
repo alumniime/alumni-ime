@@ -109,9 +109,9 @@
               <div class="row p-0">
                 <div class="col" ng-class="{'col-8': vm.opportunity.location.CountryId === 1}">
                   <div class="form-group">
-                    <label for="Country">PAÍS</label>
+                    <label for="Country">PAÍS*</label>
                     <select class="form-control" id="Country" name="Country"
-                            ng-model="vm.opportunity.location.CountryId">
+                            ng-model="vm.opportunity.location.CountryId" required>
                       <option ng-repeat="country in vm.countriesList" ng-value="country.CountryId">
                         {{country.Description}}
                       </option>
@@ -124,9 +124,9 @@
       
                 <div class="col-4" ng-if="vm.opportunity.location.CountryId === 1">
                   <div class="form-group">
-                    <label for="State">ESTADO</label>
+                    <label for="State">ESTADO*</label>
                     <select class="form-control" id="State" name="State" ng-change="vm.selectState(vm.opportunity.location.StateId)"
-                            ng-model="vm.opportunity.location.StateId">
+                            ng-model="vm.opportunity.location.StateId" required>
                       <option ng-repeat="state in vm.statesList" ng-value="state.StateId">
                         {{state.Code}}
                       </option>
@@ -139,11 +139,11 @@
               </div>
 
               <div class="form-group" ng-if="vm.opportunity.location.CountryId === 1">
-                <label for="City">CIDADE</label>
+                <label for="City">CIDADE*</label>
                 <select class="form-control" id="City" name="City" ng-change="vm.selectCity(vm.opportunity.location.city.CityId)"
-                        ng-model="vm.opportunity.location.city.CityId">
+                        ng-model="vm.opportunity.location.city.CityId" required>
                   <option value="" ng-if="vm.citiesLoading">Carregando...</option> 
-                  <option ng-repeat="city in vm.citiesList" ng-value="city.CityId">
+                  <option ng-repeat="city in vm.citiesList track by city.CityId" ng-value="city.CityId">
                     {{city.Description}}
                   </option>
                 </select>

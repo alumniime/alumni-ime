@@ -297,7 +297,7 @@ export function show(req, res) {
           include: [{
             model: City,
             as: 'city',
-            attributes: ['Description', 'IBGEId', 'StateId'],
+            attributes: ['CityId', 'Description', 'IBGEId', 'StateId'],
             include: [{
               model: State,
               attributes: ['Code'],
