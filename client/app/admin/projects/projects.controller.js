@@ -22,8 +22,8 @@ export default class AdminProjectsController {
   }
 
   //Need to create project modal
-  editProjects(projectId) {
-    this.Modal.editProjects(projectId)
+  editProject(projectId) {
+    this.Modal.editProject(projectId)
     .then(() => {
       this.$state.reload();
     });

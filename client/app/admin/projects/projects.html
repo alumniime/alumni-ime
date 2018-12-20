@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-          <tr ng-repeat="project in admin.projects | filter: {IsExcluded: false} | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.editProject(project.projectId)">
+          <tr ng-repeat="project in admin.projects | filter: {IsExcluded: false} | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.editProject(project.ProjectId)">
             <td scope="row">{{project.ProjectId}}</td>
             <td>{{project.ProjectName}}</th>
             <td>{{project.TeamName}}</td>
@@ -49,7 +49,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="project in admin.projects | filter: {IsApproved: true}" class="c-pointer" ng-click="admin.editProject(project.projectId)">
+        <tr ng-repeat="project in admin.projects | filter: {IsApproved: true}" class="c-pointer" ng-click="admin.editProject(project.ProjectId)">
           <th scope="row">{{project.ProjectId}}</th>
           <td>{{project.ProjectName}}</th>
           <td>{{project.TeamName}}</th>
