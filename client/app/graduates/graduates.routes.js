@@ -25,7 +25,7 @@ export default function routes($stateProvider, appConfig) {
       controllerAs: 'vm',
       data: {
         meta: {
-          title: 'Consultar Turmas',
+          title: 'Pesquisar Turmas',
           description: 'Pesquise e encontre todos os ex-alunos graduados no IME.',
           'og:url': `${appConfig.url}/graduates/search`
         } 
@@ -55,7 +55,7 @@ export default function routes($stateProvider, appConfig) {
       controllerAs: 'vm',
       data: {
         meta: {
-          title: 'Consultar Ranking',
+          title: 'Ranking de Turmas',
           description: 'Confira o ranking das turmas do IME mais engajadas na Alumni IME.',
           'og:url': `${appConfig.url}/graduates/ranking`
         }

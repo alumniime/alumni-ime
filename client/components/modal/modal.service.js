@@ -16,8 +16,11 @@ import ModalResetPassword from './reset-password/reset-password.controller';
 import ModalTermsOfUse from './terms-of-use/terms-of-use.controller';
 import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
+import ModalShowApplication from './show-application/show-application.controller';
 import ModalEditNews from './edit-news/edit-news.controller';
 import ModalEditDonation from './edit-donation/edit-donation.controller';
+import ModalEditOpportunity from './edit-opportunity/edit-opportunity.controller';
+import ModalOpportunityApplication from './opportunity-application/opportunity-application.controller';
 import ModalMainHightlight from './main-highlight/main-highlight.controller';
 
 /*@ngInject*/
@@ -90,6 +93,24 @@ export function ModalService($uibModal, $q) {
         resolve: {
           confirmEmailToken: function () {
             return confirmEmailToken;
+          }
+        }
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
+    },
+
+    openOpportunityApplication(opportunity) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalOpportunityApplication',
+        size: 'md dialog-centered',
+        resolve: {
+          opportunity: function () {
+            return opportunity;
           }
         }
       });
@@ -179,6 +200,30 @@ export function ModalService($uibModal, $q) {
       return d.promise;
     },
 
+    openShowApplication(opportunityId, personId) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalShowApplication',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          OpportunityId: function () {
+            return opportunityId;
+          },
+          PersonId: function () {
+            return personId;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
     editNews(newsId) {
       var d = $q.defer();
       var modalInstance = $uibModal.open({
@@ -209,6 +254,27 @@ export function ModalService($uibModal, $q) {
         resolve: {
           DonationId: function () {
             return donationId;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
+    editOpportunity(opportunityId) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalEditOpportunity',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          OpportunityId: function () {
+            return opportunityId;
           }
         }
       });
@@ -456,6 +522,16 @@ export default angular.module('alumniApp.modal', [])
       dismiss: '&'
     },
   })
+  .component('modalShowApplication', {
+    template: require('./show-application/show-application.html'),
+    controller: ModalShowApplication,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
   .component('modalEditNews', {
     template: require('./edit-news/edit-news.html'),
     controller: ModalEditNews,
@@ -469,6 +545,26 @@ export default angular.module('alumniApp.modal', [])
   .component('modalEditDonation', {
     template: require('./edit-donation/edit-donation.html'),
     controller: ModalEditDonation,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalEditOpportunity', {
+    template: require('./edit-opportunity/edit-opportunity.html'),
+    controller: ModalEditOpportunity,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalOpportunityApplication', {
+    template: require('./opportunity-application/opportunity-application.html'),
+    controller: ModalOpportunityApplication,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

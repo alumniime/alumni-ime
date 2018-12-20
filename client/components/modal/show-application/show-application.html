@@ -1,0 +1,102 @@
+<div class="modal-header d-block">
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h5 class="modal-title text-center mt-3" id="modal-title">{{vm.application.user.name}}</h5>
+</div>
+
+<div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
+
+  <div class="row justify-content-center p-0">
+    <div class="col-auto">
+      <img class="profile-photo pb-2" ng-src="{{vm.application.user.ImageURL || 'assets/images/profile.svg'}}" alt="{{vm.application.user.name}}">
+    </div>
+    <div class="col-auto pt-2">
+      <p class="legend" ng-if="vm.application.user.personType.Description === 'FormerStudent' || vm.application.user.personType.Description === 'Student' || vm.application.user.personType.Description === 'DropStudent'">
+        {{vm.application.user.Headline}}
+        <br> {{vm.application.user.engineering.Description}} | {{vm.application.user.personType.PortugueseDescription | lowercase}}
+        <br> Formatura {{vm.application.user.GraduationYear}}
+      </p>
+      <p class="legend" ng-if="vm.application.user.personType.Description === 'Professor'">
+        {{vm.application.user.Headline}}
+        <br> {{vm.application.user.se.Description}} | {{vm.application.user.personType.PortugueseDescription | lowercase}}
+      </p>
+      <p class="legend" ng-if="vm.application.user.personType.Description === 'Visitor'">
+        {{vm.application.user.Headline}}
+        <br> {{vm.application.user.personType.PortugueseDescription}}
+      </p>
+      <p class="legend" ng-if="vm.application.user.personType.Description === 'FormerStudentAndProfessor'">
+        {{vm.application.user.Headline}}
+        <br> {{vm.application.user.se.Description}}
+        <br> {{vm.application.user.engineering.Description}} | {{vm.application.user.personType.PortugueseDescription | lowercase}}
+        <br> Formatura {{vm.application.user.GraduationYear}}
+      </p>
+
+      <a class="text-dark c-pointer font-weight-bold" target="_blank" href="{{vm.application.user.LinkedinProfileURL}}" ng-if="vm.application.user.LinkedinProfileURL">Acessar Linkedin</a>
+
+    </div>
+  </div>
+
+  <div class="row mt-2 p-0">
+
+    <div class="col-12 col-sm-6">
+      <div class="form-group">
+        <label for="emailShow">EMAIL</label>
+        <input type="text" id="emailShow" name="email" class="form-control-plaintext" readonly ng-model="vm.application.user.email">
+      </div>
+      <div class="form-group">
+        <label for="BirthdateShow">DATA DE NASCIMENTO</label>
+        <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly value="{{vm.application.user.Birthdate| date:'dd/MM/yyyy'}}">
+      </div>
+      <div class="form-group">
+        <label for="PhoneShow">TELEFONE</label>
+        <!-- International phone -->
+        <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+                ng-model="vm.application.user.Phone" ng-if="vm.application.user.Phone.indexOf('+55') === -1" ng-intl-tel-input>
+        <!-- National phone -->
+        <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+                ng-model="vm.application.user.Phone" ng-if="vm.application.user.Phone.indexOf('+55') > -1" mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
+      </div>
+        <div class="form-group">
+        <label for="LocationShow">LOCALIZAÇÃO</label>
+        <input type="text" id="LocationShow" name="Location" class="form-control-plaintext" readonly ng-value="vm.application.user.locationName">
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6">
+      <div class="form-group">
+        <label for="LevelType">MEIO DE ATUAÇÃO</label>
+        <input type="text" id="LevelType" name="LevelType" class="form-control-plaintext" readonly ng-if="vm.application.user.positions[0].level.Type === 'civil'"
+          value="Civil">
+        <input type="text" name="LevelType" class="form-control-plaintext" readonly ng-if="vm.application.user.positions[0].level.Type === 'military'"
+          value="Militar">
+      </div>
+      <div class="form-group">
+        <label for="Position">CARGO ATUAL</label>
+        <input type="text" id="Position" name="Position" class="form-control-plaintext" readonly ng-value="vm.application.user.positions[0].Title">
+      </div>
+      <div class="form-group">
+        <label for="Level" ng-if="vm.application.user.positions[0].level.Type === 'civil'">NÍVEL DO CARGO</label>
+        <label for="Level" ng-if="vm.application.user.positions[0].level.Type === 'military'">PATENTE</label>
+        <input type="text" id="Level" name="Level" class="form-control-plaintext" readonly ng-value="vm.application.user.positions[0].level.Description !== 'Outro' ? vm.application.user.positions[0].level.Description : vm.application.user.positions[0].LevelOther">
+      </div>
+      <div class="form-group">
+        <label for="Company">EMPRESA</label>
+        <input type="text" id="Company" name="Company" class="form-control-plaintext" readonly ng-value="vm.application.user.positions[0].company.Name">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row p-0">
+    <div class="col">
+      <div class="form-group">
+        <label for="ApplicationDate">DATA DA CANDIDATURA</label>
+        <input type="text" id="ApplicationDate" name="ApplicationDate" class="form-control-plaintext" readonly ng-value="vm.ApplicationDate">
+      </div>
+      <div class="form-group" ng-if="vm.application.Message">
+        <label for="Message">MENSAGEM ENVIADA</label>
+        <div class="info-text text-pre">{{vm.application.Message}}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

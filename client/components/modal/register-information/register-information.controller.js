@@ -219,8 +219,10 @@ export default class ModalRegisterInformationController {
     console.log(form);
     console.log(this.user);
 
-    var date = this.Birthdate.split('/');
-    this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
+    if(this.Birthdate) {
+      var date = this.Birthdate.split('/');
+      this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
+    }
 
     if(!this.hasPosition) {
       Reflect.deleteProperty(this.user, 'positions');

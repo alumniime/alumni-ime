@@ -23,7 +23,7 @@
     font-size: 16px;
   }
 
-  li.nav-item {
+  .nav li.nav-item {
     margin-right: 30px;
     @include media-breakpoint-down(md) {
       margin-right: 0;
@@ -38,7 +38,7 @@
     }
   }
 
-  li.nav-item:hover, li.nav-item.active {
+  .nav li.nav-item:hover, li.nav-item.active {
     margin-bottom: 8px;
     border-bottom: 3px #E84E0F solid;
     .nav-link {
@@ -168,6 +168,14 @@
 
   .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #E84E0F !important;
+  }
+  
+  .small-font {
+    font-size: 14px;
+  }
+
+  .icon-font {
+    font-size: 18px;
   }
 
 }

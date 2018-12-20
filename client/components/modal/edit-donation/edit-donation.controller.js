@@ -14,12 +14,13 @@ export default class ModalEditDonationController {
   };
 
   /*@ngInject*/
-  constructor(Modal, $http, $filter, Project, Util) {
+  constructor(Modal, Donation, Project, Util, $http, $filter) {
     this.Modal = Modal;
-    this.$http = $http;
-    this.$filter = $filter;
+    this.Donation = Donation;
     this.Project = Project;
     this.Util = Util;
+    this.$http = $http;
+    this.$filter = $filter;
   }
 
   $onInit() {
@@ -64,7 +65,7 @@ export default class ModalEditDonationController {
 
     if(form.$valid && this.donation.ValueInCents > 0 && !this.dateInvalid) {
       
-      if(!this.DonationId) {
+      if(!this.DonationId && this.DonationDate) {
         var date = this.DonationDate.split('/');
         this.donation.DonationDate = new Date(date[2], date[1] - 1, date[0]);
       }
@@ -89,6 +90,7 @@ export default class ModalEditDonationController {
           console.log(res);
           loading.close();
           this.ok(true);
+          this.Donation.load(true);
           this.Modal.showAlert('Sucesso', 'Contribuição salva com sucesso.');
           this.submitted = false;
         })

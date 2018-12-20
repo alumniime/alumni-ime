@@ -1,0 +1,132 @@
+<div class="container opportunitiesSearchView">
+
+  <h5 class="page-title">
+    Pesquisar vagas de emprego
+  </h5>
+
+  <!-- Search form -->
+  <div id="searchForm" class="card mb-3 mt-3">
+    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseSearch = !vm.collapseSearch">
+      <h5 class="card-header">
+        Busca avançada
+        <!-- <span class="pull-right collapse-icon"> -->
+          <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseSearch"></i> 
+          <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseSearch"></i> 
+        <!-- </span> -->
+      </h5>
+    </a>
+    <div class="card-body pb-4" ng-hide="vm.collapseSearch">
+      <form class="form" name="form" ng-submit="vm.searchOpportunities(form)" novalidate>
+        <div class="row p-0">
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label for="Location">LOCALIZAÇÃO</label>
+              <select class="form-control" id="Location" name="Location"
+                      ng-model="vm.search.LocationId">
+                <option value=""></option>
+                <option ng-repeat="location in vm.locationsList | orderBy: 'locationName'"
+                        ng-value="location.LocationId">
+                  {{location.locationName}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label for="Industry">SETOR</label>
+              <select class="form-control" id="Industry" name="Industry"
+                      ng-model="vm.search.IndustryId">
+                <option value=""></option>
+                <option ng-repeat="industry in vm.industriesList | orderBy: 'PortugueseDescription'"
+                        ng-value="industry.IndustryId">{{industry.PortugueseDescription}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label for="OpportunityFunction">
+                FUNÇÃO
+              </label>
+              <select class="form-control" id="OpportunityFunction" name="OpportunityFunction"
+                      ng-model="vm.search.OpportunityFunctionId">
+                <option value=""></option>
+                <option ng-repeat="opportunityFunction in vm.opportunityFunctionsList | orderBy: 'Description'"
+                        ng-value="opportunityFunction.OpportunityFunctionId">
+                  {{opportunityFunction.Description}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label for="SearchText">DIGITAR TEXTO</label>
+              <input type="text" SearchText="SearchText" id="SearchText" class="form-control" ng-model="vm.search.SearchText">
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label>TIPO DE VAGA</label>
+              <div class="custom-control custom-checkbox" ng-repeat="opportunityType in vm.opportunityTypesList">
+                <input type="checkbox" class="custom-control-input" id="checkOpportunityType{{$index}}" ng-model="opportunityType.selected" ng-change="vm.updateCheckboxes()">
+                <label class="custom-control-label" for="checkOpportunityType{{$index}}">{{opportunityType.Description}}</label>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-xl-4 mb-3">
+            <div class="form-group">
+              <label>NÍVEL DE EXPERIÊNCIA</label>
+              <div class="custom-control custom-checkbox" ng-repeat="experienceLevel in vm.experienceLevelsList">
+                <input type="checkbox" class="custom-control-input" id="checkExperienceLevel{{$index}}" ng-model="experienceLevel.selected" ng-change="vm.updateCheckboxes()">
+                <label class="custom-control-label" for="checkExperienceLevel{{$index}}">{{experienceLevel.Description}}</label>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+        
+        <div class="row justify-content-end p-0">
+          <div class="col-auto">
+            <button class="btn btn-danger" type="submit">
+              BUSCAR
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="card-deck opportunities-deck">
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="opportunity in vm.opportunitiesList"
+         ng-if="$index >= (vm.currentPage - 1) * vm.itemsPerPage && $index < vm.currentPage * vm.itemsPerPage">
+      <a class="card opportunity-card mb-3 c-pointer ml-0 mr-3"
+         ui-sref="opportunities.view({OpportunityId: opportunity.OpportunityId, PrettyURL: vm.Util.convertToSlug(opportunity.Title), forceReload: false})">
+         <div class="card-body pl-3 pr-2">
+          <img ng-src="{{opportunity.companyLogo.Path}}" alt="Opportunity card image">
+          <div class="form-group">
+            <h5 class="card-title my-2">{{opportunity.Title}}</h5>
+            <label class="mb-1">{{opportunity.company.Name}}</label><br>
+            <label class="mb-1"><i class="fa fa-map-marker"></i> {{opportunity.locationName}}</label>
+            <p class="opportunity-date">Anúncio em {{opportunity.PostDate | date: 'dd MMM, yyyy'}}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+  <ul uib-pagination total-items="vm.opportunitiesNumber" ng-model="vm.currentPage" max-size="10" ng-change="vm.goTop()"
+      class="pagination justify-content-center mt-4" boundary-link-numbers="true" items-per-page="vm.itemsPerPage"
+      previous-text="&lsaquo;" next-text="&rsaquo;"></ul>
+
+
+</div>

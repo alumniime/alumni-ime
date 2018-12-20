@@ -3,9 +3,10 @@
 export default class AdminNewsController {
 
   /*@ngInject*/
-  constructor(Util, Modal, $http, $state) {
+  constructor(Util, Modal, News, $http, $state) {
     this.Util = Util;
     this.Modal = Modal;
+    this.News = News;
     this.$http = $http;
     this.$state = $state;
   }
@@ -13,10 +14,9 @@ export default class AdminNewsController {
   $onInit() {
 
     var loading = this.Modal.showLoading();
-    this.$http.get('/api/news/all')
-      .then(response => {
+    this.News.loadAll()
+      .then(() => {
         loading.close();
-        this.news = response.data;
       });
 
   }
