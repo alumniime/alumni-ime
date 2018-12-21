@@ -269,6 +269,42 @@ export function preview(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a single Project from the DB for admin view
+export function admin(req, res) {
+  var userId = req.user.PersonId;
+  return Project.find({
+    include: [{
+      model: Image,
+      as: 'images',
+      attributes: ['Path', 'OrderIndex', 'Type'],
+      required: false
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'leader'
+    }, {
+      model: User,
+      attributes: ['name'],
+      as: 'professor'
+    }, {
+      model: Se,
+      as: 'se'
+    }],
+    order: [
+      [{model: Image, as: 'images'}, 'OrderIndex']
+    ],
+    where: {
+      ProjectId: req.params.id
+      //SubmissionerId: userId,
+      //IsApproved: 0,
+      // IsExcluded: 0
+    }
+  })
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Get my submitted projects
 export function me(req, res) {
   var userId = req.user.PersonId;

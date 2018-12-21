@@ -12,6 +12,7 @@ router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/menu', controller.menu);
 router.get('/:id', controller.show);
 router.get('/:id/preview', auth.isAuthenticated(), controller.preview);
+router.get('/:id/admin', auth.isAuthenticated(), controller.admin);
 router.post('/upload', auth.isAuthenticated(), controller.upload);
 router.post('/edit', auth.isAuthenticated(), controller.edit);
 router.post('/result', auth.isAuthenticated(), controller.result);

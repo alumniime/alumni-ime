@@ -37,7 +37,7 @@ export default class ModalEditProjectController {
     if(this.resolve.ProjectId) {
       this.project.ProjectId = this.resolve.ProjectId;
       var loading = this.Modal.showLoading();
-      this.$http.get(`/api/projects/${this.project.ProjectId}`)
+      this.$http.get(`/api/projects/${this.project.ProjectId}/admin`)
         .then(response => {
           loading.close();
           this.project = response.data;
