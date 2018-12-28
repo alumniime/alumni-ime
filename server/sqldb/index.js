@@ -47,7 +47,8 @@ db.ProjectTeam = db.sequelize.import('../api/project_team/project_team.model');
 db.ProjectSe = db.sequelize.import('../api/project_se/project_se.model');
 db.Initiative = db.sequelize.import('../api/initiative/initiative.model');
 db.InitiativeLink = db.sequelize.import('../api/initiative_link/initiative_link.model');
-
+db.OpportunityTargetPersonType = db.sequelize.import('../api/opportunity_target_person_type/opportunity_target_person_type.model'); 
+ 
 // Insert relations below
 db.User.belongsTo(db.PersonType, {sourceKey: 'PersonTypeId', foreignKey: 'PersonTypeId', as: 'personType'});
 db.User.belongsTo(db.Se, {sourceKey: 'SEId', foreignKey: 'ProfessorSEId', as: 'se'});
@@ -111,7 +112,8 @@ db.Opportunity.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'Compa
 db.Opportunity.belongsTo(db.Location, {sourceKey: 'LocationId', foreignKey: 'LocationId', as: 'location'});
 db.Opportunity.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ImageId', as: 'companyLogo'});
 db.Opportunity.hasMany(db.OpportunityApplication, {foreignKey: 'OpportunityId', as: 'opportunityApplications'});
-
+db.Opportunity.hasMany(db.OpportunityTargetPersonType, {foreignKey: 'OpportunityId', as: 'opportunityTargets'});
+ 
 db.OpportunityApplication.belongsTo(db.Opportunity, {sourceKey: 'OpportunityId', foreignKey: 'OpportunityId', as: 'opportunity'});
 db.OpportunityApplication.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonId', as: 'user'});
 db.Resume = db.OpportunityApplication.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ResumeId', as: 'resume'});

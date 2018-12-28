@@ -143,6 +143,7 @@
                 <select class="form-control" id="City" name="City" ng-change="vm.selectCity(vm.opportunity.location.city.CityId)"
                         ng-model="vm.opportunity.location.city.CityId" required>
                   <option value="" ng-if="vm.citiesLoading">Carregando...</option> 
+                  <option value="" ng-if="vm.citiesList.length === 0">Selecione primeiro um estado</option> 
                   <option ng-repeat="city in vm.citiesList track by city.CityId" ng-value="city.CityId">
                     {{city.Description}}
                   </option>
@@ -205,9 +206,9 @@
             </p>
           </div>
 
-          <div class="row justify-content-between align-items-center">
+          <br>
+          <div class="row">
             <div class="col-auto">
-              <br>
               <label>LOGO DA EMPRESA*</label>
               <br>
 
@@ -236,11 +237,11 @@
                         ng-model="vm.uploadImages" ngf-keep="true"
                         ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
                         ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-                    <div class="row">
-                      <div class="col-auto">
+                    <div class="row justify-content-center">
+                      <div class="col-auto py-3 px-1">
                         <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
                       </div>
-                      <div class="col">
+                      <div class="col-8">
                         <p class="upload-text">
                           <a class="btn btn-link text-info upload-link p-0" href="#">
                             Faça upload
@@ -264,20 +265,31 @@
               </div>
             </div>
 
-            <div class="col-12 col-xl-8 check-responsability">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="checkResponsability" class="custom-control-input" id="checkResponsability" ng-model="vm.checkResponsability" required>
-                <label class="custom-control-label" for="checkResponsability">
-                    Assumo a responsabilidade pelas informações prestadas neste formulário e estou ciente 
-                    que elas serão disponibilizadas a outros usuários do portal Alumni IME.
-                </label>
+            <div class="col-12 col-lg-auto target-person-types">
+              <div class="form-group">
+                <label>PÚBLICO-ALVO*</label>
+                <div class="custom-control custom-checkbox" ng-repeat="personType in vm.personTypesList" ng-if="personType.PersonTypeId !== 1">
+                  <input type="checkbox" class="custom-control-input" id="checkPersonType{{$index}}" ng-model="personType.selected" ng-change="vm.updateCheckboxes()">
+                  <label class="custom-control-label" for="checkPersonType{{$index}}">{{personType.PortugueseDescription}}</label>
+                </div>
+                <p class="help-block" ng-show="!vm.opportunityHasTarget() && vm.submitted">
+                  É necessário selecionar pelo menos um tipo de candidato.
+                </p>
               </div>
-              <p class="help-block" ng-show="form.checkResponsability.$error.required && vm.submitted">
-                Por favor, é necessário aceitar os termos para que a vaga seja anunciada.
-              </p>
             </div>
-
+  
           </div>
+
+          <div class="custom-control custom-checkbox check-responsability">
+            <input type="checkbox" name="checkResponsability" class="custom-control-input" id="checkResponsability" ng-model="vm.checkResponsability" required>
+            <label class="custom-control-label" for="checkResponsability">
+                Assumo a responsabilidade pelas informações prestadas neste formulário e estou ciente 
+                que elas serão disponibilizadas a outros usuários do portal Alumni IME.
+            </label>
+          </div>
+          <p class="help-block" ng-show="form.checkResponsability.$error.required && vm.submitted">
+            Por favor, é necessário aceitar os termos para que a vaga seja anunciada.
+          </p>
 
           <br>
           <div class="row justify-content-end">

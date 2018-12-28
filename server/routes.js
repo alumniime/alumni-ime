@@ -29,6 +29,7 @@ export default function (app) {
   }
 
   // Insert routes below
+  app.use('/api/opportunity_targets', require('./api/opportunity_target_person_type'));
   app.use('/api/favorite_opportunities', require('./api/favorite_opportunity'));
   app.use('/api/opportunity_applications', require('./api/opportunity_application'));
   app.use('/api/opportunity_functions', require('./api/opportunity_function'));

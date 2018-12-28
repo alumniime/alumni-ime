@@ -9,7 +9,7 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import {Opportunity, User, Company, Industry, Location, Country, State, City, OpportunityApplication, Resume,
+import {Opportunity, User, Company, Industry, Location, Country, State, City, OpportunityApplication, OpportunityTargetPersonType, Resume,
         Image, OpportunityType, OpportunityFunction, ExperienceLevel, Engineering, PersonType, Se, sequelize} from '../../sqldb';
 
 import config from '../../config/environment';
@@ -498,6 +498,8 @@ export function upload(req, res) {
     }
 
     var opportunity = req.body.opportunity;
+    var opportunityTargets = JSON.parse(req.body.targets);
+    Reflect.deleteProperty(opportunity, 'opportunityTargets');
 
     if(req.user.role === 'admin') {
       if(!opportunity.OpportunityId) {
@@ -646,14 +648,38 @@ export function upload(req, res) {
             .catch(err => done(err));
         } else {
           Opportunity.create(opportunity)
-            .then(result => done(null, result, false))
+            .then(result => done(null, result, true))
             .catch(err => done(err));
         }
       },
-      (newOpportunity, created) => {
+      // Deleting all opportunity targets
+      (newOpportunity, created, done) => {
         if(config.debug) {
           console.log('\n=>Opportunity saved', JSON.stringify(newOpportunity));
         }
+        OpportunityTargetPersonType.destroy({
+          where: {OpportunityId: newOpportunity.OpportunityId}
+        })
+          .then(() => done(null, newOpportunity, created))
+          .catch(err => {
+            console.error(err);
+            done(err);
+          });
+      },
+      // Creating new opportunity targets
+      (newOpportunity, created, done) => {
+        for(var target of opportunityTargets) {
+          target.OpportunityId = newOpportunity.OpportunityId;
+        }
+        if(config.debug) {
+          console.log('\n=>Opportunity targets', JSON.stringify(opportunityTargets));
+        }
+        OpportunityTargetPersonType.bulkCreate(opportunityTargets)
+          .then(() => done(null, newOpportunity, created))
+          .catch(err => done(err));
+      },
+      // Sending emails to admin and to recruiter
+      (newOpportunity, created, done) => {
         User.find({
           attributes: ['PersonId', 'name', 'email', 'FullName'],
           where: {
@@ -662,75 +688,75 @@ export function upload(req, res) {
         })
           .then(user => {
             if(!user) {
-              res.json({errorCode: 0, errorDesc: null});
+              done(null, true);
+            } else {
+
+              console.log(created ? 'Vaga criada' : 'Vaga atualizada');
+              if(created) {
+                var data = {
+                  to: {
+                    name: user.name,
+                    address: user.email
+                  },
+                  from: {
+                    name: config.email.name,
+                    address: config.email.user
+                  },
+                  template: 'user-opportunity-email',
+                  subject: 'Vaga Recebida - Alumni IME',
+                  context: {
+                    name: user.name.split(' ')[0],
+                    value: newOpportunity.Title,
+                    company: opportunity.company.Name
+                  }
+                };
+                transporter.sendMail(data, function (err) {
+                  if(!err) {
+                    console.log('Email de vaga recebida enviado para', user.email);
+                  } else {
+                    console.error('Erro ao enviar email', err);
+                    handleError(res);
+                  }
+                });  
+
+                data = {
+                  to: {
+                    name: 'Opportunity Alumni Page',
+                    address: config.email.user
+                  },
+                  from: {
+                    name: config.email.name,
+                    address: config.email.user
+                  },
+                  template: 'opportunity-email',
+                  subject: `Vaga recebida de ${opportunity.company.Name}`,
+                  context: {
+                    name: user.FullName,
+                    email: user.email,
+                    value: newOpportunity.Title, 
+                    company: opportunity.company.Name,
+                    date: moment().format('DD/MM/YYYY - HH:mm')
+                  }
+                };
+                transporter.sendMail(data, function (err) {
+                  if(err) {
+                    console.error('Erro ao enviar email', err);
+                    handleError(res);
+                  }
+                });  
+              }
+              done(null, true);
+
             }
-
-            console.log(created ? 'Vaga criada' : 'Vaga atualizada');
-
-            if(created) {
-              var data = {
-                to: {
-                  name: user.name,
-                  address: user.email
-                },
-                from: {
-                  name: config.email.name,
-                  address: config.email.user
-                },
-                template: 'user-opportunity-email',
-                subject: 'Vaga Recebida - Alumni IME',
-                context: {
-                  name: user.name.split(' ')[0],
-                  value: newOpportunity.Title,
-                  company: opportunity.company.Name
-                }
-              };
-              transporter.sendMail(data, function (err) {
-                if(!err) {
-                  console.log('Email de vaga recebida enviado para', user.email);
-                } else {
-                  console.error('Erro ao enviar email', err);
-                  handleError(res);
-                }
-              });  
-
-              data = {
-                to: {
-                  name: 'Opportunity Alumni Page',
-                  address: config.email.user
-                },
-                from: {
-                  name: config.email.name,
-                  address: config.email.user
-                },
-                template: 'opportunity-email',
-                subject: `Vaga recebida de ${opportunity.company.Name}`,
-                context: {
-                  name: user.FullName,
-                  email: user.email,
-                  value: newOpportunity.Title, 
-                  company: opportunity.company.Name,
-                  date: moment().format('DD/MM/YYYY - HH:mm')
-                }
-              };
-              transporter.sendMail(data, function (err) {
-                if(err) {
-                  console.error('Erro ao enviar email', err);
-                  handleError(res);
-                }
-              });  
-            }
-
-            res.json({errorCode: 0, errorDesc: null});
-
-          });
+          })
+          .catch(err => done(err));
       }  
     ], function (err, result) {
       if(err) {
         res.json({errorCode: 1, errorDesc: err});
         return;
       } else {
-        return res.json(result);
+        return res.json({errorCode: 0, errorDesc: null});
       }
     });
 
