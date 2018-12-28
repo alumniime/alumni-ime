@@ -151,6 +151,19 @@
     }
   }
 
+  .target-person-types {
+    font-size: 13px;
+    padding: 0 50px 15px 20px;
+  }
+
+  .custom-checkbox, .custom-radio {
+    padding-bottom: 5px;
+    margin-left: 30px;
+    .custom-control-label {
+      font-size: 14px;
+    }
+  }
+  
   .check-responsability {
     font-size: 13px;
     padding: 0 50px 15px 20px;

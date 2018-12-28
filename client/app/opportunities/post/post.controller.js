@@ -69,6 +69,17 @@ export default class OpportunitiesPostController {
         this.experienceLevelsList = response.data;
       });
 
+    this.$http.get('/api/person_types')
+      .then(response => {
+        this.personTypesList = response.data;
+        for(var personType of this.personTypesList) {
+          personType.selected = true;
+          if(personType.PersonTypeId === 1) {
+            personType.selected = false;
+          }
+        }
+      });
+
     this.getCurrentUser()
       .then(user => {
         this.user = user;
@@ -153,7 +164,8 @@ export default class OpportunitiesPostController {
         arrayKey: '',
         data: {
           file: this.uploadImages[0] || null,
-          opportunity: this.opportunity
+          opportunity: this.opportunity,
+          targets: JSON.stringify(this.opportunity.opportunityTargets)
         }
       })
         .then(function success(result) {
@@ -182,6 +194,27 @@ export default class OpportunitiesPostController {
 
     }
 
+  }
+
+  updateCheckboxes() {
+    this.opportunity.opportunityTargets = [];
+    for(var personType of this.personTypesList) {
+      if(personType.selected) {
+        this.opportunity.opportunityTargets.push({
+          PersonTypeId: personType.PersonTypeId
+        });
+      }
+    }
+    console.log(this.opportunity);
+  }
+
+  opportunityHasTarget() {
+    for(var personType of this.personTypesList) {
+      if(personType.selected) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
