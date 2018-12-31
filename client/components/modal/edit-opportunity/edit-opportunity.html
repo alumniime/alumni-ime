@@ -266,8 +266,8 @@
         </p>
       </div>
 
-      <div class="form-group">
-        <br>
+      <div class="row mt-3">
+        <div class="col-auto">
         <label>LOGO DA EMPRESA*</label>
         <br>
 
@@ -297,11 +297,11 @@
                   ng-model="vm.uploadImages" ngf-keep="true"
                   ngf-multiple="false" ngf-allow-dir="true" accept="image/*"
                   ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
-              <div class="row">
-                <div class="col-auto">
+                <div class="row justify-content-center">
+                  <div class="col-auto py-3 px-1">
                   <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
                 </div>
-                <div class="col">
+                  <div class="col-8">
                   <p class="upload-text">
                     <a class="btn btn-link text-info upload-link p-0" href="#">
                       Faça upload
@@ -323,6 +323,21 @@
         </p>
 
         </div>
+      </div>
+
+        <div class="col-12 col-lg-auto target-person-types">
+          <div class="form-group">
+            <label>PÚBLICO-ALVO*</label>
+            <div class="custom-control custom-checkbox" ng-repeat="personType in vm.personTypesList" ng-if="personType.PersonTypeId !== 1">
+              <input type="checkbox" class="custom-control-input" id="checkPersonType{{$index}}" ng-model="personType.selected" ng-change="vm.updateCheckboxes()">
+              <label class="custom-control-label" for="checkPersonType{{$index}}">{{personType.PortugueseDescription}}</label>
+            </div>
+            <p class="help-block" ng-show="!vm.opportunityHasTarget() && vm.submitted">
+              É necessário selecionar pelo menos um tipo de candidato.
+            </p>
+          </div>
+        </div>
+
       </div>
 
       <div class="custom-control custom-checkbox my-2">

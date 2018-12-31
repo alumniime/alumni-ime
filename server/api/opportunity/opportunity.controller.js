@@ -280,6 +280,9 @@ export function show(req, res) {
           model: ExperienceLevel,
           as: 'experienceLevel'
         }, {
+          model: OpportunityTargetPersonType,
+          as: 'opportunityTargets'
+        }, {
           model: Company,
           as: 'company',
           attributes: ['CompanyTypeId', 'IndustryId', 'Name'],

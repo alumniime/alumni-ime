@@ -71,7 +71,6 @@ export default class ModalEditOpportunityController {
         this.experienceLevelsList = response.data;
       });
 
-    
     if(this.resolve.OpportunityId) {
       this.OpportunityId = this.resolve.OpportunityId;
       var loading = this.Modal.showLoading();
@@ -94,6 +93,26 @@ export default class ModalEditOpportunityController {
             this.selectState(this.opportunity.location.StateId);
           }
 
+        });
+
+      this.$http.get('/api/person_types')
+        .then(response => {
+          this.personTypesList = response.data;
+          this.$http.get(`api/opportunity_targets/${this.OpportunityId}`)
+            .then(response => {
+              this.opportunityTargets = response.data;
+              for(var personType of this.personTypesList) {
+                personType.selected = false;
+                for(var target of this.opportunityTargets) {
+                  if(target.PersonTypeId === personType.PersonTypeId) {
+                    personType.selected = true;
+                    if(personType.PersonTypeId === 1) {
+                      personType.selected = false;
+                    }
+                  }
+                }
+              }
+            });
         });
     } 
     
@@ -150,7 +169,7 @@ export default class ModalEditOpportunityController {
   submitOpportunity(form) {
     this.submitted = true;
 
-    if (form.$valid && this.concatImages && this.concatImages.length === 1 && !this.dateInvalid) {
+    if (form.$valid && this.concatImages && this.concatImages.length === 1 && !this.dateInvalid && this.opportunityHasTarget()) {
 
       if (this.ExpirationDate) {
         var date = this.ExpirationDate.split('/');
@@ -179,7 +198,8 @@ export default class ModalEditOpportunityController {
         arrayKey: '',
         data: {
           file: uploadFile,
-          opportunity: this.opportunity
+          opportunity: this.opportunity,
+          targets: JSON.stringify(this.opportunity.opportunityTargets)
         }
       })
         .then(function success(result) {
@@ -208,6 +228,27 @@ export default class ModalEditOpportunityController {
 
     }
 
+  }
+
+  updateCheckboxes() {
+    this.opportunity.opportunityTargets = [];
+    for(var personType of this.personTypesList) {
+      if(personType.selected) {
+        this.opportunity.opportunityTargets.push({
+          PersonTypeId: personType.PersonTypeId
+        });
+      }
+    }
+    console.log(this.opportunity);
+  }
+
+  opportunityHasTarget() {
+    for(var personType of this.personTypesList) {
+      if(personType.selected) {
+        return true;
+      }
+    }
+    return false;
   }
 
   ok(value) {

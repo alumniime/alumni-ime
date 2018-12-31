@@ -57,6 +57,15 @@ export default class OpportunitiesViewController {
 
   }
 
+  opportunityAcceptTarget(personTypeId) {
+    for(var personType of this.opportunity.opportunityTargets) {
+      if(personType.PersonTypeId === personTypeId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   doApplication(opportunity) {
     this.Modal.openOpportunityApplication(opportunity);
   }

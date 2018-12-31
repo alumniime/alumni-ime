@@ -149,7 +149,7 @@ export default class OpportunitiesPostController {
     if (!this.user.PersonId) {
       // User needs to login
       this.Modal.openLogin();
-    } else if (form.$valid && !this.dateInvalid && this.uploadImages && this.uploadImages.length === 1 && (this.user.IsApproved || this.user.role === 'admin')) {
+    } else if (form.$valid && !this.dateInvalid && this.uploadImages && this.uploadImages.length === 1 && (this.user.IsApproved || this.user.role === 'admin') && this.opportunityHasTarget()) {
 
       if (this.ExpirationDate) {
         var date = this.ExpirationDate.split('/');
