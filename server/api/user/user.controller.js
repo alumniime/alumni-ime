@@ -111,7 +111,7 @@ export function index(req, res) {
   // User.findAll({
   //   attributes: ['PersonId'], 
   //   where: {
-  //     PersonId: [450]
+  //     PersonId: [15]
   //     // IsApproved: 0
   //   }
   // })
