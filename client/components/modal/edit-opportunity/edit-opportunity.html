@@ -212,7 +212,7 @@
             <input type="text" id="ExpirationDate" name="ExpirationDate"
                     class="form-control" placeholder="dd/mm/yyyy" mask="39/19/2999"
                     ng-model="vm.ExpirationDate" required
-                    ng-change="vm.validateDate(vm.ExpirationDate)">
+                    ng-change="vm.dateInvalid = vm.Util.invalidFutureDate(vm.ExpirationDate)">
             <p class="help-block" ng-show="(form.ExpirationDate.$invalid && vm.submitted) || vm.dateInvalid">
               Insira uma data válida para o término do período de candidaturas da vaga.
             </p>
