@@ -20,7 +20,7 @@ export default class EditController {
   EstimatedPriceInCents = 0;
 
 
-  constructor(Auth, Project, $http, $state, $stateParams, Modal, $window, Upload, $anchorScroll, $filter) {
+  constructor(Auth, Project, $http, $state, $stateParams, Modal, $window, Upload, Util, $anchorScroll, $filter) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -31,9 +31,9 @@ export default class EditController {
     this.Modal = Modal;
     this.$window = $window;
     this.Upload = Upload;
+    this.Util = Util;
     this.$anchorScroll = $anchorScroll;
     this.$filter = $filter;
-
   }
 
   $onInit() {
@@ -78,19 +78,6 @@ export default class EditController {
         this.studentsList = response.data;
       });
 
-  }
-
-  validateDate(input) {
-    if(input) {
-      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-      var arr = input.split('/');
-      var date = new Date(arr[2], arr[1] - 1, arr[0]);
-      if(input && input.match(reg) && date > Date.now()) {
-        this.dateInvalid = false;
-      } else {
-        this.dateInvalid = true;
-      }
-    }
   }
 
   submitProject(form) {

@@ -48,18 +48,6 @@ export default class ModalEditDonationController {
   
   }
 
-  validateDate(input) {
-    if(input) {
-      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-      var arr = input.split('/');
-      if(input && input.match(reg)) {
-        this.dateInvalid = false;
-      } else {
-        this.dateInvalid = true;
-      }
-    }
-  }
-
   submitDonation(form) {
     this.submitted = true;
 

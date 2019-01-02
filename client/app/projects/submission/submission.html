@@ -125,7 +125,7 @@
                   <input type="text" id="ConclusionDate" name="ConclusionDate"
                          class="form-control" placeholder="dd/mm/yyyy" mask="39/19/2999"
                          ng-model="vm.ConclusionDate" required
-                         ng-change="vm.validateDate(vm.ConclusionDate)">
+                         ng-change="vm.dateInvalid = vm.Util.invalidFutureDate(vm.ConclusionDate)">
                   <p class="help-block" ng-show="(form.ConclusionDate.$invalid && vm.submitted) || vm.dateInvalid">
                     Insira uma data válida para o término estimado.
                   </p>

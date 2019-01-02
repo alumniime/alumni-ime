@@ -25,9 +25,10 @@ export default class ModalRegisterInformationController {
   optionOtherId = null;
 
   /*@ngInject*/
-  constructor(Auth, Modal, $http, $state, $window, $interval, $uibModal) {
+  constructor(Auth, Modal, Util, $http, $state, $window, $interval, $uibModal) {
     this.Auth = Auth;
     this.Modal = Modal;
+    this.Util = Util;
     this.$http = $http;
     this.$state = $state;
     this.$window = $window;
@@ -146,21 +147,6 @@ export default class ModalRegisterInformationController {
         this.Modal.showAlert('Link Inválido', 'O link para cadastro expirou. Você deverá se logar para acessar seu perfil.')
       });
 
-  }
-
-  validateDate(input) {
-    if(input) {
-      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-      var arr = input.split('/');
-      var date = new Date(arr[2], arr[1] - 1, arr[0]);
-      if(input && input.match(reg) && date < Date.now()) {
-        this.dateInvalid = false;
-      } else {
-        this.dateInvalid = true;
-      }
-    } else {
-      this.dateInvalid = false;
-    }
   }
 
   selectType(type) {

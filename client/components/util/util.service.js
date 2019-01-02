@@ -114,6 +114,49 @@ export function UtilService($window) {
       }
       return locationName || '';
     },
+
+    invalidDate(input) {
+      if (input) {
+        var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+        if (input && input.match(reg)) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    },
+  
+    invalidPastDate(input) {
+      if (input) {
+        var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+        var arr = input.split('/');
+        var date = new Date(arr[2], arr[1] - 1, arr[0]);
+        if (input && input.match(reg) && date < Date.now()) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    },
+  
+    invalidFutureDate(input) {
+      if (input) {
+        var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
+        var arr = input.split('/');
+        var date = new Date(arr[2], arr[1] - 1, arr[0]);
+        if (input && input.match(reg) && date > Date.now()) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    },
   
     /**
      * Convert strings using crypto SHA256

@@ -16,6 +16,7 @@ import config from '../../config/environment';
 import transporter from '../../email';
 import multer from 'multer';
 import moment from 'moment';
+import mailchimp from '../../email/mailchimp';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -295,19 +296,29 @@ export function upload(req, res) {
 // Updates or creates a donation
 export function edit(req, res) {
   var donation = req.body;
-  if (donation.DonationId) {
+  if(donation.DonationId) {
     Donation.update(donation, {
       where: {
         DonationId: donation.DonationId
       }
     })
-      .then(respondWithResult(res))
+      .then((result) => {
+        respondWithResult(res)(result);
+        if(donation.DonatorId) {
+          mailchimp.updateUser(donation.DonatorId);
+        }
+      })
       .catch(handleError(res));
   } else {
     Donation.create(donation)
-      .then(respondWithResult(res))
+      .then((result) => {
+        respondWithResult(res)(result);
+        if(donation.DonatorId) {
+          mailchimp.updateUser(donation.DonatorId);
+        }
+      })
       .catch(handleError(res));
-  }  
+  }
 }
 
 // Upserts the given Donation in the DB at the specified ID

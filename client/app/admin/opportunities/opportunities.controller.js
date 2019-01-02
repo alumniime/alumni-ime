@@ -14,7 +14,7 @@ export default class AdminOpportunitiesController {
   $onInit() {
 
     var loading = this.Modal.showLoading();
-    this.Opportunity.load()
+    this.Opportunity.load(true)
       .then(opportunities => {
         loading.close();
       });

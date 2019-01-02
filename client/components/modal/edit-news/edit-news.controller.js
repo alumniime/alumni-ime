@@ -19,10 +19,11 @@ export default class ModalEditNewsController {
   concatImages = {};
 
   /*@ngInject*/
-  constructor(Modal, Upload, News, $http, $filter) {
+  constructor(Modal, Upload, News, Util, $http, $filter) {
     this.Modal = Modal;
     this.Upload = Upload;
     this.News = News;
+    this.Util = Util;
     this.$http = $http;
     this.$filter = $filter;
   }
@@ -67,18 +68,6 @@ export default class ModalEditNewsController {
       this.PublishDate = this.$filter('date')(Date.now(), 'dd/MM/yyyy');
     }
 
-  }
-
-  validateDate(input) {
-    if(input) {
-      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-      var arr = input.split('/');
-      if(input && input.match(reg)) {
-        this.dateInvalid = false;
-      } else {
-        this.dateInvalid = true;
-      }
-    }
   }
 
   submitNews(form) {

@@ -280,6 +280,9 @@ export function show(req, res) {
           model: ExperienceLevel,
           as: 'experienceLevel'
         }, {
+          model: OpportunityTargetPersonType,
+          as: 'opportunityTargets'
+        }, {
           model: Company,
           as: 'company',
           attributes: ['CompanyTypeId', 'IndustryId', 'Name'],
@@ -500,6 +503,10 @@ export function upload(req, res) {
     var opportunity = req.body.opportunity;
     var opportunityTargets = JSON.parse(req.body.targets);
     Reflect.deleteProperty(opportunity, 'opportunityTargets');
+    
+    if(opportunity.ExternalLink === 'null' || opportunity.ExternalLink === undefined || opportunity.ExternalLink === '') {
+      opportunity.ExternalLink = null;
+    }
 
     if(req.user.role === 'admin') {
       if(!opportunity.OpportunityId) {

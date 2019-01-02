@@ -17,7 +17,7 @@
           </p>
 
           <a class="text-dark c-pointer font-weight-bold" target="_blank"
-              href="{{vm.opportunity.ExternalLink}}" ng-if="vm.opportunity.ExternalLink && vm.opportunity.ExternalLink !== 'null'">Link Externo</a>
+              href="{{vm.opportunity.ExternalLink}}" ng-if="vm.opportunity.ExternalLink">Link Externo</a>
         </div>
       </div>
 
@@ -78,12 +78,12 @@
 
       <br>
       <div class="row justify-content-end p-0">
-        <div class="col-auto" ng-if="vm.user.personType.Description === 'Visitor' && vm.today <= vm.ExpirationDate">
+        <div class="col-auto" ng-if="!vm.opportunityAcceptTarget(vm.user.personType.PersonTypeId) && vm.today <= vm.ExpirationDate">
           <button href="#" class="btn btn-danger m-auto disabled">
-            DISPONÍVEL APENAS PARA GRADUADOS/ALUNOS
+            INDISPONÍVEL PARA {{vm.user.personType.PortugueseDescription | uppercase}}
           </button>
         </div>
-        <div class="col-auto" ng-if="!vm.application && vm.today <= vm.ExpirationDate && vm.opportunity.IsApproved && vm.user.personType.Description !== 'Visitor'">
+        <div class="col-auto" ng-if="!vm.application && vm.opportunityAcceptTarget(vm.user.personType.PersonTypeId) && vm.today <= vm.ExpirationDate && vm.opportunity.IsApproved && vm.user.personType.Description !== 'Visitor'">
           <button href="#" class="btn btn-danger m-auto" ng-click="vm.doApplication(vm.opportunity)">
             QUERO ME CANDIDATAR
           </button>
