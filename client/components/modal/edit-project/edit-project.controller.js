@@ -33,7 +33,8 @@ export default class ModalEditProjectController {
   }
 
   $onInit() {
-    
+    this.collapseStatus = false;
+    this.collapseInfo = false;
     if(this.resolve.ProjectId) {
       this.project.ProjectId = this.resolve.ProjectId;
       var loading = this.Modal.showLoading();
@@ -42,6 +43,7 @@ export default class ModalEditProjectController {
           loading.close();
           this.project = response.data;
           this.project.EstimatedPriceInCents /= 100;
+          this.project.CollectedPriceInCents /= 100;
           this.project.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy - HH:mm');
         });
     } else {
@@ -59,6 +61,35 @@ export default class ModalEditProjectController {
       } else {
         this.dateInvalid = true;
       }
+    }
+  }
+
+  updateStatus(form) {
+    
+    if(form.$valid && this.project.EstimatedPriceInCents > 0 && this.project.CollectedPriceInCents >= 0) {
+      
+      this.project.EstimatedPriceInCents *= 100;
+      this.project.CollectedPriceInCents *= 100;
+
+      var loading = this.Modal.showLoading();
+
+      console.log(this.project);
+      
+      loading.close();
+
+      this.$http.patch(`/api/projects/${this.project.ProjectId}`, {"EstimatedPriceInCents": this.project.EstimatedPriceInCents, "CollectedPriceInCents": this.project.CollectedPriceInCents})
+        .then(res=> {
+          console.log(res);
+          loading.close();
+          this.ok(true);
+          this.Modal.showAlert('Sucesso', 'Projeto salvo com sucesso.');
+        })
+        .catch(err => {
+          this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o projeto, tente novamente.');
+          loading.close();
+          console.log(err);
+        });
+    
     }
   }
 
