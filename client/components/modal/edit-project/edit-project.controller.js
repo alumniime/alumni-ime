@@ -3,6 +3,7 @@ import { runInThisContext } from "vm";
 'use strict';
 
 export default class ModalEditProjectController {
+  ConclusionDate = '';
   project = {
     ProjectId: null,
     ProjectName: null,
@@ -19,7 +20,7 @@ export default class ModalEditProjectController {
     Benefits: null,
     Schedule: null,
     Results: null,
-    ConclusionDate: "",
+    ConclusionDate: '',
     Year: 0,
     Semester: 0
   };
@@ -44,7 +45,7 @@ export default class ModalEditProjectController {
           this.project = response.data;
           this.project.EstimatedPriceInCents /= 100;
           this.project.CollectedPriceInCents /= 100;
-          this.project.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy - HH:mm');
+          this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');
         });
     } else {
       this.project.ConclusionDate = this.$filter('date')(Date.now(), 'dd/MM/yyyy');
@@ -67,7 +68,7 @@ export default class ModalEditProjectController {
   updateStatus(form) {
     
     if(form.$valid && this.project.EstimatedPriceInCents > 0 && this.project.CollectedPriceInCents >= 0) {
-      
+
       this.project.EstimatedPriceInCents *= 100;
       this.project.CollectedPriceInCents *= 100;
 
@@ -75,9 +76,7 @@ export default class ModalEditProjectController {
 
       console.log(this.project);
       
-      loading.close();
-
-      this.$http.patch(`/api/projects/${this.project.ProjectId}`, {"EstimatedPriceInCents": this.project.EstimatedPriceInCents, "CollectedPriceInCents": this.project.CollectedPriceInCents})
+      this.$http.post('/api/projects/edit', {"project": this.project, "savedImages": this.project.images})
         .then(res=> {
           console.log(res);
           loading.close();
