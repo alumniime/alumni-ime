@@ -111,12 +111,16 @@
             Insira o nome completo.
           </p>
         </div>
-        <div class="form-group" ng-if="vm.user.personType.Description !== 'Professor' && vm.user.personType.Description !== 'Visitor'">
+        <div class="form-group" ng-if="vm.user.PersonTypeId !== 5 && vm.user.PersonTypeId !== 7">
           <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
           <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
                   required>
-            <option ng-repeat="year in vm.graduationYears | orderBy:'-'" ng-value="year"
+            <option ng-if="vm.user.PersonTypeId !== 2" ng-repeat="year in vm.graduationYears | orderBy:'-'" ng-value="year"
                     ng-hide="year > vm.year">
+              {{year}}
+            </option>
+            <option ng-if="vm.user.PersonTypeId === 2" ng-repeat="year in vm.graduationYears | orderBy:'-'" ng-value="year"
+                    ng-hide="year < vm.year">
               {{year}}
             </option>
           </select>
@@ -124,7 +128,7 @@
             Insira o ano de formação.
           </p>
         </div>
-        <div class="form-group" ng-if="vm.user.personType.Description !== 'Professor' && vm.user.personType.Description !== 'Visitor'">
+        <div class="form-group" ng-if="vm.user.PersonTypeId !== 5 && vm.user.PersonTypeId !== 7">
           <label for="GraduationEngineeringId">ENGENHARIA*</label>
           <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                   ng-model="vm.user.GraduationEngineeringId" required>
