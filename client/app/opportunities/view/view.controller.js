@@ -2,6 +2,9 @@
 
 export default class OpportunitiesViewController {
   user = {};
+  opportunity = {
+    opportunityTargets: []
+  };
   today = 0;
   application = null;
 

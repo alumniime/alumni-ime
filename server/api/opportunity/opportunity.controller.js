@@ -370,7 +370,10 @@ export function search(req, res) {
       }
 
       var where = {
-        IsApproved: 1
+        IsApproved: 1,
+        ExpirationDate: {
+          $gte: Date.now() - 864e5 // yesterday
+        }
       };
       var industryWhere = {};
 
@@ -505,7 +508,7 @@ export function upload(req, res) {
     Reflect.deleteProperty(opportunity, 'opportunityTargets');
     
     if(opportunity.ExternalLink === 'null' || opportunity.ExternalLink === undefined || opportunity.ExternalLink === '') {
-      opportunity.ExternalLink = null;
+      opportunity.ExternalLink = null; 
     }
 
     if(req.user.role === 'admin') {

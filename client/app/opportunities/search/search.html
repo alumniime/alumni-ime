@@ -111,7 +111,7 @@
       <a class="card opportunity-card mb-3 c-pointer ml-0 mr-3"
          ui-sref="opportunities.view({OpportunityId: opportunity.OpportunityId, PrettyURL: vm.Util.convertToSlug(opportunity.Title), forceReload: false})">
          <div class="card-body pl-3 pr-2">
-          <img ng-src="{{opportunity.companyLogo.Path}}" alt="Opportunity card image">
+          <img ng-src="{{opportunity.companyLogo.Path}}" alt="{{opportunity.Title}}">
           <div class="form-group">
             <h5 class="card-title my-2">{{opportunity.Title}}</h5>
             <label class="mb-1">{{opportunity.company.Name}}</label><br>
