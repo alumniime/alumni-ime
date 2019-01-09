@@ -90,6 +90,10 @@ export default class ModalOpportunityApplicationController {
 
   }
 
+  removeImage(image) {
+    this.uploadImages.splice(this.uploadImages.indexOf(image), 1);
+  }
+
   ok() {
     this.close({$value: true});
   }

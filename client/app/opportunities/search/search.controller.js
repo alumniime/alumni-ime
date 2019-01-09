@@ -179,7 +179,7 @@ export default class OpportunitiesSearchController {
       if(this.user.IsApproved || this.user.role === 'admin') {
         this.$state.go('opportunities.search', search);
       } else {
-        this.Modal.showAlert('Pesquisa indisponível', 'Apenas usuários cadastrados e aprovados podem realizar pesquisas.');
+        // this.Modal.showAlert('Pesquisa indisponível', 'Apenas usuários cadastrados e aprovados podem realizar pesquisas.');
       }
     } else {
       this.Modal.showAlert('Erro na pesquisa', 'Por favor, selecione um ou mais filtros.');
