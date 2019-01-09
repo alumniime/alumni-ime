@@ -87,7 +87,7 @@ export default class OpportunitiesPostController {
         loading.close();
         if (!this.user.PersonId) {
           this.Modal.openLogin();
-          this.Modal.showAlert('Área indisponível', 'Apenas usuários aprovados e logados podem anunciar vagas.');
+          // this.Modal.showAlert('Área indisponível', 'Apenas usuários aprovados e logados podem anunciar vagas.');
         } else if (this.user.IsApproved || this.user.role === 'admin') {
           // User can submit an opportunity
 

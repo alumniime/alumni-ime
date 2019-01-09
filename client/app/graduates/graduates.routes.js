@@ -1,11 +1,11 @@
 'use strict';
 
-export default function routes($stateProvider, appConfig) {
+export default function routes($stateProvider, $urlRouterProvider, appConfig) {
   'ngInject';
 
   $stateProvider
     .state('graduates', {
-      url: '/graduates',
+      url: '/turmas',
       abstract: true,
       controller: 'GraduatesController',
       template: require('./graduates.html'),
@@ -16,7 +16,7 @@ export default function routes($stateProvider, appConfig) {
       }
     }) 
     .state('graduates.search', {
-      url: '/search/:year?GraduationYear&EngineeringId&IndustryId&LevelId&LevelType&LocationId&name&required',
+      url: '/pesquisar/:year?GraduationYear&EngineeringId&IndustryId&LevelId&LevelType&LocationId&name&required',
       params: {
         year: { value: null, squash: true }
       },
@@ -27,7 +27,7 @@ export default function routes($stateProvider, appConfig) {
         meta: {
           title: 'Pesquisar Turmas',
           description: 'Pesquise e encontre todos os ex-alunos graduados no IME.',
-          'og:url': `${appConfig.url}/graduates/search`
+          'og:url': `${appConfig.url}/turmas/pesquisar`
         } 
       }
     })
@@ -57,9 +57,12 @@ export default function routes($stateProvider, appConfig) {
         meta: {
           title: 'Ranking de Turmas',
           description: 'Confira o ranking das turmas do IME mais engajadas na Alumni IME.',
-          'og:url': `${appConfig.url}/graduates/ranking`
+          'og:url': `${appConfig.url}/turmas/ranking`
         }
       }
     });
+
+    $urlRouterProvider.when('/graduates/search', '/turmas/pesquisar');
+    $urlRouterProvider.when('/graduates/ranking', '/turmas/ranking');
 
 }
