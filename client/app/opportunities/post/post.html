@@ -270,7 +270,8 @@
                 <label>PÚBLICO-ALVO*</label>
                 <div class="custom-control custom-checkbox" ng-repeat="personType in vm.personTypesList" ng-if="personType.PersonTypeId !== 1">
                   <input type="checkbox" class="custom-control-input" id="checkPersonType{{$index}}" ng-model="personType.selected" ng-change="vm.updateCheckboxes()">
-                  <label class="custom-control-label" for="checkPersonType{{$index}}">{{personType.PortugueseDescription}}</label>
+                  <label ng-if="personType.PersonTypeId !== 7" class="custom-control-label" for="checkPersonType{{$index}}">{{personType.PortugueseDescription}}</label>
+                  <label ng-if="personType.PersonTypeId === 7" class="custom-control-label" for="checkPersonType{{$index}}">Público Geral</label>
                 </div>
                 <p class="help-block" ng-show="!vm.opportunityHasTarget() && vm.submitted">
                   É necessário selecionar pelo menos um tipo de candidato.
