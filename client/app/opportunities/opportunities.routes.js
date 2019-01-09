@@ -24,7 +24,7 @@ export default function routes($stateProvider, $urlRouterProvider, appConfig) {
         meta: {
           title: 'Pesquisar Vagas de Emprego',
           description: 'Pesquise e encontre vagas de emprego dentro da comunidade de ex-alunos do IME.',
-          'og:url': `${appConfig.url}/opportunities/search`
+          'og:url': `${appConfig.url}/vagas/pesquisar`
         }
       }
     })
@@ -53,7 +53,7 @@ export default function routes($stateProvider, $urlRouterProvider, appConfig) {
         meta: {
           title: 'Anunciar Vaga',
           description: 'Anuncie uma vaga de emprego para a comunidade IMEana e conte com o apoio da Alumni IME para a divulgação de oportunidades.',
-          'og:url': `${appConfig.url}/opportunities/post`
+          'og:url': `${appConfig.url}/vagas/anunciar`
         }
       }
     });

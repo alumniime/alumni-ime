@@ -547,7 +547,26 @@ export function search(req, res) {
       }
 
       if (req.body.name) {
-        where.Name = { $like: `%${req.body.name}%` };
+        var text = req.body.name;
+        var arr = text.split(' ');
+        where.$or = [];
+        var fields = [
+          'FormerStudent.Name', 
+          'profile.positions.company.Name',
+          'profile.name'
+        ];
+        
+        for(var field of fields) {
+          var tmp = [];
+          for(var i in arr) {
+            tmp.push(
+              sequelize.where(sequelize.col(field), 'LIKE', `%${arr[i]}%`)
+            );
+          }
+          where.$or.push({
+            $and: tmp
+          });
+        }
       }
 
       if (req.body.required) {

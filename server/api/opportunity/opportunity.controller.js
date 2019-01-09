@@ -402,7 +402,6 @@ export function search(req, res) {
       if (req.body.SearchText) {
         var text = req.body.SearchText;
         var arr = text.split(' ');
-        var tmp = [];
         where.$or = [];
         var fields = [
           'Title', 
@@ -414,6 +413,7 @@ export function search(req, res) {
         ];
         
         for(var field of fields) {
+          var tmp = [];
           for(var i in arr) {
             tmp.push(
               sequelize.where(sequelize.col(field), 'LIKE', `%${arr[i]}%`)
