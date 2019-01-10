@@ -32,11 +32,8 @@ $danger: #E84E0F !important;
 @import 'admin/admin';
 @import 'admin/donations/donations';
 @import 'admin/news/news';
-<<<<<<< HEAD
-@import 'admin/projects/projects';
-=======
 @import 'admin/opportunities/opportunities';
->>>>>>> master
+@import 'admin/projects/projects';
 @import 'admin/users/users';
 @import 'angucomplete-alt';
 @import 'common';
@@ -68,11 +65,8 @@ $danger: #E84E0F !important;
 @import '../components/modal/dialog/dialog';
 @import '../components/modal/edit-donation/edit-donation';
 @import '../components/modal/edit-news/edit-news';
-<<<<<<< HEAD
-@import '../components/modal/edit-project/edit-project';
-=======
 @import '../components/modal/edit-opportunity/edit-opportunity';
->>>>>>> master
+@import '../components/modal/edit-project/edit-project';
 @import '../components/modal/email-verified/email-verified';
 @import '../components/modal/forgot-password/forgot-password';
 @import '../components/modal/loading/loading';
