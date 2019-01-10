@@ -8,8 +8,9 @@ export default class ModalShowPersonController {
   locationName = '';
 
   /*@ngInject*/
-  constructor(Modal, $http) {
+  constructor(Modal, Util, $http) {
     this.Modal = Modal;
+    this.Util = Util;
     this.$http = $http;
   }
 
@@ -42,7 +43,7 @@ export default class ModalShowPersonController {
           this.former = this.user.former[0];
           this.former.PersonId = this.user.PersonId;
         }
-        this.updateLocationName();
+        this.locationName = this.Util.getLocationName(this.user.location);
         loading.close();
       });
 
@@ -99,17 +100,6 @@ export default class ModalShowPersonController {
       this.$parent.vm.former.PersonId = this.$parent.vm.user.PersonId;
     } else {
       this.$parent.vm.former = null;
-    }
-  }
-
-  updateLocationName() {
-    if(this.user.location) {
-      this.locationName = (this.user.location.LinkedinName ? this.user.location.LinkedinName.replace(' Area,', ',') : '');
-      if(this.user.location.CountryId === 1 || this.user.location.city) {
-        this.locationName = (this.user.location.city ? (this.user.location.city.state ? `${this.user.location.city.Description} - ${this.user.location.city.state.Code}` : this.user.location.city.Description) : this.user.location.country.Description);
-      } else {
-        this.locationName = this.user.location.country ? this.user.location.country.Description : '';
-      }
     }
   }
 

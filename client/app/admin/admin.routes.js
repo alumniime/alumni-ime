@@ -57,17 +57,33 @@ export default function routes($stateProvider, appConfig) {
     }
   });
 
+<<<<<<< HEAD
   $stateProvider.state('admin.projects', {
     url: '/projects',
     template: require('./projects/projects.html'),
     controller: 'AdminProjectsController',
+=======
+  $stateProvider.state('admin.opportunities', {
+    url: '/opportunities',
+    template: require('./opportunities/opportunities.html'),
+    controller: 'AdminOpportunitiesController',
+>>>>>>> master
     controllerAs: 'admin',
     authenticate: 'admin',
     data: {
       meta: {
+<<<<<<< HEAD
         title: 'Gerenciar Projetos',
         'og:url': `${appConfig.url}/admin/projects`
       }
     }
   });
+=======
+        title: 'Gerenciar Vagas',
+        'og:url': `${appConfig.url}/admin/opportunities`
+      }
+    }
+  });
+
+>>>>>>> master
 }

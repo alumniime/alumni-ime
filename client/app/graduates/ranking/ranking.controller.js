@@ -25,7 +25,7 @@ export default class GraduatesRankingController {
         if (!this.user.PersonId) {
           loading.close();
           this.Modal.openLogin();
-          this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos aprovados e logados podem realizar consultas.');
+          this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos aprovados e logados podem realizar pesquisas.');
         } else if (this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin') {
 
           this.$http.get('/api/former_students/ranking')
@@ -38,7 +38,7 @@ export default class GraduatesRankingController {
 
         } else {
           loading.close();
-          this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar consultas.');
+          this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar pesquisas.');
         }
       });
 

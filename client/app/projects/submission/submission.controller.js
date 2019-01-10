@@ -15,7 +15,7 @@ export default class SubmissionController {
   dateInvalid = false;
   ConclusionDate = '';
 
-  constructor(Auth, Project, $http, $state, Modal, $window, Upload, appConfig) {
+  constructor(Auth, Project, $http, $state, Modal, $window, Upload, Util, appConfig) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -25,6 +25,7 @@ export default class SubmissionController {
     this.Modal = Modal;
     this.$window = $window;
     this.Upload = Upload;
+    this.Util = Util;
     this.appConfig = appConfig;    
   }
 
@@ -65,19 +66,6 @@ export default class SubmissionController {
 
   }
 
-  validateDate(input) {
-    if(input) {
-      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-      var arr = input.split('/');
-      var date = new Date(arr[2], arr[1] - 1, arr[0]);
-      if(input && input.match(reg) && date > Date.now()) {
-        this.dateInvalid = false;
-      } else {
-        this.dateInvalid = true;
-      }
-    }
-  }
-
   submitProject(form) {
     this.submitted = true;
     this.errors.projects = undefined;
@@ -92,9 +80,11 @@ export default class SubmissionController {
         if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
 
           this.project.EstimatedPriceInCents *= 100;
-          var date = this.ConclusionDate.split('/');
-          this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
-
+          if(this.ConclusionDate) {
+            var date = this.ConclusionDate.split('/');
+            this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
+          }
+          
           var loading = this.Modal.showLoading();
 
           var this_ = this;

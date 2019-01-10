@@ -1,0 +1,37 @@
+<div class="container adminOpportunitiesView">
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pt-3 pb-2 pb-md-0">Vagas <br class="d-block d-sm-none"> </h5>
+    </div>
+    <div class="col-auto pb-2">
+      <a href="#" class="btn btn-danger mb-2" ng-click="admin.editOpportunity()">Cadastrar Vaga</a>
+    </div>
+  </div>
+
+  <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Cargo</th>
+      <th scope="col">Empresa</th>
+      <th scope="col">Recrutador</th>
+      <th scope="col">Data de Envio</th>
+      <th scope="col">Candidatos</th>
+      <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="opportunity in admin.Opportunity.list | orderBy: 'PostDate'" class="c-pointer" ng-click="admin.editOpportunity(opportunity.OpportunityId)">
+      <th scope="row">{{opportunity.OpportunityId}}</th>
+      <td>{{opportunity.Title}}</td>
+      <td>{{opportunity.company.Name}}</td>
+      <td>{{opportunity.recruiter.name}}</td> 
+      <td>{{opportunity.PostDate | date: 'dd/MM/yyyy'}}</td>
+      <td>{{opportunity.ApplicationsNumber}}</td>
+      <td>{{opportunity.IsApproved ? 'Aprovada' : 'Pendente'}}</td>
+    </tr>
+    </tbody>
+  </table>
+  
+</div>

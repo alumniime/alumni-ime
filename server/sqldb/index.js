@@ -14,6 +14,12 @@ var db = {
 };
 
 // Insert models below
+db.FavoriteOpportunity = db.sequelize.import('../api/favorite_opportunity/favorite_opportunity.model');
+db.OpportunityApplication = db.sequelize.import('../api/opportunity_application/opportunity_application.model');
+db.OpportunityFunction = db.sequelize.import('../api/opportunity_function/opportunity_function.model');
+db.ExperienceLevel = db.sequelize.import('../api/experience_level/experience_level.model');
+db.Opportunity = db.sequelize.import('../api/opportunity/opportunity.model');
+db.OpportunityType = db.sequelize.import('../api/opportunity_type/opportunity_type.model');
 db.Year = db.sequelize.import('../api/year/year.model');
 db.FormerStudent = db.sequelize.import('../api/former_student/former_student.model');
 db.CompanyType = db.sequelize.import('../api/company_type/company_type.model');
@@ -41,7 +47,8 @@ db.ProjectTeam = db.sequelize.import('../api/project_team/project_team.model');
 db.ProjectSe = db.sequelize.import('../api/project_se/project_se.model');
 db.Initiative = db.sequelize.import('../api/initiative/initiative.model');
 db.InitiativeLink = db.sequelize.import('../api/initiative_link/initiative_link.model');
-
+db.OpportunityTargetPersonType = db.sequelize.import('../api/opportunity_target_person_type/opportunity_target_person_type.model'); 
+ 
 // Insert relations below
 db.User.belongsTo(db.PersonType, {sourceKey: 'PersonTypeId', foreignKey: 'PersonTypeId', as: 'personType'});
 db.User.belongsTo(db.Se, {sourceKey: 'SEId', foreignKey: 'ProfessorSEId', as: 'se'});
@@ -54,6 +61,9 @@ db.User.hasMany(db.Position, {foreignKey: 'PersonId', as: 'positions'});
 db.User.hasMany(db.Image, {foreignKey: 'PersonId', as: 'images'});
 db.User.hasMany(db.FormerStudent, {sourceKey: 'FullName', foreignKey: 'Name', as: 'former'});
 db.User.hasMany(db.Donation, {sourceKey: 'PersonId', foreignKey: 'DonatorId', as: 'donations'});
+db.User.hasMany(db.Opportunity, {foreignKey: 'RecruiterId', as: 'opportunityPosts'});
+db.User.hasMany(db.OpportunityApplication, {foreignKey: 'PersonId', as: 'opportunityApplications'});
+db.User.hasMany(db.FavoriteOpportunity, {foreignKey: 'PersonId', as: 'favoriteOpportunities'});
 
 db.FormerStudent.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonId', as: 'profile'});
 db.FormerStudent.belongsTo(db.Engineering, {sourceKey: 'EngineeringId', foreignKey: 'EngineeringId', as: 'engineering'});
@@ -93,5 +103,21 @@ db.State.belongsTo(db.Country, {sourceKey: 'CountryId', foreignKey: 'CountryId',
 db.City.belongsTo(db.State, {sourceKey: 'StateId', foreignKey: 'StateId', as: 'state'});
 
 db.Year.hasMany(db.FormerStudent, {foreignKey: 'GraduationYear', as: 'formers'});
+
+db.Opportunity.belongsTo(db.OpportunityType, {sourceKey: 'OpportunityTypeId', foreignKey: 'OpportunityTypeId', as: 'opportunityType'});
+db.Opportunity.belongsTo(db.OpportunityFunction, {sourceKey: 'OpportunityFunctionId', foreignKey: 'OpportunityFunctionId', as: 'opportunityFunction'});
+db.Opportunity.belongsTo(db.ExperienceLevel, {sourceKey: 'ExperienceLevelId', foreignKey: 'ExperienceLevelId', as: 'experienceLevel'});
+db.Opportunity.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'RecruiterId', as: 'recruiter'});
+db.Opportunity.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'CompanyId', as: 'company'});
+db.Opportunity.belongsTo(db.Location, {sourceKey: 'LocationId', foreignKey: 'LocationId', as: 'location'});
+db.Opportunity.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ImageId', as: 'companyLogo'});
+db.Opportunity.hasMany(db.OpportunityApplication, {foreignKey: 'OpportunityId', as: 'opportunityApplications'});
+db.Opportunity.hasMany(db.OpportunityTargetPersonType, {foreignKey: 'OpportunityId', as: 'opportunityTargets'});
+ 
+db.OpportunityApplication.belongsTo(db.Opportunity, {sourceKey: 'OpportunityId', foreignKey: 'OpportunityId', as: 'opportunity'});
+db.OpportunityApplication.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonId', as: 'user'});
+db.Resume = db.OpportunityApplication.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'ResumeId', as: 'resume'});
+
+db.FavoriteOpportunity.belongsTo(db.Opportunity, {sourceKey: 'OpportunityId', foreignKey: 'OpportunityId', as: 'opportunity'});
 
 module.exports = db;

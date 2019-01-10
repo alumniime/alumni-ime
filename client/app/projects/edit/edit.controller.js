@@ -20,7 +20,7 @@ export default class EditController {
   EstimatedPriceInCents = 0;
 
 
-  constructor(Auth, Project, $http, $state, $stateParams, Modal, $window, Upload, $anchorScroll, $filter) {
+  constructor(Auth, Project, $http, $state, $stateParams, Modal, $window, Upload, Util, $anchorScroll, $filter) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -31,9 +31,9 @@ export default class EditController {
     this.Modal = Modal;
     this.$window = $window;
     this.Upload = Upload;
+    this.Util = Util;
     this.$anchorScroll = $anchorScroll;
     this.$filter = $filter;
-
   }
 
   $onInit() {
@@ -80,28 +80,17 @@ export default class EditController {
 
   }
 
-  validateDate(input) {
-    if(input) {
-      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-      var arr = input.split('/');
-      var date = new Date(arr[2], arr[1] - 1, arr[0]);
-      if(input && input.match(reg) && date > Date.now()) {
-        this.dateInvalid = false;
-      } else {
-        this.dateInvalid = true;
-      }
-    }
-  }
-
   submitProject(form) {
     this.submitted = true;
     this.errors.projects = undefined;
     console.log(form);
 
     this.project.EstimatedPriceInCents = 100 * this.EstimatedPriceInCents;
-    var date = this.ConclusionDate.split('/');
-    this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
-
+    if(this.ConclusionDate) {
+      var date = this.ConclusionDate.split('/');
+      this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
+    }
+    
     if(form.$valid && this.concatImages && this.concatImages.length > 0 && !this.dateInvalid) {
 
       var savedImages = [];

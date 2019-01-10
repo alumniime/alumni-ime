@@ -7,7 +7,7 @@ import {
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import transporter from '../../email';
-import async from 'async';
+import async from 'async'; 
 import crypto from 'crypto';
 import multer from 'multer';
 import $q from 'q';
@@ -81,7 +81,7 @@ export function index(req, res) {
   //             address: config.email.user
   //           },
   //           template: 'confirm-account-email',
-  //           subject: 'Novo Link - Confirmação de Cadastro - Alumni', // ✔
+  //           subject: 'Novo Link - Confirmação de Cadastro - Alumni',
   //           context: {
   //             url: `https://www.alumniime.com.br/api/users/confirm_email/${user.ConfirmEmailToken}`,
   //             name: user.name.split(' ')[0]
@@ -111,7 +111,7 @@ export function index(req, res) {
   // User.findAll({
   //   attributes: ['PersonId'], 
   //   where: {
-  //     PersonId: [41, 48, 49, 50, 51, 448]
+  //     PersonId: [15]
   //     // IsApproved: 0
   //   }
   // })
@@ -922,6 +922,7 @@ export function me(req, res, next) {
       'email',
       'role',
       'provider',
+      'LinkedinProfileURL',
       'ImageURL',
       'ImageData',
       'Birthdate',
@@ -1013,7 +1014,7 @@ export function sendConfirmation(req, res, next) {
           address: config.email.user
         },
         template: 'confirm-account-email',
-        subject: 'Confirmação de Cadastro - Alumni', // ✔
+        subject: 'Confirmação de Cadastro - Alumni',
         context: {
           url: `${config.domain}/api/users/confirm_email/${token}`,
           name: user.name.split(' ')[0]
@@ -1120,7 +1121,7 @@ export function forgotPassword(req, res) {
           address: config.email.user
         },
         template: 'forgot-password-email',
-        subject: 'Redefinir Senha - Alumni IME', // ✔
+        subject: 'Redefinir Senha - Alumni IME',
         context: {
           url: `${config.domain}/reset_password/${token}`,
           name: user.name.split(' ')[0]

@@ -47,7 +47,7 @@
       <div class="form-group">
         <label for="Birthdate">DATA DE NASCIMENTO</label>
         <input type="text" id="Birthdate" name="Birthdate" placeholder="dd/mm/yyyy" mask="39/19/9999"
-               class="form-control" ng-model="vm.Birthdate" ng-change="vm.validateDate(vm.Birthdate)">
+               class="form-control" ng-model="vm.Birthdate" ng-change="vm.dateInvalid = vm.Util.invalidPastDate(vm.Birthdate)">
         <!--<p class="help-block" ng-show="form.Birthdate.$error.required && vm.submitted">-->
         <!--Insira a sua data de nascimento.--> 
         <!--</p>-->
