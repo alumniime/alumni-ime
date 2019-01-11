@@ -46,12 +46,13 @@ export class DonateController {
     // creditCardHolderBirthDate: '26/02/1980'
   };
 
-  constructor(Auth, Modal, $anchorScroll) {
+  constructor(Auth, Modal, $anchorScroll, $http) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
     this.Modal = Modal;
     this.$anchorScroll = $anchorScroll;
+    this.$http = $http;
   }
 
   $onInit() {
@@ -150,8 +151,72 @@ export class DonateController {
       this.Modal.openLogin();
     } else if (form.$valid) {
       console.log(this.funding);
-      this.Modal.openCheckout(this.funding);
+      // this.Modal.openCheckout(this.funding);
     }
+
+
+    // inicia a instância do checkout
+    var this_ = this;
+    var checkout = new PagarMeCheckout.Checkout({
+      encryption_key: 'ek_test_z9QmtfjZR9PunDBBHp4XPJXZd9DwlC',
+      success: function(data) {
+        console.log(this);
+
+        var dataa = {
+          "installments":null,
+          "amount":10000,
+          "payment_method":"credit_card",
+          "customer":{
+            "name":"Gabriel Dilly",
+            "email":"gabriel_dilly@hotmail.com",
+            "document_number":"00000000000000",
+            "phone":{"ddd":"32","number":"999892092"},
+            "address":{"zipcode":"36016320","street":"Avenida Presidente Itamar Franco","street_number":"1430","complementary":"202","neighborhood":"Centro","city":"Juiz de Fora","state":"MG"}
+          },
+          "card_hash":"1396852_ESWW7+zFGfp46TSkKY7t6WuM4MV2IE1grrp/Oc6bd+2nS/tM6cIDoI3AXkkwLt8BhaOmojH6PpgcLeF+b3u82aI342oj/mUWgfvOnmZPMOTmFmH4vwiqTmSMagehT/UGvKn/36j04OKNfhU+DK9Atpv91deFfUP9+8FpOUumxF/PudlrdeeVIKlzOuoQqZ3/bqnfOygl4UNGDxLODikuE0Ho19NQiyhgcvqoSzcP+0um6Ph906trvyMeIbwqoyFQmvabAiCf+T6mpGzeNrnEMdJr/ry3bwcEHX5nJ7XHgsBq3WJUuEgIQ1LQtldvJB5jY0kYkTAR8ixovNRIXFtCEw=="
+        };
+
+        data.plan_id = '403308';
+
+        this_.$http.post('/api/pagseguro/pay', data)
+          .then(res => {
+            console.log(res); 
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      },
+      error: function(err) {
+        console.log(err);
+      },
+      close: function() {
+        console.log('The modal has been closed.');
+      }
+    });
+
+    checkout.open({
+      amount: 10000,
+      buttonText: 'Pagar',
+      headerText: 'Valor da contribuição {price_info}',
+      customerData: 'true',
+      createToken: 'false',
+      paymentMethods: 'credit_card,boleto',
+      // customer: {
+      //   external_id: this.user.PersonId,
+      //   name: this.user.name,
+      //   email: this.user.email,
+      //   type: 'individual',
+      //   country: 'br',
+      // //   documents: [
+      // //     {
+      // //       type: 'cpf',
+      // //       number: '71404665560',
+      // //     },
+      // //   ],
+      // //   phone_numbers: ['+5511999998888', '+5511888889999'],
+      // //   birthday: '1985-01-01'
+      // }
+    });
 
   }
 
