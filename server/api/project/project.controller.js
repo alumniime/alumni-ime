@@ -178,7 +178,7 @@ export function show(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      attributes: ['Path', 'OrderIndex', 'Type'],
+      attributes: ['ImageId', 'Path', 'OrderIndex', 'Type'],
       required: false,
       where: {
         IsExcluded: 0
@@ -237,7 +237,7 @@ export function preview(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      attributes: ['Path', 'OrderIndex', 'Type'],
+      attributes: ['ImageId', 'Path', 'OrderIndex', 'Type'],
       required: false,
       where: {
         IsExcluded: 0
@@ -276,7 +276,7 @@ export function admin(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      attributes: ['Path', 'OrderIndex', 'Type'],
+      attributes: ['ImageId', 'Path', 'OrderIndex', 'Type'],
       required: false
     }, {
       model: User,
@@ -312,7 +312,7 @@ export function me(req, res) {
     include: [{
       model: Image,
       as: 'images',
-      attributes: ['Path', 'OrderIndex', 'Type'],
+      attributes: ['ImageId', 'Path', 'OrderIndex', 'Type'],
       required: false,
       where: {
         IsExcluded: 0
@@ -480,7 +480,6 @@ export function edit(req, res) {
 
                 // Removing images that user have chose
                 var imagesToSave = req.body.savedImages;
-
                 for(let imageIndex in images) {
                   images[imageIndex].IsExcluded = 1;
 
