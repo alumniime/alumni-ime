@@ -5,8 +5,7 @@
 
 <div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
   <div class="row justify-content-center p-0" ng-if="vm.project.ProjectId">
-    <!-- ng-if = "vm.project.IsApproved == 1 -->
-    <div id="searchForm" class="card" style="width: 100%;">
+    <div ng-if = "vm.project.IsApproved == 1" id="statusForm" class="card" style="width: 100%;">
       <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus = !vm.collapseStatus" style = "background-color: #f0f0f0;">
         <h5 class="card-header">
           Situação
@@ -43,7 +42,7 @@
   </div>
 
   <div class="row justify-content-center p-0" ng-if="vm.project.ProjectId">
-    <div id="searchForm" class="card" style="width: 100%;">
+    <div id="infoForm" class="card" style="width: 100%;">
       <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseInfo = !vm.collapseInfo" style = "background-color: #f0f0f0;">
         <h5 class="card-header">
           Informações do Projeto
@@ -54,7 +53,7 @@
         </h5>
       </a>
       <div class="card-body pb-4" ng-hide="vm.collapseInfo">
-        <form class="form" name="form" ng-submit="vm.updateInfo(form)" novalidate>
+        <form class="form" name="form" ng-submit="vm.updateStatus(form)" novalidate>
           <div class="row p-0">
             <div class="col-12 col-sm-6">
               <div class="form-group">
@@ -130,15 +129,25 @@
           </div>
 
           <div class="row p-0">
-              <div class="col-12 col-sm-12">
-                <div class="form-group">
-                  <label>RECOMPENSAS</label>
-                  <textarea type="text" id="Rewards" name="Rewards" class="form-control" rows="8" required
-                      ng-model="vm.project.Rewards"></textarea>
-                </div>
+            <div class="col-12 col-sm-12">
+              <div class="form-group">
+                <label>RECOMPENSAS</label>
+                <textarea type="text" id="Rewards" name="Rewards" class="form-control" rows="8" required
+                    ng-model="vm.project.Rewards"></textarea>
               </div>
             </div>
+          </div>
 
+          <div class="custom-control custom-checkbox my-2">
+            <input type="checkbox" name="IsApproved" class="custom-control-input" id="IsApproved" ng-model="vm.project.IsApproved">
+            <label class="custom-control-label" for="IsApproved">
+              Aprovar projeto
+            </label>
+          </div>
+
+          <button class="btn btn-danger mx-auto mt-3" type="submit">
+            SALVAR
+          </button>
         </form>
       </div>
     </div>

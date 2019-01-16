@@ -39,6 +39,17 @@ export default class ModalEditProjectController {
     if(this.resolve.ProjectId) {
       this.project.ProjectId = this.resolve.ProjectId;
       var loading = this.Modal.showLoading();
+
+      this.$http.get(`/api/images/${this.project.ProjectId}`)
+        .then(response =>{
+          this.imagesToSave = {'ImageId': [], 'OrderIndex': []};
+          for(let imageIndex in response.data){
+            this.imagesToSave.ImageId.push(response.data[imageIndex].ImageId);
+            this.imagesToSave.OrderIndex.push(response.data[imageIndex].OrderIndex);
+          }
+          console.log(JSON.stringify(this.imagesToSave));
+        });
+
       this.$http.get(`/api/projects/${this.project.ProjectId}/admin`)
         .then(response => {
           loading.close();
@@ -76,7 +87,7 @@ export default class ModalEditProjectController {
 
       console.log(this.project);
       
-      this.$http.post('/api/projects/edit', {"project": this.project, "savedImages": this.project.images})
+      this.$http.post('/api/projects/edit', {"project": this.project, "savedImages": this.imagesToSave})
         .then(res=> {
           console.log(res);
           loading.close();

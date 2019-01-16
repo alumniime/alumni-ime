@@ -445,18 +445,13 @@ export function edit(req, res) {
     }
 
     var project = req.body.project;
-    Reflect.deleteProperty(project, 'IsApproved');
-    Reflect.deleteProperty(project, 'IsExcluded');
     Reflect.deleteProperty(project, 'Results');
     Reflect.deleteProperty(project, 'SubmissionDate');
     Reflect.deleteProperty(project, 'SubmissionerId');
 
     Project.find({
       where: {
-        ProjectId: project.ProjectId,
-        SubmissionerId: req.user.PersonId,
-        IsApproved: 0,
-        IsExcluded: 0
+        ProjectId: project.ProjectId
       }
     })
       .then(oldProject => {
@@ -476,13 +471,16 @@ export function edit(req, res) {
 
                 var promises = [];
 
+                console.log("IMAGES");
+                console.log(JSON.stringify(images));
                 // TODO add promises waterfall
 
                 // Removing images that user have chose
                 var imagesToSave = req.body.savedImages;
                 for(let imageIndex in images) {
                   images[imageIndex].IsExcluded = 1;
-                  
+                  console.log("savedImages");
+                  console.log(JSON.stringify(imagesToSave));
                   // Changing image OrderIndex knowing that index 0 is the principal image
                   for(let searchIndex in imagesToSave.ImageId) {                    
                     if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {
