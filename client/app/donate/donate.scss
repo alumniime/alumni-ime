@@ -1,10 +1,80 @@
-.donate-container {
-	background-color: #00456F !important;
-	color: #F2F2F2;
+.donateView {
+    // padding: 0 40px;
+    .donateContainter {
+        background-color: #00456F !important;
+        color: #F2F2F2;
+    }
     
+    .dual-column {
+        padding-top: 15px;
+        padding-bottom: 10px;
+    }
+
+    h2 {
+        font-size: 44px;
+        line-height: 60px;
+    }
+
+    h3 {
+        font-size: 25px;
+        font-weight: 300;
+    }
+
+    .description-text {
+        font-size: 20px;
+        font-weight: 300;
+        text-align: justify;
+    }
+
     .help-block {
         margin-top: 10px;
-        color: #E84E0F;
+        color: #EFD470;
+    }
+
+    .custom-select {
+        border: none;
+        color: #F2F2F2;
+    }
+
+    .donation-value {
+        padding-right: 22px;
+        padding-left: 22px;
+    }
+
+    .dropdown-item:active {
+        background-color: #6c757d;
+    }
+    
+    .value-buttons {
+        width: 100%;
+
+        button, .btn-group {
+            min-width: 33.3333%;
+        }
+        @include media-breakpoint-up(md) {
+            button, .btn-group {
+                min-width: 16.6666%;
+            }
+        }
+        @include media-breakpoint-only(lg) {
+            button, .btn-group {
+                min-width: 20%;
+            }
+        }
+    }
+
+    .btn-other {
+        min-width: auto !important;
+        width: 100%;
+    }
+
+    .border-top-none {
+        margin-left: 0px !important;
+    }
+
+    .border-top-none .btn {
+        border-top: none;
+        margin-top: -1px;
     }
 
 }

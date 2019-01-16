@@ -7,14 +7,17 @@ import routes from './donate.routes';
 
 export class DonateController {
   submitted = false;
-  // donation = {
-  //   Type: 'general',
-  //   ProjectId: null,
-  //   ValueInCents: 0
-  // };
+  ProjectName = '';
+  donation = {
+    Type: 'general',
+    Frequency: 'monthly',
+    ProjectId: null,
+    ValueInCents: 0
+  };
   //for dev
   funding = {
     type: 'mensal',
+    donationType: 'general',
     // contributor: 'ALEX N SOUZA',
     value: 'D8BC16C543436D2554104FB2EC5D1B96',
     customValue: null,
@@ -46,18 +49,29 @@ export class DonateController {
     // creditCardHolderBirthDate: '26/02/1980'
   };
 
-  constructor(Auth, Modal, $anchorScroll, $http) {
+  constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
     this.Modal = Modal;
     this.$anchorScroll = $anchorScroll;
     this.$http = $http;
+    this.$state = $state;
+    this.$stateParams = $stateParams;
+    this.Project = Project;
+    this.Donation = Donation;
   }
 
   $onInit() {
     this.$anchorScroll('top');
-
+    this.Project.load()
+      .then(() => {
+        if(this.$stateParams.ProjectId) {
+          this.donation.Type = 'project';
+          this.donation.ProjectId = parseInt(this.$stateParams.ProjectId);
+        }
+      });
+    
     this.loading = this.Modal.showLoading();
     this.getCurrentUser()
       .then(user => {
@@ -70,23 +84,12 @@ export class DonateController {
         }
       });
 
-    // var date = new Date();
-    // this.currentSemester = (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1;
-    // this.currentYear = date.getFullYear();
+    var date = new Date();
+    this.currentSemester = (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1;
+    this.currentYear = date.getFullYear();
+    this.currentYear = 2018;
 
   }
-
-  // removeImage(image) {
-  //   this.uploadImages.splice(this.uploadImages.indexOf(image), 1);
-  // }
-
-  // updateImages(files) {
-  //   if (files === null) {
-  //     this.loading = this.Modal.showLoading();
-  //   } else {
-  //     this.loading.close();
-  //   }
-  // }
 
   // submitDonation(form) {
   //   this.submitted = true;

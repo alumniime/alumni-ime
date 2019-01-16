@@ -1,89 +1,230 @@
-<div class="py-5 donate-container">
-    <div class="container ">
-        <div class="row">
-            <div class="p-5 col-md-6 d-flex flex-column justify-content-center">
-                <h3 class="display-4 mb-3">Sua ajuda pode fazer muita diferença</h3>
-                <p class="mb-4 lead">Apoiando a Alumni IME, você colabora para o fortalecimento do IME, além de
-                    fortalecer a própria comunidade IMEana ao possibilitar que as atividade da Associação sejam
-                    desenvolvidas e que sejam apoiados projetos de professores e alunos da graduação do IME.<br>
-                    <br>
-                    Contribuir é uma forma de gratidão ao IME e tudo o que o Instituto lhe proporcionou, além de
-                    financiar as atividades de sua Associação! Fique à vontade para destinar o valor que lhe for
-                    conveniente.</p>
-            </div>
-            <div class="p-5 col-md-6">
-                <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
-                    <div class="pb-4">
-                        <h3 class="mb-3">Escolha o aporte</h3>
-                        <div class="btn-group">
-                            <label class="btn btn-outline-secondary" ng-model="vm.funding.type" uib-btn-radio="'mensal'">
-                                Mensal</label>
-                            <label class="btn btn-outline-secondary" ng-model="vm.funding.type" uib-btn-radio="'unico'"
-                                ng-disabled="true">
-                                Única Vez</label>
+<div class="donateView">
+    <div class="py-5 donateContainter">
+        <div class="container">
+            <div class="row">
+                <div class="px-4 col-12 col-lg-6 dual-column">
+                    <h2 class="mb-3">Sua ajuda pode fazer muita diferença</h2>
+                    <p class="description-text">
+                        Apoiando a Alumni IME, você colabora para o fortalecimento do IME, além de fortalecer a própria 
+                        comunidade IMEana ao possibilitar que as atividades da Associação sejam desenvolvidas e que sejam 
+                        apoiados projetos de professores e alunos da graduação do IME.
+                    </p>
+                    <p class="description-text">
+                        Contribuir é uma forma de gratidão ao IME e tudo o que o Instituto lhe proporcionou, além de
+                        financiar as atividades de sua Associação! Fique à vontade para destinar o valor que lhe for
+                        conveniente.
+                    </p>
+                </div>
+                <div class="col-12 col-lg-6 dual-column">
+                    <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
+                        <div class="pb-3">
+                            <h3 class="mt-0 mt-lg-3 mb-3">Escolha o tipo de contribuição</h3>
+                            <div class="btn-group" role="group" aria-label="Donation type">
+                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'general'}"
+                                        ng-click="vm.donation.Type = 'general'; vm.donation.ProjectId = null; vm.ProjectName = ''">
+                                    Geral
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
+                                        ng-click="vm.donation.Type = 'project'">
+                                    Para um Projeto
+                                </button>
+                                <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
+                                    <button id="btnSelectProject" type="button" class="btn btn-outline-secondary btn-other dropdown-toggle" 
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}">
+                                        {{ vm.ProjectName || 'Selecione um projeto' }}
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnSelectProject">
+                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName' | filter: {Year: vm.currentYear, Semester: vm.currentSemester}" 
+                                           ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
+                                            {{project.ProjectName}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="help-block"
+                                ng-if="vm.donation.Type === 'project' && (vm.donation.ProjectId === null || vm.donation.ProjectId === '') && vm.submitted">
+                                Escolha um projeto para apoiar.
+                            </p>                                
+                            <!-- <div class="input-group">
+                                <div ng-class="{'btn-group': vm.funding.donationType === 'general', 'input-group-prepend': vm.funding.donationType === 'project'}">
+                                    <label class="btn btn-outline-secondary" ng-model="vm.funding.donationType" uib-btn-radio="'general'">
+                                        Geral
+                                    </label>
+                                    <label class="btn btn-outline-secondary" ng-model="vm.funding.donationType" uib-btn-radio="'project'">
+                                        Para um Projeto
+                                    </label>
+                                </div>
+                                <select class="custom-select bg-secondary" ng-if="vm.funding.donationType === 'project'">
+                                    <option selected>Selecione um projeto</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div> -->
                         </div>
-                    </div>
-                    <div ng-if="vm.funding.type=='mensal'" class="pb-4">
-                        <h3 class="mb-3">Selecione o valor</h3>
-                        <div class="btn-group">
-                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'D8BC16C543436D2554104FB2EC5D1B96'">
-                                R$ 100,00</label>
-                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'15995A30ABAB8EA1149BCFB99CCAD1A5'">
-                                R$ 200,00</label>
-                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'B6DC5CBAEFEFB83224268FB3F13AC694'">
-                                R$ 300,00</label>
-                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'D35A3FFA0000E12554F4EF8575BFF3B5'">
-                                R$ 400,00</label>
-                            <label class="btn btn-outline-secondary" ng-model="vm.funding.value" uib-btn-radio="'CA40D80A232392F004008F8CE0C447B3'">
-                                R$ 500,00</label>
+                        <div class="pb-3">
+                            <h3 class="mb-3">Escolha o aporte</h3>
+                            <div class="btn-group">
+                                <label class="btn btn-outline-secondary" ng-model="vm.donation.Frequency" uib-btn-radio="'monthly'">
+                                    Mensal
+                                </label>
+                                <label class="btn btn-outline-secondary" ng-model="vm.donation.Frequency" uib-btn-radio="'once'">
+                                    Única Vez
+                                </label>
+                            </div>
                         </div>
-                    </div>
+                        <div class="pb-2" ng-if="vm.donation.Frequency === 'monthly'">
+                            <h3 class="mb-3">Selecione o valor</h3>
 
-                    <div ng-if="vm.funding.type=='unico'" class="pb-4">
-                        <div class="form-group">
-                            <h3 class="mb-3">Valor (em R$)</h3>
-                            <input type="text" ng-model="vm.funding.customValue" class="form-control" money-mask>
+                            <!-- For extra small and small devices -->
+                            <div class="btn-group value-buttons d-block d-md-none" role="group" aria-label="Donation values">
+                                <div class="row m-0 p-0">
+                                    <div class="col-12 p-0 btn-group">
+                                        <button type="button" class="btn btn-outline-secondary">
+                                            R$ 100
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary">
+                                            R$ 200
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary">
+                                            R$ 300
+                                        </button>
+                                    </div>
+                                    <div class="col-12 p-0 btn-group border-top-none">
+                                        <button type="button" class="btn btn-outline-secondary">
+                                            R$ 400
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary">
+                                            R$ 500
+                                        </button>
+                                        <div class="btn-group" role="group">
+                                            <button id="btnSmallOtherValue" type="button" class="btn btn-outline-secondary btn-other dropdown-toggle" 
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Outro
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="btnSmallOtherValue">
+                                                <a class="dropdown-item" href="#">R$ 50</a>
+                                                <a class="dropdown-item" href="#">R$ 150</a>
+                                                <a class="dropdown-item" href="#">R$ 250</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- For medium, large and extra large devices -->
+                            <div class="btn-group value-buttons d-none d-md-flex" role="group" aria-label="Donation values">
+                                <button type="button" class="btn btn-outline-secondary">
+                                    R$ 100
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary">
+                                    R$ 200
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary">
+                                    R$ 300
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary">
+                                    R$ 400
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary d-block d-lg-none d-xl-block">
+                                    R$ 500
+                                </button>
+                                <div class="btn-group" role="group">
+                                    <button id="btnOtherValue" type="button" class="btn btn-outline-secondary btn-other dropdown-toggle" 
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Outro
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnOtherValue">
+                                        <a class="dropdown-item" href="#">R$ 50</a>
+                                        <a class="dropdown-item" href="#">R$ 150</a>
+                                        <a class="dropdown-item" href="#">R$ 250</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="input-group d-none">
+                                <div class="input-group-prepend">
+                                    <label class="btn btn-outline-secondary donation-value" ng-model="vm.funding.value" uib-btn-radio="'D8BC16C543436D2554104FB2EC5D1B96'">
+                                        R$ 100
+                                    </label>
+                                    <label class="btn btn-outline-secondary donation-value" ng-model="vm.funding.value" uib-btn-radio="'15995A30ABAB8EA1149BCFB99CCAD1A5'">
+                                        R$ 200
+                                    </label>
+                                    <label class="btn btn-outline-secondary donation-value" ng-model="vm.funding.value" uib-btn-radio="'B6DC5CBAEFEFB83224268FB3F13AC694'">
+                                        R$ 300
+                                    </label>
+                                    <label class="btn btn-outline-secondary donation-value" ng-model="vm.funding.value" uib-btn-radio="'D35A3FFA0000E12554F4EF8575BFF3B5'">
+                                        R$ 400
+                                    </label>
+                                    <!-- <label class="btn btn-outline-secondary donation-value" ng-model="vm.funding.value" uib-btn-radio="'CA40D80A232392F004008F8CE0C447B3'">
+                                        R$ 500</label> -->
+                                </div>
+                                <select class="custom-select bg-secondary select-value">
+                                    <option selected>Outro</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <h3 class="mb-3">Seu nome</h3>
-                        <input type="text" id="contributor" name="contributor" ng-model="vm.funding.contributor" class="form-control"
-                            required>
-                        <p class="help-block" ng-if="form.contributor.$error.required && vm.submitted">
-                            O nome do contribuinte é obrigatório.
-                        </p>
-                    </div>
+                        <div ng-if="vm.donation.Frequency === 'once'" class="pb-4">
+                            <div class="form-group">
+                                <h3 class="mb-3">Valor (em R$)</h3>
+                                <input type="text" ng-model="vm.funding.customValue" class="form-control" money-mask>
+                            </div>
+                        </div>
 
-                    <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Usar cartão de crédito</b></button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="py-5 bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-5 p-0">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <ng-youtube-embed class="d-none d-lg-block d-xl-none" video="'XdkFwnJtgSc'" modestbranding="true"
-                        width="100%" disablekb="true" rel="false" ivloadpolicy="false" height="300px">
-                    </ng-youtube-embed>
-                    <ng-youtube-embed class="d-block d-lg-none d-xl-block" video="'XdkFwnJtgSc'" modestbranding="true"
-                        width="100%" disablekb="true" rel="false" ivloadpolicy="false">
-                    </ng-youtube-embed>
+                        <!-- <div class="form-group">
+                            <h3 class="mb-3">Seu nome</h3>
+                            <input type="text" id="contributor" name="contributor" ng-model="vm.funding.contributor" class="form-control"
+                                required>
+                            <p class="help-block" ng-if="form.contributor.$error.required && vm.submitted">
+                                O nome do contribuinte é obrigatório.
+                            </p>
+                        </div> -->
+
+                        <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Ir para o pagamento</b></button>
+                        <!-- <a href="#" class="text-link">Também é possível contribuir por transferência bancária, clique aqui</a> -->
+                        <a class="btn btn-link text-light mt-3 float-right" ui-sref="donate">
+                            <i class="fa fa-caret-right"></i>
+                            Clique aqui para contribuir por transferência bancária
+                        </a>
+                    </form>
                 </div>
             </div>
-            <div class="p-5 col-lg-7 d-flex flex-column justify-content-center">
-                <h3 class="display-4 mb-3">Mobilizamos</h3>
-                <p class="lead mb-0 text-justify">Em 2018, conseguimos mobilizar a comunidade de ex-alunos a apoiarem 17 projetos,
-                    totalizando mais de 200 mil reais investidos na melhoria do ensino e no engrandecimento no nome do
-                    IME mundo afora. Em 2019, queremos dobrar nossa atuação e intensificar as atividades da Associação.
-                    Para isso, contamos a sua participação!</p>
+        </div>
+    </div>
+
+    <div class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 p-0">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <ng-youtube-embed class="d-none d-lg-block d-xl-none" video="'XdkFwnJtgSc'" modestbranding="true"
+                            width="100%" disablekb="true" rel="false" ivloadpolicy="false" height="300px">
+                        </ng-youtube-embed>
+                        <ng-youtube-embed class="d-block d-lg-none d-xl-block" video="'XdkFwnJtgSc'" modestbranding="true"
+                            width="100%" disablekb="true" rel="false" ivloadpolicy="false">
+                        </ng-youtube-embed>
+                    </div>
+                </div>
+                <div class="p-4 p-sm-5 col-lg-7 d-flex flex-column justify-content-center">
+                    <h2 class="mb-3">Mobilizamos</h2>
+                    <p class="lead mb-0 text-justify">
+                        Em 2018, conseguimos mobilizar a comunidade de ex-alunos a apoiarem 17 projetos,
+                        totalizando mais de 200 mil reais investidos na melhoria do ensino e no engrandecimento no nome do
+                        IME mundo afora. Em 2019, queremos dobrar nossa atuação e intensificar as atividades da Associação.
+                        Para isso, contamos a sua participação!
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
 
 
