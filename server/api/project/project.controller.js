@@ -482,12 +482,16 @@ export function edit(req, res) {
                 var imagesToSave = req.body.savedImages;
                 for(let imageIndex in images) {
                   images[imageIndex].IsExcluded = 1;
-
+                  
                   // Changing image OrderIndex knowing that index 0 is the principal image
-                  for(let searchIndex in imagesToSave.ImageId) {
+                  for(let searchIndex in imagesToSave.ImageId) {                    
                     if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {
                       images[imageIndex].IsExcluded = 0;
                       images[imageIndex].OrderIndex = imagesToSave.OrderIndex[searchIndex];
+                    }
+                    else if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId)){
+                      images[imageIndex].IsExcluded = 0;
+                      images[imageIndex].OrderIndex = parseInt(imagesToSave.OrderIndex);
                     }
                   }
                 }
