@@ -6,8 +6,8 @@ import * as auth from '../../auth/auth.service';
 
 var router = new Router();
 
-router.get('/session', controller.getSessionID);
+// router.get('/session', controller.getSessionID);
 router.post('/pay', auth.isAuthenticated(), controller.pay);
-router.post('/checkout', controller.checkout);
+// router.post('/checkout', controller.checkout);
 
 module.exports = router;

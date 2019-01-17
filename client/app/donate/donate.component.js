@@ -12,8 +12,82 @@ export class DonateController {
     Type: 'general',
     Frequency: 'monthly',
     ProjectId: null,
-    ValueInCents: 0
+    ValueInCents: 10000
   };
+  plans = [{
+    planId: '',
+    value: 50,
+    frequency: 'monthly',
+    visible: false
+  }, {
+    planId: '',
+    value: 100,
+    frequency: 'monthly',
+    visible: true
+  }, {
+    planId: '',
+    value: 150,
+    frequency: 'monthly',
+    visible: false
+  }, {
+    planId: '',
+    value: 200,
+    frequency: 'monthly',
+    visible: true
+  }, {
+    planId: '',
+    value: 250,
+    frequency: 'monthly',
+    visible: false
+  }, {
+    planId: '',
+    value: 300,
+    frequency: 'monthly',
+    visible: true
+  }, {
+    planId: '',
+    value: 400,
+    frequency: 'monthly',
+    visible: true
+  }, {
+    planId: '',
+    value: 500,
+    frequency: 'monthly',
+    visible: true
+  }, {
+    planId: '',
+    value: 750,
+    frequency: 'monthly',
+    visible: false
+  }, {
+    planId: '',
+    value: 1000,
+    frequency: 'monthly',
+    visible: false
+  }, {
+    value: 200,
+    frequency: 'once',
+    visible: true
+  }, {
+    value: 400,
+    frequency: 'once',
+    visible: true
+  }, {
+    value: 600,
+    frequency: 'once',
+    visible: true
+  }, {
+    value: 800,
+    frequency: 'once',
+    visible: true
+  }, {
+    value: 1000,
+    frequency: 'once',
+    visible: true
+  }];
+  selectedOption = null;
+
+
   //for dev
   funding = {
     type: 'mensal',
@@ -65,10 +139,15 @@ export class DonateController {
   $onInit() {
     this.$anchorScroll('top');
     this.Project.load()
-      .then(() => {
+      .then(result => {
         if(this.$stateParams.ProjectId) {
           this.donation.Type = 'project';
           this.donation.ProjectId = parseInt(this.$stateParams.ProjectId);
+          for (var project of result) {
+            if (project.ProjectId === this.donation.ProjectId) {
+              this.ProjectName = project.ProjectName;
+            }
+          }
         }
       });
     
@@ -88,6 +167,13 @@ export class DonateController {
     this.currentSemester = (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1;
     this.currentYear = date.getFullYear();
     this.currentYear = 2018;
+
+    for(var option of this.plans) {
+      if(option.visible) {
+        this.selectedOption = option;
+        break;
+      }
+    }
 
   }
 
@@ -145,6 +231,11 @@ export class DonateController {
   //   }
 
   // }
+
+  selectValue(option) {
+    this.selectedOption = option;
+    this.donation.ValueInCents = 100 * option.value;
+  }
 
   submitFunding(form) {
     this.submitted = true;

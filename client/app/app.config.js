@@ -1,6 +1,6 @@
 'use strict';
 
-export function routeConfig($urlRouterProvider, $locationProvider, ngMetaProvider, ngIntlTelInputProvider, appConfig) {
+export function routeConfig($urlRouterProvider, $locationProvider, ngMetaProvider, ngIntlTelInputProvider, appConfig, $pgCheckoutProvider) {
   'ngInject';
 
   // Configuration for SEO meta tags
@@ -25,6 +25,8 @@ export function routeConfig($urlRouterProvider, $locationProvider, ngMetaProvide
     utilsScript: '../components/phone-input/utils.js',
     // separateDialCode: true
   });
+
+  $pgCheckoutProvider.setEncryptKey(appConfig.pagarmeEncryptionKey);
 
   $urlRouterProvider.otherwise('/');
 

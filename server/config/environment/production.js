@@ -24,10 +24,6 @@ module.exports = {
         timestamps: false
       }
     }
-  },
-  pagseguro: {
-    uri: 'https://ws.pagseguro.uol.com.br/',
-    token: 'ADDB5F22991640E6A7E392B158AC023D',
-    email: 'contato@alumniime.com.br'
   }
+  
 };

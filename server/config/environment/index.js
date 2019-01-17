@@ -62,8 +62,12 @@ var all = {
   prerenderToken: process.env.PRERENDER_TOKEN || '',
 
   mailchimp: {
-    ApiKey: process.env.MAILCHIMP_KEY || '',
+    apiKey: process.env.MAILCHIMP_KEY || '',
     listId: process.env.MAILCHIMP_LIST_ID || ''
+  },
+
+  pagarme: {
+    apiKey: process.env.PAGARME_API_KEY || ''
   },
 
   debug: process.env.DEBUG || false

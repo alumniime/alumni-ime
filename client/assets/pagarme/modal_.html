@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+
+		<title>Checkout</title>
+
+		<link href='//fonts.googleapis.com/css?family=Raleway:600,500,400' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Titillium+Web:300,300italic,400,400italic,600,600italic' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+
+		<link rel="stylesheet" href="style/pagarme-ui.css?version=5" />
+		<link rel="stylesheet" href="style/card.css?version=5" />
+		<link rel="stylesheet" href="style/icons.css" />
+
+		<link rel="stylesheet" href="style/mobile.css" media="only screen and (max-width: 600px)" />
+
+		<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		</script>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<script src="jquery.bez.min.js"></script>
+		<script src="jquery.color.min.js"></script>
+
+		<!--[if lte IE 7]>
+		<script src="json.min.js"></script>
+		<![endif]-->
+
+		<script src="raven.min.js"></script>
+		<script>
+Raven.config('https://4a6f66d610de4a0ab3d822d95075cff2@sentry.pagar.me/3').install();
+		</script>
+
+		<script src="animations/default.js"></script>
+		<script src="card.js"></script>
+
+		<script src="easyXDM.js"></script>
+		<script src="modal.js"></script>
+
+		<!--[if lte IE 9]>
+		<link rel="stylesheet" href="style/pagarme-ui-ie8.css" />
+		<script src="animations/ie.js"></script>
+		<script src="modal-ie8.js"></script>
+		<![endif]-->
+
+		<!--[if lte IE 7]>
+		<link rel="stylesheet" href="style/pagarme-ui-ie7.css" />
+		<![endif]-->
+
+		<link rel="stylesheet" href="style/pagarme-ui-ie.css" />
+	</head>
+
+	<body>
+		<div id="pagarme-checkout-ui">
+			<div id="pagarme-checkout-header">
+				<a href="#" class="pagarme-modal-box-previous-step" id="pagarme-checkout-back-link"><span class="icon-pg-checkout-back"></span><span class="no-mobile"> Voltar</span></a>
+				<ul class="pagarme-checkout-step-indicator mobile">
+				</ul>
+				<a href="#" id="pagarme-checkout-close-link"><i class="icon-pg-checkout-close"></i></a>
+			</div>
+			<div id="pagarme-modal-loading">
+				<div class="spinner"></div>
+			</div>
+			<div id="pagarme-modal-box">
+				<p id="pagarme-checkout-step-title"></p>
+				<p id="pagarme-checkout-amount-information">Total a pagar <span class="brand-color"></span></p>
+				<ul class="pagarme-checkout-step-indicator no-mobile">
+				</ul>
+
+<div class="pagarme-checkout-step" id="pagarme-modal-box-step-boleto-installment-information">
+	
+</div>
+
+<div class="pagarme-checkout-step" id="pagarme-modal-box-step-boleto-only">
+	<div id="pagarme-checkout-boleto-button" class="brand-background-color darker-hover choose-method-button-container arrow">
+		<button>
+            Boleto bancário <span id="boleto-discount" class="payment-discount"></span>
+            <div id="boleto-helper-text" class="payment-method-helper-text boleto-helper-text"></div>
+        </button>
+		<span class="button-indicator icon-pg-checkout-continue"></span>
+	</div>
+</div>
+
+<div class="pagarme-checkout-step" id="pagarme-modal-box-step-buyer-information">
+	<div class="error-message" style="display: none">
+		<span></span>
+	</div>
+	<div class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-buyer-name" name="pagarme-buyer-name" placeholder="Nome" type="text" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-buyer-email" name="pagarme-buyer-email" placeholder="Email" type="email" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-buyer-document-number" name="pagarme-buyer-document-number" placeholder="CPF/CNPJ" type="text" pattern="[0-9]*" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-ddd-field-container" class="pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-buyer-ddd" name="pagarme-buyer-ddd" placeholder="DDD" type="text" pattern="[0-9]*" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-phone-number-field-container" class="pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-buyer-number" name="pagarme-buyer-number" placeholder="Número" type="text" pattern="[0-9]*" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<button class="form-group pagarme-modal-box-next-step brand-background-color">Continuar <span class="icon-pg-checkout-continue"></span></button>
+</div>
+
+<div class="pagarme-checkout-step" id="pagarme-modal-box-step-choose-method">
+	<div id="pagarme-checkout-card-button" class="brand-background-color darker-hover choose-method-button-container arrow">
+		<button id="pagarme-credit-card-payment-method" class="brand-border-color">
+            Cartão de crédito <span id="credit-card-discount" class="payment-discount"></span><br>
+            <div id="credit-card-helper-text" class="payment-method-helper-text"></div>
+        </button>
+		<span class="button-indicator icon-pg-checkout-continue"></span>
+	</div>
+	<div id="pagarme-checkout-boleto-button" class="brand-background-color darker-hover choose-method-button-container arrow">
+		<button>
+            Boleto bancário <span id="boleto-discount" class="payment-discount"></span>
+            <div id="boleto-helper-text" class="payment-method-helper-text boleto-helper-text"></div>
+        </button>
+		<span class="button-indicator icon-pg-checkout-continue"></span>
+	</div>
+</div>
+
+<div class="pagarme-checkout-step" id="pagarme-modal-box-step-credit-card-information">
+	<div id="pagarme-checkout-card-container">
+		<div class="card">
+			<div class="front">
+				<p class="general expiration-label field">Valido ate</p>
+				<p class="general number field"></p>
+				<p class="general expiration field"></p>
+				<p class="general name field"></p>
+
+				<p class="amex cvv field"></p>
+				<p class="amex expiration-label field">Valido ate</p>
+				<p class="amex number field"></p>
+				<p class="amex expiration field"></p>
+				<p class="amex name field"></p>
+			</div>
+			<div class="back">
+				<p class="cvv field"></p>
+			</div>
+		</div>
+	</div>
+	<div class="error-message" style="display: none">
+		<span></span>
+	</div>
+	<div class="form-group pagarme-checkout-input-container brand-display">
+		<input maxlength="19" placeholder="Número" type="text" pattern="[0-9]*" autocomplete="cc-number" style="display: none;">
+		<input id="pagarme-modal-box-credit-card-number" required name="pagarme-credit-card-number" placeholder="Número" type="text"
+		 pattern="[0-9]*" autocomplete="cc-number" />
+		<span class="brand-icon"></span>
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-credit-card-name" name="pagarme-credit-card-name" placeholder="Nome (igual no cartão)" type="text" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-credit-card-expiration-container" class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-credit-card-expiration" name="pagarme-credit-card-expiration" placeholder="Validade" type="text" pattern="[0-9]*" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-credit-card-cvv-container" class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-credit-card-cvv" name="pagarme-credit-card-cvv" placeholder="CVV" type="text" pattern="[0-9]*" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-installments-container" class="form-group pagarme-checkout-input-container">
+		<div class="pretty-select-container">
+			<span class="placeholder installments-value">Parcelas</span>
+			<img src="images/select-icon.png" />
+			<select id="pagarme-modal-box-installments" name="pagarme-installments" placeholder="Parcelas">
+			</select>
+		</div>
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<button class="form-group pagarme-modal-box-next-step brand-background-color">Continuar <span class="icon-pg-checkout-continue"></span></button>
+</div>
+
+<div class="pagarme-checkout-step" id="pagarme-modal-box-step-customer-address-information">
+	<div class="error-message" style="display: none">
+		<span></span>
+	</div>
+	<div class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-customer-address-zipcode" name="pagarme-customer-address-zipcode" placeholder="CEP" type="text" pattern="[0-9]*" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+		<span class="pagarme-checkout-loading"><img src="images/loading.gif" /></span>
+	</div>
+	<div id="pagarme-checkout-address-street-field-container" class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-customer-address-street" name="pagarme-customer-address-street" placeholder="Rua" type="text" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-address-number-field-container" class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-customer-address-number" name="pagarme-customer-address-number" placeholder="Núm." type="text" pattern="[0-9]*" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-address-complementary-field-container" class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-customer-address-complementary" name="pagarme-customer-address-complementary" placeholder="Complemento" type="text">
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-address-neighborhood-field-container" class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-customer-address-neighborhood" name="pagarme-customer-address-neighborhood" placeholder="Bairro" type="text" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-address-city-field-container" class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-customer-address-city" name="pagarme-customer-address-city" placeholder="Cidade" type="text" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<div id="pagarme-checkout-address-state-field-container" class="form-group pagarme-checkout-input-container">
+		<input id="pagarme-modal-box-customer-address-state" name="pagarme-customer-address-state" placeholder="UF" type="text" />
+		<span class="pagarme-checkout-success-mark icon-pg-checkout-success"></span>
+		<span class="pagarme-checkout-error-mark icon-pg-checkout-error"></span>
+	</div>
+	<button class="form-group pagarme-modal-box-next-step brand-background-color">Continuar <span class="icon-pg-checkout-continue"></span></button>
+</div>
+
+				<div class="pagarme-checkout-step hidden next" id="pagarme-checkout-error-container">
+					<div id="pagarme-checkout-error-header">
+						Transação não autorizada
+					</div>
+					<div id="pagarme-checkout-error-body"></div>
+					<a id="pagarme-checkout-error-back-button" href="">Preencher dados novamente</a>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+
+			<div id="pagarme-checkout-footer">
+				<div id="footer-container">
+					<p id="pagarme-checkout-secure-connection"><span class="icon-pg-checkout-locker"></span> Você está em uma conexão segura</p>
+					<p id="pagarme-checkout-pagarme-brand"><span class="no-mobile">tecnologia </span><a href="https://pagar.me" target="_blank"><span class="icon-pg-checkout-pagarme-logo"></span></a></p>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+		</div>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		</script>
+	</body>
+<html>

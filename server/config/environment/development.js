@@ -17,11 +17,7 @@ module.exports = {
       }
     }
   },
-  pagseguro: {
-    uri: 'https://ws.sandbox.pagseguro.uol.com.br/',
-    token: '2FF75EDFE1E8416D8E3078155B58F012',
-    email: 'contato@alumniime.com.br'
-  },
+  
   // Seed database on startup
   seedDB: false,
 

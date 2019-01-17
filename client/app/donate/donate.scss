@@ -28,6 +28,7 @@
 
     .help-block {
         margin-top: 10px;
+        margin-bottom: 0;
         color: #EFD470;
     }
 
@@ -66,6 +67,25 @@
     .btn-other {
         min-width: auto !important;
         width: 100%;
+        padding-left: 5px;
+    }
+    .btn-other.truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include media-breakpoint-only(md) {
+            max-width: 460px;
+        }
+        @include media-breakpoint-only(lg) {
+            max-width: 222px;
+        }
+        @include media-breakpoint-only(xl) {
+            max-width: 310px;
+        }
+    }
+
+    .btn-group.w-100 .btn-group {
+        max-width: 100%;
     }
 
     .border-top-none {

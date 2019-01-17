@@ -9,24 +9,6 @@ import path from 'path';
 import config from './config/environment';
 
 export default function (app) {
-  if(config.env === 'production' && config.redirectHttps === 1) {
-    app.use(function (req, res, next) {
-      // Redirects urls to www and to https 
-      if (req.headers.host.match(/^www\./) === null) {
-        console.log('\n=>Redirecting(1) to:', 'https://www.' + req.headers.host + req.url);
-        res.status(301).redirect('https://www.' + req.headers.host + req.url);
-      } else {
-        if (req.secure) {
-          // request was via https, so do no special handling
-          next();
-        } else {
-          // request was via http, so redirect to https
-          console.log('\n=>Redirecting(2) to:', 'https://' + req.headers.host + req.url);
-          res.status(301).redirect('https://' + req.headers.host + req.url);
-        }
-      }
-    });
-  }
 
   // Insert routes below
   app.use('/api/years', require('./api/year'));

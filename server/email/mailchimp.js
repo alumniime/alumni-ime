@@ -33,7 +33,7 @@ function nameCase(str) {
 self.updateUser = function (personId) {
 
   var d = $q.defer();
-  var mailchimp = new Mailchimp(config.mailchimp.ApiKey);
+  var mailchimp = new Mailchimp(config.mailchimp.apiKey);
 
   User.find({
     include: [{

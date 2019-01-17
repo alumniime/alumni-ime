@@ -22,8 +22,12 @@ module.exports = {
   },
   prerenderToken: '',
   mailchimp: {
-    ApiKey: '',
+    apiKey: '',
     listId: ''
+  },
+  pagarme: {
+    apiKey: '',
+    encryptionKey: ''
   },
 
   // Control debug level for modules using visionmedia/debug
