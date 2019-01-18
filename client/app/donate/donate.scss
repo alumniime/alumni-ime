@@ -1,5 +1,4 @@
 .donateView {
-    // padding: 0 40px;
     .donateContainter {
         background-color: #00456F !important;
         color: #F2F2F2;
@@ -86,6 +85,13 @@
 
     .btn-group.w-100 .btn-group {
         max-width: 100%;
+    }
+
+    .btn-group .dropdown-menu i {
+        position: absolute;
+        right: 8px;
+        top: 13px;
+        font-size: 30px;
     }
 
     .border-top-none {

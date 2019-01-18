@@ -26,11 +26,11 @@
                                 <div class="row m-0 p-0">
                                     <div class="col-12 p-0 btn-group">
                                 <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'general'}"
-                                        ng-click="vm.donation.Type = 'general'; vm.donation.ProjectId = null; vm.ProjectName = ''">
+                                        ng-click="vm.selectType('general')">
                                     Geral
                                 </button>
                                 <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
-                                        ng-click="vm.donation.Type = 'project'">
+                                        ng-click="vm.selectType('project')">
                                     Para um Projeto
                                 </button>
                                     </div>
@@ -85,11 +85,11 @@
                             <h3 class="mb-3">Escolha o aporte</h3>
                             <div class="btn-group w-100 d-none d-md-flex" role="group" aria-label="Donation frequency">
                                 <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Frequency === 'monthly'}"
-                                        ng-click="vm.donation.Frequency = 'monthly'">
+                                        ng-click="vm.selectFrequency('monthly')">
                                         Mensal
                                 </button>
                                 <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Frequency === 'once'}"
-                                        ng-click="vm.donation.Frequency = 'once'">
+                                        ng-click="vm.selectFrequency('once')">
                                         Única Vez
                                 </button>
                             </div>
@@ -118,13 +118,19 @@
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 {{!vm.selectedOption.visible ? 'R$ ' + vm.selectedOption.value : 'Outro'}}
                                             </button>
-                                            <div class="dropdown-menu" aria-labelledby="btnSmallOtherValue">
+                                            <div class="dropdown-menu" aria-labelledby="btnSmallOtherValue"  ng-if="vm.donation.Frequency === 'monthly'">
                                                 <a class="dropdown-item" href="#" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: false}"
                                                    ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
                                                     R$ {{option.value}}
                                                 </a>
                                             </div>
-                                        </div>
+                                            <div class="dropdown-menu" aria-labelledby="btnSmallOtherValue" ng-if="vm.donation.Frequency === 'once'">
+                                                <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2"
+                                                       required money-mask money-mask-prepend="R$">
+                                                <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
+                                                   uib-tooltip="Ok" tooltip-placement="bottom"></i>
+                                            </div>
+                                                </div>
                                     </div>
                                 </div>
                             </div>
@@ -140,11 +146,17 @@
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{!vm.selectedOption.visible ? 'R$ ' + vm.selectedOption.value : 'Outro'}}
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnOtherValue">
+                                    <div class="dropdown-menu" aria-labelledby="btnOtherValue"  ng-if="vm.donation.Frequency === 'monthly'">
                                         <a class="dropdown-item" href="#" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: false}"
                                            ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
                                             R$ {{option.value}}
                                         </a>
+                                    </div>
+                                    <div class="dropdown-menu" aria-labelledby="btnOtherValue" ng-if="vm.donation.Frequency === 'once'">
+                                        <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2"
+                                               required money-mask money-mask-prepend="R$">
+                                        <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
+                                           uib-tooltip="Ok" tooltip-placement="bottom"></i>
                                     </div>
                                 </div>
                             </div>

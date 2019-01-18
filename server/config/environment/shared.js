@@ -7,6 +7,6 @@ exports = module.exports = {
   url: process.env.DOMAIN || 'https://www.alumniime.com.br',
   submission: process.env.SUBMISSION_AVAILABLE || 1,
   pagarme: {
-    encryptionKey: process.env.PAGARME_ENCRYPTION_KEY || ''
+    encryptionKey: process.env.PAGARME_ENCRYPTION_KEY || 'ek_test_z9QmtfjZR9PunDBBHp4XPJXZd9DwlC'
   }
 };
