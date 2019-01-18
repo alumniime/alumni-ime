@@ -95,7 +95,6 @@
                             </div>
                         </div>
 
-                        <!-- <div class="pb-2" ng-if="vm.donation.Frequency === 'monthly'"> -->
                         <div class="pb-2">
                             <h3 class="mb-3">Selecione o valor</h3>
 
@@ -118,19 +117,17 @@
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 {{!vm.selectedOption.visible ? 'R$ ' + vm.selectedOption.value : 'Outro'}}
                                             </button>
-                                            <div class="dropdown-menu" aria-labelledby="btnSmallOtherValue"  ng-if="vm.donation.Frequency === 'monthly'">
+                                            <div class="dropdown-menu" aria-labelledby="btnSmallOtherValue">
                                                 <a class="dropdown-item" href="#" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: false}"
-                                                   ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
+                                                   ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)" ng-if="vm.donation.Frequency === 'monthly'">
                                                     R$ {{option.value}}
                                                 </a>
-                                            </div>
-                                            <div class="dropdown-menu" aria-labelledby="btnSmallOtherValue" ng-if="vm.donation.Frequency === 'once'">
-                                                <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2"
+                                                <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2" ng-if="vm.donation.Frequency === 'once'"
                                                        required money-mask money-mask-prepend="R$">
                                                 <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
-                                                   uib-tooltip="Ok" tooltip-placement="bottom"></i>
+                                                   uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
                                             </div>
-                                                </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -146,29 +143,20 @@
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{!vm.selectedOption.visible ? 'R$ ' + vm.selectedOption.value : 'Outro'}}
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnOtherValue"  ng-if="vm.donation.Frequency === 'monthly'">
+                                    <div class="dropdown-menu" aria-labelledby="btnOtherValue">
                                         <a class="dropdown-item" href="#" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: false}"
-                                           ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
+                                           ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)" ng-if="vm.donation.Frequency === 'monthly'">
                                             R$ {{option.value}}
                                         </a>
-                                    </div>
-                                    <div class="dropdown-menu" aria-labelledby="btnOtherValue" ng-if="vm.donation.Frequency === 'once'">
-                                        <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2"
+                                        <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2" ng-if="vm.donation.Frequency === 'once'"
                                                required money-mask money-mask-prepend="R$">
                                         <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
-                                           uib-tooltip="Ok" tooltip-placement="bottom"></i>
+                                           uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-
-                        <!-- <div ng-if="vm.donation.Frequency === 'once'" class="pb-4">
-                            <div class="form-group">
-                                <h3 class="mb-3">Valor (em R$)</h3>
-                                <input type="text" ng-model="vm.funding.customValue" class="form-control" money-mask>
-                            </div>
-                        </div> -->
 
                         <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Ir para o pagamento</b></button>
                         <a class="btn btn-link text-light mt-3 float-right" ui-sref="donate">

@@ -15,52 +15,52 @@ export class DonateController {
     ValueInCents: 10000
   };
   plans = [{
-    planId: '',
+    planId: '403694',
     value: 50,
     frequency: 'monthly',
     visible: false
   }, {
-    planId: '',
+    planId: '403695',
     value: 100,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '',
+    planId: '403696',
     value: 150,
     frequency: 'monthly',
     visible: false
   }, {
-    planId: '',
+    planId: '403697',
     value: 200,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '',
+    planId: '403698',
     value: 250,
     frequency: 'monthly',
     visible: false
   }, {
-    planId: '',
+    planId: '403699',
     value: 300,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '',
+    planId: '403700',
     value: 400,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '',
+    planId: '403701',
     value: 500,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '',
+    planId: '403702',
     value: 750,
     frequency: 'monthly',
     visible: false
   }, {
-    planId: '',
+    planId: '403703',
     value: 1000,
     frequency: 'monthly',
     visible: false
@@ -87,41 +87,6 @@ export class DonateController {
   }];
   selectedOption = null;
   customValue = 0;
-
-  //for dev
-  funding = {
-    type: 'mensal',
-    donationType: 'general',
-    // contributor: 'ALEX N SOUZA',
-    value: 'D8BC16C543436D2554104FB2EC5D1B96',
-    customValue: null,
-    // email: "alex.maodemartelo@sandbox.pagseguro.com.br",
-    // cpf:"51646013204",
-    // address: {
-    //   city: "Rio de Janeiro",
-    //   complement: "apto 1204",
-    //   country: "Brasil",
-    //   district: "copacabana",
-    //   number: "250",
-    //   postalCode: "22021-020",
-    //   state: "RJ",
-    //   street: "Rua Ronald de Carvalho"
-    // },
-    // paymentMethod: {
-    //   creditCardHolderName: "alex n souza",
-    //   creditCardNumber: "4111111111111111",
-    //   cvv: "123",
-    //   expires: {
-    //     month: "12",
-    //     year: "2030"
-    //   }
-    // },
-    // telefone: {
-    //   area: "21",
-    //   numero: "994378187"
-    // },
-    // creditCardHolderBirthDate: '26/02/1980'
-  };
 
   constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Checkout) {
     'ngInject';
@@ -159,8 +124,6 @@ export class DonateController {
         this.loading.close();
         if (!user.PersonId) {
           this.Modal.openLogin();
-        } else {
-          this.funding.contributor = user.FullName;
         }
       });
 
@@ -172,61 +135,6 @@ export class DonateController {
     this.selectFrequency('monthly');
 
   }
-
-  // submitDonation(form) {
-  //   this.submitted = true;
-
-  //   if (!this.user.PersonId) {
-  //     // User needs to login
-  //     this.Modal.openLogin();
-  //   } else if (form.$valid && this.uploadImages && this.uploadImages.length === 1 && this.donation.ValueInCents > 0 && this.donation.ProjectId !== '') {
-
-  //     this.donation.ValueInCents *= 100;
-  //     if (this.donation.Type === 'general') {
-  //       this.donation.ProjectId = null;
-  //     }
-
-  //     var loading = this.Modal.showLoading();
-
-  //     var this_ = this;
-  //     this.Upload.upload({
-  //       url: '/api/donations/upload',
-  //       arrayKey: '',
-  //       data: {
-  //         file: this.uploadImages[0],
-  //         donation: this.donation
-  //       }
-  //     })
-  //       .then(function success(result) {
-  //         loading.close();
-  //         console.log(result);
-  //         if (result.data.errorCode === 0) {
-  //           this_.submitted = false;
-  //           this_.uploadImages = [];
-  //           this_.$state.go('profile', { view: 'supported_projects' });
-  //           this_.Donation.loadMyDonations(true);
-  //           this_.$uibModal.open({
-  //             animation: true,
-  //             component: 'modalSentReceipt',
-  //             size: 'dialog-centered'
-  //           });
-  //         } else {
-  //           this_.Modal.showAlert('Erro no envio', 'Por favor, tente novamente.');
-  //         }
-  //       }, function error(err) {
-  //         loading.close();
-  //         console.log('Error: ' + err);
-  //         this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
-  //       }, function event(evt) {
-  //         console.log(evt);
-  //         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-  //         console.log('progress: ' + progressPercentage + '% ');
-  //         this_.progress = 'progress: ' + progressPercentage + '% ';
-  //       });
-
-  //   }
-
-  // }
 
   selectType(type) {
     this.donation.Type = type;
@@ -247,18 +155,18 @@ export class DonateController {
   }
 
   selectValue(option) {
-    this.selectedOption = option;
     this.donation.ValueInCents = 100 * option.value;
+    this.selectedOption = option;
     this.customValue = 0;
   }  
 
   setCustomValue(value) {
+    this.donation.ValueInCents = 100 * value;
     this.selectedOption = {
       value: value,
       frequency: 'once',
       visible: false
     };
-    this.donation.ValueInCents = 100 * value;
   }
 
   submitFunding(form) {
@@ -268,8 +176,7 @@ export class DonateController {
       // User needs to login
       this.Modal.openLogin();
     } else if (form.$valid) {
-      console.log(this.funding);
-      // this.Modal.openCheckout(this.funding);
+
     }
 
 
@@ -285,7 +192,7 @@ export class DonateController {
     //   }
     // });
     
-    var this_ = this;
+    // var this_ = this;
     this.Checkout.open({
       amount: this.donation.ValueInCents,
       buttonText: 'Pagar',
@@ -309,7 +216,7 @@ export class DonateController {
       // //   birthday: '1985-01-01'
       // }
     }, (data) => {
-      console.log(this);
+      // console.log(this);
 
       var dataa = {
         "installments":null,
@@ -325,11 +232,14 @@ export class DonateController {
         "card_hash":"1396852_ESWW7+zFGfp46TSkKY7t6WuM4MV2IE1grrp/Oc6bd+2nS/tM6cIDoI3AXkkwLt8BhaOmojH6PpgcLeF+b3u82aI342oj/mUWgfvOnmZPMOTmFmH4vwiqTmSMagehT/UGvKn/36j04OKNfhU+DK9Atpv91deFfUP9+8FpOUumxF/PudlrdeeVIKlzOuoQqZ3/bqnfOygl4UNGDxLODikuE0Ho19NQiyhgcvqoSzcP+0um6Ph906trvyMeIbwqoyFQmvabAiCf+T6mpGzeNrnEMdJr/ry3bwcEHX5nJ7XHgsBq3WJUuEgIQ1LQtldvJB5jY0kYkTAR8ixovNRIXFtCEw=="
       };
 
-      data.plan_id = '403308';
+      if(this.donation.Frequency === 'monthly') {
+        data.plan_id = this.selectedOption.planId;
+      }
 
-      this_.$http.post('/api/pagseguro/pay', data)
+      this.$http.post('/api/pagarme/pay', data)
         .then(res => {
           console.log(res); 
+          console.log(JSON.stringify(res.data));
         })
         .catch(err => {
           console.log(err);

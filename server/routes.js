@@ -38,8 +38,7 @@ export default function (app) {
   app.use('/api/project_ses', require('./api/project_se'));
   app.use('/api/initiatives', require('./api/initiative'));
   app.use('/api/initiative_links', require('./api/initiative_link'));
-  //
-  app.use('/api/pagseguro', require('./api/pagseguro'));
+  app.use('/api/pagarme', require('./api/pagarme'));
   
 
   app.use('/auth', require('./auth').default);
