@@ -17,7 +17,7 @@ import transporter from '../../email';
 import multer from 'multer';
 import moment from 'moment';
 
-function respondWithResult(res, statusCode) {
+function respondWithResult(res, statusCode) { 
   statusCode = statusCode || 200;
   return function (entity) {
     if(entity) {

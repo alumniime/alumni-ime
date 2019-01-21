@@ -15,52 +15,52 @@ export class DonateController {
     ValueInCents: 10000
   };
   plans = [{
-    planId: '403694',
+    planId: 403694,
     value: 50,
     frequency: 'monthly',
     visible: false
   }, {
-    planId: '403695',
+    planId: 403695,
     value: 100,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '403696',
+    planId: 403696,
     value: 150,
     frequency: 'monthly',
     visible: false
   }, {
-    planId: '403697',
+    planId: 403697,
     value: 200,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '403698',
+    planId: 403698,
     value: 250,
     frequency: 'monthly',
     visible: false
   }, {
-    planId: '403699',
+    planId: 403699,
     value: 300,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '403700',
+    planId: 403700,
     value: 400,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '403701',
+    planId: 403701,
     value: 500,
     frequency: 'monthly',
     visible: true
   }, {
-    planId: '403702',
+    planId: 403702,
     value: 750,
     frequency: 'monthly',
     visible: false
   }, {
-    planId: '403703',
+    planId: 403703,
     value: 1000,
     frequency: 'monthly',
     visible: false
@@ -117,11 +117,11 @@ export class DonateController {
         }
       });
     
-    this.loading = this.Modal.showLoading();
+    var loading = this.Modal.showLoading();
     this.getCurrentUser()
       .then(user => {
         this.user = user;
-        this.loading.close();
+        loading.close();
         if (!user.PersonId) {
           this.Modal.openLogin();
         }
@@ -179,6 +179,7 @@ export class DonateController {
 
     }
 
+    var loading = this.Modal.showLoading();
 
     // inicia a instância do checkout
     // var checkout = new PagarMeCheckout.Checkout({

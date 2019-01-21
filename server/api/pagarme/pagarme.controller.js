@@ -26,21 +26,28 @@ export function pay(req, res) {
     phone_numbers: [`+55${data.customer.phone.ddd}${data.customer.phone.number}`],
   };
 
-  // params.customer.id = 883840; // TODO load previous saved id
+  if(paymentType === 'subscriptions') {
+    params.customer.document_number = data.customer.document_number;
+    params.customer.document_type = isCpf ? 'cpf' : 'cnpj';
+    params.customer.address = data.customer.address;
+    params.customer.phone = data.customer.phone;
+  } else if(paymentType === 'transactions') {
+    params.billing = {
+      name: data.customer.name,
+      address: {
+        zipcode: data.customer.address.zipcode,
+        street: data.customer.address.street,
+        street_number: data.customer.address.street_number,
+        complementary: data.customer.address.complementary || ' ',
+        neighborhood: data.customer.address.neighborhood,
+        city: data.customer.address.city,
+        state: data.customer.address.state,
+        country: 'br'
+      }
+    };
+  }
 
-  params.billing = {
-    name: data.customer.name,
-    address: {
-      zipcode: data.customer.address.zipcode,
-      street: data.customer.address.street,
-      street_number: data.customer.address.street_number,
-      complementary: data.customer.address.complementary || ' ',
-      neighborhood: data.customer.address.neighborhood,
-      city: data.customer.address.city,
-      state: data.customer.address.state,
-      country: 'br'
-    }
-  };
+  // params.customer.id = 883840; // TODO load previous saved id
 
   params.items = [{
     id: 'general', // TODO add projects too
@@ -52,7 +59,7 @@ export function pay(req, res) {
 
   params.amount = data.amount;
   params.payment_method = paymentMethod;
-  params.soft_descriptor = 'Alumni IME';
+  params.soft_descriptor = 'Alumni IME'; // TODO customize depending of donation type
   // params.postback_url = '/'; // TODO
 
   if(paymentMethod === 'credit_card') {
@@ -68,6 +75,8 @@ export function pay(req, res) {
     params.plan_id = parseInt(data.plan_id);
     console.log('plan_id', data.plan_id);
   }
+
+  console.log(params);
 
   pagarme.client.connect({ api_key: config.pagarme.apiKey })
     .then(client => {
