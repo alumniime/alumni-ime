@@ -14,6 +14,10 @@ var db = {
 };
 
 // Insert models below
+db.Subscription = db.sequelize.import('../api/subscription/subscription.model');
+db.Customer = db.sequelize.import('../api/customer/customer.model');
+db.Transaction = db.sequelize.import('../api/transaction/transaction.model');
+db.Plan = db.sequelize.import('../api/plan/plan.model');
 db.Year = db.sequelize.import('../api/year/year.model');
 db.FormerStudent = db.sequelize.import('../api/former_student/former_student.model');
 db.CompanyType = db.sequelize.import('../api/company_type/company_type.model');

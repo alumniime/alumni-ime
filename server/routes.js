@@ -11,6 +11,10 @@ import config from './config/environment';
 export default function (app) {
 
   // Insert routes below
+  app.use('/api/subscriptions', require('./api/subscription'));
+  app.use('/api/customers', require('./api/customer'));
+  app.use('/api/transactions', require('./api/transaction'));
+  app.use('/api/plans', require('./api/plan'));
   app.use('/api/years', require('./api/year'));
   app.use('/api/former_students', require('./api/former_student'));
   app.use('/api/company_types', require('./api/company_type'));
