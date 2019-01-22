@@ -11,7 +11,7 @@ export function pay(req, res) {
   var isCpf = data.customer.document_number.length === 11;
   var params = {};
 
-  console.log(JSON.stringify(data));
+  console.log('data =>', JSON.stringify(data));
 
   params.customer = {
     external_id: req.user.PersonId.toString(),
@@ -45,17 +45,17 @@ export function pay(req, res) {
         country: 'br'
       }
     };
+  
+    params.items = [{
+      id: 'general', // TODO add projects too
+      title: 'Contribuição geral',
+      unit_price: data.amount,
+      quantity: 1,
+      tangible: false
+    }];
   }
 
   // params.customer.id = 883840; // TODO load previous saved id
-
-  params.items = [{
-    id: 'general', // TODO add projects too
-    title: 'Contribuição geral',
-    unit_price: data.amount,
-    quantity: 1,
-    tangible: false
-  }];
 
   params.amount = data.amount;
   params.payment_method = paymentMethod;
@@ -76,12 +76,15 @@ export function pay(req, res) {
     console.log('plan_id', data.plan_id);
   }
 
-  console.log(params);
+  console.log('params =>', params);
 
   pagarme.client.connect({ api_key: config.pagarme.apiKey })
     .then(client => {
       client[paymentType].create(params)
         .then(result => {
+          console.log('result =>', result);
+
+
           res.send(result);
         })
         .catch(err => res.send(err));

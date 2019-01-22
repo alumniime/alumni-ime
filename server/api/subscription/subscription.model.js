@@ -37,10 +37,6 @@ export default function(sequelize, DataTypes) {
         key: 'ProjectId'
       }
     },
-    CustomerJSON: {
-      type: DataTypes.JSON,
-      allowNull: false
-    },
     CardBrand: {
       type: DataTypes.STRING(25),
       allowNull: false

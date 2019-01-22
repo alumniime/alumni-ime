@@ -17,7 +17,6 @@ export default class AdminDonationsController {
       .then(response => {
         loading.close();
         this.donations = response.data;
-        console.log(this.donations);
       });
 
   }

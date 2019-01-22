@@ -14,7 +14,6 @@ import { applyPatch } from 'fast-json-patch';
 import { News, NewsCategory, NewsConstruction, NewsElement, Image } from '../../sqldb';
 import multer from 'multer';
 import async from 'async';
-import $q from 'q';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;

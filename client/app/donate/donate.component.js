@@ -201,43 +201,19 @@ export class DonateController {
       customerData: 'true',
       createToken: 'false',
       paymentMethods: this.donation.Frequency === 'monthly' ? 'credit_card' : 'credit_card,boleto',
-      // customer: {
-      //   external_id: this.user.PersonId,
-      //   name: this.user.name,
-      //   email: this.user.email,
-      //   type: 'individual',
-      //   country: 'br',
-      // //   documents: [
-      // //     {
-      // //       type: 'cpf',
-      // //       number: '71404665560',
-      // //     },
-      // //   ],
-      // //   phone_numbers: ['+5511999998888', '+5511888889999'],
-      // //   birthday: '1985-01-01'
-      // }
     }, (data) => {
-      // console.log(this);
-
-      var dataa = {
-        "installments":null,
-        "amount":10000,
-        "payment_method":"credit_card",
-        "customer":{
-          "name":"Gabriel Dilly",
-          "email":"gabriel_dilly@hotmail.com",
-          "document_number":"00000000000000",
-          "phone":{"ddd":"32","number":"999892092"},
-          "address":{"zipcode":"36016320","street":"Avenida Presidente Itamar Franco","street_number":"1430","complementary":"202","neighborhood":"Centro","city":"Juiz de Fora","state":"MG"}
-        },
-        "card_hash":"1396852_ESWW7+zFGfp46TSkKY7t6WuM4MV2IE1grrp/Oc6bd+2nS/tM6cIDoI3AXkkwLt8BhaOmojH6PpgcLeF+b3u82aI342oj/mUWgfvOnmZPMOTmFmH4vwiqTmSMagehT/UGvKn/36j04OKNfhU+DK9Atpv91deFfUP9+8FpOUumxF/PudlrdeeVIKlzOuoQqZ3/bqnfOygl4UNGDxLODikuE0Ho19NQiyhgcvqoSzcP+0um6Ph906trvyMeIbwqoyFQmvabAiCf+T6mpGzeNrnEMdJr/ry3bwcEHX5nJ7XHgsBq3WJUuEgIQ1LQtldvJB5jY0kYkTAR8ixovNRIXFtCEw=="
-      };
-
+      var url;
       if(this.donation.Frequency === 'monthly') {
+        url = '/api/subscriptions';
         data.plan_id = this.selectedOption.planId;
+      } else if(this.donation.Frequency === 'once') {
+        url = '/api/transactions';
       }
 
-      this.$http.post('/api/pagarme/pay', data)
+      this.$http.post(url, {
+        payment: data,
+        donation: this.donation
+      })
         .then(res => {
           console.log(res); 
           console.log(JSON.stringify(res.data));

@@ -15,7 +15,7 @@ export default function(sequelize, DataTypes) {
       }
     },
     CustomerJSON: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
       allowNull: false
     },
     CreateDate: {
