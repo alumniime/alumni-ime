@@ -45,6 +45,7 @@ db.User = db.sequelize.import('../api/user/user.model');
 db.Project = db.sequelize.import('../api/project/project.model');
 db.ProjectTeam = db.sequelize.import('../api/project_team/project_team.model');
 db.ProjectSe = db.sequelize.import('../api/project_se/project_se.model');
+db.ProjectCost = db.sequelize.import('../api/project_cost/project_cost.model');
 db.Initiative = db.sequelize.import('../api/initiative/initiative.model');
 db.InitiativeLink = db.sequelize.import('../api/initiative_link/initiative_link.model');
 db.OpportunityTargetPersonType = db.sequelize.import('../api/opportunity_target_person_type/opportunity_target_person_type.model'); 
@@ -76,6 +77,9 @@ db.Project.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'ProfessorId',
 db.Project.belongsTo(db.Se, {sourceKey: 'SEId', foreignKey: 'ProjectSEId', as: 'se'});
 db.Project.hasMany(db.Image, {foreignKey: 'ProjectId', as: 'images'});
 db.Project.hasMany(db.Donation, {foreignKey: 'ProjectId', as: 'donations'});
+db.Project.hasMany(db.ProjectCost, {foreignKey: 'ProjectId', as: 'costs'});
+
+db.ProjectCost.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});
 
 db.News.belongsTo(db.NewsCategory, {sourceKey: 'NewsCategoryId', foreignKey: 'NewsCategoryId', as: 'category'});
 db.News.hasMany(db.NewsConstruction, {foreignKey: 'NewsId', as: 'constructions'});

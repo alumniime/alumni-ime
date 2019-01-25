@@ -63,14 +63,24 @@ export default class SubmissionController {
           this.Modal.showAlert('Submissão indisponível', 'O período de submissão de projetos para este semestre foi encerrado.');
         }
       });
+      this.costsList = {'Item': [], 'UnitPrice': [], 'Quantity':[]};
+      this.costsIndex = [];
+      this.costsCount = 1;
 
+      this.budget = 0;
   }
 
-  submitProject(form) {
+ submitProject(form) {
+    this.costs = [];
+    for(let index = 0; index < this.costsCount-1; index ++){
+      this.costs.push({'Item': this.costsList.Item[index], 'UnitPrice': this.costsList.UnitPrice[index]*100, 'Quantity':this.costsList.Quantity[index]});
+    }     
+    this.setBudget();
+
     this.submitted = true;
     this.errors.projects = undefined;
+   
     console.log(form);
-
     if(this.appConfig.submission) {
       if(!this.user.PersonId) {
         // User needs to login
@@ -78,8 +88,7 @@ export default class SubmissionController {
       } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 4 || this.user.PersonTypeId === 5) {
 
         if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
-
-          this.project.EstimatedPriceInCents *= 100;
+          this.project.EstimatedPriceInCents = this.budget * 100;
           if(this.ConclusionDate) {
             var date = this.ConclusionDate.split('/');
             this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
@@ -93,7 +102,8 @@ export default class SubmissionController {
             arrayKey: '',
             data: {
               files: this.uploadImages,
-              project: this.project
+              project: this.project,
+              costs: this.costs
             }
           })
             .then(function success(result) {
@@ -152,4 +162,38 @@ export default class SubmissionController {
     }
   }
 
+  addField(){
+    this.costsIndex.push(this.costsCount);
+    this.costsCount += 1;
+    console.log(this.costsCount);
+    console.log(this.costsIndex);
+    console.log(this.costsList);
+  }
+
+  deleteField(index){
+    this.costsCount -=1;
+    this.costsIndex.pop();
+    this.costsList.Item.splice(index-1, 1);
+    this.costsList.UnitPrice.splice(index-1, 1);
+    this.costsList.Quantity.splice(index-1, 1);
+
+    console.log(this.costsCount);
+    console.log(this.costsIndex);
+    console.log(this.costsList);
+  }
+
+  setBudget(){
+    this.budget = 0;
+    if(this.costsList.Quantity[this.costsCount-2] && this.costsList.UnitPrice[this.costsCount-2]){
+      for(let index = 0; index < this.costsCount-1; index ++){
+        this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+      }
+    }
+    else{
+      for(let index = 0; index < this.costsCount-2; index ++){
+        this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+      }
+    }   
+    return null;
+  }
 }

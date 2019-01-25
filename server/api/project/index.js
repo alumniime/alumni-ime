@@ -16,6 +16,7 @@ router.get('/:id/admin', auth.isAuthenticated(), controller.admin);
 router.post('/upload', auth.isAuthenticated(), controller.upload);
 router.post('/edit', auth.isAuthenticated(), controller.edit);
 router.post('/result', auth.isAuthenticated(), controller.result);
+router.post('/edit/admin', auth.hasRole('admin'), controller.editAny);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', auth.hasRole('admin'), controller.upsert);
 router.patch('/:id', auth.hasRole('admin'), controller.patch);

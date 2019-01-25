@@ -11,22 +11,18 @@ export default class AdminProjectsController {
   }
   
   $onInit() {
-
     var loading = this.Modal.showLoading();
     this.$http.get('/api/projects/all')
       .then(response => {
         loading.close();
         this.projects = response.data;
       });
-
   }
 
-  //Need to create project modal
   editProject(projectId) {
     this.Modal.editProject(projectId)
     .then(() => {
       this.$state.reload();
     });
   }
-
 }

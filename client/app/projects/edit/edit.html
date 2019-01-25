@@ -194,6 +194,57 @@
                 </p>
               </div>
 
+              <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label for="">INVESTIMENTO REQUERIDO*</label>
+                      <div ng-repeat="index in vm.costsIndex">
+                        <input type="text" class="form-control" required ng-model="vm.costsList.Item[index-1]">
+                      </div>
+                    </div>              
+                  </div>
+                  <div class="col-12 col-md-2">
+                    <div class="form-group">
+                      <label for="">QUANTIDADE*</label>
+                      <div ng-repeat="index in vm.costsIndex">
+                        <input type="number" class="form-control" required ng-model="vm.costsList.Quantity[index-1]">  
+                      </div>
+                    </div>              
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="form-group">
+                      <label for="">VALOR UNITÁRIO*</label>
+                      <div ng-repeat="index in vm.costsIndex">
+                        <input type="text" class="form-control" required ng-model="vm.costsList.UnitPrice[index-1]" money-mask money-mask-prepend="R$">  
+                      </div>
+                    </div>              
+                  </div>
+                    <div class="col-12 col-md-1">
+                      <div class="form-group">
+                        <label class="labelHidden">EXCLUIR</label>
+                          <div ng-repeat="index in vm.costsIndex">
+                            <button type="button" class="form-control" aria-label="Close" ng-click="vm.deleteField(index)">
+                              <span aria-hidden="true"></span>&times;</span>
+                            </button>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-md-9">
+                  </div>
+                  <div class="col-12 col-md-3">
+                      <button type="button" class="btn btn-outline-secondary" ng-click="vm.addField()" ng-disabled="vm.costsCount !== 1 && !(vm.costsList.Item[vm.costsCount-2] && vm.costsList.UnitPrice[vm.costsCount-2] && vm.costsList.Quantity[vm.costsCount-2])"> 
+                        Adicionar Campo
+                      </button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 com-md-3">
+                    <label>ORÇAMENTO FINAL:{{vm.setBudget()}} {{vm.budget | currency}}</label>
+                  </div>
+                </div>
+
               <br>
               <label>INSERIR FOTOS*</label>
               <br>
