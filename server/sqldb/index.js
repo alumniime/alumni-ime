@@ -80,6 +80,7 @@ db.NewsConstruction.hasMany(db.Image, {foreignKey: 'NewsConstructionId', as: 'im
 db.Donation.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'DonatorId', as: 'donator'});
 db.Donation.belongsTo(db.FormerStudent, {sourceKey: 'FormerStudentId', foreignKey: 'FormerStudentId', as: 'former'});
 db.Donation.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});
+db.Donation.belongsTo(db.Transaction, {sourceKey: 'TransactionId', foreignKey: 'TransactionId', as: 'transaction'});
 db.TransferReceipt = db.Donation.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'TransferReceiptId', as: 'transferReceipt'});
 
 db.Position.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'CompanyId', as: 'company'});
@@ -97,5 +98,13 @@ db.State.belongsTo(db.Country, {sourceKey: 'CountryId', foreignKey: 'CountryId',
 db.City.belongsTo(db.State, {sourceKey: 'StateId', foreignKey: 'StateId', as: 'state'});
 
 db.Year.hasMany(db.FormerStudent, {foreignKey: 'GraduationYear', as: 'formers'});
+
+db.Subscription.belongsTo(db.Plan, {sourceKey: 'PlanId', foreignKey: 'PlanId', as: 'plan'});
+db.Subscription.belongsTo(db.Customer, {sourceKey: 'CustomerId', foreignKey: 'CustomerId', as: 'customer'});
+db.Subscription.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});
+db.Subscription.hasMany(db.Transaction, {foreignKey: 'SubscriptionId', as: 'transactions'});
+
+db.Transaction.belongsTo(db.Customer, {sourceKey: 'CustomerId', foreignKey: 'CustomerId', as: 'customer'});
+db.Transaction.belongsTo(db.Subscription, {sourceKey: 'SubscriptionId', foreignKey: 'SubscriptionId', as: 'subscription'});
 
 module.exports = db;

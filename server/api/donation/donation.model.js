@@ -40,6 +40,14 @@ export default function (sequelize, DataTypes) {
         key: 'ProjectId'
       }
     },
+    TransactionId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'Transaction',
+        key: 'TransactionId'
+      }
+    },
     DonatorName: {
       type: DataTypes.STRING(100),
       allowNull: true

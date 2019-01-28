@@ -9,76 +9,77 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import {Subscription, Customer, Transaction, Donation} from '../../sqldb';
+import { Subscription, Customer, Transaction, Donation, Project } from '../../sqldb';
 import pagarme from 'pagarme';
 import config from '../../config/environment';
 import async from 'async';
+import qs from 'qs';
 
 function respondWithResult(res, statusCode) {
-    statusCode = statusCode || 200;
-    return function(entity) {
-        if(entity) {
-            return res.status(statusCode).json(entity);
-        }
-        return null;
-    };
+  statusCode = statusCode || 200;
+  return function(entity) {
+    if(entity) {
+      return res.status(statusCode).json(entity);
+    }
+    return null;
+  };
 }
 
 function patchUpdates(patches) {
-    return function(entity) {
-        try {
-            applyPatch(entity, patches, /*validate*/ true);
-        } catch(err) {
-            return Promise.reject(err);
-        }
+  return function(entity) {
+    try {
+      applyPatch(entity, patches, /*validate*/ true);
+    } catch(err) {
+      return Promise.reject(err);
+    }
 
-        return entity.save();
-    };
+    return entity.save();
+  };
 }
 
 function removeEntity(res) {
-    return function(entity) {
-        if(entity) {
-            return entity.destroy()
-                .then(() => res.status(204).end());
-        }
-    };
+  return function(entity) {
+    if(entity) {
+      return entity.destroy()
+        .then(() => res.status(204).end());
+    }
+  };
 }
 
 function handleEntityNotFound(res) {
-    return function(entity) {
-        if(!entity) {
-            res.status(404).end();
-            return null;
-        }
-        return entity;
-    };
+  return function(entity) {
+    if(!entity) {
+      res.status(404).end();
+      return null;
+    }
+    return entity;
+  };
 }
 
 function handleError(res, statusCode) {
-    statusCode = statusCode || 500;
-    return function(err) {
-        res.status(statusCode).send(err);
-    };
+  statusCode = statusCode || 500;
+  return function(err) {
+    res.status(statusCode).send(err);
+  };
 }
 
 // Gets a list of Subscriptions
 export function index(req, res) {
-    return Subscription.findAll()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+  return Subscription.findAll()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
 // Gets a single Subscription from the DB
 export function show(req, res) {
-    return Subscription.find({
-        where: {
-            SubscriptionId: req.params.id
-        }
-    })
-        .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+  return Subscription.find({
+    where: {
+      SubscriptionId: req.params.id
+    }
+  })
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
 // Receives a new Subscription
@@ -114,7 +115,7 @@ export function subscribe(req, res) {
   params.amount = data.amount;
   params.payment_method = 'credit_card';
   params.soft_descriptor = 'Apoio Mensal';
-  // params.postback_url = '/'; // TODO
+  params.postback_url = `${config.domain}/api/subscriptions/postback`;
   params.card_hash = data.card_hash;
   params.plan_id = parseInt(data.plan_id);
 
@@ -135,22 +136,24 @@ export function subscribe(req, res) {
     },
     // Trying to save customer
     (response, next) => {
-      Customer.findOrCreate({where: {
-        CustomerId: response.customer.id,
-        PersonId: userId,
-        CustomerJSON: JSON.stringify(req.body.payment)
-      }})
+      Customer.findOrCreate({
+        where: {
+          CustomerId: response.customer.id,
+          PersonId: userId,
+          CustomerJSON: JSON.stringify(req.body.payment)
+        }
+      })
         .spread((customer, created) => next(null, response))
         .catch(err => next(err));
     },
-    // Saving the transaction
+    // Saving subscription
     (response, next) => {
       Subscription.create({
         SubscriptionId: response.id,
         PlanId: response.plan.id,
         SubscriberId: userId,
         CustomerId: response.customer.id,
-        ProjectId: donation.ProjectId,
+        ProjectId: donation.ProjectId || null,
         CardBrand: response.card.brand,
         CardHolderName: response.card.holder_name,
         CardLastDigits: response.card.last_digits,
@@ -164,7 +167,7 @@ export function subscribe(req, res) {
         .then(() => next(null, response))
         .catch(err => next(err));
     },
-    // Saving the transaction
+    // Saving transaction
     (response, next) => {
       Transaction.create({
         TransactionId: response.current_transaction.id,
@@ -177,17 +180,17 @@ export function subscribe(req, res) {
         PaidAmount: response.current_transaction.paid_amount,
         RefundedAmount: response.current_transaction.refunded_amount,
         Cost: response.current_transaction.cost,
-        CardBrand: response.current_transaction.card_brand,
-        CardHolderName: response.current_transaction.card_holder_name,
-        CardLastDigits: response.current_transaction.card_last_digits,
-        BoletoURL: response.current_transaction.boleto_url,
-        BoletoBarcode: response.current_transaction.boleto_barcode,
-        BoletoExpirationDate: response.current_transaction.boleto_expiration_date,
+        CardBrand: response.current_transaction.card_brand || null,
+        CardHolderName: response.current_transaction.card_holder_name || null,
+        CardLastDigits: response.current_transaction.card_last_digits || null,
+        BoletoURL: response.current_transaction.boleto_url || null,
+        BoletoBarcode: response.current_transaction.boleto_barcode || null,
+        BoletoExpirationDate: response.current_transaction.boleto_expiration_date || null,
         RiskLevel: response.current_transaction.risk_level,
         CreateDate: response.current_transaction.date_created,
         UpdateDate: response.current_transaction.date_updated,
         Status: response.current_transaction.status,
-        StatusReason: response.current_transaction.status_reason,      
+        StatusReason: response.current_transaction.status_reason,
       })
         .then(() => next(null, response))
         .catch(err => next(err));
@@ -196,63 +199,223 @@ export function subscribe(req, res) {
     (response, next) => {
       Donation.create({
         DonatorId: userId,
-        ProjectId: donation.ProjectId,
+        ProjectId: donation.ProjectId || null,
         TransactionId: response.current_transaction.id,
         Type: donation.Type,
         ValueInCents: data.amount,
         DonationDate: Date.now(),
         IsApproved: response.status === 'paid',
-      }) 
+      })
         .then(() => next(null, response))
         .catch(err => next(err));
     }
   ], (err, result) => {
-    if (err) {
-      res.status(500).json({errorCode: 1, errorDesc: err});
+    if(err) {
+      res.status(500).json({ errorCode: 1, errorDesc: err });
     } else {
       res.json({ errorCode: 0, errorDesc: null, result: result });
     }
   });
 }
 
+// Receives postbacks from pagarme
+
+export function postback(req, res) {
+  var response = req.body.subscription;
+  var subscriptionId = response.id;
+  var transactionId = response.current_transaction.id;
+  
+  async.waterfall([
+    // Validating postback
+    (next) => {
+      var text = qs.stringify(req.body);
+      var signature = req.headers['x-hub-signature'].split('=')[1];
+      if(pagarme.postback.verifySignature(config.pagarme.apiKey, text, signature)) {
+        next(null);
+      } else {
+        console.log(pagarme.postback.calculateSignature(config.pagarme.apiKey, text));
+        next('Wrong signature');
+      }
+    },
+    // Updating subscription
+    (next) => {
+      Subscription.update({
+        CardBrand: response.card.brand,
+        CardHolderName: response.card.holder_name,
+        CardLastDigits: response.card.last_digits,
+        ManageURL: response.manage_url,
+        CurrentPeriodStart: response.current_period_start,
+        CurrentPeriodEnd: response.current_period_end,
+        CreateDate: response.date_created,
+        UpdateDate: response.date_updated,
+        Status: response.status,
+      }, {
+        where: {
+          SubscriptionId: subscriptionId
+        }
+      })
+        .then(() => next(null))
+        .catch(err => {
+          console.error(err);
+          next(err);
+        });
+    },
+    // Finding subscription
+    (next) => {
+      Subscription.find({
+        include: [{
+          model: Project,
+          attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+          as: 'project'
+        }],
+        where: {
+          SubscriptionId: subscriptionId
+        }
+      })
+        .then(result => next(null, result))
+        .catch(err => {
+          console.error(err);
+          next(err);
+        });
+    },
+    // Updating or creating transaction
+    (subscription, next) => {
+      Transaction.find({
+        where: {
+          TransactionId: transactionId
+        }
+      })
+        .then(transaction => {
+          if(!transaction) {
+            Transaction.create({
+              TransactionId: transactionId,
+              PersonId: subscription.SubscriberId,
+              CustomerId: response.customer.id,
+              SubscriptionId: subscriptionId,
+              PaymentMethod: response.current_transaction.payment_method,
+              Amount: response.current_transaction.amount,
+              AuthorizedAmount: response.current_transaction.authorized_amount,
+              PaidAmount: response.current_transaction.paid_amount,
+              RefundedAmount: response.current_transaction.refunded_amount,
+              Cost: response.current_transaction.cost,
+              CardBrand: response.current_transaction.card_brand || null,
+              CardHolderName: response.current_transaction.card_holder_name || null,
+              CardLastDigits: response.current_transaction.card_last_digits || null,
+              BoletoURL: response.current_transaction.boleto_url || null,
+              BoletoBarcode: response.current_transaction.boleto_barcode || null,
+              BoletoExpirationDate: response.current_transaction.boleto_expiration_date || null,
+              RiskLevel: response.current_transaction.risk_level,
+              CreateDate: response.current_transaction.date_created,
+              UpdateDate: response.current_transaction.date_updated,
+              Status: response.current_transaction.status,
+              StatusReason: response.current_transaction.status_reason,
+            })
+              .then(() => next(null, true, subscription));
+          } else {
+            Transaction.update({
+              PaymentMethod: response.current_transaction.payment_method,
+              Amount: response.current_transaction.amount,
+              AuthorizedAmount: response.current_transaction.authorized_amount,
+              PaidAmount: response.current_transaction.paid_amount,
+              RefundedAmount: response.current_transaction.refunded_amount,
+              Cost: response.current_transaction.cost,
+              CardBrand: response.current_transaction.card_brand || null,
+              CardHolderName: response.current_transaction.card_holder_name || null,
+              CardLastDigits: response.current_transaction.card_last_digits || null,
+              BoletoURL: response.current_transaction.boleto_url || null,
+              BoletoBarcode: response.current_transaction.boleto_barcode || null,
+              BoletoExpirationDate: response.current_transaction.boleto_expiration_date || null,
+              RiskLevel: response.current_transaction.risk_level,
+              CreateDate: response.current_transaction.date_created,
+              UpdateDate: response.current_transaction.date_updated,
+              Status: response.current_transaction.status,
+              StatusReason: response.current_transaction.status_reason,
+            }, {
+              where: {
+                TransactionId: transactionId
+              }
+            })
+              .then(() => next(null, false, subscription));
+          }
+        })
+        .catch(err => next(err));
+    },
+    // Updating or creating donation
+    (created, subscription, next) => {
+      if(!created) {
+        Donation.update({
+          IsApproved: response.current_transaction.status === 'paid',
+        }, {
+          where: {
+            TransactionId: transactionId
+          }
+        })
+          .then(() => next(null, true))
+          .catch(err => next(err));
+      } else {
+        var isProjectDonation = subscription.ProjectId && Date.now() <= subscription.project.ConclusionDate;
+        Donation.create({
+          DonatorId: subscription.SubscriberId,
+          ProjectId: isProjectDonation ? subscription.ProjectId : null,
+          TransactionId: transactionId,
+          Type: isProjectDonation ? 'project' : 'general',
+          ValueInCents: response.current_transaction.amount,
+          DonationDate: Date.now(),
+          IsApproved: response.current_transaction.status === 'paid',
+        })
+          .then(() => next(null, true))
+          .catch(err => next(err));
+      }
+    }
+  ], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({errorCode: 1, errorDesc: err});
+    } else {
+      res.json({ errorCode: 0, errorDesc: null, result: result });
+    }
+  });
+  
+}
+
 // Upserts the given Subscription in the DB at the specified ID
 export function upsert(req, res) {
-    if(req.body.SubscriptionId) {
-        Reflect.deleteProperty(req.body, 'SubscriptionId');
+  if(req.body.SubscriptionId) {
+    Reflect.deleteProperty(req.body, 'SubscriptionId');
+  }
+  return Subscription.upsert(req.body, {
+    where: {
+      SubscriptionId: req.params.id
     }
-    return Subscription.upsert(req.body, {
-        where: {
-          SubscriptionId: req.params.id
-        }
-    })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
 // Updates an existing Subscription in the DB
 export function patch(req, res) {
-    if(req.body.SubscriptionId) {
-        Reflect.deleteProperty(req.body, 'SubscriptionId');
+  if(req.body.SubscriptionId) {
+    Reflect.deleteProperty(req.body, 'SubscriptionId');
+  }
+  return Subscription.find({
+    where: {
+      SubscriptionId: req.params.id
     }
-    return Subscription.find({
-        where: {
-            SubscriptionId: req.params.id
-        }
-    })
-        .then(handleEntityNotFound(res))
-        .then(patchUpdates(req.body))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+  })
+    .then(handleEntityNotFound(res))
+    .then(patchUpdates(req.body))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
 // Deletes a Subscription from the DB
 export function destroy(req, res) {
-    return Subscription.find({
-        where: {
-            SubscriptionId: req.params.id
-        }
-    })
-        .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
-        .catch(handleError(res));
+  return Subscription.find({
+    where: {
+      SubscriptionId: req.params.id
+    }
+  })
+    .then(handleEntityNotFound(res))
+    .then(removeEntity(res))
+    .catch(handleError(res));
 }

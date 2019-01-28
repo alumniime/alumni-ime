@@ -13,6 +13,7 @@ import {Transaction, Customer, Donation} from '../../sqldb';
 import pagarme from 'pagarme';
 import config from '../../config/environment';
 import async from 'async';
+import qs from 'qs';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -132,7 +133,7 @@ export function transact(req, res) {
   params.amount = data.amount;
   params.payment_method = paymentMethod;
   params.soft_descriptor = donation.Type === 'general' ? 'Apoio Geral' : 'Apoio Projeto';
-  // params.postback_url = '/'; // TODO
+  params.postback_url = `${config.domain}/api/transactions/postback`;
 
   if(paymentMethod === 'credit_card') {
     params.card_hash = data.card_hash;
@@ -168,7 +169,7 @@ export function transact(req, res) {
         .spread((customer, created) => next(null, response))
         .catch(err => next(err));
     },
-    // Saving the transaction
+    // Saving transaction
     (response, next) => {
       Transaction.create({
         TransactionId: response.id,
@@ -181,12 +182,12 @@ export function transact(req, res) {
         PaidAmount: response.paid_amount,
         RefundedAmount: response.refunded_amount,
         Cost: response.cost,
-        CardBrand: response.card_brand,
-        CardHolderName: response.card_holder_name,
-        CardLastDigits: response.card_last_digits,
-        BoletoURL: response.boleto_url,
-        BoletoBarcode: response.boleto_barcode,
-        BoletoExpirationDate: response.boleto_expiration_date,
+        CardBrand: response.card_brand || null,
+        CardHolderName: response.card_holder_name || null,
+        CardLastDigits: response.card_last_digits || null,
+        BoletoURL: response.boleto_url || null,
+        BoletoBarcode: response.boleto_barcode || null,
+        BoletoExpirationDate: response.boleto_expiration_date || null,
         RiskLevel: response.risk_level,
         CreateDate: response.date_created,
         UpdateDate: response.date_updated,
@@ -200,7 +201,7 @@ export function transact(req, res) {
     (response, next) => {
       Donation.create({
         DonatorId: userId,
-        ProjectId: donation.ProjectId,
+        ProjectId: donation.ProjectId || null,
         TransactionId: response.id,
         Type: donation.Type,
         ValueInCents: data.amount,
@@ -217,6 +218,74 @@ export function transact(req, res) {
       res.json({ errorCode: 0, errorDesc: null, result: result });
     }
   });
+}
+
+// Receives postbacks from pagarme
+export function postback(req, res) {
+  var response = req.body.transaction;
+  var transactionId = response.id; 
+  
+  async.waterfall([
+    // Validating postback
+    (next) => {
+      var text = qs.stringify(req.body);
+      var signature = req.headers['x-hub-signature'].split('=')[1];
+      if(pagarme.postback.verifySignature(config.pagarme.apiKey, text, signature)) {
+        next(null);
+      } else {
+        next('Wrong signature');
+      }
+    },
+    // Updating transaction
+    (next) => {
+      Transaction.update({
+        SubscriptionId: response.subscription_id || null,
+        PaymentMethod: response.payment_method,
+        Amount: response.amount,
+        AuthorizedAmount: response.authorized_amount,
+        PaidAmount: response.paid_amount,
+        RefundedAmount: response.refunded_amount,
+        Cost: response.cost,
+        CardBrand: response.card_brand || null,
+        CardHolderName: response.card_holder_name || null,
+        CardLastDigits: response.card_last_digits || null,
+        BoletoURL: response.boleto_url || null,
+        BoletoBarcode: response.boleto_barcode || null,
+        BoletoExpirationDate: response.boleto_expiration_date || null,
+        RiskLevel: response.risk_level,
+        CreateDate: response.date_created,
+        UpdateDate: response.date_updated,
+        Status: response.status,
+        StatusReason: response.status_reason,
+      }, {
+        where: {
+          TransactionId: transactionId
+        }
+      })
+        .then(() => next(null))
+        .catch(err => next(err));
+    },
+    // Updating donation
+    (next) => {
+      Donation.update({
+        IsApproved: response.status === 'paid',
+      }, {
+        where: {
+          TransactionId: transactionId
+        }
+      })
+        .then(() => next(null, true))
+        .catch(err => next(err));
+    }
+  ], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({errorCode: 1, errorDesc: err});
+    } else {
+      res.json({ errorCode: 0, errorDesc: null, result: result });
+    }
+  });
+
 }
 
 // Upserts the given Transaction in the DB at the specified ID
