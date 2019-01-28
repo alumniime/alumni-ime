@@ -182,12 +182,12 @@
               </div>
 
               <div class="form-group">
-                <label for="Rewards">SISTEMA DE RECOMPENSAS* ({{ 1200 - form.Schedule.$viewValue.length
+                <label for="Rewards">RECOMPENSAS PARA APOIADORES* ({{ 1200 - form.Schedule.$viewValue.length
                   }})</label>
                 <textarea type="text" id="Rewards" name="Rewards" class="form-control" rows="6"
                           ng-model="vm.project.Rewards" required ng-maxlength="1200"></textarea>
                 <p class="help-block" ng-show="form.Rewards.$error.required && vm.submitted">
-                  Insira um sistema de recompensas para valores de doações.
+                  Insira as recompensas para apoiadores por valor de doação.
                 </p>
                 <p class="help-block" ng-show="form.Rewards.$error.maxlength">
                   Texto muito longo.
