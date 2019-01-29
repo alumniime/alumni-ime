@@ -1,22 +1,28 @@
 'use strict';
 
 export default class AdminDonationsController {
+  searchName = '';
+  searchStatus = '';
+  searchPaymentMethod = '';
+  order = {
+    donations: '-DonationDate',
+  };
 
   /*@ngInject*/
-  constructor(Util, Modal, $http, $state) {
+  constructor(Util, Modal, Donation, $state) {
     this.Util = Util;
     this.Modal = Modal;
-    this.$http = $http;
+    this.Donation = Donation;
     this.$state = $state;
   }
   
   $onInit() {
 
     var loading = this.Modal.showLoading();
-    this.$http.get('/api/donations')
-      .then(response => {
+    this.Donation.load()
+      .then(data => {
         loading.close();
-        this.donations = response.data;
+        this.donations = data;
       });
 
   }
@@ -26,6 +32,14 @@ export default class AdminDonationsController {
     .then(() => {
       this.$state.reload();
     });
+  }
+
+  orderBy(table, field) {
+    if(this.order[table] === field) {
+      this.order[table] = '-' + field;
+    } else {
+      this.order[table] = field;
+    }
   }
 
 }

@@ -19,6 +19,11 @@ export function DonationService($http, $q, $state, Util) {
         $http.get('/api/donations')
           .then(response => {
             this.list = response.data;
+            for(var donation of this.list) {
+              donation.Name = Util.nameCase(donation.donator ? donation.donator.FullName : donation.former ? donation.former.Name : donation.DonatorName);
+              donation.Status = donation.IsApproved ? 'Aprovada' : donation.transaction && donation.transaction.Status === 'refused' ? 'Recusada' : donation.transaction && donation.transaction.Status === 'refunded' ? 'Estornada' : 'Pendente';
+              donation.PaymentMethod = !donation.transaction ? 'Transferência' : donation.transaction.PaymentMethod === 'credit_card' ? 'Crédito' : 'Boleto';
+            }
             d.resolve(this.list);
           })
           .catch(err => {

@@ -11,7 +11,7 @@
 'use strict';
 
 import {applyPatch} from 'fast-json-patch';
-import {Donation, Project, TransferReceipt, User, FormerStudent, Engineering, PersonType, Se} from '../../sqldb';
+import {Donation, Project, TransferReceipt, User, FormerStudent, Engineering, PersonType, Se, Transaction, Subscription, Plan, Customer} from '../../sqldb';
 import config from '../../config/environment';
 import transporter from '../../email';
 import multer from 'multer';
@@ -99,6 +99,10 @@ export function index(req, res) {
       model: FormerStudent,
       attributes: ['FormerStudentId', 'Name'],
       as: 'former'
+    }, {
+      model: Transaction,
+      attributes: ['TransactionId', 'PaymentMethod', 'Status'],
+      as: 'transaction'
     },
       TransferReceipt
     ]
@@ -142,6 +146,9 @@ export function show(req, res) {
       model: FormerStudent,
       attributes: ['FormerStudentId', 'Name'],
       as: 'former'
+    }, {
+      model: Transaction,
+      as: 'transaction'
     },
       TransferReceipt
     ],
@@ -153,7 +160,7 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
-// Get my supported projects
+// Get my donations
 export function me(req, res) {
   var userId = req.user.PersonId;
   return Donation.findAll({
@@ -169,6 +176,13 @@ export function me(req, res) {
         model: User,
         attributes: ['name'],
         as: 'professor'
+      }]
+    }, {
+      model: Transaction,
+      as: 'transaction',
+      include: [{
+        model: Subscription,
+        as: 'subscription'
       }]
     }],
     where: {
