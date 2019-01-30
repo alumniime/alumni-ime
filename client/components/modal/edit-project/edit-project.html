@@ -1,0 +1,201 @@
+<div class="modal-header d-block">
+    <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+    <h5 class="modal-title text-center mt-3" id="modal-title">{{vm.project.ProjectId ? vm.project.ProjectName : 'Cadastrar projeto'}}</h5>
+</div>
+
+<div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
+  <div class="row justify-content-center p-0" ng-if="vm.project.ProjectId">
+    <div ng-if = "vm.project.IsApproved == 1" id="statusForm" class="card" style="width: 100%;">
+      <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus = !vm.collapseStatus" style = "background-color: #f0f0f0;">
+        <h5 class="card-header">
+          Situação
+          <!-- <span class="pull-right collapse-icon"> -->
+          <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus"></i> 
+          <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus"></i> 
+          <!-- </span> -->
+        </h5>
+      </a>
+      <div class="card-body pb-4" ng-hide="vm.collapseStatus">
+        <form class="form" name="form" ng-submit="vm.updateStatus(form)" novalidate>
+          <div class="row p-0">
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label>VALOR ORÇADO</label>
+                <input type="text" id="EstimatedPriceInCents" name="EstimatedPriceInCents" class="form-control" required
+                    ng-model="vm.project.EstimatedPriceInCents" money-mask money-mask-prepend="R$">
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>VALOR REPASSADO</label>
+                  <input type="text" id="CollectedPriceInCents" name="CollectedPriceInCents" class="form-control" required
+                    ng-model="vm.project.CollectedPriceInCents" money-mask money-mask-prepend="R$">
+                </div>
+              </div>
+          </div>
+          <button class="btn btn-danger mx-auto mt-3" type="submit">
+              SALVAR
+            </button>
+        </form>
+      </div>
+    </div>     
+  </div>
+
+  <div class="row justify-content-center p-0" ng-if="vm.project.ProjectId">
+    <div id="infoForm" class="card" style="width: 100%;">
+      <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseInfo = !vm.collapseInfo" style = "background-color: #f0f0f0;">
+        <h5 class="card-header">
+          Informações do Projeto
+          <!-- <span class="pull-right collapse-icon"> -->
+          <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseInfo"></i> 
+          <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseInfo"></i> 
+          <!-- </span> -->
+        </h5>
+      </a>
+      <div class="card-body pb-4" ng-hide="vm.collapseInfo">
+        <form class="form" name="form" ng-submit="vm.updateStatus(form)" novalidate>
+          <div class="row p-0">
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label>NOME DO PROJETO</label>
+                <input type="text" id="ProjectName" name="ProjectName" class="form-control" required
+                    ng-model="vm.project.ProjectName">
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label>NOME DA EQUIPE</label>
+                <input type="text" id="TeamName" name="TeamName" class="form-control" required
+                    ng-model="vm.project.TeamName">
+              </div>
+            </div>
+          </div> 
+          
+          <div class="row p-0">
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label>QUANTIDADE DE ALUNOS IMPACTADOS</label>
+                <input type="text" id="ProjectName" name="ProjectName" class="form-control" required
+                    ng-model="vm.project.StudentsNumber">
+              </div>
+            </div>
+            <div class="col-12 col-sm-6" ng-if="vm.project.IsApproved == 0">
+              <div class="form-group">
+                <label>VALOR ORÇADO</label>
+                <input type="text" id="TeamName" name="TeamName" class="form-control" required
+                    ng-model="vm.project.EstimatedPriceInCents" money-mask money-mask-prepend="R$">
+              </div>
+            </div>
+          </div> 
+          
+          <div class="row p-0">
+            <div class="col-12 col-sm-12">
+              <div class="form-group">
+                <label>RESUMO</label>
+                <textarea type="text" id="Abstract" name="Abstract" class="form-control" rows="8" required
+                    ng-model="vm.project.Abstract"></textarea>
+              </div>
+            </div>
+          </div> 
+
+          <div class="row p-0">
+            <div class="col-12 col-sm-12">
+              <div class="form-group">
+                <label>OBJETIVOS</label>
+                <textarea type="text" id="Goals" name="Goals" class="form-control" rows="8" required
+                    ng-model="vm.project.Goals"></textarea>
+              </div>
+            </div>
+          </div> 
+          
+          <div class="row p-0">
+            <div class="col-12 col-sm-12">
+              <div class="form-group">
+                <label>BENEFÍCIOS PARA OS ALUNOS</label>
+                <textarea type="text" id="Benefits" name="Benefits" class="form-control" rows="8" required
+                    ng-model="vm.project.Benefits"></textarea>
+              </div>
+            </div>
+          </div> 
+
+          <div class="row p-0">
+            <div class="col-12 col-sm-12">
+              <div class="form-group">
+                <label>CRONOGRAMA</label>
+                <textarea type="text" id="Schedule" name="Schedule" class="form-control" rows="8" required
+                    ng-model="vm.project.Schedule"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row p-0">
+            <div class="col-12 col-sm-12">
+              <div class="form-group">
+                <label>RECOMPENSAS PARA APOIADORES</label>
+                <textarea type="text" id="Rewards" name="Rewards" class="form-control" rows="8" required
+                    ng-model="vm.project.Rewards"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" ng-if="vm.project.Year >= 2019">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="">INVESTIMENTO REQUERIDO*</label>
+                <div ng-repeat="index in vm.costsIndex">
+                  <input type="text" class="form-control" required ng-model="vm.costsList.Item[index-1]">
+                </div>
+              </div>              
+            </div>
+            <div class="col-12 col-md-2">
+              <div class="form-group">
+                <label for="">QUANTIDADE*</label>
+                <div ng-repeat="index in vm.costsIndex">
+                  <input type="number" class="form-control" required ng-model="vm.costsList.Quantity[index-1]">  
+                </div>
+              </div>              
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="form-group">
+                <label for="">VALOR UNITÁRIO*</label>
+                <div ng-repeat="index in vm.costsIndex">
+                  <input type="text" class="form-control" required ng-model="vm.costsList.UnitPrice[index-1]" money-mask money-mask-prepend="R$">  
+                </div>
+              </div>              
+            </div>
+              <div class="col-12 col-md-1">
+                <div class="form-group">
+                  <label class="labelHidden">EXCLUIR</label>
+                    <div ng-repeat="index in vm.costsIndex">
+                      <button type="button" class="form-control" aria-label="Close" ng-click="vm.deleteField(index)">
+                        <span aria-hidden="true"></span>&times;</span>
+                      </button>
+                    </div>
+                </div>
+              </div>
+          </div>
+          <div class="row" ng-if="vm.project.Year >= 2019">
+            <div class="col-12 col-md-9">
+            </div>
+            <div class="col-12 col-md-3">
+                <button type="button" class="btn btn-outline-secondary" ng-click="vm.addField()" ng-disabled="vm.costsCount !== 1 && !(vm.costsList.Item[vm.costsCount-2] && vm.costsList.UnitPrice[vm.costsCount-2] && vm.costsList.Quantity[vm.costsCount-2])"> 
+                  Adicionar Campo
+                </button>
+            </div>
+          </div>
+
+          <div class="custom-control custom-checkbox my-2">
+            <input type="checkbox" name="IsApproved" class="custom-control-input" id="IsApproved" ng-model="vm.project.IsApproved">
+            <label class="custom-control-label" for="IsApproved">
+              Aprovar projeto
+            </label>
+          </div>
+
+          <button class="btn btn-danger mx-auto mt-3" type="submit">
+            SALVAR
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>     
+</div>

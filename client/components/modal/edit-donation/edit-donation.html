@@ -158,7 +158,7 @@
             <input type="text" id="DonationDate" name="DonationDate"
                     class="form-control" placeholder="dd/mm/yyyy" mask="39/19/2999"
                     ng-model="vm.DonationDate" required
-                    ng-change="vm.validateDate(vm.DonationDate)">
+                    ng-change="vm.dateInvalid = vm.Util.invalidDate(vm.DonationDate)">
             <p class="help-block" ng-show="form.DonationDate.$error.required && vm.submitted">
               Insira a data da contribuição.
             </p>

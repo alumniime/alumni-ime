@@ -14,13 +14,13 @@ export default class ModalEditDonationController {
   };
 
   /*@ngInject*/
-  constructor(Modal, $http, $filter, Project, Donation, Util) {
+  constructor(Modal, Donation, Project, Util, $http, $filter) {
     this.Modal = Modal;
+    this.Donation = Donation;
+    this.Project = Project;
+    this.Util = Util;
     this.$http = $http;
     this.$filter = $filter;
-    this.Project = Project;
-    this.Donation = Donation;
-    this.Util = Util;
   }
 
   $onInit() {
@@ -46,24 +46,12 @@ export default class ModalEditDonationController {
   
   }
 
-  validateDate(input) {
-    if(input) {
-      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-      var arr = input.split('/');
-      if(input && input.match(reg)) {
-        this.dateInvalid = false;
-      } else {
-        this.dateInvalid = true;
-      }
-    }
-  }
-
   submitDonation(form) {
     this.submitted = true;
 
     if(form.$valid && this.donation.ValueInCents > 0 && !this.dateInvalid) {
       
-      if(!this.DonationId) {
+      if(!this.DonationId && this.DonationDate) {
         var date = this.DonationDate.split('/');
         this.donation.DonationDate = new Date(date[2], date[1] - 1, date[0]);
       }
@@ -88,6 +76,7 @@ export default class ModalEditDonationController {
           console.log(res);
           loading.close();
           this.ok(true);
+          this.Donation.load(true);
           this.Modal.showAlert('Sucesso', 'Contribuição salva com sucesso.');
           this.Donation.get(this.DonationId, true);
           this.submitted = false;

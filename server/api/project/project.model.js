@@ -85,6 +85,10 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
+    Rewards: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     ConclusionDate: {
       type: DataTypes.DATE,
       allowNull: true

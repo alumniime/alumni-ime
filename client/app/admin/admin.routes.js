@@ -57,4 +57,33 @@ export default function routes($stateProvider, appConfig) {
     }
   });
 
+  $stateProvider.state('admin.projects', {
+    url: '/projects',
+    template: require('./projects/projects.html'),
+    controller: 'AdminProjectsController',
+    controllerAs: 'admin',
+    authenticate: 'admin',
+    data: {
+      meta: {
+        title: 'Gerenciar Projetos',
+        'og:url': `${appConfig.url}/admin/projects`
+      }
+    }
+  });
+
+    
+  $stateProvider.state('admin.opportunities', {
+    url: '/opportunities',
+    template: require('./opportunities/opportunities.html'),
+    controller: 'AdminOpportunitiesController',
+    controllerAs: 'admin',
+    authenticate: 'admin',
+    data: {
+      meta: {
+        title: 'Gerenciar Vagas',
+        'og:url': `${appConfig.url}/admin/opportunities`
+      }
+    }
+  });
+
 }

@@ -6,6 +6,8 @@ import AdminController from './admin.controller';
 import AdminUsersController from './users/users.controller';
 import AdminNewsController from './news/news.controller';
 import AdminDonationsController from './donations/donations.controller';
+import AdminProjectsController from './projects/projects.controller';
+import AdminOpportunitiesController from './opportunities/opportunities.controller';
 
 export default angular.module('alumniApp.admin', ['alumniApp.auth', 'ui.router'])
   .config(routes)
@@ -13,4 +15,6 @@ export default angular.module('alumniApp.admin', ['alumniApp.auth', 'ui.router']
   .controller('AdminUsersController', AdminUsersController)
   .controller('AdminNewsController', AdminNewsController)
   .controller('AdminDonationsController', AdminDonationsController)
+  .controller('AdminProjectsController', AdminProjectsController)
+  .controller('AdminOpportunitiesController', AdminOpportunitiesController)
   .name;

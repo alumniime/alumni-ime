@@ -1,13 +1,13 @@
 <div class="container graduatesSearchView">
 
   <h5 class="page-title">
-    Consultar ex-alunos graduados no IME
+    Pesquisar ex-alunos graduados no IME
     <br class="d-block d-lg-none">
     <span class="font-weight-normal ml-5" ng-if="vm.showYears">
       {{vm.graduationYears | sumByKey: 'UsersNumber'}} cadastrados de {{vm.graduationYears | sumByKey: 'TotalNumber'}}
     </span>
     <a href="#formerStudents" class="text-dark ml-5" ng-if="vm.showYears">Busca avançada</a>
-    <a href="/graduates/search" class="text-dark ml-5" ng-if="!vm.showYears">Visualizar todos os anos</a>
+    <a ui-sref="graduates.search({year: null})" class="text-dark ml-5 mt-3" ng-if="!vm.showYears">Visualizar todos os anos</a>
   </h5>
 
   <!-- List with years -->
@@ -17,7 +17,7 @@
       <div class="row">
 
         <div class="col-2">
-          <a href="/graduates/search/{{year.GraduationYear}}" class="year-link pt-3 pr-3 text-dark"
+          <a ui-sref="graduates.search({year: year.GraduationYear})" class="year-link pt-3 pr-3 text-dark"
              ng-class="{active: year.GraduationYear === vm.search.GraduationYear}">{{year.GraduationYear}}</a>
         </div>
 
@@ -45,7 +45,7 @@
   </div>
 
   <!-- Search form -->
-  <div id="formerStudents" class="card mb-3 mt-4">
+  <div id="formerStudents" class="card mb-3" ng-class="{'mt-4': vm.showYears}">
     <h5 class="card-header">Busca avançada</h5>
     <div class="card-body pb-4">
       <form class="form" name="form" ng-submit="vm.searchStudents(form)" novalidate>
@@ -82,7 +82,7 @@
 
           <div class="col-12 col-md-6 col-xl-4 mb-3">
             <div class="row p-0">
-              <div class="col-5">
+              <div class="col-12 col-sm-5">
                 <div class="form-group">
                   <label for="LevelType">MEIO DE ATUAÇÃO</label>
                   <select class="form-control" id="LevelType" name="LevelType" ng-model="vm.search.LevelType">
@@ -93,7 +93,7 @@
                 </div>
               </div>
 
-              <div class="col-7">
+              <div class="col-12 col-sm-7">
                 <div class="form-group">
                   <label for="Level" ng-if="vm.search.LevelType === 'civil' || !vm.search.LevelType">NÍVEL DO CARGO</label>
                   <label for="Level" ng-if="vm.search.LevelType === 'military'">PATENTE</label>
@@ -142,23 +142,24 @@
 
           <div class="col-12 col-md-6 col-xl-4 mb-3">
             <div class="form-group">
-              <label for="name">NOME</label>
+              <label for="name">NOME OU EMPRESA</label>
               <input type="text" name="name" id="name" class="form-control" ng-model="vm.search.name">
             </div>
           </div>
 
         </div>
         
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" name="onlyPerson" class="custom-control-input" id="onlyPerson" ng-model="vm.search.required">
-          <label class="custom-control-label" for="onlyPerson">
-            Buscar apenas ex-alunos cadastrados
-          </label>
-        </div>
-
-        <div class="row justify-content-end p-0">
+        <div class="row justify-content-between p-0">
           <div class="col-auto">
-            <button class="btn btn-danger" type="submit">
+            <div class="custom-control custom-checkbox mt-0 mt-md-2">
+              <input type="checkbox" name="onlyPerson" class="custom-control-input" id="onlyPerson" ng-model="vm.search.required">
+              <label class="custom-control-label" for="onlyPerson">
+                Buscar apenas ex-alunos cadastrados
+              </label>
+            </div>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-danger mt-3 mt-md-0" type="submit">
               BUSCAR
             </button>
           </div>

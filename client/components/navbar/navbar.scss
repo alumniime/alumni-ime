@@ -93,6 +93,11 @@ navbar {
     .nav-link:hover, .nav-link.active {
       color: #E84E0F !important;
     }
+    
+    @include media-breakpoint-only(lg) {
+      padding-right: 0 !important;
+      padding-left: 0 !important;
+    }
 
     @include media-breakpoint-up(lg) {
       li.dropdown:hover div.dropdown-menu {
@@ -163,6 +168,9 @@ navbar {
 }
 
 li .btn-danger {
+  font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
   background-color: #E84E0F;
   width: 120px;
   border-radius: 100px;

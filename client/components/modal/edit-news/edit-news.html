@@ -27,7 +27,7 @@
           <label for="PublishDate">DATA DE PUBLICAÇÃO*</label>
           <input type="text" id="PublishDate" name="PublishDate" placeholder="dd/mm/yyyy" mask="39/19/9999"
                   class="form-control" ng-model="vm.PublishDate"
-                  ng-change="vm.validateDate(vm.PublishDate)">
+                  ng-change="vm.dateInvalid = vm.Util.invalidDate(vm.PublishDate)">
           <p class="help-block" ng-show="form.PublishDate.$error.required && vm.submitted">
             Insira a data de publicação.
           </p>
@@ -220,7 +220,7 @@
 
     </div>
 
-    <div class="custom-control custom-checkbox my-2" ng-if="vm.NewsId">
+    <div class="custom-control custom-checkbox my-2">
       <input type="checkbox" name="IsExcluded" class="custom-control-input" id="IsExcluded" ng-model="vm.news.IsExcluded">
       <label class="custom-control-label" for="IsExcluded">
         Ocultar notícia

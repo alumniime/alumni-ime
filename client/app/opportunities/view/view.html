@@ -1,0 +1,107 @@
+<div class="container opportunitiesViewView">
+
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-9">
+
+      <div class="row p-0">
+        <div class="col-auto">
+          <img class="view-photo pb-2" ng-src="{{vm.opportunity.companyLogo.Path}}"
+              alt="{{vm.opportunity.Title}}">
+        </div>
+        <div class="col-auto">
+          <h1 class="mb-1">{{vm.opportunity.Title}}</h1>
+          <p class="legend">
+            Tipo de Vaga: {{vm.opportunity.opportunityType.Description}}
+            <br>
+            Anúncio em {{vm.opportunity.PostDate | date: 'dd MMM, yyyy'}}
+          </p>
+
+          <a class="text-dark c-pointer font-weight-bold" target="_blank"
+              href="{{vm.opportunity.ExternalLink}}" ng-if="vm.opportunity.ExternalLink">Link Externo</a>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label for="opportunityFunctionShow">FUNÇÃO DO CARGO</label>
+            <input type="text" id="opportunityFunctionShow" name="opportunityFunction" class="form-control-plaintext" readonly
+                  ng-model="vm.opportunity.opportunityFunction.Description">
+          </div>
+          <div class="form-group">
+            <label for="companyNameShow">NOME DA EMPRESA</label>
+            <input type="text" id="companyNameShow" name="companyName" class="form-control-plaintext" readonly
+                  ng-model="vm.opportunity.company.Name">
+          </div>
+          <div class="form-group">
+            <label for="companyIndustryShow">SETOR DA EMPRESA</label>
+            <input type="text" id="companyIndustryShow" name="companyIndustry" class="form-control-plaintext" readonly
+                  ng-model="vm.opportunity.company.industry.PortugueseDescription">
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label for="experienceLevelShow">NÍVEL DE EXPERIÊNCIA</label>
+            <input type="text" id="experienceLevelShow" name="experienceLevel" class="form-control-plaintext" readonly
+                  ng-model="vm.opportunity.experienceLevel.Description">
+          </div>
+          <div class="form-group">
+            <label for="LocationShow">LOCALIZAÇÃO</label>
+            <input type="text" id="LocationShow" name="Location" class="form-control-plaintext" readonly
+                  ng-value="vm.locationName">
+          </div>
+          <div class="form-group">
+            <label for="ExpirationDateShow">DATA LIMITE DE CANDIDATURA</label>
+            <input type="text" id="ExpirationDateShow" name="ExpirationDate" class="form-control-plaintext" readonly
+                  value="{{vm.opportunity.ExpirationDate | date:'dd/MM/yyyy'}}">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="info-name pt-3 pb-2">
+        RESPONSABILIDADES
+      </div>
+      <div class="info-text text-pre">{{vm.opportunity.Responsabilities}}</div>
+
+      <div class="info-name pt-3 pb-2">
+        REQUISITOS
+      </div>
+      <div class="info-text text-pre">{{vm.opportunity.Requirements}}</div>
+
+      <div class="info-name pt-3 pb-2">
+        BENEFÍCIOS
+      </div>
+      <div class="info-text text-pre">{{vm.opportunity.Benefits}}</div>
+
+      <br>
+      <div class="row justify-content-end p-0">
+        <div class="col-auto" ng-if="!vm.opportunityAcceptTarget(vm.user.personType.PersonTypeId) && vm.today <= vm.ExpirationDate">
+          <button href="#" class="btn btn-danger m-auto disabled">
+            INDISPONÍVEL PARA {{vm.user.personType.PortugueseDescription | uppercase}}
+          </button>
+        </div>
+        <div class="col-auto" ng-if="!vm.application && vm.opportunityAcceptTarget(vm.user.personType.PersonTypeId) && vm.today <= vm.ExpirationDate && vm.opportunity.IsApproved && vm.user.personType.Description !== 'Visitor'">
+          <button href="#" class="btn btn-danger m-auto" ng-click="vm.doApplication(vm.opportunity)">
+            QUERO ME CANDIDATAR
+          </button>
+        </div>
+        <div class="col-auto" ng-if="vm.application && vm.today <= vm.ExpirationDate">
+          <button href="#" class="btn btn-danger m-auto disabled">
+            CANDIDATURA ENVIADA
+            <i class="fa fa-check"></i>
+          </button>
+        </div>
+        <div class="col-auto" ng-if="vm.today > vm.ExpirationDate">
+          <button href="#" class="btn btn-danger m-auto disabled">
+            VAGA ENCERRADA
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

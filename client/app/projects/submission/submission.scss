@@ -4,7 +4,7 @@
   .title {
     font-weight: 700;
     color: #333333;
-    font-size: 20px;
+    font-size: 24px;
     margin-bottom: 30px;
   }
 
@@ -146,6 +146,10 @@
 
   .drag-over {
     outline: 3px dashed #828282;
+  }
+  
+  .labelHidden{
+    visibility: hidden;
   }
 
 }

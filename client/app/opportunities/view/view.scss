@@ -1,0 +1,153 @@
+.opportunitiesViewView {
+  @include media-breakpoint-down(md) {
+    padding-top: 10px;
+  }
+
+  .view-photo {
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  h4 {
+    font-weight: 700;
+  }
+
+  .legend {
+    font-size: 16px;
+  }
+
+  li {
+    margin-right: 30px;
+    @include media-breakpoint-down(md) {
+      margin-right: 0;
+    }
+    margin-bottom: 10px;
+    border-bottom: 1px #828282 solid;
+    .nav-link {
+      padding: 12px 20px;
+      font-size: 20px;
+      font-weight: 300;
+      color: #333 !important;
+    }
+  }
+
+  li:hover, li.active {
+    margin-bottom: 8px;
+    border-bottom: 3px #E84E0F solid;
+    .nav-link {
+      font-weight: 700;
+      color: #E84E0F !important;
+    }
+  }
+
+  .btn {
+    display: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    height: 45px;
+    border-radius: 30px;
+    min-width: 200px;
+    padding-top: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 5px;
+  }
+
+  .form-group label {
+    font-size: 10px;
+    margin-left: 0;
+    margin-bottom: 0;
+    color: #828282;
+  }
+
+  .form-control-plaintext {
+    font-size: 14px;
+  }
+
+  .form-control {
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #bdbdbd;
+    padding: 10px 20px !important;
+    height: 45px !important;
+    margin-bottom: 10px;
+  }
+
+  textarea.form-control {
+    height: auto !important;
+  }
+
+  textarea.form-control.headline {
+    height: 100px !important;
+  }
+
+  ::-webkit-input-placeholder {
+    font-style: italic;
+    color: #828282;
+  }
+
+  form input::placeholder, form textarea::placeholder {
+    font-style: italic;
+    color: #828282;
+  }
+
+  .card-title {
+    font-weight: 700;
+  }
+
+  .help-block {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #E84E0F;
+  }
+
+  .btn-danger {
+    font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 200px;
+    height: 45px;
+    padding-top: 8px;
+  }
+
+  .btn-danger:hover, .btn-danger.active {
+    background-color: rgb(199, 66, 14);
+  }
+
+  .btn-submit {
+    background-color: #E84E0F;
+    border-radius: 30px;
+  }
+
+  .btn-outline-danger{
+    color: #E84E0F;
+    border-color: #E84E0F;
+  }
+  .btn-outline-danger:hover, .btn-outline-danger.active{
+    color: #fafafa;
+    background: rgb(199, 66, 14);
+  }
+
+  .info-name {
+    font-size: 10px;
+    color: #828282;
+  }
+
+  .info-text {
+    font-size: 14px;
+    text-align: justify;
+  }
+
+  .text-pre {
+    white-space: pre-wrap;
+  }
+
+}

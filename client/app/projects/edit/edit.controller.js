@@ -20,7 +20,7 @@ export default class EditController {
   EstimatedPriceInCents = 0;
 
 
-  constructor(Auth, Project, $http, $state, $stateParams, Modal, $window, Upload, $anchorScroll, $filter) {
+  constructor(Auth, Project, $http, $state, $stateParams, Modal, $window, Upload, Util, $anchorScroll, $filter) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -31,9 +31,9 @@ export default class EditController {
     this.Modal = Modal;
     this.$window = $window;
     this.Upload = Upload;
+    this.Util = Util;
     this.$anchorScroll = $anchorScroll;
     this.$filter = $filter;
-
   }
 
   $onInit() {
@@ -51,7 +51,28 @@ export default class EditController {
           this.EstimatedPriceInCents = this.project.EstimatedPriceInCents / 100;
           this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');
           this.concatImages = this.savedImages.concat(this.uploadImages);
+
+          //Melhorar burocracia pra editar a planilha de custos
+          this.costsCount = this.project.costs.length + 1;
+          this.costsIndex = [];
+          for(let i = 1; i < this.costsCount ; i++){
+            this.costsIndex.push(i);
+          }   
+          this.costsList = {'Item': [], 'UnitPrice': [], 'Quantity':[], 'ProjectCostId': []};
+
+          for(let index of this.costsIndex){
+            this.costsList.Item.push(this.project.costs[index-1].CostDescription);
+            this.costsList.Quantity.push(this.project.costs[index-1].Quantity);
+            this.costsList.UnitPrice.push(this.project.costs[index-1].UnitPriceInCents/100); 
+            this.costsList.ProjectCostId.push(this.project.costs[index-1].ProjectCostId); 
+          }
+          //Melhorar burocracia pra editar a planilha de custos
+
+          //Fazer o calculo do orçamento na variavel budget
+          this.budget = this.EstimatedPriceInCents;
+
           console.log(this.project);
+          console.log(this.costsList);
           this.$anchorScroll('top');
         })
         .catch(() => {
@@ -77,31 +98,25 @@ export default class EditController {
       .then(response => {
         this.studentsList = response.data;
       });
-
-  }
-
-  validateDate(input) {
-    if(input) {
-      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-      var arr = input.split('/');
-      var date = new Date(arr[2], arr[1] - 1, arr[0]);
-      if(input && input.match(reg) && date > Date.now()) {
-        this.dateInvalid = false;
-      } else {
-        this.dateInvalid = true;
-      }
-    }
   }
 
   submitProject(form) {
+    this.costs = [];
+    for(let index = 0; index < this.costsCount-1; index ++){
+      this.costs.push({'Item': this.costsList.Item[index], 'UnitPrice': this.costsList.UnitPrice[index]*100, 'Quantity':this.costsList.Quantity[index], 'ProjectCostId':this.costsList.ProjectCostId[index]});
+    }     
+    this.setBudget();
+
     this.submitted = true;
     this.errors.projects = undefined;
     console.log(form);
 
-    this.project.EstimatedPriceInCents = 100 * this.EstimatedPriceInCents;
-    var date = this.ConclusionDate.split('/');
-    this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
-
+    this.project.EstimatedPriceInCents = 100 * this.budget;
+    if(this.ConclusionDate) {
+      var date = this.ConclusionDate.split('/');
+      this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
+    }
+    
     if(form.$valid && this.concatImages && this.concatImages.length > 0 && !this.dateInvalid) {
 
       var savedImages = [];
@@ -131,6 +146,7 @@ export default class EditController {
           files: uploadImages,
           project: this.project,
           savedImages: savedImages,
+          costs: this.costs,
           uploadIndexes: uploadIndexes || null
         }
       })
@@ -192,6 +208,45 @@ export default class EditController {
     }
     this.concatImages = this.concatImages.concat(this.uploadImages);
     this.uploadImages = [];
+  }
+
+  addField(){
+    this.costsIndex.push(this.costsCount);
+    this.costsCount += 1;
+    this.costsList.ProjectCostId[this.costsCount - 2] = -1;
+    console.log(this.costsCount);
+    console.log(this.costsIndex);
+    console.log(this.costsList);
+  }
+
+  deleteField(index){
+    this.costsCount -=1;
+    this.costsIndex.pop();
+    this.costsList.Item.splice(index-1, 1);
+    this.costsList.UnitPrice.splice(index-1, 1);
+    this.costsList.Quantity.splice(index-1, 1);
+    this.costsList.ProjectCostId.splice(index-1, 1);
+
+    console.log(this.costsCount);
+    console.log(this.costsIndex);
+    console.log(this.costsList);
+  }
+
+  setBudget(){
+    this.budget = 0;
+    if(this.costsList.Quantity[this.costsCount-2] && this.costsList.UnitPrice[this.costsCount-2]){
+      for(let index = 0; index < this.costsCount-1; index ++){
+        this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+      }
+    }
+    else{
+      for(let index = 0; index < this.costsCount-2; index ++){
+        this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+      }
+    }
+    
+    this.isBudgetDone = true;
+    return null;
   }
 
 }

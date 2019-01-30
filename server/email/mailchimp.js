@@ -95,7 +95,7 @@ self.updateUser = function (personId) {
     }, {
       model: Donation,
       as: 'donations',
-      required: 'false',
+      required: false,
       where: {
         IsApproved: 1
       }
@@ -117,9 +117,7 @@ self.updateUser = function (personId) {
       'InitiativeLinkOther',
       'IsApproved',
       'CreateDate',
-      'ApprovedDate', 
-      [sequelize.fn('SUM', sequelize.col('donations.ValueInCents')), 'DonationsValueInCents'],
-      [sequelize.fn('MAX', sequelize.col('donations.DonationDate')), 'LastDonationDate']
+      'ApprovedDate'
     ],
     where: {
       PersonId: personId
@@ -131,7 +129,13 @@ self.updateUser = function (personId) {
         var birthdate = new Date(user.Birthdate);
         var create = new Date(user.CreateDate);
         var approved = new Date(user.ApprovedDate);
-        var lastDonation = new Date(user.dataValues.LastDonationDate);
+        var totalDonationValue = 0;
+        var lastDonationDate = null;
+        for(var donation of user.donations) {
+          totalDonationValue = totalDonationValue + donation.ValueInCents;
+          lastDonationDate = lastDonationDate < donation.DonationDate ? donation.DonationDate : lastDonationDate;
+        }
+        var lastDonation = new Date(lastDonationDate);
 
         // Subscribe new email to list with proper merge fields
         mailchimp.put(`/lists/${config.mailchimp.listId}/members/${md5(user.email)}`, {
@@ -158,12 +162,12 @@ self.updateUser = function (personId) {
             'LEVEL_DESC': (user.positions.length > 0 && user.positions[0].level) ? user.positions[0].level.Description : '',
             'DCREATE': user.CreateDate && moment(create).isValid() ? moment(create).format('MM/DD/YYYY') : '',
             'DAPPROVED': user.ApprovedDate && moment(approved).isValid() ? moment(approved).format('MM/DD/YYYY') : '',
-            'DDONATION': user.dataValues.LastDonationDate && moment(lastDonation).isValid() ? moment(lastDonation).format('MM/DD/YYYY') : '',
-            'VALUECENTS': user.dataValues.DonationsValueInCents || 0
+            'DDONATION': lastDonationDate && moment(lastDonation).isValid() ? moment(lastDonation).format('MM/DD/YYYY') : '',
+            'VALUECENTS': totalDonationValue
           }
         })
           .then(function (results) {
-            console.log('User ', user.MailchimpStatus, ' to Mailchimp', results.email_address);
+            console.log(`User ${user.PersonId} ${user.MailchimpStatus} to Mailchimp ${results.email_address}`);
             //console.log('results post', results);
             d.resolve(results);
           }).catch(function (err) {

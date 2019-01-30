@@ -1,0 +1,91 @@
+<div class="container adminProjectsView">
+  <div id="Analise" ng-if="(admin.projects | filter: {IsExcluded: false} | filter: {IsApproved: false}).length > 0">
+    <div class="row justify-content-between">
+      <div class="col-auto">
+        <h5 class="page-title pt-3 pb-2 pb-md-0">Projetos em Análise <br class="d-block d-sm-none"> </h5>
+      </div>
+    </div>
+    <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome do Projeto</th>
+          <th scope="col">Equipe</th> 
+          <th scope="col">Período</th>
+          <th scope="col">Orçamento</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr ng-repeat="project in admin.projects | filter: {IsExcluded: false} | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.editProject(project.ProjectId)">
+            <td scope="row">{{project.ProjectId}}</td>
+            <td>{{project.ProjectName}}</th>
+            <td>{{project.TeamName}}</td>
+            <td>{{project.Year}}.{{project.Semester}}</td>
+            <td>{{project.EstimatedPriceInCents/100 | currency}}</td> 
+          </tr>
+      </tbody>
+    </table> 
+  </div>
+    <div class="row justify-content-between">
+      <div class="col-auto">
+        <h5 class="page-title pt-3 pb-2 pb-md-0">Projetos Aprovados <br class="d-block d-sm-none"> </h5>
+      </div>
+      <!-- Botão para cadastrar novos projetos-->
+      <!-- <div class="col-auto pb-2">
+        <a href="#" class="btn btn-danger mb-2" ng-click="admin.editProjects()">Cadastrar Projeto</a>
+      </div>-->
+    </div>
+  
+    
+    <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome do Projeto</th>
+          <th scope="col">Equipe</th> 
+          <th scope="col">Período</th>
+          <th scope="col">Arrecadado</th>
+          <th scope="col">Orçamento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="project in admin.projects | filter: {IsApproved: true}" class="c-pointer" ng-click="admin.editProject(project.ProjectId)">
+          <th scope="row">{{project.ProjectId}}</th>
+          <td>{{project.ProjectName}}</th>
+          <td>{{project.TeamName}}</th>
+          <td>{{project.Year}}.{{project.Semester}}</th>
+          <td>{{project.CollectedPriceInCents/100 | currency}}</td>
+          <td>{{project.EstimatedPriceInCents/100 | currency}}</td> 
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="row justify-content-between">
+        <div class="col-auto">
+          <h5 class="page-title pt-3 pb-2 pb-md-0">Projetos Recusados <br class="d-block d-sm-none"> </h5>
+        </div>
+      </div>
+    
+      <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome do Projeto</th>
+            <th scope="col">Equipe</th> 
+            <th scope="col">Período</th>
+            <th scope="col">Orçamento</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="project in admin.projects | filter: {IsExcluded: true}" class="c-pointer" ng-click="admin.editProject(project.ProjectId)">
+              <td scope="row">{{project.ProjectId}}</td>
+              <td>{{project.ProjectName}}</th>
+              <td>{{project.TeamName}}</td>
+              <td>{{project.Year}}.{{project.Semester}}</td>
+              <td>{{project.EstimatedPriceInCents/100 | currency}}</td> 
+            </tr>
+        </tbody>
+      </table> 
+    
+  </div>
+  

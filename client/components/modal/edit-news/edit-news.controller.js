@@ -19,11 +19,13 @@ export default class ModalEditNewsController {
   concatImages = {};
 
   /*@ngInject*/
-  constructor(Modal, $http, $filter, Upload) {
+  constructor(Modal, Upload, News, Util, $http, $filter) {
     this.Modal = Modal;
+    this.Upload = Upload;
+    this.News = News;
+    this.Util = Util;
     this.$http = $http;
     this.$filter = $filter;
-    this.Upload = Upload;
   }
 
   $onInit() {
@@ -68,25 +70,15 @@ export default class ModalEditNewsController {
 
   }
 
-  validateDate(input) {
-    if(input) {
-      var reg = /(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d/;
-      var arr = input.split('/');
-      if(input && input.match(reg)) {
-        this.dateInvalid = false;
-      } else {
-        this.dateInvalid = true;
-      }
-    }
-  }
-
   submitNews(form) {
     this.submitted = true;
     
-    var date = this.PublishDate.split('/');
-    this.news.PublishDate = new Date(date[2], date[1] - 1, date[0]);
+    if(this.PublishDate) {
+      var date = this.PublishDate.split('/');
+      this.news.PublishDate = new Date(date[2], date[1] - 1, date[0]);
+    }
 
-    if(form.$valid && !this.dateInvalid){
+    if(form.$valid && !this.dateInvalid && (this.uploadImages['0'].length > 0 || this.concatImages['0'].length > 0)){
 
       // TODO validation for images inputs
       var savedImages = [];
@@ -98,23 +90,14 @@ export default class ModalEditNewsController {
           if(this.concatImages[constructionIndex][imageIndex].Path) {
             image = {
               ImageId: this.concatImages[constructionIndex][imageIndex].ImageId,
-              OrderIndex: imageIndex,
-              // ConstructionIndex: constructionIndex
+              OrderIndex: imageIndex
             };
-            // if(this.news.constructions[constructionIndex].NewsConstructionId) {
-            //   image.NewsConstructionId = this.news.constructions[constructionIndex].NewsConstructionId;
-            // }
             savedImages.push(image);
           } else if(this.concatImages[constructionIndex][imageIndex].$ngfName) {
             image = {
               OrderIndex: imageIndex,
               ConstructionIndex: constructionIndex
             };
-            // if(this.news.constructions[constructionIndex].NewsConstructionId) {
-            //   image.NewsConstructionId = this.news.constructions[constructionIndex].NewsConstructionId;
-            // } else {
-            //   image.NewsConstructionId = null;
-            // }
             uploadImages.push(this.concatImages[constructionIndex][imageIndex]);
             uploadIndexes.push(image);
           }
@@ -146,6 +129,7 @@ export default class ModalEditNewsController {
           if(result.data.errorCode === 0) {
             this_.ok(true);
             this_.Modal.showAlert('Notícia salva', 'A notícia foi salva com sucesso.');
+            this_.News.loadAll(true);
             this_.submitted = false;
           } else {
             this_.Modal.showAlert('Erro ao salvar a notícia', 'Por favor, tente novamente.');

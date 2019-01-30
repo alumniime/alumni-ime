@@ -41,12 +41,26 @@ export class NavbarComponent {
       state: 'graduates',
       dropdown: [
         {
-          title: 'PESQUISA',
+          title: 'PESQUISAR',
           state: 'graduates.search'
         },
         {
           title: 'RANKING',
           state: 'graduates.ranking'
+        },
+      ]
+    },
+    {
+      title: 'VAGAS',
+      state: 'opportunities',
+      dropdown: [
+        {
+          title: 'PESQUISAR',
+          state: 'opportunities.search'
+        },
+        {
+          title: 'ANUNCIAR VAGA',
+          state: 'opportunities.post'
         },
       ]
     },

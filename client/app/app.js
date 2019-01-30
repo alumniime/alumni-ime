@@ -22,6 +22,7 @@ import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
 import graduates from './graduates';
+import opportunities from './opportunities';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import modal from '../components/modal/modal.service';
@@ -36,6 +37,7 @@ import _News from '../services/news/news.service';
 import _Donation from '../services/donation/donation.service';
 import _Subscription from '../services/subscription/subscription.service';
 import _Checkout from '../services/checkout/checkout.service';
+import _Opportunity from '../services/opportunity/opportunity.service';
 import show from './projects/show/show.component';
 import project from './projects/project/project.component';
 import news from './news/show/news.component';
@@ -48,10 +50,11 @@ import management from './about/management/management.component';
 
 import './app.scss';
 
-
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation, _Subscription, _Checkout,
-  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
-  history, institutional, management, graduates, typeform
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap,
+  ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', 'validation.match',
+  _Auth, _Project, _News, _Donation, _Opportunity, _Subscription, _Checkout,
+  account, admin, navbar, footer, modal, main, constants, util, submission, edit, show, 
+  project, news, view, result, donate, history, institutional, management, graduates, opportunities, typeform
 ])
   .config(routeConfig)
   .run(function ($rootScope, $location, Auth, ngMeta) {

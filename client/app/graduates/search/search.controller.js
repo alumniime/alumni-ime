@@ -65,7 +65,7 @@ export default class GraduatesSearchController {
                 }
               }
             }
-            location.locationName = this.updateLocationName(location.profile.location);
+            location.locationName = this.Util.getLocationName(location.profile.location);
           }
         }
       });
@@ -98,7 +98,7 @@ export default class GraduatesSearchController {
         if(!this.user.PersonId) {
           loading.close();
           this.Modal.openLogin();
-          this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos aprovados e logados podem realizar consultas.');
+          this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos aprovados e logados podem realizar pesquisas.');
         } else if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin') {
 
           if(this.$stateParams.year) {
@@ -110,7 +110,7 @@ export default class GraduatesSearchController {
                 this.formerStudents = response.data;
                 for(var student of this.formerStudents) {
                   if(student.profile && student.profile.location) {
-                    student.profile.locationName = this.updateLocationName(student.profile.location);
+                    student.profile.locationName = this.Util.getLocationName(student.profile.location);
                   }
                 }
                 this.$location.hash('formerStudents');
@@ -119,7 +119,7 @@ export default class GraduatesSearchController {
               .catch(err => {
                 loading.close();
                 console.log(err);
-                this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
+                this.Modal.showAlert('Erro na pesquisa', 'Por favor, tente novamente.');
               });
           } else {
 
@@ -163,7 +163,7 @@ export default class GraduatesSearchController {
                   } else {
                     for(var student of this.formerStudents) {
                       if(student.profile && student.profile.location) {
-                        student.profile.locationName = this.updateLocationName(student.profile.location);
+                        student.profile.locationName = this.Util.getLocationName(student.profile.location);
                       }
                     }
                   }
@@ -173,7 +173,7 @@ export default class GraduatesSearchController {
                 .catch(err => {
                   loading.close();
                   console.log(err);
-                  this.Modal.showAlert('Erro na consulta', 'Por favor, tente novamente.');
+                  this.Modal.showAlert('Erro na pesquisa', 'Por favor, tente novamente.');
                 });
             } else {
               loading.close();
@@ -182,22 +182,10 @@ export default class GraduatesSearchController {
 
         } else {
           loading.close();
-          this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar consultas.');
+          this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar pesquisas.');
         }
       });
 
-  }
-
-  updateLocationName(location) {
-    if(location) { 
-      var locationName = (location.LinkedinName ? location.LinkedinName.replace(' Area,', ',') : '');
-      if(location.country && (location.country.CountryId === 1 || (location.city && location.city.Description))) {
-        locationName = (location.city.state ? `${location.city.Description} - ${location.city.state.Code}` : location.city.Description);
-      } else {
-        locationName = (location.country ? location.country.Description : '');
-      }
-    }
-    return locationName || '';
   }
 
   searchStudents(form) {
@@ -218,13 +206,13 @@ export default class GraduatesSearchController {
       if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin') {
         this.$state.go('graduates.search', this.search);
       } else {
-        this.Modal.showAlert('Consulta indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar consultas.');
+        this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar pesquisas.');
       }
     } else {
       if(this.search.name) {
-        this.Modal.showAlert('Erro na consulta', 'O nome inserido é muito curto.');
+        this.Modal.showAlert('Erro na pesquisa', 'O nome inserido é muito curto.');
       } else {
-        this.Modal.showAlert('Erro na consulta', 'Por favor, selecione um ou mais filtros.');
+        this.Modal.showAlert('Erro na pesquisa', 'Por favor, selecione um ou mais filtros.');
       }
     }
   }
