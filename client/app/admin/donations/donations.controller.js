@@ -6,6 +6,7 @@ export default class AdminDonationsController {
   searchPaymentMethod = '';
   order = {
     donations: '-DonationDate',
+    subscriptions: '-UpdateDate'
   };
 
   /*@ngInject*/

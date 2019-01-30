@@ -48,13 +48,30 @@
           <input type="text" id="emailShow" name="email" class="form-control-plaintext" readonly ng-model="vm.donation.donator.email">
         </div>
         <div class="form-group">
-          <label for="PhoneShow">TELEFONE</label>
+          <label for="PhoneShow">TELEFONE</label><br>
           <!-- International phone -->
           <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
           ng-model="vm.donation.donator.Phone" ng-if="vm.donation.donator.Phone.indexOf('+55') === -1" ng-intl-tel-input>
           <!-- National phone -->
           <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
           ng-model="vm.donation.donator.Phone" ng-if="vm.donation.donator.Phone.indexOf('+55') > -1" mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
+        </div>
+        <div class="form-group">
+          <label for="PaymentMethodShow">MEIO DE PAGAMENTO</label>
+          <input type="text" id="PaymentMethodShow" name="PaymentMethod" class="form-control-plaintext" readonly ng-model="vm.donation.PaymentMethod">
+        </div>
+        <div class="form-group" ng-if="vm.donation.transaction && vm.donation.transaction.PaymentMethod === 'credit_card'">
+          <label for="CardShow">CARTÃO {{vm.donation.transaction.CardBrand | uppercase}} - FINAL {{vm.donation.transaction.CardLastDigits}}</label>
+          <input type="text" id="CardShow" name="Card" class="form-control-plaintext" readonly ng-model="vm.donation.transaction.CardHolderName">
+        </div>
+        <div class="form-group" ng-if="vm.donation.transaction && vm.donation.transaction.PaymentMethod === 'boleto'">
+          <label for="BoletoShow">
+            VENCIMENTO EM {{vm.donation.transaction.BoletoExpirationDate | date: 'dd/MM/yyyy'}}
+            <a ng-if="donation.transferReceipt" href="{{vm.donation.transaction.BoletoURL}}" target="_blank" class="text-dark text-center d-block">
+              <i class="fa fa-external-link-square" uib-tooltip="Visualizar Boleto" tooltip-placement="right"></i>
+            </a>
+          </label>
+          <input type="text" id="BoletoShow" name="Boleto" class="form-control-plaintext" readonly ng-model="vm.donation.transaction.BoletoBarcode">
         </div>
       </div>
       
@@ -65,11 +82,16 @@
         </div>
         <div class="form-group">
           <label for="TypeShow">TIPO DE CONTRIBUIÇÃO</label>
-          <input type="text" id="TypeShow" name="Type" class="form-control-plaintext" readonly ng-value="vm.donation.Type === 'general' ? 'Geral' : 'Por projeto'">
+          <input type="text" id="TypeShow" name="Type" class="form-control-plaintext" readonly ng-value="vm.donation.Type === 'general' ? 'Geral' : 'Projeto: ' + vm.donation.project.ProjectName">
         </div>
-        <div class="form-group" ng-if="vm.donation.project">
-          <label for="ProjectShow">PROJETO</label>
-          <input type="text" id="ProjectShow" name="Project" class="form-control-plaintext" readonly ng-value="vm.donation.project.ProjectName">
+        <div class="form-group">
+          <label for="StatusShow">STATUS</label>
+          <input type="text" id="StatusShow" name="Status" class="form-control-plaintext" readonly ng-value="vm.donation.Status">
+        </div>
+        <div class="form-group" ng-if="vm.donation.transaction">
+          <label for="CostShow">CUSTO</label>
+          <input type="text" id="CostShow" name="CostShow" class="form-control" ng-disabled="true"
+                 ng-model="vm.donation.transaction.Cost" money-mask money-mask-prepend="R$">
         </div>
       </div>
 
@@ -109,7 +131,7 @@
 
         <div class="col-12 col-sm-6">
           <div class="form-group">
-            <label>VALOR DEPOSITADO*</label>
+            <label>VALOR DA CONTRIBUIÇÃO*</label>
             <input type="text" id="ValueInCents" name="ValueInCents" class="form-control" required
                    ng-model="vm.donation.ValueInCents" money-mask money-mask-prepend="R$">
             <p class="help-block"
@@ -148,7 +170,7 @@
 
       </div>
 
-      <div class="custom-control custom-checkbox my-2">
+      <div class="custom-control custom-checkbox my-2" ng-if="!vm.donation.transaction || vm.donation.Status === 'Pendente'">
         <input type="checkbox" name="IsApproved" class="custom-control-input" id="IsApproved" ng-model="vm.donation.IsApproved">
         <label class="custom-control-label" for="IsApproved">
           Aprovar contribuição

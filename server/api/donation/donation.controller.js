@@ -148,7 +148,15 @@ export function show(req, res) {
       as: 'former'
     }, {
       model: Transaction,
-      as: 'transaction'
+      as: 'transaction',
+      include: [{
+        model: Subscription,
+        as: 'subscription',
+        include: [{
+          model: Plan,
+          as: 'plan'
+        }]
+      }]
     },
       TransferReceipt
     ],

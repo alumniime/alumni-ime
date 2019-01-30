@@ -14,11 +14,12 @@ export default class ModalEditDonationController {
   };
 
   /*@ngInject*/
-  constructor(Modal, $http, $filter, Project, Util) {
+  constructor(Modal, $http, $filter, Project, Donation, Util) {
     this.Modal = Modal;
     this.$http = $http;
     this.$filter = $filter;
     this.Project = Project;
+    this.Donation = Donation;
     this.Util = Util;
   }
 
@@ -29,13 +30,15 @@ export default class ModalEditDonationController {
     if(this.resolve.DonationId) {
       this.DonationId = this.resolve.DonationId;
       var loading = this.Modal.showLoading();
-      this.$http.get(`/api/donations/${this.DonationId}`)
-        .then(response => {
+      this.Donation.get(this.DonationId)
+        .then(data => {
           loading.close();
-          this.donation = response.data;
+          this.donation = data;
           this.donation.ValueInCents /= 100;
+          if(this.donation.transaction) {
+            this.donation.transaction.Cost /= 100;
+          }
           this.DonationDate = this.$filter('date')(this.donation.DonationDate, 'dd/MM/yyyy - HH:mm');
-          console.log(this.donation); 
         });
     } else {
       this.DonationDate = this.$filter('date')(Date.now(), 'dd/MM/yyyy');
@@ -90,6 +93,7 @@ export default class ModalEditDonationController {
           loading.close();
           this.ok(true);
           this.Modal.showAlert('Sucesso', 'Contribuição salva com sucesso.');
+          this.Donation.get(this.DonationId, true);
           this.submitted = false;
         })
         .catch(err => {

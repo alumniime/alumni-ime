@@ -2,7 +2,7 @@
 
   <div class="row justify-content-between">
     <div class="col-auto">
-      <h5 class="page-title pt-2 pb-2 pb-md-0">Contribuições <br class="d-block d-sm-none"> </h5>
+      <h5 class="page-title pt-2 pb-2 pb-md-0">Contribuições<br class="d-block d-sm-none"></h5>
     </div>
     <div class="col-auto px-1">
       <div class="form-group">
@@ -20,9 +20,6 @@
         <select class="form-control" id="Date" name="Date"
                 ng-model="admin.searchDate">
           <option value="">Data</option>
-          <option value="Aprovada">Aprovada</option>
-          <option value="Estornada">Estornada</option>
-          <option value="Pendente">Pendente</option>
         </select>
       </div>      
     </div> -->
@@ -34,6 +31,7 @@
           <option value="Aprovada">Aprovada</option>
           <option value="Estornada">Estornada</option>
           <option value="Pendente">Pendente</option>
+          <option value="Recusada">Recusada</option>
         </select>
       </div>      
     </div>
@@ -63,6 +61,72 @@
     </thead>
     <tbody>
     <tr ng-repeat="donation in admin.donations | orderBy: admin.order.donations | filter: {Name: admin.searchName, PaymentMethod: admin.searchPaymentMethod, Status: admin.searchStatus}" class="c-pointer" ng-click="admin.editDonation(donation.DonationId)">
+      <th scope="row">{{donation.DonationId}}</th>
+      <td>{{donation.Name}}</td>
+      <td class="text-limit">{{donation.Type === 'general' ? 'Geral' : donation.project.ProjectName}}</td> 
+      <td>
+        {{donation.PaymentMethod}}
+      </td>
+      <td>
+        <a ng-if="donation.transferReceipt" href="{{donation.transferReceipt.Path}}" target="_blank" class="text-dark text-center d-block">
+          <i class="fa fa-external-link-square" uib-tooltip="Comprovante" tooltip-placement="right"></i>
+        </a>
+      </td>
+      <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
+      <td>{{donation.ValueInCents/100 | number: 2}}</td>
+      <td>{{donation.Status}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <br>
+  
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title pt-2 pb-2 pb-md-0">Assinaturas<br class="d-block d-sm-none"></h5>
+    </div>
+    <!-- <div class="col-auto px-1">
+      <div class="form-group">
+        <select class="form-control" id="Date" name="Date"
+                ng-model="admin.searchDate">
+          <option value="">Data</option>
+        </select>
+      </div>      
+    </div> -->
+    <div class="col-auto px-1">
+      <div class="form-group">
+        <select class="form-control" id="Status" name="Status"
+                ng-model="admin.searchStatus">
+          <option value="">Status</option>
+          <option value="Aprovada">Aprovada</option>
+          <option value="Estornada">Estornada</option>
+          <option value="Pendente">Pendente</option>
+          <option value="Recusada">Recusada</option>
+        </select>
+      </div>      
+    </div>
+    <div class="col-auto">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Pesquisar apoiadores..." class="form-control" 
+               ng-model="admin.searchName">
+      </div>      
+    </div>
+  </div>
+
+  <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+    <thead>
+    <tr>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'SubscriptionId')">#</th>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'Name')">Nome</th>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'ProjectId')">Projeto</th>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'PlanId')">Plano</th>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'CreateDate')">Data de Início</th>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'plan.Amount')">Valor</th>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'Status')">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="donation in admin.subscriptions | orderBy: admin.order.subscriptions | filter: {Name: admin.searchName, PaymentMethod: admin.searchPaymentMethod, Status: admin.searchStatus}" class="c-pointer" ng-click="admin.editDonation(donation.DonationId)">
       <th scope="row">{{donation.DonationId}}</th>
       <td>{{donation.Name}}</td>
       <td class="text-limit">{{donation.Type === 'general' ? 'Geral' : donation.project.ProjectName}}</td> 
