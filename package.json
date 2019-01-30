@@ -55,6 +55,7 @@
     "ng-youtube-embed": "^1.7.12",
     "nodemailer": "^4.6.4",
     "nodemailer-express-handlebars": "^3.0.0",
+    "numero-por-extenso": "^1.0.5",
     "pagarme": "^3.9.1",
     "passport": "~0.3.0",
     "passport-linkedin": "^1.0.0",

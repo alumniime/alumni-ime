@@ -7,7 +7,7 @@
     <div class="col-auto px-1">
       <div class="form-group">
         <select class="form-control" id="PaymentMethod" name="PaymentMethod"
-                ng-model="admin.searchPaymentMethod">
+                ng-model="admin.donationSearchPaymentMethod" ng-change="admin.refreshFilters()">
           <option value="">Meio Pagto</option>
           <option value="Transferência">Transferência</option>
           <option value="Crédito">Crédito</option>
@@ -18,7 +18,7 @@
     <!-- <div class="col-auto px-1">
       <div class="form-group">
         <select class="form-control" id="Date" name="Date"
-                ng-model="admin.searchDate">
+                ng-model="admin.donationSearchDate" ng-change="admin.refreshFilters()">
           <option value="">Data</option>
         </select>
       </div>      
@@ -26,7 +26,7 @@
     <div class="col-auto px-1">
       <div class="form-group">
         <select class="form-control" id="Status" name="Status"
-                ng-model="admin.searchStatus">
+                ng-model="admin.donationSearchStatus" ng-change="admin.refreshFilters()">
           <option value="">Status</option>
           <option value="Aprovada">Aprovada</option>
           <option value="Estornada">Estornada</option>
@@ -38,7 +38,7 @@
     <div class="col-auto">
       <div class="form-group">
         <input type="text" name="name" placeholder="Pesquisar..." class="form-control input-search" 
-               ng-model="admin.searchName">
+               ng-model="admin.donationSearchName" ng-change="admin.refreshFilters()">
       </div>      
     </div>
     <div class="col-auto pb-2">
@@ -53,14 +53,18 @@
       <th scope="col" ng-click="admin.orderBy('donations', 'Name')">Nome</th>
       <th scope="col" ng-click="admin.orderBy('donations', 'ProjectId')">Projeto</th>
       <th scope="col" ng-click="admin.orderBy('donations', 'PaymentMethod')">Meio Pagto</th>
-      <th scope="col" ng-click="admin.orderBy('donations', 'transferReceipt')"></th>
+      <th scope="col" ng-click="admin.orderBy('donations', ['transaction', 'transaction.SubscriptionId', 'transferReceipt'])">
+        <i class="fa fa-sort"></i>
+      </th>
       <th scope="col" ng-click="admin.orderBy('donations', 'DonationDate')">Data</th>
       <th scope="col" ng-click="admin.orderBy('donations', 'ValueInCents')">Valor</th>
       <th scope="col" ng-click="admin.orderBy('donations', 'Status')">Status</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="donation in admin.donations | orderBy: admin.order.donations | filter: {Name: admin.searchName, PaymentMethod: admin.searchPaymentMethod, Status: admin.searchStatus}" class="c-pointer" ng-click="admin.editDonation(donation.DonationId)">
+    <tr ng-repeat="donation in admin.Donation.list | orderBy: admin.order.donations | filter: {Name: admin.donationSearchName, PaymentMethod: admin.donationSearchPaymentMethod, Status: admin.donationSearchStatus}" 
+        class="c-pointer" ng-click="admin.editDonation(donation.DonationId)"
+        ng-if="$index >= (admin.donationsCurrentPage - 1) * admin.itemsPerPage && $index < admin.donationsCurrentPage * admin.itemsPerPage">
       <th scope="row">{{donation.DonationId}}</th>
       <td>{{donation.Name}}</td>
       <td class="text-limit">{{donation.Type === 'general' ? 'Geral' : donation.project.ProjectName}}</td> 
@@ -68,6 +72,7 @@
         {{donation.PaymentMethod}}
       </td>
       <td>
+        <i ng-if="donation.transaction.SubscriptionId" class="fa fa-refresh" uib-tooltip="Recorrente" tooltip-placement="right"></i>
         <a ng-if="donation.transferReceipt" href="{{donation.transferReceipt.Path}}" target="_blank" class="text-dark text-center d-block">
           <i class="fa fa-external-link-square" uib-tooltip="Comprovante" tooltip-placement="right"></i>
         </a>
@@ -79,36 +84,34 @@
     </tbody>
   </table>
 
+  <ul uib-pagination total-items="admin.donationsNumber" ng-model="admin.donationsCurrentPage" max-size="8" 
+      class="pagination-sm justify-content-center mt-5" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
+      previous-text="Anterior" next-text="Próximo">
+  </ul>
+  <br>
+
   <br>
   
   <div class="row justify-content-between">
     <div class="col-auto">
       <h5 class="page-title pt-2 pb-2 pb-md-0">Assinaturas<br class="d-block d-sm-none"></h5>
     </div>
-    <!-- <div class="col-auto px-1">
-      <div class="form-group">
-        <select class="form-control" id="Date" name="Date"
-                ng-model="admin.searchDate">
-          <option value="">Data</option>
-        </select>
-      </div>      
-    </div> -->
     <div class="col-auto px-1">
       <div class="form-group">
         <select class="form-control" id="Status" name="Status"
-                ng-model="admin.searchStatus">
+                ng-model="admin.subscriptionSearchStatus" ng-change="admin.refreshFilters()">
           <option value="">Status</option>
-          <option value="Aprovada">Aprovada</option>
-          <option value="Estornada">Estornada</option>
-          <option value="Pendente">Pendente</option>
-          <option value="Recusada">Recusada</option>
+          <option value="Paga">Paga</option>
+          <option value="Não Paga">Não Paga</option>
+          <option value="Pendente">Pagamento Pendente</option>
+          <option value="Cancelada">Cancelada</option>
         </select>
       </div>      
     </div>
     <div class="col-auto">
       <div class="form-group">
         <input type="text" name="name" placeholder="Pesquisar apoiadores..." class="form-control" 
-               ng-model="admin.searchName">
+               ng-model="admin.subscriptionSearchName" ng-change="admin.refreshFilters()">
       </div>      
     </div>
   </div>
@@ -121,28 +124,31 @@
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'ProjectId')">Projeto</th>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'PlanId')">Plano</th>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'CreateDate')">Data de Início</th>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'UpdateDate')">Atualização</th>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'plan.Amount')">Valor</th>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'Status')">Status</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="donation in admin.subscriptions | orderBy: admin.order.subscriptions | filter: {Name: admin.searchName, PaymentMethod: admin.searchPaymentMethod, Status: admin.searchStatus}" class="c-pointer" ng-click="admin.editDonation(donation.DonationId)">
-      <th scope="row">{{donation.DonationId}}</th>
-      <td>{{donation.Name}}</td>
-      <td class="text-limit">{{donation.Type === 'general' ? 'Geral' : donation.project.ProjectName}}</td> 
-      <td>
-        {{donation.PaymentMethod}}
-      </td>
-      <td>
-        <a ng-if="donation.transferReceipt" href="{{donation.transferReceipt.Path}}" target="_blank" class="text-dark text-center d-block">
-          <i class="fa fa-external-link-square" uib-tooltip="Comprovante" tooltip-placement="right"></i>
-        </a>
-      </td>
-      <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
-      <td>{{donation.ValueInCents/100 | number: 2}}</td>
-      <td>{{donation.Status}}</td>
+    <tr ng-repeat="subscription in admin.Subscription.list | orderBy: admin.order.subscriptions | filter: {Name: admin.subscriptionSearchName, Status: admin.subscriptionSearchStatus}" 
+        class="c-pointer"
+        ng-if="$index >= (admin.subscriptionsCurrentPage - 1) * admin.itemsPerPage && $index < admin.subscriptionsCurrentPage * admin.itemsPerPage">
+      <th scope="row">{{subscription.SubscriptionId}}</th>
+      <td>{{subscription.Name}}</td>
+      <td class="text-limit">{{subscription.ProjectId ? subscription.project.ProjectName : 'Geral'}}</td> 
+      <td>{{subscription.plan.Name}}</td>
+      <td>{{subscription.CreateDate | date: 'dd/MM/yyyy'}}</td>
+      <td>{{subscription.UpdateDate | date: 'dd/MM/yyyy'}}</td>
+      <td>{{subscription.plan.Amount | number: 2}}</td>
+      <td>{{subscription.Status}}</td>
     </tr>
     </tbody>
   </table>
+
+  <ul uib-pagination total-items="admin.subscriptionsNumber" ng-model="admin.subscriptionsCurrentPage" max-size="8" 
+      class="pagination-sm justify-content-center mt-5" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
+      previous-text="Anterior" next-text="Próximo">
+  </ul>
+  <br>  
   
 </div>

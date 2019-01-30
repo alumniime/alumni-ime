@@ -34,8 +34,7 @@ export default class AdminUsersController {
     var loading = this.Modal.showLoading();
     this.users = this.User.query(() => {
         loading.close();
-        this.usersNumber = this.$filter('filter')(this.users, {PersonTypeId: this.searchPersonTypeId, FullName: this.searchFullName, IsApproved: true}).length;
-        this.newUsersNumber = this.$filter('filter')(this.users, {PersonTypeId: 1, name: this.newUsersSearchName}).length;
+        this.refreshFilters();
       });
 
     this.$http.get('/api/person_types')

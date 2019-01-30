@@ -1,29 +1,47 @@
 'use strict';
 
 export default class AdminDonationsController {
-  searchName = '';
-  searchStatus = '';
-  searchPaymentMethod = '';
+  itemsPerPage = 12;
+
+  donationsCurrentPage = 1;
+  donationsNumber = 0;
+  subscriptionsCurrentPage = 1;
+  subscriptionsNumber = 0;
+
+  donationSearchName = '';
+  donationSearchStatus = '';
+  donationSearchPaymentMethod = '';
+  subscriptionSearchName = '';
+  subscriptionSearchStatus = '';
+  subscriptionSearchPaymentMethod = '';
+
   order = {
     donations: '-DonationDate',
     subscriptions: '-UpdateDate'
   };
 
   /*@ngInject*/
-  constructor(Util, Modal, Donation, $state) {
+  constructor(Util, Modal, Donation, Subscription, $state, $filter) {
     this.Util = Util;
     this.Modal = Modal;
     this.Donation = Donation;
+    this.Subscription = Subscription;
     this.$state = $state;
+    this.$filter = $filter;
   }
   
   $onInit() {
 
     var loading = this.Modal.showLoading();
     this.Donation.load()
-      .then(data => {
+      .then(() => {
         loading.close();
-        this.donations = data;
+        this.refreshFilters();
+      });
+    this.Subscription.load()
+      .then((data) => {
+        this.refreshFilters();
+        console.log(data);
       });
 
   }
@@ -35,11 +53,28 @@ export default class AdminDonationsController {
     });
   }
 
+  refreshFilters() {
+    this.donationsNumber = this.$filter('filter')(this.Donation.list, {Name: this.searchName, PaymentMethod: this.searchPaymentMethod, Status: this.searchStatus}).length;
+    this.subscriptionsNumber = this.$filter('filter')(this.Subscription.list, {PersonTypeId: 1, name: this.newUsersSearchName}).length;
+  }
+
   orderBy(table, field) {
-    if(this.order[table] === field) {
-      this.order[table] = '-' + field;
+    if(JSON.stringify(this.order[table]) === JSON.stringify(field)) {
+      if(Array.isArray(field)) {
+        for(var i in field) {
+          field[i] = '-' + field[i];
+        }
+        this.order[table] = field;
+      } else {
+        this.order[table] = '-' + field;
+      }
     } else {
       this.order[table] = field;
+    }
+    if(table === 'donations') {
+      this.donationsCurrentPage = 1;      
+    } else if(table === 'subscriptions') {
+      this.subscriptionsCurrentPage = 1;      
     }
   }
 

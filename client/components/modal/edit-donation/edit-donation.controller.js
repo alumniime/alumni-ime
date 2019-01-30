@@ -34,10 +34,6 @@ export default class ModalEditDonationController {
         .then(data => {
           loading.close();
           this.donation = data;
-          this.donation.ValueInCents /= 100;
-          if(this.donation.transaction) {
-            this.donation.transaction.Cost /= 100;
-          }
           this.DonationDate = this.$filter('date')(this.donation.DonationDate, 'dd/MM/yyyy - HH:mm');
         });
     } else {

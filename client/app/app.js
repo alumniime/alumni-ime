@@ -34,6 +34,7 @@ import edit from './projects/edit';
 import _Project from '../services/project/project.service';
 import _News from '../services/news/news.service';
 import _Donation from '../services/donation/donation.service';
+import _Subscription from '../services/subscription/subscription.service';
 import _Checkout from '../services/checkout/checkout.service';
 import show from './projects/show/show.component';
 import project from './projects/project/project.component';
@@ -48,7 +49,7 @@ import management from './about/management/management.component';
 import './app.scss';
 
 
-angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation, _Checkout,
+angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', uiRouter, uiBootstrap, _Auth, _Project, _News, _Donation, _Subscription, _Checkout,
   account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, project, news, view, result, donate,
   history, institutional, management, graduates, typeform
 ])

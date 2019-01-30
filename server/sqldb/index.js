@@ -99,6 +99,8 @@ db.City.belongsTo(db.State, {sourceKey: 'StateId', foreignKey: 'StateId', as: 's
 
 db.Year.hasMany(db.FormerStudent, {foreignKey: 'GraduationYear', as: 'formers'});
 
+db.Customer.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonId', as: 'donator'});
+
 db.Subscription.belongsTo(db.Plan, {sourceKey: 'PlanId', foreignKey: 'PlanId', as: 'plan'});
 db.Subscription.belongsTo(db.Customer, {sourceKey: 'CustomerId', foreignKey: 'CustomerId', as: 'customer'});
 db.Subscription.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});

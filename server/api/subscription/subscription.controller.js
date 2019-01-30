@@ -9,7 +9,7 @@
  */
 
 import { applyPatch } from 'fast-json-patch';
-import { Subscription, Customer, Transaction, Donation, Project } from '../../sqldb';
+import { Subscription, Customer, Transaction, Donation, Project, Plan, User } from '../../sqldb';
 import pagarme from 'pagarme';
 import config from '../../config/environment';
 import async from 'async';
@@ -65,7 +65,26 @@ function handleError(res, statusCode) {
 
 // Gets a list of Subscriptions
 export function index(req, res) {
-  return Subscription.findAll()
+  return Subscription.findAll({
+    include: [{
+      model: Project,
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      as: 'project' 
+    }, {
+      model: Plan,
+      as: 'plan'
+    }, {
+      model: Transaction,
+      as: 'transactions'
+    }, {
+      model: Customer,
+      as: 'customer',
+      include: [{
+        model: User,
+        as: 'donator'
+      }]
+    }]
+  })
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -73,6 +92,24 @@ export function index(req, res) {
 // Gets a single Subscription from the DB
 export function show(req, res) {
   return Subscription.find({
+    include: [{
+      model: Project,
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      as: 'project'
+    }, {
+      model: Plan,
+      as: 'plan'
+    }, {
+      model: Transaction,
+      as: 'transactions'
+    }, {
+      model: Customer,
+      as: 'customer',
+      include: [{
+        model: User,
+        as: 'donator'
+      }]
+    }],
     where: {
       SubscriptionId: req.params.id
     }
