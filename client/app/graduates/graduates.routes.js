@@ -16,7 +16,7 @@ export default function routes($stateProvider, $urlRouterProvider, appConfig) {
       }
     }) 
     .state('graduates.search', {
-      url: '/pesquisar/:year?GraduationYear&EngineeringId&IndustryId&LevelId&LevelType&LocationId&name&required',
+      url: '/pesquisar/:year?GraduationYear&EngineeringId&IndustryId&LevelId&LevelType&CityId&StateId&CountryId&&name&required',
       params: {
         year: { value: null, squash: true }
       },

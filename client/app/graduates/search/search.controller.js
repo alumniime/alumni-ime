@@ -12,6 +12,9 @@ export default class GraduatesSearchController {
     EngineeringId: null,
     IndustryId: null,
     LocationId: null,
+    CityId: null,
+    StateId: null,
+    CountryId: null,
     name: null,
     required: false,
   };
@@ -147,8 +150,20 @@ export default class GraduatesSearchController {
               if(this.search.LevelId) {
                 this.search.LevelId = parseInt(this.$stateParams.LevelId);
               }
-              if(this.search.LocationId) {
-                this.search.LocationId = parseInt(this.$stateParams.LocationId);
+              if(this.search.CityId) {
+                this.search.CityId = parseInt(this.$stateParams.CityId);
+              }
+              if(this.search.StateId) {
+                this.search.StateId = parseInt(this.$stateParams.StateId);
+              }
+              if(this.search.CountryId) {
+                this.search.CountryId = parseInt(this.$stateParams.CountryId); 
+                if(this.search.CityId || this.search.StateId){
+                  this.search.LocationId = this.$stateParams.CityId + '.' + this.$stateParams.StateId + '.' + this.$stateParams.CountryId;
+                }
+                else{
+                  this.search.LocationId = "null" + "." + "null" + "." + this.$stateParams.CountryId;
+                }
               }
               this.search.required = this.search.required === 'true';
               
@@ -193,14 +208,13 @@ export default class GraduatesSearchController {
     if(!this.search.required) {
       this.search.required = false;
     }
-    for (var field of ['GraduationYear', 'EngineeringId', 'IndustryId', 'LevelId', 'LevelType', 'LocationId', 'name', 'required', 'year']) {
+    for (var field of ['GraduationYear', 'EngineeringId', 'IndustryId', 'LevelId', 'LevelType', 'CityId', 'StateId', 'CountryId', 'LocationId', 'name', 'required', 'year']) {
       if(this.search[field] === '' || this.search[field] === undefined || this.search[field] === null) {
         this.search[field] = undefined;
       } else {
         valid++;
       }
     }
-    console.log(this.search);
     
     if(form.$valid && valid > (this.search.required ? 0 : 1) && !(this.search.name && this.search.name.length < 3)) {
       if(this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin') {
@@ -215,6 +229,13 @@ export default class GraduatesSearchController {
         this.Modal.showAlert('Erro na pesquisa', 'Por favor, selecione um ou mais filtros.');
       }
     }
+  }
+
+  chooseLocation(cityId, stateId, countryId){
+    var locationIds = this.search.LocationId.split(".");
+    this.search.CityId = locationIds[0];
+    this.search.StateId = locationIds[1];
+    this.search.CountryId = locationIds[2];
   }
 
 }
