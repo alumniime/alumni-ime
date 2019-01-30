@@ -118,7 +118,7 @@ export function index(req, res) {
       include: [
         [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber']
       ],
-      exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule']
+      exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']
     },
     group: 'ProjectId',
     where: {
@@ -164,7 +164,7 @@ export function indexAll(req, res) {
       include: [
         [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber']
       ],
-      exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule']
+      exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']
     },
     group: 'ProjectId'
   })
@@ -353,7 +353,7 @@ export function me(req, res) {
       model: Se,
       as: 'se'
     }],
-    attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule']},
+    attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
     order: [
       [{model: Image, as: 'images'}, 'OrderIndex']
     ],

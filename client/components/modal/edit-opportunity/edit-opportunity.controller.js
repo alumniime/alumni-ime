@@ -21,6 +21,7 @@ export default class ModalEditOpportunityController {
   ExpirationDate = '';
   citiesList = [];
   citiesLoading = false;
+  personTypesList = [];
 
   /*@ngInject*/
   constructor(Modal, Util, Upload, Opportunity, $http, $filter, $anchorScroll) {
@@ -81,8 +82,6 @@ export default class ModalEditOpportunityController {
           this.PostDate = this.$filter('date')(this.opportunity.PostDate, 'dd/MM/yyyy - HH:mm');
           this.ExpirationDate = this.$filter('date')(this.opportunity.ExpirationDate, 'dd/MM/yyyy');
           
-          console.log(this.opportunity); 
-
           this.concatImages = [this.opportunity.companyLogo];
           
           if(!this.opportunity.location) {

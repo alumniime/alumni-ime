@@ -27,6 +27,7 @@
       <th scope="col" ng-click="admin.orderBy('opportunities', 'Title')">Cargo</th>
       <th scope="col" ng-click="admin.orderBy('opportunities', 'company.Name')">Empresa</th>
       <th scope="col" ng-click="admin.orderBy('opportunities', 'recruiter.name')">Recrutador</th>
+      <th scope="col" ng-click="admin.orderBy('opportunities', 'Views')">Views</th>
       <th scope="col" ng-click="admin.orderBy('opportunities', 'PostDate')">Envio</th>
       <th scope="col" ng-click="admin.orderBy('opportunities', 'ExpirationDate')">Limite</th>
       <th scope="col" ng-click="admin.orderBy('opportunities', 'ApplicationsNumber')">Candidatos</th>
@@ -40,6 +41,7 @@
       <td>{{opportunity.Title}}</td>
       <td>{{opportunity.company.Name}}</td>
       <td>{{opportunity.recruiter.name}}</td> 
+      <td class="text-center">{{opportunity.Views}}</td>
       <td>{{opportunity.PostDate | date: 'dd/MM/yyyy'}}</td>
       <td>{{opportunity.ExpirationDate | date: 'dd/MM/yyyy'}}</td>
       <td class="text-center">{{opportunity.ApplicationsNumber}}</td>

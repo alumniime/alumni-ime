@@ -20,7 +20,6 @@ export function OpportunityService($http, $q, $state, Util) {
       if(this.list.length === 0 || forceReload === true) {
         $http.get('/api/opportunities')
           .then(response => {
-            console.log(response);
             this.list = response.data;
             var today = new Date().getTime();
             var date;

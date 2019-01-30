@@ -821,62 +821,62 @@
       <div ng-if="vm.opportunityPage === 'my_posts'">
         <div class="card project-card mb-3" ng-repeat="opportunity in vm.Opportunity.myPosts">
           <div class="card-body" ng-init="opportunity.collapsed = true">
-          <h5 class="card-title">
-            {{opportunity.Title}}
-              <a class="text-dark pull-right" ui-sref="opportunities.view({OpportunityId: opportunity.OpportunityId, PrettyURL: vm.Util.convertToSlug(opportunity.Title), forceReload: false})">
-                  <i class="fa fa-external-link" uib-tooltip="Visualizar vaga" tooltip-placement="bottom"></i> 
-              </a>
-          </h5>
+            <h5 class="card-title">
+              {{opportunity.Title}}
+                <a class="text-dark pull-right" ui-sref="opportunities.view({OpportunityId: opportunity.OpportunityId, PrettyURL: vm.Util.convertToSlug(opportunity.Title), forceReload: false})">
+                    <i class="fa fa-external-link" uib-tooltip="Visualizar vaga" tooltip-placement="bottom"></i> 
+                </a>
+            </h5>
 
-          <div class="row">
-            <div class="col-6 col-md-4">
-              <div class="form-group">
-                <label>TIPO DE VAGA</label>
-                <input type="text" class="form-control-plaintext" readonly
-                        value="{{opportunity.opportunityType.Description}}">
-              </div>
-            </div>
-
-            <div class="col-6 col-md-4">
-              <div class="form-group">
-                <label>DATA</label>
-                <input type="text" class="form-control-plaintext" readonly
-                        value="{{opportunity.PostDate | date:'dd/MM/yyyy'}}">
-              </div>
-            </div>
-
-            <div class="col-12 col-md-4">
-              <div class="form-group">
-                <label>STATUS</label>
-                <input type="text" class="form-control-plaintext" readonly
-                        value="{{opportunity.IsApproved ? 'Vaga anunciada' : 'Aguardando aprovação'}}">
-              </div>
-            </div>
-          </div>
-
-            <ul class="list-group list-group-flush py-2" ng-if="!opportunity.collapsed">
-              <li class="list-group-item" ng-repeat="application in opportunity.opportunityApplications | orderBy: 'ApplicationDate'">
-                <div class="row p-0 justify-content-between">
-                  <div class="col-auto">
-                    <a class="text-dark small-font" ng-click="vm.Modal.openShowApplication(application.OpportunityId, application.PersonId)" href="#">{{application.user.name}}</a>
-                  </div>
-                  <div class="col-auto small-font">
-                    {{application.ApplicationDate | date:'dd/MM/yyyy'}}
-                  </div>
-                  <div class="col-auto">
-                    <a ng-if="application.resume" href="{{application.resume.Path}}" class="text-dark ml-3 pull-right" target="_blank">
-                      <i class="fa fa-file-pdf-o" uib-tooltip="Currículo" tooltip-placement="bottom"></i> 
-                    </a>
-                    <a ng-if="application.LinkedinLink" href="{{application.LinkedinLink}}" class="text-dark ml-3 pull-right" target="_blank">
-                      <i class="fa fa-linkedin" uib-tooltip="LinkedIn" tooltip-placement="bottom"></i> 
-                    </a>
-                    <a ng-if="application.Message" class="text-dark ml-3 pull-right c-pointer" ng-click="vm.Modal.openShowApplication(application.OpportunityId, application.PersonId)">
-                      <i class="fa fa-comment-o" uib-tooltip="Mensagem" tooltip-placement="bottom"></i> 
-                    </a>
-                  </div>
+            <div class="row">
+              <div class="col-6 col-md-4">
+                <div class="form-group">
+                  <label>TIPO DE VAGA</label>
+                  <input type="text" class="form-control-plaintext" readonly
+                          value="{{opportunity.opportunityType.Description}}">
                 </div>
-              </li>
-          </ul>
+              </div>
+
+              <div class="col-6 col-md-4">
+                <div class="form-group">
+                  <label>DATA</label>
+                  <input type="text" class="form-control-plaintext" readonly
+                          value="{{opportunity.PostDate | date:'dd/MM/yyyy'}}">
+                </div>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label>STATUS</label>
+                  <input type="text" class="form-control-plaintext" readonly
+                          value="{{opportunity.IsApproved ? 'Vaga anunciada' : 'Aguardando aprovação'}}">
+                </div>
+              </div>
+            </div>
+
+            <table class="table table-striped table-hover table-fixed table-responsive-sm bg-white mt-2 mb-4" ng-if="!opportunity.collapsed">
+              <tbody>
+              <tr ng-repeat="application in opportunity.opportunityApplications | orderBy: 'ApplicationDate'">
+                <td class="pl-3">
+                  <a class="text-dark small-font font-weight-bold" ng-click="vm.Modal.openShowApplication(application.OpportunityId, application.PersonId)" href="#">{{application.user.name}}</a>
+                </td>
+                <td class="small-font">
+                  {{application.ApplicationDate | date:'dd/MM/yyyy'}}
+                </td>
+                <td class="pr-3">
+                  <a ng-if="application.resume" href="{{application.resume.Path}}" class="text-dark ml-3 pull-right" target="_blank">
+                    <i class="fa fa-file-pdf-o" uib-tooltip="Currículo" tooltip-placement="bottom"></i> 
+                  </a>
+                  <a ng-if="application.LinkedinLink" href="{{application.LinkedinLink}}" class="text-dark ml-3 pull-right" target="_blank">
+                    <i class="fa fa-linkedin" uib-tooltip="LinkedIn" tooltip-placement="bottom"></i> 
+                  </a>
+                  <a ng-if="application.Message" class="text-dark ml-3 pull-right c-pointer" ng-click="vm.Modal.openShowApplication(application.OpportunityId, application.PersonId)">
+                    <i class="fa fa-comment-o" uib-tooltip="Mensagem" tooltip-placement="bottom"></i> 
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
 
             <div class="row p-0 justify-content-between pt-1">
               <div class="col-auto small-font">
@@ -888,7 +888,7 @@
                   <span ng-if="opportunity.collapsed">EXPANDIR</span>
                   <span ng-if="!opportunity.collapsed">OCULTAR</span>
                   <i class="fa pull-right icon-font ml-2"
-                     ng-class="{'fa-angle-down': opportunity.collapsed, 'fa-angle-up': !opportunity.collapsed}"></i> 
+                      ng-class="{'fa-angle-down': opportunity.collapsed, 'fa-angle-up': !opportunity.collapsed}"></i> 
                 </a>
               </div>
             </div>
@@ -901,7 +901,6 @@
         </button>
     
       </div>
-    </div>
     </div>
 
     <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none">

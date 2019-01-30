@@ -90,7 +90,7 @@ export function index(req, res) {
   return Donation.findAll({
     include: [{
       model: Project,
-      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
       as: 'project'
     }, {
       model: User,
@@ -117,7 +117,7 @@ export function show(req, res) {
   return Donation.find({
     include: [{
       model: Project,
-      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
       as: 'project'
     }, {
       model: User,
@@ -175,7 +175,7 @@ export function me(req, res) {
   return Donation.findAll({
     include: [{
       model: Project,
-      attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
       as: 'project',
       include: [{
         model: User,

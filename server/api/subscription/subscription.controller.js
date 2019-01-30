@@ -68,7 +68,7 @@ export function index(req, res) {
   return Subscription.findAll({
     include: [{
       model: Project,
-      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
       as: 'project' 
     }, {
       model: Plan,
@@ -95,7 +95,7 @@ export function show(req, res) {
   return Subscription.find({
     include: [{
       model: Project,
-      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
       as: 'project'
     }, {
       model: Plan,
@@ -304,7 +304,7 @@ export function postback(req, res) {
       Subscription.find({
         include: [{
           model: Project,
-          attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+          attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
           as: 'project'
         }],
         where: {

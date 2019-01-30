@@ -311,12 +311,36 @@ export function show(req, res) {
             as: 'country',
             attributes: ['Description']
           }],
+        }, req.user.role === 'admin' ? {
+          model: OpportunityApplication,
+          as: 'opportunityApplications',
+          include: [{
+            model: User,
+            as: 'user',
+            attributes: ['name']
+          }, 
+            Resume
+          ]
+        } : {
+          model: OpportunityApplication,
+          as: 'opportunityApplications',
+          required: false,
+          where: {
+            OpportunityId: null
+          }
         }],
         where: {
           OpportunityId: req.params.id,
           IsApproved: req.user.role === 'admin' ? [0, 1] : 1
         }
       })
+        .then(opportunity => {
+          if (opportunity) {
+            return opportunity.increment('Views', { by: 1 });
+          } else {
+            return opportunity;
+          }
+        })
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));

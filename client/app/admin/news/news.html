@@ -66,7 +66,7 @@
       <th scope="row">{{news.NewsId}}</th>
       <td>{{news.Title}}</td>
       <td>{{news.category.PortugueseDescription}}</td> 
-      <td>{{news.Views}}</td>
+      <td class="text-center">{{news.Views}}</td>
       <td>{{news.PublishDate | date: 'dd/MM/yyyy'}}</td>
       <td>
         <a href="/news/view/{{news.NewsId}}/{{admin.Util.convertToSlug(news.Title)}}" 
