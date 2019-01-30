@@ -22,6 +22,9 @@ export function SubscriptionService($http, $q, $state, Util) {
             for(var subscription of this.list) {
               subscription.Name = Util.nameCase(subscription.customer.donator.FullName);
               subscription.Status = subscription.Status === 'paid' ? 'Paga' : subscription.Status === 'unpaid' ? 'Não Paga' : subscription.Status === 'canceled' ? 'Cancelada' : 'Pagamento Pedente';
+              for(var transaction of subscription.transactions) {
+                transaction.Status = transaction.Status === 'paid' ? 'Paga' : transaction.Status === 'refused' ? 'Recusada' : transaction.Status === 'refunded' ? 'Estornada' : transaction.Status === 'refused' ? 'Recusada' : 'Pendente';
+              }
             }
             d.resolve(this.list);
           })
@@ -43,9 +46,10 @@ export function SubscriptionService($http, $q, $state, Util) {
         $http.get(`/api/subscriptions/${SubscriptionId}`)
           .then(response => {
             var subscription = response.data;
-            subscription.Name = Util.nameCase(subscription.donator ? subscription.donator.FullName : subscription.former ? subscription.former.Name : subscription.DonatorName);
-            subscription.Status = subscription.IsApproved ? 'Aprovada' : subscription.transaction && subscription.transaction.Status === 'refused' ? 'Recusada' : subscription.transaction && subscription.transaction.Status === 'refunded' ? 'Estornada' : subscription.transaction && subscription.transaction.Status === 'refused' ? 'Recusada' : 'Pendente';
-            subscription.PaymentMethod = !subscription.transaction ? 'Transferência' : subscription.transaction.PaymentMethod === 'credit_card' ? 'Crédito' : 'Boleto';
+            subscription.Name = Util.nameCase(subscription.customer.donator.FullName);
+            for(var transaction of subscription.transactions) {
+              transaction.Status = transaction.Status === 'paid' ? 'Paga' : transaction.Status === 'refused' ? 'Recusada' : transaction.Status === 'refunded' ? 'Estornada' : transaction.Status === 'refused' ? 'Recusada' : 'Pendente';
+            }
             this.loadedSubscriptions[SubscriptionId] = subscription;
             d.resolve(subscription);
           })

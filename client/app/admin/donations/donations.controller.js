@@ -13,12 +13,15 @@ export default class AdminDonationsController {
   donationSearchPaymentMethod = '';
   subscriptionSearchName = '';
   subscriptionSearchStatus = '';
+  subscriptionTransactionStatus = '';
   subscriptionSearchPaymentMethod = '';
 
   order = {
     donations: '-DonationDate',
     subscriptions: '-UpdateDate'
   };
+
+  showAllTransactions = false;
 
   /*@ngInject*/
   constructor(Util, Modal, Donation, Subscription, $state, $filter) {
@@ -56,6 +59,11 @@ export default class AdminDonationsController {
   refreshFilters() {
     this.donationsNumber = this.$filter('filter')(this.Donation.list, {Name: this.searchName, PaymentMethod: this.searchPaymentMethod, Status: this.searchStatus}).length;
     this.subscriptionsNumber = this.$filter('filter')(this.Subscription.list, {PersonTypeId: 1, name: this.newUsersSearchName}).length;
+    if(this.subscriptionTransactionStatus !== '') {
+      this.showAllTransactions = true;
+    } else {
+      this.showAllTransactions = false;
+    }
   }
 
   orderBy(table, field) {

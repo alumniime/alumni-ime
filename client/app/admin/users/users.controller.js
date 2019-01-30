@@ -96,8 +96,15 @@ export default class AdminUsersController {
   }
 
   orderBy(table, field) {
-    if(this.order[table] === field) {
-      this.order[table] = '-' + field;
+    if(JSON.stringify(this.order[table]) === JSON.stringify(field)) {
+      if(Array.isArray(field)) {
+        for(var i in field) {
+          field[i] = '-' + field[i];
+        }
+        this.order[table] = field;
+      } else {
+        this.order[table] = '-' + field;
+      }
     } else {
       this.order[table] = field;
     }

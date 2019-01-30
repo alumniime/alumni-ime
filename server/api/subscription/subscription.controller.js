@@ -81,6 +81,7 @@ export function index(req, res) {
       as: 'customer',
       include: [{
         model: User,
+        attributes: ['name', 'FullName'],
         as: 'donator'
       }]
     }]
@@ -107,6 +108,7 @@ export function show(req, res) {
       as: 'customer',
       include: [{
         model: User,
+        attributes: ['name', 'FullName'],
         as: 'donator'
       }]
     }],

@@ -22,6 +22,12 @@ export function OpportunityService($http, $q, $state, Util) {
           .then(response => {
             console.log(response);
             this.list = response.data;
+            var today = new Date().getTime();
+            var date;
+            for(var opportunity of this.list) {
+              date = new Date(opportunity.ExpirationDate).getTime();
+              opportunity.Status = today > date ? 'Encerrada' : opportunity.IsApproved ? 'Aprovada' : 'Pendente';
+            }
             d.resolve(this.list);
           })
           .catch(err => {

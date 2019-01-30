@@ -4,6 +4,17 @@
     <div class="col-auto">
       <h5 class="page-title pt-3 pb-2 pb-md-0">Vagas <br class="d-block d-sm-none"> </h5>
     </div>
+    <div class="col-auto px-1">
+      <div class="form-group">
+        <select class="form-control" id="OpportunityStatus" name="OpportunityStatus"
+                ng-model="admin.opportunitySearchStatus" ng-change="admin.refreshFilters()">
+          <option value="">Status</option>
+          <option value="Aprovada">Aprovada</option>
+          <option value="Pendente">Pendente</option>
+          <option value="Encerrada">Encerrada</option>
+        </select>
+      </div>      
+    </div>
     <div class="col-auto pb-2">
       <a href="#" class="btn btn-danger mb-2" ng-click="admin.editOpportunity()">Cadastrar Vaga</a>
     </div>
@@ -12,26 +23,35 @@
   <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
     <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Cargo</th>
-      <th scope="col">Empresa</th>
-      <th scope="col">Recrutador</th>
-      <th scope="col">Data de Envio</th>
-      <th scope="col">Candidatos</th>
-      <th scope="col">Status</th>
+      <th scope="col" ng-click="admin.orderBy('opportunities', 'OpportunityId')">#</th>
+      <th scope="col" ng-click="admin.orderBy('opportunities', 'Title')">Cargo</th>
+      <th scope="col" ng-click="admin.orderBy('opportunities', 'company.Name')">Empresa</th>
+      <th scope="col" ng-click="admin.orderBy('opportunities', 'recruiter.name')">Recrutador</th>
+      <th scope="col" ng-click="admin.orderBy('opportunities', 'PostDate')">Envio</th>
+      <th scope="col" ng-click="admin.orderBy('opportunities', 'ExpirationDate')">Limite</th>
+      <th scope="col" ng-click="admin.orderBy('opportunities', 'ApplicationsNumber')">Candidatos</th>
+      <th scope="col" ng-click="admin.orderBy('opportunities', 'Status')">Status</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="opportunity in admin.Opportunity.list | orderBy: 'PostDate'" class="c-pointer" ng-click="admin.editOpportunity(opportunity.OpportunityId)">
+    <tr ng-repeat="opportunity in admin.Opportunity.list | orderBy: admin.order.opportunities | filter: {Status: admin.opportunitySearchStatus}" class="c-pointer" ng-click="admin.editOpportunity(opportunity.OpportunityId)"
+        ng-if="$index >= (admin.opportunitiesCurrentPage - 1) * admin.itemsPerPage && $index < admin.opportunitiesCurrentPage * admin.itemsPerPage">
       <th scope="row">{{opportunity.OpportunityId}}</th>
       <td>{{opportunity.Title}}</td>
       <td>{{opportunity.company.Name}}</td>
       <td>{{opportunity.recruiter.name}}</td> 
       <td>{{opportunity.PostDate | date: 'dd/MM/yyyy'}}</td>
-      <td>{{opportunity.ApplicationsNumber}}</td>
-      <td>{{opportunity.IsApproved ? 'Aprovada' : 'Pendente'}}</td>
+      <td>{{opportunity.ExpirationDate | date: 'dd/MM/yyyy'}}</td>
+      <td class="text-center">{{opportunity.ApplicationsNumber}}</td>
+      <td>{{opportunity.Status}}</td>
     </tr>
     </tbody>
   </table>
   
+  <ul uib-pagination total-items="admin.opportunitiesNumber" ng-model="admin.opportunitiesCurrentPage" max-size="8" 
+      class="pagination-sm justify-content-center mt-5" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
+      previous-text="Anterior" next-text="Próximo">
+  </ul>
+  <br>  
+
 </div>

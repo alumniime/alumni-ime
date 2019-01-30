@@ -25,7 +25,7 @@
     </div> -->
     <div class="col-auto px-1">
       <div class="form-group">
-        <select class="form-control" id="Status" name="Status"
+        <select class="form-control" id="DonationStatus" name="DonationStatus"
                 ng-model="admin.donationSearchStatus" ng-change="admin.refreshFilters()">
           <option value="">Status</option>
           <option value="Aprovada">Aprovada</option>
@@ -37,7 +37,7 @@
     </div>
     <div class="col-auto">
       <div class="form-group">
-        <input type="text" name="name" placeholder="Pesquisar..." class="form-control input-search" 
+        <input type="text" name="DonationName" placeholder="Pesquisar..." class="form-control input-search" 
                ng-model="admin.donationSearchName" ng-change="admin.refreshFilters()">
       </div>      
     </div>
@@ -98,7 +98,7 @@
     </div>
     <div class="col-auto px-1">
       <div class="form-group">
-        <select class="form-control" id="Status" name="Status"
+        <select class="form-control" id="SubscriptionStatus" name="SubscriptionStatus"
                 ng-model="admin.subscriptionSearchStatus" ng-change="admin.refreshFilters()">
           <option value="">Status</option>
           <option value="Paga">Paga</option>
@@ -108,39 +108,66 @@
         </select>
       </div>      
     </div>
+    <div class="col-auto px-1">
+      <div class="form-group">
+        <select class="form-control" id="TransactionStatus" name="TransactionStatus"
+                ng-model="admin.subscriptionTransactionStatus" ng-change="admin.refreshFilters()">
+          <option value="">Transações</option>
+          <option value="Paga">Pagas</option>
+          <option value="Estornada">Estornadas</option>
+          <option value="Pendente">Pendentes</option>
+          <option value="Recusada">Recusadas</option>
+        </select>
+      </div>      
+    </div>
     <div class="col-auto">
       <div class="form-group">
-        <input type="text" name="name" placeholder="Pesquisar apoiadores..." class="form-control" 
+        <input type="text" name="SubscriptionName" placeholder="Pesquisar apoiadores..." class="form-control" 
                ng-model="admin.subscriptionSearchName" ng-change="admin.refreshFilters()">
       </div>      
     </div>
   </div>
 
-  <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+  <table class="table table-hover table-fixed table-responsive-md table-sm">
     <thead>
     <tr>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'SubscriptionId')">#</th>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'Name')">Nome</th>
-      <th scope="col" ng-click="admin.orderBy('subscriptions', 'ProjectId')">Projeto</th>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'PlanId')">Plano</th>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'plan.Amount')">Valor</th>
+      <th></th>
+      <th scope="col" ng-click="admin.orderBy('subscriptions', 'ProjectId')">Projeto</th>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'CreateDate')">Data de Início</th>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'UpdateDate')">Atualização</th>
-      <th scope="col" ng-click="admin.orderBy('subscriptions', 'plan.Amount')">Valor</th>
       <th scope="col" ng-click="admin.orderBy('subscriptions', 'Status')">Status</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="subscription in admin.Subscription.list | orderBy: admin.order.subscriptions | filter: {Name: admin.subscriptionSearchName, Status: admin.subscriptionSearchStatus}" 
-        class="c-pointer"
+    <tr ng-repeat-start="subscription in admin.Subscription.list | orderBy: admin.order.subscriptions | filter: {Name: admin.subscriptionSearchName, Status: admin.subscriptionSearchStatus}" 
+        class="c-pointer" ng-init="subscription.collapsed = true" ng-click="subscription.collapsed = !subscription.collapsed" ng-class="{'grey-line': $even}"
         ng-if="$index >= (admin.subscriptionsCurrentPage - 1) * admin.itemsPerPage && $index < admin.subscriptionsCurrentPage * admin.itemsPerPage">
-      <th scope="row">{{subscription.SubscriptionId}}</th>
+      <th scope="row" class="text-center">{{subscription.SubscriptionId}}</th>
       <td>{{subscription.Name}}</td>
-      <td class="text-limit">{{subscription.ProjectId ? subscription.project.ProjectName : 'Geral'}}</td> 
       <td>{{subscription.plan.Name}}</td>
+      <td>{{subscription.plan.Amount | number: 2}}</td>
+      <td>
+        <a href="{{subscription.ManageURL}}" target="_blank" class="text-dark text-center d-block">
+          <i class="fa fa-external-link-square" uib-tooltip="Gerenciar" tooltip-placement="right"></i>
+        </a>
+      </td>
+      <td class="text-limit">{{subscription.ProjectId ? subscription.project.ProjectName : 'Geral'}}</td> 
       <td>{{subscription.CreateDate | date: 'dd/MM/yyyy'}}</td>
       <td>{{subscription.UpdateDate | date: 'dd/MM/yyyy'}}</td>
-      <td>{{subscription.plan.Amount | number: 2}}</td>
       <td>{{subscription.Status}}</td>
+    </tr>
+    <tr ng-repeat-end ng-repeat="transaction in subscription.transactions | filter: {Status: admin.subscriptionTransactionStatus}" ng-if="!subscription.collapsed || admin.showAllTransactions" class="font-italic font-weight-light">
+      <td scope="row" class="bg-blue text-light text-right pr-2">{{transaction.TransactionId}}</td>
+      <td scope="row">{{transaction.CardHolderName}}</td>
+      <td scope="row">{{transaction.CardBrand | uppercase}} - Final {{transaction.CardLastDigits}}</td>
+      <td scope="row" colspan="2">Custo: {{transaction.Cost/100 | number: 2}}</td>
+      <td scope="row" colspan="2">Risco: {{transaction.RiskLevel}}</td>
+      <td scope="row">{{transaction.UpdateDate | date: 'dd/MM/yyyy'}}</td>
+      <td scope="row" uib-tooltip="{{transaction.Status !== 'Paga' ? transaction.StatusReason : ''}}" tooltip-placement="right">{{transaction.Status}}</td>
     </tr>
     </tbody>
   </table>
