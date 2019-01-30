@@ -105,7 +105,7 @@ export function UtilService($window) {
     getLocationName(location) {
       if(location) { 
         var locationName = (location.LinkedinName ? location.LinkedinName.replace(' Area,', ',') : '');
-        if(location.country && (location.country.CountryId === 1 || (location.city && location.city.Description))) {
+        if(location.country && location.country.CountryId === 1 && location.city && location.city.Description) {
           locationName = (location.city.state ? `${location.city.Description} - ${location.city.state.Code}` : location.city.Description);
         } else {
           locationName = (location.country ? location.country.Description : '');
