@@ -228,6 +228,9 @@ export function locations(req, res) {
   return FormerStudent.findAll({
     attributes: [
       'profile.location.LocationId',
+      'profile.location.city.CityId',
+      'profile.location.city.state.StateId',
+      'profile.location.country.CountryId',
       [sequelize.fn('COUNT', sequelize.col('profile.PersonId')), 'UsersNumber']
     ],
     include: [{
@@ -241,7 +244,7 @@ export function locations(req, res) {
         include: [{
           model: City,
           as: 'city',
-          attributes: ['Description'],
+          attributes: ['Description', 'CityId'],
           include: [{
             model: State,
             attributes: ['Code'],
@@ -250,14 +253,14 @@ export function locations(req, res) {
         }, {
           model: Country,
           as: 'country',
-          attributes: ['Description']
+          attributes: ['Description', 'CountryId']
         }],
       }],
       where: {
         IsApproved: 1
       }
     }],
-    group: 'profile.LocationId',
+    group: ['profile.location.city.CityId', 'profile.location.city.StateId', 'profile.location.country.CountryId'],
     raw: true
   })
     .then(respondWithResult(res))
@@ -535,12 +538,24 @@ export function search(req, res) {
         requiredLevel = true;
       }
 
-      if (req.body.LocationId) {
-        location = { LocationId: req.body.LocationId };
+      if (req.body.CityId) {
+        location = { CityId: req.body.CityId };
+        required = true;
+        requiredLocation = true;
+      }
+      
+      else if (req.body.StateId) {
+        location = { StateId: req.body.StateId };
         required = true;
         requiredLocation = true;
       }
 
+      else if (req.body.CountryId) {
+        location = { CountryId: req.body.CountryId };
+        required = true;
+        requiredLocation = true;
+      }
+      
       if (req.body.IndustryId) {
         profile.IndustryId = req.body.IndustryId;
         required = true;
