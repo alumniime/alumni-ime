@@ -15,7 +15,7 @@
             <label>por {{project.TeamName}}</label>
           </div>
 
-          <div class="form-group" ng-if="project.CollectedPriceInCents > 0">
+          <div class="form-group" ng-if="project.CollectedPriceInCents > 0">    
             <label>ARRECADADO</label>
             <div class="row">
               <div class="col-8">
@@ -28,7 +28,7 @@
               </div>
             </div>
             <div class="progress mt-2">
-              <div class="progress-bar progress-bar-custom" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                    style="width: {{project.CollectedPriceInCents/project.EstimatedPriceInCents*100}}%;">
               </div>
             </div>
@@ -44,14 +44,14 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <!--<div class="form-group">
             <label>LÍDER DO PROJETO</label>
             <input type="text" class="form-control-plaintext" readonly ng-value="project.leader.name">
           </div>
           <div class="form-group">
             <label>PROFESSOR RESPONSÁVEL</label>
             <input type="text" class="form-control-plaintext" readonly ng-value="project.professor.name">
-          </div>
+          </div>-->
         </div>
       </a>
     </div>
