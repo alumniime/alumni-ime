@@ -44,7 +44,6 @@ export default class AdminDonationsController {
     this.Subscription.load()
       .then((data) => {
         this.refreshFilters();
-        console.log(data);
       });
 
   }

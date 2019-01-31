@@ -177,7 +177,10 @@
         </label>
       </div>              
 
-      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit">
+      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="vm.DonationId && !vm.donation.transaction && vm.donation.IsApproved">
+        SALVAR E ENVIAR RECIBO
+      </button>
+      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="!(vm.DonationId && !vm.donation.transaction && vm.donation.IsApproved)">
         SALVAR
       </button>
   

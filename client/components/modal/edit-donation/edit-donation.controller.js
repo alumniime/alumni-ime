@@ -74,6 +74,7 @@ export default class ModalEditDonationController {
       this.$http.post('/api/donations/edit', this.donation)
         .then(res => {
           console.log(res);
+          this.donation.ValueInCents /= 100;
           loading.close();
           this.ok(true);
           this.Donation.load(true);
@@ -83,6 +84,7 @@ export default class ModalEditDonationController {
         })
         .catch(err => {
           this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar a contribuição, tente novamente.');
+          this.donation.ValueInCents /= 100;
           loading.close();
           console.log(err);
         });

@@ -96,6 +96,7 @@ export class BankController {
         }
       })
         .then(function success(result) {
+          this_.donation.ValueInCents /= 100;
           loading.close();
           console.log(result);
           if(result.data.errorCode === 0) {
@@ -112,6 +113,7 @@ export class BankController {
             this_.Modal.showAlert('Erro no envio', 'Por favor, tente novamente.');
           }
         }, function error(err) {
+          this_.donation.ValueInCents /= 100;
           loading.close();
           console.log('Error: ' + err);
           this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
