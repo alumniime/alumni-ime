@@ -122,6 +122,37 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
+// Get my subscriptions
+export function me(req, res) {
+  var userId = req.user.PersonId;
+  return Subscription.findAll({
+    include: [{
+      model: Project,
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
+      as: 'project' 
+    }, {
+      model: Plan,
+      as: 'plan'
+    }, {
+      model: Transaction,
+      as: 'transactions'
+    }, {
+      model: Customer,
+      as: 'customer',
+      include: [{
+        model: User,
+        attributes: ['name', 'FullName'],
+        as: 'donator'
+      }]
+    }],
+    where: {
+      SubscriberId: userId
+    }
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Receives a new Subscription
 export function subscribe(req, res) {
   var data = req.body.payment;

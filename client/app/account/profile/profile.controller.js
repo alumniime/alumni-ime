@@ -36,7 +36,7 @@ export default class ProfileController {
   today = 0;
   opportunityPage = 'my_applications';
 
-  constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Opportunity, Modal, Util) {
+  constructor(Auth, $http, $state, $filter, $location, $anchorScroll, $stateParams, Project, Donation, Subscription, Opportunity, Modal, Util) {
     'ngInject';
 
     this.Auth = Auth;
@@ -48,6 +48,7 @@ export default class ProfileController {
     this.$stateParams = $stateParams;
     this.Project = Project;
     this.Donation = Donation;
+    this.Subscription = Subscription;
     this.Opportunity = Opportunity;
     this.Modal = Modal;
     this.Util = Util;
@@ -159,6 +160,7 @@ export default class ProfileController {
   
       this.Project.loadMyProjects(false);
       this.Donation.loadMyDonations(false);
+      this.Subscription.loadMySubscriptions(false);
       this.Opportunity.loadMyApplications(false);
       this.Opportunity.loadMyPosts(false);
 

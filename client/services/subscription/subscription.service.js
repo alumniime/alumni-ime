@@ -23,7 +23,7 @@ export function SubscriptionService($http, $q, $state, Util) {
               subscription.Name = Util.nameCase(subscription.customer.donator.FullName);
               subscription.Status = subscription.Status === 'paid' ? 'Paga' : subscription.Status === 'unpaid' ? 'Não Paga' : subscription.Status === 'canceled' ? 'Cancelada' : 'Pagamento Pedente';
               for(var transaction of subscription.transactions) {
-                transaction.Status = transaction.Status === 'paid' ? 'Paga' : transaction.Status === 'refused' ? 'Recusada' : transaction.Status === 'refunded' ? 'Estornada' : transaction.Status === 'refused' ? 'Recusada' : 'Pendente';
+                transaction.Status = transaction.Status === 'paid' ? 'Paga' : transaction.Status === 'refused' ? 'Recusada' : transaction.Status === 'refunded' ? 'Estornada' : 'Pendente';
               }
             }
             d.resolve(this.list);
@@ -48,7 +48,7 @@ export function SubscriptionService($http, $q, $state, Util) {
             var subscription = response.data;
             subscription.Name = Util.nameCase(subscription.customer.donator.FullName);
             for(var transaction of subscription.transactions) {
-              transaction.Status = transaction.Status === 'paid' ? 'Paga' : transaction.Status === 'refused' ? 'Recusada' : transaction.Status === 'refunded' ? 'Estornada' : transaction.Status === 'refused' ? 'Recusada' : 'Pendente';
+              transaction.Status = transaction.Status === 'paid' ? 'Paga' : transaction.Status === 'refused' ? 'Recusada' : transaction.Status === 'refunded' ? 'Estornada' : 'Pendente';
             }
             this.loadedSubscriptions[SubscriptionId] = subscription;
             d.resolve(subscription);
@@ -70,6 +70,12 @@ export function SubscriptionService($http, $q, $state, Util) {
         $http.get('/api/subscriptions/me')
           .then(response => {
             this.mySubscriptions = response.data;
+            for(var subscription of this.mySubscriptions) {
+              subscription.Status = subscription.Status === 'paid' ? 'Assinatura paga' : subscription.Status === 'unpaid' ? 'Assinatura atrasada' : subscription.Status === 'canceled' ? 'Assinatura cancelada' : 'Pagamento Pedente';
+              for(var transaction of subscription.transactions) {
+                transaction.Status = transaction.Status === 'paid' ? 'Pagamento confirmado' : transaction.Status === 'refused' ? 'Pagamento recusado' : transaction.Status === 'refunded' ? 'Pagamento estornado' : 'Pagamento pendente';
+              }
+            }
           });
       }
     },

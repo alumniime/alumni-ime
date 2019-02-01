@@ -109,7 +109,7 @@ export function ModalService($uibModal, $q) {
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalOpportunityApplication',
-        size: 'md dialog-centered',
+        size: 'md modal-dialog-centered',
         resolve: {
           opportunity: function () {
             return opportunity;
@@ -127,7 +127,7 @@ export function ModalService($uibModal, $q) {
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalTermsOfUse',
-        size: 'dialog-centered'
+        size: 'md modal-dialog-centered'
       });
       modalInstance.result.then(function () {
         console.log('Success');
