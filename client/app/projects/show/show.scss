@@ -23,7 +23,10 @@
     font-size: 28px;
     font-weight: 700;
     margin-top: 20px;
-    margin-bottom: 25px !important;
+    margin-bottom: 35px !important;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   li {
@@ -144,6 +147,29 @@
   }
   .progress-bar-custom {
     background: #6FCF97;
+  }
+  .vertical-line{
+    border-left-width: 1px;
+    border-left-color: grey;
+    border-left-style: solid;
+  }
+  .days-left label{
+    color: #333;
+    font-size: 15px;
+  }
+  .days-left label.days{
+    color: #8B1F42;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .donator-count label{
+    color: #8B1F42;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .brief{
+    color: black;
+    font-size: 14px;
   }
 
 }

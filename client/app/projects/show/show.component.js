@@ -29,11 +29,13 @@ export class ShowController {
       this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/${this.Year}.${this.Semester}`);
 
       var loading = this.Modal.showLoading();
-      this.Project.load().then(() => {
-        loading.close();
-      }).catch(() => {
-        loading.close();
-      })
+      this.Project.load()
+        .then(() => {
+          loading.close();
+        })
+        .catch(() => {
+          loading.close();
+        })
     } else {
       this.$state.go('main');
     }
