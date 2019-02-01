@@ -36,12 +36,12 @@ export default class AdminDonationsController {
   $onInit() {
 
     var loading = this.Modal.showLoading();
-    this.Donation.load()
+    this.Donation.load(true)
       .then(() => {
         loading.close();
         this.refreshFilters();
       });
-    this.Subscription.load()
+    this.Subscription.load(true)
       .then((data) => {
         this.refreshFilters();
       });

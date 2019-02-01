@@ -12,6 +12,7 @@ import { applyPatch } from 'fast-json-patch';
 import { Subscription, Customer, Transaction, Donation, Project, Plan, User } from '../../sqldb';
 import pagarme from 'pagarme';
 import config from '../../config/environment';
+import sender from '../../email/sender';
 import async from 'async';
 import qs from 'qs';
 
@@ -151,7 +152,7 @@ export function subscribe(req, res) {
 
   // params.customer.id = 883840; // TODO load previous saved id
 
-  params.amount = data.amount;
+  params.amount = parseInt(data.amount);
   params.payment_method = 'credit_card';
   params.soft_descriptor = 'Apoio Mensal';
   params.postback_url = `${config.domain}/api/subscriptions/postback`;
@@ -241,18 +242,21 @@ export function subscribe(req, res) {
         ProjectId: donation.ProjectId || null,
         TransactionId: response.current_transaction.id,
         Type: donation.Type,
-        ValueInCents: data.amount,
+        ValueInCents: parseInt(data.amount),
         DonationDate: Date.now(),
         IsApproved: response.status === 'paid',
       })
-        .then(() => next(null, response))
+        .then(newDonation => next(null, {response, newDonation}))
         .catch(err => next(err));
     }
   ], (err, result) => {
     if(err) {
       res.status(500).json({ errorCode: 1, errorDesc: err });
     } else {
-      res.json({ errorCode: 0, errorDesc: null, result: result });
+      res.json({ errorCode: 0, errorDesc: null, result: result.response });
+      if(result.response.status === 'paid') {
+        sender.sendReceipt(result.newDonation.DonationId);
+      }
     }
   });
 }
@@ -389,7 +393,7 @@ export function postback(req, res) {
             TransactionId: transactionId
           }
         })
-          .then(() => next(null, true))
+          .then(() => next(null))
           .catch(err => next(err));
       } else {
         var isProjectDonation = subscription.ProjectId && Date.now() <= subscription.project.ConclusionDate;
@@ -402,9 +406,23 @@ export function postback(req, res) {
           DonationDate: Date.now(),
           IsApproved: response.current_transaction.status === 'paid',
         })
-          .then(() => next(null, true))
+          .then(() => next(null))
           .catch(err => next(err));
       }
+    },
+    // Finding donation
+    (next) => {
+      Donation.find({
+        attributes: ['DonationId'],
+        where: {
+          TransactionId: transactionId
+        }
+      })
+        .then(donation => next(null, donation))
+        .catch(err => {
+          console.error(err);
+          next(err);
+        });
     }
   ], (err, result) => {
     if (err) {
@@ -412,6 +430,9 @@ export function postback(req, res) {
       res.status(500).json({errorCode: 1, errorDesc: err});
     } else {
       res.json({ errorCode: 0, errorDesc: null, result: result });
+      if(response.status === 'paid') {
+        sender.sendReceipt(result.DonationId);
+      }
     }
   });
   

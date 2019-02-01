@@ -15,30 +15,12 @@ import {Donation, Project, TransferReceipt, User, FormerStudent, Engineering, Pe
 import config from '../../config/environment';
 import transporter from '../../email';
 import mailchimp from '../../email/mailchimp';
-import fullNumber from 'numero-por-extenso';
+import sender from '../../email/sender';
 import multer from 'multer';
 import moment from 'moment';
 import async from 'async';
 
 moment.locale('pt-BR');
-
-function nameCase(str) {
-  if(str) {
-    str = str.toLowerCase().split(' ');
-    for (var i = 0; i < str.length; i++) {
-      if (!['e', 'y', 'da', 'de', 'di', 'do', 'das', 'dos'].includes(str[i])) {
-        if (str[i].indexOf('d\'') === 0) {
-          str[i] = 'd\'' + str[i].charAt(2).toUpperCase() + str[i].slice(3);
-        } else {
-          str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-        }
-      }
-    }
-    return str.join(' ');
-  } else {
-    return '';
-  }
-};
 
 function respondWithResult(res, statusCode) { 
   statusCode = statusCode || 200;
@@ -124,7 +106,7 @@ export function index(req, res) {
       as: 'former'
     }, {
       model: Transaction,
-      attributes: ['TransactionId', 'PaymentMethod', 'Status'],
+      attributes: ['TransactionId', 'SubscriptionId', 'PaymentMethod', 'Status'],
       as: 'transaction'
     },
       TransferReceipt
@@ -287,10 +269,10 @@ export function upload(req, res) {
                 address: config.email.user
               },
               template: 'user-donation-email',
-              subject: `Contribuição Recebida - ${nameCase(moment(newDonation.DonationDate).format('MMM/YYYY'))}`,
+              subject: `Contribuição Recebida - ${mailchimp.nameCase(moment(newDonation.DonationDate).format('MMM/YYYY'))}`,
               context: {
                 name: user.name.split(' ')[0],
-                value: newDonation.ValueInCents / 100
+                value: (newDonation.ValueInCents / 100).toFixed(2).replace('.', ',')
               }
             };
             transporter.sendMail(data, function (err) {
@@ -317,7 +299,7 @@ export function upload(req, res) {
               subject: `Contribuição recebida de ${user.name}`,
               context: {
                 name: user.FullName,
-                value: newDonation.ValueInCents / 100, 
+                value: (newDonation.ValueInCents / 100).toFixed(2).replace('.', ','),
                 date: moment(newDonation.DonationDate).format('DD/MM/YYYY - HH:mm'),
                 type: newDonation.Type === 'general' ? 'Geral' : 'Por projeto',
                 email: user.email,
@@ -351,85 +333,25 @@ export function edit(req, res) {
           }
         })
           .then(result => next(null, result))
-          .catch(err => next(err));
+          .catch(err => {
+            console.error(err);
+            next(err);
+          });
       } else {
         Donation.create(donation)
-          .then(result => next(null, result))
+          .then(result => {
+            donation.DonationId = result.DonationId;
+            next(null, result);
+          })
           .catch(err => next(err));
       }
     },
-    // Finding donation
-    (result, next) => {
-      Donation.find({
-        include: [{
-          model: Project,
-          attributes: ['ProjectName'],
-          as: 'project'
-        }, {
-          model: Transaction,
-          as: 'transaction',
-        }],
-        where: {
-          DonationId: donation.DonationId
-        }
-      })
-        .then(newDonation => next(null, result, newDonation))
-        .catch(err => next(err));
-    },
     // Updating mailchimp user
-    (result, newDonation, next) => {
-      if(newDonation.DonatorId) {
-        mailchimp.updateUser(newDonation.DonatorId);
+    (result, next) => {
+      if(donation.DonatorId) {
+        mailchimp.updateUser(donation.DonatorId);
       }
-      next(null, result, newDonation);
-    },
-    // Finding user
-    (result, newDonation, next) => {
-      User.find({
-        attributes: ['PersonId', 'name', 'email', 'FullName'],
-        where: {
-          PersonId: req.user.PersonId
-        }
-      })
-        .then(user => next(null, result, newDonation, user))
-        .catch(err => {
-          console.error(err);
-          next(err);
-        });
-    },
-    // Sending email to user
-    (result, newDonation, user, next) => {
-      if(newDonation.IsApproved && !newDonation.TransactionId) {
-        var data = {
-          to: {
-            name: user.name,
-            address: user.email
-          },  
-          from: {
-            name: config.email.name,
-            address: config.email.user
-          },
-          template: 'user-donation-approved-email',
-          subject: `Recibo de Contribuição - ${nameCase(moment(newDonation.DonationDate).format('MMM/YYYY'))}`,
-          context: {
-            name: user.name.split(' ')[0],
-            fullName: user.FullName,
-            value: newDonation.ValueInCents / 100,
-            fullValue: fullNumber.porExtenso(newDonation.ValueInCents / 100, fullNumber.estilo.monetario),
-            paymentMethod: newDonation.TransactionId && newDonation.transaction.PaymentMethod === 'boleto' ? 'boleto bancário' : newDonation.TransactionId && newDonation.transaction.PaymentMethod === 'credit_card' ? 'cartão de crédito' : 'transferência bancária',
-            paragraph: newDonation.ProjectId ? `A Alumni IME declara ainda que os recursos recebidos serão aplicados integralmente na realização do projeto: ${newDonation.project.ProjectName}.` : 'A Alumni IME declara ainda que os recursos recebidos serão aplicados integralmente na realização das finalidades e atividades da Associação.',
-            date: `${nameCase(moment(newDonation.DonationDate).format('D MMMM YYYY').replace(/ /g, ' de '))}.`
-          }
-        };
-        transporter.sendMail(data, function (err) {
-          if(!err) {
-            console.log('Email de doação aprovada enviado para', user.email);
-          } else {
-            console.error('Erro ao enviar email ', err);
-            handleError(res);
-          }
-        });  
-      }
+      sender.sendReceipt(donation.DonationId);
       next(null, result);
     }
   ], (err, result) => {

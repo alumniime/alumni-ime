@@ -18,6 +18,8 @@ import async from 'async';
 import multer from 'multer';
 import moment from 'moment';
 
+moment.locale('pt-BR');
+
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function(entity) {

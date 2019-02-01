@@ -20,7 +20,7 @@ export class DonateController {
     frequency: 'monthly',
     visible: false
   }, {
-    planId: 403308, //403695,
+    planId: 403695,
     value: 100,
     frequency: 'monthly',
     visible: true

@@ -67,7 +67,7 @@
         <div class="form-group" ng-if="vm.donation.transaction && vm.donation.transaction.PaymentMethod === 'boleto'">
           <label for="BoletoShow">
             VENCIMENTO EM {{vm.donation.transaction.BoletoExpirationDate | date: 'dd/MM/yyyy'}}
-            <a ng-if="donation.transferReceipt" href="{{vm.donation.transaction.BoletoURL}}" target="_blank" class="text-dark text-center d-block">
+            <a href="{{vm.donation.transaction.BoletoURL}}" target="_blank" class="text-dark text-center d-inline ml-1">
               <i class="fa fa-external-link-square" uib-tooltip="Visualizar Boleto" tooltip-placement="right"></i>
             </a>
           </label>
@@ -85,7 +85,7 @@
           <input type="text" id="TypeShow" name="Type" class="form-control-plaintext" readonly ng-value="vm.donation.Type === 'general' ? 'Geral' : 'Projeto: ' + vm.donation.project.ProjectName">
         </div>
         <div class="form-group">
-          <label for="StatusShow">STATUS</label>
+          <label for="StatusShow">STATUS {{vm.donation.TransactionId ? '- TRANSAÇÃO ' + vm.donation.TransactionId : ''}}</label>
           <input type="text" id="StatusShow" name="Status" class="form-control-plaintext" readonly ng-value="vm.donation.Status">
         </div>
         <div class="form-group" ng-if="vm.donation.transaction">
@@ -170,7 +170,7 @@
 
       </div>
 
-      <div class="custom-control custom-checkbox my-2" ng-if="!vm.donation.transaction || vm.donation.Status === 'Pendente'">
+      <div class="custom-control custom-checkbox my-2" ng-if="!vm.donation.transaction">
         <input type="checkbox" name="IsApproved" class="custom-control-input" id="IsApproved" ng-model="vm.donation.IsApproved">
         <label class="custom-control-label" for="IsApproved">
           Aprovar contribuição
@@ -180,7 +180,7 @@
       <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="vm.DonationId && !vm.donation.transaction && vm.donation.IsApproved">
         SALVAR E ENVIAR RECIBO
       </button>
-      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="!(vm.DonationId && !vm.donation.transaction && vm.donation.IsApproved)">
+      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="!vm.DonationId && !vm.donation.transaction">
         SALVAR
       </button>
   

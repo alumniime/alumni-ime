@@ -31,9 +31,9 @@ export default class AdminUsersController {
   
   $onInit() {
     // Use the User $resource to fetch all users
-    var loading = this.Modal.showLoading();
+    // var loading = this.Modal.showLoading();
     this.users = this.User.query(() => {
-        loading.close();
+        // loading.close();
         this.refreshFilters();
       });
 
