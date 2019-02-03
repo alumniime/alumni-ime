@@ -53,10 +53,12 @@ export class BankController {
         }
       });
 
-    var date = new Date();
-    this.currentSemester = (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1; 
-    this.currentYear = date.getFullYear();
+  }
 
+  validDate(collectionLimitDate) {
+    var today = new Date().getTime();
+    var limit = new Date(collectionLimitDate).getTime();
+    return today <= limit;
   }
 
   removeImage(image) {

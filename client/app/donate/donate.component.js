@@ -127,13 +127,14 @@ export class DonateController {
         }
       });
 
-    var date = new Date();
-    this.currentSemester = (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1;
-    this.currentYear = date.getFullYear();
-    this.currentYear = 2018;
-
     this.selectFrequency('monthly');
 
+  }
+
+  validDate(collectionLimitDate) {
+    var today = new Date().getTime();
+    var limit = new Date(collectionLimitDate).getTime();
+    return today <= limit;
   }
 
   selectType(type) {

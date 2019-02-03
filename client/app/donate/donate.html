@@ -41,7 +41,7 @@
                                         {{ vm.ProjectName || 'Selecione um projeto' }}
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnSelectProject">
-                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName' | filter: {Year: vm.currentYear, Semester: vm.currentSemester}" 
+                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate)"
                                            ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
                                             {{project.ProjectName}}
                                         </a>
@@ -67,7 +67,7 @@
                                         {{ vm.ProjectName || 'Selecione um projeto' }}
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnSelectProject">
-                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName' | filter: {Year: vm.currentYear, Semester: vm.currentSemester}" 
+                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate)"
                                            ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
                                             {{project.ProjectName}}
                                         </a>
