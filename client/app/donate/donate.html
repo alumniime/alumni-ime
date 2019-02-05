@@ -36,11 +36,11 @@
                                     </div>
                                     <div class="col-12 p-0 btn-group border-top-none">
                                 <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
-                                    <button id="btnSelectProject" type="button" class="btn btn-outline-secondary btn-other truncate dropdown-toggle" 
+                                    <button id="btnSelectProjectSmall" type="button" class="btn btn-outline-secondary btn-other truncate dropdown-toggle" 
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}">
                                         {{ vm.ProjectName || 'Selecione um projeto' }}
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnSelectProject">
+                                    <div class="dropdown-menu" aria-labelledby="btnSelectProjectSmall">
                                         <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate)"
                                            ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
                                             {{project.ProjectName}}

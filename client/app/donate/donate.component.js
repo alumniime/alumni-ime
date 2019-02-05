@@ -115,6 +115,11 @@ export class DonateController {
             }
           }
         }
+        if(this.$stateParams.PlanIndex) {
+          var plan = this.plans[this.$stateParams.PlanIndex];
+          this.donation.Frequency = plan.frequency;
+          this.selectValue(plan);
+        }
       });
     
     var loading = this.Modal.showLoading();
