@@ -1,3 +1,7 @@
+body{
+  background-color: #EEE;
+}
+
 .projectView {
   padding: 40px 20px 60px;
 
@@ -17,9 +21,9 @@
 
   .donations {
     margin: 30px;
-    position: sticky;
     height: 300px;
-    top: 140px;
+    top: 60px;
+    padding-right: 0px;
     @include media-breakpoint-down(lg) {
       padding: 0;
       margin-right: 0;
@@ -55,10 +59,14 @@
   }
 
   .text-content {
-    margin-top: 40px;
+    padding-top: 10px;
     color: #333333;
     font-size: 16px;
     text-align: justify;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #555;
+    font-size: 15px;
+    line-height: 1.5em;
   }
 
   .project-card {
@@ -282,6 +290,46 @@
     .card-body {
       padding: 39px;
     }
+  }
+
+  .nav{
+    margin-top: 30px;
+  }
+
+  .nav-item {
+    color: #FFF;
+    background-color: #333;
+    margin-right: 10px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  .nav-tabs .nav-link{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #333;
+    box-shadow: 0 4px 3px rgba(0,0,0,0.2);
+  }
+
+  .tab-content{
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+  }
+
+  .tab-pane{
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .tab-pane-title{
+    padding-top: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #c4c7ca;
+    padding-bottom: 10px;
   }
 
 }

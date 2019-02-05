@@ -13,12 +13,7 @@
              uib-tooltip="{{vm.project.Results ? 'Editar resultado' : 'Inserir resultado'}}"
              tooltip-placement="bottom"></i>
         </h5>
-        <div class="legend">
-          por {{vm.project.TeamName}}
-        </div>
       </div>
-
-      <div class="text-content text-pre">{{vm.project.Abstract}}</div>
 
       <div class="carousel-col-4 d-none d-lg-block p-0 mt-4">
         <img class="img-selected img-fluid mb-4 c-pointer" alt="Project image" ng-src="{{vm.selectedProjectImage.Path}}"
@@ -54,6 +49,46 @@
           </a>
         </div>
       </div>
+
+      <nav class="nav nav-tabs">
+          <a class="nav-item nav-link active" data-toggle="tab" href="#description">Descrição</a>
+          <a class="nav-item nav-link" data-toggle="tab" href="#menu1">Custos</a>
+          <a class="nav-item nav-link" data-toggle="tab" href="#menu2">Doadores</a>
+        </nav>
+        
+        <div class="tab-content">
+          <div id="description" class="tab-pane fade show active">
+              <div class="tab-pane-title">
+                <h5>{{vm.project.ProjectName}}</h5>
+              </div>
+              <div class="text-content text-pre">{{vm.project.Abstract}}</div>
+          </div>
+          <div id="menu1" class="tab-pane fade">
+              <div class="tab-pane-title">
+                  <h5>Custos</h5>
+                </div>
+            <p>Some content in menu 1.</p>
+          </div>
+          <div id="menu2" class="tab-pane fade">
+              <div class="tab-pane-title">
+                  <h5>Doadores</h5>
+                </div>
+            <div ng-if="vm.project.donations.length > 0">
+              teste
+            </div>
+            <div ng-if="vm.project.donations.length === 0">
+              Lista de doadores não disponível.
+            </div>
+          </div>
+        </div>
+
+      
+      <!-- VIDEO -->
+      <!--<div class="embed-responsive embed-responsive-16by9"> 
+        <iframe width="420" height="315"
+      src="https://www.youtube.com/embed/tgbNymZ7vqY">
+      </iframe> 
+      </div> -->
 
       <div class="donations-mobile d-md-none">
         <div class="card project-card mb-3">
@@ -135,81 +170,6 @@
           </a>
         </div>
       </div>
-
-      <div class="row mt-2">
-        <div class="col-8 col-xs-6">
-          <div class="info-name">
-            SEÇÃO DE ENSINO
-          </div>
-          <div class="info-text">
-            {{vm.project.se.Description}}
-          </div>
-        </div>
-
-        <div class="col-4 col-xs-6">
-          <div class="info-name">
-            PROFESSOR RESPONSÁVEL
-          </div>
-          <div class="info-text">
-            {{vm.project.professor.name}}
-          </div>
-        </div>
-      </div>
-
-      <div class="row mt-2">
-        <div class="col-8 col-xs-6">
-          <div class="info-name">
-            LÍDER DO PROJETO
-          </div>
-          <div class="info-text">
-            {{vm.project.leader.name}}
-          </div>
-        </div>
-
-        <div class="col-4 col-xs-6">
-          <div class="info-name">
-            TÉRMINO ESTIMADO
-          </div>
-          <div class="info-text">
-            {{vm.project.ConclusionDate | date: 'dd/MM/yyyy'}}
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-8 col-xs-6">
-          <div class="info-name">
-            EQUIPE
-          </div>
-          <div class="info-text">
-            {{vm.project.TeamMembers}}
-          </div>
-        </div>
-
-        <div class="col-4 col-xs-6">
-          <div class="info-name">
-            ALUNOS ENVOLVIDOS
-          </div>
-          <div class="info-text">
-            {{vm.project.StudentsNumber}}
-          </div>
-        </div>
-      </div>
-
-      <div class="info-name">
-        METAS/RESULTADOS ESPERADOS PARA O PROJETO
-      </div>
-      <div class="info-text text-pre">{{vm.project.Goals}}</div>
-
-      <div class="info-name">
-        BENEFÍCIOS CONCRETOS PARA O IME
-      </div>
-      <div class="info-text text-pre">{{vm.project.Benefits}}</div>
-
-      <div class="info-name">
-        CRONOGRAMA FÍSICO-FINANCEIRO
-      </div>
-      <div class="info-text text-pre">{{vm.project.Schedule}}</div>
 
       <div class="col results" ng-if="vm.project.Results">
         <div class="card project-card mb-3">
