@@ -9,8 +9,8 @@ export function CheckoutService($q, $interval, appConfig) {
     /**
      * Opens pagarme checkout view with params
      * */
-    open(params, success) {
-      getInstance(success)
+    open(params, success, error, close) {
+      getInstance(success, error, close)
         .then((checkout) => {
           checkout.open(params);
         })
@@ -24,7 +24,7 @@ export function CheckoutService($q, $interval, appConfig) {
   /**
    * Checks if PagarMeCheckout was loaded and creates a checkout instance
    * */
-  function getInstance(success) {
+  function getInstance(success, error, close) {
 
     var promise = $q((resolve, reject) => {
 
@@ -37,12 +37,8 @@ export function CheckoutService($q, $interval, appConfig) {
             var data = {
               encryption_key: appConfig.pagarme.encryptionKey, 
               success: success,
-              error: (err) => {
-                console.log(err);
-              },
-              close: () => {
-                console.log('The modal has been closed.');
-              }
+              error: error,
+              close: close
             };
             $interval.cancel(interval);
             resolve(new PagarMeCheckout.Checkout(data));

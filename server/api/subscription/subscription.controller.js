@@ -235,11 +235,12 @@ export function subscribe(req, res) {
         UpdateDate: response.date_updated,
         Status: response.status,
       })
-        .then(() => next(null, response))
+        .then(newSubscription => next(null, response, newSubscription))
         .catch(err => next(err));
     },
     // Saving transaction
-    (response, next) => {
+    (response, newSubscription, next) => {
+      response.SubscriptionId = newSubscription.SubscriptionId;
       Transaction.create({
         TransactionId: response.current_transaction.id,
         PersonId: userId,
@@ -284,6 +285,7 @@ export function subscribe(req, res) {
     if(err) {
       res.status(500).json({ errorCode: 1, errorDesc: err });
     } else {
+      result.response.DonationId = result.newDonation.DonationId;
       res.json({ errorCode: 0, errorDesc: null, result: result.response });
       if(result.response.status === 'paid') {
         sender.sendReceipt(result.newDonation.DonationId);
@@ -293,7 +295,6 @@ export function subscribe(req, res) {
 }
 
 // Receives postbacks from pagarme
-
 export function postback(req, res) {
   var response = req.body.subscription;
   var subscriptionId = response.id;
@@ -310,6 +311,12 @@ export function postback(req, res) {
         console.log(pagarme.postback.calculateSignature(config.pagarme.apiKey, text));
         next('Wrong signature');
       }
+    },
+    // Waiting subscribe function complete
+    (next) => {
+      setTimeout(function() {
+        next(null);
+      }, 1000);
     },
     // Updating subscription
     (next) => {
@@ -346,7 +353,13 @@ export function postback(req, res) {
           SubscriptionId: subscriptionId
         }
       })
-        .then(result => next(null, result))
+        .then(subscription => {
+          if(!subscription) {
+            next('Subscription not found');
+          } else {
+            next(null, subscription);
+          }
+        })
         .catch(err => {
           console.error(err);
           next(err);
@@ -435,6 +448,8 @@ export function postback(req, res) {
           Type: isProjectDonation ? 'project' : 'general',
           ValueInCents: response.current_transaction.amount,
           DonationDate: Date.now(),
+          ShowName: subscription.ShowName,
+          ShowAmount: subscription.ShowAmount,
           IsApproved: response.current_transaction.status === 'paid',
         })
           .then(() => next(null))
@@ -467,6 +482,21 @@ export function postback(req, res) {
     }
   });
   
+}
+
+// Updates the given Subscription in the DB
+export function update(req, res) {
+  return Subscription.update({
+    ShowName: req.body.ShowName,
+    ShowAmount: req.body.ShowAmount
+  }, {
+    where: {
+      SubscriptionId: req.body.SubscriptionId,
+      SubscriberId: req.user.PersonId
+    }
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
 // Upserts the given Subscription in the DB at the specified ID

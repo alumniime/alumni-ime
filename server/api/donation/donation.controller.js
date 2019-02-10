@@ -363,6 +363,21 @@ export function edit(req, res) {
   });
 }
 
+// Updates the given Donation in the DB
+export function update(req, res) {
+  return Donation.update({
+    ShowName: req.body.ShowName,
+    ShowAmount: req.body.ShowAmount
+  }, {
+    where: {
+      DonationId: req.body.DonationId,
+      DonatorId: req.user.PersonId
+    }
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Upserts the given Donation in the DB at the specified ID
 export function upsert(req, res) {
   if(req.body.DonationId) {

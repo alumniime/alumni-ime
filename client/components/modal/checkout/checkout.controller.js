@@ -4,114 +4,66 @@ import { runInThisContext } from "vm";
 
 export default class ModalCheckoutController {
   submitted = false;
+  options = [{
+    Description: 'Exibir meu nome e o valor da contribuição na galeria de apoiadores.',
+    ShowName: true,
+    ShowAmount: true
+  }, {
+    Description: 'Não exibir meu nome na galeria de apoiadores.',
+    ShowName: false,
+    ShowAmount: true
+  }, {
+    Description: 'Não exibir o valor da contribuição na galeria de apoiadores.',
+    ShowName: true,
+    ShowAmount: false
+  }, {
+    Description: 'Não exibir meu nome e o valor da contribuição na galeria de apoiadores.',
+    ShowName: false,
+    ShowAmount: false
+  }];
+  selectedOption = 0;
 
   /*@ngInject*/
-  constructor(Modal, $http, Pagseguro, Auth, $filter) {
+  constructor(Modal, $http) {
     this.Modal = Modal;
     this.$http = $http;
-    this.pagseguro = Pagseguro;
-    this.getCurrentUser = Auth.getCurrentUser;
-    this.$filter = $filter;
   }
 
   $onInit() {
-    var loading = this.Modal.showLoading();
-    this.funding = this.resolve.funding;
-    var $funding = this.funding;
 
-    this.getCurrentUser()
-      .then(user => {
-        this.user = user;
-        if (!user.PersonId) {
-          this.Modal.openLogin();
-        } else {
-          $funding.contributor = user.FullName;
-          $funding.email = user.email;
-          $funding.creditCardHolderBirthDate = this.$filter('date')(user.Birthdate,'dd/MM/yyyy');
-        }
-      });
+    if(this.resolve.result) {
+      this.result = this.resolve.result;
+    }
 
-    this.$http.get(`/api/pagseguro/session`)
-      .then(response => {
-        loading.close();
-        this.pagseguro.setSessionId(response.data.session.id[0]);
-      })
   }
 
   submit(form) {
     this.submitted = true;
+    console.log(this.result);
 
-    if (form.$valid) {
-      //local 
-      var $fund = this.funding;
-      var $$http = this.$http;
-
+    if(form.$valid) {
       var loading = this.Modal.showLoading();
-      var $modal = this.Modal;
-      var $this = this;
 
-      var $pagseguro = this.pagseguro;
-      $pagseguro.getBrand({
-        cardBin: $fund.paymentMethod.creditCardNumber,
-        success: function (response) {
-          // console.log(response.brand.name);
-          $pagseguro.createCardToken({
-            cardNumber: $fund.paymentMethod.creditCardNumber,
-            brand: response.brand.name,
-            cvv: $fund.paymentMethod.cvv,
-            expirationMonth: $fund.paymentMethod.expires.month,
-            expirationYear: $fund.paymentMethod.expires.year,
-            success: function (response) {
-              $fund.card = response.card;
-              $pagseguro.onSenderHashReady(function (response) {
-                if (response.status == 'error') {
-                  console.error(response.message);
-                  $modal.showAlert('Erro ao obter informações para checkout', 'Por favor, tente novamente.');
-                  loading.close();
-                  return false;
-                }
-                $fund.senderHash = response.senderHash;
-
-                $$http.post('/api/pagseguro/checkout', {
-                  funding: $fund
-                }).then(res => {
-                  console.log(res);
-                  if (res.data.code) {
-                    $modal.showAlert('Sucesso ao realizar a assinatura', 'Agora você faz parte do time');
-                    $this.ok(true);
-                  } else {
-                    $modal.showAlert('Erro no processo de checkout', 'Por favor, tente novamente.');
-                  }
-                  loading.close();
-                  
-                }).catch(err => {
-                  console.error(err);
-                  $modal.showAlert('Erro no processo de checkout', 'Por favor, tente novamente.');
-                  loading.close();
-                })
-              });
-
-            },
-            error: function (err) {
-              console.error(err);
-              $modal.showAlert('Erro ao obter informações para checkout', 'Por favor, tente novamente.');
-              loading.close();
-            },
-            complete: function (response) {
-              console.log('createCardToken finished');
-            }
-          });
-        },
-        error: function (err) {
-          console.error(err);
-          $modal.showAlert('Erro ao obter informações para checkout', 'Por favor, tente novamente.');
+      if(this.result.SubscriptionId) {
+        this.$http.post('/api/subscriptions/setting', {
+          SubscriptionId: this.result.SubscriptionId,
+          ShowName: this.options[this.selectedOption].ShowName,
+          ShowAmount: this.options[this.selectedOption].ShowAmount
+        })
+        .catch(err => console.log(err));
+      }
+      if(this.result.DonationId) {
+        this.$http.post('/api/donations/setting', {
+          DonationId: this.result.DonationId,
+          ShowName: this.options[this.selectedOption].ShowName,
+          ShowAmount: this.options[this.selectedOption].ShowAmount
+        })
+        .then(() => {
           loading.close();
-        },
-        complete: function (response) {
-          console.log('getBrand finished');
-        }
-      });
-      console.log($fund);
+        })
+        .catch(err => console.log(err));
+      }
+
     }
   }
 

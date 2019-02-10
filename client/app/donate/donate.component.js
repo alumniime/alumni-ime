@@ -142,7 +142,7 @@ export class DonateController {
       });
 
     this.selectFrequency('monthly');
-
+    // this.Modal.openCheckout(this.donation);
   }
 
   validDate(collectionLimitDate) {
@@ -193,6 +193,7 @@ export class DonateController {
       this.$state.go('donate', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
     } else if (form.$valid) {
       var loading = this.Modal.showLoading();
+      this.Modal.showAlert('Em fase de TESTES', 'Todos os pagamentos realizados não serão debitados de fato.');
 
       // inicia a instância do checkout
       // var checkout = new PagarMeCheckout.Checkout({
@@ -228,12 +229,22 @@ export class DonateController {
           donation: this.donation
         })
           .then(res => {
-            console.log(res); 
-            console.log(JSON.stringify(res.data));
+            console.log(res.data); 
+            this.Modal.showAlert('Resultado', res.data.result.status);
+            this.Modal.openCheckout(res.data.result);
+            loading.close();
           })
           .catch(err => {
             console.log(err);
+            this.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
+            loading.close();
           });
+      }, (err) => {
+        console.log(err);
+        loading.close();
+      }, () => {
+        console.log('The modal has been closed.');
+        loading.close();
       });
 
     }

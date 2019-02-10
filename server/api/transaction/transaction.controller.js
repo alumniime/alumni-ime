@@ -216,6 +216,7 @@ export function transact(req, res) {
     if (err) {
       res.status(500).json({errorCode: 1, errorDesc: err});
     } else {
+      result.response.DonationId = result.newDonation.DonationId;
       res.json({ errorCode: 0, errorDesc: null, result: result.response });
       if(result.response.status === 'paid') {
         sender.sendReceipt(result.newDonation.DonationId);
@@ -239,6 +240,12 @@ export function postback(req, res) {
       } else {
         next('Wrong signature');
       }
+    },
+    // Waiting transact function complete
+    (next) => {
+      setTimeout(function() {
+        next(null);
+      }, 1000);
     },
     // Updating transaction
     (next) => {
@@ -289,7 +296,13 @@ export function postback(req, res) {
           TransactionId: transactionId
         }
       })
-        .then(donation => next(null, donation))
+        .then(donation => {
+          if(!donation) {
+            next('Donation not found');
+          } else {
+            next(null, donation);
+          }
+        })
         .catch(err => {
           console.error(err);
           next(err);

@@ -376,24 +376,25 @@ export function ModalService($uibModal, $q) {
       return loading;
     },
 
-    openCheckout(funding) {
-      // var d = $q.defer();
+    openCheckout(result) {
+      var d = $q.defer();
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalCheckout',
-        size: 'lg modal-dialog-centered',
+        size: 'md modal-dialog-centered',
         resolve: {
-          funding: function () {
-            return funding;
+          result: function () {
+            return result;
           }
         }
       });
       modalInstance.result.then(function (path) {
-        console.log('Success');
+        d.resolve(path);
       }, function () {
         console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
       });
-      // return d.promise;
+      return d.promise;
     }
 
   };
