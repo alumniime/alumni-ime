@@ -21,9 +21,8 @@ export default function($stateProvider, $urlRouterProvider, appConfig) {
       }
     })
     .state('donate', {
-      url: '/apoie/:ProjectId/:PrettyURL',
+      url: '/apoie/:ProjectId/:PrettyURL?PlanIndex?Value',
       params: {
-        PlanIndex: {value: null},
         ProjectId: {value: null, squash: true},
         PrettyURL: {value: null, squash: true}
       },

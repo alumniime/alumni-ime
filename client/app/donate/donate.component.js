@@ -115,11 +115,6 @@ export class DonateController {
             }
           }
         }
-        if(this.$stateParams.PlanIndex) {
-          var plan = this.plans[this.$stateParams.PlanIndex];
-          this.donation.Frequency = plan.frequency;
-          this.selectValue(plan);
-        }
       });
     
     var loading = this.Modal.showLoading();
@@ -127,8 +122,22 @@ export class DonateController {
       .then(user => {
         this.user = user;
         loading.close();
-        if (!user.PersonId) {
+        if(!user.PersonId) {
           this.Modal.openLogin();
+        }
+        if(this.$stateParams.PlanIndex) {
+          if(this.$stateParams.Value) {
+            this.donation.Frequency = 'once';
+            this.setCustomValue(this.$stateParams.Value);
+          } else if(this.$stateParams.PlanIndex >= 0) {
+            var plan = this.plans[this.$stateParams.PlanIndex];
+            this.donation.Frequency = plan.frequency;
+            this.selectValue(plan);
+          }
+          this.$stateParams.PlanIndex = null;
+          if(user.PersonId) {
+            this.submitFunding({$valid: true});
+          }
         }
       });
 
@@ -167,6 +176,7 @@ export class DonateController {
   }  
 
   setCustomValue(value) {
+    value = parseFloat(value);
     this.donation.ValueInCents = 100 * value;
     this.selectedOption = {
       value: value,
@@ -180,54 +190,53 @@ export class DonateController {
 
     if (!this.user.PersonId) {
       // User needs to login
-      this.Modal.openLogin();
+      this.$state.go('donate', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
     } else if (form.$valid) {
+      var loading = this.Modal.showLoading();
+
+      // inicia a instância do checkout
+      // var checkout = new PagarMeCheckout.Checkout({
+      //   encryption_key: 'ek_test_z9QmtfjZR9PunDBBHp4XPJXZd9DwlC',
+      //   success: ,
+      //   error: function(err) {
+      //     console.log(err);
+      //   },
+      //   close: function() {
+      //     console.log('The modal has been closed.');
+      //   }
+      // });
+      
+      // var this_ = this;
+      this.Checkout.open({
+        amount: this.donation.ValueInCents,
+        buttonText: 'Pagar',
+        headerText: this.donation.Frequency === 'monthly' ? 'Contribuição mensal {price_info}' : 'Valor da contribuição {price_info}',
+        customerData: 'true',
+        createToken: 'false',
+        paymentMethods: this.donation.Frequency === 'monthly' ? 'credit_card' : 'credit_card,boleto',
+      }, (data) => {
+        var url;
+        if(this.donation.Frequency === 'monthly') {
+          url = '/api/subscriptions';
+          data.plan_id = this.selectedOption.planId;
+        } else if(this.donation.Frequency === 'once') {
+          url = '/api/transactions';
+        }
+
+        this.$http.post(url, {
+          payment: data,
+          donation: this.donation
+        })
+          .then(res => {
+            console.log(res); 
+            console.log(JSON.stringify(res.data));
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
 
     }
-
-    var loading = this.Modal.showLoading();
-
-    // inicia a instância do checkout
-    // var checkout = new PagarMeCheckout.Checkout({
-    //   encryption_key: 'ek_test_z9QmtfjZR9PunDBBHp4XPJXZd9DwlC',
-    //   success: ,
-    //   error: function(err) {
-    //     console.log(err);
-    //   },
-    //   close: function() {
-    //     console.log('The modal has been closed.');
-    //   }
-    // });
-    
-    // var this_ = this;
-    this.Checkout.open({
-      amount: this.donation.ValueInCents,
-      buttonText: 'Pagar',
-      headerText: this.donation.Frequency === 'monthly' ? 'Contribuição mensal {price_info}' : 'Valor da contribuição {price_info}',
-      customerData: 'true',
-      createToken: 'false',
-      paymentMethods: this.donation.Frequency === 'monthly' ? 'credit_card' : 'credit_card,boleto',
-    }, (data) => {
-      var url;
-      if(this.donation.Frequency === 'monthly') {
-        url = '/api/subscriptions';
-        data.plan_id = this.selectedOption.planId;
-      } else if(this.donation.Frequency === 'once') {
-        url = '/api/transactions';
-      }
-
-      this.$http.post(url, {
-        payment: data,
-        donation: this.donation
-      })
-        .then(res => {
-          console.log(res); 
-          console.log(JSON.stringify(res.data));
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    });
 
   }
 

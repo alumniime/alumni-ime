@@ -85,7 +85,7 @@ function configureStorage() {
       var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
       var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
       cb(null, `${file.timestamp}-${name}.${format}`);
-    }
+    } 
   });
 }
 
