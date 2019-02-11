@@ -130,10 +130,10 @@
             <div class="form-group">
               <label for="Location">LOCALIZAÇÃO</label>
               <select class="form-control" id="Location" name="Location"
-                      ng-model="vm.search.LocationId">
+                      ng-model="vm.search.LocationId" ng-change="vm.chooseLocation()">
                 <option value=""></option>
                 <option ng-repeat="location in vm.locationsList | orderBy: 'locationName'"
-                        ng-value="location.LocationId">
+                        ng-value="location.CityId + '.' + location.StateId + '.' + location.CountryId">
                   {{location.locationName}}
                 </option>
               </select>
