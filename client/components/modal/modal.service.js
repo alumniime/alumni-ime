@@ -17,6 +17,7 @@ import ModalTermsOfUse from './terms-of-use/terms-of-use.controller';
 import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
 import ModalShowApplication from './show-application/show-application.controller';
+import ModalShowBoleto from './show-boleto/show-boleto.controller';
 import ModalEditNews from './edit-news/edit-news.controller';
 import ModalEditDonation from './edit-donation/edit-donation.controller';
 import ModalCheckoutController from './checkout/checkout.controller';
@@ -331,6 +332,19 @@ export function ModalService($uibModal, $q) {
       });
     },
 
+    showBoleto(barcode, link) {
+      $uibModal.open({
+        animation: true,
+        component: 'modalShowBoleto',
+        size: 'md modal-dialog-centered',
+        resolve: {
+          boleto: function () {
+            return { barcode, link };
+          }
+        }
+      });
+    },
+
     showAlert(title, message) {
       $uibModal.open({
         animation: true,
@@ -376,15 +390,18 @@ export function ModalService($uibModal, $q) {
       return loading;
     },
 
-    openCheckout(result) {
+    openCheckout(url, data) {
       var d = $q.defer();
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalCheckout',
         size: 'md modal-dialog-centered',
         resolve: {
-          result: function () {
-            return result;
+          url: function () {
+            return url;
+          },
+          data: function () {
+            return data;
           }
         }
       });
@@ -569,6 +586,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalShowApplication', {
     template: require('./show-application/show-application.html'),
     controller: ModalShowApplication,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalShowBoleto', {
+    template: require('./show-boleto/show-boleto.html'),
+    controller: ModalShowBoleto,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

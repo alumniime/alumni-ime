@@ -74,6 +74,11 @@ export default function (sequelize, DataTypes) {
       allowNull: false,
       defaultValue: 0
     },
+    SentEmail: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
     IsApproved: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

@@ -161,8 +161,6 @@ export function subscribe(req, res) {
   var isCpf = data.customer.document_number.length === 11;
   var params = {};
 
-  console.log('data =>', JSON.stringify(data));
-
   params.customer = {
     external_id: req.user.PersonId.toString(),
     name: data.customer.name,
@@ -190,8 +188,6 @@ export function subscribe(req, res) {
   params.card_hash = data.card_hash;
   params.plan_id = parseInt(data.plan_id);
 
-  console.log('params =>', params);
-
   async.waterfall([
     // Trying stablish connection with pagarme
     (next) => {
@@ -207,15 +203,13 @@ export function subscribe(req, res) {
     },
     // Trying to save customer
     (response, next) => {
-      Customer.findOrCreate({
-        where: {
-          CustomerId: response.customer.id,
-          PersonId: userId,
-          CustomerJSON: JSON.stringify(req.body.payment)
-        }
+      Customer.create({
+        CustomerId: response.customer.id,
+        PersonId: userId,
+        CustomerJSON: JSON.stringify(req.body.payment)
       })
-        .spread((customer, created) => next(null, response))
-        .catch(err => next(err));
+        .then(() => next(null, response))
+        .catch(() => next(null, response));
     },
     // Saving subscription
     (response, next) => {

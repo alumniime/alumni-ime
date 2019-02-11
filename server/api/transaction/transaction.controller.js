@@ -92,8 +92,6 @@ export function transact(req, res) {
   var isCpf = data.customer.document_number.length === 11;
   var params = {};
 
-  console.log('data =>', JSON.stringify(data));
-
   params.customer = {
     external_id: req.user.PersonId.toString(),
     name: data.customer.name,
@@ -145,8 +143,6 @@ export function transact(req, res) {
     params.boleto_instructions = `${data.customer.name}\n${isCpf ? 'CPF' : 'CNPJ'}: ${data.customer.document_number}`;
   }
 
-  console.log('params =>', params);
-
   async.waterfall([
     // Trying stablish connection with pagarme
     (next) => {
@@ -162,13 +158,13 @@ export function transact(req, res) {
     },
     // Trying to save customer
     (response, next) => {
-      Customer.findOrCreate({where: {
+      Customer.create({
         CustomerId: response.customer.id,
         PersonId: userId,
         CustomerJSON: JSON.stringify(req.body.payment)
-      }})
-        .spread((customer, created) => next(null, response))
-        .catch(err => next(err));
+      })
+        .then(() => next(null, response))
+        .catch(() => next(null, response));
     },
     // Saving transaction
     (response, next) => {

@@ -170,17 +170,38 @@
 
       </div>
 
+      <div class="custom-control custom-checkbox my-2">
+        <input type="checkbox" name="ShowName" class="custom-control-input" id="ShowName" ng-model="vm.donation.ShowName">
+        <label class="custom-control-label" for="ShowName">
+          Exibir nome
+        </label>
+      </div>
+
+      <div class="custom-control custom-checkbox my-2">
+        <input type="checkbox" name="ShowAmount" class="custom-control-input" id="ShowAmount" ng-model="vm.donation.ShowAmount">
+        <label class="custom-control-label" for="ShowAmount">
+          Exibir valor
+        </label>
+      </div>
+
+      <div class="custom-control custom-checkbox my-2">
+        <input type="checkbox" name="SentEmail" class="custom-control-input" id="SentEmail" ng-model="vm.donation.SentEmail">
+        <label class="custom-control-label" for="SentEmail">
+          Email enviado
+        </label>
+      </div>
+
       <div class="custom-control custom-checkbox my-2" ng-if="!vm.donation.transaction">
         <input type="checkbox" name="IsApproved" class="custom-control-input" id="IsApproved" ng-model="vm.donation.IsApproved">
         <label class="custom-control-label" for="IsApproved">
           Aprovar contribuição
         </label>
-      </div>              
+      </div>
 
-      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="vm.DonationId && !vm.donation.transaction && vm.donation.IsApproved">
+      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="vm.DonationId && !vm.donation.SentEmail && vm.donation.IsApproved">
         SALVAR E ENVIAR RECIBO
       </button>
-      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="!vm.DonationId && !vm.donation.transaction">
+      <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="!vm.DonationId || vm.donation.SentEmail || !vm.donation.IsApproved">
         SALVAR
       </button>
   

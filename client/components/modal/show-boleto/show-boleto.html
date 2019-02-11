@@ -1,0 +1,21 @@
+<div class="modal-header d-block">
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h5 class="modal-title text-center mt-4" id="modal-title">Obrigado por sua contribuição</h5>
+</div>
+
+<div class="modal-body" id="modal-body">
+  <span class="description text-center d-block">
+      Copie e cole o código de barras do boleto abaixo:
+  </span>
+  <br>
+  <span class="font-weight-bold text-center d-block">
+      {{vm.barcode}}
+  </span>
+  <br>
+  <span class="description text-center d-block">
+    ou
+  </span>
+  <br>
+  <a href="{{vm.link}}" target="_blank" class="btn btn-danger d-table mb-2 mx-auto">Visualizar Boleto</a>
+</div>
+

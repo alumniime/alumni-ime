@@ -374,7 +374,30 @@ export function update(req, res) {
       DonatorId: req.user.PersonId
     }
   })
-    .then(respondWithResult(res))
+    .then(() => {
+      Donation.find({
+        include: [{
+          model: Project,
+          attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
+          as: 'project'
+        }, {
+          model: Transaction,
+          as: 'transaction',
+          include: [{
+            model: Subscription,
+            as: 'subscription',
+            include: [{
+              model: Plan,
+              as: 'plan'
+            }]
+          }]
+        }],
+        where: {
+          DonationId: req.body.DonationId
+        }
+      })
+        .then(respondWithResult(res));
+    })
     .catch(handleError(res));
 }
 

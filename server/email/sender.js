@@ -35,7 +35,8 @@ self.sendReceipt = function (donationId) {
           as: 'donator'
         }],
         where: {
-          DonationId: donationId
+          DonationId: donationId,
+          SentEmail: 0
         }
       })
         .then(newDonation => next(null, newDonation))
@@ -72,6 +73,14 @@ self.sendReceipt = function (donationId) {
         transporter.sendMail(data, function (err) {
           if (!err) {
             console.log('Email de doação aprovada enviado para', user.email);
+            Donation.update({
+              SentEmail: 1
+            }, {
+              where: {
+                DonationId: donationId,
+              }
+            })
+              .catch(err => console.error(err));
             next(null, true);
           } else {
             console.error('Erro ao enviar email ', err);

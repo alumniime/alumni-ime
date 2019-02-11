@@ -224,21 +224,18 @@ export class DonateController {
           url = '/api/transactions';
         }
 
-        this.$http.post(url, {
+        this.Modal.openCheckout(url, {
           payment: data,
           donation: this.donation
         })
-          .then(res => {
-            console.log(res.data); 
-            this.Modal.showAlert('Resultado', res.data.result.status);
-            this.Modal.openCheckout(res.data.result);
+          .then(() => {
             loading.close();
           })
           .catch(err => {
             console.log(err);
-            this.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
             loading.close();
           });
+
       }, (err) => {
         console.log(err);
         loading.close();
