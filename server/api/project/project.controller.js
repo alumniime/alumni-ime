@@ -205,14 +205,14 @@ export function show(req, res) {
     }, 
     {
       model: Donation,
-      attributes: ['ProjectId'],
+      attributes: ['DonationId', 'ProjectId'],
       as: 'donations',
       required: false,
       where: {
         IsApproved: 1
       }
     }],
-    group: ['images.ImageId'],
+    group: ['images.ImageId', 'costs.ProjectCostId', 'donations.DonationId'],
     attributes: {
       include: [
         [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber']

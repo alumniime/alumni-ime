@@ -41,6 +41,7 @@ export class ProjectController {
       this.Project.get(ProjectId, this.previewMode, this.$stateParams.forceReload)
         .then(project => {
           loading.close();
+          console.log(project);
 
           this.ngMeta.setTitle(project.ProjectName);
           this.ngMeta.setTag('description', project.Abstract.slice(0, 200));
