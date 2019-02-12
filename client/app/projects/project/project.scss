@@ -60,6 +60,7 @@ body{
 
   .text-content {
     padding-top: 10px;
+    padding-bottom: 15px;
     color: #333333;
     font-size: 16px;
     text-align: justify;
@@ -318,11 +319,19 @@ body{
   .tab-content{
     background-color: #fff;
     border: 1px solid #dee2e6;
+    border-bottom: 1px solid #c4c7c9;
   }
 
   .tab-pane{
     padding-left: 15px;
     padding-right: 15px;
+    
+    p{
+      padding-top: 15px;
+      padding-bottom: 15px;
+      text-align: center;
+    }
+
   }
 
   .tab-pane-title{

@@ -65,19 +65,50 @@
           </div>
           <div id="menu1" class="tab-pane fade">
               <div class="tab-pane-title">
-                  <h5>Custos</h5>
-                </div>
-            <p>Some content in menu 1.</p>
+                <h5>Custos</h5>
+              </div>
+              <div ng-if="vm.project.costs.length > 0">
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      <div class="form-group">
+                        <label for="">INVESTIMENTO REQUERIDO*</label>
+                        <div ng-repeat="index in vm.project.costs">
+                          <input type="text" class="form-control" required ng-model="index.CostDescription">
+                        </div>
+                      </div>              
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-group">
+                        <label for="">QUANTIDADE*</label>
+                        <div ng-repeat="index in vm.project.costs">
+                          <input type="number" class="form-control" required ng-model="index.Quantity">  
+                        </div>
+                      </div>              
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-group">
+                        <label for="">VALOR UNITÁRIO*</label>
+                        <div ng-repeat="index in vm.project.costs">
+                          <input type="text" class="form-control" required ng-model="index.UnitPriceInCents" money-mask money-mask-prepend="R$">  
+                        </div>
+                      </div>              
+                    </div>
+                  </div>
+
+              </div>
+              <div ng-if="vm.project.costs.length === 0">
+                <p>Lista de custos não disponível.</p>
+              </div>
           </div>
           <div id="menu2" class="tab-pane fade">
               <div class="tab-pane-title">
                   <h5>Doadores</h5>
                 </div>
-            <div ng-if="vm.project.donations.length > 0">
-              teste
+            <!----><div ng-if="vm.project.donations.length > 0">
+              <!--COlocar lista de Doadores-->
             </div>
             <div ng-if="vm.project.donations.length === 0">
-              Lista de doadores não disponível.
+              <p>Lista de doadores não disponível.</p>
             </div>
           </div>
         </div>
