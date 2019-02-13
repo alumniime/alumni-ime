@@ -12,6 +12,7 @@ import { applyPatch } from 'fast-json-patch';
 import { Subscription, Customer, Transaction, Donation, Project, Plan, User } from '../../sqldb';
 import pagarme from 'pagarme';
 import config from '../../config/environment';
+import mailchimp from '../../email/mailchimp';
 import sender from '../../email/sender';
 import async from 'async';
 import qs from 'qs';
@@ -472,6 +473,10 @@ export function postback(req, res) {
       res.json({ errorCode: 0, errorDesc: null, result: result });
       if(response.status === 'paid') {
         sender.sendReceipt(result.DonationId);
+      }
+      // Updating mailchimp user
+      if(result.DonatorId) {
+        mailchimp.updateUser(result.DonatorId);
       }
     }
   });
