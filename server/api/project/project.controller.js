@@ -205,7 +205,7 @@ export function show(req, res) {
     }, 
     {
       model: Donation,
-      attributes: ['DonationId', 'ProjectId'],
+      attributes: ['DonationId', 'ProjectId', 'DonationDate', 'ShowName', 'ShowAmount', 'ValueInCents'],
       as: 'donations',
       required: false,
       where: {
