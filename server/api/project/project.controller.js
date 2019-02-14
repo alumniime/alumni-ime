@@ -511,6 +511,7 @@ export function edit(req, res) {
     Reflect.deleteProperty(project, 'Results');
     Reflect.deleteProperty(project, 'SubmissionDate');
     Reflect.deleteProperty(project, 'SubmissionerId');
+    Reflect.deleteProperty(project, 'CollectionLimitDate');
 
     Project.find({
       where: {
