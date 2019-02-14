@@ -303,6 +303,10 @@ export function admin(req, res) {
       attributes: ['name'],
       as: 'professor'
     }, {
+      model: User,
+      attributes: ['name'],
+      as: 'submissioner'
+    }, {
       model: ProjectCost,
       attributes: ['CostDescription', 'Quantity', 'UnitPriceInCents', 'ProjectCostId'],
       as: 'costs',
