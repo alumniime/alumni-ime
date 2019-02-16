@@ -205,9 +205,14 @@ export function show(req, res) {
     }, 
     {
       model: Donation,
-      attributes: ['DonationId', 'ProjectId', 'DonationDate', 'ShowName', 'ShowAmount', 'ValueInCents'],
+      attributes: ['DonationId', 'ProjectId', 'DonationDate', 'ShowName', 'ShowAmount', 'ValueInCents', 'DonatorName', 'DonatorId'],
       as: 'donations',
       required: false,
+      include: [{
+                model: User,
+                as: 'donator',
+                attributes: ['name', 'PersonId'],
+            }],
       where: {
         IsApproved: 1
       }
@@ -657,7 +662,7 @@ export function edit(req, res) {
   });
 }
 
-// Edits an existing Project in the DB with his images
+// Edits any existing Project in the DB with his images (admin permission)
 export function editAny(req, res) {
 
   var upload = multer({

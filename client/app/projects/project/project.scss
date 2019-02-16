@@ -330,6 +330,7 @@ body{
       padding-top: 15px;
       padding-bottom: 15px;
       text-align: center;
+      font-size: 14px;
     }
 
   }
@@ -340,5 +341,20 @@ body{
     border-bottom: 1px solid #c4c7ca;
     padding-bottom: 10px;
   }
+  .costs-table th{
+    font-size: 12px;
+    text-align: center;
+  }
+  .costs-table td{
+    font-size: 12px;
+    text-align: center;
+  }
+  
+  hr.costs-divisor {
+    border-top: 1px dashed #8c8b8b;
+    border-bottom: 1px dashed #fff;
+  }
+
+
 
 }

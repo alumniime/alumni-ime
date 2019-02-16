@@ -69,41 +69,30 @@
               </div>
               <div ng-if="vm.project.costs.length > 0">
 
-                <div class="row">
-                  <div class="col-12 col-md-6">
-                    <div class="form-group">
-                      <label for="">INVESTIMENTO REQUERIDO</label>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-2">
-                     <div class="form-group">
-                      <label for="">QUANTIDADE</label>
-                    </div>
-                  </div>  
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      <label for="">VALOR UNITÁRIO</label>
-                    </div>
-                  </div>
+                <div class="table-responsive">
+                  <table class="table costs-table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">INVESTIMENTO REQUERIDO</th>
+                        <th scope="col">QUANTIDADE</th>
+                        <th scope="col">UNIDADE</th>
+                        <th scope="col">TOTAL</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="cost in vm.project.costs">
+                        <td>{{cost.CostDescription}}</td>
+                        <td>{{cost.Quantity}}</td>
+                        <td>{{cost.UnitPriceInCents/100 | currency}}</td>
+                        <td>{{cost.Quantity * cost.UnitPriceInCents/100 | currency}}</td>
+                      </tr>
+                    </tbody>   
+                  </table>
+                  <!--<hr class="costs-divisor">
+                  TOTAL: {{vm.project.EstimatedPriceInCents/100 | currency}}-->
                 </div>
-                <div class="row" ng-repeat="cost in vm.project.costs">
-                  <div class="col-12 col-md-6">
-                    <div class="form-group">
-                        {{cost.CostDescription}}
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-2">
-                    <div class="form-group">
-                      {{cost.Quantity}}
-                    </div>
-                  </div> 
-                  <div class="col-12 col-md-4">
-                    <div class="form-group">
-                      {{cost.UnitPriceInCents}}
-                    </div>
-                  </div>
-                </div>
-                
+ 
               </div>
               <div ng-if="vm.project.costs.length === 0">
                 <p>Lista de custos não disponível.</p>
@@ -113,8 +102,26 @@
               <div class="tab-pane-title">
                   <h5>Doadores</h5>
                 </div>
-            <!----><div ng-if="vm.project.donations.length > 0">
+            <div ng-if="vm.project.donations.length > 0">
               <!--COlocar lista de Doadores-->
+              <div class="table-responsive">
+                <table class="table costs-table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">DOADOR</th>
+                      <th scope="col">VALOR</th>
+                      <th scope="col">DATA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="donation in vm.project.donations | orderBy: '-DonationDate'">
+                      <td>{{donation.ShowName[0] ? ((donation.DonatorName == NULL) ? donation.donator.name : donation.DonatorName) : "-"}}</td>
+                      <td>{{donation.ShowAmount[0] ? (donation.ValueInCents/100 | currency) : "-"}}</td>
+                      <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+                  </tbody>   
+                </table>
+              </div>
             </div>
             <div ng-if="vm.project.donations.length === 0">
               <p>Lista de doadores não disponível.</p>
