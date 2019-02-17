@@ -303,7 +303,7 @@ export function postback(req, res) {
       if(pagarme.postback.verifySignature(config.pagarme.apiKey, text, signature)) {
         next(null);
       } else {
-        console.log(pagarme.postback.calculateSignature(config.pagarme.apiKey, text));
+        // console.log(pagarme.postback.calculateSignature(config.pagarme.apiKey, text));
         next('Wrong signature');
       }
     },
@@ -467,7 +467,7 @@ export function postback(req, res) {
     }
   ], (err, result) => {
     if (err) {
-      console.log(err);
+      console.error(err);
       res.status(500).json({errorCode: 1, errorDesc: err});
     } else {
       res.json({ errorCode: 0, errorDesc: null, result: result });

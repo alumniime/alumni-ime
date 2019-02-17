@@ -38,6 +38,9 @@ export class DonateController {
     this.Plan.load()
       .then(result => {
         this.plans = result;
+        if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
+          this.selectFrequency('monthly');
+        }
       });
 
     this.Project.load()
@@ -63,21 +66,24 @@ export class DonateController {
         }
         if(this.$stateParams.PlanIndex) {
           if(this.$stateParams.Value) {
-            this.donation.Frequency = 'once';
             this.setCustomValue(this.$stateParams.Value);
+            this.$stateParams.PlanIndex = null;
           } else if(this.$stateParams.PlanIndex >= 0) {
-            var plan = this.plans[this.$stateParams.PlanIndex];
-            this.donation.Frequency = plan.frequency;
-            this.selectValue(plan);
+            this.Plan.load()
+              .then(result => {
+                this.plans = result;
+                var plan = this.plans[this.$stateParams.PlanIndex];
+                this.donation.Frequency = plan.frequency;
+                this.selectValue(plan);
+                this.$stateParams.PlanIndex = null;
+              });            
           }
-          this.$stateParams.PlanIndex = null;
           if(user.PersonId) {
             this.submitFunding({$valid: true});
           }
         }
       });
 
-    this.selectFrequency('monthly');
   }
 
   validDate(collectionLimitDate) {
@@ -114,9 +120,10 @@ export class DonateController {
     value = parseFloat(value);
     if(value < 50) {
       this.Modal.showAlert('Erro no formulário', 'O valor mínimo de contribuição pelo site é de R$ 50,00.');
-      this.customValue = 50;
       value = 50;
     }
+    this.customValue = value;
+    this.donation.Frequency = 'once';
     this.donation.ValueInCents = 100 * value;
     this.selectedOption = {
       value: value,

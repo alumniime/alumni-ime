@@ -307,7 +307,7 @@ export function postback(req, res) {
     }
   ], (err, result) => {
     if (err) {
-      console.log(err);
+      console.error(err);
       res.status(500).json({errorCode: 1, errorDesc: err});
     } else {
       res.json({ errorCode: 0, errorDesc: null, result: result });
