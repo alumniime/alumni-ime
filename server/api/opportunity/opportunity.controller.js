@@ -124,7 +124,7 @@ export function index(req, res) {
         }, {
           model: Country,
           as: 'country',
-          attributes: ['Description']
+          attributes: ['CountryId', 'Description']
         }],
       }],
       attributes: {
@@ -193,7 +193,7 @@ export function locations(req, res) {
       }, {
         model: Country,
         as: 'country',
-        attributes: ['Description']
+        attributes: ['CountryId', 'Description']
       }],
     }],
     where: {
@@ -311,7 +311,7 @@ export function show(req, res) {
           }, {
             model: Country,
             as: 'country',
-            attributes: ['Description']
+            attributes: ['CountryId', 'Description']
           }],
         }, req.user.role === 'admin' ? {
           model: OpportunityApplication,
@@ -490,7 +490,7 @@ export function search(req, res) {
           }, {
             model: Country,
             as: 'country',
-            attributes: ['Description']
+            attributes: ['CountryId', 'Description']
           }],
         }],
         attributes: {

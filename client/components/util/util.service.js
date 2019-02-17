@@ -112,6 +112,7 @@ export function UtilService($window) {
         } else {
           locationName = (location.country ? location.country.Description : '');
         }
+        console.log(locationName);
       }
       return locationName || '';
     },

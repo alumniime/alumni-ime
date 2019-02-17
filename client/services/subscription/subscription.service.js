@@ -2,7 +2,7 @@
 const angular = require('angular');
 
 /*@ngInject*/
-export function SubscriptionService($http, $q, $state, Util) {
+export function SubscriptionService($http, $q, Util) {
 
   var Subscription = {
 

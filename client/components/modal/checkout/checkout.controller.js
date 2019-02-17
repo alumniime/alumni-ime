@@ -27,8 +27,9 @@ export default class ModalCheckoutController {
   result = null;
 
   /*@ngInject*/
-  constructor(Modal, $http, $interval, $state) {
+  constructor(Modal, Donation, $http, $interval, $state) {
     this.Modal = Modal;
+    this.Donation = Donation;
     this.$http = $http;
     this.$interval = $interval;
     this.$state = $state;
@@ -99,6 +100,7 @@ export default class ModalCheckoutController {
                   console.log('Other');
                 }
                 this.$state.go('profile', {view: 'supported_projects'});
+                this.Donation.loadMyDonations(true);
                 this.close(response.data);
               })
               .catch(err => {

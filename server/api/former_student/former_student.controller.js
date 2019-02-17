@@ -253,7 +253,7 @@ export function locations(req, res) {
         }, {
           model: Country,
           as: 'country',
-          attributes: ['Description', 'CountryId']
+          attributes: ['CountryId', 'Description']
         }],
       }],
       where: {
@@ -327,7 +327,7 @@ export function year(req, res) {
               }, {
                 model: Country,
                 as: 'country',
-                attributes: ['Description']
+                attributes: ['CountryId', 'Description']
               }],
             }],
           }, {
@@ -346,7 +346,7 @@ export function year(req, res) {
             }, {
               model: Country,
               as: 'country',
-              attributes: ['Description']
+              attributes: ['CountryId', 'Description']
             }],
           }],
           required: false,
@@ -633,7 +633,7 @@ export function search(req, res) {
               }, {
                 model: Country,
                 as: 'country',
-                attributes: ['Description']
+                attributes: ['CountryId', 'Description']
               }],
             }],
           }, {
@@ -654,7 +654,7 @@ export function search(req, res) {
             }, {
               model: Country,
               as: 'country',
-              attributes: ['Description']
+              attributes: ['CountryId', 'Description']
             }],
           }],
           required: required,

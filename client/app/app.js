@@ -38,6 +38,7 @@ import _Donation from '../services/donation/donation.service';
 import _Subscription from '../services/subscription/subscription.service';
 import _Checkout from '../services/checkout/checkout.service';
 import _Opportunity from '../services/opportunity/opportunity.service';
+import _Plan from '../services/plan/plan.service';
 import show from './projects/show/show.component';
 import project from './projects/project/project.component';
 import news from './news/show/news.component';
@@ -53,7 +54,7 @@ import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap,
   ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', 'validation.match',
-  _Auth, _Project, _News, _Donation, _Opportunity, _Subscription, _Checkout,
+  _Auth, _Project, _News, _Donation, _Opportunity, _Subscription, _Checkout, _Plan,
   account, admin, navbar, footer, modal, main, constants, util, submission, edit, show, 
   project, news, view, result, donate, bank, history, institutional, management, graduates, opportunities, typeform
 ])

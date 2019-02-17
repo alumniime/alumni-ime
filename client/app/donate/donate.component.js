@@ -14,81 +14,11 @@ export class DonateController {
     ProjectId: null,
     ValueInCents: 10000
   };
-  plans = [{
-    planId: 403694,
-    value: 50,
-    frequency: 'monthly',
-    visible: false
-  }, {
-    planId: 403695,
-    value: 100,
-    frequency: 'monthly',
-    visible: true
-  }, {
-    planId: 403696,
-    value: 150,
-    frequency: 'monthly',
-    visible: false
-  }, {
-    planId: 403697,
-    value: 200,
-    frequency: 'monthly',
-    visible: true
-  }, {
-    planId: 403698,
-    value: 250,
-    frequency: 'monthly',
-    visible: false
-  }, {
-    planId: 403699,
-    value: 300,
-    frequency: 'monthly',
-    visible: true
-  }, {
-    planId: 403700,
-    value: 400,
-    frequency: 'monthly',
-    visible: true
-  }, {
-    planId: 403701,
-    value: 500,
-    frequency: 'monthly',
-    visible: true
-  }, {
-    planId: 403702,
-    value: 750,
-    frequency: 'monthly',
-    visible: false
-  }, {
-    planId: 403703,
-    value: 1000,
-    frequency: 'monthly',
-    visible: false
-  }, {
-    value: 200,
-    frequency: 'once',
-    visible: true
-  }, {
-    value: 400,
-    frequency: 'once',
-    visible: true
-  }, {
-    value: 600,
-    frequency: 'once',
-    visible: true
-  }, {
-    value: 800,
-    frequency: 'once',
-    visible: true
-  }, {
-    value: 1000,
-    frequency: 'once',
-    visible: true
-  }];
+  plans = [];
   selectedOption = null;
   customValue = 0;
 
-  constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Checkout) {
+  constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Plan, Checkout) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -99,11 +29,17 @@ export class DonateController {
     this.$stateParams = $stateParams;
     this.Project = Project;
     this.Donation = Donation;
+    this.Plan = Plan;
     this.Checkout = Checkout;
   }
 
   $onInit() {
     this.$anchorScroll('top');
+    this.Plan.load()
+      .then(result => {
+        this.plans = result;
+      });
+
     this.Project.load()
       .then(result => {
         if(this.$stateParams.ProjectId) {
@@ -142,7 +78,6 @@ export class DonateController {
       });
 
     this.selectFrequency('monthly');
-    // this.Modal.openCheckout(this.donation);
   }
 
   validDate(collectionLimitDate) {
@@ -177,6 +112,11 @@ export class DonateController {
 
   setCustomValue(value) {
     value = parseFloat(value);
+    if(value < 50) {
+      this.Modal.showAlert('Erro no formulário', 'O valor mínimo de contribuição pelo site é de R$ 50,00.');
+      this.customValue = 50;
+      value = 50;
+    }
     this.donation.ValueInCents = 100 * value;
     this.selectedOption = {
       value: value,
@@ -193,7 +133,6 @@ export class DonateController {
       this.$state.go('donate', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
     } else if (form.$valid) {
       var loading = this.Modal.showLoading();
-      this.Modal.showAlert('Em fase de TESTES', 'Todos os pagamentos realizados não serão debitados de fato.');
 
       // inicia a instância do checkout
       // var checkout = new PagarMeCheckout.Checkout({
