@@ -97,6 +97,10 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
+    CollectionLimitDate: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
     Year: {
       type: DataTypes.INTEGER(11),
       allowNull: true

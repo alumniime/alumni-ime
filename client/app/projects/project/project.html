@@ -152,7 +152,7 @@
 
             <div class="form-group">
               <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" aria-valuemin="0" aria-valuemax="100"
+                <div class="progress-bar progress-bar-striped bg-success" aria-valuemin="0" aria-valuemax="100"
                      role="progressbar"
                      style="width: {{vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents*100}}%;">
                 </div>
@@ -307,7 +307,7 @@
 
           <div class="form-group">
             <div class="progress">
-              <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" aria-valuemin="0" aria-valuemax="100"
+              <div class="progress-bar progress-bar-striped bg-success" aria-valuemin="0" aria-valuemax="100"
                    role="progressbar"
                    style="width: {{vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents*100}}%;">
               </div>
@@ -332,21 +332,34 @@
               APOIAR PROJETO
             </a>
           </div>
-
-          <!--<div id="fb-root"></div>
-            <script>(function(d, s, id) {
-              var js, fjs = d.getElementsByTagName(s)[0];
-              if (d.getElementById(id)) return;
-              js = d.createElement(s); js.id = id;
-              js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+          
+            <!--<script>window.twttr = (function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+              if (d.getElementById(id)) return t;
+              js = d.createElement(s);
+              js.id = id;
+              js.src = "https://platform.twitter.com/widgets.js";
               fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
 
-             Your share button code 
+              t._e = [];
+              t.ready = function(f) {
+                t._e.push(f);
+              };
+
+              return t;
+            }(document, "script", "twitter-wjs"));</script>
+
             <div class="fb-share-button" data-href="{{vm.facebookDataHref}}"
             data-layout="button" data-size="large" data-mobile-iframe="false"><a target="_blank" 
             href="{{vm.facebookHref}}" 
-            class="fb-xfbml-parse-ignore">Share</a></div>-->
+            class="fb-xfbml-parse-ignore"></a>
+            </div>
+
+            <a class="twitter-share-button"
+              href="https://twitter.com/intent/tweet"
+              data-size="large">-->
+            </a>
           </div>
         </div>
       </div>

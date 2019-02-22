@@ -4,6 +4,7 @@ const angular = require('angular');
 const uiRouter = require('angular-ui-router');
 
 import routes from './show.routes';
+import { parseTwoDigitYear } from 'moment';
 
 export class ShowController {
 
@@ -31,6 +32,16 @@ export class ShowController {
       var loading = this.Modal.showLoading();
       this.Project.load()
         .then(() => {
+          this.Project.list.forEach(project => {
+            var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+            var firstDate = new Date(project.CollectionLimitDate);
+            var today = new Date();
+            var diffDays = Math.round((firstDate.getTime() - today.getTime())/(oneDay));
+
+            project.UntilEnd = diffDays;
+            console.log(firstDate);
+            console.log(project.UntilEnd)
+          });
           loading.close();
         })
         .catch(() => {

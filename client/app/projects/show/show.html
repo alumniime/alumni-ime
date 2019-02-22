@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="progress mt-2">
-              <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+              <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                    style="width: {{project.CollectedPriceInCents/project.EstimatedPriceInCents*100}}%;">
               </div>
             </div>
@@ -54,8 +54,11 @@
             <div class="row">
               <div class="col-6 text-center">
                 <label>TEMPO RESTANTE</label>
-                <div class="days-left">
-                  <label class="days">20 </label> <label>dias</label>
+                <div class="days-left" ng-if="project.UntilEnd > 0">
+                  <label class="days">{{project.UntilEnd}}</label> <label>dias</label>
+                </div>
+                <div class="days-left-ended" ng-if="project.UntilEnd <= 0">
+                  <label class="days-ended">Encerrado</label>
                 </div>
               </div>
               <div class="col-6 text-center vertical-line">
@@ -64,8 +67,8 @@
                   <label>{{project.DonationsNumber}}</label>  
                 </div>
                 <div ng-if="vm.Year <= 2018">
-                    <label>-</label>  
-                  </div>
+                  <label>-</label>  
+                </div>
               </div>
             </div>
           </div>
