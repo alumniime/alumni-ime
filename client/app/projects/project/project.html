@@ -115,7 +115,7 @@
                   </thead>
                   <tbody>
                     <tr ng-repeat="donation in vm.project.donations | orderBy: '-DonationDate'">
-                      <td>{{donation.ShowName[0] ? ((donation.DonatorName == NULL) ? donation.donator.name : donation.DonatorName) : "-"}}</td>
+                      <td><strong>{{donation.ShowName[0] ? ((donation.DonatorName == NULL) ? donation.donator.name : donation.DonatorName) : "Anônimo"}}</strong></td>
                       <td>{{donation.ShowAmount[0] ? (donation.ValueInCents/100 | currency) : "-"}}</td>
                       <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
                     </tr>
@@ -170,13 +170,36 @@
               </div>
             </div>
 
-            <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
+            <div id="fund-button-sm" uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
                  tooltip-placement="bottom">
               <a class="btn btn-danger m-auto" href="#" ng-class="{'disabled': !vm.acceptDonation}"
                  ui-sref="donate({ProjectId: vm.project.ProjectId, PrettyURL: vm.Util.convertToSlug(vm.project.ProjectName)})">
                 APOIAR PROJETO
               </a>
             </div>
+
+            <div class="row">
+                <div class="col-sm-4 col-4">
+                  <a id="facebook-share-btn-sm" class="btn btn-outline-primary" href="{{vm.facebookHref}}" target="_blank"
+                    style="padding-top: 4px; padding-left: 8px;">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </div>
+                <div class="col-sm-4 col-4">
+                  <a id="twitter-share-btn-sm" class="btn btn-outline-info" href="{{vm.twitterHref}}" target="_blank"
+                  style="padding-top: 4px; padding-left: 8px;">
+                <i class="fa fa-twitter"></i>
+                  </a>
+                </div>
+                <div class="col-sm-4 col-4">
+                    <a id="linkedin-share-btn-sm" class="btn btn-outline-secondary" href="{{vm.linkedinHref}}" target="_blank"
+                      style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                      <i class="fa fa-linkedin"></i>
+                    </a>
+                </div>
+              </div>
+
+              
             <!--<div id="fb-root"></div>
             <script>(function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
@@ -325,18 +348,70 @@
             </div>
           </div>
 
-          <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
+          <div id="fund-button" uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
                tooltip-placement="bottom">
             <a class="btn btn-danger m-auto" href="#" ng-class="{'disabled': !vm.acceptDonation}"
                ui-sref="donate({ProjectId: vm.project.ProjectId, PrettyURL: vm.Util.convertToSlug(vm.project.ProjectName)})">
               APOIAR PROJETO
             </a>
           </div>
-          
+          <!--<div class="fb-share-buttons">
+            <div id="fb-root"></div>
+            <script>FB = null;
+                    (function(d, s, id) { 
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        //if (d.getElementById(id)) return;
+                        js = d.createElement(s); js.id = id;
+                        js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+            </script>
+
+            <div class="fb-share-button" data-href="{{vm.facebookDataHref}}"
+            data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" 
+            href="{{vm.facebookHref}}" 
+            class="fb-xfbml-parse-ignore"></a>
+            </div>-->
+
+            <!--<a href="https://www.facebook.com/sharer/sharer.php?u=http://example.com">
+              Link text
+            </a>-->
+              <div class="row">
+                <div class="col-md-4 col-lg-4">
+                  <a id="facebook-share-btn" class="btn btn-outline-primary" href="{{vm.facebookHref}}" target="_blank"
+                    style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                  <a id="twitter-share-btn" class="btn btn-outline-info" href="{{vm.twitterHref}}" target="_blank"
+                  style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                <i class="fa fa-twitter"></i>
+                  </a>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <a id="linkedin-share-btn" class="btn btn-outline-secondary" href="{{vm.linkedinHref}}" target="_blank"
+                      style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                      <i class="fa fa-linkedin"></i>
+                    </a>
+                </div>
+              </div>
+             
+              <!--<div class="d-none d-lg-block social-media col-auto">
+                <a class="btn btn-light" href="https://www.linkedin.com/company/alumni-ime" target="_blank"
+                 style="padding-left: 7px; padding-top: 2px;">
+                <i class="fa fa-linkedin"></i>
+              </a>
+              <a class="btn btn-light" href="https://www.instagram.com/alumniime" target="_blank"
+                 style="font-size: 16px; padding-top: 0; padding-left: 5px;">
+                <i class="fa fa-instagram"></i>
+              </a>
+            </div>-->
+            
             <!--<script>window.twttr = (function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0],
                 t = window.twttr || {};
-              if (d.getElementById(id)) return t;
+              //if (d.getElementById(id)) return t;
               js = d.createElement(s);
               js.id = id;
               js.src = "https://platform.twitter.com/widgets.js";
@@ -350,17 +425,11 @@
               return t;
             }(document, "script", "twitter-wjs"));</script>
 
-            <div class="fb-share-button" data-href="{{vm.facebookDataHref}}"
-            data-layout="button" data-size="large" data-mobile-iframe="false"><a target="_blank" 
-            href="{{vm.facebookHref}}" 
-            class="fb-xfbml-parse-ignore"></a>
-            </div>
-
             <a class="twitter-share-button"
               href="https://twitter.com/intent/tweet"
-              data-size="large">-->
-            </a>
-          </div>
+              data-size="large">
+            </a>-->
+          <!--</div>-->
         </div>
       </div>
     </div>

@@ -355,10 +355,51 @@ body{
     border-bottom: 1px dashed #fff;
   }
 
-  .share-buttons{
+  .fb-share-buttons{
     margin-top: 10px;
+    margin-right: auto;
+    margin-left: auto;
   }
 
+  .twt-share-buttons{
+    margin-top: 10px;
+    margin-right: auto;
+    margin-left: auto;
+  }
 
+  #fund-button{
+    margin-bottom: 15px;
+  }
 
+  #fund-button-sm{
+    margin-bottom: 10px;
+  }
+
+  #facebook-share-btn{
+    min-width: 60px;
+    width: 60px;
+  }
+
+  #twitter-share-btn{
+    min-width: 60px;
+    width: 60px;
+  }
+  #linkedin-share-btn{
+    min-width: 60px;
+    width: 60px;
+  }
+
+  #facebook-share-btn-sm{
+    min-width: 50px;
+    width: 50px;
+  }
+
+  #twitter-share-btn-sm{
+    min-width: 50px;
+    width: 45px;
+  }
+  #linkedin-share-btn-sm{
+    min-width: 50px;
+    width: 50px;
+  }
 }

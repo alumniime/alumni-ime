@@ -37,7 +37,9 @@ export class ProjectController {
       var ProjectId = this.$stateParams.ProjectId;
       var PrettyURL = this.$stateParams.PrettyURL;
       this.previewMode = this.$stateParams.preview;
-      //this.loadFacebookShare(ProjectId, PrettyURL);
+      this.loadFacebookShare(ProjectId, PrettyURL);
+      this.loadLinkedInShare(ProjectId, PrettyURL);
+      this.loadTwitterShare(ProjectId, PrettyURL);
       this.Project.get(ProjectId, this.previewMode, this.$stateParams.forceReload)
         .then(project => {
           loading.close();
@@ -102,12 +104,22 @@ export class ProjectController {
     this.$state.go('result', {ProjectId: project.ProjectId});
   }
 
-  /*loadFacebookShare(ProjectId, PrettyURL){
+  loadFacebookShare(ProjectId, PrettyURL){
     this.facebookDataHref = "https://www.alumniime.com.br/projects/view/" + 
       ProjectId + '/' + PrettyURL;
     this.facebookHref = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.alumniime.com.br%2Fprojects%2Fview%2F" + 
     ProjectId + "%2F" + PrettyURL + "&amp;src=sdkpreparse"
-  }*/
+  }
+
+  loadLinkedInShare(ProjectId, PrettyURL){
+    this.linkedinHref = "http://www.linkedin.com/shareArticle?mini=true&url=" + "www.alumniime.com.br/projects/view/" +
+    ProjectId + '/' + PrettyURL;
+  }
+
+  loadTwitterShare(ProjectId, PrettyURL){
+    this.twitterHref = "http://www.twitter.com/share?url=" + "https://www.alumniime.com.br/projects/view/" +
+    ProjectId + '/' + PrettyURL;
+    }
 
 }
 
