@@ -56,86 +56,75 @@
           <a class="nav-item nav-link" data-toggle="tab" href="#menu2">Doadores</a>
         </nav>
         
-        <div class="tab-content">
-          <div id="description" class="tab-pane fade show active">
-              <div class="tab-pane-title">
-                <h5>{{vm.project.ProjectName}}</h5>
-              </div>
-              <div class="text-content text-pre">{{vm.project.Abstract}}</div>
-          </div>
-          <div id="menu1" class="tab-pane fade">
-              <div class="tab-pane-title">
-                <h5>Custos</h5>
-              </div>
-              <div ng-if="vm.project.costs.length > 0">
+      <div class="tab-content">
+        <div id="description" class="tab-pane fade show active">
+            <div class="tab-pane-title">
+              <h5>{{vm.project.ProjectName}}</h5>
+            </div>
+            <div class="text-content text-pre">{{vm.project.Abstract}}</div>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <div class="tab-pane-title">
+              <h5>Custos</h5>
+            </div>
+            <div ng-if="vm.project.costs.length > 0">
 
-                <div class="table-responsive">
-                  <table class="table costs-table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">INVESTIMENTO REQUERIDO</th>
-                        <th scope="col">QUANTIDADE</th>
-                        <th scope="col">UNIDADE</th>
-                        <th scope="col">TOTAL</th>
-
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="cost in vm.project.costs">
-                        <td>{{cost.CostDescription}}</td>
-                        <td>{{cost.Quantity}}</td>
-                        <td>{{cost.UnitPriceInCents/100 | currency}}</td>
-                        <td>{{cost.Quantity * cost.UnitPriceInCents/100 | currency}}</td>
-                      </tr>
-                    </tbody>   
-                  </table>
-                  <!--<hr class="costs-divisor">
-                  TOTAL: {{vm.project.EstimatedPriceInCents/100 | currency}}-->
-                </div>
- 
-              </div>
-              <div ng-if="vm.project.costs.length === 0">
-                <p>Lista de custos não disponível.</p>
-              </div>
-          </div>
-          <div id="menu2" class="tab-pane fade">
-              <div class="tab-pane-title">
-                  <h5>Doadores</h5>
-                </div>
-            <div ng-if="vm.project.donations.length > 0">
-              <!--COlocar lista de Doadores-->
               <div class="table-responsive">
                 <table class="table costs-table table-striped">
                   <thead>
                     <tr>
-                      <th scope="col">DOADOR</th>
-                      <th scope="col">VALOR</th>
-                      <th scope="col">DATA</th>
+                      <th scope="col">INVESTIMENTO REQUERIDO</th>
+                      <th scope="col">QUANTIDADE</th>
+                      <th scope="col">UNIDADE</th>
+                      <th scope="col">TOTAL</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr ng-repeat="donation in vm.project.donations | orderBy: '-DonationDate'">
-                      <td><strong>{{donation.ShowName[0] ? ((donation.DonatorName == NULL) ? donation.donator.name : donation.DonatorName) : "Anônimo"}}</strong></td>
-                      <td>{{donation.ShowAmount[0] ? (donation.ValueInCents/100 | currency) : "-"}}</td>
-                      <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
+                    <tr ng-repeat="cost in vm.project.costs">
+                      <td>{{cost.CostDescription}}</td>
+                      <td>{{cost.Quantity}}</td>
+                      <td>{{cost.UnitPriceInCents/100 | currency}}</td>
+                      <td>{{cost.Quantity * cost.UnitPriceInCents/100 | currency}}</td>
                     </tr>
                   </tbody>   
                 </table>
+                  <!--<hr class="costs-divisor">
+                  TOTAL: {{vm.project.EstimatedPriceInCents/100 | currency}}-->
               </div>
             </div>
-            <div ng-if="vm.project.donations.length === 0">
-              <p>Lista de doadores não disponível.</p>
+            <div ng-if="vm.project.costs.length === 0">
+              <p>Lista de custos não disponível.</p>
             </div>
           </div>
+          <div id="menu2" class="tab-pane fade">
+            <div class="tab-pane-title">
+              <h5>Doadores</h5>
+            </div>
+          <div ng-if="vm.project.donations.length > 0">
+            <div class="table-responsive">
+              <table class="table costs-table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">DOADOR</th>
+                    <th scope="col">VALOR</th>
+                    <th scope="col">DATA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="donation in vm.project.donations | orderBy: '-DonationDate'">
+                    <td><strong>{{donation.ShowName[0] ? ((donation.DonatorName == NULL) ? donation.donator.name : donation.DonatorName) : "Anônimo"}}</strong></td>
+                    <td>{{donation.ShowAmount[0] ? (donation.ValueInCents/100 | currency) : "-"}}</td>
+                    <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
+                  </tr>
+                </tbody>   
+              </table>
+            </div>
+          </div>
+          <div ng-if="vm.project.donations.length === 0">
+            <p>Lista de doadores não disponível.</p>
+          </div>
         </div>
-
-      
-      <!-- VIDEO -->
-      <!--<div class="embed-responsive embed-responsive-16by9"> 
-        <iframe width="420" height="315"
-      src="https://www.youtube.com/embed/tgbNymZ7vqY">
-      </iframe> 
-      </div> -->
+      </div>
 
       <div class="donations-mobile d-md-none">
         <div class="card project-card mb-3">
@@ -198,24 +187,19 @@
                     </a>
                 </div>
               </div>
-
-              
-            <!--<div id="fb-root"></div>
-            <script>(function(d, s, id) {
-              var js, fjs = d.getElementsByTagName(s)[0];
-              if (d.getElementById(id)) return;
-              js = d.createElement(s); js.id = id;
-              js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-              fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-
-            Your share button code 
-            <div class="fb-share-button" data-href="https://www.alumniime.com.br/projects/view/23/baja-sae-brasil" 
-            data-layout="button" data-size="large" data-mobile-iframe="false"><a target="_blank" 
-            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.alumniime.com.br%2Fprojects%2Fview%2F23%2Fbaja-sae-brasil&amp;src=sdkpreparse" 
-            class="fb-xfbml-parse-ignore">Share</a></div>-->
           </div>
         </div>
+        <div class="reward-title">
+            <strong>Recompensas</strong>
+          </div>
+          <div ng-repeat="reward in vm.project.costs" class="card project-card mb-3">
+            <div class="card-body">
+                <div class="donation-asked">
+                    Doação de R$ 5000,00
+                  </div>
+              <div class="reward-description">Foto de agradecimento nas redes sociais, camisa, caneca, participação em um coffe break a ser realizado por eles e entrega de prêmios.</div>
+            </div>     
+          </div>
       </div>
 
       <div class="carousel-mobile d-lg-none p-0 mt-4">
@@ -322,12 +306,10 @@
             <label>ORÇAMENTO</label>
             <div class="form-control-estimated">{{vm.project.EstimatedPriceInCents/100 | currency}}</div>
           </div>
-
           <div class="form-group mb-0">
             <label>ARRECADADO</label>
             <div class="form-control-collected">{{vm.project.CollectedPriceInCents/100 | currency}}</div>
           </div>
-
           <div class="form-group">
             <div class="progress">
               <div class="progress-bar progress-bar-striped bg-success" aria-valuemin="0" aria-valuemax="100"
@@ -335,15 +317,12 @@
                    style="width: {{vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents*100}}%;">
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-8">
                 <input type="text" class="form-control-plaintext pb-0" readonly
                        value="{{100*vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents | number: 0}}%">
               </div>
               <div class="col-4">
-                <!--<input type="text" class="form-control-plaintext-right" readonly-->
-                       <!--value="{{vm.project.DonationsNumber}} pessoas apoiaram">-->
               </div>
             </div>
           </div>
@@ -355,84 +334,42 @@
               APOIAR PROJETO
             </a>
           </div>
-          <!--<div class="fb-share-buttons">
-            <div id="fb-root"></div>
-            <script>FB = null;
-                    (function(d, s, id) { 
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        //if (d.getElementById(id)) return;
-                        js = d.createElement(s); js.id = id;
-                        js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1";
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));
-            </script>
-
-            <div class="fb-share-button" data-href="{{vm.facebookDataHref}}"
-            data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" 
-            href="{{vm.facebookHref}}" 
-            class="fb-xfbml-parse-ignore"></a>
-            </div>-->
-
-            <!--<a href="https://www.facebook.com/sharer/sharer.php?u=http://example.com">
-              Link text
-            </a>-->
-              <div class="row">
-                <div class="col-md-4 col-lg-4">
-                  <a id="facebook-share-btn" class="btn btn-outline-primary" href="{{vm.facebookHref}}" target="_blank"
-                    style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
-                    <i class="fa fa-facebook"></i>
-                  </a>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                  <a id="twitter-share-btn" class="btn btn-outline-info" href="{{vm.twitterHref}}" target="_blank"
-                  style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
-                <i class="fa fa-twitter"></i>
-                  </a>
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    <a id="linkedin-share-btn" class="btn btn-outline-secondary" href="{{vm.linkedinHref}}" target="_blank"
-                      style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
-                      <i class="fa fa-linkedin"></i>
-                    </a>
-                </div>
-              </div>
-             
-              <!--<div class="d-none d-lg-block social-media col-auto">
-                <a class="btn btn-light" href="https://www.linkedin.com/company/alumni-ime" target="_blank"
-                 style="padding-left: 7px; padding-top: 2px;">
-                <i class="fa fa-linkedin"></i>
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <a id="facebook-share-btn" class="btn btn-outline-primary" href="{{vm.facebookHref}}" target="_blank"
+                style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                 <i class="fa fa-facebook"></i>
               </a>
-              <a class="btn btn-light" href="https://www.instagram.com/alumniime" target="_blank"
-                 style="font-size: 16px; padding-top: 0; padding-left: 5px;">
-                <i class="fa fa-instagram"></i>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <a id="twitter-share-btn" class="btn btn-outline-info" href="{{vm.twitterHref}}" target="_blank"
+                 style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                 <i class="fa fa-twitter"></i>
               </a>
-            </div>-->
-            
-            <!--<script>window.twttr = (function(d, s, id) {
-              var js, fjs = d.getElementsByTagName(s)[0],
-                t = window.twttr || {};
-              //if (d.getElementById(id)) return t;
-              js = d.createElement(s);
-              js.id = id;
-              js.src = "https://platform.twitter.com/widgets.js";
-              fjs.parentNode.insertBefore(js, fjs);
-
-              t._e = [];
-              t.ready = function(f) {
-                t._e.push(f);
-              };
-
-              return t;
-            }(document, "script", "twitter-wjs"));</script>
-
-            <a class="twitter-share-button"
-              href="https://twitter.com/intent/tweet"
-              data-size="large">
-            </a>-->
-          <!--</div>-->
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <a id="linkedin-share-btn" class="btn btn-outline-secondary" href="{{vm.linkedinHref}}" target="_blank"
+                 style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                 <i class="fa fa-linkedin"></i>
+              </a>
+            </div>
+          </div>      
         </div>
       </div>
+      
+      <div class="reward-title">
+        <strong>Recompensas</strong>
+      </div> 
+      <div ng-repeat="reward in vm.project.costs" class="card project-card mb-3">
+        <div class="card-body">
+          <div class="donation-asked">
+            Doação de R$5000,00
+          </div>
+          <div class="reward-description">Foto de agradecimento nas redes sociais, camisa, caneca, participação em um coffe break a ser realizado por eles e entrega de prêmios.</div>
+        </div>     
+      </div>
     </div>
+  </div>
 
   </div>
 </div>

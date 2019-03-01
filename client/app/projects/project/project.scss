@@ -72,6 +72,7 @@ body{
 
   .project-card {
     border: none;
+    margin-bottom: 0px;
     background-color: #fafafa !important;
     box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -401,5 +402,21 @@ body{
   #linkedin-share-btn-sm{
     min-width: 50px;
     width: 50px;
+  }
+  .reward-title{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #555;
+    text-align: center;
+    font-size: 18px;
+  }
+  .reward-description{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #555;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .donation-asked{
+    border-bottom: 1px solid #c4c7ca;
+    font-size: 15px;
   }
 }
