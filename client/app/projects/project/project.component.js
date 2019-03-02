@@ -41,9 +41,8 @@ export class ProjectController {
       this.loadLinkedInShare(ProjectId, PrettyURL);
       this.loadTwitterShare(ProjectId, PrettyURL);
       this.Project.get(ProjectId, this.previewMode, this.$stateParams.forceReload)
-        .then(project => {
+        .then(project => {      
           loading.close();
-          console.log(project);
 
           this.ngMeta.setTitle(project.ProjectName);
           this.ngMeta.setTag('description', project.Abstract.slice(0, 200));

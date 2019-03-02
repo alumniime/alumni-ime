@@ -37,10 +37,7 @@ export class ShowController {
             var firstDate = new Date(project.CollectionLimitDate);
             var today = new Date();
             var diffDays = Math.round((firstDate.getTime() - today.getTime())/(oneDay));
-
             project.UntilEnd = diffDays;
-            console.log(firstDate);
-            console.log(project.UntilEnd)
           });
           loading.close();
         })
