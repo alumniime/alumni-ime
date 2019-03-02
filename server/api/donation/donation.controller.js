@@ -11,14 +11,18 @@
 'use strict';
 
 import {applyPatch} from 'fast-json-patch';
-import {Donation, Project, TransferReceipt, User, FormerStudent, Engineering, PersonType, Se} from '../../sqldb';
+import {Donation, Project, TransferReceipt, User, FormerStudent, Engineering, PersonType, Se, Transaction, Subscription, Plan, Customer} from '../../sqldb';
 import config from '../../config/environment';
 import transporter from '../../email';
+import mailchimp from '../../email/mailchimp';
+import sender from '../../email/sender';
 import multer from 'multer';
 import moment from 'moment';
-import mailchimp from '../../email/mailchimp';
+import async from 'async';
 
-function respondWithResult(res, statusCode) {
+moment.locale('pt-BR');
+
+function respondWithResult(res, statusCode) { 
   statusCode = statusCode || 200;
   return function (entity) {
     if(entity) {
@@ -81,7 +85,7 @@ function configureStorage() {
       var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
       var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
       cb(null, `${file.timestamp}-${name}.${format}`);
-    }
+    } 
   });
 }
 
@@ -90,7 +94,7 @@ export function index(req, res) {
   return Donation.findAll({
     include: [{
       model: Project,
-      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
       as: 'project'
     }, {
       model: User,
@@ -100,6 +104,10 @@ export function index(req, res) {
       model: FormerStudent,
       attributes: ['FormerStudentId', 'Name'],
       as: 'former'
+    }, {
+      model: Transaction,
+      attributes: ['TransactionId', 'SubscriptionId', 'PaymentMethod', 'Status'],
+      as: 'transaction'
     },
       TransferReceipt
     ]
@@ -113,7 +121,7 @@ export function show(req, res) {
   return Donation.find({
     include: [{
       model: Project,
-      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
       as: 'project'
     }, {
       model: User,
@@ -143,6 +151,17 @@ export function show(req, res) {
       model: FormerStudent,
       attributes: ['FormerStudentId', 'Name'],
       as: 'former'
+    }, {
+      model: Transaction,
+      as: 'transaction',
+      include: [{
+        model: Subscription,
+        as: 'subscription',
+        include: [{
+          model: Plan,
+          as: 'plan'
+        }]
+      }]
     },
       TransferReceipt
     ],
@@ -154,13 +173,13 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
-// Get my supported projects
+// Get my donations
 export function me(req, res) {
   var userId = req.user.PersonId;
   return Donation.findAll({
     include: [{
       model: Project,
-      attributes: {exclude: ['Abstract', 'Goals', 'Benefits', 'Schedule', 'Results']},
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
       as: 'project',
       include: [{
         model: User,
@@ -170,6 +189,13 @@ export function me(req, res) {
         model: User,
         attributes: ['name'],
         as: 'professor'
+      }]
+    }, {
+      model: Transaction,
+      as: 'transaction',
+      include: [{
+        model: Subscription,
+        as: 'subscription'
       }]
     }],
     where: {
@@ -232,7 +258,7 @@ export function upload(req, res) {
             if(!user) {
               res.json({errorCode: 0, errorDesc: null});
             }
-
+    
             var data = {
               to: {
                 name: user.name,
@@ -243,10 +269,10 @@ export function upload(req, res) {
                 address: config.email.user
               },
               template: 'user-donation-email',
-              subject: 'Contribuição Recebida - Alumni IME',
+              subject: `Contribuição Recebida - ${mailchimp.nameCase(moment(newDonation.DonationDate).format('MMM/YYYY'))}`,
               context: {
                 name: user.name.split(' ')[0],
-                value: newDonation.ValueInCents / 100
+                value: (newDonation.ValueInCents / 100).toFixed(2).replace('.', ',')
               }
             };
             transporter.sendMail(data, function (err) {
@@ -273,9 +299,9 @@ export function upload(req, res) {
               subject: `Contribuição recebida de ${user.name}`,
               context: {
                 name: user.FullName,
-                value: newDonation.ValueInCents / 100, 
-                date: moment().format('DD/MM/YYYY - HH:mm'),
-                type: donation.Type === 'general' ? 'Geral' : 'Por projeto',
+                value: (newDonation.ValueInCents / 100).toFixed(2).replace('.', ','),
+                date: moment(newDonation.DonationDate).format('DD/MM/YYYY - HH:mm'),
+                type: newDonation.Type === 'general' ? 'Geral' : 'Por projeto',
                 email: user.email,
                 url: `${config.domain}/assets/donations/${req.file.filename}`,
               }
@@ -296,29 +322,83 @@ export function upload(req, res) {
 // Updates or creates a donation
 export function edit(req, res) {
   var donation = req.body;
-  if(donation.DonationId) {
-    Donation.update(donation, {
-      where: {
-        DonationId: donation.DonationId
+
+  async.waterfall([
+    // Updating or creating donation
+    (next) => {
+      if(donation.DonationId) {
+        Donation.update(donation, {
+          where: {
+            DonationId: donation.DonationId
+          }
+        })
+          .then(result => next(null, result))
+          .catch(err => {
+            console.error(err);
+            next(err);
+          });
+      } else {
+        Donation.create(donation)
+          .then(result => {
+            donation.DonationId = result.DonationId;
+            next(null, result);
+          })
+          .catch(err => next(err));
       }
+    },
+    // Updating mailchimp user
+    (result, next) => {
+      if(donation.DonatorId) {
+        mailchimp.updateUser(donation.DonatorId);
+      }
+      sender.sendReceipt(donation.DonationId);
+      next(null, result);
+    }
+  ], (err, result) => {
+    if(err) {
+      handleError(res);
+    } else {
+      respondWithResult(res)(result);
+    }
+  });
+}
+
+// Updates the given Donation in the DB
+export function update(req, res) {
+  return Donation.update({
+    ShowName: req.body.ShowName,
+    ShowAmount: req.body.ShowAmount
+  }, {
+    where: {
+      DonationId: req.body.DonationId,
+      DonatorId: req.user.PersonId
+    }
+  })
+    .then(() => {
+      Donation.find({
+        include: [{
+          model: Project,
+          attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
+          as: 'project'
+        }, {
+          model: Transaction,
+          as: 'transaction',
+          include: [{
+            model: Subscription,
+            as: 'subscription',
+            include: [{
+              model: Plan,
+              as: 'plan'
+            }]
+          }]
+        }],
+        where: {
+          DonationId: req.body.DonationId
+        }
+      })
+        .then(respondWithResult(res));
     })
-      .then((result) => {
-        respondWithResult(res)(result);
-        if(donation.DonatorId) {
-          mailchimp.updateUser(donation.DonatorId);
-        }
-      })
-      .catch(handleError(res));
-  } else {
-    Donation.create(donation)
-      .then((result) => {
-        respondWithResult(res)(result);
-        if(donation.DonatorId) {
-          mailchimp.updateUser(donation.DonatorId);
-        }
-      })
-      .catch(handleError(res));
-  }
+    .catch(handleError(res));
 }
 
 // Upserts the given Donation in the DB at the specified ID

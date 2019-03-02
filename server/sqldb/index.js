@@ -14,6 +14,10 @@ var db = {
 };
 
 // Insert models below
+db.Subscription = db.sequelize.import('../api/subscription/subscription.model');
+db.Customer = db.sequelize.import('../api/customer/customer.model');
+db.Transaction = db.sequelize.import('../api/transaction/transaction.model');
+db.Plan = db.sequelize.import('../api/plan/plan.model');
 db.FavoriteOpportunity = db.sequelize.import('../api/favorite_opportunity/favorite_opportunity.model');
 db.OpportunityApplication = db.sequelize.import('../api/opportunity_application/opportunity_application.model');
 db.OpportunityFunction = db.sequelize.import('../api/opportunity_function/opportunity_function.model');
@@ -94,6 +98,7 @@ db.NewsConstruction.hasMany(db.Image, {foreignKey: 'NewsConstructionId', as: 'im
 db.Donation.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'DonatorId', as: 'donator'});
 db.Donation.belongsTo(db.FormerStudent, {sourceKey: 'FormerStudentId', foreignKey: 'FormerStudentId', as: 'former'});
 db.Donation.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});
+db.Donation.belongsTo(db.Transaction, {sourceKey: 'TransactionId', foreignKey: 'TransactionId', as: 'transaction'});
 db.TransferReceipt = db.Donation.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'TransferReceiptId', as: 'transferReceipt'});
 
 db.Position.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'CompanyId', as: 'company'});
@@ -111,6 +116,16 @@ db.State.belongsTo(db.Country, {sourceKey: 'CountryId', foreignKey: 'CountryId',
 db.City.belongsTo(db.State, {sourceKey: 'StateId', foreignKey: 'StateId', as: 'state'});
 
 db.Year.hasMany(db.FormerStudent, {foreignKey: 'GraduationYear', as: 'formers'});
+
+db.Customer.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonId', as: 'donator'});
+
+db.Subscription.belongsTo(db.Plan, {sourceKey: 'PlanId', foreignKey: 'PlanId', as: 'plan'});
+db.Subscription.belongsTo(db.Customer, {sourceKey: 'CustomerId', foreignKey: 'CustomerId', as: 'customer'});
+db.Subscription.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});
+db.Subscription.hasMany(db.Transaction, {foreignKey: 'SubscriptionId', as: 'transactions'});
+
+db.Transaction.belongsTo(db.Customer, {sourceKey: 'CustomerId', foreignKey: 'CustomerId', as: 'customer'});
+db.Transaction.belongsTo(db.Subscription, {sourceKey: 'SubscriptionId', foreignKey: 'SubscriptionId', as: 'subscription'});
 
 db.Opportunity.belongsTo(db.OpportunityType, {sourceKey: 'OpportunityTypeId', foreignKey: 'OpportunityTypeId', as: 'opportunityType'});
 db.Opportunity.belongsTo(db.OpportunityFunction, {sourceKey: 'OpportunityFunctionId', foreignKey: 'OpportunityFunctionId', as: 'opportunityFunction'});

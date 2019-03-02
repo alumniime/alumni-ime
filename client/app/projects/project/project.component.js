@@ -51,9 +51,9 @@ export class ProjectController {
           this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/view/${project.ProjectId}/${this.Util.convertToSlug(project.ProjectName)}`);
 
           this.project = project;
-          var conclusionDate = new Date(this.project.ConclusionDate);
-          var today = new Date();
-          if(today > conclusionDate) {
+          var today = new Date().getTime();
+          var limit = new Date(this.project.CollectionLimitDate).getTime();
+          if(today > limit) {
             this.acceptDonation = false;
           }
           this.projectImages = this.project.images.filter((image) => {

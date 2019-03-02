@@ -40,6 +40,14 @@ export default function (sequelize, DataTypes) {
         key: 'ProjectId'
       }
     },
+    TransactionId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      references: {
+        model: 'Transaction',
+        key: 'TransactionId'
+      }
+    },
     DonatorName: {
       type: DataTypes.STRING(100),
       allowNull: true
@@ -55,6 +63,21 @@ export default function (sequelize, DataTypes) {
     DonationDate: {
       type: DataTypes.DATE,
       allowNull: false
+    },
+    ShowName: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
+    ShowAmount: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
+    SentEmail: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
     },
     IsApproved: {
       type: DataTypes.BOOLEAN,

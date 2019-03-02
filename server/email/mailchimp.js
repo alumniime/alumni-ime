@@ -12,7 +12,7 @@ import $q from 'q';
 
 var self = {};
 
-function nameCase(str) {
+self.nameCase = function (str) {
   if(str) {
     str = str.toLowerCase().split(' ');
     for (var i = 0; i < str.length; i++) {
@@ -33,7 +33,7 @@ function nameCase(str) {
 self.updateUser = function (personId) {
 
   var d = $q.defer();
-  var mailchimp = new Mailchimp(config.mailchimp.ApiKey);
+  var mailchimp = new Mailchimp(config.mailchimp.apiKey);
 
   User.find({
     include: [{
@@ -144,11 +144,11 @@ self.updateUser = function (personId) {
           merge_fields: {
             'EMAIL': user.email,
             'USER_TYPE': user.personType.PortugueseDescription,
-            'FNAME': nameCase(user.name.split(' ')[0]),
+            'FNAME': self.nameCase(user.name.split(' ')[0]),
             'PHONE': user.Phone || '',
             'PERSON_ID': user.PersonId || '',
-            'NAME': nameCase(user.name),
-            'FULL_NAME': nameCase(user.FullName),
+            'NAME': self.nameCase(user.name),
+            'FULL_NAME': self.nameCase(user.FullName),
             'EVERIFIED': user.EmailVerified ? 1 : 0,
             'ISAPPROVED': user.IsApproved ? 1 : 0,
             'BIRTHDAY': user.Birthdate && moment(birthdate).isValid() ? moment(birthdate).format('MM/DD') : '',

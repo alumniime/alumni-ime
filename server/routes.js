@@ -9,26 +9,12 @@ import path from 'path';
 import config from './config/environment';
 
 export default function (app) {
-  if(config.env === 'production' && config.redirectHttps === 1) {
-    app.use(function (req, res, next) {
-      // Redirects urls to www and to https 
-      if (req.headers.host.match(/^www\./) === null) {
-        console.log('\n=>Redirecting(1) to:', 'https://www.' + req.headers.host + req.url);
-        res.status(301).redirect('https://www.' + req.headers.host + req.url);
-      } else {
-        if (req.secure) {
-          // request was via https, so do no special handling
-          next();
-        } else {
-          // request was via http, so redirect to https
-          console.log('\n=>Redirecting(2) to:', 'https://' + req.headers.host + req.url);
-          res.status(301).redirect('https://' + req.headers.host + req.url);
-        }
-      }
-    });
-  }
 
   // Insert routes below
+  app.use('/api/subscriptions', require('./api/subscription'));
+  app.use('/api/customers', require('./api/customer'));
+  app.use('/api/transactions', require('./api/transaction'));
+  app.use('/api/plans', require('./api/plan'));
   app.use('/api/opportunity_targets', require('./api/opportunity_target_person_type'));
   app.use('/api/favorite_opportunities', require('./api/favorite_opportunity'));
   app.use('/api/opportunity_applications', require('./api/opportunity_application'));

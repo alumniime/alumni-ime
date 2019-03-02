@@ -1,0 +1,31 @@
+<div class="modal-header d-block">
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h5 class="modal-title text-center mt-3" id="modal-title">
+    Processando pagamento
+    <i class="fa fa-spinner fa-spin m-auto xs"></i>
+  </h5>
+</div>
+
+<div class="modal-body px-3 pb-4" id="modal-body">
+  <span class="description text-center d-block">
+      Enquanto isso, escolha sua preferência <br> para a Galeria de Apoiadores:
+  </span>
+
+  <form class="form mt-3" name="form" ng-submit="vm.submit(form)" novalidate>
+    <div class="form-group">
+      <div class="custom-control custom-radio ml-3" ng-repeat="option in vm.options">
+        <input type="radio" id="customRadio{{$index}}" name="DonationSetting" class="custom-control-input" 
+               ng-value="$index" ng-model="vm.selectedOption" required>
+        <label class="custom-control-label" for="customRadio{{$index}}">{{option.Description}}</label>
+      </div>
+      <p class="help-block" ng-show="form.DonationSetting.$error.required && vm.submitted">
+        Escolha uma opção.
+      </p>
+    </div>
+
+    <button class="btn btn-danger mt-3 mx-auto" type="submit">
+      SALVAR
+    </button>
+  </form>
+
+</div>

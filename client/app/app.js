@@ -35,13 +35,17 @@ import edit from './projects/edit';
 import _Project from '../services/project/project.service';
 import _News from '../services/news/news.service';
 import _Donation from '../services/donation/donation.service';
+import _Subscription from '../services/subscription/subscription.service';
+import _Checkout from '../services/checkout/checkout.service';
 import _Opportunity from '../services/opportunity/opportunity.service';
+import _Plan from '../services/plan/plan.service';
 import show from './projects/show/show.component';
 import project from './projects/project/project.component';
 import news from './news/show/news.component';
 import view from './news/view/view.component';
 import result from './projects/result/result.component';
 import donate from './donate/donate.component';
+import bank from './donate/bank/bank.component';
 import history from './about/history/history.component';
 import institutional from './about/institutional/institutional.component';
 import management from './about/management/management.component';
@@ -49,10 +53,10 @@ import management from './about/management/management.component';
 import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap,
-  ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt',
-  _Auth, _Project, _News, _Donation, _Opportunity,
-  account, admin, 'validation.match', navbar, footer, modal, main, constants, util, submission, edit, show, 
-  project, news, view, result, donate, history, institutional, management, graduates, opportunities, typeform
+  ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', 'validation.match',
+  _Auth, _Project, _News, _Donation, _Opportunity, _Subscription, _Checkout, _Plan,
+  account, admin, navbar, footer, modal, main, constants, util, submission, edit, show, 
+  project, news, view, result, donate, bank, history, institutional, management, graduates, opportunities, typeform
 ])
   .config(routeConfig)
   .run(function ($rootScope, $location, Auth, ngMeta) {

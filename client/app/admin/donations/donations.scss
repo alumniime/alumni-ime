@@ -45,8 +45,28 @@
     color: #fff;
   }
 
-  .pagination-sm{
+  .pagination-sm {
     overflow: auto;
+  }
+
+  .text-limit {
+    max-width: 225px;
+  }
+
+  th {
+    cursor: pointer;
+  }
+
+  .input-search {
+    max-width: 160px;
+  }
+
+  tr.grey-line {
+    background-color: rgba(0,0,0,.05);
+  }
+
+  .bg-blue {
+    background-color: #00456F;
   }
 
 }

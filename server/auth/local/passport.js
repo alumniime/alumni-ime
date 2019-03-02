@@ -18,7 +18,9 @@ function localAuthenticate(User, email, password, done) {
           return done(authError);
         }
         if(!authenticated) {
-          return done(null, false, {message: 'Senha incorreta.'});
+          return done(null, false, {
+            message: 'Senha incorreta.'
+          });
         } else {
           // User is authenticated
           // User aren't a NewUser and his email is verified, so he can login

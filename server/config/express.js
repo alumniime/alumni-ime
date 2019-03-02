@@ -20,15 +20,11 @@ import session from 'express-session';
 import sqldb from '../sqldb';
 import expressSequelizeSession from 'express-sequelize-session';
 import Promise from 'bluebird';
-import prerender from 'prerender-node';
+
 var Store = expressSequelizeSession(session.Store);
 
 export default function(app) {
   var env = app.get('env');
-
-  // app.use(prerender.set('prerenderToken', config.prerenderToken));
-  // app.use(prerender.set('prerenderToken', config.prerenderToken));
-  // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:3003'));
 
   if(env === 'development' || env === 'test') {
     app.use(express.static(path.join(config.root, '.tmp')));
@@ -47,7 +43,7 @@ export default function(app) {
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
   app.use(shrinkRay());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(cookieParser());
@@ -70,7 +66,8 @@ export default function(app) {
   if(env !== 'test' && !process.env.SAUCE_USERNAME) {
     app.use(lusca({
       csrf: {
-        angular: true
+        angular: true,
+        blacklist: ['/api/transactions/postback', '/api/subscriptions/postback', '/auth/linkedin/callback']
       },
       xframe: 'SAMEORIGIN',
       hsts: {

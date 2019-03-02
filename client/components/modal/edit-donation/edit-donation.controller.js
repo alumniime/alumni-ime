@@ -30,13 +30,11 @@ export default class ModalEditDonationController {
     if(this.resolve.DonationId) {
       this.DonationId = this.resolve.DonationId;
       var loading = this.Modal.showLoading();
-      this.$http.get(`/api/donations/${this.DonationId}`)
-        .then(response => {
+      this.Donation.get(this.DonationId)
+        .then(data => {
           loading.close();
-          this.donation = response.data;
-          this.donation.ValueInCents /= 100;
+          this.donation = data;
           this.DonationDate = this.$filter('date')(this.donation.DonationDate, 'dd/MM/yyyy - HH:mm');
-          console.log(this.donation); 
         });
     } else {
       this.DonationDate = this.$filter('date')(Date.now(), 'dd/MM/yyyy');
@@ -76,14 +74,17 @@ export default class ModalEditDonationController {
       this.$http.post('/api/donations/edit', this.donation)
         .then(res => {
           console.log(res);
+          this.donation.ValueInCents /= 100;
           loading.close();
           this.ok(true);
           this.Donation.load(true);
           this.Modal.showAlert('Sucesso', 'Contribuição salva com sucesso.');
+          this.Donation.get(this.DonationId, true);
           this.submitted = false;
         })
         .catch(err => {
           this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar a contribuição, tente novamente.');
+          this.donation.ValueInCents /= 100;
           loading.close();
           console.log(err);
         });

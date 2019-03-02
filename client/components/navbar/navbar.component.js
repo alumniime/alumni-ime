@@ -113,22 +113,6 @@ export class NavbarComponent {
       this.menu[3].dropdown = dropdown;
     });
 
-    if (this.appConfig.env === 'production' && this.appConfig.redirectHttps === 1) {
-      // Redirects urls to www and to https
-      var url = location.href;
-      console.log(url);
-      if(url.match(/^http:\/\//) !== null) {
-        url = url.replace(/^http:\/\//, 'https://');
-      }
-      if(url.match(/^https:\/\/www\./) === null) {
-        url = url.replace(/^https:\/\//, 'https://www.');
-      }
-      console.log('Redirecting to:', url);
-      if(location.href !== url) {
-        location.href = url;
-      }
-    }
-
   }
 
   logout() {

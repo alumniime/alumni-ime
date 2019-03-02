@@ -59,14 +59,14 @@ export default class ModalEditProjectController {
           this.project.CollectedPriceInCents /= 100;
           this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');
           
-          if(this.project.Year >= 2019){
+          if(this.project.Year >= 2019) {
             this.costsCount = this.project.costs.length + 1;
             this.costsIndex = [];
             for(let i = 1; i < this.costsCount ; i++){
               this.costsIndex.push(i);
             }   
             this.costsList = {'Item': [], 'UnitPrice': [], 'Quantity':[], 'ProjectCostId': []};
-            for(let index of this.costsIndex){
+            for(let index of this.costsIndex) {
               this.costsList.Item.push(this.project.costs[index-1].CostDescription);
               this.costsList.Quantity.push(this.project.costs[index-1].Quantity);
               this.costsList.UnitPrice.push(this.project.costs[index-1].UnitPriceInCents/100); 
@@ -81,8 +81,7 @@ export default class ModalEditProjectController {
           }
           
         });
-    } 
-    else {
+    } else {
       this.project.ConclusionDate = this.$filter('date')(Date.now(), 'dd/MM/yyyy');
     }
   }
@@ -102,16 +101,15 @@ export default class ModalEditProjectController {
   updateStatus(form) {
     
     if(form.$valid && this.project.EstimatedPriceInCents > 0 && this.project.CollectedPriceInCents >= 0) {
-      if(this.project.Year >= 2019){
+      if(this.project.Year >= 2019) {
         this.costs = [];
-        for(let index = 0; index < this.costsCount-1; index ++){
+        for(let index = 0; index < this.costsCount-1; index ++) {
           this.costs.push({'Item': this.costsList.Item[index], 'UnitPrice': this.costsList.UnitPrice[index]*100, 'Quantity':this.costsList.Quantity[index], 'ProjectCostId':this.costsList.ProjectCostId[index]});
         }     
         this.setBudget();
 
         this.project.EstimatedPriceInCents = 100 * this.budget;
-      }
-      else{
+      } else {
         this.project.EstimatedPriceInCents *= 100;
       }
       
@@ -120,22 +118,25 @@ export default class ModalEditProjectController {
       var loading = this.Modal.showLoading();
 
       console.log(this.project);
-      if(this.project.Year >= 2019){
+      if(this.project.Year >= 2019) {
         this.$http.post('/api/projects/edit/admin', {"project": this.project, "savedImages": this.imagesToSave, "costs": this.costs})
-          .then(res=> {
+          .then(res => {
             console.log(res);
+            this.project.EstimatedPriceInCents /= 100;
+            this.project.CollectedPriceInCents /= 100;
             loading.close();
             this.ok(true);
             this.Modal.showAlert('Sucesso', 'Projeto salvo com sucesso.');
           })
           .catch(err => {
             this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o projeto, tente novamente.');
+            this.project.EstimatedPriceInCents /= 100;
+            this.project.CollectedPriceInCents /= 100;
             loading.close();
             console.log(err);
           }
         );
-      }  
-      else{
+      } else {
         this.$http.post('/api/projects/edit/admin', {"project": this.project, "savedImages": this.imagesToSave})
           .then(res=> {
             console.log(res);

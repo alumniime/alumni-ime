@@ -18,6 +18,8 @@ import async from 'async';
 import multer from 'multer';
 import moment from 'moment';
 
+moment.locale('pt-BR');
+
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function(entity) {
@@ -122,7 +124,7 @@ export function index(req, res) {
         }, {
           model: Country,
           as: 'country',
-          attributes: ['Description']
+          attributes: ['CountryId', 'Description']
         }],
       }],
       attributes: {
@@ -191,7 +193,7 @@ export function locations(req, res) {
       }, {
         model: Country,
         as: 'country',
-        attributes: ['Description']
+        attributes: ['CountryId', 'Description']
       }],
     }],
     where: {
@@ -309,14 +311,38 @@ export function show(req, res) {
           }, {
             model: Country,
             as: 'country',
-            attributes: ['Description']
+            attributes: ['CountryId', 'Description']
           }],
+        }, req.user.role === 'admin' ? {
+          model: OpportunityApplication,
+          as: 'opportunityApplications',
+          include: [{
+            model: User,
+            as: 'user',
+            attributes: ['name']
+          }, 
+            Resume
+          ]
+        } : {
+          model: OpportunityApplication,
+          as: 'opportunityApplications',
+          required: false,
+          where: {
+            OpportunityId: null
+          }
         }],
         where: {
           OpportunityId: req.params.id,
           IsApproved: req.user.role === 'admin' ? [0, 1] : 1
         }
       })
+        .then(opportunity => {
+          if (opportunity) {
+            return opportunity.increment('Views', { by: 1 });
+          } else {
+            return opportunity;
+          }
+        })
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -464,7 +490,7 @@ export function search(req, res) {
           }, {
             model: Country,
             as: 'country',
-            attributes: ['Description']
+            attributes: ['CountryId', 'Description']
           }],
         }],
         attributes: {

@@ -31,11 +31,10 @@ export default class AdminUsersController {
   
   $onInit() {
     // Use the User $resource to fetch all users
-    var loading = this.Modal.showLoading();
+    // var loading = this.Modal.showLoading();
     this.users = this.User.query(() => {
-        loading.close();
-        this.usersNumber = this.$filter('filter')(this.users, {PersonTypeId: this.searchPersonTypeId, FullName: this.searchFullName, IsApproved: true}).length;
-        this.newUsersNumber = this.$filter('filter')(this.users, {PersonTypeId: 1, name: this.newUsersSearchName}).length;
+        // loading.close();
+        this.refreshFilters();
       });
 
     this.$http.get('/api/person_types')
@@ -97,8 +96,15 @@ export default class AdminUsersController {
   }
 
   orderBy(table, field) {
-    if(this.order[table] === field) {
-      this.order[table] = '-' + field;
+    if(JSON.stringify(this.order[table]) === JSON.stringify(field)) {
+      if(Array.isArray(field)) {
+        for(var i in field) {
+          field[i] = '-' + field[i];
+        }
+        this.order[table] = field;
+      } else {
+        this.order[table] = '-' + field;
+      }
     } else {
       this.order[table] = field;
     }

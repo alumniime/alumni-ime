@@ -1,0 +1,67 @@
+modal-checkout {
+  .btn {
+    display: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    height: 45px;
+    border-radius: 30px;
+    min-width: 200px;
+    padding-top: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 5px;
+  }
+
+  .form-group label {
+    font-size: 10px;
+    margin-left: 0;
+    margin-bottom: 0;
+    color: #828282;
+  }
+
+  .form-control-plaintext {
+    font-size: 14px;
+  }
+
+  .form-control {
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #bdbdbd;
+    padding: 10px 20px !important;
+    height: 45px !important;
+    margin-bottom: 10px;
+  }
+  
+  .help-block {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #E84E0F;
+  }
+
+  .custom-checkbox, .custom-radio {
+    padding-bottom: 5px;
+    margin-left: 30px;
+    margin-top: 10px;
+    .custom-control-label {
+      color: #495057;
+      font-size: 14px;
+    }
+  }
+
+  .btn-outline-danger{
+    color: #E84E0F;
+    border-color: #E84E0F;
+  }
+  .btn-outline-danger:hover, .btn-outline-danger.active{
+    color: #fafafa;
+    background: rgb(199, 66, 14);
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
+  }
+
+}

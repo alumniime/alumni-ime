@@ -17,8 +17,10 @@ import ModalTermsOfUse from './terms-of-use/terms-of-use.controller';
 import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
 import ModalShowApplication from './show-application/show-application.controller';
+import ModalShowBoleto from './show-boleto/show-boleto.controller';
 import ModalEditNews from './edit-news/edit-news.controller';
 import ModalEditDonation from './edit-donation/edit-donation.controller';
+import ModalCheckoutController from './checkout/checkout.controller';
 import ModalEditProject from './edit-project/edit-project.controller';
 import ModalEditOpportunity from './edit-opportunity/edit-opportunity.controller';
 import ModalOpportunityApplication from './opportunity-application/opportunity-application.controller';
@@ -108,7 +110,7 @@ export function ModalService($uibModal, $q) {
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalOpportunityApplication',
-        size: 'md dialog-centered',
+        size: 'md modal-dialog-centered',
         resolve: {
           opportunity: function () {
             return opportunity;
@@ -126,7 +128,7 @@ export function ModalService($uibModal, $q) {
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalTermsOfUse',
-        size: 'dialog-centered'
+        size: 'md modal-dialog-centered'
       });
       modalInstance.result.then(function () {
         console.log('Success');
@@ -148,7 +150,7 @@ export function ModalService($uibModal, $q) {
       });
     },
 
-    openPhoto(images, index){
+    openPhoto(images, index) {
       $uibModal.open({
         animation: true,
         component: 'modalPhoto',
@@ -330,6 +332,19 @@ export function ModalService($uibModal, $q) {
       });
     },
 
+    showBoleto(barcode, link) {
+      $uibModal.open({
+        animation: true,
+        component: 'modalShowBoleto',
+        size: 'md modal-dialog-centered',
+        resolve: {
+          boleto: function () {
+            return { barcode, link };
+          }
+        }
+      });
+    },
+
     showAlert(title, message) {
       $uibModal.open({
         animation: true,
@@ -337,7 +352,7 @@ export function ModalService($uibModal, $q) {
         size: 'dialog-centered',
         resolve: {
           alert: function () {
-            return {title, message};
+            return { title, message };
           }
         }
       });
@@ -350,7 +365,7 @@ export function ModalService($uibModal, $q) {
         size: 'dialog-centered',
         resolve: {
           dialog: function () {
-            return {title, message, content, result};
+            return { title, message, content, result };
           }
         }
       });
@@ -367,12 +382,36 @@ export function ModalService($uibModal, $q) {
       });
       loading.close = function () {
         loading.opened.then(result => {
-          if(result) {
+          if (result) {
             loading.dismiss();
           }
         });
       };
       return loading;
+    },
+
+    openCheckout(url, data) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalCheckout',
+        size: 'md modal-dialog-centered',
+        resolve: {
+          url: function () {
+            return url;
+          },
+          data: function () {
+            return data;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
     }
 
   };
@@ -554,6 +593,16 @@ export default angular.module('alumniApp.modal', [])
       dismiss: '&'
     },
   })
+  .component('modalShowBoleto', {
+    template: require('./show-boleto/show-boleto.html'),
+    controller: ModalShowBoleto,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
   .component('modalEditNews', {
     template: require('./edit-news/edit-news.html'),
     controller: ModalEditNews,
@@ -574,6 +623,16 @@ export default angular.module('alumniApp.modal', [])
       dismiss: '&'
     },
   })
+  .component('modalCheckout', {
+    template: require('./checkout/checkout.html'),
+    controller: ModalCheckoutController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
   .component('modalEditProject', {
     template: require('./edit-project/edit-project.html'),
     controller: ModalEditProject,
@@ -582,7 +641,7 @@ export default angular.module('alumniApp.modal', [])
       resolve: '<',
       close: '&',
       dismiss: '&'
-    },
+    }
   })
   .component('modalEditOpportunity', {
     template: require('./edit-opportunity/edit-opportunity.html'),
