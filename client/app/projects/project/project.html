@@ -112,8 +112,8 @@
                 </thead>
                 <tbody>
                   <tr ng-repeat="donation in vm.project.donations | orderBy: '-DonationDate'">
-                    <td><strong>{{donation.ShowName[0] ? ((donation.DonatorName == NULL) ? donation.donator.name : donation.DonatorName) : "Anônimo"}}</strong></td>
-                    <td>{{donation.ShowAmount[0] ? (donation.ValueInCents/100 | currency) : "-"}}</td>
+                    <td><strong>{{donation.ShowName ? ((donation.DonatorName == NULL) ? donation.donator.name : donation.DonatorName) : "Anônimo"}}</strong></td>
+                    <td>{{donation.ShowAmount ? (donation.ValueInCents/100 | currency) : "-"}}</td>
                     <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
                   </tr>
                 </tbody>   
