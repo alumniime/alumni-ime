@@ -56,7 +56,7 @@
     "nodemailer": "^4.6.4",
     "nodemailer-express-handlebars": "^3.0.0",
     "numero-por-extenso": "^1.0.5",
-    "pagarme": "^3.9.1",
+    "pagarme": "^4.1.0",
     "passport": "~0.3.0",
     "passport-linkedin": "^1.0.0",
     "passport-local": "^1.0.0",
