@@ -11,7 +11,7 @@
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import {Project, Image, User, Se, Donation, ProjectCost, sequelize} from '../../sqldb';
+import {Project, Image, User, Se, Donation, ProjectCost, ProjectReward, sequelize} from '../../sqldb';
 import multer from 'multer';
 import $q from 'q';
 
@@ -194,7 +194,7 @@ export function show(req, res) {
     }, {
       model: Se,
       as: 'se'
-    },{
+    }, {
       model: ProjectCost,
       attributes: ['CostDescription', 'Quantity', 'UnitPriceInCents', 'ProjectCostId'],
       as: 'costs',
@@ -202,17 +202,27 @@ export function show(req, res) {
       where:{
         IsExcluded: 0
       }
-    }, 
+    }, {
+      model: ProjectReward,
+      attributes: ['RewardDescription', 'ValueInCents', 'IsUpperBound', 'ProjectRewardId'],
+      as: 'rewards',
+      required: false
+    },  
     {
       model: Donation,
-      attributes: ['ProjectId'],
+      attributes: ['DonationId', 'ProjectId', 'DonationDate', 'ShowName', 'ShowAmount', 'ValueInCents', 'DonatorName', 'DonatorId'],
       as: 'donations',
       required: false,
+      include: [{
+                model: User,
+                as: 'donator',
+                attributes: ['name', 'PersonId'],
+            }],
       where: {
         IsApproved: 1
       }
     }],
-    group: ['images.ImageId'],
+    group: ['images.ImageId', 'costs.ProjectCostId', 'donations.DonationId', 'rewards.ProjectRewardId'],
     attributes: {
       include: [
         [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber']
@@ -263,6 +273,15 @@ export function preview(req, res) {
       model: ProjectCost,
       attributes: ['CostDescription', 'Quantity', 'UnitPriceInCents', 'ProjectCostId'],
       as: 'costs',
+      required: false,
+      where:{
+        IsExcluded: 0
+      }
+    }, {
+      model: ProjectReward,
+      attributes: ['RewardDescription', 'ValueInCents', 'ProjectRewardId'],
+      as: 'rewards',
+      required: false,
       where:{
         IsExcluded: 0
       }
@@ -658,7 +677,7 @@ export function edit(req, res) {
   });
 }
 
-// Edits an existing Project in the DB with his images
+// Edits any existing Project in the DB with his images (admin permission)
 export function editAny(req, res) {
 
   var upload = multer({

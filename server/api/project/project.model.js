@@ -123,6 +123,10 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: 0
+    },
+    Summary:{
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     tableName: 'Project'

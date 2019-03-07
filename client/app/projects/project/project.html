@@ -13,12 +13,7 @@
              uib-tooltip="{{vm.project.Results ? 'Editar resultado' : 'Inserir resultado'}}"
              tooltip-placement="bottom"></i>
         </h5>
-        <div class="legend">
-          por {{vm.project.TeamName}}
-        </div>
       </div>
-
-      <div class="text-content text-pre">{{vm.project.Abstract}}</div>
 
       <div class="carousel-col-4 d-none d-lg-block p-0 mt-4">
         <img class="img-selected img-fluid mb-4 c-pointer" alt="Project image" ng-src="{{vm.selectedProjectImage.Path}}"
@@ -55,6 +50,82 @@
         </div>
       </div>
 
+      <nav class="nav nav-tabs flex-column flex-sm-row">
+          <a class="nav-item nav-link active" data-toggle="tab" href="#description">Descrição</a>
+          <a class="nav-item nav-link" data-toggle="tab" href="#menu1">Custos</a>
+          <a class="nav-item nav-link" data-toggle="tab" href="#menu2">Doadores</a>
+        </nav>
+        
+      <div class="tab-content">
+        <div id="description" class="tab-pane fade show active">
+            <div class="tab-pane-title">
+              <h5>{{vm.project.ProjectName}}</h5>
+            </div>
+            <div class="text-content text-pre">{{vm.project.Abstract}}</div>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <div class="tab-pane-title">
+              <h5>Custos</h5>
+            </div>
+            <div ng-if="vm.project.costs.length > 0">
+
+              <div class="table-responsive">
+                <table class="table costs-table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">INVESTIMENTO REQUERIDO</th>
+                      <th scope="col">QUANTIDADE</th>
+                      <th scope="col">UNIDADE</th>
+                      <th scope="col">TOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="cost in vm.project.costs">
+                      <td>{{cost.CostDescription}}</td>
+                      <td>{{cost.Quantity}}</td>
+                      <td>{{cost.UnitPriceInCents/100 | currency}}</td>
+                      <td>{{cost.Quantity * cost.UnitPriceInCents/100 | currency}}</td>
+                    </tr>
+                  </tbody>   
+                </table>
+                  <!--<hr class="costs-divisor">
+                  TOTAL: {{vm.project.EstimatedPriceInCents/100 | currency}}-->
+              </div>
+            </div>
+            <div ng-if="vm.project.costs.length === 0">
+              <p>Lista de custos indisponível.</p>
+            </div>
+          </div>
+          <div id="menu2" class="tab-pane fade">
+            <div class="tab-pane-title">
+              <h5>Doadores</h5>
+            </div>
+          <div ng-if="vm.project.donations.length > 0">
+            <div class="table-responsive">
+              <table class="table costs-table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">DOADOR</th>
+                    <th scope="col">VALOR</th>
+                    <th scope="col">DATA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="donation in vm.project.donations | orderBy: '-DonationDate'">
+                    <td><strong>{{donation.ShowName[0] ? ((donation.DonatorName == NULL) ? donation.donator.name : donation.DonatorName) : "Anônimo"}}</strong></td>
+                    <td>{{donation.ShowAmount[0] ? (donation.ValueInCents/100 | currency) : "-"}}</td>
+                    <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
+                  </tr>
+                </tbody>   
+              </table>
+            </div>
+          </div>
+          <div ng-if="vm.project.donations.length === 0">
+            <p>Lista de doadores indisponível.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="donations-mobile d-md-none">
         <div class="card project-card mb-3">
           <div class="card-body">
@@ -70,7 +141,7 @@
 
             <div class="form-group">
               <div class="progress">
-                <div class="progress-bar progress-bar-custom" aria-valuemin="0" aria-valuemax="100"
+                <div class="progress-bar progress-bar-striped bg-success" aria-valuemin="0" aria-valuemax="100"
                      role="progressbar"
                      style="width: {{vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents*100}}%;">
                 </div>
@@ -88,14 +159,53 @@
               </div>
             </div>
 
-            <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
+            <div id="fund-button-sm" uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
                  tooltip-placement="bottom">
               <a class="btn btn-danger m-auto" href="#" ng-class="{'disabled': !vm.acceptDonation}"
                  ui-sref="donate({ProjectId: vm.project.ProjectId, PrettyURL: vm.Util.convertToSlug(vm.project.ProjectName)})">
                 APOIAR PROJETO
               </a>
             </div>
+
+            <div class="row">
+                <div class="col-sm-4 col-4">
+                  <a id="facebook-share-btn-sm" class="btn btn-outline-primary" href="{{vm.facebookHref}}" target="_blank"
+                    style="padding-top: 4px; padding-left: 8px;">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </div>
+                <div class="col-sm-4 col-4" style="text-align: center;">
+                  <div style="display: inline-block;">
+                    <a id="twitter-share-btn-sm" class="btn btn-outline-info" href="{{vm.twitterHref}}" target="_blank"
+                       style="padding-top: 4px; padding-left: 8px;">
+                       <i class="fa fa-twitter"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-sm-4 col-4" style="text-align: right;">
+                  <div style="display: inline-block;">
+                    <a id="linkedin-share-btn-sm" class="btn btn-outline-secondary" href="{{vm.linkedinHref}}" target="_blank"
+                      style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                      <i class="fa fa-linkedin"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
           </div>
+        </div>
+        <div class="reward-title" ng-if="vm.project.rewards.length">
+          <strong>Recompensas</strong>
+        </div> 
+        <div ng-repeat="reward in vm.project.rewards" ng-if="vm.project.rewards.length" class="card project-card mb-3">
+          <div class="card-body">
+            <div class="donation-asked" ng-if="reward.IsUpperBound==1">
+              Doação de até {{reward.ValueInCents/100 | currency}}
+            </div>
+            <div class="donation-asked" ng-if="reward.IsUpperBound==0">
+              Doação acima de {{reward.ValueInCents/100 | currency}}
+            </div>
+            <div class="reward-description">{{reward.RewardDescription}}</div>
+          </div>     
         </div>
       </div>
 
@@ -121,81 +231,6 @@
           </a>
         </div>
       </div>
-
-      <div class="row mt-2">
-        <div class="col-8 col-xs-6">
-          <div class="info-name">
-            SEÇÃO DE ENSINO
-          </div>
-          <div class="info-text">
-            {{vm.project.se.Description}}
-          </div>
-        </div>
-
-        <div class="col-4 col-xs-6">
-          <div class="info-name">
-            PROFESSOR RESPONSÁVEL
-          </div>
-          <div class="info-text">
-            {{vm.project.professor.name}}
-          </div>
-        </div>
-      </div>
-
-      <div class="row mt-2">
-        <div class="col-8 col-xs-6">
-          <div class="info-name">
-            LÍDER DO PROJETO
-          </div>
-          <div class="info-text">
-            {{vm.project.leader.name}}
-          </div>
-        </div>
-
-        <div class="col-4 col-xs-6">
-          <div class="info-name">
-            TÉRMINO ESTIMADO
-          </div>
-          <div class="info-text">
-            {{vm.project.ConclusionDate | date: 'dd/MM/yyyy'}}
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-8 col-xs-6">
-          <div class="info-name">
-            EQUIPE
-          </div>
-          <div class="info-text">
-            {{vm.project.TeamMembers}}
-          </div>
-        </div>
-
-        <div class="col-4 col-xs-6">
-          <div class="info-name">
-            ALUNOS ENVOLVIDOS
-          </div>
-          <div class="info-text">
-            {{vm.project.StudentsNumber}}
-          </div>
-        </div>
-      </div>
-
-      <div class="info-name">
-        METAS/RESULTADOS ESPERADOS PARA O PROJETO
-      </div>
-      <div class="info-text text-pre">{{vm.project.Goals}}</div>
-
-      <div class="info-name">
-        BENEFÍCIOS CONCRETOS PARA O IME
-      </div>
-      <div class="info-text text-pre">{{vm.project.Benefits}}</div>
-
-      <div class="info-name">
-        CRONOGRAMA FÍSICO-FINANCEIRO
-      </div>
-      <div class="info-text text-pre">{{vm.project.Schedule}}</div>
 
       <div class="col results" ng-if="vm.project.Results">
         <div class="card project-card mb-3">
@@ -278,42 +313,73 @@
             <label>ORÇAMENTO</label>
             <div class="form-control-estimated">{{vm.project.EstimatedPriceInCents/100 | currency}}</div>
           </div>
-
           <div class="form-group mb-0">
             <label>ARRECADADO</label>
             <div class="form-control-collected">{{vm.project.CollectedPriceInCents/100 | currency}}</div>
           </div>
-
           <div class="form-group">
             <div class="progress">
-              <div class="progress-bar progress-bar-custom" aria-valuemin="0" aria-valuemax="100"
+              <div class="progress-bar progress-bar-striped bg-success" aria-valuemin="0" aria-valuemax="100"
                    role="progressbar"
                    style="width: {{vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents*100}}%;">
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-8">
                 <input type="text" class="form-control-plaintext pb-0" readonly
                        value="{{100*vm.project.CollectedPriceInCents/vm.project.EstimatedPriceInCents | number: 0}}%">
               </div>
               <div class="col-4">
-                <!--<input type="text" class="form-control-plaintext-right" readonly-->
-                       <!--value="{{vm.project.DonationsNumber}} pessoas apoiaram">-->
               </div>
             </div>
           </div>
 
-          <div uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
+          <div id="fund-button" uib-tooltip="{{!vm.acceptDonation ? 'A arrecadação para este projeto foi encerrada' : ''}}"
                tooltip-placement="bottom">
             <a class="btn btn-danger m-auto" href="#" ng-class="{'disabled': !vm.acceptDonation}"
                ui-sref="donate({ProjectId: vm.project.ProjectId, PrettyURL: vm.Util.convertToSlug(vm.project.ProjectName)})">
               APOIAR PROJETO
             </a>
           </div>
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <a id="facebook-share-btn" class="btn btn-outline-primary" href="{{vm.facebookHref}}" target="_blank"
+                style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                 <i class="fa fa-facebook"></i>
+              </a>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <a id="twitter-share-btn" class="btn btn-outline-info" href="{{vm.twitterHref}}" target="_blank"
+                 style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                 <i class="fa fa-twitter"></i>
+              </a>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <a id="linkedin-share-btn" class="btn btn-outline-secondary" href="{{vm.linkedinHref}}" target="_blank"
+                 style="padding-top: 4px; padding-left: 8px; padding-right: 8px;">
+                 <i class="fa fa-linkedin"></i>
+              </a>
+            </div>
+          </div>      
         </div>
       </div>
+      
+      <div class="reward-title" ng-if="vm.project.rewards.length">
+        <strong>Recompensas</strong>
+      </div> 
+      <div ng-repeat="reward in vm.project.rewards" ng-if="vm.project.rewards.length" class="card project-card mb-3">
+        <div class="card-body">
+          <div class="donation-asked" ng-if="reward.IsUpperBound==1">
+            Doação de até {{reward.ValueInCents/100 | currency}}
+          </div>
+          <div class="donation-asked" ng-if="reward.IsUpperBound==0">
+            Doação acima de {{reward.ValueInCents/100 | currency}}
+          </div>
+          <div class="reward-description">{{reward.RewardDescription}}</div>
+        </div>     
+      </div>
     </div>
+  </div>
 
   </div>
 </div>

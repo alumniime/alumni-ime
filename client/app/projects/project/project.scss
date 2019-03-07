@@ -1,3 +1,7 @@
+body{
+  background-color: #EEE;
+}
+
 .projectView {
   padding: 40px 20px 60px;
 
@@ -17,9 +21,8 @@
 
   .donations {
     margin: 30px;
-    position: sticky;
-    height: 300px;
-    top: 140px;
+    top: 60px;
+    padding-right: 0px;
     @include media-breakpoint-down(lg) {
       padding: 0;
       margin-right: 0;
@@ -55,14 +58,20 @@
   }
 
   .text-content {
-    margin-top: 40px;
+    padding-top: 10px;
+    padding-bottom: 15px;
     color: #333333;
     font-size: 16px;
     text-align: justify;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #555;
+    font-size: 15px;
+    line-height: 1.5em;
   }
 
   .project-card {
     border: none;
+    margin-bottom: 0px;
     background-color: #fafafa !important;
     box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -168,7 +177,7 @@
     background: #FAFAFA;
     border: 1px solid #BDBDBD;
     border-radius: 30px;
-    height: 12px;
+    height: 20px;
   }
   .progress-bar-custom {
     background: #6FCF97;
@@ -284,4 +293,117 @@
     }
   }
 
+  .nav{
+    margin-top: 30px;
+  }
+
+  .nav-item {
+    color: #FFF;
+    background-color: #333;
+    margin-right: 10px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  .nav-tabs .nav-link{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #333;
+    box-shadow: 0 4px 3px rgba(0,0,0,0.2);
+  }
+
+  .tab-content{
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-bottom: 1px solid #c4c7c9;
+  }
+
+  .tab-pane{
+    padding-left: 15px;
+    padding-right: 15px;
+    
+    p{
+      padding-top: 15px;
+      padding-bottom: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+  }
+
+  .tab-pane-title{
+    padding-top: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #c4c7ca;
+    padding-bottom: 10px;
+  }
+  .costs-table th{
+    font-size: 12px;
+    text-align: center;
+  }
+  .costs-table td{
+    font-size: 12px;
+    text-align: center;
+  }
+  
+  hr.costs-divisor {
+    border-top: 1px dashed #8c8b8b;
+    border-bottom: 1px dashed #fff;
+  }
+
+  #fund-button{
+    margin-bottom: 15px;
+  }
+
+  #fund-button-sm{
+    margin-bottom: 10px;
+  }
+
+  #facebook-share-btn{
+    min-width: 60px;
+    width: 60px;
+  }
+
+  #twitter-share-btn{
+    min-width: 60px;
+    width: 60px;
+  }
+  #linkedin-share-btn{
+    min-width: 60px;
+    width: 60px;
+  }
+
+  #facebook-share-btn-sm{
+    min-width: 55px;
+    width: 55px;
+  }
+
+  #twitter-share-btn-sm{
+    min-width: 55px;
+    width: 55px;
+  }
+  #linkedin-share-btn-sm{
+    min-width: 55px;
+    width: 55px;
+  }
+  .reward-title{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #555;
+    text-align: center;
+    font-size: 18px;
+  }
+  .reward-description{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #555;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .donation-asked{
+    border-bottom: 1px solid #c4c7ca;
+    font-size: 15px;
+  }
 }
