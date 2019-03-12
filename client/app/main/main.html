@@ -102,7 +102,7 @@
           <h4>Principais notícias</h4>
           <hr class="divider">
 
-          <h5 ng-repeat-start="news in vm.News.list | orderBy: '-PublishDate' | limitTo: 5">
+          <h5 ng-repeat-start="news in vm.News.list | filter : {'NewsId': '!55'} | orderBy: '-PublishDate' | limitTo: 5">
             <a href="#" class="text-dark"
                ui-sref="view({NewsId: news.NewsId, PrettyURL: vm.Util.convertToSlug(news.Title), forceReload: false})">
               {{news.Title}}
