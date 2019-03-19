@@ -22,6 +22,10 @@ export class NavbarComponent {
           state: 'institutional'
         },
         {
+          title: 'TRANSPARÊNCIA',
+          state: 'transparency'
+        },
+        {
           title: 'GOVERNANÇA',
           state: 'management'
         },
@@ -64,10 +68,6 @@ export class NavbarComponent {
         },
       ]
     },
-    // {
-    //   title: 'PRESTAÇÃO DE CONTAS',
-    //   state: 'expose'
-    // },
   ];
 
   isCollapsed = true;
