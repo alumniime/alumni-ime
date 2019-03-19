@@ -21,7 +21,6 @@
     color: #333333 !important;
     font-weight: bold;
     font-size: 30px;
-    padding-bottom: 15px;
     line-height: normal;
     text-align: left;
   }
@@ -153,7 +152,7 @@
   }
 
   .light-blue {
-    padding: 50px 70px 50px 100px !important;
+    padding: 50px 30px 50px 40px !important;
     background: #AFCDE4;
     @include media-breakpoint-only(lg) {
       padding: 50px 30px 50px 80px !important;
@@ -164,7 +163,7 @@
   }
 
   .gray {
-    padding: 50px 100px 50px 70px !important;
+    padding: 50px 30px 50px 40px !important;
     background: #F2F2F2;
     @include media-breakpoint-only(lg) {
       padding: 50px 80px 50px 50px !important;
@@ -177,7 +176,8 @@
   .page-title {
     font-weight: bold;
     line-height: 45px;
-    font-size: 30px;
+    text-align: center;
+    font-size: 23px;
     color: #333333;
     margin-bottom: 30px;
   }
@@ -190,7 +190,7 @@
 
   .name {
     padding: 0;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 30px;
   }
 }
