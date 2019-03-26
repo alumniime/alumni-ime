@@ -43,7 +43,11 @@ export class ProjectController {
       this.Project.get(ProjectId, this.previewMode, this.$stateParams.forceReload)
         .then(project => {      
           loading.close();
-
+          project.DonationSum = 0;
+          console.log(project.donations.length);
+          for(let i = 0, len = project.donations.length; i<len; i++){
+            project.DonationSum += project.donations[i].ValueInCents;
+          }
           this.ngMeta.setTitle(project.ProjectName);
           this.ngMeta.setTag('description', project.Abstract.slice(0, 200));
           this.ngMeta.setTag('author', project.leader.name);

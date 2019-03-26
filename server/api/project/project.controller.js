@@ -116,7 +116,9 @@ export function index(req, res) {
     }],
     attributes: {
       include: [
-        [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber']
+        [sequelize.fn('COUNT', sequelize.col('donations.DonationId')), 'DonationsNumber'],
+        [sequelize.fn('SUM', sequelize.col('donations.ValueInCents')), 'DonationSum'],
+
       ],
       exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']
     },

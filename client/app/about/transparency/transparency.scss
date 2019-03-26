@@ -1,9 +1,5 @@
 .transparencyView {
-<<<<<<< HEAD
     padding: 40px 20px 25px !important;
-=======
-    padding: 60px 20px 25px !important;
->>>>>>> 9a522f3... Starting new transparency page
     @include media-breakpoint-down(sm) {
       padding: 40px 2px !important;
     }
@@ -15,11 +11,7 @@
     .page-title {
       color: #333333 !important;
       font-weight: bold;
-<<<<<<< HEAD
       font-size: 28px;
-=======
-      font-size: 34px;
->>>>>>> 9a522f3... Starting new transparency page
       padding-bottom: 15px;
       line-height: normal;
       text-align: center;
@@ -35,11 +27,7 @@
     }
   }
   
-<<<<<<< HEAD
   .transparencyViewBlue {
-=======
-  .managementViewBlue {
->>>>>>> 9a522f3... Starting new transparency page
     padding: 0 !important;
     background: #00456F;
   
@@ -105,11 +93,7 @@
       }
   
       @include media-breakpoint-down(sm) {
-<<<<<<< HEAD
         max-height: 360px;
-=======
-        max-height: 480px;
->>>>>>> 9a522f3... Starting new transparency page
         display: block;
         overflow: hidden;
         img {
@@ -129,20 +113,12 @@
     }
   }
   
-<<<<<<< HEAD
   .transparencyViewLightBlue {
-=======
-  /*.managementViewLightBlue {
->>>>>>> 9a522f3... Starting new transparency page
     padding: 0;
     color: #333333 !important;
   
     .text-box {
-<<<<<<< HEAD
       max-width: 667px;
-=======
-      max-width: 500px;
->>>>>>> 9a522f3... Starting new transparency page
     }
   
     .light-blue {
@@ -157,11 +133,7 @@
     }
   
     .gray {
-<<<<<<< HEAD
       padding: 50px 70px 50px 100px !important;
-=======
-      padding: 50px 100px 50px 70px !important;
->>>>>>> 9a522f3... Starting new transparency page
       background: #F2F2F2;
       @include media-breakpoint-only(lg) {
         padding: 50px 80px 50px 50px !important;
@@ -191,8 +163,4 @@
       font-size: 14px;
       line-height: 30px;
     }
-<<<<<<< HEAD
   }
-=======
-  }*/
->>>>>>> 9a522f3... Starting new transparency page
