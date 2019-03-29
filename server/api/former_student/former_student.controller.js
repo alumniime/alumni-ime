@@ -81,6 +81,8 @@ export function index(req, res) {
       }, {
         PersonId: req.user.PersonId,
         role: 'admin'
+      }, {
+        IsSpecialUser: 1
       }]
     }
   })
@@ -128,6 +130,8 @@ export function years(req, res) {
       }, {
         PersonId: req.user.PersonId,
         role: 'admin'
+      },{
+        IsSpecialUser: 1
       }]
     }
   })
@@ -165,6 +169,8 @@ export function ranking(req, res) {
       }, {
         PersonId: req.user.PersonId,
         role: 'admin'
+      }, {
+        IsSpecialUser: 1
       }]
     }
   })
@@ -278,6 +284,8 @@ export function year(req, res) {
       }, {
         PersonId: req.user.PersonId,
         role: 'admin'
+      },{
+        IsSpecialUser: 1
       }]
     }
   })
@@ -377,6 +385,8 @@ export function show(req, res) {
       }, {
         PersonId: req.user.PersonId,
         role: 'admin'
+      }, {
+        IsSpecialUser: 1
       }]
     }
   })
@@ -496,6 +506,8 @@ export function search(req, res) {
       }, {
         PersonId: req.user.PersonId,
         role: 'admin'
+      }, {
+        IsSpecialUser: 1
       }]
     }
   })

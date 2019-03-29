@@ -26,7 +26,7 @@ export default class GraduatesRankingController {
           loading.close();
           this.Modal.openLogin();
           this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos aprovados e logados podem realizar pesquisas.');
-        } else if (this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin') {
+        } else if (this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin' || this.user.IsSpecialUser) {
 
           this.$http.get('/api/former_students/ranking')
             .then(response => {

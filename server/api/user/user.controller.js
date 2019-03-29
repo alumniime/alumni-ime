@@ -939,7 +939,8 @@ export function me(req, res, next) {
       'InitiativeLinkOther',
       'OptionToKnowThePageId',
       'OptionToKnowThePageOther',
-      'IsApproved'
+      'IsApproved',
+      'IsSpecialUser'
     ],
     where: {
       PersonId: userId
