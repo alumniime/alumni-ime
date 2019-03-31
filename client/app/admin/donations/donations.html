@@ -145,7 +145,7 @@
     <tbody>
     <tr ng-repeat-start="subscription in admin.Subscription.list | orderBy: admin.order.subscriptions | filter: {Name: admin.subscriptionSearchName, Status: admin.subscriptionSearchStatus}" 
         class="c-pointer" ng-init="subscription.collapsed = true" ng-click="subscription.collapsed = !subscription.collapsed" ng-class="{'grey-line': $even}"
-        ng-if="$index >= (admin.subscriptionsCurrentPage - 1) * admin.itemsPerPage && $index < admin.subscriptionsCurrentPage * admin.itemsPerPage">
+        ng-show="$index >= (admin.subscriptionsCurrentPage - 1) * admin.itemsPerPage && $index < admin.subscriptionsCurrentPage * admin.itemsPerPage">
       <th scope="row" class="text-center">{{subscription.SubscriptionId}}</th>
       <td>{{subscription.Name}}</td>
       <td>{{subscription.plan.Name}}</td>
@@ -160,7 +160,9 @@
       <td>{{subscription.UpdateDate | date: 'dd/MM/yyyy'}}</td>
       <td>{{subscription.Status}}</td>
     </tr>
-    <tr ng-repeat-end ng-repeat="transaction in subscription.transactions | filter: {Status: admin.subscriptionTransactionStatus}" ng-if="!subscription.collapsed || admin.showAllTransactions" class="font-italic font-weight-light">
+    <tr ng-repeat-end ng-repeat="transaction in subscription.transactions | filter: {Status: admin.subscriptionTransactionStatus}" 
+      ng-if="(!subscription.collapsed || admin.showAllTransactions)" 
+      class="font-italic font-weight-light">
       <td scope="row" class="bg-blue text-light text-right pr-2">{{transaction.TransactionId}}</td>
       <td scope="row">{{transaction.CardHolderName}}</td>
       <td scope="row">{{transaction.CardBrand | uppercase}} - Final {{transaction.CardLastDigits}}</td>

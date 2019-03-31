@@ -45,7 +45,6 @@ export default class AdminDonationsController {
       .then((data) => {
         this.refreshFilters();
       });
-
   }
 
   editDonation(donationId) {
@@ -56,8 +55,8 @@ export default class AdminDonationsController {
   }
 
   refreshFilters() {
-    this.donationsNumber = this.$filter('filter')(this.Donation.list, {Name: this.searchName, PaymentMethod: this.searchPaymentMethod, Status: this.searchStatus}).length;
-    this.subscriptionsNumber = this.$filter('filter')(this.Subscription.list, {PersonTypeId: 1, name: this.newUsersSearchName}).length;
+    this.donationsNumber = this.$filter('filter')(this.Donation.list, {Name: this.donationSearchName, PaymentMethod: this.donationSearchPaymentMethod, Status: this.donationSearchStatus}).length;
+    this.subscriptionsNumber = this.$filter('filter')(this.Subscription.list, {Name: this.subscriptionSearchName, Status: this.subscriptionSearchStatus}).length;
     if(this.subscriptionTransactionStatus !== '') {
       this.showAllTransactions = true;
     } else {
