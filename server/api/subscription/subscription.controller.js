@@ -472,7 +472,7 @@ export function postback(req, res) {
     } else {
       res.json({ errorCode: 0, errorDesc: null, result: result });
       if(response.status === 'paid') {
-        sender.sendReceipt(result.DonationId);
+        //sender.sendReceipt(result.DonationId);
       }
       // Updating mailchimp user
       if(result.DonatorId) {
