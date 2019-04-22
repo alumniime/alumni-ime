@@ -283,7 +283,7 @@ export function subscribe(req, res) {
       result.response.DonationId = result.newDonation.DonationId;
       res.json({ errorCode: 0, errorDesc: null, result: result.response });
       if(result.response.status === 'paid') {
-        sender.sendReceipt(result.newDonation.DonationId);
+        sender.sendSubscriptionReceipt(result.newDonation.DonationId);
       }
     }
   });
