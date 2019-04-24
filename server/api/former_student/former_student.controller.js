@@ -185,10 +185,10 @@ export function ranking(req, res) {
           y.GraduationYear,
 		      COUNT(DISTINCT d.DonatorId) + COUNT( DISTINCT d.FormerStudentId) AS DonatorsNumber,
           SUM(d.ValueInCents) AS DonationsValueInCents,
-          COUNT(f.PersonId) AS UsersNumber,
-          COUNT(f.FormerStudentId) AS TotalNumber,
-            CAST(COUNT(f.PersonId) / COUNT(f.FormerStudentId) * 100 AS DECIMAL(10, 2)) AS UsersPercentage,
-            CAST((COUNT(DISTINCT d.DonatorId) + COUNT(DISTINCT d.FormerStudentId)) / COUNT(f.FormerStudentId) * 100 AS DECIMAL(10, 2)) AS DonatorsPercentage
+          COUNT(DISTINCT f.PersonId) AS UsersNumber,
+          COUNT(DISTINCT f.FormerStudentId) AS TotalNumber,
+            CAST(COUNT(DISTINCT f.PersonId) / COUNT(DISTINCT f.FormerStudentId) * 100 AS DECIMAL(10, 2)) AS UsersPercentage,
+            CAST((COUNT(DISTINCT d.DonatorId) + COUNT(DISTINCT d.FormerStudentId))/ COUNT(DISTINCT f.FormerStudentId) * 100 AS DECIMAL(10, 2)) AS DonatorsPercentage
         FROM Year y
         LEFT JOIN FormerStudent f ON y.GraduationYear = f.GraduationYear
         LEFT JOIN Donation d ON ((d.FormerStudentId = f.FormerStudentId OR f.PersonId = d.DonatorId) AND d.IsApproved)
