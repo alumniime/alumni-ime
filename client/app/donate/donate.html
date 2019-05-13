@@ -195,4 +195,230 @@
             </div>
         </div>
     </div>
+
+    <div class="faq-container">
+        <div class="container">
+
+            <div class="row justify-content-center p-0">
+                <h2 class="faq-header">Perguntas Frequentes</h2>
+            </div>
+
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[0] = !vm.collapseStatus[0]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Doação é dedutível de imposto de renda?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[0]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[0]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[0]">
+                            A doação poderá ser declarada no IR como doação a ONG, mas não terá abatimento.
+                    </div>
+                </div>        
+            </div>
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[1] = !vm.collapseStatus[1]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Posso cancelar uma doação?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[1]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[1]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[1]">
+                            As doações feitas para a Alumni IME em caráter de apoio a “projetos do IME” ou “Geral” são
+                            passíveis de cancelamento em um prazo de até 7 (sete) dias úteis após aprovadas pelo cartão
+                            de crédito ou compensação do boleto bancário. O cancelamento deve ser feito mediante envio
+                            de solicitação formal para o e-mail contato@alumniime.com.br. 
+                    </div> 
+                </div>        
+            </div>
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[2] = !vm.collapseStatus[2]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como cancelo meu plano de doação recorrente?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[2]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[2]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[2]"> 
+                            Para cancelar a mensalidade, você deve gerenciar a sua conta e cancelar a assinatura através
+                            do nosso portal de pagamentos “pagar.me”. Para acessá-lo, entre na página “Meu Perfil” no
+                            site da Alumni IME e escolha a opção “Gerenciar minha conta”, em projetos apoiados.
+                    </div> 
+                </div>
+            </div>
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[3] = !vm.collapseStatus[3]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            A Alumni IME fornece recibo das doações?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[3]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[3]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[3]"> 
+                            Os usuários que realizarem a contribuição pelo site da Alumni IME receberão
+                            automaticamente, para o endereço cadastrado, uma mensagem de e-mail com o recibo. As
+                            doações feitas diretamente à conta da Alumni IME devem ser informadas à nossa equipe.
+                            Nesse caso, o recibo será enviado mediante o upload do comprovante no site e confirmação
+                            do pagamento.
+                    </div> 
+                </div>
+            </div>
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[4] = !vm.collapseStatus[4]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Quais formas de pagamento são aceitas?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[4]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[4]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[4]"> 
+                            As doações podem ser feitas pelo site da Alumni IME através de boleto bancário ou cartão de
+                            crédito. Os planos de doação recorrente são feitos por cartão de crédito e gerenciados pelo
+                            sistema “pagar.me”. As contribuições também podem ser feitas diretamente à conta da
+                            Alumni IME, disponível no site. Para finalizar sua contribuição, é fundamental que você envie o
+                            comprovante da transação efetuada.
+                    </div> 
+                </div>
+            </div>
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[5] = !vm.collapseStatus[5]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como faço para mudar o valor do meu plano de doação recorrente?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[5]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[5]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[5]"> 
+                            O plano de doação mensal pode ser cancelado a qualquer momento, através do portal de
+                            pagamentos “pagar.me”, e pode ser substituído por outro plano, escolhendo um novo valor no
+                            site da Alumni IME. Para atualizar o valor da contribuição mensal, também é possível fazer
+                            mais de um plano, que podem ser gerenciados na página do seu perfil.
+                    </div> 
+                </div>
+            </div>
+    
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[6] = !vm.collapseStatus[6]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como faço para atualizar os dados do meu cartão?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[6]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[6]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[6]"> 
+                            Para atualizar os dados do seu cartão, você deve gerenciar a sua conta e cancelar a assinatura
+                            através do nosso portal de pagamentos “pagar.me”. Para acessá-lo, entre na página “Meu
+                            Perfil” no site da Alumni IME e escolha a opção “Gerenciar minha conta”, em projetos
+                            apoiados.
+                    </div> 
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[7] = !vm.collapseStatus[7]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Solicitei o pagamento de uma doação por boleto. O que faço se o boleto venceu?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[7]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[7]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[7]"> 
+                            Nesse caso, a solicitação que foi feita expirou. Para finalizar a doação, você deve solicitar uma
+                            nova doação pelo site e gerar outro boleto.
+                    </div> 
+                </div>
+            </div>
+    
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[8] = !vm.collapseStatus[8]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como funciona a doação recorrente para projetos de um edital?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[8]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[8]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[8]"> 
+                            As doações recorrentes feitas para um projeto específico serão destinadas a ele até o final do
+                            Edital de Projetos em vigor. Após o encerramento do projeto, a doação será destinada ao caso
+                            “geral”.
+                    </div> 
+                </div>
+            </div>
+    
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[9] = !vm.collapseStatus[9]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como vejo onde o dinheiro está sendo aplicado? E onde os recursos são aplicados em
+                            caso de doação &quot;geral&quot;?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[9]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[9]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[9]"> 
+                        As doações do caso “geral” podem ser distribuídas entre os projetos do Edital, ou destinadas a
+                        despesas administrativas e taxas de funcionamento da Alumni IME. Todo o detalhamento dos
+                        recursos investidos está disponível na página de Transparência.
+                    </div> 
+                </div>
+            </div>
+        
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[10] = !vm.collapseStatus[10]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como funciona o sistema de recompensas?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[10]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[10]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[10]"> 
+                            Após a contribuição, o líder de cada projeto entrará em contato diretamente com os doadores.
+                            A data e o envio serão combinados de acordo com cada projeto e o tipo de doação (única ou
+                            recorrente).
+                    </div> 
+                </div>
+            </div>
+
+            </div>     
+        </div>
+        </div>
+    </div>
 </div>

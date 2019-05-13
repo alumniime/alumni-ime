@@ -34,6 +34,10 @@ export class DonateController {
   }
 
   $onInit() {
+    this.collapseStatus = Array(11);
+    for(let i=0; i<11; i++){
+      this.collapseStatus[i] = true;
+    }
     this.$anchorScroll('top');
     this.Plan.load()
       .then(result => {
