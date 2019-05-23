@@ -9,7 +9,7 @@ var router = express.Router();
 
 router
   .get('/', passport.authenticate('linkedin', {
-    scope: ['r_basicprofile', 'r_emailaddress'],
+    scope: ['r_liteprofile','r_emailaddress'],
     failureRedirect: '/main',
     session: false
   }))
