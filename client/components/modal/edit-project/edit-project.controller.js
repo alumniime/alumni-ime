@@ -20,6 +20,7 @@ export default class ModalEditProjectController {
     Benefits: null,
     Schedule: null,
     Results: null,
+    Rewards: [],
     ConclusionDate: '',
     costs: [],
     Year: 0,
@@ -72,18 +73,34 @@ export default class ModalEditProjectController {
               this.costsList.UnitPrice.push(this.project.costs[index-1].UnitPriceInCents/100); 
               this.costsList.ProjectCostId.push(this.project.costs[index-1].ProjectCostId); 
             }
-            console.log(this.project.costs);
-            console.log(this.costsCount);
-            console.log(this.costsIndex);
-            console.log(this.costsList);
 
             this.budget = this.EstimatedPriceInCents;
           }
-          
+
+          if (this.project.rewards) {
+            this.rewardsCount = this.project.rewards.length+1;
+          }
+          this.rewardsIndex = [];
+          for(let i = 1; i < this.rewardsCount ; i++){
+            this.rewardsIndex.push(i);
+          }
+          this.rewardsList = {'RewardId': [], 'RewardDescription': [], 'IsUpperBound': [], 'Value': []};
+          for(let index of this.rewardsIndex) {
+            this.rewardsList.Value.push(this.project.rewards[index-1].ValueInCents/100);
+            this.rewardsList.IsUpperBound.push(this.project.rewards[index-1].IsUpperBound);
+            this.rewardsList.RewardDescription.push(this.project.rewards[index-1].RewardDescription); 
+            this.rewardsList.RewardId.push(this.project.rewards[index-1].ProjectRewardId); 
+          }
+
+          console.log(this.project.rewards);
+          console.log(this.rewardsCount);
+          console.log(this.rewardsIndex);
+          console.log(this.rewardsList);
         });
     } else {
       this.project.ConclusionDate = this.$filter('date')(Date.now(), 'dd/MM/yyyy');
     }
+    this.zero=0;
   }
 
   validateDate(input) {
@@ -99,8 +116,15 @@ export default class ModalEditProjectController {
   }
 
   updateStatus(form) {
-    
+    this.rewardsList.Value[this.rewardsCount - 2] = this.rewardsList.Value[this.rewardsCount - 3];
+
     if(form.$valid && this.project.EstimatedPriceInCents > 0 && this.project.CollectedPriceInCents >= 0) {
+      
+      this.Rewards = [];
+      for(let index = 0; index < this.Count-1; index++) {
+        this.Rewards.push({'RewardId': this.rewardsList.RewardId[index], 'RewardDescription': this.rewardsList.RewardDescription[index], 'IsUpperBound': this.rewardsList.IsUpperBound[index], 'ValueInCents': this.rewardsList.Value[index]*100});
+      }
+
       if(this.project.Year >= 2019) {
         this.costs = [];
         for(let index = 0; index < this.costsCount-1; index ++) {
@@ -119,7 +143,7 @@ export default class ModalEditProjectController {
 
       console.log(this.project);
       if(this.project.Year >= 2019) {
-        this.$http.post('/api/projects/edit/admin', {"project": this.project, "savedImages": this.imagesToSave, "costs": this.costs})
+        this.$http.post('/api/projects/edit/admin', {"project": this.project, "rewards": this.Rewards, "savedImages": this.imagesToSave, "costs": this.costs})
           .then(res => {
             console.log(res);
             this.project.EstimatedPriceInCents /= 100;
@@ -137,7 +161,7 @@ export default class ModalEditProjectController {
           }
         );
       } else {
-        this.$http.post('/api/projects/edit/admin', {"project": this.project, "savedImages": this.imagesToSave})
+        this.$http.post('/api/projects/edit/admin', {"project": this.project, "rewards": this.Rewards, "savedImages": this.imagesToSave})
           .then(res=> {
             console.log(res);
             loading.close();
@@ -162,7 +186,42 @@ export default class ModalEditProjectController {
     this.dismiss({$value: 'cancel'});
   }
 
-  addField(){
+  addRewardsField(){
+    this.rewardsIndex.push(this.rewardsCount);
+    this.rewardsCount += 1;
+
+    if (this.rewardsCount>=3) {
+      this.rewardsList.IsUpperBound[this.rewardsCount - 3] = true;
+      this.rewardsList.Value[this.rewardsCount - 3] = this.rewardsList.Value[this.rewardsCount - 4];
+      this.rewardsList.Value[this.rewardsCount - 2] = this.rewardsList.Value[this.rewardsCount - 3];
+    } else {
+      this.rewardsList.Value[this.rewardsCount - 2] = 0;
+    }
+    this.rewardsList.IsUpperBound[this.rewardsCount - 2] = false;
+
+
+    this.rewardsList.RewardId[this.rewardsCount - 2] = -1;
+    this.rewardsList.RewardDescription[this.rewardsCount - 2] = "";
+    console.log(this.rewardsList);
+  }
+
+  deleteRewardsField(){
+    this.rewardsCount -= 1;
+    this.rewardsIndex.pop();
+    this.rewardsList.RewardId.pop();
+    this.rewardsList.RewardDescription.pop();
+    this.rewardsList.IsUpperBound.pop();
+    this.rewardsList.Value.pop();
+    if (this.rewardsCount >= 3) {
+      this.rewardsList.Value[this.rewardsCount - 2] = this.rewardsList.Value[this.rewardsCount - 3];
+    } else if (this.rewardsCount >= 2) {
+      this.rewardsList.Value[this.rewardsCount - 2] = 0;
+      this.rewardsList.IsUpperBound[this.rewardsCount - 2]=false;
+    }
+    console.log(this.rewardsList);
+  }
+
+  addCostsField(){
     this.costsIndex.push(this.costsCount);
     this.costsCount += 1;
     this.costsList.ProjectCostId[this.costsCount - 2] = -1;
@@ -171,7 +230,7 @@ export default class ModalEditProjectController {
     console.log(this.costsList);
   }
 
-  deleteField(index){
+  deleteCostsField(index){
     this.costsCount -=1;
     this.costsIndex.pop();
     this.costsList.Item.splice(index-1, 1);
