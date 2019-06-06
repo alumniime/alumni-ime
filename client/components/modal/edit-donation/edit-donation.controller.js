@@ -25,7 +25,8 @@ export default class ModalEditDonationController {
 
   $onInit() {
 
-    this.Project.load();
+    this.Project.load();    console.log(this.Project);
+
     
     if(this.resolve.DonationId) {
       this.DonationId = this.resolve.DonationId;
@@ -41,7 +42,7 @@ export default class ModalEditDonationController {
     }
 
     var date = new Date();
-    this.currentSemester = (date.getMonth() >= 5 && date.getMonth() <= 10) ? 2 : 1; 
+    this.currentSemester = (date.getMonth() >= 6 && date.getMonth() <= 10) ? 2 : 1; 
     this.currentYear = date.getFullYear();
   
   }
@@ -97,6 +98,7 @@ export default class ModalEditDonationController {
   }
 
   selectUser(user) {
+
     if (user) {
       this.$parent.vm.user = user.originalObject;
       this.$parent.vm.donation.DonatorId = this.$parent.vm.user.PersonId;
