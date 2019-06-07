@@ -38,6 +38,11 @@ export class ShowController {
             var today = new Date();
             var diffDays = Math.round((firstDate.getTime() - today.getTime())/(oneDay));
             project.UntilEnd = diffDays;
+            if (project.Year === 2018) {
+              project.completionPercentage = project.CollectedPriceInCents/project.EstimatedPriceInCents;
+            } else {
+              project.completionPercentage = project.DonationSum/project.EstimatedPriceInCents;
+            }
           });
           loading.close();
         })
