@@ -3,6 +3,7 @@
   "version": "1.5.0",
   "main": "server/index.js",
   "dependencies": {
+    "@sokratis/passport-linkedin-oauth2": "^2.1.0",
     "angucomplete-alt": "^3.0.0",
     "angular": "~1.6.0",
     "angular-animate": "~1.6.0",
