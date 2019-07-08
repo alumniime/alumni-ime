@@ -101,10 +101,20 @@ export class NavbarComponent {
       this.projectsMenu = response.data;
       var dropdown = [];
       for(var semester of this.projectsMenu) {
-        dropdown.push({
-          title: `APROVADOS ${semester.Year}.${semester.Semester}`,
-          state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
-        });
+        var date = new Date();
+        let currentSemester = (date.getMonth() >= 6 && date.getMonth() <= 10) ? 2 : 1;
+        let currentYear = date.getFullYear();
+        if (semester.Semester==currentSemester && semester.Year==currentYear) {
+          dropdown.push({
+            title: `ABERTOS ${semester.Year}.${semester.Semester}`,
+            state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
+          });
+        } else {
+          dropdown.push({
+            title: `ENCERRADOS ${semester.Year}.${semester.Semester}`,
+            state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
+          });
+        }
       }
       dropdown.push({
         title: 'SUBMETER PROJETO',
