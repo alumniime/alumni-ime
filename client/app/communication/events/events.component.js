@@ -3,20 +3,9 @@ const angular = require('angular');
 
 const uiRouter = require('angular-ui-router');
 
-import routes from './news.routes';
+import routes from './events.routes';
 
-export class NewsController {
-  categories = [{
-    name: 'All',
-    description: 'Ver tudo'
-  },{
-    name: 'News',
-    description: 'Apenas Notícias'
-  },{
-    name: 'Events',
-    description: 'Apenas Eventos'
-  }];
-  selected = this.categories[0];
+export class EventsController {
   currentPage = 1;
   newsNumber = 0;
   itemsPerPage = 6;
@@ -36,16 +25,10 @@ export class NewsController {
     var loading = this.Modal.showLoading();
     this.News.load().then(() => {
       loading.close();
-      this.newsNumber = this.selected.name === 'All' ? this.News.list.length : this.$filter('filter')(this.News.list, {category: {Description: this.selected.name}}).length;
+      this.newsNumber = this.$filter('filter')(this.News.list, {category: {Description: 'Events'}}).length;
     }).catch(() => {
       loading.close();
     });
-  }
-
-  dropdownChanged(option) {
-    this.currentPage = 1;
-    this.selected = option;
-    this.newsNumber = this.selected.name === 'All' ? this.News.list.length : this.$filter('filter')(this.News.list, {category: {Description: this.selected.name}}).length;
   }
 
   goTop() {
@@ -54,7 +37,7 @@ export class NewsController {
 
 }
 
-export default angular.module('alumniApp.news', [uiRouter])
+export default angular.module('alumniApp.events', [uiRouter])
   .config(routes)
-  .controller('NewsController', NewsController)
+  .controller('EventsController', EventsController)
   .name;

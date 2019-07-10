@@ -1,4 +1,4 @@
-.eventsView {
+.newsView {
   padding: 40px 20px 60px;
   h1 {
     font-size: 36px;
@@ -54,7 +54,7 @@
     margin-bottom: 0;
   }
 
-  .form-group .events-date {
+  .form-group .news-date {
     font-size: 12px;
     color: #828282;
   }
@@ -74,10 +74,10 @@
     padding-bottom: 0;
   }
 
-  .events-deck {
+  .news-deck {
     box-sizing: content-box;
   }
-  .events-card {
+  .news-card {
     border: none;
     width: 100%;
     @include media-breakpoint-up(md) {
@@ -101,7 +101,7 @@
     }
   }
 
-  .events-card:hover {
+  .news-card:hover {
     text-decoration: none;
     border-radius: 0px;
     background-color: #fafafa;

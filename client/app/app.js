@@ -43,6 +43,7 @@ import show from './projects/show/show.component';
 import project from './projects/project/project.component';
 import news from './communication/news/show/news.component';
 import view from './communication/news/view/view.component';
+import events from './communication/events/events.component';
 import result from './projects/result/result.component';
 import donate from './donate/donate.component';
 import bank from './donate/bank/bank.component';
@@ -57,7 +58,7 @@ angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBoot
   ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', 'validation.match',
   _Auth, _Project, _News, _Donation, _Opportunity, _Subscription, _Checkout, _Plan,
   account, admin, navbar, footer, modal, main, constants, util, submission, edit, show, 
-  project, news, view, result, donate, bank, history, institutional, management, transparency, graduates, opportunities, typeform
+  project, news, view, events, result, donate, bank, history, institutional, management, transparency, graduates, opportunities, typeform
 ])
   .config(routeConfig)
   .run(function ($rootScope, $location, Auth, ngMeta) {
