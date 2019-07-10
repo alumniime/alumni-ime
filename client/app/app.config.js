@@ -5,13 +5,13 @@ export function routeConfig($urlRouterProvider, $locationProvider, ngMetaProvide
 
   // Configuration for SEO meta tags
   ngMetaProvider.useTitleSuffix(true);
-  ngMetaProvider.setDefaultTitle('Alumni IME – Associação de Ex-Alunos do IME');
+  ngMetaProvider.setDefaultTitle('Alumni IME – Associação dos Ex-Alunos do IME');
   ngMetaProvider.setDefaultTitleSuffix(' – Alumni IME');
 
   ngMetaProvider.setDefaultTag('author', 'Gabriel Dilly');
   ngMetaProvider.setDefaultTag('theme-color', '#00456F');
 
-  // ngMetaProvider.setDefaultTag('og:title', 'Alumni IME – Associação de Ex-Alunos do IME');
+  // ngMetaProvider.setDefaultTag('og:title', 'Alumni IME – Associação dos Ex-Alunos do IME');
   // ngMetaProvider.setDefaultTag('og:description', '');
   ngMetaProvider.setDefaultTag('og:type', 'website');
   ngMetaProvider.setDefaultTag('og:url', appConfig.url);
