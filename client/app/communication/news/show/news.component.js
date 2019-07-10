@@ -36,7 +36,7 @@ export class NewsController {
     var loading = this.Modal.showLoading();
     this.News.load().then(() => {
       loading.close();
-      this.newsNumber = this.selected.name === 'All' ? this.News.list.length : this.$filter('filter')(this.News.list, {category: {Description: 'News'}}).length;
+      this.newsNumber = this.$filter('filter')(this.News.list, {category: {Description: 'News'}}).length;
     }).catch(() => {
       loading.close();
     });
