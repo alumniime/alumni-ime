@@ -6,17 +6,6 @@ const uiRouter = require('angular-ui-router');
 import routes from './news.routes';
 
 export class NewsController {
-  categories = [{
-    name: 'All',
-    description: 'Ver tudo'
-  },{
-    name: 'News',
-    description: 'Apenas Notícias'
-  },{
-    name: 'Events',
-    description: 'Apenas Eventos'
-  }];
-  selected = this.categories[0];
   currentPage = 1;
   newsNumber = 0;
   itemsPerPage = 6;
