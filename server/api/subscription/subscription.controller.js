@@ -435,7 +435,7 @@ export function postback(req, res) {
           .then(() => next(null))
           .catch(err => next(err));
       } else {
-        var isProjectDonation = subscription.ProjectId && Date.now() <= subscription.project.ConclusionDate;
+        var isProjectDonation = subscription.ProjectId && Date.now() <= subscription.project.CollectionLimitDate;
         Donation.create({
           DonatorId: subscription.SubscriberId,
           ProjectId: isProjectDonation ? subscription.ProjectId : null,
