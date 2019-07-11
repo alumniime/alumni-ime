@@ -25,6 +25,7 @@ import ModalEditProject from './edit-project/edit-project.controller';
 import ModalEditOpportunity from './edit-opportunity/edit-opportunity.controller';
 import ModalOpportunityApplication from './opportunity-application/opportunity-application.controller';
 import ModalMainHightlight from './main-highlight/main-highlight.controller';
+import ModalReports from './financial-reports/financial-reports.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -412,6 +413,27 @@ export function ModalService($uibModal, $q) {
         d.reject();
       });
       return d.promise;
+    },
+
+    openReports(year) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalReports',
+        size: 'md modal-dialog-centered',
+        resolve: {
+          year: function () {
+            return year;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
     }
 
   };
@@ -666,6 +688,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalMainHighlight', {
     template: require('./main-highlight/main-highlight.html'),
     controller: ModalMainHightlight,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalReports', {
+    template: require('./financial-reports/financial-reports.html'),
+    controller: ModalReports,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',
