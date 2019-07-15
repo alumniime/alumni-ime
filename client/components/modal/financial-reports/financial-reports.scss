@@ -1,0 +1,41 @@
+modal-financial-reports {
+
+  .modal-header {
+    border-bottom: none;
+    padding-bottom: 0;
+    padding-top: 30px;
+  }
+
+  img {
+    max-height: 200px;
+    margin-bottom: 30px;
+    display: inherit;
+  }
+
+  .modal-title {
+    font-weight: 700;
+  }
+
+  @include media-breakpoint-up(lg) {
+    .btn {
+      width: 60%;
+      min-width: 320px;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .btn {
+      width: 80%;
+      min-width: 0;
+    }
+  }
+
+  .description {
+    padding-bottom: 15px;
+    font-size: 16px;
+    color: #828282;
+    display: inherit;
+    text-align: center;
+  }
+
+}

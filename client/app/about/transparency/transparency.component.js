@@ -15,6 +15,10 @@ export class TransparencyController {
     this.$state = $state;
     this.Modal = Modal;
   }
+
+  openReports(year) {
+    this.Modal.openReports(year);
+  }
 }
   
 export default angular.module('alumniApp.transparency', [uiRouter])
