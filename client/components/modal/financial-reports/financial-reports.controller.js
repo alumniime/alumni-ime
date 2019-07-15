@@ -1,6 +1,6 @@
 'use strict';
 
-export default class ModalReportsController {
+export default class ModalFinancialReportsController {
 
   /*@ngInject*/
   constructor(Auth, Modal, $state, $window) {
@@ -11,6 +11,7 @@ export default class ModalReportsController {
   }
 
   $onInit () {
+    this.year=this.resolve.year;
     console.log(this.resolve);
   }
 

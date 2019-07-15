@@ -1,17 +1,17 @@
 <div class="modal-header d-block">
-    <br>
-    <div class="w-100">
-      <img src="assets/images/confirmation.svg" class="m-auto">
-    </div>
     <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
-    <h5 class="modal-title text-center mt-4" id="modal-title">Comprovante enviado!</h5>
+    <h5 class="modal-title text-center mt-4" id="modal-title">Relatórios financeiros {{ vm.year }}</h5>
 </div>
   
 <div class="modal-body" id="modal-body">
-    <span class="description m-auto">
-        Muito obrigado! Vamos verificar o seu pagamento e te retornamos em breve.
-    </span>
-    <br>
+    <div ng-if="vm.year===2018">
+        <br>
+        <ul>
+            <li><a href="google.com">Relatório Financeiro</a></li>
+            <li><a href="google.com">Balancete</a></li>
+        </ul>
+        
+    </div>
 </div>
   
   
