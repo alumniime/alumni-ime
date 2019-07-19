@@ -39,6 +39,7 @@ db.NewsCategory = db.sequelize.import('../api/news_category/news_category.model'
 db.News = db.sequelize.import('../api/news/news.model');
 db.NewsElement = db.sequelize.import('../api/news_element/news_element.model');
 db.NewsConstruction = db.sequelize.import('../api/news_construction/news_construction.model');
+db.Newsletter = db.sequelize.import('../api/newsletters/newsletter.model');
 db.Donation = db.sequelize.import('../api/donation/donation.model');
 db.Image = db.sequelize.import('../api/image/image.model');
 db.PersonType = db.sequelize.import('../api/person_type/person_type.model');

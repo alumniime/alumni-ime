@@ -1,0 +1,22 @@
+<div class="container newsView">
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title">Newsletters</h5>
+    </div>
+  </div>
+
+  <div>
+    <div ng-repeat="year in vm.years | orderBy : '' : true">
+      <div class="row">
+        <div class="col-auto year">
+          {{ year }}
+        </div>
+      </div>
+      <div class="row months-row">
+      <div ng-repeat="newsletter in vm.newsletterList[year] | orderBy : 'month'" class="col-1">
+        <a ng-href="{{newsletter.url}}">{{ vm.monthName(newsletter.month) }} </a>
+      </div>
+    </div>
+  </div>
+</div>

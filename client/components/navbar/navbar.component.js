@@ -44,12 +44,8 @@ export class NavbarComponent {
           state: 'events'
         },
         {
-          title: 'NEWSLETTER',
-          state: 'newsletter'
-        },
-        {
-          title: 'FOTOS E VÍDEOS',
-          state: 'medias'
+          title: 'NEWSLETTERS',
+          state: 'newsletters'
         }
       ]
     },
