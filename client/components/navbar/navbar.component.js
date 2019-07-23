@@ -32,8 +32,22 @@ export class NavbarComponent {
       ]
     },
     {
-      title: 'NOTÍCIAS',
-      state: 'news'
+      title: 'MÍDIA',
+      state: 'communication',
+      dropdown: [
+        {
+          title: 'NOTÍCIAS',
+          state: 'news'
+        },
+        {
+          title: 'EVENTOS',
+          state: 'events'
+        },
+        {
+          title: 'NEWSLETTERS',
+          state: 'newsletters'
+        }
+      ]
     },
     {
       // Position 3 will have the menu loaded below

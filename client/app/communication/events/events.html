@@ -1,0 +1,32 @@
+<div class="container newsView">
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="page-title">Eventos</h5>
+    </div>
+  </div>
+
+  <div class="card-deck news-deck">
+
+    <div class="col-12 col-sm-6 col-md-4" ng-repeat="news in vm.News.list | filter: {category: {Description: 'Events'}}"
+         ng-if="$index >= (vm.currentPage - 1) * vm.itemsPerPage && $index < vm.currentPage * vm.itemsPerPage">
+      <a class="card news-card mb-3 c-pointer ml-0 mr-3"
+         ui-sref="view({NewsId: news.NewsId, PrettyURL: vm.Util.convertToSlug(news.Title), forceReload: false})">
+        <img class="w-100" ng-src="{{news.constructions[0].images[0].Path}}" alt="News card image">
+        <div class="card-body pl-3 pr-2">
+          <div class="form-group">
+            <h5 class="card-title">{{news.Title}}</h5>
+            <label class="mt-2">{{news.Subtitle}}</label>
+            <p class="news-date mt-2">{{news.PublishDate | date: 'dd MMM, yyyy'}}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+  <ul uib-pagination total-items="vm.newsNumber" ng-model="vm.currentPage" max-size="10" ng-change="vm.goTop()"
+      class="pagination justify-content-center mt-3" boundary-link-numbers="true" items-per-page="vm.itemsPerPage"
+      previous-text="&lsaquo;" next-text="&rsaquo;"></ul>
+  
+</div>

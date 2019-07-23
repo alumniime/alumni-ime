@@ -4,21 +4,11 @@
     <div class="col-auto">
       <h5 class="page-title">Notícias</h5>
     </div>
-    <div class="col-auto">
-      <div class="dropdown float-right">
-        <button class="dropbtn p-0 mt-4">{{vm.selected.description}}</button>
-        <i class="fa fa-angle-down" style="color: #828282;"></i>
-        <div class="dropdown-content">
-          <a class="dropdown-item" ng-repeat="option in vm.categories" ng-class="{active: vm.selected === option}"
-             ng-click="vm.dropdownChanged(option)" href="#">{{option.description}}</a>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="card-deck news-deck">
 
-    <div class="col-12 col-sm-6 col-md-4" ng-repeat="news in vm.News.list | filter: vm.selected.name === 'All' ? '' : {category: {Description: vm.selected.name}}"
+    <div class="col-12 col-sm-6 col-md-4" ng-repeat="news in vm.News.list | filter: {category: {Description: 'News'}}"
          ng-if="$index >= (vm.currentPage - 1) * vm.itemsPerPage && $index < vm.currentPage * vm.itemsPerPage">
       <a class="card news-card mb-3 c-pointer ml-0 mr-3"
          ui-sref="view({NewsId: news.NewsId, PrettyURL: vm.Util.convertToSlug(news.Title), forceReload: false})">

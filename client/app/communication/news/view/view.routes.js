@@ -4,7 +4,7 @@ export default function ($stateProvider) {
   'ngInject';
   $stateProvider
     .state('view', {
-      url: '/news/view/:NewsId/:PrettyURL',
+      url: '/communication/news/view/:NewsId/:PrettyURL',
       params: {
         NewsId: {value: null, squash: true},
         PrettyURL: {value: null, squash: true},

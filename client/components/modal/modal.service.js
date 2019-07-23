@@ -26,6 +26,7 @@ import ModalEditOpportunity from './edit-opportunity/edit-opportunity.controller
 import ModalOpportunityApplication from './opportunity-application/opportunity-application.controller';
 import ModalMainHightlight from './main-highlight/main-highlight.controller';
 import ModalFinancialReports from './financial-reports/financial-reports.controller';
+import ModalAddNewsletter from './add-newsletter/add-newsletter.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -390,6 +391,13 @@ export function ModalService($uibModal, $q) {
       };
       return loading;
     },
+    addNewsletter() {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalAddNewsletter',
+        size: 'md modal-dialog-centered'
+      });
+    },
 
     openCheckout(url, data) {
       var d = $q.defer();
@@ -690,6 +698,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalFinancialReports', {
     template: require('./financial-reports/financial-reports.html'),
     controller: ModalFinancialReports,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalAddNewsletter', {
+    template: require('./add-newsletter/add-newsletter.html'),
+    controller: ModalAddNewsletter,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

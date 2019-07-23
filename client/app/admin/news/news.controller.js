@@ -36,6 +36,10 @@ export default class AdminNewsController {
     });
   }
 
+  addNewsletter() {
+    this.Modal.addNewsletter();
+  }
+
   refreshFilters() {
     this.newsNumber = this.$filter('filter')(this.News.listAll, {IsExcluded: false}).length;
   }
