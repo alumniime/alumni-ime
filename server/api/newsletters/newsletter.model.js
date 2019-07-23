@@ -9,7 +9,7 @@ export default function(sequelize, DataTypes) {
       autoIncrement: true
     },
     FileUrl: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING(100),
       allowNull: false
     },
     Month: {

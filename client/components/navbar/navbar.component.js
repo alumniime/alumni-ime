@@ -32,7 +32,7 @@ export class NavbarComponent {
       ]
     },
     {
-      title: 'COMUNICAÇÃO',
+      title: 'MÍDIA',
       state: 'communication',
       dropdown: [
         {

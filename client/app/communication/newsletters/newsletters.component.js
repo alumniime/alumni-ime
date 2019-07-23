@@ -41,7 +41,7 @@ export class NewslettersController {
   }
 
   monthName(month) {
-    let months=["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Nov", "Dez"];
+    let months=["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
     return months[month-1];
   }
 

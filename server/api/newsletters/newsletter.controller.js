@@ -12,6 +12,8 @@
 
 import jsonpatch from 'fast-json-patch';
 import {Newsletter} from '../../sqldb';
+import multer from 'multer';
+
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -85,9 +87,31 @@ export function show(req, res) {
 
 // Creates a new Newsletter in the DB
 export function create(req, res) {
-  return Newsletter.create(req.body)
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
+
+  //console.log(req, res);
+  var upload = multer({
+    storage: configureStorage()
+  }).single('file')
+
+
+  upload(req, res, function (err) {
+    if (err) {
+      console.log(err);
+      res.json({ errorCode: 1, errorDesc: err });
+      return;
+    }
+
+    var file = req.file;
+    var year = req.body.year;
+    var month = req.body.month;
+    var newsletterToSave = {Year: parseInt(year), Month:parseInt(month)}
+    newsletterToSave.FileUrl = `assets/documents/uploads/newsletters/${file.filename}`;
+    console.log('newsletterToSave', newsletterToSave);
+
+    return Newsletter.create(newsletterToSave)
+      .then(respondWithResult(res, 201))
+      .catch(handleError(res));
+    });
 }
 
 // Upserts the given Newsletter in the DB at the specified ID
@@ -131,4 +155,18 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
+}
+
+function configureStorage() {
+  return multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './client/assets/documents/');
+    },
+    filename: function (req, file, cb) {
+      file.timestamp = Date.now();
+      var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
+      var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
+      cb(null, `${file.timestamp}-${name}.${format}`);
+    }
+  });
 }
