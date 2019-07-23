@@ -15,7 +15,7 @@
       </div>
       <div class="row months-row">
       <div ng-repeat="newsletter in vm.newsletterList[year] | orderBy : 'month'" class="col-1">
-        <a ng-href="{{newsletter.url}}">{{ vm.monthName(newsletter.month) }} </a>
+        <a target="_blank" ng-href="{{newsletter.url}}">{{ vm.monthName(newsletter.month) }} </a>
       </div>
     </div>
   </div>
