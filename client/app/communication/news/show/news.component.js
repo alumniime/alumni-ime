@@ -9,6 +9,7 @@ export class NewsController {
   currentPage = 1;
   newsNumber = 0;
   itemsPerPage = 6;
+  searchText = "";
 
   constructor($state, $filter, $anchorScroll, News, Modal, Util) {
     'ngInject';
@@ -25,7 +26,8 @@ export class NewsController {
     var loading = this.Modal.showLoading();
     this.News.load().then(() => {
       loading.close();
-      this.newsNumber = this.$filter('filter')(this.News.list, {category: {Description: 'News'}}).length;
+      console.log(this.News)
+      this.newsNumber = this.$filter('filter')(this.News.list, {category: {Description: 'News'}, $: this.searchText}).length;
     }).catch(() => {
       loading.close();
     });
@@ -33,6 +35,10 @@ export class NewsController {
 
   goTop() {
     this.$anchorScroll('top');
+  }
+
+  refreshFilters() {
+    this.newsNumber = this.$filter('filter')(this.News.list, {category: {Description: 'News'}, $: this.searchText}).length;
   }
 
 }
