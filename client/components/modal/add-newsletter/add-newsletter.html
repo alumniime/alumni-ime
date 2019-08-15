@@ -24,12 +24,12 @@
           <p class="help-block" ng-show="form.Year.$error.required && vm.submitted">
             Insira o ano da newsletter.
           </p>
-        </div>
-        <div class="col-12 col-sm-6 pl-0 pr-0">
-          <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
-                ngf-select ng-model="vm.newsletterFile">
-                Fazer upload do arquivo
-          </div>
+          <label for="Year">URL da newsletter</label>
+          <input type="text" id="Title" name="URL" class="form-control"
+                    ng-model="vm.url" required></input>
+          <p class="help-block" ng-show="form.URL.$error.required && vm.submitted">
+            Insira a url da newsletter.
+          </p>
         </div>
       </div>
     </div>

@@ -87,31 +87,9 @@ export function show(req, res) {
 
 // Creates a new Newsletter in the DB
 export function create(req, res) {
-
-  //console.log(req, res);
-  var upload = multer({
-    storage: configureStorage()
-  }).single('file')
-
-
-  upload(req, res, function (err) {
-    if (err) {
-      console.log(err);
-      res.json({ errorCode: 1, errorDesc: err });
-      return;
-    }
-
-    var file = req.file;
-    var year = req.body.year;
-    var month = req.body.month;
-    var newsletterToSave = {Year: parseInt(year), Month:parseInt(month)}
-    newsletterToSave.FileUrl = `assets/documents/uploads/newsletters/${file.filename}`;
-    console.log('newsletterToSave', newsletterToSave);
-
-    return Newsletter.create(newsletterToSave)
-      .then(respondWithResult(res, 201))
-      .catch(handleError(res));
-    });
+  return Newsletter.create(req.body)
+    .then(respondWithResult(res, 201))
+    .catch(handleError(res));
 }
 
 // Upserts the given Newsletter in the DB at the specified ID

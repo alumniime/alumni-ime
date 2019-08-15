@@ -6,7 +6,7 @@ export default class ModalAddNewsletterController {
   submitted = false;
   month;
   year;
-  newsletterFile;
+  url;
 
   /*@ngInject*/
   constructor(Modal, Upload, Newsletter, Util, $http, $filter) {
@@ -27,41 +27,25 @@ export default class ModalAddNewsletterController {
     console.log(form)
     
 
-    if(form.$valid && this.newsletterFile){
+    if(form.$valid){
 
       var loading = this.Modal.showLoading();
 
-      
-      var this_ = this;
-      this.Upload.upload({
-        url: '/api/newsletters/',
-        data: {
-          file: this.newsletterFile,
-          year: this.year,
-          month: this.month,
-        }
-      })
-        .then(function success(result) {
+      let newsletter = {Month: this.month, Year: this.year, FileUrl: this.url};
+
+      this.$http.post('/api/newsletters/', newsletter)
+        .then(res => {
+          console.log(res);
           loading.close();
-          console.log(result);
-          if(result.data.errorCode === 0) {
-            this_.ok(true);
-            this_.Modal.showAlert('Newsletter salva', 'A newsletter foi salva com sucesso.');
-            this_.Newsletter.load(true);
-            this_.submitted = false;
-          } else {
-            this_.Modal.showAlert('Erro ao salvar a newsletter', 'Por favor, tente novamente.');
-          }
-        }, function error(err) {
+          this.ok(true);
+          this.Modal.showAlert('Sucesso', 'Newsletter adicionada com sucesso.');
+          this.submitted = false;
+        })
+        .catch(err => {
+          this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar a newsletter, tente novamente.');
           loading.close();
-          console.log('Error: ' + err);
-          this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
-        }, function event(evt) {
-          console.log(evt);
-          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-          console.log('progress: ' + progressPercentage + '% ');
-          this_.progress = 'progress: ' + progressPercentage + '% ';
-        });      
+          console.log(err);
+        });   
     }    
 
   }
