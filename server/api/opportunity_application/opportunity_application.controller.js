@@ -326,7 +326,7 @@ export function upload(req, res) {
                             name: opportunity.recruiter.name,
                             date: moment().format('DD/MM/YYYY - HH:mm'),
                             email: user.email,
-                            phone: user.phone,
+                            phone: user.phone ? user.phone : "Não informado",
                             type: req.file ? 'Currículo' : 'LinkedIn',
                             value: opportunity.Title,
                             message: newOpportunityApplication.Message,
