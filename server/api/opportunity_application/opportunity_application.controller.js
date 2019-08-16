@@ -295,6 +295,7 @@ export function upload(req, res) {
                         context: {
                           name: user.name.split(' ')[0],
                           value: opportunity.Title,
+                          type: req.file ? 'Currículo' : 'LinkedIn'
                         }
                       };
                       transporter.sendMail(data, function (err) {
@@ -322,9 +323,10 @@ export function upload(req, res) {
                           template: 'application-email',
                           subject: `Candidatura Recebida de ${user.name}`,
                           context: {
-                            name: user.FullName,
+                            name: opportunity.recruiter.name,
                             date: moment().format('DD/MM/YYYY - HH:mm'),
                             email: user.email,
+                            phone: user.phone,
                             type: req.file ? 'Currículo' : 'LinkedIn',
                             value: opportunity.Title,
                             message: newOpportunityApplication.Message,
