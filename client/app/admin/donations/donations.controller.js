@@ -54,6 +54,13 @@ export default class AdminDonationsController {
     });
   }
 
+  exportDonation() {
+    this.Modal.exportDonation()
+    .then(() => {
+      this.$state.reload();
+    });
+  }
+
   refreshFilters() {
     this.donationsNumber = this.$filter('filter')(this.Donation.list, {Name: this.donationSearchName, PaymentMethod: this.donationSearchPaymentMethod, Status: this.donationSearchStatus}).length;
     this.subscriptionsNumber = this.$filter('filter')(this.Subscription.list, {Name: this.subscriptionSearchName, Status: this.subscriptionSearchStatus}).length;
