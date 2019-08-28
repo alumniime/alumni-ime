@@ -92,15 +92,21 @@ export function index(req, res) {
           .send('Forbidden');
       }
 
-      return FormerStudent.findAll({
+      FormerStudent.findAll({
         include: [{
           model: Engineering,
           as: 'engineering',
-        }, {
+          }, {
           model: User,
           attributes: ['name', 'ImageURL', 'LinkedinProfileURL'],
           as: 'profile',
           required: false,
+          include: [
+            {
+              model: Engineering,
+              as: 'engineering'
+            }
+          ],
           where: {
             ShowInformation: 1,
             IsApproved: 1
@@ -299,11 +305,14 @@ export function year(req, res) {
         include: [{
           model: Engineering,
           as: 'engineering',
-        }, {
+          }, {
           model: User,
           attributes: ['name', 'ImageURL', 'LinkedinProfileURL'],
           as: 'profile',
           include: [{
+            model: Engineering,
+            as: 'engineering',
+            }, {
             model: Position,
             attributes: ['PositionId'],
             where: {
