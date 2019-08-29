@@ -191,17 +191,49 @@
               </div>
 
 
-              <div class="form-group">
-                <label for="Rewards">RECOMPENSAS PARA APOIADORES* ({{ 1200 - form.Schedule.$viewValue.length
-                  }})</label>
-                <textarea type="text" id="Rewards" name="Rewards" class="form-control" rows="6"
-                          ng-model="vm.project.Rewards" required ng-maxlength="1200"></textarea>
-                <p class="help-block" ng-show="form.Rewards.$error.required && vm.submitted">
-                  Insira recompensas para apoiadores por valor de doação.
-                </p>
-                <p class="help-block" ng-show="form.Rewards.$error.maxlength">
-                  Texto muito longo.
-                </p>
+              <div class="row p-0">
+                <div class="col-12 col-md-5">
+                  <div class="form-group">
+                    <label for="">RECOMPENSAS PARA APOIADORES</label>
+                    <div ng-repeat="index in vm.rewardsIndex">
+                      <input type="text" class="form-control" required ng-model="vm.rewardsList.RewardDescription[index-1]"></textarea>
+                    </div>
+                  </div>              
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="form-group">
+                    <label for="">VALOR MINIMO</label>
+                    <div ng-if="vm.rewardsCount>1">
+                      <input type="text" class="form-control" required disabled value="R$0,00">
+                    </div>
+                    <div ng-repeat="index in vm.rewardsIndex">
+                      <input type="text" class="form-control" required disabled ng-if="index!=vm.rewardsCount-1" value="{{vm.rewardsList.Value[index-1] | currency:R$}}">
+                    </div>
+                  </div>              
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="form-group">
+                    <label for="">VALOR MÁXIMO</label>
+                    <div ng-repeat="index in vm.rewardsIndex">
+                      <input type="text" class="form-control" required ng-if="index!=vm.rewardsCount-1" ng-model="vm.rewardsList.Value[index-1]" money-mask money-mask-prepend="R$">
+                    </div>
+                  </div>              
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                </div>
+                <div class="col-12 col-md-3">
+                    <button type="button" class="btn btn-outline-secondary" ng-click="vm.addRewardsField()" ng-disabled="vm.rewardsCount !== 1 && !(vm.rewardsCount == 2 && vm.rewardsList.RewardDescription[0]) && !(vm.rewardsList.RewardDescription[vm.rewardsCount-2] && vm.rewardsList.Value[vm.rewardsCount-3])"> 
+                      Adicionar Campo
+                    </button>
+                </div>
+                <div class="col-12 col-md-3">
+                  <button type="button" class="btn btn-outline-secondary" ng-click="vm.deleteRewardsField()" ng-disabled="vm.rewardsCount==1"> 
+                    Remover Campo
+                  </button>
+              </div>
+              
               </div>
 
 
@@ -234,7 +266,7 @@
                     <div class="form-group">
                       <label class="labelHidden">EXCLUIR</label>
                         <div ng-repeat="index in vm.costsIndex">
-                          <button type="button" class="form-control" aria-label="Close" ng-click="vm.deleteField(index)">
+                          <button type="button" class="form-control" aria-label="Close" ng-click="vm.deleteCostsField(index)">
                             <span aria-hidden="true"></span>&times;</span>
                           </button>
                         </div>
@@ -245,7 +277,7 @@
                 <div class="col-12 col-md-9">
                 </div>
                 <div class="col-12 col-md-3">
-                    <button type="button" class="btn btn-outline-secondary" ng-click="vm.addField()" ng-disabled="vm.costsCount !== 1 && !(vm.costsList.Item[vm.costsCount-2] && vm.costsList.UnitPrice[vm.costsCount-2] && vm.costsList.Quantity[vm.costsCount-2])"> 
+                    <button type="button" class="btn btn-outline-secondary" ng-click="vm.addCostsField()" ng-disabled="vm.costsCount !== 1 && !(vm.costsList.Item[vm.costsCount-2] && vm.costsList.UnitPrice[vm.costsCount-2] && vm.costsList.Quantity[vm.costsCount-2])"> 
                       Adicionar Campo
                     </button>
                 </div>

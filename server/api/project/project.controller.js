@@ -328,6 +328,14 @@ export function admin(req, res) {
       attributes: ['name'],
       as: 'submissioner'
     }, {
+      model: ProjectReward,
+      attributes: ['RewardDescription', 'ValueInCents', 'IsUpperBound', 'ProjectRewardId'],
+      as: 'rewards',
+      required: false,
+      where: {
+        IsExcluded: 0
+      }
+    }, {
       model: ProjectCost,
       attributes: ['CostDescription', 'Quantity', 'UnitPriceInCents', 'ProjectCostId'],
       as: 'costs',
@@ -461,6 +469,7 @@ export function upload(req, res) {
 
         if(Array.isArray(req.body.costs.Item)){
           for(var costIndex in req.body.costs.Item) {
+            console.log(costIndex);
             costs.push({
               ProjectId: projectId,
               CostDescription: req.body.costs.Item[costIndex],
@@ -710,8 +719,10 @@ export function editAny(req, res) {
 
             var projectId = newProject.ProjectId;
             var costsToSave = req.body.costs;
+            var rewardsToSave = req.body.rewards;
             var promises = [];
             var uploadCosts = [];
+            var uploadRewards = [];
 
             if(newProject.Year >= 2019){
               ProjectCost.findAll({
@@ -767,6 +778,57 @@ export function editAny(req, res) {
                   }
                 })
             }
+
+            ProjectReward.findAll({
+              where: {
+                ProjectId: projectId,
+                IsExcluded: 0
+              }
+            })
+              .then(rewards =>{
+                for(let rewardIndex in rewards){
+                  rewards[rewardIndex].IsExcluded = 1;
+                  if(Array.isArray(rewardsToSave)){
+                    for(let searchIndex in rewardsToSave){
+                      if(parseInt(rewards[rewardIndex].RewardId) === parseInt(rewardsToSave[searchIndex].RewardId)) {
+                        rewards[rewardIndex].IsExcluded = 0;
+                        rewards[rewardIndex].RewardDescription = rewardsToSave[searchIndex].Item;
+                        rewards[rewardIndex].Quantity = rewardsToSave[searchIndex].Quantity;
+                        rewards[rewardIndex].UnitPriceInCents = rewardsToSave[searchIndex].UnitPrice;
+                      }
+                    }
+                  }
+                  //Entra aqui?
+                  else{
+                    if(parseInt(rewards[rewardIndex].RewardId) === parseInt(rewardsToSave.RewardId)){
+                      rewards[rewardIndex].IsExcluded = 0;
+                      rewards[rewardIndex].RewardDescription = rewardsToSave.Item;
+                      rewards[rewardIndex].Quantity = rewardsToSave.Quantity;
+                      rewards[rewardIndex].UnitPriceInCents = rewardsToSave.UnitPrice;
+                    }
+                  }
+                }
+                for(let rewardIndex in rewards){
+                  promises.push(rewards[rewardIndex].save());
+                }
+
+                //Adding new rewards in database
+                for(let rewardIndex in rewardsToSave){
+                  if(parseInt(rewardsToSave[rewardIndex].RewardId) === -1){
+                    uploadRewards.push({
+                      ProjectId: projectId,
+                      RewardDescription: rewardsToSave[rewardIndex].RewardDescription,
+                      IsUpperBound: rewardsToSave[rewardIndex].IsUpperBound,
+                      ValueInCents: rewardsToSave[rewardIndex].ValueInCents,
+                      IsExcluded: 0
+                    })
+                  }
+                }
+                console.log("upload rewards", uploadRewards);
+                if(uploadRewards.length > 0){
+                  promises.push(ProjectReward.bulkCreate(uploadRewards));
+                }
+              })
             
 
             Image.findAll({

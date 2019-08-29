@@ -67,7 +67,15 @@ export default class SubmissionController {
       this.costsIndex = [];
       this.costsCount = 1;
 
+      this.rewardsList = {'RewardDescription': [], 'IsUpperBound': [], 'Value': []};
+      this.rewardsIndex = [];
+      this.rewardsCount = 1;
+
       this.budget = 0;
+
+      console.log(this.rewardsCount);
+      console.log(this.rewardsIndex);
+      console.log(this.rewardsList);
   }
 
  submitProject(form) {
@@ -162,7 +170,42 @@ export default class SubmissionController {
     }
   }
 
-  addField(){
+  addRewardsField(){
+    console.log(this.rewardsCount);
+    console.log(this.rewardsIndex);
+    console.log(this.rewardsList);
+    this.rewardsIndex.push(this.rewardsCount);
+    this.rewardsCount += 1;
+
+    if (this.rewardsCount>=3) {
+      this.rewardsList.IsUpperBound[this.rewardsCount - 3] = true;
+      this.rewardsList.Value[this.rewardsCount - 3] = this.rewardsList.Value[this.rewardsCount - 4];
+      this.rewardsList.Value[this.rewardsCount - 2] = this.rewardsList.Value[this.rewardsCount - 3];
+    } else {
+      this.rewardsList.Value[this.rewardsCount - 2] = 0;
+    }
+    this.rewardsList.IsUpperBound[this.rewardsCount - 2] = false;
+
+    this.rewardsList.RewardDescription[this.rewardsCount - 2] = "";
+  }
+
+  deleteRewardsField(){
+    this.rewardsCount -= 1;
+    this.rewardsIndex.pop();
+    this.rewardsList.RewardDescription.pop();
+    this.rewardsList.IsUpperBound.pop();
+    this.rewardsList.Value.pop();
+    if (this.rewardsCount >= 3) {
+      this.rewardsList.Value[this.rewardsCount - 2] = this.rewardsList.Value[this.rewardsCount - 3];
+    } else if (this.rewardsCount >= 2) {
+      this.rewardsList.Value[this.rewardsCount - 2] = 0;
+      this.rewardsList.IsUpperBound[this.rewardsCount - 2]=false;
+    }
+    console.log(this.rewardsList);
+  }
+
+
+  addCostsField(){
     this.costsIndex.push(this.costsCount);
     this.costsCount += 1;
     console.log(this.costsCount);
@@ -170,7 +213,7 @@ export default class SubmissionController {
     console.log(this.costsList);
   }
 
-  deleteField(index){
+  deleteCostsField(index){
     this.costsCount -=1;
     this.costsIndex.pop();
     this.costsList.Item.splice(index-1, 1);
