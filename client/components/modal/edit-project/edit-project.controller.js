@@ -121,10 +121,10 @@ export default class ModalEditProjectController {
     if(form.$valid && this.project.EstimatedPriceInCents > 0 && this.project.CollectedPriceInCents >= 0) {
       
       this.Rewards = [];
-      for(let index = 0; index < this.Count-1; index++) {
+      for(let index = 0; index < this.rewardsCount-1; index++) {
         this.Rewards.push({'RewardId': this.rewardsList.RewardId[index], 'RewardDescription': this.rewardsList.RewardDescription[index], 'IsUpperBound': this.rewardsList.IsUpperBound[index], 'ValueInCents': this.rewardsList.Value[index]*100});
       }
-
+      
       if(this.project.Year >= 2019) {
         this.costs = [];
         for(let index = 0; index < this.costsCount-1; index ++) {
@@ -141,7 +141,6 @@ export default class ModalEditProjectController {
 
       var loading = this.Modal.showLoading();
 
-      console.log(this.project);
       if(this.project.Year >= 2019) {
         this.$http.post('/api/projects/edit/admin', {"project": this.project, "rewards": this.Rewards, "savedImages": this.imagesToSave, "costs": this.costs})
           .then(res => {

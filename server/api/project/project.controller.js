@@ -722,6 +722,7 @@ export function editAny(req, res) {
             var rewardsToSave = req.body.rewards;
             var promises = [];
             var uploadCosts = [];
+            var uploadRewards = [];
 
             if(newProject.Year >= 2019){
               ProjectCost.findAll({
@@ -789,7 +790,7 @@ export function editAny(req, res) {
                   rewards[rewardIndex].IsExcluded = 1;
                   if(Array.isArray(rewardsToSave)){
                     for(let searchIndex in rewardsToSave){
-                      if(parseInt(rewards[rewardIndex].ProjectRewardId) === parseInt(rewardsToSave[searchIndex].ProjectRewardId)) {
+                      if(parseInt(rewards[rewardIndex].RewardId) === parseInt(rewardsToSave[searchIndex].RewardId)) {
                         rewards[rewardIndex].IsExcluded = 0;
                         rewards[rewardIndex].RewardDescription = rewardsToSave[searchIndex].Item;
                         rewards[rewardIndex].Quantity = rewardsToSave[searchIndex].Quantity;
@@ -799,7 +800,7 @@ export function editAny(req, res) {
                   }
                   //Entra aqui?
                   else{
-                    if(parseInt(rewards[rewardIndex].ProjectRewardId) === parseInt(rewardsToSave.ProjectRewardId)){
+                    if(parseInt(rewards[rewardIndex].RewardId) === parseInt(rewardsToSave.RewardId)){
                       rewards[rewardIndex].IsExcluded = 0;
                       rewards[rewardIndex].RewardDescription = rewardsToSave.Item;
                       rewards[rewardIndex].Quantity = rewardsToSave.Quantity;
@@ -812,19 +813,18 @@ export function editAny(req, res) {
                 }
 
                 //Adding new rewards in database
-                console.log(rewardsToSave);
                 for(let rewardIndex in rewardsToSave){
-                  if(parseInt(rewardsToSave[rewardIndex].ProjectRewardId) === -1){
+                  if(parseInt(rewardsToSave[rewardIndex].RewardId) === -1){
                     uploadRewards.push({
                       ProjectId: projectId,
-                      RewardDescription: rewardsToSave[rewardIndex].Item,
-                      Quantity: rewardsToSave[rewardIndex].Quantity,
-                      UnitPriceInCents: rewardsToSave[rewardIndex].UnitPrice,
+                      RewardDescription: rewardsToSave[rewardIndex].RewardDescription,
+                      IsUpperBound: rewardsToSave[rewardIndex].IsUpperBound,
+                      ValueInCents: rewardsToSave[rewardIndex].ValueInCents,
                       IsExcluded: 0
                     })
                   }
                 }
-                console.log(uploadRewards);
+                console.log("upload rewards", uploadRewards);
                 if(uploadRewards.length > 0){
                   promises.push(ProjectReward.bulkCreate(uploadRewards));
                 }
