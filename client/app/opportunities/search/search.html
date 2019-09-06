@@ -114,9 +114,9 @@
           <img ng-src="{{opportunity.companyLogo.Path}}" alt="{{opportunity.Title}}">
           <div class="form-group">
             <h5 class="card-title my-2">{{opportunity.Title}}</h5>
-            <label class="mb-1">{{opportunity.company.Name}}</label><br>
-            <label class="mb-1"><i class="fa fa-map-marker"></i> {{opportunity.locationName}}</label>
-            <p class="opportunity-date">Anúncio em {{opportunity.PostDate | date: 'dd MMM, yyyy'}}</p>
+            <label class="mb-1 no-overflow">{{opportunity.company.Name}}</label><br>
+            <label class="mb-1 no-overflow"><i class="fa fa-map-marker"></i> {{opportunity.locationName}}</label>
+            <p class="opportunity-date no-overflow">Anúncio em {{opportunity.PostDate | date: 'dd MMM, yyyy'}}</p>
           </div>
         </div>
       </a>

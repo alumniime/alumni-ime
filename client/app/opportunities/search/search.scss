@@ -137,6 +137,9 @@
 
   .opportunities-deck {
     box-sizing: content-box;
+    .no-overflow {
+      white-space: normal;
+    }
   }
   .opportunity-card {
     box-shadow: 0 0 0 1px rgba(0,0,0,.1);
