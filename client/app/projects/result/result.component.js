@@ -45,7 +45,7 @@ export class ResultController {
             return image.Type === 'result';
           });
           this.concatImages = this.savedImages.concat(this.uploadImages);
-          if(this.project.SubmissionerId !== this.getCurrentUser().PersonId) {
+          if(this.project.SubmissionerId !== this.getCurrentUser().PersonId && this.getCurrentUser().role !='admin') {
             this.$state.go('profile', {view: 'submitted_projects'});
           }
           this.$anchorScroll('top');
@@ -65,7 +65,7 @@ export class ResultController {
     this.submitted = true;
     console.log(form);
 
-    if(form.$valid && this.concatImages && this.concatImages.length > 0) {
+    if(form.$valid) {
 
       var savedImages = [];
       var uploadImages = [];

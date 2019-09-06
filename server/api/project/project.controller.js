@@ -964,7 +964,6 @@ export function result(req, res) {
     Project.find({
       where: {
         ProjectId: project.ProjectId,
-        SubmissionerId: req.user.PersonId,
         IsApproved: 1,
         IsExcluded: 0
       }
