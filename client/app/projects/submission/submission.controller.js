@@ -102,8 +102,16 @@ export default class SubmissionController {
             this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
           }
           
-          var loading = this.Modal.showLoading();
+          
 
+          this.Rewards = [];
+          for(let index = 0; index < this.rewardsCount-1; index++) {
+            if (this.rewardsList.Value[index]==0){
+              this.rewardsList.Value[index]=0.01;
+            }
+            this.Rewards.push({'RewardDescription': this.rewardsList.RewardDescription[index], 'IsUpperBound': this.rewardsList.IsUpperBound[index], 'ValueInCents': this.rewardsList.Value[index]*100});
+          }
+          var loading = this.Modal.showLoading();
           var this_ = this;
           this.Upload.upload({
             url: '/api/projects/upload',
@@ -111,7 +119,8 @@ export default class SubmissionController {
             data: {
               files: this.uploadImages,
               project: this.project,
-              costs: this.costs
+              costs: this.costs,
+              rewards: this.Rewards
             }
           })
             .then(function success(result) {

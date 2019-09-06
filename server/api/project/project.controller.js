@@ -208,7 +208,10 @@ export function show(req, res) {
       model: ProjectReward,
       attributes: ['RewardDescription', 'ValueInCents', 'IsUpperBound', 'ProjectRewardId'],
       as: 'rewards',
-      required: false
+      required: false,
+      where:{
+        IsExcluded:0
+      }
     },  
     {
       model: Donation,
@@ -463,6 +466,7 @@ export function upload(req, res) {
 
         var images = [];
         var costs = [];
+        var rewards = [];
 
         console.log(req.body.costs);
         console.log(Array.isArray(req.body.costs.Item));
@@ -495,6 +499,37 @@ export function upload(req, res) {
               res.json({errorCode: 0, errorDesc: null});
             })
             .catch(handleError(res));
+        }
+
+        if(Array.isArray(req.body.rewards.ValueInCents)){
+          for(var rewardIndex in req.body.rewards.ValueInCents) {
+            console.log(costIndex);
+            rewards.push({
+              ProjectId: projectId,
+              RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
+              IsUpperBound: req.body.rewards.IsUpperBound[rewardIndex],
+              ValueInCents: req.body.rewards.ValueInCents[rewardIndex],
+              IsExcluded: 0
+            });
+          }
+        }
+        else{
+          rewards.push({
+            ProjectId: projectId,
+            RewardDescription: req.body.rewards.RewardDescription,
+            IsUpperBound: req.body.rewards.IsUpperBound,
+            ValueInCents: req.body.rewards.ValueInCents,
+            IsExcluded: 0
+          });
+        }
+        if(rewards.length > 0) {
+          ProjectReward.bulkCreate(rewards)
+            .then(() => {
+              console.log("3",res)
+              res.json({errorCode: 0, errorDesc: null});
+            })
+            .catch(//handleError(res));
+            (error)=> {console.log("4",error)})
         }
 
         for(var fileIndex in req.files) {
@@ -790,7 +825,7 @@ export function editAny(req, res) {
                   rewards[rewardIndex].IsExcluded = 1;
                   if(Array.isArray(rewardsToSave)){
                     for(let searchIndex in rewardsToSave){
-                      if(parseInt(rewards[rewardIndex].RewardId) === parseInt(rewardsToSave[searchIndex].RewardId)) {
+                      if(parseInt(rewards[rewardIndex].ProjectRewardId) === parseInt(rewardsToSave[searchIndex].RewardId)) {
                         rewards[rewardIndex].IsExcluded = 0;
                         rewards[rewardIndex].RewardDescription = rewardsToSave[searchIndex].Item;
                         rewards[rewardIndex].Quantity = rewardsToSave[searchIndex].Quantity;
@@ -800,7 +835,7 @@ export function editAny(req, res) {
                   }
                   //Entra aqui?
                   else{
-                    if(parseInt(rewards[rewardIndex].RewardId) === parseInt(rewardsToSave.RewardId)){
+                    if(parseInt(rewards[rewardIndex].ProjectRewardId) === parseInt(rewardsToSave.RewardId)){
                       rewards[rewardIndex].IsExcluded = 0;
                       rewards[rewardIndex].RewardDescription = rewardsToSave.Item;
                       rewards[rewardIndex].Quantity = rewardsToSave.Quantity;
