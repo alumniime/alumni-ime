@@ -188,7 +188,8 @@ export default class SubmissionController {
 
     if (this.rewardsCount>=3) {
       this.rewardsList.IsUpperBound[this.rewardsCount - 3] = true;
-      this.rewardsList.Value[this.rewardsCount - 3] = this.rewardsList.Value[this.rewardsCount - 4];
+      if (this.rewardsCount!=3)
+        this.rewardsList.Value[this.rewardsCount - 3] = this.rewardsList.Value[this.rewardsCount - 4];
       this.rewardsList.Value[this.rewardsCount - 2] = this.rewardsList.Value[this.rewardsCount - 3];
     } else {
       this.rewardsList.Value[this.rewardsCount - 2] = 0;
@@ -199,6 +200,9 @@ export default class SubmissionController {
   }
 
   deleteRewardsField(){
+    console.log(this.rewardsCount);
+    console.log(this.rewardsIndex);
+    console.log(this.rewardsList);
     this.rewardsCount -= 1;
     this.rewardsIndex.pop();
     this.rewardsList.RewardDescription.pop();

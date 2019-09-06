@@ -189,12 +189,16 @@ export default class ModalEditProjectController {
   }
 
   addRewardsField(){
+    console.log(this.rewardsCount);
+    console.log(this.rewardsIndex);
+    console.log(this.rewardsList);
     this.rewardsIndex.push(this.rewardsCount);
     this.rewardsCount += 1;
 
     if (this.rewardsCount>=3) {
       this.rewardsList.IsUpperBound[this.rewardsCount - 3] = true;
-      this.rewardsList.Value[this.rewardsCount - 3] = this.rewardsList.Value[this.rewardsCount - 4];
+      if (this.rewardsCount!=3)
+        this.rewardsList.Value[this.rewardsCount - 3] = this.rewardsList.Value[this.rewardsCount - 4];
       this.rewardsList.Value[this.rewardsCount - 2] = this.rewardsList.Value[this.rewardsCount - 3];
     } else {
       this.rewardsList.Value[this.rewardsCount - 2] = 0;
@@ -208,6 +212,9 @@ export default class ModalEditProjectController {
   }
 
   deleteRewardsField(){
+    console.log(this.rewardsCount);
+    console.log(this.rewardsIndex);
+    console.log(this.rewardsList);
     this.rewardsCount -= 1;
     this.rewardsIndex.pop();
     this.rewardsList.RewardId.pop();
@@ -220,7 +227,6 @@ export default class ModalEditProjectController {
       this.rewardsList.Value[this.rewardsCount - 2] = 0;
       this.rewardsList.IsUpperBound[this.rewardsCount - 2]=false;
     }
-    console.log(this.rewardsList);
   }
 
   addCostsField(){
