@@ -15,6 +15,12 @@
         </select>
       </div>      
     </div>
+    <div class="col-auto">
+      <div class="form-group">
+        <input type="text" name="OpportunityName" placeholder="Pesquisar..." class="form-control input-search" 
+               ng-model="admin.opportunitySearchName" ng-change="admin.refreshFilters()">
+      </div>      
+    </div>
     <div class="col-auto pb-2">
       <a href="#" class="btn btn-danger mb-2" ng-click="admin.editOpportunity()">Cadastrar Vaga</a>
     </div>
@@ -35,7 +41,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="opportunity in admin.Opportunity.list | orderBy: admin.order.opportunities | filter: {Status: admin.opportunitySearchStatus}" class="c-pointer" ng-click="admin.editOpportunity(opportunity.OpportunityId)"
+    <tr ng-repeat="opportunity in admin.Opportunity.list | orderBy: admin.order.opportunities | filter: {$: admin.opportunitySearchName, Status: admin.opportunitySearchStatus}" class="c-pointer" ng-click="admin.editOpportunity(opportunity.OpportunityId)"
         ng-if="$index >= (admin.opportunitiesCurrentPage - 1) * admin.itemsPerPage && $index < admin.opportunitiesCurrentPage * admin.itemsPerPage">
       <th scope="row">{{opportunity.OpportunityId}}</th>
       <td>{{opportunity.Title}}</td>

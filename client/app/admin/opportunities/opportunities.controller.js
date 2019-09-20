@@ -5,6 +5,7 @@ export default class AdminOpportunitiesController {
   opportunitiesCurrentPage = 1;
   opportunitiesNumber = 0;
   opportunitySearchStatus = '';
+  opportunitySearchName = '';
   order = {
     opportunities: '-PostDate',
   };
@@ -38,7 +39,8 @@ export default class AdminOpportunitiesController {
   }
 
   refreshFilters() {
-    this.opportunitiesNumber = this.$filter('filter')(this.Opportunity.list, {Status: this.opportunitySearchStatus}).length;
+    console.log(this.Opportunity.list);
+    this.opportunitiesNumber = this.$filter('filter')(this.Opportunity.list, {$: this.opportunitySearchName, Status: this.opportunitySearchStatus}).length;
   }
 
   orderBy(table, field) {
