@@ -142,7 +142,7 @@ export class DonateController {
     if (!this.user.PersonId) {
       // User needs to login
       this.$state.go('donate', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
-    } else if (form.$valid) {
+    } else if (form.$valid && this.ProjectName) {
       var loading = this.Modal.showLoading();
 
       // inicia a instância do checkout
