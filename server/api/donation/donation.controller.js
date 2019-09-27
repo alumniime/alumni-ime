@@ -98,16 +98,25 @@ export function index(req, res) {
       as: 'project'
     }, {
       model: User,
-      attributes: ['PersonId', 'FullName'],
-      as: 'donator'
+      attributes: ['PersonId', 'FullName', 'Email', 'Phone', 'GraduationYear'],
+      as: 'donator',
+      include: [{
+        model: PersonType,
+        attributes: ['PortugueseDescription'],
+        as: 'personType'
+        }, {
+          model: Engineering,
+          as: 'engineering'
+        }]
     }, {
       model: FormerStudent,
       attributes: ['FormerStudentId', 'Name'],
       as: 'former'
-    }, {
+    }, 
+    {
       model: Transaction,
-      attributes: ['TransactionId', 'SubscriptionId', 'PaymentMethod', 'Status'],
-      as: 'transaction'
+      attributes: ['TransactionId', 'PaymentMethod', 'Status', 'BoletoExpirationDate', 'CardLastDigits', 'CardBrand', 'CardHolderName', 'RiskLevel'],
+      as: 'transaction',
     },
       TransferReceipt
     ]

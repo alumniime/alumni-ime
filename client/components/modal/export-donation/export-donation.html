@@ -9,93 +9,24 @@
 
     <div class="row mt-2">
 
-      <div class="col-12 col-sm-6">
+      <div class="col-12 col-sm-12">
 
         <div class="form-group">
           <h6>Informações da Doação</h6>
-          <label for="DonationId">Id da doação</label>
-          <input type="checkbox" id="checkbox" name="DonationId" class="form-control"
-                    ng-model="vm.donation.donationId"></input>
-          <label for="DonationType">Tipo (projeto ou geral)</label>
-          <input type="checkbox" id="checkbox" name="DonationType" class="form-control"
-                    ng-model="vm.donation.donationType"></input>
-          <label for="ProjectName">Nome do Projeto</label>
-          <input type="checkbox" id="checkbox" name="ProjectName" class="form-control"
-                    ng-model="vm.donation.projectName"></input>
-          <label for="Plan">Plano</label>
-          <input type="checkbox" id="checkbox" name="Plan" class="form-control"
-                    ng-model="vm.donation.plan"></input>
-          <label for="Value">Valor Doado</label>
-          <input type="checkbox" id="checkbox" name="Value" class="form-control"
-                    ng-model="vm.donation.value"></input>
-          <label for="PaymentMethod">Método de Pagamento</label>
-          <input type="checkbox" id="checkbox" name="PaymentMethod" class="form-control"
-                    ng-model="vm.donation.paymentMethod"></input>
-          <label for="ShowName">Mostrar Nome</label>
-          <input type="checkbox" id="checkbox" name="ShowName" class="form-control"
-                    ng-model="vm.donation.showName"></input>
-          <label for="ShowValue">Mostrar Valor</label>
-          <input type="checkbox" id="checkbox" name="ShowValue" class="form-control"
-                    ng-model="vm.donation.showValue"></input>
+          <div ng-repeat="info in vm.availableInfo | filter: {Category: 'Donation'}">
+            <label for="info.Name"><input type="checkbox" id="checkbox" name="vm.Name" class="export-form-control"
+              ng-model="info.IsChosen">{{info.Description}}</label>
+          </div>
           <h6>Informações do Doador</h6>
-          <label for="PersonType">Tipo de Pessoa</label>
-          <input type="checkbox" id="checkbox" name="PersonType" class="form-control"
-                    ng-model="vm.donator.personType"></input>
-          <label for="Name">Nome</label>
-          <input type="checkbox" id="checkbox" name="Name" class="form-control"
-                    ng-model="vm.donator.name"></input>
-          <label for="Fullname">Nome Completo</label>
-          <input type="checkbox" id="checkbox" name="Fullname" class="form-control"
-                    ng-model="vm.donator.fullname"></input>
-          <label for="Email">E-mail</label>
-          <input type="checkbox" id="checkbox" name="Email" class="form-control"
-                    ng-model="vm.donator.email"></input>
-          <label for="Country">País</label>
-          <input type="checkbox" id="checkbox" name="Country" class="form-control"
-                    ng-model="vm.donator.country"></input>
-          <label for="State">State</label>
-          <input type="checkbox" id="checkbox" name="State" class="form-control"
-                    ng-model="vm.donator.state"></input>
-          <label for="City">City</label>
-          <input type="checkbox" id="checkbox" name="City" class="form-control"
-                    ng-model="vm.donator.city"></input>
-          <label for="Birthday">Aniversário</label>
-          <input type="checkbox" id="checkbox" name="Birthday" class="form-control"
-                    ng-model="vm.donator.birthday"></input>
-          <label for="Phone">Telefone</label>
-          <input type="checkbox" id="checkbox" name="Phone" class="form-control"
-                    ng-model="vm.donator.phone"></input>
-          <label for="ShowInformation">Mostrar Informações</label>
-          <input type="checkbox" id="checkbox" name="ShowInformation" class="form-control"
-                    ng-model="vm.donator.showInformation"></input>
-          <label for="Engineering">Engenharia</label>
-          <input type="checkbox" id="checkbox" name="Engineering" class="form-control"
-                    ng-model="vm.donator.engineering"></input>
-          <label for="GraduationYear">Ano de Graduação</label>
-          <input type="checkbox" id="checkbox" name="GraduationYear" class="form-control"
-                    ng-model="vm.donator.graduationYear"></input>
-          <h6>Informações de Pagamento</h6>
-          <label for="Cardbrand">Bandeira do Cartão</label>
-          <input type="checkbox" id="checkbox" name="Cardbrand" class="form-control"
-                    ng-model="vm.cardbrand"></input>
-          <label for="CardholderName">Nome no Cartão</label>
-          <input type="checkbox" id="checkbox" name="CardholderName" class="form-control"
-                    ng-model="vm.cardholdername"></input>
-          <label for="CardLastDigits">Últimos dígitos do Cartão</label>
-          <input type="checkbox" id="checkbox" name="CardLastDigits" class="form-control"
-                    ng-model="vm.cardLastDigits"></input>
-          <label for="BoletoExpirationDate">Data de Expiração do Boleto</label>
-          <input type="checkbox" id="checkbox" name="BoletoExpirationDate" class="form-control"
-                    ng-model="vm.boletoExpirationDate"></input>
-          <label for="RiskLevel">Nível de Risco</label>
-          <input type="checkbox" id="checkbox" name="RiskLevel" class="form-control"
-                    ng-model="vm.riskLevel"></input>
-          <label for="Status">Status</label>
-          <input type="checkbox" id="checkbox" name="Status" class="form-control"
-                    ng-model="vm.status"></input>
-          <label for="StatusReason">Motivo do Status</label>
-          <input type="checkbox" id="checkbox" name="StatusReason" class="form-control"
-                    ng-model="vm.statusReason"></input>
+          <div ng-repeat="info in vm.availableInfo | filter: {Category: 'Donator'}">
+            <label for="info.Name"><input type="checkbox" id="checkbox" name="vm.Name" class="export-form-control"
+              ng-model="info.IsChosen">{{info.Description}}</label>
+          </div>
+          <h6>Informações do Pagamento</h6>
+          <div ng-repeat="info in vm.availableInfo | filter: {Category: 'Payment'}">
+            <label for="info.Name"><input type="checkbox" id="checkbox" name="vm.Name" class="export-form-control"
+              ng-model="info.IsChosen">{{info.Description}}</label>
+          </div>
         </div>
       </div>
     </div>

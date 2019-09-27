@@ -50,25 +50,27 @@ modal-export-donation {
     margin-left: 0;
     margin-bottom: 0;
     color: #828282;
+    display: block;
+    font-size: small;
   }
 
   .form-control-plaintext {
     font-size: 14px;
   }
 
-  .form-control {
+  .export-form-control {
     border-radius: 0 !important;
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
     border-bottom: 1px solid #bdbdbd;
     padding: 10px 20px !important;
-    height: 45px !important;
+    //height: 45px !important;
     margin-bottom: 10px;
   }
 
   textarea.form-control {
-    height: 100px !important;
+    //height: 100px !important;
   }
 
   .line-hr {
