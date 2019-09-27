@@ -290,10 +290,10 @@
         </div> 
         <div ng-repeat="reward in vm.project.rewards" ng-if="vm.project.rewards.length" class="card project-card mb-3">
           <div class="card-body">
-            <div class="donation-asked" ng-if="reward.IsUpperBound==1">
-              Doação de até {{reward.ValueInCents/100 | currency}}
+            <div class="donation-asked" ng-if="$first">
+              Doação de até {{ (reward.ValueInCents-1)/100 | currency}}
             </div>
-            <div class="donation-asked" ng-if="reward.IsUpperBound==0">
+            <div class="donation-asked" ng-if="!$first">
               Doação a partir de {{reward.ValueInCents/100 | currency}}
             </div>
             <div class="reward-description">{{reward.RewardDescription}}</div>
@@ -482,12 +482,20 @@
       <div class="reward-title" ng-if="vm.project.rewards.length">
         <strong>Recompensas</strong>
       </div> 
-      <div ng-repeat="reward in vm.project.rewards" ng-if="vm.project.rewards.length" class="card project-card mb-3">
+      <div ng-if="vm.project.rewards.length" class="card project-card mb-3">
         <div class="card-body">
-          <div class="donation-asked" ng-if="reward.IsUpperBound==1">
-            Doação de até {{reward.ValueInCents/100 | currency}}
+          <div class="donation-asked" ng-if="vm.project.rewards.length>1">
+            Doação de até {{ (vm.project.rewards[0].ValueInCents-1)/100 | currency}}
           </div>
-          <div class="donation-asked" ng-if="reward.IsUpperBound==0">
+          <div class="donation-asked" ng-if="vm.project.rewards.length==1">
+            Doação a partir de {{ (vm.project.rewards[0].ValueInCents)/100 | currency}}
+          </div>
+          <div class="reward-description">{{vm.project.rewards[0].RewardDescription}}</div>
+        </div>
+      </div>
+      <div ng-repeat="reward in vm.project.rewards" ng-if="vm.project.rewards.length" class="card project-card mb-3">
+        <div class="card-body" ng-if="!$last">
+          <div class="donation-asked">
             Doação a partir de {{reward.ValueInCents/100 | currency}}
           </div>
           <div class="reward-description">{{reward.RewardDescription}}</div>
