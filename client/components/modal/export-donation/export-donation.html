@@ -1,0 +1,39 @@
+<div class="modal-header d-block">
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h5 class="modal-title text-center mt-3" id="modal-title">Selecione as informações que deseja exportar</h5>
+</div>
+
+<div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
+
+  <form class="form" name="form" ng-submit="vm.export(form)" novalidate>
+
+    <div class="row mt-2">
+
+      <div class="col-12 col-sm-12">
+
+        <div class="form-group">
+          <h6>Informações da Doação</h6>
+          <div ng-repeat="info in vm.availableInfo | filter: {Category: 'Donation'}">
+            <label for="info.Name"><input type="checkbox" id="checkbox" name="vm.Name" class="export-form-control"
+              ng-model="info.IsChosen">{{info.Description}}</label>
+          </div>
+          <h6>Informações do Doador</h6>
+          <div ng-repeat="info in vm.availableInfo | filter: {Category: 'Donator'}">
+            <label for="info.Name"><input type="checkbox" id="checkbox" name="vm.Name" class="export-form-control"
+              ng-model="info.IsChosen">{{info.Description}}</label>
+          </div>
+          <h6>Informações do Pagamento</h6>
+          <div ng-repeat="info in vm.availableInfo | filter: {Category: 'Payment'}">
+            <label for="info.Name"><input type="checkbox" id="checkbox" name="vm.Name" class="export-form-control"
+              ng-model="info.IsChosen">{{info.Description}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button href="#" class="btn btn-danger mx-auto mt-3" type="submit">
+      EXPORTAR
+    </button>
+
+  </form>
+
+</div>
