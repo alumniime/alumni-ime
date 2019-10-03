@@ -115,8 +115,16 @@ export function index(req, res) {
     }, 
     {
       model: Transaction,
-      attributes: ['TransactionId', 'PaymentMethod', 'Status', 'BoletoExpirationDate', 'CardLastDigits', 'CardBrand', 'CardHolderName', 'RiskLevel'],
+      attributes: ['TransactionId', 'PaymentMethod', 'Status', 'BoletoExpirationDate', 'CardLastDigits', 'CardBrand', 'CardHolderName', 'RiskLevel', 'SubscriptionId'],
       as: 'transaction',
+      include: [{
+        model: Subscription,
+        as: 'subscription',
+        include: [{
+          model: Plan,
+          as: 'plan'
+        }]
+      }]
     },
       TransferReceipt
     ]

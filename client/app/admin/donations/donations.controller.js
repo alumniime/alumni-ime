@@ -40,11 +40,14 @@ export default class AdminDonationsController {
       .then(() => {
         loading.close();
         this.refreshFilters();
+        console.log(this.Donation.list)
       });
     this.Subscription.load(true)
       .then((data) => {
         this.refreshFilters();
       });
+
+    
   }
 
   editDonation(donationId) {

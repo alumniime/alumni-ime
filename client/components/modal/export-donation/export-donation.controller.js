@@ -51,6 +51,8 @@ export default class ModalExportDonationController {
             {Description: "Nível de Risco", IsChosen: false, Name:"RiskLevel", Path: "transaction.RiskLevel", Category: "Payment"},
             {Description: "Status", IsChosen: false, Name:"Status", Path: "transaction.Status", Category: "Payment"},
             {Description: "Motivo do Status", IsChosen: false, Name:"StatusReason", Path: "transaction.StatusReason", Category: "Payment"},
+            {Description: "Id da Assinatura", IsChosen: false, Name:"SubscriptionId", Path: "transaction.SubscriptionId", Category: "Payment"},
+            {Description: "Plano", IsChosen: false, Name: "Plan", Path: "transaction.subscription.plan.Name", Category: "Payment"}
           ];
           this.donations2=Array.from({length: this.donations.length}, ()=> ({})); //Creates an array of size this.donation.length populated by empty objects
           for (let i = 0; i<this.donations.length; i++){
