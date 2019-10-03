@@ -75,10 +75,16 @@
         {{donation.PaymentMethod}}
       </td>
       <td>
+        <!--
         <i ng-if="donation.transaction.SubscriptionId" class="fa fa-refresh" uib-tooltip="Recorrente" tooltip-placement="right"></i>
+        -->
+        <span ng-if="donation.transaction.SubscriptionId">R</span>
+        <span ng-if="!donation.transaction.SubscriptionId">P</span>
+        <!--
         <a ng-if="donation.transferReceipt" href="{{donation.transferReceipt.Path}}" target="_blank" class="text-dark text-center d-block">
           <i class="fa fa-external-link-square" uib-tooltip="Comprovante" tooltip-placement="right"></i>
         </a>
+        -->
       </td>
       <td>{{donation.DonationDate | date: 'dd/MM/yyyy'}}</td>
       <td>{{donation.ValueInCents/100 | number: 2}}</td>
