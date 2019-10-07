@@ -6,6 +6,7 @@ import GraduatesController from './graduates.controller';
 import GraduatesSearchController from './search/search.controller'
 import GraduatesProfileController from './profile/profile.controller'
 import GraduatesRankingController from './ranking/ranking.controller'
+import DonatorsHallController from './hall/hall.controller'
 
 export default angular.module('alumniApp.graduates', ['ui.router'])
   .config(routes)
@@ -13,6 +14,7 @@ export default angular.module('alumniApp.graduates', ['ui.router'])
   .controller('GraduatesSearchController', GraduatesSearchController)
   .controller('GraduatesProfileController', GraduatesProfileController)
   .controller('GraduatesRankingController', GraduatesRankingController)
+  .controller('DonatorsHallController', DonatorsHallController)
   .filter('sumByKey', function () {
     return function (data, key) { 
       var sum = 0;
