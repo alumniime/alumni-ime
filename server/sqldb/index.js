@@ -54,7 +54,9 @@ db.ProjectCost = db.sequelize.import('../api/project_cost/project_cost.model');
 db.ProjectReward = db.sequelize.import('../api/project_reward/project_reward.model');
 db.Initiative = db.sequelize.import('../api/initiative/initiative.model');
 db.InitiativeLink = db.sequelize.import('../api/initiative_link/initiative_link.model');
-db.OpportunityTargetPersonType = db.sequelize.import('../api/opportunity_target_person_type/opportunity_target_person_type.model'); 
+db.OpportunityTargetPersonType = db.sequelize.import('../api/opportunity_target_person_type/opportunity_target_person_type.model');
+db.DonatorHall = db.sequelize.import('../api/donator_hall/donator_hall.model'); 
+db.DonatorHallCategory = db.sequelize.import('../api/donator_hall_category/donator_hall_category.model');
  
 // Insert relations below
 db.User.belongsTo(db.PersonType, {sourceKey: 'PersonTypeId', foreignKey: 'PersonTypeId', as: 'personType'});
@@ -144,4 +146,8 @@ db.Resume = db.OpportunityApplication.belongsTo(db.Image, {sourceKey: 'ImageId',
 
 db.FavoriteOpportunity.belongsTo(db.Opportunity, {sourceKey: 'OpportunityId', foreignKey: 'OpportunityId', as: 'opportunity'});
 
+db.DonatorHall.belongsTo(db.PersonType, {sourceKey: 'PersonTypeId', foreignKey: 'PersonTypeId', as: 'personType'});
+db.DonatorHall.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'DonatorId', as: 'donator'});
+db.DonatorHall.belongsTo(db.FormerStudent, {sourceKey: 'FormerStudentId', foreignKey: 'FormerStudentId', as: 'formerStudent'});
+db.DonatorHall.belongsTo(db.DonatorHallCategory, {sourceKey: 'DonatorHallCategoryId', foreignKey: 'CategoryId', as: 'category'})
 module.exports = db;

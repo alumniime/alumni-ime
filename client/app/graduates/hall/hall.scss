@@ -1,3 +1,7 @@
+.intro {
+  margin-bottom: 5%;
+}
+
 .donatorsHallView {
   h1 {
     font-size: 36px;
@@ -161,6 +165,32 @@
   .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
     color: #333;
     box-shadow: 0 4px 3px rgba(0,0,0,0.2);
+  }
+
+  .tab-content{
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-bottom: 1px solid #c4c7c9;
+  }
+
+  .tab-pane{
+    padding-left: 15px;
+    padding-right: 15px;
+    
+    p{
+      padding-top: 15px;
+      padding-bottom: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+  }
+
+  .tab-pane-title{
+    padding-top: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #c4c7ca;
+    padding-bottom: 10px;
   }
 
   // tr {
