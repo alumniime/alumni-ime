@@ -76,6 +76,6 @@ export default function routes($stateProvider, $urlRouterProvider, appConfig) {
 
     $urlRouterProvider.when('/graduates/search', '/turmas/pesquisar');
     $urlRouterProvider.when('/graduates/ranking', '/turmas/ranking');
-    $urlRouterProvider.when('/graduates/hall', '/turmas/hall');
+    $urlRouterProvider.when('/graduates/hall', '/turmas/galeria');
 
 }

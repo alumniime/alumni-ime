@@ -1,23 +1,33 @@
 <div class="container donatorsHallView">
 
   <h5 class="page-title">
-      Galeria de Apoiadores 2019 (atualizado até Set/19)
+      Galeria de Apoiadores 2019 (atualizado até Out/19)
   </h5>
 
   <div class="row">
     
       <div class="col-12 col-lg-5 intro">
           A Alumni IME conta com o suporte de ex-alunos e amigos do IME para realizar suas atividades de integração e incentivar projetos de alunos e professores. Gostaríamos de agradecer a todas as pessoas abaixo que puderam contribuir de alguma forma! Muito Obrigado!
-          
+          <br><br>
+          Totais por categoria:
+          <ul>
+            <li>Patrono: 1 de 286</li>
+            <li>Platina: 5 de 286</li>
+            <li>Ouro: 13 de 286</li>
+            <li>Prata: 30 de 286</li>
+            <li>Bronze: 142 de 286</li>
+            <li>Apoio: 95 de 286</li>
+          </ul>
           </div>
     <div class="col-12 col-lg-7">
         
         <div class="form-group">
-          <input type="text" name="SearchText" placeholder="Pesquisar..." ng-change="vm.updateFilter()" class="form-control input-search" 
+          <input type="text" name="SearchText" placeholder="Pesquisar por nome, turma ou perfil..." ng-change="vm.updateFilter()" class="form-control input-search" 
                 ng-model="vm.searchText">
         </div>  
       <nav class="nav nav-tabs flex-column flex-sm-row">
-        <a class="nav-item nav-link active" data-toggle="tab" href="#patron">Patrono</a>
+          <a class="nav-item nav-link active" data-toggle="tab" href="#all">Todos</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#patron">Patrono</a>
         <a class="nav-item nav-link" data-toggle="tab" href="#platinum">Platina</a>
         <a class="nav-item nav-link" data-toggle="tab" href="#gold">Ouro</a>
         <a class="nav-item nav-link" data-toggle="tab" href="#silver">Prata</a>
@@ -27,26 +37,48 @@
       </nav>
       <div class="tab-content">
           
-        <div id="patron" class="tab-pane fade show active">
+        <div id="all" class="tab-pane fade show active">
           <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
             <thead>
             <tr>
               <th scope="col">Nome</th>
-              <th scope="col">Turma</th>
               <th scope="col">Perfil</th>
+              <th scope="col">Turma</th>
+              <th scope="col">Categoria</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 1}">
+            <tr ng-repeat="donator in vm.filteredList | orderBy: 'DonatorName'">
               <td>{{donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
               </td>
               <td>{{donator.FormerStudentId ? donator.formerStudent.GraduationYear : "-"}}</td>
+              <td>{{donator.category.Name}}</td>
             </tr>
             </tbody>
           </table>
         </div>
+        <div id="patron" class="tab-pane fade show">
+            <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+              <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Perfil</th>
+                <th scope="col">Turma</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 1} | orderBy: 'DonatorName'">
+                <td>{{donator.DonatorName}}</td>
+                <td>
+                  {{donator.personType.PortugueseDescription}}
+                </td>
+                <td>{{donator.FormerStudentId ? donator.formerStudent.GraduationYear : "-"}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         <div id="platinum" class="tab-pane fade show">
           <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
             <thead>
@@ -57,7 +89,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 2}">
+            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 2} | orderBy: 'DonatorName'">
               <td>{{donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
@@ -77,7 +109,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 3}">
+            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 3} | orderBy: 'DonatorName'">
               <td>{{donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
@@ -97,7 +129,47 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 4}">
+            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 4} | orderBy: 'DonatorName'">
+              <td>{{donator.DonatorName}}</td>
+              <td>
+                {{donator.personType.PortugueseDescription}}
+              </td>
+              <td>{{donator.FormerStudentId ? donator.formerStudent.GraduationYear : "-"}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="bronze" class="tab-pane fade show">
+          <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+            <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Perfil</th>
+              <th scope="col">Turma</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 5} | orderBy: 'DonatorName'">
+              <td>{{donator.DonatorName}}</td>
+              <td>
+                {{donator.personType.PortugueseDescription}}
+              </td>
+              <td>{{donator.FormerStudentId ? donator.formerStudent.GraduationYear : "-"}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="support" class="tab-pane fade show">
+          <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+            <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Perfil</th>
+              <th scope="col">Turma</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 6} | orderBy: 'DonatorName'">
               <td>{{donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}

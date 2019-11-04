@@ -66,7 +66,7 @@ export class NavbarComponent {
           title: 'RANKING',
           state: 'graduates.ranking'
         },{
-          title: 'HALL DE DOADORES',
+          title: 'GALERIA DE APOIADORES',
           state: 'graduates.hall'
         },
       ]
