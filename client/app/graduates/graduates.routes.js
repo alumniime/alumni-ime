@@ -60,9 +60,22 @@ export default function routes($stateProvider, $urlRouterProvider, appConfig) {
           'og:url': `${appConfig.url}/turmas/ranking`
         }
       }
+    })
+    .state('graduates.hall', {
+      url: '/hall',
+      template: require('./hall/hall.html'),
+      controller: 'DonatorsHallController',
+      controllerAs: 'vm',
+      data: {
+        meta: {
+          title: 'Hall de Doadores',
+          'og:url': `${appConfig.url}/turmas/hall`
+        }
+      }
     });
 
     $urlRouterProvider.when('/graduates/search', '/turmas/pesquisar');
     $urlRouterProvider.when('/graduates/ranking', '/turmas/ranking');
+    $urlRouterProvider.when('/graduates/hall', '/turmas/galeria');
 
 }

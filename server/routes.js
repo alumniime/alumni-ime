@@ -39,6 +39,7 @@ export default function (app) {
   app.use('/api/news_elements', require('./api/news_element'));
   app.use('/api/newsletters', require('./api/newsletters'));
   app.use('/api/donations', require('./api/donation'));
+  app.use('/api/donator_hall', require('./api/donator_hall'));
   app.use('/api/images', require('./api/image'));
   app.use('/api/person_types', require('./api/person_type'));
   app.use('/api/ses', require('./api/se'));

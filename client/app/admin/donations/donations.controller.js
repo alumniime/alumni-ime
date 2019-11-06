@@ -2,6 +2,7 @@
 
 export default class AdminDonationsController {
   itemsPerPage = 12;
+  former = null;
 
   donationsCurrentPage = 1;
   donationsNumber = 0;
@@ -16,6 +17,9 @@ export default class AdminDonationsController {
   subscriptionTransactionStatus = '';
   subscriptionSearchPaymentMethod = '';
 
+  newHallToUpload=[];
+  donatorsHallToDelete=[];
+
   order = {
     donations: '-DonationDate',
     subscriptions: '-UpdateDate'
@@ -24,13 +28,14 @@ export default class AdminDonationsController {
   showAllTransactions = false;
 
   /*@ngInject*/
-  constructor(Util, Modal, Donation, Subscription, $state, $filter) {
+  constructor(Util, Modal, DonatorHall, Donation, Subscription, $state, $filter) {
     this.Util = Util;
     this.Modal = Modal;
     this.Donation = Donation;
     this.Subscription = Subscription;
     this.$state = $state;
     this.$filter = $filter;
+    this.DonatorHall=DonatorHall;
   }
   
   $onInit() {
@@ -46,6 +51,7 @@ export default class AdminDonationsController {
       .then((data) => {
         this.refreshFilters();
       });
+    this.DonatorHall.load(true);
 
     
   }
@@ -91,6 +97,14 @@ export default class AdminDonationsController {
       this.donationsCurrentPage = 1;      
     } else if(table === 'subscriptions') {
       this.subscriptionsCurrentPage = 1;      
+    }
+  }
+  selectFormer(former) {
+    if (former) {
+      this.$parent.vm.former = former.originalObject;
+      this.$parent.vm.former.PersonId = this.$parent.vm.user.PersonId;
+    } else {
+      this.$parent.vm.former = null;
     }
   }
 
