@@ -51,7 +51,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="donator in vm.filteredList | orderBy: 'DonatorName'">
-              <td>{{donator.DonatorName}}</td>
+              <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
               </td>
@@ -72,7 +72,7 @@
               </thead>
               <tbody>
               <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 1} | orderBy: 'DonatorName'">
-                <td>{{donator.DonatorName}}</td>
+                <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
                 <td>
                   {{donator.personType.PortugueseDescription}}
                 </td>
@@ -92,7 +92,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 2} | orderBy: 'DonatorName'">
-              <td>{{donator.DonatorName}}</td>
+              <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
               </td>
@@ -112,7 +112,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 3} | orderBy: 'DonatorName'">
-              <td>{{donator.DonatorName}}</td>
+              <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
               </td>
@@ -132,7 +132,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 4} | orderBy: 'DonatorName'">
-              <td>{{donator.DonatorName}}</td>
+              <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
               </td>
@@ -152,7 +152,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 5} | orderBy: 'DonatorName'">
-              <td>{{donator.DonatorName}}</td>
+              <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
               </td>
@@ -172,7 +172,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 6} | orderBy: 'DonatorName'">
-              <td>{{donator.DonatorName}}</td>
+              <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
               </td>

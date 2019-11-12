@@ -47,6 +47,9 @@ export default function (sequelize, DataTypes) {
     Year: {
       type: DataTypes.INTEGER(11),
       allowNull: false
+    },
+    IsAnonymous: {
+      type: DataTypes.BOOLEAN
     }
   }, {
     tableName: 'DonatorHall'
