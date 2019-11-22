@@ -53,9 +53,9 @@ export default class DonatorsHallController {
   updateFilter() {
     this.filteredList=[];
     this.DonatorHall.list.forEach(donator=>{
-      if (donator.DonatorName.includes(this.searchText) || 
-      donator.personType.PortugueseDescription.includes(this.searchText) ||
-      (donator.FormerStudentId && donator.formerStudent.GraduationYear.toString().includes(this.searchText))){
+      if (donator.DonatorName.toLowerCase().includes(this.searchText.toLowerCase()) || 
+      donator.personType.PortugueseDescription.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      (donator.FormerStudentId && donator.formerStudent.GraduationYear.toString().toLowerCase().includes(this.searchText.toLowerCase()))){
         this.filteredList.push(donator);
       }
     })
