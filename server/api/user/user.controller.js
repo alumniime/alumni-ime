@@ -1,7 +1,7 @@
 'use strict';
 
 import {
-  User, InitiativeLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
+  User, InitiativeLink, OpportunitiesLink, Se, Engineering, OptionToKnowType, PersonType, Initiative,
   Image, Position, Company, Location, City, State, Level, Industry, Country, FormerStudent, sequelize
 } from '../../sqldb';
 import config from '../../config/environment';
@@ -561,12 +561,38 @@ export function update(req, res, next) {
     },
     // Creating new initiativeLinks
     (newUser, initiativeLinks, done) => {
+      console.log("here4")
+      console.log(initiativeLinks);
+      var opportunitiesLinks = req.body.opportunitiesLinks;
+
       InitiativeLink.bulkCreate(initiativeLinks)
+        .then(() => done(null, newUser, opportunitiesLinks))
+        .catch(err => done(err));
+    },
+    // Deleting all opportunitiesLinks
+    (newUser, opportunitiesLinks, done) => {
+      console.log("here3")
+      OpportunitiesLink.destroy({
+        where: {PersonId: newUser.PersonId}
+      })
+        .then(() => done(null, newUser, opportunitiesLinks))
+        .catch(err => done(err));
+    },
+    // Creating new opportunitiesLinks
+    (newUser, opportunitiesLinks, done) => {
+      console.log(OpportunitiesLink);
+      for(var opportunity of opportunitiesLinks) {
+        opportunity.PersonId = newUser.PersonId;
+        console.log("inside loop")
+      }
+      console.log("here1")
+      OpportunitiesLink.bulkCreate(opportunitiesLinks)
         .then(() => done(null, newUser))
         .catch(err => done(err));
     },
     // Updating user into Mailchimp
     (newUser, done) => {
+      console.log("here2")
       mailchimp.updateUser(newUser.PersonId);
       done(null, newUser);
     },

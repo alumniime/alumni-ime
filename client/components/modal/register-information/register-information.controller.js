@@ -1,6 +1,7 @@
 'use strict';
 
 export default class ModalRegisterInformationController {
+  type
   user = {
     PersonTypeId: undefined,
     Birthdate: '',
@@ -23,6 +24,7 @@ export default class ModalRegisterInformationController {
   hasPosition = true;
   levelOtherId = null;
   optionOtherId = null;
+  specializations = ["Especialização", "Mestrado", "Doutorado", "Pós-doutorado"]
 
   /*@ngInject*/
   constructor(Auth, Modal, Util, $http, $state, $window, $interval, $uibModal) {
@@ -46,12 +48,20 @@ export default class ModalRegisterInformationController {
         for(var type in this.personTypes) {
           this.personTypes[type].selected = false;
         }
+        this.personTypes.shift();
+        this.type=this.personTypes[0];
         this.personTypes[0].selected = true;
+        this.personType=this.personTypes[0];
       });
 
     this.$http.get('/api/engineering')
       .then(response => {
         this.engineeringList = response.data;
+      });
+
+      this.$http.get('/api/opportunity_types')
+      .then(response => {
+        this.opportunityTypeList = response.data;
       });
 
     this.$http.get('/api/ses')
@@ -131,7 +141,7 @@ export default class ModalRegisterInformationController {
     this.$http.get(`/api/users/${this.confirmEmailToken}/show`)
       .then(response => {
         this.user = response.data;
-        console.log('User', this.user);
+        this.user.PersonTypeId = this.personTypes[0].PersonTypeId;
         if(!this.user.location) {
           this.user.location = {
             CountryId: 1
@@ -149,13 +159,13 @@ export default class ModalRegisterInformationController {
 
   }
 
-  selectType(type) {
+  selectType() {
     for(var i in this.personTypes) {
       this.personTypes[i].selected = false;
     }
-    type.selected = true;
-    this.user.PersonTypeId = type.PersonTypeId;
-    this.personType = type;
+    this.type.selected = true;
+    this.user.PersonTypeId = this.type.PersonTypeId;
+    this.personType = this.type;
   }
 
   selectState(stateId) {
@@ -174,7 +184,6 @@ export default class ModalRegisterInformationController {
 
   selectCity(IBGEId) {
     this.user.location.city = this.citiesList[IBGEId];
-    console.log(this.user.location.city);
   }
 
   updateInitiativeLinks(initiativeLinks) {
@@ -187,6 +196,18 @@ export default class ModalRegisterInformationController {
       }
     }
     this.user.initiativeLinks = result;
+  }
+
+  updateOpportunitiesLinks(opportunityTypeList) {
+    var result = [];
+    for(var opportunityType of opportunityTypeList) {
+      if(opportunityType.selected) {
+        result.push({
+          OpportunityTypeId: opportunityType.OpportunityTypeId
+        });
+      }
+    }
+    this.user.opportunitiesLinks = result;
   }
 
   userHasInitiative(initiativeId) {
@@ -202,8 +223,7 @@ export default class ModalRegisterInformationController {
     this.submitted = true;
     this.user.ConfirmEmailToken = this.confirmEmailToken;
     this.updateInitiativeLinks(this.initiativeList);
-    console.log(form);
-    console.log(this.user);
+    this.updateOpportunitiesLinks(this.opportunityTypeList);
 
     if(this.Birthdate) {
       var date = this.Birthdate.split('/');

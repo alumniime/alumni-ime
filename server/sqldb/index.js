@@ -54,6 +54,7 @@ db.ProjectCost = db.sequelize.import('../api/project_cost/project_cost.model');
 db.ProjectReward = db.sequelize.import('../api/project_reward/project_reward.model');
 db.Initiative = db.sequelize.import('../api/initiative/initiative.model');
 db.InitiativeLink = db.sequelize.import('../api/initiative_link/initiative_link.model');
+db.OpportunitiesLink = db.sequelize.import('../api/opportunities_link/opportunities_link.model');
 db.OpportunityTargetPersonType = db.sequelize.import('../api/opportunity_target_person_type/opportunity_target_person_type.model');
 db.DonatorHall = db.sequelize.import('../api/donator_hall/donator_hall.model'); 
 db.DonatorHallCategory = db.sequelize.import('../api/donator_hall_category/donator_hall_category.model');
@@ -66,6 +67,7 @@ db.User.belongsTo(db.OptionToKnowType, {sourceKey: 'OptionTypeId', foreignKey: '
 db.User.belongsTo(db.Industry, {sourceKey: 'IndustryId', foreignKey: 'IndustryId', as: 'industry'});
 db.User.belongsTo(db.Location, {sourceKey: 'LocationId', foreignKey: 'LocationId', as: 'location'});
 db.User.hasMany(db.InitiativeLink, {foreignKey: 'PersonId', as: 'userInitiativeLinks'});
+db.User.hasMany(db.OpportunitiesLink, {foreignKey: 'PersonId', as: 'userOpportunitieslinks'})
 db.User.hasMany(db.Position, {foreignKey: 'PersonId', as: 'positions'});
 db.User.hasMany(db.Image, {foreignKey: 'PersonId', as: 'images'});
 db.User.hasMany(db.FormerStudent, {sourceKey: 'FullName', foreignKey: 'Name', as: 'former'});
@@ -78,6 +80,7 @@ db.FormerStudent.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'PersonI
 db.FormerStudent.belongsTo(db.Engineering, {sourceKey: 'EngineeringId', foreignKey: 'EngineeringId', as: 'engineering'});
 
 db.InitiativeLink.belongsTo(db.Initiative, {sourceKey: 'InitiativeId', foreignKey: 'InitiativeId', as: 'initiative'});
+db.OpportunitiesLink.belongsTo(db.OpportunityType, {sourceKey: 'OpportunityTypeId', foreignKey: 'OpportunityTypeId', as: 'opportunityType'})
 
 db.Project.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'SubmissionerId', as: 'submissioner'});
 db.Project.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'LeaderId', as: 'leader'});
