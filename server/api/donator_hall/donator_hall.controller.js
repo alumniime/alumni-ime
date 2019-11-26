@@ -55,3 +55,18 @@ export function index(req, res) {
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
+
+export function menu(req, res) {
+  return DonatorHall.findAll({
+    attributes: [
+      'Year'
+    ],
+    group: ['Year'],
+    order: [
+      ['Year', 'DESC']
+    ],
+    raw: true
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
