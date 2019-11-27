@@ -9,8 +9,7 @@
 <div class="modal-header d-block">
   <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
   <h6 class="modal-title text-center modal-title" ng-if="vm.page === 1">Informações gerais</h6>
-  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 2 && vm.personType.Description !== 'Visitor'">Informações complementares</h6>
-  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 2 && vm.personType.Description === 'Visitor'">Como você conheceu a página?</h6>
+  <h6 class="modal-title text-center modal-title" ng-if="vm.page === 2">Informações complementares</h6>
   <h6 class="modal-title text-center modal-title" ng-if="vm.page === 3">Informações profissionais</h6>
 </div>
 
@@ -86,18 +85,39 @@
     </div>
 
     <!-- Complementary information -->
-    <div class="page2" ng-if="vm.page >= 2 && vm.personType.Description !== 'Visitor'" ng-show="vm.page === 2">
+    <div class="page2" ng-if="vm.page >= 2" ng-show="vm.page === 2">
 
-      <div class="form-group" ng-if="vm.personType.Description !== 'Professor'">
+        <div class="form-group" ng-if="vm.personType.Description === 'Recruiter'">
+            <label for="name">NOME DA EMPRESA*</label>
+            <input type="text" name="CompanyName" id="CompanyName" placeholder="Nome da Empresa" class="form-control"
+                   ng-model="vm.user.CompanyName" required>
+            <p class="help-block" ng-show="form.CompanyName.$error.required && vm.submitted">
+              Insira o nome da empresa.
+            </p>
+          </div>
+
+          <div class="form-group"
+          ng-if="vm.personType.Description === 'Recruiter'">
+        <label for="OpportunityTypeId">TIPOS DE PROFISSIONAL QUE PROCURA*</label>
+        <div class="custom-control custom-checkbox" ng-repeat="opportunityType in vm.opportunityTypeList">
+          <input type="checkbox" class="custom-control-input" id="customCheck{{$index}}" ng-model="opportunityType.selected">
+          <label class="custom-control-label" for="customCheck{{$index}}">{{opportunityType.Description}}</label>
+        </div>
+
+      </div>
+
+      <div class="form-group" ng-if="vm.personType.Description !== 'Professor' && vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'Recruiter'">
         <label for="GraduationYear"
-               ng-if="vm.personType.Description !== 'DropStudent' && vm.personType.Description !== 'Student'">ANO DE
+               ng-if="vm.personType.Description !== 'DropStudent' && vm.personType.Description !== 'Student' && vm.personType.Description !== 'PostgraduateStudent'">ANO DE
           FORMAÇÃO*</label>
         <label for="GraduationYear"
                ng-if="vm.personType.Description === 'DropStudent' || vm.personType.Description === 'Student'">TURMA*</label>
+        <label for="GraduationYear"
+               ng-if="vm.personType.Description === 'PostgraduateStudent'">ANO ESTIMADO DE CONCLUSÃO*</label>
         <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
                 required>
           <option ng-repeat="year in vm.graduationYears | orderBy:'-'" ng-value="year"
-                  ng-hide="year > vm.year && !(vm.personType.Description === 'Student' || vm.personType.Description === 'DropStudent')">
+                  ng-hide="year > vm.year && !(vm.personType.Description === 'Student' || vm.personType.Description === 'DropStudent' || vm.personType.Description === 'PostgraduateStudent')">
             {{year}}
           </option>
         </select>
@@ -106,7 +126,7 @@
         </p>
       </div>
 
-      <div class="form-group" ng-if="vm.personType.Description !== 'Professor'">
+      <div class="form-group" ng-if="vm.personType.Description === 'FormerStudent' || vm.personType.Description === 'FormerStudentAndProfessor' || vm.personType.Description === 'Student' || vm.personType.Description === 'DropStudent'">
         <label for="GraduationEngineeringId">ENGENHARIA*</label>
         <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                 ng-model="vm.user.GraduationEngineeringId" required>
@@ -122,7 +142,7 @@
       </div>
 
       <div class="form-group"
-           ng-if="vm.personType.Description === 'Professor' || vm.personType.Description === 'FormerStudentAndProfessor'">
+           ng-if="vm.personType.Description === 'Professor' || vm.personType.Description === 'FormerStudentAndProfessor' || vm.personType.Description === 'PostgraduateStudent' || vm.personType.Description === 'Postgraduate' || vm.personType.Description === 'CformGraduate'">
         <label for="ProfessorSEId">SEÇÃO DE ENSINO ATUAL*</label>
         <select class="form-control" id="ProfessorSEId" name="ProfessorSEId"
                 ng-model="vm.user.ProfessorSEId" required>
@@ -134,7 +154,20 @@
         </p>
       </div>
 
-      <div class="form-group">
+      <div class="form-group"
+           ng-if="vm.personType.Description === 'Postgraduate' || vm.personType.Description === 'PostgraduateStudent'">
+        <label for="SpecializationLevel">NÍVEL DE ESPECIALIZAÇÃO*</label>
+        <select class="form-control" name="SpecializationLevel"
+                ng-model="vm.user.SpecializationLevel" required>
+          <option ng-repeat="specialization in vm.specializations" ng-value="specialization">{{specialization}}
+          </option>
+        </select>
+        <p class="help-block" ng-if="form.ProfessorSEId.$error.required && vm.submitted">
+          Insira a sua seção de ensino.
+        </p>
+      </div>
+
+      <div class="form-group" ng-if="vm.personType.Description !== 'Visitor' && vm.personType.Description !== 'PostgraduateStudent' && vm.personType.Description !== 'Postgraduate' && vm.personType.Description !== 'CformGraduate' && vm.personType.Description !== 'Recruiter'">
         <label>{{vm.personType.Description === 'FormerStudent' ? 'TEVE ' : 'TEM (OU TEVE)'}}
           LIGAÇÃO COM ALGUMA INICIATIVA OU PROJETO?</label>
         <div class="custom-control custom-checkbox" ng-repeat="initiative in vm.initiativeList">
@@ -152,13 +185,9 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- For visitors: Options to know the page -->
-    <div class="page2" ng-if="vm.page >=2 && vm.personType.Description === 'Visitor'" ng-show="vm.page === 2">
-
-      <div class="form-group"
-           ng-if="vm.personType.Description === 'Visitor'">
+      
+      <div class="form-group">
+        <label for="OptionToKnowThePage">COMO VOCÊ CONHECEU A PÁGINA?</label>
         <div class="custom-control custom-radio" ng-repeat="option in vm.optionsToKnowList">
           <input type="radio" id="customRadio{{$index}}" name="OptionToKnowThePage" class="custom-control-input"
                  ng-value="option.OptionTypeId" ng-model="vm.user.OptionToKnowThePageId" required>
@@ -176,7 +205,6 @@
           Escolha uma opção.
         </p>
       </div>
-
     </div>
 
     <!-- Professional information - Only for users whose provider is local -->
@@ -432,24 +460,28 @@
       <p class="help-block">{{ vm.errors.register }}</p>
     </div>
 
-  </form>
+
 
   <!-- General information -->
-  <div ng-show="vm.page === 1">
-    <h6 class="modal-title text-center">Qual sua relação com o IME hoje?</h6>
+  <div ng-show="vm.page === 1" class="form-group">
+    <h6 class="modal-title text-center padding-select">Qual sua relação com o IME hoje?</h6>
+    <select class="form-control" ng-options="type as type.PortugueseDescription | uppercase for type in vm.personTypes" 
+            ng-model="vm.type" ng-change="vm.selectType()"></select>
 
+    <!--
     <button class="btn btn-outline-dark person-type" ng-repeat="type in vm.personTypes"
             ng-if="type.Description !== 'NewUser'" ng-class="{selected: type.selected}"
             ng-click="vm.selectType(type)" uib-tooltip="{{type.Legend}}" tooltip-placement="bottom">
       {{type.PortugueseDescription | uppercase}}
     </button>
+    -->
 
     <p class="help-block" ng-show="form.PersonTypeId.$error.required && vm.submitted">
       Escolha uma opção.
     </p>
 
   </div>
-
+</form>
   <!-- Links footer -->
   <div class="row footer-links"
        ng-class="{'justify-content-end': vm.page === 1, 'justify-content-between': vm.page >= 2}">

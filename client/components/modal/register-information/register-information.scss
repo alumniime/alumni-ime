@@ -72,7 +72,7 @@ modal-register-information {
     padding-bottom: 10px;
   }
 
-  form input, form select {
+  form input, form select, form div select {
     border-radius: 0 !important;
     border-top: none !important;
     border-left: none !important;
@@ -147,6 +147,10 @@ modal-register-information {
 
   .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #E84E0F !important;
+  }
+
+  .padding-select {
+    padding-bottom: 20px;
   }
 
   .btn-outline-dark.add-position {

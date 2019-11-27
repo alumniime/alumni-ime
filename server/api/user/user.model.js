@@ -208,6 +208,14 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: 0
+    },
+    SpecializationLevel:{
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    CompanyName:{
+      type: DataTypes.STRING(45),
+      allowNull: true
     }
   }, {
 
