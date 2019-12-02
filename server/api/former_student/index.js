@@ -6,14 +6,14 @@ import * as auth from '../../auth/auth.service';
 
 var router = new Router();
 
-router.get('/', auth.isAuthenticated(), controller.index);
-router.get('/graduation_years', auth.isAuthenticated(), controller.years);
-router.get('/industries', auth.isAuthenticated(), controller.industries);
-router.get('/locations', auth.isAuthenticated(), controller.locations);
-router.get('/ranking', auth.isAuthenticated(), controller.ranking);
-router.get('/:year', auth.isAuthenticated(), controller.year);
-router.get('/show/:id', auth.isAuthenticated(), controller.show);
-router.post('/', auth.isAuthenticated(), controller.search);
+router.get('/', controller.index);
+router.get('/graduation_years', controller.years);
+router.get('/industries', controller.industries);
+router.get('/locations', controller.locations);
+router.get('/ranking', controller.ranking);
+router.get('/:year', controller.year);
+router.get('/show/:id', controller.show);
+router.post('/', controller.search);
 router.post('/create', auth.hasRole('admin'), controller.create);
 router.get('/autocomplete/:year/:name', auth.hasRole('admin'), controller.complete);
 router.put('/:id', auth.hasRole('admin'), controller.upsert);

@@ -166,6 +166,7 @@ export function years(req, res) {
 // Gets a list of years ranking
 export function ranking(req, res) {
   console.log(req.user);
+  /*
   User.find({
     where: {
       $or: [{
@@ -181,10 +182,13 @@ export function ranking(req, res) {
     }
   })
     .then(user => {
+
+      /*
       if (!user) {
         return res.status(403)
           .send('Forbidden');
       }
+      */
 
       return sequelize.query(`
         SELECT 
@@ -202,9 +206,11 @@ export function ranking(req, res) {
           `, { type: sequelize.QueryTypes.SELECT })
         .then(respondWithResult(res))
         .catch(handleError(res));
-
+/*
     })
     .catch(handleError(res));
+    */
+    
 }
 
 // Gets a list of available industries to search

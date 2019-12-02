@@ -22,11 +22,11 @@ export default class DonatorsHallController {
     this.getCurrentUser()
       .then(user => {
         this.user = user;
-        if (!this.user.PersonId) {
+        if (!this.user.PersonId && false) { //disabling temporarily
           loading.close();
           this.Modal.openLogin();
           this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos aprovados e logados podem realizar pesquisas.');
-        } else if (this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin' || this.user.IsSpecialUser) {
+        } else if (true || this.user.IsApproved && (this.user.personType.Description === 'FormerStudent' || this.user.personType.Description === 'FormerStudentAndProfessor') || this.user.role === 'admin' || this.user.IsSpecialUser) {
 
           this.$http.get('/api/former_students/ranking')
             .then(response => {

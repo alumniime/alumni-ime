@@ -6,7 +6,7 @@ import * as auth from '../../auth/auth.service';
 
 var router = new Router();
 
-router.get('/', auth.isAuthenticated(), controller.index);
+router.get('/', controller.index);
 router.get('/menu', controller.menu);
 
 module.exports = router;
