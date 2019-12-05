@@ -59,15 +59,15 @@ export class NavbarComponent {
       state: 'graduates',
       dropdown: [
         {
-          title: 'PESQUISAR',
+          title: 'PESQUISAR EX-ALUNOS',
           state: 'graduates.search'
         },
         {
-          title: 'RANKING',
+          title: 'RANKING DE TURMAS',
           state: 'graduates.ranking'
         },{
           title: 'GALERIA DE APOIADORES',
-          state: 'graduates.hall'
+          state: 'graduates'
         },
       ]
     },
@@ -138,6 +138,20 @@ export class NavbarComponent {
         state: 'submission'
       })
       this.menu[3].dropdown = dropdown;
+    });
+
+    this.$http.get('/api/donator_hall/menu')
+    .then(response => {
+      this.donatorHallMenu = response.data;
+      var sidedrop = [];
+      for(var year of this.donatorHallMenu) {
+        sidedrop.push({
+          title: year.Year,
+          state: `graduates.hall({Year: '${year.Year}'})`
+        })
+      }
+      this.menu[4].dropdown[2].sidedrop = sidedrop;
+      console.log(this.menu)
     });
 
   }

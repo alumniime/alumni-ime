@@ -62,7 +62,7 @@ export default function routes($stateProvider, $urlRouterProvider, appConfig) {
       }
     })
     .state('graduates.hall', {
-      url: '/hall',
+      url: '/hall/:Year',
       template: require('./hall/hall.html'),
       controller: 'DonatorsHallController',
       controllerAs: 'vm',

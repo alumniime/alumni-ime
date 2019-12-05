@@ -69,9 +69,18 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
                   <div ng-repeat="drop in item.dropdown">
                     <button class="dropdown-item" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
-                            ui-sref="{{drop.state}}" ui-sref-active="active">
+                            ui-sref="{{drop.state}}" ui-sref-active="active" ng-if="!drop.sidedrop">
                       {{drop.title}}
                     </button>
+                    <div class="dropdown dropdown-submenu" ng-if="drop.sidedrop">
+                      <button class="dropdown-item sidedrop-toggle dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{drop.title}}</button>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <div ng-repeat="sidedrop in drop.sidedrop" >
+                          <button class="dropdown-item"
+                          ui-sref="{{sidedrop.state}}" ui-sref-active="active">{{sidedrop.title}}</button>
+                        </div>
+                      </div>
+                    </div>
                     <div class="dropdown-divider" ng-if="!$last"></div>
                   </div>
                 </div>
@@ -158,13 +167,21 @@
                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                      ng-if="item.dropdown">
                     {{item.title}}
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
+                  </a><div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
                     <div ng-repeat="drop in item.dropdown">
                       <button class="dropdown-item" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
-                              ui-sref="{{drop.state}}" ui-sref-active="active">
+                              ui-sref="{{drop.state}}" ui-sref-active="active" ng-if="!drop.sidedrop">
                         {{drop.title}}
                       </button>
+                      <div class="dropdown dropdown-submenu" ng-if="drop.sidedrop">
+                        <button class="dropdown-item sidedrop-toggle dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{drop.title}}</button>
+                        <div class="">
+                          <div ng-repeat="sidedrop in drop.sidedrop" >
+                            <button class="dropdown-item" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
+                            ui-sref="{{sidedrop.state}}" ui-sref-active="active">{{sidedrop.title}}</button>
+                          </div>
+                        </div>
+                      </div>
                       <div class="dropdown-divider" ng-if="!$last"></div>
                     </div>
                   </div>
