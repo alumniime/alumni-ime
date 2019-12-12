@@ -3,6 +3,7 @@
 export default class GraduatesRankingController {
 
   graduationYears = [];
+  currentYear;
 
   constructor(Auth, Modal, Util, $http, $anchorScroll) {
     'ngInject';
@@ -15,6 +16,8 @@ export default class GraduatesRankingController {
   }
 
   $onInit() {
+    var date = new Date();
+    this.currentYear = date.getFullYear();
     this.$anchorScroll('top');
 
     var loading = this.Modal.showLoading();
