@@ -126,6 +126,7 @@ export function index(req, res) {
 
 // Gets a list of available years to search
 export function years(req, res) {
+  /*
   console.log(req.user);
   User.find({
     where: {
@@ -146,7 +147,7 @@ export function years(req, res) {
         return res.status(403)
           .send('Forbidden');
       }
-
+*/
       return FormerStudent.findAll({
         attributes: [
           'GraduationYear',
@@ -158,9 +159,10 @@ export function years(req, res) {
       })
         .then(respondWithResult(res))
         .catch(handleError(res));
-
+/*
     })
     .catch(handleError(res));
+    */
 }
 
 // Gets a list of years ranking

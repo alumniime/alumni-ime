@@ -19,7 +19,18 @@
         {{vm.user.Headline}}
         <br> {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
       </p>
-      <p class="legend" ng-if="vm.user.personType.Description === 'Visitor'">
+      <p class="legend" ng-if="vm.user.personType.Description === 'PostgraduateStudent' || vm.user.personType.Description === 'Postgraduate'">
+        {{vm.user.Headline}}
+        <br> {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+        <br> Formatura {{vm.user.GraduationYear}}
+        <br> {{vm.user.SpecializationLevel}}
+      </p>
+      <p class="legend" ng-if="vm.user.personType.Description === 'CformGraduate'">
+        {{vm.user.Headline}}
+        <br> {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+        <br> Formatura {{vm.user.GraduationYear}}
+      </p>
+      <p class="legend" ng-if="vm.user.personType.Description === 'Visitor' || vm.user.personType.Description === 'Recruiter'">
         {{vm.user.Headline}}
         <br> {{vm.user.personType.PortugueseDescription}}
       </p>
@@ -111,7 +122,7 @@
             Insira o nome completo.
           </p>
         </div>
-        <div class="form-group" ng-if="vm.user.PersonTypeId !== 5 && vm.user.PersonTypeId !== 7">
+        <div class="form-group" ng-if="vm.user.PersonTypeId !== 5 && vm.user.PersonTypeId !== 7 && vm.user.PersonTypeId !== 11">
           <label for="GraduationYear">ANO DE FORMAÇÃO*</label>
           <select class="form-control" id="GraduationYear" name="GraduationYear" ng-model="vm.user.GraduationYear"
                   required>
@@ -128,7 +139,7 @@
             Insira o ano de formação.
           </p>
         </div>
-        <div class="form-group" ng-if="vm.user.PersonTypeId !== 5 && vm.user.PersonTypeId !== 7">
+        <div class="form-group" ng-if="vm.user.PersonTypeId !== 5 && vm.user.PersonTypeId !== 7 && vm.user.PersonTypeId !== 11 && vm.user.PersonTypeId !== 10 && vm.user.PersonTypeId !== 9 && vm.user.PersonTypeId !== 8">
           <label for="GraduationEngineeringId">ENGENHARIA*</label>
           <select class="form-control" id="GraduationEngineeringId" name="GraduationEngineeringId"
                   ng-model="vm.user.GraduationEngineeringId" required>

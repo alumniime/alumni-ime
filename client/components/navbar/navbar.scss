@@ -277,6 +277,9 @@ nav {
   }
 
   @include media-breakpoint-up(lg) {
+    .dropdown-submenu>.dropdown-menu {
+      display: none;
+    }
     li.dropdown:hover>div.dropdown-menu {
       display: block;
     }
