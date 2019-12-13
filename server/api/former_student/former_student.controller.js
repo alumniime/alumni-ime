@@ -72,6 +72,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of FormerStudents
 export function index(req, res) {
+  /*
   User.find({
     where: {
       $or: [{
@@ -91,7 +92,7 @@ export function index(req, res) {
         return res.status(403)
           .send('Forbidden');
       }
-
+*/
       FormerStudent.findAll({
         include: [{
           model: Engineering,
@@ -120,8 +121,10 @@ export function index(req, res) {
       })
         .then(respondWithResult(res))
         .catch(handleError(res));
+        /*
     })
     .catch(handleError(res));
+    */
 }
 
 // Gets a list of available years to search
@@ -289,6 +292,7 @@ export function locations(req, res) {
 
 // Gets a list of a single year with FormerStudents
 export function year(req, res) {
+  /*
   User.find({
     where: {
       $or: [{
@@ -308,7 +312,7 @@ export function year(req, res) {
         return res.status(403)
           .send('Forbidden');
       }
-
+*/
       return FormerStudent.findAll({
         include: [{
           model: Engineering,
@@ -386,13 +390,15 @@ export function year(req, res) {
       })
         .then(respondWithResult(res))
         .catch(handleError(res));
+        /*
     })
     .catch(handleError(res));
+    */
 }
 
 // Gets a single FormerStudent
 export function show(req, res) {
-
+/*
   User.find({
     where: {
       $or: [{
@@ -412,7 +418,7 @@ export function show(req, res) {
         return res.status(403)
           .send('Forbidden');
       }
-
+*/
       return User.find({
         include: [{
           model: Engineering,
@@ -507,13 +513,16 @@ export function show(req, res) {
       })
         .then(respondWithResult(res))
         .catch(handleError(res));
+        /*
     })
     .catch(handleError(res));
+    */
 
 }
 
 // Gets a list of FormerStudents with params
 export function search(req, res) {
+  /*
   User.find({
     where: {
       $or: [{
@@ -533,7 +542,7 @@ export function search(req, res) {
         return res.status(403)
           .send('Forbidden');
       }
-
+*/
       var where = {};
       var level = {};
       var location = {};
@@ -697,8 +706,10 @@ export function search(req, res) {
       })
         .then(respondWithResult(res))
         .catch(handleError(res));
+        /*
     })
     .catch(handleError(res));
+    */
 }
 
 // Autocomplete for admin search
