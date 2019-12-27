@@ -42,7 +42,7 @@ export default class ModalEditDonationController {
     }
 
     var date = new Date();
-    this.currentSemester = (date.getMonth() >= 6 && date.getMonth() <= 10) ? 2 : 1; 
+    this.currentSemester = (date.getMonth() >= 6 && date.getMonth() <= 11) ? 2 : 1; 
     this.currentYear = date.getFullYear();
   
   }
