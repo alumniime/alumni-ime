@@ -5,6 +5,7 @@ export default class DonatorsHallController {
   graduationYears = [];
   filteredList=[];
   searchText;
+  totalCategory=[0,0,0,0,0,0]; //an array with the total number of donators in each category, in order from patron to support
 
   constructor(Auth, DonatorHall, Modal, Util, $http, $anchorScroll) {
     'ngInject';
@@ -44,9 +45,16 @@ export default class DonatorsHallController {
     this.DonatorHall.load(false).then(()=>{
       loading.close();
       console.log(this.DonatorHall.list)
+      this.calculateTotalCategory();
       this.DonatorHall.list.forEach(donator => {
         this.filteredList.push(donator);
       });
+    })
+  }
+
+  calculateTotalCategory (){
+    this.DonatorHall.list.forEach(donator=>{
+      this.totalCategory[donator.CategoryId-1]++;
     })
   }
 

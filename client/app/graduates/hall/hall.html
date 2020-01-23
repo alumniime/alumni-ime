@@ -9,14 +9,14 @@
       <div class="col-12 col-lg-5 intro">
           A Alumni IME conta com o suporte de ex-alunos e amigos do IME para realizar suas atividades de integração e incentivar projetos de alunos e professores. Gostaríamos de agradecer a todas as pessoas abaixo que puderam contribuir de alguma forma! Muito Obrigado!
           <br><br>
-          Em 2019 já foram <b>315 apoiadores</b>, divididos nas categorias:
+          Em 2019 já foram <b>{{vm.DonatorHall.list.length}} apoiadores</b>, divididos nas categorias:
           <ul>
-            <li>Patrono: 1</li>
-            <li>Platina: 6</li>
-            <li>Ouro: 12</li>
-            <li>Prata: 37</li>
-            <li>Bronze: 151</li>
-            <li>Apoio: 108</li>
+            <li>Patrono: {{vm.totalCategory[0]}}</li>
+            <li>Platina: {{vm.totalCategory[1]}}</li>
+            <li>Ouro: {{vm.totalCategory[2]}}</li>
+            <li>Prata: {{vm.totalCategory[3]}}</li>
+            <li>Bronze: {{vm.totalCategory[4]}}</li>
+            <li>Apoio: {{vm.totalCategory[5]}}</li>
           </ul>
           <br>
           <a ng-href="/turmas/ranking">Veja o ranking das turmas</a>
