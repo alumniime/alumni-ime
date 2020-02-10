@@ -194,15 +194,15 @@
               <div class="row p-0">
                 <div class="col-12 col-md-5">
                   <div class="form-group">
-                    <label for="">RECOMPENSAS PARA APOIADORES</label>
+                    <label for="RewardsDescription">RECOMPENSAS PARA APOIADORES*</label>
                     <div ng-repeat="index in vm.rewardsIndex">
-                      <input type="text" class="form-control" required ng-model="vm.rewardsList.RewardDescription[index-1]"></textarea>
+                      <input type="text" id="RewardsDescription" name="RewardsDescription" class="form-control" required ng-model="vm.rewardsList.RewardDescription[index-1]"></textarea>
                     </div>
                   </div>              
                 </div>
                 <div class="col-12 col-md-3">
                   <div class="form-group">
-                    <label for="">VALOR MINIMO</label>
+                    <label for="">VALOR MÍNIMO</label>
                     <div ng-if="vm.rewardsCount>1">
                       <input type="text" class="form-control" required disabled value="R$0,00">
                     </div>
@@ -219,6 +219,9 @@
                     </div>
                   </div>              
                 </div>
+                <p class="help-block outText" ng-show="form.RewardsDescription.$error.required && vm.submitted">
+                    Insira as recompensas para os apoiadores e os valores correspondentes.
+                </p>
               </div>
               <div class="row">
                 <div class="col-12 col-md-6">
@@ -229,7 +232,7 @@
                     </button>
                 </div>
                 <div class="col-12 col-md-3">
-                  <button type="button" class="btn btn-outline-secondary" ng-click="vm.deleteRewardsField()" ng-disabled="vm.rewardsCount==1"> 
+                  <button type="button" class="btn btn-outline-secondary" ng-click="vm.deleteRewardsField()" ng-disabled="vm.rewardsCount<=2"> 
                     Remover Campo
                   </button>
               </div>
@@ -240,9 +243,9 @@
               <div class="row">
                 <div class="col-12 col-md-6">
                   <div class="form-group">
-                    <label for="">INVESTIMENTO REQUERIDO*</label>
+                    <label for="CostsDescription">INVESTIMENTO REQUERIDO*</label>
                     <div ng-repeat="index in vm.costsIndex">
-                      <input type="text" class="form-control" required ng-model="vm.costsList.Item[index-1]">
+                      <input type="text" id="CostsDescription" name="CostsDescription" class="form-control" required ng-model="vm.costsList.Item[index-1]">
                     </div>
                   </div>              
                 </div>
@@ -266,12 +269,15 @@
                     <div class="form-group">
                       <label class="labelHidden">EXCLUIR</label>
                         <div ng-repeat="index in vm.costsIndex">
-                          <button type="button" class="form-control" aria-label="Close" ng-click="vm.deleteCostsField(index)">
+                          <button type="button" class="form-control" aria-label="Close" ng-click="vm.deleteCostsField(index)" ng-disabled="vm.costsCount==2">
                             <span aria-hidden="true"></span>&times;</span>
                           </button>
                         </div>
                     </div>
                   </div>
+                  <p class="help-block outText" ng-show="form.CostsDescription.$error.required && vm.submitted">
+                      Insira a descrição e o valor do investimento necessário.
+                  </p>
               </div>
               <div class="row">
                 <div class="col-12 col-md-9">

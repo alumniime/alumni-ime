@@ -73,6 +73,13 @@ export default class SubmissionController {
 
       this.budget = 0;
 
+      console.log("Antes");
+      console.log(this.rewardsCount);
+      console.log(this.rewardsIndex);
+      console.log(this.rewardsList);
+      this.addCostsField();
+      this.addRewardsField();
+      console.log("Depois");
       console.log(this.rewardsCount);
       console.log(this.rewardsIndex);
       console.log(this.rewardsList);
