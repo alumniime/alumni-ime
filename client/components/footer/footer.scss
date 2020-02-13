@@ -115,4 +115,15 @@ footer {
     -ms-flex-pack: justify !important;
     justify-content: space-between !important;
   }
+
+  .footerAddress{
+    padding-top: 0 !important;
+  }
+
+  .logoPartner{
+    margin: auto;
+    max-width: 70px;
+    display: -webkit-box;
+  }
+
 }
