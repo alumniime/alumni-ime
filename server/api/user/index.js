@@ -28,4 +28,7 @@ router.post('/forgot_password', controller.forgotPassword);
 router.put('/reset_password', controller.resetPassword);
 router.post('/contact', controller.sendContactEmail);
 
+router.post('/association_trial', controller.sendAssociationTrialEmail);
+router.post('/association_confirmation', controller.sendAssociationConfirmEmail);
+
 module.exports = router;

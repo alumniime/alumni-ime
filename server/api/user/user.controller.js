@@ -398,7 +398,6 @@ export function create(req, res, next) {
     .catch(err => next(err));
 
 }
-
 /**
  * Updates a user profile
  */
@@ -528,6 +527,7 @@ export function update(req, res, next) {
     },
     // Updating user fields
     (user, location, done) => {
+      console.log('tentando fazer update nos campos');
       if(config.debug) {
         console.log('\n=>Location saved', JSON.stringify(location));
       }
@@ -563,6 +563,7 @@ export function update(req, res, next) {
     (newUser, initiativeLinks, done) => {
       console.log("here4")
       console.log(initiativeLinks);
+      console.log(req.body.opportunitiesLinks);
       var opportunitiesLinks = req.body.opportunitiesLinks;
 
       InitiativeLink.bulkCreate(initiativeLinks)
@@ -576,19 +577,27 @@ export function update(req, res, next) {
         where: {PersonId: newUser.PersonId}
       })
         .then(() => done(null, newUser, opportunitiesLinks))
-        .catch(err => done(err));
+        .catch(err => done(err))
     },
     // Creating new opportunitiesLinks
     (newUser, opportunitiesLinks, done) => {
       console.log(OpportunitiesLink);
-      for(var opportunity of opportunitiesLinks) {
-        opportunity.PersonId = newUser.PersonId;
-        console.log("inside loop")
+      console.log(opportunitiesLinks);
+      if(opportunitiesLinks){
+        console.log('entrou no if');
+        for(var opportunity of opportunitiesLinks) {
+          opportunity.PersonId = newUser.PersonId;
+          console.log("inside loop")
+          console.log("here1")
+          OpportunitiesLink.bulkCreate(opportunitiesLinks)
+            .then(() => done(null, newUser))
+            .catch(err => done(err));
+        }
+      }else{
+        console.log('Não entrou no if');
+        done(null, newUser);
       }
-      console.log("here1")
-      OpportunitiesLink.bulkCreate(opportunitiesLinks)
-        .then(() => done(null, newUser))
-        .catch(err => done(err));
+      
     },
     // Updating user into Mailchimp
     (newUser, done) => {
@@ -604,8 +613,10 @@ export function update(req, res, next) {
 
   ], function (err, result) {
     if(err) {
+      console.log('Deu erro', err);
       next(err);
     } else {
+      console.log('Deu certo');
       return res.json(result);
     }
   });
@@ -966,7 +977,19 @@ export function me(req, res, next) {
       'OptionToKnowThePageId',
       'OptionToKnowThePageOther',
       'IsApproved',
-      'IsSpecialUser'
+      'IsSpecialUser',
+      'TryAssociation',
+      'IsAssociated',
+      'Country',
+      'State',
+      'City',
+      'District',
+      'CEP',
+      'Address',
+      'AddressComplement',
+      'RG',
+      'CPF',
+      'AssociationCategory'
     ],
     where: {
       PersonId: userId
@@ -1281,7 +1304,7 @@ export function sendContactEmail(req, res, next) {
           address: config.email.user
         },
         template: 'user-contact-email',
-        subject: 'Contato pelo site da Alumni iME',
+        subject: 'Contato pelo site da Alumni IME',
         context: {
           name: contactName,
           message: contactMessage
@@ -1298,6 +1321,84 @@ export function sendContactEmail(req, res, next) {
       });
     }
   ], function (err) {
+    return res.status(422)
+      .json({message: err});
+  });
+}
+
+export function sendAssociationTrialEmail(req, res, next){
+  var userName = req.body.Name;
+  var userEmail = req.body.Email;
+
+  async.waterfall([
+    function(done){
+      var data = {
+        to: {
+          name: userName,
+          address: userEmail
+        },
+        from: {
+          name: config.email.name,
+          address: config.email.user
+        },
+        template: 'user-association-notification',
+        subject: 'Recebemos seu pedido de associação',
+        context: {
+          name: userName
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions'
+          });
+        } else {
+          return done(err);
+        }
+      });
+    }
+
+  ], function(err) {
+    return res.status(422)
+      .json({message: err});
+  });
+}
+
+export function sendAssociationConfirmEmail(req, res, next){
+  var userName = req.body.Name;
+  var userEmail = req.body.Email;
+  var userAssociationCategory = req.body.Category;
+
+  async.waterfall([
+    function(done){
+      var data = {
+        to: {
+          name: userName,
+          address: userEmail
+        },
+        from: {
+          name: config.email.name,
+          address: config.email.user
+        },
+        template: 'user-association-feedback',
+        subject: 'Sua associação foi aprovada',
+        context: {
+          name: userName,
+          category: userAssociationCategory
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions'
+          });
+        } else {
+          return done(err);
+        }
+      });
+    }
+
+  ], function(err) {
     return res.status(422)
       .json({message: err});
   });

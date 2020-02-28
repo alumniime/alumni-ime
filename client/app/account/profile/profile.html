@@ -60,7 +60,10 @@
             </p>
 
             <p class="legend text-warning" ng-if="!vm.user.IsApproved">Cadastro em validação</p>
-            <p class="legend text-success" ng-if="vm.user.IsApproved">Usuário validado</p>
+            <div class="row">
+              <p class="legend text-success" ng-if="vm.user.IsApproved">Usuário validado</p>
+              <p class="legend text-success" ng-if="vm.user.IsAssociated">|Usuário associado</p>
+            </div>
           </div>
         </div>
 
@@ -140,10 +143,23 @@
         <p class="help-block text-success mt-0 mb-4">
           {{ vm.messageUpdate }}
         </p>
+        <div class="row btnDiv">
+          <button class="btn btn-outline-danger btnProfile" ng-click="vm.Modal.openAssociation(vm.user)" 
+          ng-if="(vm.user.PersonTypeId == 2 || vm.user.PersonTypeId == 3 || vm.user.PersonTypeId == 4 || vm.user.PersonTypeId == 8 || vm.user.PersonTypeId == 9 || vm.user.PersonTypeId == 10) && vm.user.TryAssociation == 0 && vm.user.role == 'admin'">
+            ASSOCIAR-SE
+          </button>
 
-        <button class="btn btn-outline-danger" ng-click="vm.callEdit()">
-          ALTERAR CADASTRO
-        </button>
+          <button class="btn btn-outline-danger btnProfile" ng-click="vm.testeEmail()" ng-if="vm.user.PersonId=1660">
+            TESTE EMAIL
+          </button>
+
+          <button class="btn btn-outline-danger btnProfile" ng-click="vm.callEdit()">
+            ALTERAR CADASTRO
+          </button>
+          <button class="btn btn-outline-danger btnProfile" ng-click="vm.saveTest()">
+            TESTE
+          </button>
+        </div>
 
         <br>
 

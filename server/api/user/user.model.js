@@ -128,7 +128,7 @@ export default function (sequelize, DataTypes) {
       allowNull: true
     },
     Genre: {
-      type: DataTypes.CHAR(1),
+      type: DataTypes.STRING(1),
       allowNull: true
     },
     Phone: {
@@ -216,7 +216,58 @@ export default function (sequelize, DataTypes) {
     CompanyName:{
       type: DataTypes.STRING(45),
       allowNull: true
+    },
+    TryAssociation:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
+    IsAssociated:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
+    Country:{
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    State:{
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    City:{
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    District:{
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    CEP:{
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    Address:{
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    AddressComplement:{
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    RG:{
+      type: DataTypes.STRING(13),
+      allowNull: true
+    },
+    CPF:{
+      type: DataTypes.STRING(11),
+      allowNull: true
+    },
+    AssociationCategory:{
+      type: DataTypes.STRING(10),
+      allowNull: true
     }
+
   }, {
 
     tableName: 'Person',

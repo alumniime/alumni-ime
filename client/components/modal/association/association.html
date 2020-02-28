@@ -1,0 +1,133 @@
+<div class="modal-header d-block">
+    <div class="w-100">
+        <img src="assets/images/logo.png" class="logo mx-auto my-2">
+    </div>
+    <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+    <!-- <h6 class="modal-title text-center" id="modal-title">Faça agora seu login</h6> -->
+</div>
+
+<div class="modal-body" id="modal-body" ng-if="!vm.submitionSended">
+
+        <form class="form" name="form" ng-submit="vm.submitAssociation(form)" novalidate>
+            
+            <div class="form-group">
+                <select class="genderSelect" name="gender" ng-model="vm.user.Genre" required>
+                    <option value="" id="genderLabel" disabled selected>SEXO</option>
+                    <option value="0">Masculino</option>
+                    <option value="1">Feminino</option>
+                </select>
+                <p class="help-block" ng-show="form.gender.$error.required && vm.submitted">
+                    Selecione seu gênero.
+                </p>
+            </div>
+
+                <div class="form-group">
+                    <input type="text" name="CPF" placeholder="CPF" class="form-control" ng-model="vm.user.CPF" required ui-br-cpf-mask>
+                    <p class="help-block" ng-show="form.CPF.$error.required && vm.submitted">
+                        Insira seu CPF.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="rg" placeholder="RG" class="form-control" ng-model="vm.user.RG" required>
+                    <p class="help-block" ng-show="form.rg.$error.required && vm.submitted">
+                        Insira seu RG.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="Birthdate" name="Birthdate" placeholder="Data de Nascimento (dd/mm/aaaa)" mask="39/19/9999"
+                        class="form-control" ng-model="vm.Birthdate"
+                        ng-change="vm.dateInvalid = vm.Util.invalidPastDate(vm.Birthdate)" required>
+                    <p class="help-block" ng-show="form.Birthdate.$error.required && vm.submitted">
+                        Insira a sua data de nascimento.
+                    </p>
+                </div>
+
+                <div class="phone">
+                    <input type="tel" id="Phone" name="Phone" ng-intl-tel-input
+                    class="form-control ml-5" ng-model="vm.Phone" required>
+                    <p class="help-block" ng-show="form.Phone.$error.required && vm.submitted">
+                        Insira o seu telefone.
+                    </p>
+                </div>
+            <!--
+                <div class="form-group has-error">
+                  <p class="help-block">{{ vm.errors.signup }}</p>
+                </div>
+            -->
+                <div class="form-group">
+                    <input type="text" name="country" placeholder="País" class="form-control" ng-model="vm.user.Country" required>
+                    <p class="help-block" ng-show="form.country.$error.required && vm.submitted">
+                        Insira seu país.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="state" placeholder="Estado" class="form-control" ng-model="vm.user.State" required>
+                    <p class="help-block" ng-show="form.state.$error.required && vm.submitted">
+                        Insira seu estado.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="city" placeholder="Cidade" class="form-control" ng-model="vm.user.City" required>
+                    <p class="help-block" ng-show="form.city.$error.required && vm.submitted">
+                        Insira sua cidade.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="district" placeholder="Bairro" class="form-control" ng-model="vm.user.District" required>
+                    <p class="help-block" ng-show="form.district.$error.required && vm.submitted">
+                        Insira seu Bairro.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="cep" placeholder="CEP" class="form-control" ng-model="vm.user.CEP" required>
+                    <p class="help-block" ng-show="form.cep.$error.required && vm.submitted">
+                        Insira seu CEP.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="address" placeholder="Endereço" class="form-control" ng-model="vm.user.Address" required>
+                    <p class="help-block" ng-show="form.address.$error.required && vm.submitted">
+                        Insira seu endereço.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="complement" placeholder="Complemento" class="form-control" ng-model="vm.user.AddressComplement">
+                </div>
+        
+
+            
+                <div class="accept-terms">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" name="checkTerms" class="custom-control-input" id="checkTerms" ng-model="vm.checkTerms" required>
+                    <label class="custom-control-label terms" for="checkTerms">
+                            Por este Termo de Adesão, o(a) Associado(a) manifesta sua vontade de aderir ao quadro de
+                            associados da Associação dos Ex-Alunos do IME, declarando conhecer e concordar com o
+                            Estatuto Social da Associação.
+                    </label>
+                  </div>
+                  <p class="help-block" ng-show="form.checkTerms.$error.required && vm.submitted">
+                    Por favor, aceite os termos de uso.
+                  </p>
+                </div>
+            
+                <button class="btn btn-danger m-auto btn-connect" type="submit">
+                  QUERO ME ASSOCIAR
+                </button>
+              </form>
+
+</div>
+
+<div class="modal-body" id="modal-body" ng-if="vm.submitionSended">
+    <p style="text-align: center;">Obrigado! Analisaremos seu pedido de registro e retornaremos em breve.</p>
+    <button class="btn btn-danger m-auto btn-connect" ng-click="vm.okButton()">
+        OK
+    </button>
+</div>

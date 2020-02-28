@@ -164,7 +164,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
       })
         .$promise;
     },
-
+    
     /**
      * Update user profile using a PersonId
      *

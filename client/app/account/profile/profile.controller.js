@@ -295,8 +295,6 @@ export default class ProfileController {
     this.errors.update = undefined;
     this.messageUpdate = '';
     this.updateInitiativeLinks(this.initiativeList);
-    console.log(form);
-    console.log(this.user);
 
     if(this.Birthdate) {
       var date = this.Birthdate.split('/');
@@ -328,6 +326,7 @@ export default class ProfileController {
       }
       
       var loading = this.Modal.showLoading();
+      console.log("Esse é o user correto: ", user);
       return this.Auth.updateById(this.PersonId, user)
         .then(() => {
           // Account updated
@@ -399,4 +398,20 @@ export default class ProfileController {
     location.href = `/${referrer || 'main'}`;
   }
 
+  testeEmail() {
+    this.$http.post('/api/users/association_confirmation', {
+      Name: this.user.Name,
+      Email: this.user.Email,
+      Category: this.user.AssociationCategory 
+    })
+      .then(res => {
+        console.log(res);
+        console.log('Email enviado com sucesso');
+      })
+      .catch(err => {
+        this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o email, tente novamente.');
+        console.log(err);
+        console.log('Email não enviado');
+      });
+  }
 }
