@@ -399,9 +399,11 @@ export default class ProfileController {
   }
 
   testeEmail() {
+    console.log('Name: '+this.user.name, 'Email: '+this.user.email);
+    console.log(this.user);
     this.$http.post('/api/users/association_confirmation', {
-      Name: this.user.Name,
-      Email: this.user.Email,
+      Name: this.user.name,
+      Email: this.user.email,
       Category: this.user.AssociationCategory 
     })
       .then(res => {

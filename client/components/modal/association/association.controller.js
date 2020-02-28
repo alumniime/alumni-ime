@@ -90,9 +90,10 @@ export default class ModalAssociationController {
                 this.submitted = false;
                 this.submitionSended =true;
                 console.log('Deu Certo');
+                console.log('Name: '+user.name, 'Email: '+user.email);
                 this.$http.post('/api/users/association_trial', {
-                    Name: user.Name,
-                    Email: user.Email
+                    Name: user.name,
+                    Email: user.email
                 })
             }).catch((err)=>{
                 console.log('Deu Errado', err);
