@@ -266,6 +266,15 @@ export default function (sequelize, DataTypes) {
     AssociationCategory:{
       type: DataTypes.STRING(10),
       allowNull: true
+    },
+    AssociationPending: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
+    AssociationJustification: {
+      type: DataTypes.STRING(500),
+      allowNull: true
     }
 
   }, {

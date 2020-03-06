@@ -29,6 +29,7 @@ import ModalFinancialReports from './financial-reports/financial-reports.control
 import ModalAddNewsletter from './add-newsletter/add-newsletter.controller';
 import ModalExportDonation from './export-donation/export-donation.controller';
 import ModalAssociationController from './association/association.controller';
+import ModalReviewAssociationController from './review-association/review-association.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -247,6 +248,27 @@ export function ModalService($uibModal, $q) {
       }, function () {
         console.log(`Modal dismissed at: ${new Date()}`);
       });
+    },
+
+    openReviewAssociation(user) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalReviewAssociation',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          User: function() {
+            return user;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
     },
 
     editNews(newsId) {
@@ -484,6 +506,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalAssociation', {
     template: require('./association/association.html'),
     controller: ModalAssociationController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalReviewAssociation', {
+    template: require('./review-association/review-association.html'),
+    controller: ModalReviewAssociationController,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

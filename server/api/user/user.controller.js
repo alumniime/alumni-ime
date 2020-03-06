@@ -137,12 +137,42 @@ export function index(req, res) {
       'PersonTypeId',
       'name',
       'email',
+      'role',
       'provider',
-      'FullName',
-      'GraduationYear',
       'LinkedinProfileURL',
+      'ImageURL',
+      'ImageData',
+      'Birthdate',
+      'Genre',
+      'Phone',
+      'ShowInformation',
+      'FullName',
+      'Headline',
       'LastActivityDate',
-      'IsApproved'
+      'LocationId',
+      'IndustryId',
+      'GraduationEngineeringId',
+      'GraduationYear',
+      'ProfessorSEId',
+      'InitiativeLinkOther',
+      'OptionToKnowThePageId',
+      'OptionToKnowThePageOther',
+      'IsApproved',
+      'IsSpecialUser',
+      'TryAssociation',
+      'IsAssociated',
+      'Country',
+      'State',
+      'City',
+      'District',
+      'CEP',
+      'Address',
+      'AddressComplement',
+      'RG',
+      'CPF',
+      'AssociationCategory',
+      'AssociationPending',
+      'AssociationJustification'
     ],
     include: [{
       model: Engineering,
@@ -1385,6 +1415,46 @@ export function sendAssociationConfirmEmail(req, res, next){
         context: {
           name: userName,
           category: userAssociationCategory
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions'
+          });
+        } else {
+          return done(err);
+        }
+      });
+    }
+
+  ], function(err) {
+    return res.status(422)
+      .json({message: err});
+  });
+}
+
+export function sendAssociationRefuseEmail(req, res, next){
+  var userName = req.body.Name;
+  var userEmail = req.body.Email;
+  var text = req.body.Text;
+
+  async.waterfall([
+    function(done){
+      var data = {
+        to: {
+          name: userName,
+          address: userEmail
+        },
+        from: {
+          name: config.email.name,
+          address: config.email.user
+        },
+        template: 'user-association-refused',
+        subject: 'Sua associação foi recusada',
+        context: {
+          name: userName,
+          text: text
         }
       };
       transporter.sendMail(data, function (err) {

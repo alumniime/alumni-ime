@@ -1,0 +1,176 @@
+<div class="container adminAssociationView">
+    <div class="row justify-content-between">
+        <div class="col-auto">
+            <h5 class="page-title pb-2">Associações Pendentes</h5>
+        </div>
+        
+        <div class="col-auto">
+            <div class="form-group">
+                <select class="form-control" id="PersonType" name="PersonType"
+                    ng-model="admin.searchPersonTypeId" ng-change="admin.refreshFilters()">
+                <option value="">Exibir todos usuários</option>
+                <option ng-repeat="personType in admin.personTypes"
+                    ng-value="personType.PersonTypeId">{{personType.PortugueseDescription}}
+                </option>
+                </select>
+            </div>      
+        </div>
+                
+        <div class="col-auto">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Pesquisar usuários..." class="form-control" 
+                    ng-model="admin.searchFullName" ng-change="admin.refreshFilters()">
+            </div>      
+        </div>
+    </div>
+            
+    <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+        <thead>
+            <tr>
+                <th scope="col" ng-click="admin.orderBy('pending', 'PersonId')">#</th>
+                <th scope="col" ng-click="admin.orderBy('pending', 'name')">Nome</th>
+                <th scope="col" ng-click="admin.orderBy('pending', 'email')">Email</th>
+                <th scope="col" ng-click="admin.orderBy('pending', 'personType.PortugueseDescription')">Tipo</th>
+                <th scope="col" ng-click="admin.orderBy('pending', 'GraduationYear')">Turma</th>
+                <th scope="col" ng-click="admin.orderBy('pending', 'engineering.Legend')">Engenharia</th>
+                <th scope="col" ng-click="admin.orderBy('pending', 'LastActivityDate')">Atividade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in admin.users | orderBy: admin.order.pending | filter: {PersonTypeId: admin.searchPersonTypeId, FullName: admin.searchFullName, IsApproved: true, TryAssociation: true, IsAssociated: false}" class="c-pointer" ng-click="admin.openReviewAssociation(user)"
+                ng-if="$index >= (admin.currentPage - 1) * admin.itemsPerPage && $index < admin.currentPage * admin.itemsPerPage">
+                <th scope="row">{{user.PersonId}}</th>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.personType.PortugueseDescription}}</td>
+                <td>{{user.GraduationYear}}</td>
+                <td>{{user.engineering.Legend}}</td>
+                <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+            </tr>
+        </tbody>
+    </table>
+            
+    <ul uib-pagination total-items="admin.usersNumber" ng-model="admin.currentPage" max-size="8" 
+        class="pagination-sm justify-content-center mt-5" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
+        previous-text="Anterior" next-text="Próximo">
+    </ul>
+
+    <br>
+
+    <div class="row justify-content-between">
+        <div class="col-auto">
+            <h5 class="page-title pb-2">Associações Aprovadas</h5>
+        </div>
+        
+        <div class="col-auto">
+            <div class="form-group">
+                <select class="form-control" id="PersonType" name="PersonType"
+                    ng-model="admin.approvedSearchPersonTypeId" ng-change="admin.refreshFilters()">
+                <option value="">Exibir todos usuários</option>
+                <option ng-repeat="personType in admin.personTypes"
+                    ng-value="personType.PersonTypeId">{{personType.PortugueseDescription}}
+                </option>
+                </select>
+            </div>      
+        </div>
+                
+        <div class="col-auto">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Pesquisar usuários..." class="form-control" 
+                    ng-model="admin.approvedSearchFullName" ng-change="admin.refreshFilters()">
+            </div>      
+        </div>
+    </div>
+            
+    <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+        <thead>
+            <tr>
+                <th scope="col" ng-click="admin.orderBy('approved', 'PersonId')">#</th>
+                <th scope="col" ng-click="admin.orderBy('approved', 'name')">Nome</th>
+                <th scope="col" ng-click="admin.orderBy('approved', 'email')">Email</th>
+                <th scope="col" ng-click="admin.orderBy('approved', 'personType.PortugueseDescription')">Tipo</th>
+                <th scope="col" ng-click="admin.orderBy('approved', 'GraduationYear')">Turma</th>
+                <th scope="col" ng-click="admin.orderBy('approved', 'engineering.Legend')">Engenharia</th>
+                <th scope="col" ng-click="admin.orderBy('approved', 'AssociationCategory')">Categoria</th>
+                <th scope="col" ng-click="admin.orderBy('approved', 'LastActivityDate')">Atividade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in admin.users | orderBy: admin.order.approved | filter: {PersonTypeId: admin.approvedSearchPersonTypeId, FullName: admin.approvedSearchFullName, IsApproved: true, TryAssociation: true, IsAssociated: true}" class="c-pointer" ng-click="admin.openReviewAssociation(user)"
+                ng-if="$index >= (admin.approvedCurrentPage - 1) * admin.itemsPerPage && $index < admin.approvedCurrentPage * admin.itemsPerPage">
+                <th scope="row">{{user.PersonId}}</th>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.personType.PortugueseDescription}}</td>
+                <td>{{user.GraduationYear}}</td>
+                <td>{{user.engineering.Legend}}</td>
+                <td>{{user.AssociationCategory}}</td>
+                <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+            </tr>
+        </tbody>
+    </table>
+            
+    <ul uib-pagination total-items="admin.approvedUsersNumber" ng-model="admin.approvedCurrentPage" max-size="8" 
+        class="pagination-sm justify-content-center mt-5" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
+        previous-text="Anterior" next-text="Próximo">
+    </ul>
+
+    <br>
+
+    <div class="row justify-content-between">
+            <div class="col-auto">
+                <h5 class="page-title pb-2">Associações Reprovadas</h5>
+            </div>
+            
+            <div class="col-auto">
+                <div class="form-group">
+                    <select class="form-control" id="PersonType" name="PersonType"
+                        ng-model="admin.reprovedSearchPersonTypeId" ng-change="admin.refreshFilters()">
+                    <option value="">Exibir todos usuários</option>
+                    <option ng-repeat="personType in admin.personTypes"
+                        ng-value="personType.PersonTypeId">{{personType.PortugueseDescription}}
+                    </option>
+                    </select>
+                </div>      
+            </div>
+                    
+            <div class="col-auto">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Pesquisar usuários..." class="form-control" 
+                        ng-model="admin.reprovedSearchFullName" ng-change="admin.refreshFilters()">
+                </div>      
+            </div>
+        </div>
+                
+        <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+            <thead>
+                <tr>
+                    <th scope="col" ng-click="admin.orderBy('approved', 'PersonId')">#</th>
+                    <th scope="col" ng-click="admin.orderBy('approved', 'name')">Nome</th>
+                    <th scope="col" ng-click="admin.orderBy('approved', 'email')">Email</th>
+                    <th scope="col" ng-click="admin.orderBy('approved', 'personType.PortugueseDescription')">Tipo</th>
+                    <th scope="col" ng-click="admin.orderBy('approved', 'GraduationYear')">Turma</th>
+                    <th scope="col" ng-click="admin.orderBy('approved', 'engineering.Legend')">Engenharia</th>
+                    <th scope="col" ng-click="admin.orderBy('approved', 'LastActivityDate')">Atividade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in admin.users | orderBy: admin.order.approved | filter: {PersonTypeId: admin.reprovedSearchPersonTypeId, FullName: admin.reprovedSearchFullName, IsApproved: true, TryAssociation: false, AssociationPending: true}" class="c-pointer" ng-click="admin.openReviewAssociation(user)"
+                    ng-if="$index >= (admin.reprovedCurrentPage - 1) * admin.itemsPerPage && $index < admin.reprovedCurrentPage * admin.itemsPerPage">
+                    <th scope="row">{{user.PersonId}}</th>
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.personType.PortugueseDescription}}</td>
+                    <td>{{user.GraduationYear}}</td>
+                    <td>{{user.engineering.Legend}}</td>
+                    <td>{{user.LastActivityDate | date: 'dd/MM HH:mm'}}</td>
+                </tr>
+            </tbody>
+        </table>
+                
+        <ul uib-pagination total-items="admin.reprovedUsersNumber" ng-model="admin.reprovedCurrentPage" max-size="8" 
+            class="pagination-sm justify-content-center mt-5" boundary-link-numbers="true" items-per-page="admin.itemsPerPage"
+            previous-text="Anterior" next-text="Próximo">
+        </ul>
+
+</div>

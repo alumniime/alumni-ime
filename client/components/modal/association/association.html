@@ -11,6 +11,13 @@
         <form class="form" name="form" ng-submit="vm.submitAssociation(form)" novalidate>
             
             <div class="form-group">
+                <input type="text" name="name" placeholder="Nome Completo" class="form-control" ng-model="vm.user.FullName" required>
+                <p class="help-block" ng-show="form.name.$error.required && vm.submitted">
+                    Insira seu nome completo.
+                </p>
+            </div>
+            
+            <div class="form-group">
                 <select class="genderSelect" name="gender" ng-model="vm.user.Genre" required>
                     <option value="" id="genderLabel" disabled selected>SEXO</option>
                     <option value="0">Masculino</option>

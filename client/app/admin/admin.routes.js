@@ -86,4 +86,18 @@ export default function routes($stateProvider, appConfig) {
     }
   });
 
+  $stateProvider.state('admin.association', {
+    url: '/association',
+    template: require('./association/association.html'),
+    controller: 'AdminAssociationController',
+    controllerAs: 'admin',
+    authenticate: 'admin',
+    data: {
+      meta: {
+        title: 'Gerenciar Associações',
+        'og:url': `${appConfig.url}/admin/association`
+      }
+    }
+  });
+
 }

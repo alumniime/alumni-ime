@@ -1,0 +1,49 @@
+.adminAssociationView{
+    
+  table {
+    font-size: 15px;
+  }
+
+  th {
+    cursor: pointer;
+  }
+
+  input {
+    height: 38px;
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #bdbdbd;
+    padding: 10px 20px !important;
+  }
+
+  ::-webkit-input-placeholder {
+    font-style: italic;
+    color: #828282;
+  }
+
+  input::placeholder {
+    font-style: italic;
+    color: #828282;
+  }
+
+  .page-link {
+    color: #00456F;
+  }
+
+  .page-item.active .page-link {
+    background-color: #00456F;
+    border-color: #00456F;
+    color: #fff;
+  }
+
+  .pagination-sm{
+    overflow: auto;
+  }
+
+  a.badge {
+    opacity: 0.6;
+  }
+
+}

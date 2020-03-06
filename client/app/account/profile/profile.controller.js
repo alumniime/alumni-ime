@@ -398,22 +398,4 @@ export default class ProfileController {
     location.href = `/${referrer || 'main'}`;
   }
 
-  testeEmail() {
-    console.log('Name: '+this.user.name, 'Email: '+this.user.email);
-    console.log(this.user);
-    this.$http.post('/api/users/association_confirmation', {
-      Name: this.user.name,
-      Email: this.user.email,
-      Category: this.user.AssociationCategory 
-    })
-      .then(res => {
-        console.log(res);
-        console.log('Email enviado com sucesso');
-      })
-      .catch(err => {
-        this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o email, tente novamente.');
-        console.log(err);
-        console.log('Email não enviado');
-      });
-  }
 }

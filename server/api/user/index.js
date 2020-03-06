@@ -30,5 +30,6 @@ router.post('/contact', controller.sendContactEmail);
 
 router.post('/association_trial', controller.sendAssociationTrialEmail);
 router.post('/association_confirmation', controller.sendAssociationConfirmEmail);
+router.post('/association_refuse', controller.sendAssociationRefuseEmail);
 
 module.exports = router;

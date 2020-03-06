@@ -37,6 +37,8 @@ export default class AdminUsersController {
         this.refreshFilters();
       });
 
+    
+
     this.$http.get('/api/person_types')
       .then(response => {
         this.personTypes = response.data;

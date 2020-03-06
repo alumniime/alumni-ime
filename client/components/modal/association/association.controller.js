@@ -69,8 +69,9 @@ export default class ModalAssociationController {
         
         
         if(form.$valid) {
-            
             this.user.TryAssociation = true;
+            this.user.AssociationPending = 0;
+            this.user.AssociationJustification = null;
             
             var user = angular.copy(this.user);
     
@@ -86,7 +87,6 @@ export default class ModalAssociationController {
             var loading = this.Modal.showLoading();
             console.log(user);
             return this.Auth.updateById(this.user.PersonId, user).then(()=>{
-                loading.close();
                 this.submitted = false;
                 this.submitionSended =true;
                 console.log('Deu Certo');
@@ -94,9 +94,15 @@ export default class ModalAssociationController {
                 this.$http.post('/api/users/association_trial', {
                     Name: user.name,
                     Email: user.email
+                }).then(()=>{
+                    loading.close();
+                }).catch((err)=>{
+                    console.log(err);
+                    loading.close();
                 })
             }).catch((err)=>{
                 console.log('Deu Errado', err);
+                loading.close();
             });
         }
     }

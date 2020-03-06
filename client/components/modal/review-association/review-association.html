@@ -1,0 +1,177 @@
+<div class="modal-header d-block">
+    <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+    <h5 class="modal-title text-center mt-3" id="modal-title">{{vm.user.name}}</h5>
+</div>
+
+<div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
+
+    <div class="row justify-content-center p-0">
+      <div class="col-auto">
+        <img class="profile-photo pb-2" ng-src="{{vm.user.ImageURL || 'assets/images/profile.svg'}}" alt="{{vm.user.name}}">
+      </div>
+
+      <div class="col-auto pt-2">
+        <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudent' || vm.user.personType.Description === 'Student'">
+          {{vm.user.Headline}}
+          <br> {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+          <br> Formatura {{vm.user.GraduationYear}}
+        </p>
+        <p class="legend" ng-if="vm.user.personType.Description === 'PostgraduateStudent' || vm.user.personType.Description === 'Postgraduate'">
+          {{vm.user.Headline}}
+          <br> {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+          <br> Formatura {{vm.user.GraduationYear}}
+          <br> {{vm.user.SpecializationLevel}}
+        </p>
+        <p class="legend" ng-if="vm.user.personType.Description === 'CformGraduate'">
+          {{vm.user.Headline}}
+          <br> {{vm.user.se.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+          <br> Formatura {{vm.user.GraduationYear}}
+        </p>
+        <p class="legend" ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor'">
+          {{vm.user.Headline}}
+          <br> {{vm.user.se.Description}}
+          <br> {{vm.user.engineering.Description}} | {{vm.user.personType.PortugueseDescription | lowercase}}
+          <br> Formatura {{vm.user.GraduationYear}}
+        </p>
+  
+        <a class="text-dark c-pointer font-weight-bold" target="_blank" href="{{vm.user.LinkedinProfileURL}}" ng-if="vm.user.LinkedinProfileURL">Acessar Linkedin</a>
+  
+      </div>
+    </div>
+  
+    <div class="row mt-2 p-0">
+  
+      <div class="col-12 col-sm-6">
+        <div class="form-group">
+          <label for="NameShow">NOME COMPLETO</label>
+          <input type="text" id="NameShow" name="Name" class="form-control-plaintext" readonly value="{{vm.user.FullName}}">
+        </div>
+
+        <div class="form-group">
+            <label for="GenreShow">SEXO</label>
+            <input type="text" id="GenreShow" name="Genre" class="form-control-plaintext" readonly value="{{vm.Genre}}">
+        </div>
+
+        <div class="form-group">
+            <label for="RGShow">RG</label>
+            <input type="text" id="RGShow" name="RG" class="form-control-plaintext" readonly value="{{vm.user.RG}}">
+        </div>
+
+        <div class="form-group">
+            <label for="CPFShow">CPF</label>
+            <input type="text" id="CPFShow" name="CPF" class="form-control-plaintext" readonly value="{{vm.user.CPF}}">
+        </div>
+
+        <div class="form-group">
+          <label for="BirthdateShow">DATA DE NASCIMENTO</label>
+          <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly value="{{vm.Birthdate}}">
+        </div>
+
+        <div class="form-group">
+          <label for="PhoneShow">TELEFONE</label>
+          <!-- International phone -->
+          <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+                  ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') === -1" ng-intl-tel-input>
+          <!-- National phone -->
+          <input type="text" id="PhoneShow" name="Phone" class="form-control-plaintext" readonly
+                  ng-model="vm.user.Phone" ng-if="vm.user.Phone.indexOf('+55') > -1" mask="+99 (99) 9?9999-9999" ng-intl-tel-input>
+        </div>
+      </div>
+  
+      <div class="col-12 col-sm-6">
+
+        <div class="row">
+            <div class="form-group col-12 col-sm-6">
+              <label for="CountryShow">PAÍS</label>
+              <input type="text" id="CountryShow" name="Country" class="form-control-plaintext" readonly value="{{vm.user.Country}}">
+            </div>
+    
+            <div class="form-group col-12 col-sm-6">
+                <label for="StateShow">ESTADO</label>
+                <input type="text" id="StateShow" name="State" class="form-control-plaintext" readonly value="{{vm.user.State}}">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-12 col-sm-6">
+                <label for="CEPShow">CEP</label>
+                <input type="text" id="CEPShow" name="CEP" class="form-control-plaintext" readonly value="{{vm.user.CEP}}">
+            </div>
+    
+            <div class="form-group col-12 col-sm-6">
+                <label for="CityShow">CIDADE</label>
+                <input type="text" id="CityShow" name="City" class="form-control-plaintext" readonly value="{{vm.user.City}}">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-12 col-sm-6">
+                <label for="DistrictShow">BAIRRO</label>
+                <input type="text" id="DistrictShow" name="District" class="form-control-plaintext" readonly value="{{vm.user.District}}">
+            </div>
+    
+            <div class="form-group col-12 col-sm-6">
+                <label for="AddressShow">ENDEREÇO</label>
+                <input type="text" id="AddressShow" name="Address" class="form-control-plaintext" readonly value="{{vm.user.Address}}">
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-12 col-sm-6" ng-if="vm.user.AddressComplement">
+              <label for="ComplementShow">COMPLEMENTO</label>
+              <input type="text" id="ComplementShow" name="Complement" class="form-control-plaintext" readonly value="{{vm.user.AddressComplement}}">
+          </div>
+
+          <div class="form-group col-12 col-sm-6" ng-if="vm.user.AssociationCategory">
+              <label for="CategoryShow">CATEGORIA</label>
+              <input type="text" id="CategoryShow" name="Category" class="form-control-plaintext" readonly value="{{vm.user.AssociationCategory}}">
+          </div>
+        </div>
+
+        <div class="form-group" ng-if="vm.user.AssociationJustification">
+            <label for="JustificationShow">JUSTIFICATIVA</label>
+            <textarea type="text" id="JustificationShow" name="Justification" class="form-control-plaintext Justification" readonly>
+              {{vm.user.AssociationJustification}}
+            </textarea>
+        </div>
+  
+    </div>
+    
+    <form class="form row" name="form" ng-submit="vm.associationVerified(form)" ng-if="!vm.user.IsAssociated && !vm.user.AssociationPending" novalidate>
+
+        <div class="form-group col-12 col-sm-6">
+            <label for="Justification">JUSTIFICATIVA</label>
+            <p class="help-block" ng-show="form.Justification.$error.required && vm.submitted && !vm.ApprovedAssociation">
+                Escreva a justificativa da recusa.
+            </p>
+            <textarea type="text" id="Justification" name="Justification" class="form-control-plaintext Justification" ng-model="vm.JustificationText" placeholder="Escreva a justificativa para não aceitar o associado" required></textarea>
+        </div>
+
+        <div class="form-group col-12 col-sm-6">
+            <div class="form-group"></div>
+            <label id="selectLabel" for="categorySelect">CATEGORIA DE ASSOCIAÇÃO
+                <select id="selectObject" name="category" ng-model="vm.AssociationCategory" required>
+                    <option value="0">TEMPORÁRIO</option>
+                    <option value="1">REGULAR</option>
+                    <option value="2">HONORÁRIO</option>
+                    <option value="3">FUNDADOR</option>
+                </select>
+                <p class="help-block" ng-show="form.category.$error.required && vm.submitted && vm.ApprovedAssociation">
+                    Selecione uma categoria para o associado.
+                </p>
+            </label>
+
+            <button class="btn btn-danger mx-auto mt-3" type="submit" ng-click="vm.btnDecision(0)">
+                REPROVAR ASSOCIADO
+            </button>
+    
+            <button class="btn btn-success mx-auto mt-3" type="submit"  ng-click="vm.btnDecision(1)">
+                APROVAR ASSOCIADO
+            </button>
+        </div>
+
+    </form>
+  
+    
+  
+  </div>
