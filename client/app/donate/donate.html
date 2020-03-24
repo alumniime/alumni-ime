@@ -123,7 +123,7 @@
                                                     R$ {{option.value}}
                                                 </a>
                                                 <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2" ng-if="vm.donation.Frequency === 'once'"
-                                                       required money-mask money-mask-prepend="R$">
+                                                       required ui-money-mask>
                                                 <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
                                                    uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
                                             </div>
@@ -149,7 +149,7 @@
                                             R$ {{option.value}}
                                         </a>
                                         <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2" ng-if="vm.donation.Frequency === 'once'"
-                                               required money-mask money-mask-prepend="R$">
+                                               required ui-money-mask>
                                         <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
                                            uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
                                     </div>

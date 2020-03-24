@@ -167,7 +167,7 @@ modal-register-information {
   }
 
   .intl-tel-input {
-    width: 100%;
+    width: calc(100% - 48px);
     input {
       width: -webkit-fill-available;
     }

@@ -69,6 +69,7 @@ export class ProjectController {
           this.selectedProjectImage = this.projectImages[0];
           this.selectedResultImage = this.resultImages[0];
           this.$anchorScroll('top');
+          console.log(this.project);
         })
         .catch(() => {
           loading.close();

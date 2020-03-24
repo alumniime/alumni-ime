@@ -27,6 +27,16 @@ export default function (sequelize, DataTypes) {
       allowNull: true,
       unique: true
     },
+    GoogleId: {
+      type: DataTypes.STRING(45),
+      allowNull: true,
+      unique: true
+    },
+    FacebookId: {
+      type: DataTypes.STRING(45),
+      allowNull: true,
+      unique: true
+    },
     name: {
       type: DataTypes.STRING(100),
       allowNull: false

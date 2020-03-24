@@ -602,7 +602,7 @@ export function update(req, res, next) {
     },
     // Deleting all opportunitiesLinks
     (newUser, opportunitiesLinks, done) => {
-      console.log("here3")
+      console.log("here3");
       OpportunitiesLink.destroy({
         where: {PersonId: newUser.PersonId}
       })
@@ -612,8 +612,8 @@ export function update(req, res, next) {
     // Creating new opportunitiesLinks
     (newUser, opportunitiesLinks, done) => {
       console.log(OpportunitiesLink);
-      console.log(opportunitiesLinks);
-      if(opportunitiesLinks){
+      console.log('Olha aqui: ', opportunitiesLinks, opportunitiesLinks.length);
+      if(opportunitiesLinks && opportunitiesLinks.length != 0){
         console.log('entrou no if');
         for(var opportunity of opportunitiesLinks) {
           opportunity.PersonId = newUser.PersonId;

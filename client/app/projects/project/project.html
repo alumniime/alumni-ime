@@ -294,7 +294,7 @@
               Doação de até {{ (reward.ValueInCents-1)/100 | currency}}
             </div>
             <div class="donation-asked" ng-if="!$first">
-              Doação a partir de {{reward.ValueInCents/100 | currency}}
+              Doação a partir de {{vm.project.rewards[$index-1].ValueInCents/100 | currency}}
             </div>
             <div class="reward-description">{{reward.RewardDescription}}</div>
           </div>     
@@ -493,10 +493,10 @@
           <div class="reward-description">{{vm.project.rewards[0].RewardDescription}}</div>
         </div>
       </div>
-      <div ng-repeat="reward in vm.project.rewards" ng-if="vm.project.rewards.length" class="card project-card mb-3">
-        <div class="card-body" ng-if="!$last">
+      <div ng-repeat="reward in vm.project.rewards" ng-if="vm.project.rewards.length && !$first" class="card project-card mb-3">
+        <div class="card-body">
           <div class="donation-asked">
-            Doação a partir de {{reward.ValueInCents/100 | currency}}
+            Doação a partir de {{vm.project.rewards[$index-1].ValueInCents/100 | currency}}
           </div>
           <div class="reward-description">{{reward.RewardDescription}}</div>
         </div>     

@@ -89,6 +89,7 @@ export function signToken(id, role) {
  * Set token cookie directly for oAuth strategies
  */
 export function setTokenCookie(req, res) {
+  console.log('\nSetTokenCookie Enter\n');
   // Only for LinkedIn authentication
   if(!req.user) {
     return res.status(404)
@@ -99,8 +100,8 @@ export function setTokenCookie(req, res) {
   if(req.user.PersonTypeId !== 1) {
     var token = signToken(req.user.PersonId, req.user.role);
     res.cookie('token', token);
-    if(req.user.LinkedinId !== null) {
-      res.redirect('/login/0'); // route used only for close popup oAuth Linkedin
+    if(req.user.LinkedinId !== null || req.user.GoogleId !== null || req.user.FacebookId !== null) {
+      res.redirect('/login/0'); // route used only for close popup oAuth Linkedin/Google
     } else {
       res.redirect('/');
     }

@@ -53,6 +53,18 @@ var all = {
     callbackURL: `${process.env.DOMAIN || ''}/auth/linkedin/callback`
   }, 
 
+  google: {
+    clientID: process.env.GOOGLE_ID || 'id',
+    clientSecret: process.env.GOOGLE_SECRET || 'secret',
+    callbackURL: `${process.env.DOMAIN || ''}/auth/google/callback`
+  }, 
+
+  facebook: {
+    clientID: process.env.FACEBOOK_ID || 'id',
+    clientSecret: process.env.FACEBOOK_SECRET || 'secret',
+    callbackURL: `${process.env.DOMAIN || ''}/auth/facebook/callback`
+  }, 
+
   email: {
     name: process.env.MAILER_NAME || 'Alumni IME',
     user: process.env.MAILER_EMAIL || '', 

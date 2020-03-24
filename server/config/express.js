@@ -67,7 +67,7 @@ export default function(app) {
     app.use(lusca({
       csrf: {
         angular: true,
-        blacklist: ['/api/transactions/postback', '/api/subscriptions/postback', '/auth/linkedin/callback']
+        blacklist: ['/api/transactions/postback', '/api/subscriptions/postback', '/auth/linkedin/callback', 'auth/google/callback', 'auth/facebook/callback']
       },
       xframe: 'SAMEORIGIN',
       hsts: {
