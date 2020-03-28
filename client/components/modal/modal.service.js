@@ -30,6 +30,8 @@ import ModalAddNewsletter from './add-newsletter/add-newsletter.controller';
 import ModalExportDonation from './export-donation/export-donation.controller';
 import ModalAssociationController from './association/association.controller';
 import ModalReviewAssociationController from './review-association/review-association.controller';
+import ModalReviewSubscriptionController from './review-subscription/review-subscription.controller';
+import ModalSupportProjectController from './support-project/support-project.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -259,6 +261,48 @@ export function ModalService($uibModal, $q) {
         resolve: {
           User: function() {
             return user;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
+    openReviewSubscription(subscription) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalReviewSubscription',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          Subscription: function() {
+            return subscription;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
+    openSupportProject(project) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalSupportProject',
+        size: 'lg modal-dialog-centered',
+        resolve: {
+          Project: function() {
+            return project;
           }
         }
       });
@@ -516,6 +560,26 @@ export default angular.module('alumniApp.modal', [])
   .component('modalReviewAssociation', {
     template: require('./review-association/review-association.html'),
     controller: ModalReviewAssociationController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalReviewSubscription', {
+    template: require('./review-subscription/review-subscription.html'),
+    controller: ModalReviewSubscriptionController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalSupportProject', {
+    template: require('./support-project/support-project.html'),
+    controller: ModalSupportProjectController,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

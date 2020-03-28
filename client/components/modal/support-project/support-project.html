@@ -1,0 +1,51 @@
+<div class="modal-header d-block">
+        <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+        <h5 class="modal-title text-center mt-3" id="modal-title">Apoiar Projeto</h5>
+    </div>
+    
+    <div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
+      
+        <div class="row mt-2 p-0">
+      
+          <div class="col-12 col-sm-5">
+    
+            <h5>Selecione</h5>
+    
+            <div class="form-group">
+                <div class="custom-control custom-checkbox" ng-repeat="option in vm.SupportOptions">
+                    <input type="checkbox" name="checkOption{{$index}}" id="checkOption{{$index}}" class="custom-control-input" ng-model="option.option">
+                    <label class="custom-control-label" for="checkOption{{$index}}">
+                        {{option.desc}}
+                    </label>
+                </div>
+
+                
+            </div>
+
+          </div>
+      
+          <div class="col-12 col-sm-7">
+    
+            <form class="form" name="form" ng-submit="vm.support(form)" novalidate>
+                
+                <div class="form-group">
+                    <label for="Justification">COMO VOCÊ PODE AJUDAR?</label>
+                    <p class="help-block" ng-show="form.Justification.$error.required && vm.submitted">
+                        Escreva como você pode ajudar nesse projeto.
+                    </p>
+                    <textarea type="text" id="Justification" name="Justification" class="form-control-plaintext Justification" ng-model="vm.JustificationText" placeholder="Escreva como você pode ajudar nesse projeto" required></textarea>
+                </div>
+    
+        
+                <button class="btn btn-danger mx-auto mt-3" type="submit">
+                    APOIAR PROJETO
+                </button>
+    
+            </form>
+      
+        </div>
+        
+      
+        
+      
+      </div>

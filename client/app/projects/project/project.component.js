@@ -19,6 +19,7 @@ export class ProjectController {
   constructor(Auth, Modal, $state, $stateParams, Project, Donation, Util, ngMeta, appConfig, $anchorScroll) {
     'ngInject';
 
+    this.Auth = Auth
     this.getCurrentUser = Auth.getCurrentUserSync;
     this.$state = $state;
     this.$stateParams = $stateParams;
@@ -32,6 +33,10 @@ export class ProjectController {
   }
 
   $onInit() {
+    this.Auth.getCurrentUser((user) => {
+      this.user = user;
+    });
+
     var loading = this.Modal.showLoading();
     if(this.$stateParams.ProjectId && this.$stateParams.preview !== null && this.$stateParams.forceReload !== null) {
       var ProjectId = this.$stateParams.ProjectId;
@@ -124,6 +129,20 @@ export class ProjectController {
     this.twitterHref = "http://www.twitter.com/share?url=" + "https://www.alumniime.com.br/projects/view/" +
     ProjectId + '/' + PrettyURL;
     }
+
+  openSupportProject(project) {
+    console.log('OI: ', project);
+    if(this.user.email!=''){
+      this.Modal.openSupportProject(project)
+        .then(() => {
+          console.log('Fechou e deu certo');
+        }).catch(err => {
+          console.log(err);
+        })
+    }else{
+      this.Modal.openLogin();
+    }
+  }
 
 }
 

@@ -14,6 +14,7 @@ export default class SubmissionController {
   files = [];
   dateInvalid = false;
   ConclusionDate = '';
+  isRelated = false;
 
   constructor(Auth, Project, $http, $state, Modal, $window, Upload, Util, appConfig) {
     'ngInject';
@@ -26,7 +27,9 @@ export default class SubmissionController {
     this.$window = $window;
     this.Upload = Upload;
     this.Util = Util;
-    this.appConfig = appConfig;    
+    this.appConfig = appConfig;
+    
+    this.isRelated = false;
   }
 
   $onInit() {
@@ -86,6 +89,7 @@ export default class SubmissionController {
   }
 
  submitProject(form) {
+   console.log(this.isRelated);
     this.costs = [];
     for(let index = 0; index < this.costsCount-1; index ++){
       this.costs.push({'Item': this.costsList.Item[index], 'UnitPrice': this.costsList.UnitPrice[index]*100, 'Quantity':this.costsList.Quantity[index]});
@@ -103,13 +107,17 @@ export default class SubmissionController {
       } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 4 || this.user.PersonTypeId === 5) {
 
         if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
+          console.log('Entrou aqui')
           this.project.EstimatedPriceInCents = this.budget * 100;
           if(this.ConclusionDate) {
             var date = this.ConclusionDate.split('/');
             this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
           }
           
-          
+          if(this.isRelated){
+            this.project.IsSpecial = true;
+            this.project.SpecialName = "COVID-19";
+          }
 
           this.Rewards = [];
           for(let index = 0; index < this.rewardsCount-1; index++) {
@@ -140,6 +148,7 @@ export default class SubmissionController {
                 this_.submitted = false;
                 this_.uploadImages = [];
                 this_.ConclusionDate = '';
+                this_.isRelated = false;
               } else {
                 this_.Modal.showAlert('Erro na submissão', 'Por favor, tente novamente.');
               }

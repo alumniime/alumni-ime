@@ -86,7 +86,7 @@
             <div class="legend">Valor depositado</div>
             <div class="form-group">
               <input type="text" id="ValueInCents" name="ValueInCents" class="form-control" required
-                     ng-model="vm.donation.ValueInCents" money-mask money-mask-prepend="R$">
+                     ng-model="vm.donation.ValueInCents" ui-money-mask>
               <p class="help-block"
                  ng-if="(form.ValueInCents.$error.required || vm.donation.ValueInCents === 0) && vm.submitted">
                 Insira o valor da contribuição.

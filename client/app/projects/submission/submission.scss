@@ -156,4 +156,12 @@
     padding-left: 15px;
   }
 
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #E84E0F !important;
+  }
+
+  .custom-control-label{
+    font-size: 14px !important;
+    color: black !important;
+  }
 }

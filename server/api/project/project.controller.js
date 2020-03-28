@@ -408,12 +408,15 @@ export function menu(req, res) {
     attributes: [
       'Year',
       'Semester',
+      'IsSpecial',
+      'SpecialName',
       [sequelize.fn('COUNT', sequelize.col('ProjectId')), 'ProjectsNumber']
     ],
-    group: ['Year', 'Semester'],
+    group: ['Year', 'Semester', 'IsSpecial'],
     order: [
       ['Year', 'DESC'],
       ['Semester', 'DESC'],
+      ['IsSpecial', 'DESC']
     ],
     raw: true,
     where: {

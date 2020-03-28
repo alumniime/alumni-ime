@@ -398,4 +398,16 @@ export default class ProfileController {
     location.href = `/${referrer || 'main'}`;
   }
 
+  openReviewSubscription(subscription) {
+    //console.log('Abriu openReviewSubscription', subscription);
+    let object = [this.user, subscription]
+    this.Modal.openReviewSubscription(object)
+      .then(() => {
+        console.log('Fechou e deu certo');
+        //this.$state.reload();
+      }).catch(err=>{
+        console.log(err);
+      });
+  }
+
 }

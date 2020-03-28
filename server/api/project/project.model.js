@@ -127,6 +127,15 @@ export default function (sequelize, DataTypes) {
     Summary:{
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    IsSpecial: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
+    SpecialName: {
+      type: DataTypes.STRING(45),
+      allowNull: true
     }
   }, {
     tableName: 'Project'

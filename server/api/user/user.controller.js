@@ -1473,3 +1473,96 @@ export function sendAssociationRefuseEmail(req, res, next){
       .json({message: err});
   });
 }
+
+export function sendModificationEmail(req, res, next) {
+  var userName = req.body.Name;
+  var userEmail = req.body.Email;
+  var option = req.body.Option;
+  var userText = req.body.Text;
+  var subscriptionId = req.body.SubscriptionId;
+  var manageUrl = req.body.ManageURL
+
+  async.waterfall([
+    function (user, token, done) {
+      var data = {
+        to: {
+          name: 'Subscription Modification',
+          address: config.email.user
+        },
+        from: {
+          name: config.email.name,
+          address: config.email.user
+        },
+        template: 'modification-email',
+        subject: `Solicitação para ${option}`,
+        context: {
+          name: userName,
+          email: userEmail,
+          option: option,
+          message: userText,
+          subscriptionId: subscriptionId,
+          manageUrl: manageUrl
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions'
+          });
+        } else {
+          return done(err);
+        }
+      });
+    }
+  ], function (err) {
+    return res.status(422)
+      .json({message: err});
+  });
+}
+
+export function sendSupportProjectEmail(req, res, next) {
+  var userName = req.body.Name;
+  var userEmail = req.body.Email;
+  var userPhone = req.body.Phone;
+  var project = req.body.Project;
+  var option = req.body.Option;
+  var userText = req.body.Text;
+
+
+  async.waterfall([
+    function (user, token, done) {
+      var data = {
+        to: {
+          name: 'Support to Project',
+          address: config.email.user
+        },
+        from: {
+          name: config.email.name,
+          address: config.email.user
+        },
+        template: 'support-project-email',
+        subject: `Apoio ao projeto: ${project}`,
+        context: {
+          name: userName,
+          email: userEmail,
+          option: option,
+          message: userText,
+          phone: userPhone,
+          project: project
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions'
+          });
+        } else {
+          return done(err);
+        }
+      });
+    }
+  ], function (err) {
+    return res.status(422)
+      .json({message: err});
+  });
+}

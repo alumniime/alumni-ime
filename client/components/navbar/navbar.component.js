@@ -121,15 +121,22 @@ export class NavbarComponent {
         var date = new Date();
         let currentSemester = (date.getMonth() >= 6 && date.getMonth() <= 11) ? 2 : 1;
         let currentYear = date.getFullYear();
-        if (semester.Semester==currentSemester && semester.Year==currentYear) {
+        if(semester.IsSpecial.data[0] == 0){
+          if (semester.Semester==currentSemester && semester.Year==currentYear) {
+            dropdown.push({
+              title: `ABERTOS ${semester.Year}.${semester.Semester}`,
+              state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
+            });
+          } else {
+            dropdown.push({
+              title: `ENCERRADOS ${semester.Year}.${semester.Semester}`,
+              state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
+            });
+          }
+        }else{
           dropdown.push({
-            title: `ABERTOS ${semester.Year}.${semester.Semester}`,
-            state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
-          });
-        } else {
-          dropdown.push({
-            title: `ENCERRADOS ${semester.Year}.${semester.Semester}`,
-            state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
+            title: `PROJETOS ${semester.SpecialName}`,
+            state: `show({Semester: '${semester.Year}.${semester.Semester}.${semester.SpecialName}'})`
           });
         }
       }

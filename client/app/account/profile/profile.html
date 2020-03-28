@@ -790,11 +790,11 @@
           <div class="card-body" ng-init="subscription.collapsed = true">
             <h5 class="card-title">
               {{subscription.plan.Name}} - {{subscription.project ? subscription.project.ProjectName : 'Contribuição Geral'}}
-              <!--
-                <a class="text-dark pull-right" href="{{subscription.ManageURL}}" target="_blank">
+              
+                <a class="text-dark pull-right" ng-click = "vm.openReviewSubscription(subscription)" ng-if="subscription.Status != 'Assinatura cancelada'" target="_blank">
                   <i class="fa fa-external-link" uib-tooltip="Gerenciar assinatura" tooltip-placement="bottom"></i> 
                 </a>
-              -->
+              
             </h5>
 
             <div class="row">

@@ -1,0 +1,89 @@
+<div class="modal-header d-block">
+    <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+    <h5 class="modal-title text-center mt-3" id="modal-title">Gerenciar Assinatura</h5>
+</div>
+
+<div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
+  
+    <div class="row mt-2 p-0">
+  
+      <div class="col-12 col-sm-6">
+
+        <h5>Informações</h5>
+
+        <div class="form-group">
+          <label for="StatusShow">STATUS</label>
+          <input type="text" id="NameShow" name="Name" class="form-control-plaintext" readonly value="{{vm.subscriptionData.Status}}">
+        </div>
+
+        <div class="form-group">
+            <label for="PlanShow">PLANO</label>
+            <input type="text" id="GenreShow" name="Genre" class="form-control-plaintext" readonly value="{{vm.subscriptionData.plan.Name}}">
+        </div>
+
+        <div class="form-group">
+            <label for="ValueShow">VALOR</label>
+            <input type="text" id="RGShow" name="RG" class="form-control-plaintext" readonly value="{{vm.subscriptionData.plan.Amount | currency}}">
+        </div>
+
+        <div class="form-group">
+            <label for="PerioStartShow">INÍCIO DO PERÍODO ATUAL</label>
+            <input type="text" id="CPFShow" name="CPF" class="form-control-plaintext" readonly value="{{vm.subscriptionData.CurrentPeriodStart}}">
+        </div>
+
+        <div class="form-group">
+          <label for="PeriodEndShow">FIM DO PERÍODO ATUAL</label>
+          <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly value="{{vm.subscriptionData.CurrentPeriodEnd}}">
+        </div>
+
+        <div class="form-group">
+            <label for="PaymentShow">FORMA DE PAGAMENTO</label>
+            <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly value="Cartão de crédito">
+        </div>
+
+        <div class="form-group">
+            <label for="CardShow">CARTÃO DE CRÉDITO</label>
+            <input type="text" id="BirthdateShow" name="Birthdate" class="form-control-plaintext" readonly value="**** **** **** {{vm.subscriptionData.CardLastDigits}}">
+        </div>
+
+        
+      </div>
+  
+      <div class="col-12 col-sm-6">
+
+        <form class="form" name="form" ng-submit="vm.modification(form)" novalidate>
+
+            <div class="form-group">
+                <label id="selectLabel" for="optionSelect">SELECIONE UMA OPÇÃO
+                    <select id="selectObject" name="option" ng-model="vm.optionSelected" required>
+                        <option value="0">ATUALIZAR CARTÃO</option>
+                        <option value="1">MODIFICAR PLANO</option>
+                        <option value="2">CANCELAR ASSINATURA</option>
+                    </select>
+                    <p class="help-block" ng-show="form.option.$error.required && vm.submitted && vm.Approvedsubscription">
+                        Selecione uma opção para ajustar sua assinatura.
+                    </p>
+                </label>
+            </div>
+            
+            <div class="form-group" ng-if="vm.optionSelected == 1 || vm.optionSelected == 2">
+                <label for="Justification">SOLICITAÇÃO</label>
+                <p class="help-block" ng-show="form.Justification.$error.required && vm.submitted">
+                    Escreva a solicitação à ser enviada.
+                </p>
+                <textarea type="text" id="Justification" name="Justification" class="form-control-plaintext Justification" ng-model="vm.JustificationText" placeholder="Escreva a solicitação à ser enviada para a Alumni IME" required></textarea>
+            </div>
+
+    
+            <button class="btn btn-success mx-auto mt-3" type="submit" ng-if="vm.optionSelected">
+                ENVIAR SOLICITAÇÃO
+            </button>
+
+        </form>
+  
+    </div>
+    
+  
+    
+  
+  </div>

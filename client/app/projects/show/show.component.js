@@ -24,10 +24,22 @@ export class ShowController {
     if(this.$stateParams.Semester) {
       this.Year = this.$stateParams.Semester.split('.')[0];
       this.Semester = this.$stateParams.Semester.split('.')[1];
+      this.Special = this.$stateParams.Semester.split('.')[2];
+      if(this.Special){
+        this.IsSpecial = true;
+      }else{
+        this.IsSpecial = false;
+      }
 
-      this.ngMeta.setTitle(`Projetos Apoiados ${this.Year}.${this.Semester}`);
-      this.ngMeta.setTag('description', `Confira a lista de projetos apoiados pela Alumni IME no ${this.Semester}º semestre de ${this.Year}`);
-      this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/${this.Year}.${this.Semester}`);
+      if(this.Special){
+        this.ngMeta.setTitle(`Projetos ${this.Special}`);
+        this.ngMeta.setTag('description', `Confira a lista de projetos apoiados pela Alumni IME relacionados ao ${this.Special}`);
+        this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/${this.Year}.${this.Semester}`);
+      }else{
+        this.ngMeta.setTitle(`Projetos Apoiados ${this.Year}.${this.Semester}`);
+        this.ngMeta.setTag('description', `Confira a lista de projetos apoiados pela Alumni IME no ${this.Semester}º semestre de ${this.Year}`);
+        this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/${this.Year}.${this.Semester}`);
+      }
 
       var loading = this.Modal.showLoading();
       this.Project.load()
