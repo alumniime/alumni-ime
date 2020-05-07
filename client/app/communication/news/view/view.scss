@@ -221,4 +221,14 @@
     color: #828282;
   }
 
+  
 }
+    .divHTML{
+      > * {
+        max-width: 100%;
+      }
+      p > * {
+          max-width: 100%;
+      } 
+      
+    }

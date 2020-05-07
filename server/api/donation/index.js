@@ -8,6 +8,7 @@ var router = new Router();
 
 router.get('/', auth.hasRole('admin'), controller.index);
 router.get('/me', auth.isAuthenticated(), controller.me);
+router.get('/user/:id', auth.hasRole('admin'), controller.user);
 router.get('/:id', auth.hasRole('admin'), controller.show);
 router.post('/upload', auth.isAuthenticated(), controller.upload);
 router.post('/setting', auth.isAuthenticated(), controller.update);

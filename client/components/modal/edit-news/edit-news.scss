@@ -1,4 +1,5 @@
 modal-edit-news {
+  [ng-quill-editor] { display: block; }
 
   .modal-header {
     border-bottom: none;
@@ -190,5 +191,14 @@ modal-edit-news {
     margin-left: 20px;
   }
 
+  .toggleDiv{
+    justify-content: center;
+
+    p{
+      margin-top: auto;
+      margin-bottom: auto;
+      margin-right: 1%;
+    }
+  }
 
 }

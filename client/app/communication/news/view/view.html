@@ -7,7 +7,9 @@
       <h5 class="page-title">{{vm.news.Title}}</h5>
       <label class="page-subtitle">{{vm.news.Subtitle}}</label>
 
-      <div class="construction" ng-repeat="construction in vm.news.constructions | orderBy: 'OrderIndex'">
+      <div class="divHTML" ng-if="vm.news.IsHTML" ng-bind-html="vm.HTMLText"></div>
+
+      <div ng-if="!vm.news.IsHTML" class="construction" ng-repeat="construction in vm.news.constructions | orderBy: 'OrderIndex'">
 
         <p ng-if="construction.element.Type === 'Paragraph'" class="text-content">
           {{construction.Value}}

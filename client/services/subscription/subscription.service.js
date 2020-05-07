@@ -80,6 +80,21 @@ export function SubscriptionService($http, $q, Util) {
       }
     },
 
+    loadUserSubscriptions(forceReload, personId) {
+      if(this.mySubscriptions.length === 0 || forceReload === true) {
+        $http.get('/api/subscriptions/user/'+personId)
+          .then(response => {
+            this.mySubscriptions = response.data;
+            for(var subscription of this.mySubscriptions) {
+              subscription.Status = subscription.Status === 'paid' ? 'Assinatura paga' : subscription.Status === 'unpaid' ? 'Assinatura atrasada' : subscription.Status === 'canceled' ? 'Assinatura cancelada' : 'Pagamento Pedente';
+              for(var transaction of subscription.transactions) {
+                transaction.Status = transaction.Status === 'paid' ? 'Pagamento confirmado' : transaction.Status === 'refused' ? 'Pagamento recusado' : transaction.Status === 'refunded' ? 'Pagamento estornado' : 'Pagamento pendente';
+              }
+            }
+          });
+      }
+    },
+
   };
 
   return Subscription;

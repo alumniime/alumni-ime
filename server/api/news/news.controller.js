@@ -307,6 +307,7 @@ export function edit(req, res) {
             })
             .catch(err => next(err));
         } else {
+          console.log("=>Create New\n");
           News.create(news)
             .then(result => next(null, result))
             .catch(err => next(err));
@@ -327,6 +328,8 @@ export function edit(req, res) {
 
         async.eachSeries(constructions, function (construction, done) {
 
+          console.log("=>Construction modify\n");
+          console.log("=>Construction: ", construction);
           async.waterfall([
             // Updates or creates a construction
             (skip) => {
@@ -374,6 +377,7 @@ export function edit(req, res) {
                 console.log('constructions.indexOf(construction)', constructions.indexOf(construction));
 
                 if (parseInt(image.ConstructionIndex) === constructions.indexOf(construction)) {
+                  console.log("=> Entrou no IF");
                   var imageToSave = image;
                   var imageIndex = uploadIndexes.indexOf(image);
 
@@ -433,6 +437,7 @@ export function edit(req, res) {
 
 // Creates a new News in the DB
 export function create(req, res) {
+  console.log("Função create", req.body);
   return News.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));

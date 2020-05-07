@@ -16,6 +16,8 @@ import 'ng-youtube-embed';
 
 import 'angular-input-masks';
 
+import 'ng-quill'
+
 import {
   routeConfig
 } from './app.config';
@@ -60,12 +62,14 @@ import transparency from './about/transparency/transparency.component';
 import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap,
-  ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', 'validation.match', 'ui.utils.masks',
+  ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', 'validation.match', 'ui.utils.masks', 'ngQuill',
   _Auth, _Project, _News, _Newsletter, _DonatorHall, _Donation, _Opportunity, _Subscription, _Checkout, _Plan,
   account, admin, navbar, footer, modal, main, constants, util, submission, edit, show, 
   project, news, view, events, newsletters, result, donate, bank, history, institutional, management, transparency, graduates, opportunities, typeform
 ])
-  .config(routeConfig)
+  .config(routeConfig, ['ngQuillConfigProvider', function (ngQuillConfigProvider) {
+    ngQuillConfigProvider.set(null, null, 'custom placeholder')
+  }])
   .run(function ($rootScope, $location, Auth, ngMeta) {
     'ngInject';
     // Redirect to login if route requires auth and you're not logged in

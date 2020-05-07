@@ -164,6 +164,8 @@ export default class ProfileController {
       this.Opportunity.loadMyApplications(false);
       this.Opportunity.loadMyPosts(false);
 
+      console.log(this.Subscription);
+
     });
 
     if(this.$stateParams.view !== null) {

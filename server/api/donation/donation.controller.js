@@ -223,6 +223,39 @@ export function me(req, res) {
     .catch(handleError(res));
 }
 
+// Get user donations
+export function user(req, res) {
+  var userId = req.params.id;
+  return Donation.findAll({
+    include: [{
+      model: Project,
+      attributes: {exclude: ['TeamMembers', 'Abstract', 'Goals', 'Benefits', 'Schedule', 'Results', 'Rewards']},
+      as: 'project',
+      include: [{
+        model: User,
+        attributes: ['name'],
+        as: 'leader'
+      }, {
+        model: User,
+        attributes: ['name'],
+        as: 'professor'
+      }]
+    }, {
+      model: Transaction,
+      as: 'transaction',
+      include: [{
+        model: Subscription,
+        as: 'subscription'
+      }]
+    }],
+    where: {
+      DonatorId: userId,
+    }
+  })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Creates a new Donation in the DB
 export function create(req, res) {
   return Donation.create(req.body)

@@ -18,6 +18,9 @@ export default class ModalEditNewsController {
   uploadImages = {};
   concatImages = {};
 
+  quillText = '';
+  selectedModel = true;
+
   /*@ngInject*/
   constructor(Modal, Upload, News, Util, $http, $filter) {
     this.Modal = Modal;
@@ -44,15 +47,20 @@ export default class ModalEditNewsController {
     });
 
     if(this.resolve.NewsId) {
+      this.selectedModel = false;
       this.NewsId = this.resolve.NewsId;
       var loading = this.Modal.showLoading();
       this.$http.get(`/api/news/admin/${this.NewsId}`)
         .then(response => {
           loading.close();
-          this.news = response.data;
+          this.news = response.data;          
           this.PublishDate = this.$filter('date')(this.news.PublishDate, 'dd/MM/yyyy');
+          if(this.news.IsHTML){
+            this.selectedModel = true;
+            this.quillText = this.news.constructions[1].Value;
+          }
           console.log(this.news); 
-
+          
           for(var constructionIndex in this.news.constructions) {
             this.news.constructions[constructionIndex].OrderIndex = constructionIndex;
             for(var imageIndex in this.news.constructions[constructionIndex].images) {
@@ -72,80 +80,101 @@ export default class ModalEditNewsController {
 
   submitNews(form) {
     this.submitted = true;
-    
+    console.log(this.selectedModel, this.quillText);
+
+    //Common actions
     if(this.PublishDate) {
       var date = this.PublishDate.split('/');
       this.news.PublishDate = new Date(date[2], date[1] - 1, date[0]);
     }
 
-    if(form.$valid && !this.dateInvalid && (this.uploadImages['0'].length > 0 || this.concatImages['0'].length > 0)){
+    console.log(this.concatImages);
 
-      // TODO validation for images inputs
-      var savedImages = [];
-      var uploadImages = [];
-      var uploadIndexes = [];
-      for(var constructionIndex in this.concatImages) {
-        for(var imageIndex in this.concatImages[constructionIndex]) {
-          var image = {};
-          if(this.concatImages[constructionIndex][imageIndex].Path) {
-            image = {
-              ImageId: this.concatImages[constructionIndex][imageIndex].ImageId,
-              OrderIndex: imageIndex
-            };
-            savedImages.push(image);
-          } else if(this.concatImages[constructionIndex][imageIndex].$ngfName) {
-            image = {
-              OrderIndex: imageIndex,
-              ConstructionIndex: constructionIndex
-            };
-            uploadImages.push(this.concatImages[constructionIndex][imageIndex]);
-            uploadIndexes.push(image);
-          }
-          
-        }
+    if(this.selectedModel){
+      //New model of news
+      if(this.news.constructions.length < 2){
+        this.addConstruction(2);
       }
+      this.news.constructions[1].Value = this.quillText;
+      this.news.IsHTML = true;
+    }else{
+      this.news.IsHTML = false;
+    }
 
-      console.log('this.news.constructions', this.news.constructions);
-      console.log('savedImages', savedImages);
-      console.log('uploadImages', uploadImages);
-      console.log('uploadIndexes', uploadIndexes);
+      if(form.$valid && !this.dateInvalid && (this.uploadImages['0'].length > 0 || this.concatImages['0'].length > 0)){
 
-      var loading = this.Modal.showLoading();
-
-      var this_ = this;
-      this.Upload.upload({
-        url: '/api/news/edit',
-        arrayKey: '',
-        data: {
-          files: uploadImages,
-          news: JSON.stringify(this.news),
-          savedImages: JSON.stringify(savedImages),
-          uploadIndexes: JSON.stringify(uploadIndexes)
-        }
-      })
-        .then(function success(result) {
-          loading.close();
-          console.log(result);
-          if(result.data.errorCode === 0) {
-            this_.ok(true);
-            this_.Modal.showAlert('Notícia salva', 'A notícia foi salva com sucesso.');
-            this_.News.loadAll(true);
-            this_.submitted = false;
-          } else {
-            this_.Modal.showAlert('Erro ao salvar a notícia', 'Por favor, tente novamente.');
+        // TODO validation for images inputs
+        var savedImages = [];
+        var uploadImages = [];
+        var uploadIndexes = [];
+        for(var constructionIndex in this.concatImages) {
+          for(var imageIndex in this.concatImages[constructionIndex]) {
+            var image = {};
+            console.log(this.concatImages[constructionIndex][imageIndex]);
+            if(this.concatImages[constructionIndex][imageIndex].Path) {
+              image = {
+                ImageId: this.concatImages[constructionIndex][imageIndex].ImageId,
+                OrderIndex: imageIndex
+              };
+              savedImages.push(image);
+            } else if(this.concatImages[constructionIndex][imageIndex].$ngfName) {
+              image = {
+                OrderIndex: imageIndex,
+                ConstructionIndex: constructionIndex
+              };
+              uploadImages.push(this.concatImages[constructionIndex][imageIndex]);
+              uploadIndexes.push(image);
+            }
+            
           }
-        }, function error(err) {
-          loading.close();
-          console.log('Error: ' + err);
-          this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
-        }, function event(evt) {
-          console.log(evt);
-          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-          console.log('progress: ' + progressPercentage + '% ');
-          this_.progress = 'progress: ' + progressPercentage + '% ';
-        });      
+        }
+  
+        console.log(this.news);
+        console.log('this.news.constructions', this.news.constructions);
+        console.log('savedImages', savedImages);
+        console.log('uploadImages', uploadImages);
+        console.log('uploadIndexes', uploadIndexes);
+        
+        var loading = this.Modal.showLoading();
+  
+        var this_ = this;
+        this.Upload.upload({
+          url: '/api/news/edit',
+          arrayKey: '',
+          data: {
+            files: uploadImages,
+            news: JSON.stringify(this.news),
+            savedImages: JSON.stringify(savedImages),
+            uploadIndexes: JSON.stringify(uploadIndexes)
+          }
+        })
+          .then(function success(result) {
+            loading.close();
+            console.log(result);
+            if(result.data.errorCode === 0) {
+              this_.ok(true);
+              this_.Modal.showAlert('Notícia salva', 'A notícia foi salva com sucesso.');
+              this_.News.loadAll(true);
+              this_.submitted = false;
+            } else {
+              this_.Modal.showAlert('Erro ao salvar a notícia', 'Por favor, tente novamente.');
+            }
+          }, function error(err) {
+            loading.close();
+            console.log('Error: ' + err);
+            this_.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
+          }, function event(evt) {
+            console.log(evt);
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ');
+            this_.progress = 'progress: ' + progressPercentage + '% ';
+          }); 
+      }  
+    
 
-    }    
+
+
+      
 
   }
 
@@ -240,7 +269,11 @@ export default class ModalEditNewsController {
   }
 
   maxFiles(construction) {
-    return (construction.element.Type === 'CarouselImages' ? this.maxImages : 1);
+    if(this.selectedModel){
+      return 1;
+    }else{
+      return (construction.element.Type === 'CarouselImages' ? this.maxImages : 1);
+    }
   }
 
   ok(value) {

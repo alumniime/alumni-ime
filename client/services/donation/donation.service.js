@@ -79,6 +79,19 @@ export function DonationService($http, $q, $state, Util) {
       }
     },
 
+    loadUserDonations(forceReload, personId) {
+      if(this.myDonations.length === 0 || forceReload === true) {
+        $http.get('/api/donations/user/'+personId)
+          .then(response => {
+            this.myDonations = response.data;
+            for(var donation of this.myDonations) {
+              donation.Status = donation.IsApproved ? 'Pagamento confirmado' : donation.transaction && donation.transaction.Status === 'refused' ? 'Pagamento recusado' : donation.transaction && donation.transaction.Status === 'refunded' ? 'Pagamento estornado' : 'Pagamento pendente';
+              donation.PaymentMethod = !donation.transaction ? 'Transferência bancária' : donation.transaction.PaymentMethod === 'credit_card' ? 'Cartão de crédito' : 'Boleto bancário';
+            }
+          });
+      }
+    },
+
     /**
      * Opens donation view with a specified ProjectId
      * */

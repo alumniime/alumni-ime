@@ -7,8 +7,9 @@ import routes from './view.routes';
 
 export class ViewController {
   news = {};
+  HTMLText = '';
 
-  constructor(Modal, $state, $stateParams, News, Project, Util, Auth, ngMeta, appConfig, $anchorScroll) {
+  constructor(Modal, $state, $stateParams, News, Project, Util, Auth, ngMeta, appConfig, $anchorScroll, $sce) {
     'ngInject';
 
     this.$state = $state;
@@ -22,6 +23,9 @@ export class ViewController {
     this.ngMeta = ngMeta;
     this.appConfig = appConfig;
     this.$anchorScroll = $anchorScroll;
+    this.$sce = $sce
+
+    //this.HTMLText = $sce.trustAsHtml('<p>Teste <strong>Alumni</strong>. <span style="color: rgb(230, 0, 0);">123 </span><u style="color: rgb(230, 0, 0);">sub</u><span style="color: rgb(0, 138, 0);"> </span><span style="color: rgb(0, 138, 0);" class="ql-font-monospace">wfvveve </span>❤️</p>')
   }
 
   $onInit() {
@@ -43,6 +47,12 @@ export class ViewController {
             this.Project.load();
             this.News.load();
             this.$anchorScroll('top');
+
+            let text = $('<textarea />').html(this.news.constructions[1].Value).text();
+            text = text.substr(3).slice(0, -4);
+
+            this.HTMLText = this.$sce.trustAsHtml(text);
+            console.log(news);
           })
           .catch(() => {
             loading.close();
@@ -58,6 +68,7 @@ export class ViewController {
   openPhoto(images, index) {
     this.Modal.openPhoto(images, index);
   }
+
 
 }
 

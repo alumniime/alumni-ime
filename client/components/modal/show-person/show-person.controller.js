@@ -8,10 +8,12 @@ export default class ModalShowPersonController {
   locationName = '';
 
   /*@ngInject*/
-  constructor(Modal, Util, $http) {
+  constructor(Modal, Util, $http, Donation, Subscription) {
     this.Modal = Modal;
     this.Util = Util;
     this.$http = $http;
+    this.Donation = Donation;
+    this.Subscription = Subscription;
   }
 
   $onInit() {
@@ -46,7 +48,12 @@ export default class ModalShowPersonController {
         this.locationName = this.Util.getLocationName(this.user.location);
         loading.close();
       });
-
+    
+    console.log("Person Id: ", this.PersonId);
+    this.Donation.loadUserDonations(true, this.PersonId);
+    this.Subscription.loadUserSubscriptions(true, this.PersonId);
+    console.log('Doantion: ', this.Donation);
+    console.log('Subscription: ', this.Subscription);
   }
 
   submitPerson(form) {
@@ -109,6 +116,19 @@ export default class ModalShowPersonController {
 
   cancelModal() {
     this.dismiss({$value: 'cancel'});
+  }
+
+  updateSubscription(subscription){
+    if(subscription){
+      var loading = this.Modal.showLoading();
+      console.log(subscription);
+      this.$http.post('/api/subscriptions/update', {
+        SubscriptionId: subscription.SubscriptionId,
+        PlanId: subscription.PlanId,
+        PlanName: subscription.plan.Name
+      }).then(response => {console.log("Operação efetuada com sucesso!"); loading.close()})
+        .catch(err => console.log("Erro", err.message));
+    }
   }
 
 }

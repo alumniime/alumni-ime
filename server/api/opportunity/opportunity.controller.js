@@ -782,7 +782,6 @@ export function upload(req, res) {
                 });  
               }
               done(null, true);
-
             }
           })
           .catch(err => done(err));

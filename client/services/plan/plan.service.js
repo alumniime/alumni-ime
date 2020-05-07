@@ -22,7 +22,8 @@ export function PlanService($http, $q) {
                 planId: plan.PlanId,
                 value: plan.Amount,
                 frequency: 'monthly',
-                visible: plan.Visible
+                visible: plan.Visible,
+                admin: plan.Admin
               });
             }
             this.list.push({ 

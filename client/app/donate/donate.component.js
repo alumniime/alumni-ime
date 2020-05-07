@@ -42,6 +42,7 @@ export class DonateController {
     this.Plan.load()
       .then(result => {
         this.plans = result;
+        console.log("Plans: ", this.plans);
         if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
           this.selectFrequency('monthly');
         }

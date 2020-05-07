@@ -197,9 +197,11 @@ export default class OpportunitiesPostController {
   }
 
   opportunityHasTarget() {
-    for(var personType of this.personTypesList) {
-      if(personType.selected) {
-        return true;
+    if(this.personTypesList){
+      for(var personType of this.personTypesList) {
+        if(personType.selected) {
+          return true;
+        }
       }
     }
     return false;

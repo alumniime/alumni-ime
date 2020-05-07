@@ -17,6 +17,11 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: '0'
+    },
+    Admin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: '0'
     }
   }, {
     tableName: 'Plan'

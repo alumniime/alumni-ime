@@ -1,5 +1,4 @@
 modal-show-person {
-
   .modal-header {
     border-bottom: none;
     padding-bottom: 0;
@@ -20,19 +19,20 @@ modal-show-person {
   }
 
   .btn-danger {
-    background-color: #E84E0F;
+    background-color: #e84e0f;
     border-radius: 30px;
-    border-color: #E84E0F;
+    border-color: #e84e0f;
   }
 
-  .btn-danger:hover, .btn-danger.active {
+  .btn-danger:hover,
+  .btn-danger.active {
     background-color: rgb(199, 66, 14);
     border-color: rgb(199, 66, 14);
   }
 
   .help-block {
     font-size: 12px;
-    color: #E84E0F;
+    color: #e84e0f;
   }
 
   .profile-photo {
@@ -75,7 +75,7 @@ modal-show-person {
   }
 
   .highlight {
-    color: #E84E0F;
+    color: #e84e0f;
   }
 
   .intl-tel-input {
@@ -84,10 +84,17 @@ modal-show-person {
     input {
       width: -webkit-fill-available;
     }
-  }  
+  }
 
   .col-auto {
     max-width: 100%;
   }
 
+  .plus {
+    cursor: pointer;
+    border: 1px solid #828282;
+    border-radius: 3px;
+    padding: 4px;
+    font-size: 1rem;
+  }
 }
