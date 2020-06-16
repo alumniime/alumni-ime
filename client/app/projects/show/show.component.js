@@ -57,6 +57,7 @@ export class ShowController {
             }
           });
           loading.close();
+          console.log(this.Project.list);
         })
         .catch(() => {
           loading.close();

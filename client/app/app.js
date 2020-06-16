@@ -70,10 +70,18 @@ angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBoot
   .config(routeConfig, ['ngQuillConfigProvider', function (ngQuillConfigProvider) {
     ngQuillConfigProvider.set(null, null, 'custom placeholder')
   }])
-  .run(function ($rootScope, $location, Auth, ngMeta) {
+  .run(function ($rootScope, $location, Auth, ngMeta, $window) {
     'ngInject';
-    // Redirect to login if route requires auth and you're not logged in
 
+    // initialise google analytics
+    $window.ga('create', 'UA-120472787-1', 'auto');
+
+    // track pageview on state change
+    $rootScope.$on('$stateChangeSuccess', function (event) {
+        $window.ga('send', 'pageview', $location.path());
+    });
+
+    // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedIn(function (loggedIn) {
         if(next.authenticate && !loggedIn) {

@@ -32,6 +32,7 @@ import ModalAssociationController from './association/association.controller';
 import ModalReviewAssociationController from './review-association/review-association.controller';
 import ModalReviewSubscriptionController from './review-subscription/review-subscription.controller';
 import ModalSupportProjectController from './support-project/support-project.controller';
+import ModalPreCheckoutController from './preCheckout/preCheckout.controller';
 
 /*@ngInject*/
 export function ModalService($uibModal, $q) {
@@ -517,6 +518,30 @@ export function ModalService($uibModal, $q) {
       return d.promise;
     },
 
+    openPreCheckout(donation, option) {
+      var d = $q.defer();
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalPreCheckout',
+        size: 'md modal-dialog-centered',
+        resolve: {
+          donation: function () {
+            return donation;
+          },
+          option: function () {
+            return option;
+          }
+        }
+      });
+      modalInstance.result.then(function (path) {
+        d.resolve(path);
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+        d.reject();
+      });
+      return d.promise;
+    },
+
     openReports(year) {
       var modalInstance = $uibModal.open({
         animation: true,
@@ -782,6 +807,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalCheckout', {
     template: require('./checkout/checkout.html'),
     controller: ModalCheckoutController,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalPreCheckout', {
+    template: require('./preCheckout/preCheckout.html'),
+    controller: ModalPreCheckoutController,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

@@ -188,4 +188,24 @@ modal-login {
     text-align: center;
   }
 
+  .imgContainer{
+    display: flex;
+
+    .imgBank{
+      width: 100%;
+      align-self: center;
+      flex: 0 0 auto;
+    }
+  }
+
+  .bankDiv{
+    padding-left: 0;
+    font-size: 1rem;
+
+    .bank-data{
+      font-size: 0.85rem;
+    }
+  }
+
+
 }

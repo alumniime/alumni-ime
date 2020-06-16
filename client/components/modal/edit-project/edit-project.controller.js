@@ -26,13 +26,21 @@ export default class ModalEditProjectController {
     Year: 0,
     Semester: 0
   };
+  uploadImages = [];
+  loading;
+  maxImages = 12;
+  maxSize = '5MB';
+  imageQuality = 1;
+  imagesToUpload = {'ImageId': [], 'OrderIndex': []};
+  rmImgs = [];
 
   /*@ngInject*/
-  constructor(Modal, $http, $filter, Util) {
+  constructor(Modal, $http, $filter, Util, Upload) {
     this.Modal = Modal;
     this.$http = $http;
     this.$filter = $filter;
     this.Util = Util;
+    this.Upload = Upload;
   }
 
   $onInit() {
@@ -49,13 +57,11 @@ export default class ModalEditProjectController {
             this.imagesToSave.ImageId.push(response.data[imageIndex].ImageId);
             this.imagesToSave.OrderIndex.push(response.data[imageIndex].OrderIndex);
           }
-          console.log(JSON.stringify(this.imagesToSave));
         });
       this.$http.get(`/api/projects/${this.project.ProjectId}/admin`)
         .then(response => {
           loading.close();
           this.project = response.data;
-          console.log(response.data);
           this.project.EstimatedPriceInCents /= 100;
           this.project.CollectedPriceInCents /= 100;
           this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');
@@ -91,11 +97,6 @@ export default class ModalEditProjectController {
             this.rewardsList.RewardDescription.push(this.project.rewards[index-1].RewardDescription); 
             this.rewardsList.RewardId.push(this.project.rewards[index-1].ProjectRewardId); 
           }
-
-          console.log(this.project.rewards);
-          console.log(this.rewardsCount);
-          console.log(this.rewardsIndex);
-          console.log(this.rewardsList);
         });
     } else {
       this.project.ConclusionDate = this.$filter('date')(Date.now(), 'dd/MM/yyyy');
@@ -117,8 +118,17 @@ export default class ModalEditProjectController {
 
   updateStatus(form) {
     this.rewardsList.Value[this.rewardsCount - 2] = this.rewardsList.Value[this.rewardsCount - 3];
-
     if(form.$valid && this.project.EstimatedPriceInCents > 0 && this.project.CollectedPriceInCents >= 0) {
+      let maxIndex = 0;
+      for(let index = 0; index < this.imagesToSave.OrderIndex.length; index++){
+        if(this.imagesToSave.OrderIndex[index] > maxIndex){
+          maxIndex = this.imagesToSave.OrderIndex[index];
+        }
+      }
+      for(let index = 0; index < this.uploadImages.length; index++){
+        this.imagesToUpload.OrderIndex[index] = maxIndex + 1;
+        maxIndex++;
+      }
       
       this.Rewards = [];
       for(let index = 0; index < this.rewardsCount-1; index++) {
@@ -145,37 +155,62 @@ export default class ModalEditProjectController {
       var loading = this.Modal.showLoading();
 
       if(this.project.Year >= 2019) {
-        this.$http.post('/api/projects/edit/admin', {"project": this.project, "rewards": this.Rewards, "savedImages": this.imagesToSave, "costs": this.costs})
-          .then(res => {
-            console.log(res);
-            this.project.EstimatedPriceInCents /= 100;
-            this.project.CollectedPriceInCents /= 100;
-            loading.close();
-            this.ok(true);
-            this.Modal.showAlert('Sucesso', 'Projeto salvo com sucesso.');
-          })
-          .catch(err => {
-            this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o projeto, tente novamente.');
-            this.project.EstimatedPriceInCents /= 100;
-            this.project.CollectedPriceInCents /= 100;
-            loading.close();
-            console.log(err);
+        var this_ = this;
+        this.Upload.upload({
+          url: '/api/projects/edit/admin',
+          arrayKey: '',
+          data: {
+            project: this.project, 
+            rewards: this.Rewards, 
+            savedImages: this.imagesToSave, 
+            costs: this.costs, 
+            files: this.uploadImages, 
+            uploadIndexes: this.imagesToUpload,
+            rmImgs: this.rmImgs
           }
-        );
+        }).then(function success(result) {
+          this_.project.EstimatedPriceInCents /= 100;
+          this_.project.CollectedPriceInCents /= 100;
+          loading.close();
+          this_.ok(true);
+          this_.Modal.showAlert('Sucesso', 'Projeto salvo com sucesso.');
+        }, function error(err) {
+          this_.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o projeto, tente novamente.');
+          this_.project.EstimatedPriceInCents /= 100;
+          this_.project.CollectedPriceInCents /= 100;
+          loading.close();
+          console.log(err);
+        }, function event(evt) {
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          this_.progress = 'progress: ' + progressPercentage + '% ';
+        })
       } else {
-        this.$http.post('/api/projects/edit/admin', {"project": this.project, "rewards": this.Rewards, "savedImages": this.imagesToSave})
-          .then(res=> {
-            console.log(res);
-            loading.close();
-            this.ok(true);
-            this.Modal.showAlert('Sucesso', 'Projeto salvo com sucesso.');
-          })
-          .catch(err => {
-            this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o projeto, tente novamente.');
-            loading.close();
-            console.log(err);
+        var this_ = this;
+        this.Upload.upload({
+          url: '/api/projects/edit/admin',
+          arrayKey: '',
+          data: {
+            project: this.project, 
+            rewards: this.Rewards, 
+            savedImages: this.imagesToSave, 
+            files: this.uploadImages, 
+            uploadIndexes: this.imagesToUpload
           }
-        );
+        }).then(function success(result) {
+          console.log(result);
+          loading.close();
+          this_.ok(true);
+          this_.Modal.showAlert('Sucesso', 'Projeto salvo com sucesso.');
+        }, function error(err) {
+          this_.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o projeto, tente novamente.');
+          loading.close();
+          console.log(err);
+        }, function event(evt) {
+          console.log(evt);
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          console.log('progress: ' + progressPercentage + '% ');
+          this_.progress = 'progress: ' + progressPercentage + '% ';
+        })
       }
     }
   }
@@ -266,6 +301,87 @@ export default class ModalEditProjectController {
     
     this.isBudgetDone = true;
     return null;
+  }
+
+  upImg(img){
+    let found = 0;
+    if(img.OrderIndex != 0){
+      for(let index = 0; index < this.project.images.length; index++){
+        if(this.project.images[index].ImageId == img.ImageId && found == 0){
+          found = 1;
+          let aux = img.OrderIndex;
+          img.OrderIndex = this.project.images[index-1].OrderIndex;
+          this.project.images[index-1].OrderIndex = aux;
+
+          aux = Object.assign({}, this.project.images[index]);
+          this.project.images[index] = Object.assign({}, this.project.images[index - 1]);
+          this.project.images[index - 1] = aux;
+        }
+      }
+
+      for(let index = 0; index < this.project.images.length; index++){
+        this.imagesToSave.ImageId[index] = this.project.images[index].ImageId;
+        this.imagesToSave.OrderIndex[index] = this.project.images[index].OrderIndex;
+      }
+    }
+  }
+
+  downImg(img){
+    let found = 0;
+    for(let index = 0; index < this.project.images.length; index++){
+      if(this.project.images[index].ImageId == img.ImageId && this.project.images[index + 1] && found == 0){
+        found = 1;
+        let aux = img.OrderIndex;
+        img.OrderIndex = this.project.images[index+1].OrderIndex;
+        this.project.images[index+1].OrderIndex = aux;
+
+        aux = Object.assign({}, this.project.images[index]);
+        this.project.images[index] = Object.assign({}, this.project.images[index + 1]);
+        this.project.images[index + 1] = aux;
+      }
+    }
+
+    for(let index = 0; index < this.project.images.length; index++){
+      this.imagesToSave.ImageId[index] = this.project.images[index].ImageId;
+      this.imagesToSave.OrderIndex[index] = this.project.images[index].OrderIndex;
+    }
+  }
+
+  rmImg(img) {
+    this.rmImgs.push(img.ImageId);
+    let found = 0; 
+    let localLength = this.project.images.length;
+    for(let index = 0; index < localLength; index++){
+      if(found == 1){
+        this.project.images[index-1].OrderIndex -= 1;
+      }
+      
+      if(this.project.images[index] != undefined){
+        if(this.project.images[index].ImageId == img.ImageId && found == 0){
+          found = 1;
+          this.project.images.splice(index, 1);
+        }
+      }
+    }
+
+    this.imagesToSave = {'ImageId': [], 'OrderIndex': []};
+    for(let index = 0; index < this.project.images.length; index++){
+      this.imagesToSave.ImageId[index] = this.project.images[index].ImageId;
+      this.imagesToSave.OrderIndex[index] = this.project.images[index].OrderIndex;
+    }
+  }
+
+  updateImages(files) {
+    console.log('update', files);
+    if(files === null) {
+      this.loading = this.Modal.showLoading();
+    } else {
+      this.loading.close();
+    }
+  }
+
+  removeImage(image) {
+    this.uploadImages.splice(this.uploadImages.indexOf(image), 1);
   }
 
 }

@@ -103,7 +103,7 @@ export function transact(req, res) {
       type: isCpf ? 'cpf' : 'cnpj',
       number: data.customer.document_number
     }],
-    phone_numbers: [`+55${data.customer.phone.ddd}${data.customer.phone.number}`],
+    phone_numbers: data.customer.phone_numbers ? data.customer.phone_numbers : [`+55${data.customer.phone.ddd}${data.customer.phone.number}`],
   };
 
   params.billing = {
@@ -116,7 +116,7 @@ export function transact(req, res) {
       neighborhood: data.customer.address.neighborhood,
       city: data.customer.address.city,
       state: data.customer.address.state,
-      country: 'br'
+      country: data.customer.address.country ? data.billing.address.country : 'br'
     }
   };
 
@@ -226,6 +226,7 @@ export function transact(req, res) {
 export function postback(req, res) {
   var response = req.body.transaction;
   var transactionId = response.id; 
+  console.log(response, transactionId);
   
   async.waterfall([
     // Validating postback

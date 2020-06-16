@@ -317,7 +317,10 @@ export function admin(req, res) {
       model: Image,
       as: 'images',
       attributes: ['ImageId', 'Path', 'OrderIndex', 'Type'],
-      required: false
+      required: false,
+      where: {
+        IsExcluded: 0
+      }
     }, {
       model: User,
       attributes: ['name'],
@@ -354,10 +357,10 @@ export function admin(req, res) {
       [{model: Image, as: 'images'}, 'OrderIndex']
     ],
     where: {
-      ProjectId: req.params.id
+      ProjectId: req.params.id,
       //SubmissionerId: userId,
       //IsApproved: 0,
-      // IsExcluded: 0
+      //IsExcluded: 0
     }
   })
     .then(handleEntityNotFound(res))
@@ -535,6 +538,7 @@ export function upload(req, res) {
             (error)=> {console.log("4",error)})
         }
 
+        console.log("REQ-FILES:", req.files);
         for(var fileIndex in req.files) {
           images.push({
             ProjectId: projectId,
@@ -745,6 +749,7 @@ export function editAny(req, res) {
     Reflect.deleteProperty(project, 'Results');
     Reflect.deleteProperty(project, 'SubmissionDate');
     Reflect.deleteProperty(project, 'SubmissionerId');
+    Reflect.deleteProperty(project, 'CollectionLimitDate');
 
     Project.find({
       where: {
@@ -772,18 +777,18 @@ export function editAny(req, res) {
                 .then(costs =>{
                   for(let costIndex in costs){
                     costs[costIndex].IsExcluded = 1;
-                    console.log(costsToSave);
-                    if(Array.isArray(costsToSave)){
-                      for(let searchIndex in costsToSave){
-                        if(parseInt(costs[costIndex].ProjectCostId) === parseInt(costsToSave[searchIndex].ProjectCostId)) {
+
+                    if(Array.isArray(costsToSave.Item)){
+                      for(let searchIndex in costsToSave.Item){
+                        if(parseInt(costs[costIndex].ProjectCostId) === parseInt(costsToSave.ProjectCostId[searchIndex])) {
                           costs[costIndex].IsExcluded = 0;
-                          costs[costIndex].CostDescription = costsToSave[searchIndex].Item;
-                          costs[costIndex].Quantity = costsToSave[searchIndex].Quantity;
-                          costs[costIndex].UnitPriceInCents = costsToSave[searchIndex].UnitPrice;
+                          costs[costIndex].CostDescription = costsToSave.Item[searchIndex];
+                          costs[costIndex].Quantity = costsToSave.Quantity[searchIndex];
+                          costs[costIndex].UnitPriceInCents = costsToSave.UnitPrice[searchIndex];
                         }
                       }
                     }
-                    //Entra aqui?
+
                     else{
                       if(parseInt(costs[costIndex].ProjectCostId) === parseInt(costsToSave.ProjectCostId)){
                         costs[costIndex].IsExcluded = 0;
@@ -792,25 +797,26 @@ export function editAny(req, res) {
                         costs[costIndex].UnitPriceInCents = costsToSave.UnitPrice;
                       }
                     }
+                    
                   }
+
                   for(let costIndex in costs){
                     promises.push(costs[costIndex].save());
                   }
   
                   //Adding new costs in database
-                  console.log(costsToSave);
-                  for(let costIndex in costsToSave){
-                    if(parseInt(costsToSave[costIndex].ProjectCostId) === -1){
+                  for(let costIndex in costsToSave.Item){
+                    if(parseInt(costsToSave.ProjectCostId[costIndex]) === -1){
                       uploadCosts.push({
                         ProjectId: projectId,
-                        CostDescription: costsToSave[costIndex].Item,
-                        Quantity: costsToSave[costIndex].Quantity,
-                        UnitPriceInCents: costsToSave[costIndex].UnitPrice,
+                        CostDescription: costsToSave.Item[costIndex],
+                        Quantity: costsToSave.Quantity[costIndex],
+                        UnitPriceInCents: costsToSave.UnitPrice[costIndex],
                         IsExcluded: 0
                       })
                     }
                   }
-                  console.log(uploadCosts);
+                  
                   if(uploadCosts.length > 0){
                     promises.push(ProjectCost.bulkCreate(uploadCosts));
                   }
@@ -836,7 +842,6 @@ export function editAny(req, res) {
                       }
                     }
                   }
-                  //Entra aqui?
                   else{
                     if(parseInt(rewards[rewardIndex].ProjectRewardId) === parseInt(rewardsToSave.RewardId)){
                       rewards[rewardIndex].IsExcluded = 0;
@@ -877,8 +882,6 @@ export function editAny(req, res) {
               }
             })
               .then(images => {
-                console.log("IMAGES");
-                console.log(JSON.stringify(images));
                 // TODO add promises waterfall
 
                 // Removing images that user have chose
@@ -888,7 +891,7 @@ export function editAny(req, res) {
                   console.log("savedImages");
                   console.log(JSON.stringify(imagesToSave));
                   // Changing image OrderIndex knowing that index 0 is the principal image
-                  for(let searchIndex in imagesToSave.ImageId) {                    
+                  for(let searchIndex in imagesToSave.ImageId) {
                     if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {
                       images[imageIndex].IsExcluded = 0;
                       images[imageIndex].OrderIndex = imagesToSave.OrderIndex[searchIndex];

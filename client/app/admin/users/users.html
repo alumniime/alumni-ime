@@ -24,7 +24,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="user in admin.users | orderBy: admin.order.former | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+    <tr ng-repeat="user in admin.users | orderBy: admin.order.former | filter: {IsApproved: false, IsExcluded: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
         ng-class="{'table-success': admin.verifyFields(user), 'table-danger': !admin.verifyFields(user)}"
         ng-if="user.PersonTypeId === 3 || user.PersonTypeId === 4">
       <th scope="row">{{user.PersonId}}</th>
@@ -74,7 +74,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="user in admin.users | orderBy: admin.order.other | filter: {IsApproved: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
+    <tr ng-repeat="user in admin.users | orderBy: admin.order.other | filter: {IsApproved: false, IsExcluded: false}" class="c-pointer" ng-click="admin.openProfile(user.PersonId)"
         ng-if="!(user.PersonTypeId === 1 || user.PersonTypeId === 3 || user.PersonType === 4)">
       <th scope="row">{{user.PersonId}}</th>
       <td>{{user.FullName}}</td>

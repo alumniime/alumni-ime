@@ -1,0 +1,79 @@
+modal-pre-checkout {
+  .btn {
+    display: inline-block;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: transparent;
+    border-width: 1.5px;
+    color: black;
+  }
+
+  .btn-outline-danger{
+    color: #E84E0F;
+    border-color: #E84E0F;
+  }
+  .btn-outline-danger:hover, .btn-outline-danger.active{
+    color: #fafafa;
+    background: rgb(199, 66, 14);
+  }
+
+  .modal-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    i{
+      top: inherit !important;
+    }
+  }
+
+  #modal-body{
+    display: flex;
+    justify-content: space-around;
+    div{
+      button{
+        margin: 1rem 0;
+      }
+      p{
+        text-align: center;
+        font-size: 1.3rem;
+        margin: 0;
+      }
+    }
+  }
+
+  .countryImg{
+    height: 7rem;
+    margin: -17px;
+    padding: 15px;
+  }
+
+  .countryImg:hover, .countryImg:active{
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(202deg) brightness(103%) contrast(103%);
+  }
+
+  .form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-control{
+    width: 100%;
+  }
+
+  .help-block {
+    margin-top: 10px !important;
+    font-size: 12px !important;
+    color: #E84E0F !important;
+    text-align: center !important;
+  }
+
+  #lastBtn{
+    padding: 0.5rem 3rem;
+  }
+
+  .intl-tel-input{
+    width: 100%;
+  }
+
+}

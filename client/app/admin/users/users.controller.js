@@ -34,6 +34,11 @@ export default class AdminUsersController {
     // var loading = this.Modal.showLoading();
     this.users = this.User.query(() => {
         // loading.close();
+        for(let i = 0; i < this.users.length; i++){
+          if(this.users[i]["IsExcluded"]){
+            console.log(this.users[i]);
+          }
+        }
         this.refreshFilters();
       });
 

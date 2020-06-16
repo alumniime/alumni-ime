@@ -14,6 +14,8 @@ export default class OpportunitiesSearchController {
   currentPage = 1;
   opportunitiesNumber = 0;
   itemsPerPage = 8;
+  canOpen = false;
+  currentDay = new Date();
 
   constructor(Auth, Modal, Util, $http, $filter, $state, $stateParams, $location, $anchorScroll) {
     'ngInject';
@@ -77,6 +79,13 @@ export default class OpportunitiesSearchController {
     this.getCurrentUser()
       .then(user => {
         this.user = user;
+
+        //Aprovando qualquer usuário para visualizar a página
+        if(!this.user.PersonId){
+          this.user.PersonId = 2232; //Id Visitante
+          this.user.IsApproved = true;
+        }
+
         if(!this.user.PersonId) {
           loading.close();
           this.Modal.openLogin();
@@ -136,6 +145,9 @@ export default class OpportunitiesSearchController {
             .then(response => {
               loading.close();
               this.opportunitiesList = response.data;
+              for(let opt in this.opportunitiesList){
+                this.opportunitiesList[opt].ExpirationDate = new Date(this.opportunitiesList[opt].ExpirationDate);
+              }
               this.opportunitiesNumber = this.opportunitiesList.length;
               if(this.opportunitiesNumber === 0) {
                 this.Modal.showAlert('Sem resultados', 'Nenhuma vaga foi encontrada com base nos filtros selecionados.');
@@ -232,4 +244,13 @@ export default class OpportunitiesSearchController {
     this.$anchorScroll('top');
   }
 
+  checkToOpen(opportunity){
+    if(this.user.PersonId != undefined && this.user.PersonId != 2232){
+      this.$state.go("opportunities.view", {OpportunityId: opportunity.OpportunityId, PrettyURL: this.Util.convertToSlug(opportunity.Title), forceReload: false}); 
+      this.canOpen = true;
+    }else{
+      this.Modal.openLogin();
+      this.canOpen = false;
+    }
+  }
 }

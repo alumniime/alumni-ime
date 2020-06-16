@@ -202,9 +202,13 @@ export function subscribe(req, res) {
     country: 'br',
     documents: [{
       type: isCpf ? 'cpf' : 'cnpj',
-      number: data.customer.document_number
+      number: data.customer.document_number,
+      zipcode: data.customer.address.zipcode,
+      country: data.customer.address.country,
+      state: data.customer.address.state,
+      city: data.customer.address.city
     }],
-    phone_numbers: [`+55${data.customer.phone.ddd}${data.customer.phone.number}`],
+    phone_numbers: data.customer.phone_numbers ? data.customer.phone_numbers : [`+55${data.customer.phone.ddd}${data.customer.phone.number}`],
   };
 
   params.customer.document_number = data.customer.document_number;
@@ -242,7 +246,7 @@ export function subscribe(req, res) {
         CustomerJSON: JSON.stringify(req.body.payment)
       })
         .then(() => next(null, response))
-        .catch(() => next(null, response));
+        .catch(err => next(err));
     },
     // Saving subscription
     (response, next) => {

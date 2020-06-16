@@ -25,7 +25,6 @@ export function CheckoutService($q, $interval, appConfig) {
    * Checks if PagarMeCheckout was loaded and creates a checkout instance
    * */
   function getInstance(success, error, close) {
-
     var promise = $q((resolve, reject) => {
 
       var elapsedTime = 0;

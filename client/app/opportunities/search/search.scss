@@ -145,6 +145,7 @@
     box-shadow: 0 0 0 1px rgba(0,0,0,.1);
     border-radius: 3px;
     width: 100%;
+    height: calc(100% - 1rem);
     @include media-breakpoint-up(md) {
       img {
         max-height: 196px;
@@ -153,12 +154,22 @@
 
     .card-body {
       padding: 15px 25px 0 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-      img {
-        width: 50%;
-        max-width: 120px;
-        max-height: 120px;
-        margin-bottom: 5px;
+      .imgContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        img {
+          width: 100%;
+          padding-right: 0.5rem;
+          //max-width: 120px;
+          //max-height: 120px;
+          margin-bottom: 5px;
+        }
       }
     }
   
@@ -204,6 +215,16 @@
     background-color: #E84E0F;
     border-color: #E84E0F;
     color: #fff;
+  }
+
+  .closedOpt{
+    border-top: solid 1px #828282;
+    color: #e60000;
+    text-align: center;
+    font-size: 0.9rem;
+    padding-top: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0;
   }
   
 }

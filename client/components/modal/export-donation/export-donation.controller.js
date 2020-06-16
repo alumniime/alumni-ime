@@ -30,6 +30,7 @@ export default class ModalExportDonationController {
           this.donations=response.data;
           console.log(this.donations);
           this.availableInfo=[
+            {Description: "Id do doador", IsChosen: false, Name: "DonatorId", Path: "DonatorId", Category: "Donator"},
             {Description: "Id da doação", IsChosen: false, Name: "DonationId", Path: "DonationId", Category: "Donation"},
             {Description: "Tipo (projeto ou geral)", IsChosen: false, Name: "DonationType", Path: "Type", Category: "Donation"},
             {Description: "Nome do Projeto", IsChosen: false, Name: "ProjectName", Path: "project.ProjectName", Category: "Donation"},

@@ -161,6 +161,7 @@ export function index(req, res) {
       'IsSpecialUser',
       'TryAssociation',
       'IsAssociated',
+      'IsExcluded',
       'Country',
       'State',
       'City',
