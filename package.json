@@ -5,7 +5,7 @@
   "dependencies": {
     "@sokratis/passport-linkedin-oauth2": "^2.1.0",
     "angucomplete-alt": "^3.0.0",
-    "angular": "~1.6.0",
+    "angular": "~1.8.0",
     "angular-animate": "~1.6.0",
     "angular-aria": "~1.6.0",
     "angular-cookies": "~1.6.0",
