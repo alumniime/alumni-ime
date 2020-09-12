@@ -5,6 +5,10 @@
 
 <div class="modal-body pl-4 pr-4 pl-lg-5 pr-lg-5 pb-4" id="modal-body">
 
+  <button href="#" class="btn btn-danger mx-auto mt-3" id="checkAll" ng-click="vm.checkAll()">
+    Selecionar Todos
+  </button>
+
   <form class="form" name="form" ng-submit="vm.export(form)" novalidate>
 
     <div class="row mt-2">
@@ -14,17 +18,17 @@
         <div class="form-group">
           <h6>Informações da Doação</h6>
           <div ng-repeat="info in vm.availableInfo | filter: {Category: 'Donation'}">
-            <label for="info.Name"><input type="checkbox" id="checkbox" name="vm.Name" class="export-form-control"
+            <label for="info.Name"><input type="checkbox" name="vm.Name" class="export-form-control"
               ng-model="info.IsChosen">{{info.Description}}</label>
           </div>
           <h6>Informações do Doador</h6>
           <div ng-repeat="info in vm.availableInfo | filter: {Category: 'Donator'}">
-            <label for="info.Name"><input type="checkbox" id="checkbox" name="vm.Name" class="export-form-control"
+            <label for="info.Name"><input type="checkbox" name="vm.Name" class="export-form-control"
               ng-model="info.IsChosen">{{info.Description}}</label>
           </div>
           <h6>Informações do Pagamento</h6>
           <div ng-repeat="info in vm.availableInfo | filter: {Category: 'Payment'}">
-            <label for="info.Name"><input type="checkbox" id="checkbox" name="vm.Name" class="export-form-control"
+            <label for="info.Name"><input type="checkbox" name="vm.Name" class="export-form-control"
               ng-model="info.IsChosen">{{info.Description}}</label>
           </div>
         </div>

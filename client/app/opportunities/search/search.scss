@@ -219,12 +219,20 @@
 
   .closedOpt{
     border-top: solid 1px #828282;
-    color: #e60000;
+    color: #1AA260;
     text-align: center;
     font-size: 0.9rem;
     padding-top: 0.5rem;
     margin-right: 0.5rem;
     margin-bottom: 0;
+  }
+
+  #optNumber{
+    display: inline-block;
+    margin: 0;
+    font-size: 1.3rem;
+    color: #828282;
+    font-weight: 500;
   }
   
 }

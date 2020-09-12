@@ -102,13 +102,13 @@
                             <div class="btn-group value-buttons d-block d-md-none" role="group" aria-label="Donation values">
                                 <div class="row m-0 p-0">
                                     <div class="col-12 p-0 btn-group">
-                                        <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, admin: false, frequency: vm.donation.Frequency}" ng-if="$index < 3"
+                                        <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, frequency: vm.donation.Frequency}" ng-if="$index < 3"
                                                 class="btn btn-outline-secondary" ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
                                             R$ {{option.value}}
                                         </button>
                                     </div>
                                     <div class="col-12 p-0 btn-group border-top-none">
-                                        <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, admin: false, frequency: vm.donation.Frequency}" ng-if="$index >= 3 && $index < 5"
+                                        <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, frequency: vm.donation.Frequency}" ng-if="$index >= 3 && $index < 5"
                                                 class="btn btn-outline-secondary" ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
                                             R$ {{option.value}}
                                         </button>

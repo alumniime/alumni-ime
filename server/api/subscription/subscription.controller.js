@@ -191,6 +191,8 @@ export function subscribe(req, res) {
   var data = req.body.payment;
   var donation = req.body.donation;
   var userId = req.user.PersonId;
+  var country = data.customer.address.country ? data.customer.address.country : 'br';
+  var isBR = country == 'br';
   var isCpf = data.customer.document_number.length === 11;
   var params = {};
 
@@ -198,23 +200,23 @@ export function subscribe(req, res) {
     external_id: req.user.PersonId.toString(),
     name: data.customer.name,
     email: data.customer.email,
-    type: isCpf ? 'individual' : 'corporation',
-    country: 'br',
+    type: isBR ? (isCpf ? 'individual' : 'corporation') : 'individual',
+    country: isBR ? 'br' : data.customer.country,
     documents: [{
-      type: isCpf ? 'cpf' : 'cnpj',
+      type: isBR ? (isCpf ? 'cpf' : 'cnpj') : 'passport',
       number: data.customer.document_number,
       zipcode: data.customer.address.zipcode,
       country: data.customer.address.country,
       state: data.customer.address.state,
       city: data.customer.address.city
     }],
-    phone_numbers: data.customer.phone_numbers ? data.customer.phone_numbers : [`+55${data.customer.phone.ddd}${data.customer.phone.number}`],
+    //phone_numbers: data.customer.phone_numbers ? data.customer.phone_numbers : [`+55${data.customer.phone.ddd}${data.customer.phone.number}`],
   };
 
   params.customer.document_number = data.customer.document_number;
-  params.customer.document_type = isCpf ? 'cpf' : 'cnpj';
+  params.customer.document_type = isBR ? (isCpf ? 'cpf' : 'cnpj') : 'passport';
   params.customer.address = data.customer.address;
-  params.customer.phone = data.customer.phone;
+  //params.customer.phone = data.customer.phone;
 
   // params.customer.id = 883840; // TODO load previous saved id
 

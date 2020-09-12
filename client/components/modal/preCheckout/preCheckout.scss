@@ -26,7 +26,11 @@ modal-pre-checkout {
     }
   }
 
-  #modal-body{
+  #modal-title{
+    padding-right: 30px !important;
+  }
+
+  .modal-body{
     display: flex;
     justify-content: space-around;
     div{
@@ -74,6 +78,25 @@ modal-pre-checkout {
 
   .intl-tel-input{
     width: 100%;
+  }
+
+  .loader {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #3b7bbf; /* Blue */
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  #paypal-button-container{
+    max-width: 530px;
+    margin: auto;
   }
 
 }

@@ -45,7 +45,6 @@ export default class AdminDonationsController {
       .then(() => {
         loading.close();
         this.refreshFilters();
-        console.log(this.Donation.list)
       });
     this.Subscription.load(true)
       .then((data) => {
@@ -64,10 +63,7 @@ export default class AdminDonationsController {
   }
 
   exportDonation() {
-    this.Modal.exportDonation()
-    .then(() => {
-      this.$state.reload();
-    });
+    this.Modal.exportDonation();
   }
 
   refreshFilters() {

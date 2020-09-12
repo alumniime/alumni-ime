@@ -111,6 +111,7 @@ export default class GraduatesSearchController {
               .then(response => {
                 loading.close();
                 this.formerStudents = response.data;
+                console.log(this.formerStudents);
                 for(var student of this.formerStudents) {
                   if(student.profile && student.profile.location) {
                     student.profile.locationName = this.Util.getLocationName(student.profile.location);

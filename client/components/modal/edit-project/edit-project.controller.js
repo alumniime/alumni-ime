@@ -62,6 +62,7 @@ export default class ModalEditProjectController {
         .then(response => {
           loading.close();
           this.project = response.data;
+          console.log(this.project);
           this.project.EstimatedPriceInCents /= 100;
           this.project.CollectedPriceInCents /= 100;
           this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');

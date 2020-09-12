@@ -323,11 +323,11 @@ export function admin(req, res) {
       }
     }, {
       model: User,
-      attributes: ['name'],
+      attributes: ['name', 'email', 'Phone'],
       as: 'leader'
     }, {
       model: User,
-      attributes: ['name'],
+      attributes: ['name', 'email', 'Phone'],
       as: 'professor'
     }, {
       model: User,

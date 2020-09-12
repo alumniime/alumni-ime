@@ -50,8 +50,13 @@ export default class ModalCheckoutController {
         this.result = res.data.result;
       })
       .catch(err => {
-        this.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
         console.log(err);
+        let response = err.data.errorDesc.response;
+        if(response.errors.length){
+          this.Modal.showAlert('Ocorreu um erro', response.errors[0].message);
+        }else{
+          this.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
+        }
         this.cancelModal();
       });
 

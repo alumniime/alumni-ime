@@ -79,6 +79,8 @@ export default class ModalLoginController {
 
     // create an ever increasing interval to check a certain global value getting assigned in the popup
     var this_ = this;
+    
+    
     var i = this.$interval(function () {
       interval += 500;
       try {
@@ -104,7 +106,7 @@ export default class ModalLoginController {
         console.error(e);
       }
     }, interval);
-
+    
   }
 
   openForgot() {

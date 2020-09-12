@@ -74,7 +74,7 @@ export default class ProfileController {
       }
       this.locationName = this.Util.getLocationName(this.user.location);
 
-      console.log(user);
+      //console.log(user);
 
       this.$http.get('/api/person_types')
         .then(response => {
@@ -164,7 +164,7 @@ export default class ProfileController {
       this.Opportunity.loadMyApplications(false);
       this.Opportunity.loadMyPosts(false);
 
-      console.log(this.Subscription);
+      //console.log(this.Subscription);
 
     });
 

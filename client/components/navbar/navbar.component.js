@@ -119,7 +119,8 @@ export class NavbarComponent {
       var dropdown = [];
       for(var semester of this.projectsMenu) {
         var date = new Date();
-        let currentSemester = (date.getMonth() >= 6 && date.getMonth() <= 11) ? 2 : 1;
+        //let currentSemester = (date.getMonth() >= 6 && date.getMonth() <= 11) ? 2 : 1;
+        let currentSemester = (date.getMonth() >= 8 && date.getMonth() <= 11) ? 2 : 1;
         let currentYear = date.getFullYear();
         if(semester.IsSpecial.data[0] == 0){
           if (semester.Semester==currentSemester && semester.Year==currentYear) {

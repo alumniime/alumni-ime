@@ -28,9 +28,9 @@ export default class ModalExportDonationController {
     this.$http.get('/api/donations')
         .then(response=>{
           this.donations=response.data;
-          console.log(this.donations);
           this.availableInfo=[
             {Description: "Id do doador", IsChosen: false, Name: "DonatorId", Path: "DonatorId", Category: "Donator"},
+            {Description: "Id Ex-Aluno", IsChosen: false, Name: "FormerStudentId", Path: "FormerStudentId", Category: "Donator"},
             {Description: "Id da doação", IsChosen: false, Name: "DonationId", Path: "DonationId", Category: "Donation"},
             {Description: "Tipo (projeto ou geral)", IsChosen: false, Name: "DonationType", Path: "Type", Category: "Donation"},
             {Description: "Nome do Projeto", IsChosen: false, Name: "ProjectName", Path: "project.ProjectName", Category: "Donation"},
@@ -70,7 +70,6 @@ export default class ModalExportDonationController {
               this.donations2[i][element.Name]=value;
             });
           }
-          console.log(this.donations2);
           loading.dismiss();
     });
   }
@@ -117,6 +116,12 @@ export default class ModalExportDonationController {
 
   cancelModal() {
     this.dismiss({$value: 'cancel'});
+  }
+
+  checkAll() {
+    for(let index in this.availableInfo){
+      this.availableInfo[index].IsChosen = true;
+    }
   }
 
 }

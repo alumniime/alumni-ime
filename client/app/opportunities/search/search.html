@@ -1,6 +1,11 @@
 <div class="container opportunitiesSearchView">
   <h5 class="page-title">
     Pesquisar vagas de emprego
+    <p id="optNumber">
+      <i>
+        ({{vm.opportunitiesList.length}})
+      </i>
+    </p>
   </h5>
 
   <!-- Search form -->
@@ -189,7 +194,7 @@
               Anúncio em {{opportunity.PostDate | date: 'dd MMM, yyyy'}}
             </p>
             <p class="closedOpt" ng-if="opportunity.ExpirationDate < vm.currentDay">
-              Vaga Encerrada
+              Vaga Expirada
             </p>
           </div>
         </div>

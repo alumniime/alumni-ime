@@ -67,10 +67,7 @@ modal-export-donation {
     padding: 10px 20px !important;
     //height: 45px !important;
     margin-bottom: 10px;
-  }
-
-  textarea.form-control {
-    //height: 100px !important;
+    margin-right: 2%;
   }
 
   .line-hr {
@@ -192,5 +189,14 @@ modal-export-donation {
     margin-left: 20px;
   }
 
+  #checkAll{
+    width: auto;
+    height: auto;
+    margin-top: 0 !important;
+    padding: 1% 2%;
+    background-color: transparent;
+    color: #E84E0F;
+    border-radius: 5px;
+  }
 
 }

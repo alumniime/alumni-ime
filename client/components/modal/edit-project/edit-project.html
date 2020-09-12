@@ -72,18 +72,25 @@
           </div> 
 
           <div class="row p-0">
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-4">
               <div class="form-group">
-                <label>NOME DO LIDER</label>
+                <label>LIDER</label>
                 <input type="text" id="LeaderName" name="LeaderName" class="form-control" required
                     ng-model="vm.project.leader.name">
               </div>
             </div>
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-4">
               <div class="form-group">
-                <label>INTEGRANTES DA EQUIPE</label>
-                <input type="text" id="TeamMembers" name="TeamMembers" class="form-control" required
-                    ng-model="vm.project.TeamMembers">
+                <label>EMAIL LIDER</label>
+                <input type="text" id="LeaderName" name="LeaderName" class="form-control" required
+                    ng-model="vm.project.leader.email">
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group">
+                <label>TELEFONE LIDER</label>
+                <input type="text" id="LeaderName" name="LeaderName" class="form-control" required
+                    ng-model="vm.project.leader.Phone">
               </div>
             </div>
           </div> 
@@ -91,16 +98,40 @@
           <div class="row p-0">
             <div class="col-12 col-sm-6">
               <div class="form-group">
+                <label>INTEGRANTES DA EQUIPE</label>
+                <input type="text" id="TeamMembers" name="TeamMembers" class="form-control" required
+                    ng-model="vm.project.TeamMembers">
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
                 <label>SOLICITANTE</label>
                 <input type="text" id="SubmissionerName" name="SubmissionerName" class="form-control" required
                     ng-model="vm.project.submissioner.name">
               </div>
             </div>
-            <div class="col-12 col-sm-6">
+          </div>
+
+          <div class="row p-0">
+            <div class="col-12 col-sm-4">
               <div class="form-group">
                 <label>PROFESSOR</label>
                 <input type="text" id="ProfessorName" name="ProfessorName" class="form-control" required
                     ng-model="vm.project.professor.name">
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group">
+                <label>EMAIL PROF</label>
+                <input type="text" id="ProfessorName" name="ProfessorName" class="form-control" required
+                    ng-model="vm.project.professor.email">
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group">
+                <label>TELEFONE PROF</label>
+                <input type="text" id="ProfessorName" name="ProfessorName" class="form-control" required
+                    ng-model="vm.project.professor.Phone">
               </div>
             </div>
           </div> 

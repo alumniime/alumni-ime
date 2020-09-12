@@ -89,7 +89,9 @@ export function transact(req, res) {
   var data = req.body.payment;
   var donation = req.body.donation;
   var userId = req.user.PersonId;
-  var paymentMethod = data.payment_method; 
+  var paymentMethod = data.payment_method;
+  var country = data.customer.address.country ? data.customer.address.country : 'br';
+  var isBR = country == 'br'; 
   var isCpf = data.customer.document_number.length === 11;
   var params = {};
 
@@ -97,10 +99,10 @@ export function transact(req, res) {
     external_id: req.user.PersonId.toString(),
     name: data.customer.name,
     email: data.customer.email,
-    type: isCpf ? 'individual' : 'corporation',
-    country: 'br',
+    type: isBR ? (isCpf ? 'individual' : 'corporation') : 'individual',
+    country: isBR ? 'br' : data.customer.country,
     documents: [{
-      type: isCpf ? 'cpf' : 'cnpj',
+      type: isBR ? (isCpf ? 'cpf' : 'cnpj') : 'passport',
       number: data.customer.document_number
     }],
     phone_numbers: data.customer.phone_numbers ? data.customer.phone_numbers : [`+55${data.customer.phone.ddd}${data.customer.phone.number}`],
