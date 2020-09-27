@@ -97,4 +97,32 @@ modal-show-person {
     padding: 4px;
     font-size: 1rem;
   }
+
+  .card{
+    width: 100%;
+  }
+
+  .sign-header{
+    p{
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    select{
+      margin: 0;
+    }
+
+    #button{
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #container{
+      padding: 0;
+      padding-left: 20px;
+    }
+  }
 }

@@ -226,12 +226,26 @@
     
     <div class="card project-card mb-3" ng-repeat="subscription in vm.Subscription.mySubscriptions">
       <div class="card-body" ng-init="subscription.collapsed = true">
-        <h5 class="card-title">
-          {{subscription.plan.Name}} - {{subscription.project ? subscription.project.ProjectName : 'Contribuição Geral'}}
-          
-            <a class="text-dark pull-right plus" ng-click = "vm.updateSubscription(subscription)" ng-if="subscription.Status != 'Assinatura cancelada'" uib-tooltip="Pausar assinatura por 60 dias" tooltip-placement="bottom">
-              +60 
-            </a>
+        <h5 class="card-title sign-header row">
+          <p class="col-12 col-md-8">
+            {{subscription.plan.Name}} - {{subscription.project ? subscription.project.ProjectName : 'Contribuição Geral'}}
+          </p>
+
+            <div class="row col-12 col-md-4" id="container" ng-if="subscription.Status != 'Assinatura cancelada'">
+              <select class="col-10 form-control" id="PersonType" name="PersonType"
+                ng-model="vm.newPlan" ng-change="vm.refreshPlan()">
+                <option value="">Trocar Plano</option>
+                <option ng-repeat="plan in vm.plansList"
+                  ng-value="plan">R${{plan.Amount}},00 - {{plan.Name}}
+                </option>
+              </select>
+  
+              <div class="col-2" id="button">
+                <a class="text-dark pull-right plus" ng-click = "vm.updateSubscription(subscription)" uib-tooltip="Trocar Plano" tooltip-placement="bottom">
+                  <i class="fa fa-check"></i>
+                </a>
+              </div>
+            </div>
         </h5>
 
         <div class="row">

@@ -104,7 +104,6 @@ export class NavbarComponent {
   }
 
   $onInit() {
-    console.log('$onInit');
     this.getCurrentUserPromise(user => {
       if(user.email !== '') {
         ga('set', 'userId', this.Util.SHA256(user.email));
@@ -135,10 +134,18 @@ export class NavbarComponent {
             });
           }
         }else{
-          dropdown.push({
-            title: `PROJETOS ${semester.SpecialName}`,
-            state: `show({Semester: '${semester.Year}.${semester.Semester}.${semester.SpecialName}'})`
-          });
+          let check = 0;
+          for(let i = 0; i<dropdown.length; i++){
+            if(dropdown[i].title == `PROJETOS ${semester.SpecialName}`){
+              check++;
+            }
+          };
+          if(!check){
+            dropdown.push({
+              title: `PROJETOS ${semester.SpecialName}`,
+              state: `show({Semester: '${semester.Year}.${semester.Semester}.${semester.SpecialName}'})`
+            });
+          }
         }
       }
       dropdown.push({
@@ -159,7 +166,6 @@ export class NavbarComponent {
         })
       }
       this.menu[4].dropdown[2].sidedrop = sidedrop;
-      console.log(this.menu)
     });
 
   }

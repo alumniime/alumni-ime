@@ -329,39 +329,22 @@ export function subscribe(req, res) {
 
 // Update a Subscription
 export function updateSubscription(req, res) {
-  console.log("entrou\n");
   var subscriptionId = req.body.SubscriptionId;
   var planId = req.body.PlanId;
-  var planName = req.body.PlanName;
+  console.log("Aqui", subscriptionId, planId);
 
   async.waterfall([
-
-    (next) => {
-      if(planName.search("60") == -1) {
-        planName += " - 60 dias"
-        Plan.find({
-          where: {
-            Name: planName
-          }
-        }).then(plan => {
-          planId = plan.dataValues.PlanId;
-          next(null);
-        })
-      }else{
-        next(null);
-      }
-    },
     // Trying stablish connection with pagarme
     (next) => {
       pagarme.client.connect({ api_key: config.pagarme.apiKey })
         .then(client => next(null, client))
-        .catch(err => next(err));
+        .catch(err => {next(err), console.log("Erro 1")});
     },
     // Updating a subscription
     (client, next) => {
       client.subscriptions.update({ id: subscriptionId, plan_id: planId })
         .then(result => next(null, result))
-        .catch(err => next(err));
+        .catch(err => {next(err), console.log("Erro 2", err)});
     },
     // Updating subscription on DB
     (client, next) => {
@@ -374,7 +357,7 @@ export function updateSubscription(req, res) {
         }
       })
         .then(result => next(null,result))
-        .catch(err => next(err));
+        .catch(err => {next(err), console.log("Erro 3")});
     }
 
   ], (err, result) => {

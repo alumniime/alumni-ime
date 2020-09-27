@@ -45,6 +45,16 @@ export class ShowController {
       this.Project.load()
         .then(() => {
           this.Project.list.forEach(project => {
+            console.log(project);
+            if(this.IsSpecial){
+              project.show = project.IsSpecial;
+            }else{
+              if(project.Year == this.Year && project.Semester == this.Semester){
+                project.show = true;
+              }else{
+                project.show = false;
+              }
+            }
             var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
             var firstDate = new Date(project.CollectionLimitDate);
             var today = new Date();
@@ -57,7 +67,6 @@ export class ShowController {
             }
           });
           loading.close();
-          console.log(this.Project.list);
         })
         .catch(() => {
           loading.close();

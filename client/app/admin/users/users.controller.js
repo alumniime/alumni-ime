@@ -36,7 +36,7 @@ export default class AdminUsersController {
         // loading.close();
         for(let i = 0; i < this.users.length; i++){
           if(this.users[i]["IsExcluded"]){
-            console.log(this.users[i]);
+            //console.log(this.users[i]);
           }
         }
         this.refreshFilters();
