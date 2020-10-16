@@ -191,6 +191,7 @@ export function subscribe(req, res) {
   var data = req.body.payment;
   var donation = req.body.donation;
   var userId = req.user.PersonId;
+  var paymentMethod = data.payment_method;
   var country = data.customer.address.country ? data.customer.address.country : 'br';
   var isBR = country == 'br';
   var isCpf = data.customer.document_number.length === 11;
@@ -221,11 +222,21 @@ export function subscribe(req, res) {
   // params.customer.id = 883840; // TODO load previous saved id
 
   params.amount = parseInt(data.amount);
-  params.payment_method = 'credit_card';
+  params.payment_method = paymentMethod;
   params.soft_descriptor = 'Apoio Mensal';
   params.postback_url = `${config.domain}/api/subscriptions/postback`;
-  params.card_hash = data.card_hash;
+  //params.card_hash = data.card_hash;
   params.plan_id = parseInt(data.plan_id);
+  //params.plan_id = 507725
+
+  if(paymentMethod === 'credit_card') {
+    params.card_hash = data.card_hash;
+  } else if(paymentMethod === 'boleto') {
+    var expiration = new Date();
+    expiration.setDate(expiration.getDate() + 5); // now + 5 days
+    params.boleto_expiration_date = expiration;
+    params.boleto_instructions = `${data.customer.name}\n${isCpf ? 'CPF' : 'CNPJ'}: ${data.customer.document_number}`;
+  }
 
   async.waterfall([
     // Trying stablish connection with pagarme
@@ -252,18 +263,19 @@ export function subscribe(req, res) {
     },
     // Saving subscription
     (response, next) => {
+      var mockDate = new Date();
       Subscription.create({
         SubscriptionId: response.id,
         PlanId: response.plan.id,
         SubscriberId: userId,
         CustomerId: response.customer.id,
         ProjectId: donation.ProjectId || null,
-        CardBrand: response.card.brand,
-        CardHolderName: response.card.holder_name,
-        CardLastDigits: response.card.last_digits,
+        CardBrand: (response.card?response.card.brand:null),
+        CardHolderName: (response.card?response.card.holder_name:null),
+        CardLastDigits: (response.card?response.card.last_digits:null),
         ManageURL: response.manage_url,
-        CurrentPeriodStart: response.current_period_start,
-        CurrentPeriodEnd: response.current_period_end,
+        CurrentPeriodStart: (response.current_period_start?response.current_period_start:mockDate.setDate(mockDate.getDate())),
+        CurrentPeriodEnd: (response.current_period_end?response.current_period_end:mockDate.setDate(mockDate.getDate()+30)),
         CreateDate: response.date_created,
         UpdateDate: response.date_updated,
         Status: response.status,
@@ -395,13 +407,14 @@ export function postback(req, res) {
     },
     // Updating subscription
     (next) => {
+      var mockDate = new Date();
       Subscription.update({
         CardBrand: response.card.brand,
         CardHolderName: response.card.holder_name,
         CardLastDigits: response.card.last_digits,
         ManageURL: response.manage_url,
-        CurrentPeriodStart: response.current_period_start,
-        CurrentPeriodEnd: response.current_period_end,
+        CurrentPeriodStart: (response.current_period_start?response.current_period_start:mockDate.setDate(mockDate.getDate())),
+        CurrentPeriodEnd: (response.current_period_end?response.current_period_end:mockDate.setDate(mockDate.getDate()+30)),
         CreateDate: response.date_created,
         UpdateDate: response.date_updated,
         Status: response.status,

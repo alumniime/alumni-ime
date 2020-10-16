@@ -39,15 +39,15 @@ export default function(sequelize, DataTypes) {
     },
     CardBrand: {
       type: DataTypes.STRING(25),
-      allowNull: false
+      allowNull: true
     },
     CardHolderName: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: true
     },
     CardLastDigits: {
       type: DataTypes.STRING(10),
-      allowNull: false
+      allowNull: true
     },
     ManageURL: {
       type: DataTypes.STRING(255),

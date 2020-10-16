@@ -1,15 +1,37 @@
 <div class="modal-header d-block">
-  <div class="w-100">
-    <a href="https://www.alumniime.com.br/projects/2020.1.COVID-19" ng-click="vm.cancelModal()">
-      <img src="assets/images/banner-corona.jpeg" class="m-auto">
-    </a>
-  </div>
   <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <div class="w-100 content">
+    <!--
+      <a href="https://www.alumniime.com.br/projects/2020.1.COVID-19" ng-click="vm.cancelModal()">
+        <img src="assets/images/banner-corona.jpeg" class="m-auto">
+      </a>
+    -->
+    
+  </div>
+  
   <!-- <h5 class="modal-title text-center mt-4" id="modal-title">Confira o próximo evento</h5> -->
+  <!--
+    <label class="text-center d-block">Não mostrar novamente
+      <input type ="checkbox" ng-model="vm.checkboxModel">
+    </label> 
+  -->
+
+</div>
+
+
+<div class="modal-body px-3 pb-4 content" id="modal-body" ng-if="!vm.openInter">
+  <p id="title">
+    Prezada comunidade IMEana, 
+  </p>
+  <p>
+    A Alumni IME passou recentemente por mudanças em sua gestão e por isso, 
+    queremos convidá-lo a conhecer nosso modelo de operação, nossa estrutura organizacional 
+    e nossa equipe na aba “Sobre” > “Governança”.
+  </p>
+  <a href="https://www.alumniime.com.br/management" class="btn btn-danger" ui-sref="management" ng-click="vm.cancelModal()">GOVERNANÇA</a>
   <label class="text-center d-block">Não mostrar novamente
     <input type ="checkbox" ng-model="vm.checkboxModel">
   </label> 
-  </div>
 </div>
 
 <!-- <div class="modal-body pt-2" id="modal-body">

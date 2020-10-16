@@ -75,4 +75,28 @@ modal-main-highlight {
     color: #fafafa !important;
     background-color: rgb(199, 66, 14) !important;
   }
+
+  .btn-danger {
+    font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    background-color: #E84E0F;
+    width: 120px;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+  
+  .btn-danger:hover, .btn-danger.active {
+    background-color: rgb(199, 66, 14);
+  }
+
+  .content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    #title{
+      font-weight: 600;
+    }
+  }
 }

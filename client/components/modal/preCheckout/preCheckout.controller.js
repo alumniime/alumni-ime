@@ -41,17 +41,17 @@ export default class ModalPreCheckoutController {
   
   //Object with id from pagarme and paypal
   subsEq = {
-    597877: "P-6UJ05452EK783853YL43R2GA",
-    365652: "P-6CT57743NF7350409L43R2TA",
-    365655: "P-3N439796PD867154VL43R23Y",
-    365656: "P-7YN020567A324833JL43R3BQ",
-    365657: "P-86K490236T2453445L43R3IA",
-    365658: "P-8GA0464830689740XL43R3OI",
-    365659: "P-5YS79074TK008862SL43R33I",
-    365661: "P-97R7493976240535EL43R4CI",
-    365662: "P-34M17340XM4380830L43R4KQ",
-    365663: "P-3N481055CT8866705L43R4QY",
-    365665: "P-6ED57203PE591903WL43R4XA"
+    597877: "P-6SY59256EY8348214L56PZLA", //Nível Básico
+    365652: "P-99760038E0332113BL56PKAQ", //Nível I
+    365655: "P-36P02040VK1637633L56PKZY", //Nível II
+    365656: "P-2W998751YX760815XL56PLPQ", //Nível III
+    365657: "P-78H357725X520833SL56PL5Q", //Nível IV
+    365658: "P-6YH230506D982832NL56PMOQ", //Nível V
+    365659: "P-26P595292B305144TL56PXKY", //Nível VI
+    365661: "P-8EP50018W6024912DL56PXWY", //Nível VII
+    365662: "P-9FU872901S362025WL56PYDY", //Nível VIII
+    365663: "P-3D420037TY135114GL56PYMQ", //Nível IX
+    365665: "P-9RG848987Y230054DL56PYVI"  //Nível X
   }
 
   /*@ngInject*/
@@ -110,6 +110,7 @@ export default class ModalPreCheckoutController {
 
   openCheckout(isNational, entryCustomer, entryBilling) {
     var loading = this.Modal.showLoading();
+    console.log(this.selectedOption)
     let options = {
       amount: this.donation.ValueInCents,
       buttonText: "Pagar",
@@ -120,7 +121,7 @@ export default class ModalPreCheckoutController {
       customerData: isNational,
       createToken: "false",
       paymentMethods:
-        this.donation.Frequency === "monthly"
+        (this.donation.Frequency === "monthly" && this.selectedOption.planId != 1080699)
           ? "credit_card"
           : "credit_card,boleto",
     };
