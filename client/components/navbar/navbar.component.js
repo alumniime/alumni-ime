@@ -52,7 +52,7 @@ export class NavbarComponent {
     {
       // Position 3 will have the menu loaded below
       title: 'PROJETOS APOIADOS',
-      state: 'projects'
+      state: 'show'
     },
     {
       title: 'TURMAS',
@@ -65,10 +65,13 @@ export class NavbarComponent {
         {
           title: 'RANKING DE TURMAS',
           state: 'graduates.ranking'
-        },{
+        },
+        /*
+        {
           title: 'GALERIA DE APOIADORES',
           state: 'graduates'
         },
+        */
       ]
     },
     {
@@ -85,11 +88,25 @@ export class NavbarComponent {
         },
       ]
     },
+    {
+      title: 'APOIADORES',
+      state: 'graduates.hall',
+      dropdown: [
+        {
+          title: 'INDIVIDUAIS',
+          state: 'graduates.hall'
+        },
+        {
+          title: 'COORPORATIVOS',
+          state: 'graduates.hall'
+        }
+      ]
+    }
   ];
 
   isCollapsed = true;
 
-  constructor(Auth, Modal, Util, appConfig, $state, $http) {
+  constructor(Auth, Modal, Util, appConfig, $state, $http, $timeout) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
@@ -101,14 +118,17 @@ export class NavbarComponent {
     this.appConfig = appConfig;
     this.$state = $state;
     this.$http = $http;
+    this.$timeout = $timeout;
   }
 
-  $onInit() {
+  $onInit() {    
+    this.waitState();
+
     this.getCurrentUserPromise(user => {
       if(user.email !== '') {
         ga('set', 'userId', this.Util.SHA256(user.email));
         ga('send', 'event', 'authentication', 'user-id available');
-        console.log(this.Util.SHA256(user.email));
+        //console.log(this.Util.SHA256(user.email));
       }
     });
 
@@ -165,7 +185,10 @@ export class NavbarComponent {
           state: `graduates.hall({Year: '${year.Year}'})`
         })
       }
-      this.menu[4].dropdown[2].sidedrop = sidedrop;
+      console.log(sidedrop);
+      //this.menu[4].dropdown[2].sidedrop = sidedrop;
+      this.menu[6].dropdown[0].sidedrop = sidedrop;
+      this.menu[6].dropdown[1].sidedrop = sidedrop;
     });
 
   }
@@ -173,6 +196,44 @@ export class NavbarComponent {
   logout() {
     this.$state.go('logout');
     this.isCollapsed = true;
+  }
+
+  waitState(){
+    this.$timeout(()=>{
+      if(this.$state.current.name==""){
+        console.log("null");
+        this.waitState();
+      }else{
+        this.setParentState(false, {state: this.$state.current.name})
+      }
+    },100)
+  }
+
+  setParentState(setCollapsed, element){
+    if(setCollapsed){
+      this.isCollapsed = !this.isCollapsed;
+    }
+
+    //Set 'active' on menu elements to identify which elements is on view at time
+    for(let idx=0; idx<this.menu.length; idx++){
+      if(this.menu[idx].state==element.state){
+        this.menu[idx].active=true;
+      }else{
+        if(this.menu[idx].dropdown){
+          for(let id=0; id<this.menu[idx].dropdown.length; id++){
+              if(this.menu[idx].dropdown[id].state==element.state){
+                this.menu[idx].active=true;
+                break;
+              }else{
+                this.menu[idx].active=null;
+              }
+            }
+          }
+        else{
+          this.menu[idx].active=null;
+        }
+      }
+    }
   }
 }
 

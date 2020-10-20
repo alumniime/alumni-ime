@@ -7,7 +7,7 @@ export default class DonatorsHallController {
   searchText;
   totalCategory=[0,0,0,0,0,0]; //an array with the total number of donators in each category, in order from patron to support
 
-  constructor(Auth, DonatorHall, Modal, Util, $http, $anchorScroll) {
+  constructor(Auth, DonatorHall, Modal, Util, $http, $anchorScroll, $stateParams) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -16,9 +16,11 @@ export default class DonatorsHallController {
     this.$http = $http;
     this.$anchorScroll = $anchorScroll;
     this.DonatorHall = DonatorHall;
+    this.$stateParams = $stateParams;
   }
 
   $onInit() {
+    console.log(this.$stateParams);
     var loading = this.Modal.showLoading();
     this.getCurrentUser()
       .then(user => {

@@ -45,7 +45,6 @@ export class ShowController {
       this.Project.load()
         .then(() => {
           this.Project.list.forEach(project => {
-            console.log(project);
             if(this.IsSpecial){
               project.show = project.IsSpecial;
             }else{
