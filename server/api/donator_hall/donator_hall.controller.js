@@ -59,11 +59,13 @@ export function index(req, res) {
 export function menu(req, res) {
   return DonatorHall.findAll({
     attributes: [
-      'Year'
+      'Year',
+      'IsCompany'
     ],
-    group: ['Year'],
+    group: ['Year', 'IsCompany'],
     order: [
-      ['Year', 'DESC']
+      ['Year', 'DESC'],
+      ['IsCompany', 'DESC'],
     ],
     raw: true
   })

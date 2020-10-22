@@ -7,7 +7,7 @@ export default class DonatorsHallController {
   searchText;
   totalCategory=[0,0,0,0,0,0]; //an array with the total number of donators in each category, in order from patron to support
 
-  constructor(Auth, DonatorHall, Modal, Util, $http, $anchorScroll, $stateParams) {
+  constructor(Auth, DonatorHall, Modal, Util, $http, $anchorScroll, $stateParams, $state) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -17,11 +17,50 @@ export default class DonatorsHallController {
     this.$anchorScroll = $anchorScroll;
     this.DonatorHall = DonatorHall;
     this.$stateParams = $stateParams;
+    this.$state = $state;
   }
 
   $onInit() {
-    console.log(this.$stateParams);
     var loading = this.Modal.showLoading();
+    
+    this.$http.get('/api/donator_hall/menu')
+      .then(response => {
+        let hallList = response.data;
+        this.state = this.$stateParams;
+        console.log(hallList);
+        console.log(this.state);
+
+        if(this.state.Type=='individual') this.state.Name="Individuais";
+        if(this.state.Type=='corporativo') this.state.Name="Corporativos";
+        
+        let checkYear = false;
+        let lastYear = 0;
+        for(let hall in hallList){
+          if(this.state.Year==hallList[hall].Year) checkYear = true;
+          if(hallList[hall].Year>lastYear) lastYear=hallList[hall].Year;
+        }
+
+        if(!checkYear || !(this.state.Type=='individual' || this.state.Type=='corporativo')){
+          this.$state.go("graduates.hall",{
+            Type: 'corporativo',
+            Year: lastYear
+          })
+        }
+
+        this.DonatorHall.load(true, this.state.Year, this.state.Type=='corporativo').then(()=>{
+          console.log(this.DonatorHall.list)
+          this.filteredList=[];
+          this.calculateTotalCategory();
+          console.log(this.DonatorHall.list);
+          this.DonatorHall.list.forEach(donator => {
+            this.filteredList.push(donator);
+          });
+
+          loading.close();
+        })
+        
+      });
+    /*
     this.getCurrentUser()
       .then(user => {
         this.user = user;
@@ -44,14 +83,8 @@ export default class DonatorsHallController {
           this.Modal.showAlert('Pesquisa indisponível', 'Apenas ex-alunos cadastrados e aprovados podem realizar pesquisas.');
         }
       });
-    this.DonatorHall.load(false).then(()=>{
-      loading.close();
-      console.log(this.DonatorHall.list)
-      this.calculateTotalCategory();
-      this.DonatorHall.list.forEach(donator => {
-        this.filteredList.push(donator);
-      });
-    })
+    */
+    
   }
 
   calculateTotalCategory (){

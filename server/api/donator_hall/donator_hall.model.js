@@ -50,6 +50,10 @@ export default function (sequelize, DataTypes) {
     },
     IsAnonymous: {
       type: DataTypes.BOOLEAN
+    },
+    IsCompany: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   }, {
     tableName: 'DonatorHall'

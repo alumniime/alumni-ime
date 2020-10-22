@@ -20,16 +20,16 @@
                    href="#">CADASTRAR</a>
               </li>
               <li class="nav-item" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
-                <a class="nav-link text-dark d-none d-lg-block" ui-sref="profile">MEU PERFIL</a>
+                <a class="nav-link text-dark d-none d-lg-block" ui-sref="profile" ng-click="$ctrl.waitState()">MEU PERFIL</a>
               </li>
               <li class="nav-item" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
-                <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin.users">ADMIN</a>
+                <a class="nav-link text-dark d-none d-lg-block" ui-sref="admin.users" ng-click="$ctrl.waitState()">ADMIN</a>
               </li>
               <!--<li class="nav-item" ui-sref-active="active">-->
               <!--<a class="nav-link text-dark" ui-sref="submission">SUBMETER PROJETO</a>-->
               <!--</li>-->
               <li class="nav-item">
-                <a class="nav-link btn btn-danger d-none d-md-block" href="support" role="button">APOIE</a>
+                <a class="nav-link btn btn-danger d-none d-md-block" href="support" role="button" ng-click="$ctrl.waitState()">APOIE</a>
               </li>
             </ul>
           </div>
@@ -43,7 +43,7 @@
                ui-sref-active="active">CADASTRAR</a>
             <a class="nav-link d-inline" ui-sref="profile" ui-sref-active="active" ng-show="$ctrl.isLoggedIn()">MEU
               PERFIL</a>
-            <a class="nav-link d-inline" ui-sref="admin.users" ui-sref-active="active" ng-show="$ctrl.isAdmin()">ADMIN</a>
+            <a class="nav-link d-inline" ui-sref="admin.users" ui-sref-active="active" ng-show="$ctrl.isAdmin()" ng-click="$ctrl.waitState()">ADMIN</a>
           </div>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
@@ -98,10 +98,10 @@
                 <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
               </li>
               <li class="nav-item d-block d-md-none" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
-                <a class="nav-link font-weight-normal" ui-sref="profile">MEU PERFIL</a>
+                <a class="nav-link font-weight-normal" ui-sref="profile" ng-click="$ctrl.waitState()">MEU PERFIL</a>
               </li>
               <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
-                <a class="nav-link font-weight-normal" ui-sref="admin.users">ADMIN</a>
+                <a class="nav-link font-weight-normal" ui-sref="admin.users" ng-click="$ctrl.waitState()">ADMIN</a>
               </li>
             </ul>
 
@@ -141,7 +141,7 @@
               <a class="nav-link text-dark p-0" ng-click="$ctrl.Modal.openSignup()" href="#">CADASTRAR</a>
             </li>
             <li class="nav-item p-0" ng-show="$ctrl.isLoggedIn()" ui-sref-active="active">
-              <a class="nav-link text-dark p-0" ui-sref="profile">MEU PERFIL</a>
+              <a class="nav-link text-dark p-0" ui-sref="profile" ng-click="$ctrl.waitState()">MEU PERFIL</a>
             </li>
           </ul>
 
@@ -195,10 +195,10 @@
                   <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openSignup(); $ctrl.isCollapsed = !$ctrl.isCollapsed;" href="#">CADASTRAR</a>
                 </li>
                 <li class="nav-item d-block d-md-none" ng-show="$ctrl.isLoggedIn()" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed" ui-sref-active="active">
-                  <a class="nav-link font-weight-normal" ui-sref="profile">MEU PERFIL</a>
+                  <a class="nav-link font-weight-normal" ui-sref="profile" ng-click="$ctrl.waitState()">MEU PERFIL</a>
                 </li>
                 <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed" ui-sref-active="active">
-                  <a class="nav-link font-weight-normal" ui-sref="admin.users">ADMIN</a>
+                  <a class="nav-link font-weight-normal" ui-sref="admin.users" ng-click="$ctrl.waitState()">ADMIN</a>
                 </li>
               </ul>
             </div>
@@ -217,7 +217,7 @@
               <div class="col pl-0">
                 <ul class="nav pull-right">
                   <li class="nav-item pb-2 pr-0">
-                    <a class="btn btn-danger" ui-sref="donate" ng-click="$ctrl.isCollapsed = true">APOIE</a>
+                    <a class="btn btn-danger" ui-sref="donate" ng-click="$ctrl.isCollapsed = true" ng-click="$ctrl.waitState()">APOIE</a>
                   </li>
                 </ul>
               </div>

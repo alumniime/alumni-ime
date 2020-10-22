@@ -78,7 +78,7 @@ angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBoot
 
     // track pageview on state change
     $rootScope.$on('$stateChangeSuccess', function (event) {
-        $window.ga('send', 'pageview', $location.path());
+      $window.ga('send', 'pageview', $location.path());
     });
 
     // Redirect to login if route requires auth and you're not logged in

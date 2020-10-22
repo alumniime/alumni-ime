@@ -1,15 +1,15 @@
 <div class="container donatorsHallView">
 
   <h5 class="page-title">
-      Galeria de Apoiadores 2019
+      Galeria de Apoiadores {{vm.state.Name}} {{vm.state.Year}}
   </h5>
 
-  <div class="row">
+  <div class="row" ng-if="vm.state.Type=='individual'">
     
-      <div class="col-12 col-lg-5 intro">
+    <div class="col-12 col-lg-5 intro">
           A Alumni IME conta com o suporte de ex-alunos e amigos do IME para realizar suas atividades de integração e incentivar projetos de alunos e professores. Gostaríamos de agradecer a todas as pessoas abaixo que puderam contribuir de alguma forma! Muito Obrigado!
           <br><br>
-          Em 2019 já foram <b>{{vm.DonatorHall.list.length}} apoiadores</b>, divididos nas categorias:
+          Em {{vm.state.Year}} já foram <b>{{vm.DonatorHall.list.length}} apoiadores</b>, divididos nas categorias:
           <ul>
             <li>Patrono: {{vm.totalCategory[0]}}</li>
             <li>Platina: {{vm.totalCategory[1]}}</li>
@@ -19,7 +19,9 @@
             <li>Apoio: {{vm.totalCategory[5]}}</li>
           </ul>
           <br>
-          <a ng-href="/turmas/ranking">Veja o ranking das turmas</a>
+          <!--
+            <a ng-href="/turmas/ranking">Veja o ranking das turmas</a>
+          -->
           <br>
           <hr>
 
@@ -27,7 +29,7 @@
           <br>
           <br>
           <a class="nav-link btn btn-danger d-none d-md-block" href="support" role="button">APOIE</a>  
-        </div>
+    </div>
     <div class="col-12 col-lg-7">
         
         <div class="form-group">
@@ -193,5 +195,43 @@
 
   </div>
 
+  <div class="card-columns" ng-if="vm.state.Type=='corporativo'">
+    <a href="https://www.youtube.com.br">
+      <img class="card" src="../../../assets/images/companies/2020/youtube.png">
+    </a>
+    <div class="card">
+      1
+    </div>
+    <div class="card">
+      2
+    </div>
+    <div class="card">
+      3
+    </div>
+    <div class="card">
+      4
+    </div>
+    <div class="card">
+      5
+    </div>
+    <div class="card">
+      6
+    </div>
+    <div class="card">
+      1
+    </div>
+    <div class="card">
+      2
+    </div>
+    <div class="card">
+      3
+    </div>
+    <div class="card">
+      4
+    </div>
+    <div class="card">
+      5
+    </div>
+  </div>
 
 </div>

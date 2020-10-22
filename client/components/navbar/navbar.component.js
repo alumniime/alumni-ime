@@ -97,7 +97,7 @@ export class NavbarComponent {
           state: 'graduates.hall'
         },
         {
-          title: 'COORPORATIVOS',
+          title: 'CORPORATIVOS',
           state: 'graduates.hall'
         }
       ]
@@ -106,7 +106,7 @@ export class NavbarComponent {
 
   isCollapsed = true;
 
-  constructor(Auth, Modal, Util, appConfig, $state, $http, $timeout) {
+  constructor(Auth, Modal, Util, appConfig, $state, $http, $timeout, $rootScope) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
@@ -119,10 +119,14 @@ export class NavbarComponent {
     this.$state = $state;
     this.$http = $http;
     this.$timeout = $timeout;
+    this.$rootScope = $rootScope
   }
 
-  $onInit() {    
+  $onInit() {   
+    console.log("NAVBAR", this.$state);
+    
     this.waitState();
+    
 
     this.getCurrentUserPromise(user => {
       if(user.email !== '') {
@@ -178,17 +182,23 @@ export class NavbarComponent {
     this.$http.get('/api/donator_hall/menu')
     .then(response => {
       this.donatorHallMenu = response.data;
-      var sidedrop = [];
-      for(var year of this.donatorHallMenu) {
-        sidedrop.push({
-          title: year.Year,
-          state: `graduates.hall({Year: '${year.Year}'})`
-        })
+      var sidedrop = {individual:[],corporative:[]};
+      for(var item of this.donatorHallMenu) {
+        if(item.IsCompany.data[0]){
+          sidedrop['corporative'].push({
+            title: item.Year,
+            state: `graduates.hall({Type: 'corporativo', Year: '${item.Year}'})`
+          });
+        }else{
+          sidedrop['individual'].push({
+            title: item.Year,
+            state: `graduates.hall({Type: 'individual', Year: '${item.Year}'})`
+          });
+        }
       }
-      console.log(sidedrop);
       //this.menu[4].dropdown[2].sidedrop = sidedrop;
-      this.menu[6].dropdown[0].sidedrop = sidedrop;
-      this.menu[6].dropdown[1].sidedrop = sidedrop;
+      this.menu[6].dropdown[0].sidedrop = sidedrop['individual'];
+      this.menu[6].dropdown[1].sidedrop = sidedrop['corporative'];
     });
 
   }
@@ -201,9 +211,9 @@ export class NavbarComponent {
   waitState(){
     this.$timeout(()=>{
       if(this.$state.current.name==""){
-        console.log("null");
         this.waitState();
       }else{
+        console.log(this.$state.current.name)
         this.setParentState(false, {state: this.$state.current.name})
       }
     },100)
