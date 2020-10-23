@@ -122,12 +122,9 @@ export class NavbarComponent {
     this.$rootScope = $rootScope
   }
 
-  $onInit() {   
-    console.log("NAVBAR", this.$state);
-    
+  $onInit() {
     this.waitState();
     
-
     this.getCurrentUserPromise(user => {
       if(user.email !== '') {
         ga('set', 'userId', this.Util.SHA256(user.email));
@@ -213,7 +210,6 @@ export class NavbarComponent {
       if(this.$state.current.name==""){
         this.waitState();
       }else{
-        console.log(this.$state.current.name)
         this.setParentState(false, {state: this.$state.current.name})
       }
     },100)

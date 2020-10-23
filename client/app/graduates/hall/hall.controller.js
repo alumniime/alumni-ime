@@ -27,8 +27,6 @@ export default class DonatorsHallController {
       .then(response => {
         let hallList = response.data;
         this.state = this.$stateParams;
-        console.log(hallList);
-        console.log(this.state);
 
         if(this.state.Type=='individual') this.state.Name="Individuais";
         if(this.state.Type=='corporativo') this.state.Name="Corporativos";
@@ -48,10 +46,8 @@ export default class DonatorsHallController {
         }
 
         this.DonatorHall.load(true, this.state.Year, this.state.Type=='corporativo').then(()=>{
-          console.log(this.DonatorHall.list)
           this.filteredList=[];
           this.calculateTotalCategory();
-          console.log(this.DonatorHall.list);
           this.DonatorHall.list.forEach(donator => {
             this.filteredList.push(donator);
           });

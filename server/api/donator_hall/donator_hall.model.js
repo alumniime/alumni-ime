@@ -54,6 +54,14 @@ export default function (sequelize, DataTypes) {
     IsCompany: {
       type: DataTypes.BOOLEAN,
       allowNull: false
+    },
+    ExternalURL: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    ImgPath: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     tableName: 'DonatorHall'

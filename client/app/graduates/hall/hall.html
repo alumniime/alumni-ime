@@ -1,7 +1,10 @@
 <div class="container donatorsHallView">
 
-  <h5 class="page-title">
-      Galeria de Apoiadores {{vm.state.Name}} {{vm.state.Year}}
+  <h5 class="page-title" ng-if="vm.state.Type=='individual'">
+    Galeria de Apoiadores {{vm.state.Name}} {{vm.state.Year}}
+  </h5>
+  <h5 class="page-title" ng-if="vm.state.Type=='corporativo'">
+    Apoiadores {{vm.state.Name}} {{vm.state.Year}}
   </h5>
 
   <div class="row" ng-if="vm.state.Type=='individual'">
@@ -196,42 +199,11 @@
   </div>
 
   <div class="card-columns" ng-if="vm.state.Type=='corporativo'">
-    <a href="https://www.youtube.com.br">
-      <img class="card" src="../../../assets/images/companies/2020/youtube.png">
+    
+    <a ng-repeat="donator in vm.filteredList" href="{{donator.ExternalURL}}">
+      <img class="card hvr-shadow hvr-grow" src="{{donator.ImgPath}}">
     </a>
-    <div class="card">
-      1
-    </div>
-    <div class="card">
-      2
-    </div>
-    <div class="card">
-      3
-    </div>
-    <div class="card">
-      4
-    </div>
-    <div class="card">
-      5
-    </div>
-    <div class="card">
-      6
-    </div>
-    <div class="card">
-      1
-    </div>
-    <div class="card">
-      2
-    </div>
-    <div class="card">
-      3
-    </div>
-    <div class="card">
-      4
-    </div>
-    <div class="card">
-      5
-    </div>
+
   </div>
 
 </div>

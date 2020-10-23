@@ -14,7 +14,6 @@ export function DonatorHallService($http, $q, $state, Util) {
      * Load donators from database
      */
     load(forceReload, year, isCompany) {
-      console.log(year, isCompany)
       var d = $q.defer();
       if(this.list.length === 0 || forceReload === true) {
         $http.get('/api/donator_hall')
