@@ -39,6 +39,7 @@ export default class ModalExportDonationController {
             {Description: "Data da Doação", IsChosen: false, Name:"DonationDate", Path: "DonationDate", Category: "Donation"},
             {Description: "Mostar Nome", IsChosen: false, Name:"ShowName", Path: "ShowName", Category: "Donation"},
             {Description: "Mostrar Valor", IsChosen: false, Name:"ShowAmount", Path: "ShowAmount", Category: "Donation"},
+            {Description: "Origem Doador", IsChosen: false, Name:"DonatorOrigin", Path: "optionToKnowType.Description", Category: "Donation"},
             {Description: "Tipo de Usuário", IsChosen: false, Name:"PersonType", Path: "donator.personType.PortugueseDescription", Category: "Donator"},
             {Description: "Nome", IsChosen: false, Name:"DonatorName", Path: "donator.FullName", Category: "Donator"},
             {Description: "E-mail", IsChosen: false, Name:"Email", Path: "donator.Email", Category: "Donator"},
@@ -84,7 +85,6 @@ export default class ModalExportDonationController {
       this.availableInfo.forEach(currentDonation => {
         this.donation[currentDonation.Name]=currentDonation.IsChosen;
       });
-      console.log(this.donation);
       Object.keys(this.donation).forEach(category => {
         if (this.donation[category]===true ) {
           let count=0;

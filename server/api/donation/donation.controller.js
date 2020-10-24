@@ -11,7 +11,7 @@
 'use strict';
 
 import {applyPatch} from 'fast-json-patch';
-import {Donation, Project, TransferReceipt, User, FormerStudent, Engineering, PersonType, Se, Transaction, Subscription, Plan, Customer} from '../../sqldb';
+import {Donation, Project, TransferReceipt, User, FormerStudent, Engineering, PersonType, Se, Transaction, Subscription, Plan, Customer, OptionToKnowType} from '../../sqldb';
 import config from '../../config/environment';
 import transporter from '../../email';
 import mailchimp from '../../email/mailchimp';
@@ -112,8 +112,7 @@ export function index(req, res) {
       model: FormerStudent,
       attributes: ['FormerStudentId', 'Name'],
       as: 'former'
-    }, 
-    {
+    }, {
       model: Transaction,
       attributes: ['TransactionId', 'PaymentMethod', 'Status', 'BoletoExpirationDate', 'CardLastDigits', 'CardBrand', 'CardHolderName', 'RiskLevel', 'SubscriptionId'],
       as: 'transaction',
@@ -125,6 +124,9 @@ export function index(req, res) {
           as: 'plan'
         }]
       }]
+    }, {
+      model: OptionToKnowType,
+      as: 'optionToKnowType'
     },
       TransferReceipt
     ]
@@ -417,7 +419,8 @@ export function edit(req, res) {
 export function update(req, res) {
   return Donation.update({
     ShowName: req.body.ShowName,
-    ShowAmount: req.body.ShowAmount
+    ShowAmount: req.body.ShowAmount,
+    OptionToKnowThePageId: req.body.OptionToKnowThePageId
   }, {
     where: {
       DonationId: req.body.DonationId,

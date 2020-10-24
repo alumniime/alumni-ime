@@ -105,6 +105,7 @@ db.Donation.belongsTo(db.User, {sourceKey: 'PersonId', foreignKey: 'DonatorId', 
 db.Donation.belongsTo(db.FormerStudent, {sourceKey: 'FormerStudentId', foreignKey: 'FormerStudentId', as: 'former'});
 db.Donation.belongsTo(db.Project, {sourceKey: 'ProjectId', foreignKey: 'ProjectId', as: 'project'});
 db.Donation.belongsTo(db.Transaction, {sourceKey: 'TransactionId', foreignKey: 'TransactionId', as: 'transaction'});
+db.Donation.belongsTo(db.OptionToKnowType, {sourceKey: 'OptionTypeId', foreignKey: 'OptionToKnowThePageId', as: 'optionToKnowType'});
 db.TransferReceipt = db.Donation.belongsTo(db.Image, {sourceKey: 'ImageId', foreignKey: 'TransferReceiptId', as: 'transferReceipt'});
 
 db.Position.belongsTo(db.Company, {sourceKey: 'CompanyId', foreignKey: 'CompanyId', as: 'company'});

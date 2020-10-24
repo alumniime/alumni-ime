@@ -83,6 +83,15 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: 0
+    },
+    OptionToKnowThePageId: {
+      type: DataTypes.INTEGER(1),
+      allowNull: true,
+      defaultValue: null,
+      references: {
+        model: 'OptionToKnowType',
+        key: 'OptionTypeId'
+      }
     }
   }, {
     tableName: 'Donation'

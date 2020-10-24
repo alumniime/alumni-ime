@@ -1,9 +1,9 @@
 <div class="modal-header d-block">
-  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
   <h5 class="modal-title text-center mt-3" id="modal-title">
     Processando pagamento
     <i class="fa fa-spinner fa-spin m-auto xs"></i>
   </h5>
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
 </div>
 
 <div class="modal-body px-3 pb-4" id="modal-body">
@@ -19,6 +19,23 @@
         <label class="custom-control-label" for="customRadio{{$index}}">{{option.Description}}</label>
       </div>
       <p class="help-block" ng-show="form.DonationSetting.$error.required && vm.submitted">
+        Escolha uma opção.
+      </p>
+    </div>
+
+    <br>
+
+    <span class="text-center d-block">
+      Como você chegou a este formulário de doação?
+    </span>
+
+    <div class="form-group">
+      <div class="custom-control custom-radio ml-3" ng-repeat="opt in vm.optionsToKnowList">
+        <input type="radio" id="customCheckBox{{$index}}" name="DonationOpt" class="custom-control-input" 
+          ng-value="opt.OptionTypeId" ng-model="vm.selectedOptToKnow" required>
+        <label class="custom-control-label" for="customCheckBox{{$index}}">{{opt.Description}}</label>
+      </div>
+      <p class="help-block" ng-show="form.DonationOpt.$error.required && vm.submitted">
         Escolha uma opção.
       </p>
     </div>

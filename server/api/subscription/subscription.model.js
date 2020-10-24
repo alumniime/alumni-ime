@@ -76,6 +76,11 @@ export default function(sequelize, DataTypes) {
     Status: {
       type: DataTypes.STRING(25),
       allowNull: false
+    },
+    OptionToKnowThePageId: {
+      type: DataTypes.INTEGER(1),
+      allowNull: true,
+      defaultValue: null
     }
   }, {
     tableName: 'Subscription'

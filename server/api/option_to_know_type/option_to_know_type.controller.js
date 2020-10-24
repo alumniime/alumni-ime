@@ -66,7 +66,11 @@ function handleError(res, statusCode) {
 
 // Gets a list of OptionToKnowTypes
 export function index(req, res) {
-  return OptionToKnowType.findAll()
+  return OptionToKnowType.findAll({
+    where: {
+      IsExcluded: false
+    }
+  })
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

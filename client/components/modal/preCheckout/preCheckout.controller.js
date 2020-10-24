@@ -110,7 +110,6 @@ export default class ModalPreCheckoutController {
 
   openCheckout(isNational, entryCustomer, entryBilling) {
     var loading = this.Modal.showLoading();
-    console.log(this.selectedOption)
     let options = {
       amount: this.donation.ValueInCents,
       buttonText: "Pagar",

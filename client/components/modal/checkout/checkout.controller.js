@@ -26,6 +26,8 @@ export default class ModalCheckoutController {
   data = {};
   result = null;
 
+  selectedOptToKnow = null;
+
   /*@ngInject*/
   constructor(Modal, Donation, $http, $interval, $state) {
     this.Modal = Modal;
@@ -36,6 +38,7 @@ export default class ModalCheckoutController {
   }
 
   $onInit() {
+    var loading = this.Modal.showLoading();
 
     if(this.resolve.url) {
       this.url = this.resolve.url;
@@ -44,50 +47,72 @@ export default class ModalCheckoutController {
       this.data = this.resolve.data;
     }
 
+    this.$http.get('/api/option_to_know_types')
+        .then(response => {
+          this.optionsToKnowList = response.data;
+          let found = false;
+          let aux = null;
+          for(var idx in this.optionsToKnowList){
+            let option = this.optionsToKnowList[idx];
+            if(found){
+              this.optionsToKnowList[idx-1]=this.optionsToKnowList[idx];
+            }
+            
+            if(option.Description === 'Outros') {
+              aux = this.optionsToKnowList[idx];
+              found = true;
+            }
+          }
+          this.optionsToKnowList[this.optionsToKnowList.length-1]=aux;
+          loading.close();
+        });
+
     this.$http.post(this.url, this.data)
       .then(res => {
         console.log(res.data); 
         this.result = res.data.result;
       })
       .catch(err => {
-        console.log(err);
-        let response = err.data.errorDesc.response;
-        if(response.errors.length){
+        let response = err.data.errorDesc ? err.data.errorDesc.response:err.data;
+  
+        if(response.errors){
           this.Modal.showAlert('Ocorreu um erro', response.errors[0].message);
         }else{
           this.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
         }
-        this.cancelModal();
+        this.cancelModal();      
       });
 
   }
 
   submit(form) {
     this.submitted = true;
-
     if(form.$valid) {
       var elapsedTime = 0;
       var intervalTime = 200;
       var loading = this.Modal.showLoading();
       
+
       var interval = this.$interval(() => {
-        console.log(this.result);
         if(this.result) {
 
           if(this.result.SubscriptionId) {
             this.$http.post('/api/subscriptions/setting', {
               SubscriptionId: this.result.SubscriptionId,
               ShowName: this.options[this.selectedOption].ShowName,
-              ShowAmount: this.options[this.selectedOption].ShowAmount
+              ShowAmount: this.options[this.selectedOption].ShowAmount,
+              OptionToKnowThePageId: this.selectedOptToKnow
             })
               .catch(err => console.log(err));
           }
 
           if(this.result.DonationId) {
+            console.log("trying");
             this.$http.post('/api/donations/setting', {
               DonationId: this.result.DonationId,
               ShowName: this.options[this.selectedOption].ShowName,
-              ShowAmount: this.options[this.selectedOption].ShowAmount
+              ShowAmount: this.options[this.selectedOption].ShowAmount,
+              OptionToKnowThePageId: this.selectedOptToKnow
             })
               .then(response => {
                 loading.close();

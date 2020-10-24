@@ -65,13 +65,7 @@ export class NavbarComponent {
         {
           title: 'RANKING DE TURMAS',
           state: 'graduates.ranking'
-        },
-        /*
-        {
-          title: 'GALERIA DE APOIADORES',
-          state: 'graduates'
-        },
-        */
+        }
       ]
     },
     {
@@ -123,7 +117,12 @@ export class NavbarComponent {
   }
 
   $onInit() {
-    this.waitState();
+    let navbar = this;
+    this.$rootScope.$broadcast('saveCallback',navbar);
+    this.$rootScope.$on('$stateChangeStart', 
+    function(event, toState, toParams, fromState, fromParams){ 
+      navbar.waitState();
+    })
     
     this.getCurrentUserPromise(user => {
       if(user.email !== '') {
@@ -240,6 +239,23 @@ export class NavbarComponent {
         }
       }
     }
+  }
+
+  //Just for testing
+  openCheckout(){
+    let data={};
+    let url = "/api/transactions";
+
+    this.Modal.openCheckout(url, {
+      payment: data,
+      donation: this.donation,
+    })
+      .then(() => {
+        console.log("ok")
+      })
+      .catch((err) => {
+        console.log("err")
+      });
   }
 }
 

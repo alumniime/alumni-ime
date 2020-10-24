@@ -580,7 +580,8 @@ export function postback(req, res) {
 export function update(req, res) {
   return Subscription.update({
     ShowName: req.body.ShowName,
-    ShowAmount: req.body.ShowAmount
+    ShowAmount: req.body.ShowAmount,
+    OptionToKnowThePageId: req.body.OptionToKnowThePageId
   }, {
     where: {
       SubscriptionId: req.body.SubscriptionId,

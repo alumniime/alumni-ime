@@ -11,6 +11,11 @@ export default function(sequelize, DataTypes) {
     Description: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    IsExcluded: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
     }
   }, {
     tableName: 'OptionToKnowType'
