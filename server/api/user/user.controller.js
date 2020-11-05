@@ -613,16 +613,19 @@ export function update(req, res, next) {
     // Creating new opportunitiesLinks
     (newUser, opportunitiesLinks, done) => {
       console.log(OpportunitiesLink);
-      console.log('Olha aqui: ', opportunitiesLinks, opportunitiesLinks.length);
-      if(opportunitiesLinks && opportunitiesLinks.length != 0){
-        console.log('entrou no if');
-        for(var opportunity of opportunitiesLinks) {
-          opportunity.PersonId = newUser.PersonId;
-          console.log("inside loop")
-          console.log("here1")
-          OpportunitiesLink.bulkCreate(opportunitiesLinks)
-            .then(() => done(null, newUser))
-            .catch(err => done(err));
+      console.log('Olha aqui: ', opportunitiesLinks);
+      console.log("Passou")
+      if(opportunitiesLinks){
+        if(opportunitiesLinks.length != 0){
+          console.log('entrou no if');
+          for(var opportunity of opportunitiesLinks) {
+            opportunity.PersonId = newUser.PersonId;
+            console.log("inside loop")
+            console.log("here1")
+            OpportunitiesLink.bulkCreate(opportunitiesLinks)
+              .then(() => done(null, newUser))
+              .catch(err => done(err));
+          }
         }
       }else{
         console.log('Não entrou no if');
