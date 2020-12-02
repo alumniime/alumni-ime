@@ -720,7 +720,11 @@ export function upload(req, res) {
             Reflect.deleteProperty(location, "LocationId");
             Reflect.deleteProperty(location, "LinkedinName");
             location.CityId = city.CityId;
-            location.StateId = location.StateId || null;
+            if(location.StateId != "null"){
+              location.StateId = location.StateId || null;
+            }else{
+              location.StateId = null;
+            }
 
             if (config.debug) {
               console.log("\n=>Location", JSON.stringify(location));

@@ -79,6 +79,7 @@ export default class ModalEditOpportunityController {
         .then(response => {
           loading.close();
           this.opportunity = response.data;
+          console.log(this.opportunity);
           this.PostDate = this.$filter('date')(this.opportunity.PostDate, 'dd/MM/yyyy - HH:mm');
           this.ExpirationDate = this.$filter('date')(this.opportunity.ExpirationDate, 'dd/MM/yyyy');
           
