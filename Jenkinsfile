@@ -28,25 +28,29 @@ pipeline {
             nvmIoJsOrgMirror: 'https://iojs.org/dist',
             nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
             version: '6'){
-              sh 'node node_modules/gulp/bin/gulp.js build'
+                sh 'node node_modules/gulp/bin/gulp.js build'
             }
       }
     }
     stage('Test') {
-      echo 'Testing...'
+        steps{
+            echo 'Testing...'
+        }
     }
     stage('Deploy') {
-      sh 'rm -r dist/client/assets'
-      sh 'zip -r dist.zip dist'
-      sh '''sftp alumni@dev.alumniime.com.br<<EOF 
-      put dist.zip
-      '''
-      sh '''ssh alumni@dev.alumniime.com.br<<EOF 
-      unzip dist
-      rm website/client/*
-      mv dist/* website/
-      rm -r dist.zip dist/
-      '''
+        steps{
+            sh 'rm -r dist/client/assets'
+            sh 'zip -r dist.zip dist'
+            sh '''sftp alumni@dev.alumniime.com.br<<EOF 
+            put dist.zip
+            '''
+            sh '''ssh alumni@dev.alumniime.com.br<<EOF 
+            unzip dist
+            rm website/client/*
+            mv dist/* website/
+            rm -r dist.zip dist/
+            '''
+        }
     }
   }
 }
