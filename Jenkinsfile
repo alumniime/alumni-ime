@@ -55,15 +55,18 @@ pipeline {
     stage('Selecting Server') {
       steps {
         echo "${SERVER}"
+        sh 'echo ${SERVER}'
         script {
           if (env.BRANCH_NAME == 'dev') {
             echo 'Selecting Production Server'
             echo "${PROD}"
-            env.SERVER = "random test"
+            env.SERVER = "${PROD}"
           }else{
             echo 'Selecting Development Server'
           }
         }
+        echo "${SERVER}"
+        sh 'echo ${SERVER}'
       }
     }
     stage('Deploy') {
