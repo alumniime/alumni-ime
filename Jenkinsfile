@@ -6,11 +6,11 @@
   GStringExpressionWithinString, 
   NestedBlockDepth 
 */
+def SERVER = "alumni@dev.alumniime.com.br"
+
 pipeline {
   agent any
-  environment {
-    SERVER = 'alumni@dev.alumniime.com.br'
-  }
+  
   stages {
     stage('Modules Update') {
       steps {
@@ -48,6 +48,7 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Testing...'
+        echo "${SERVER}"
         script {
           if (env.BRANCH_NAME == 'dev') {
             echo 'I only execute on the dev branch'
@@ -60,6 +61,7 @@ pipeline {
             echo 'I execute elsewhere'
           }
         }
+        echo "${SERVER}"
       }
     }
     stage('Deploy') {
