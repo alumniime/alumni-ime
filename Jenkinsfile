@@ -6,10 +6,13 @@
   GStringExpressionWithinString, 
   NestedBlockDepth 
 */
-def SERVER = "alumni@dev.alumniime.com.br"
+//def SERVER = "alumni@dev.alumniime.com.br"
 
 pipeline {
   agent any
+  environment {
+    SERVER = "alumni@dev.alumniime.com.br"
+  }
   
   stages {
     stage('Modules Update') {
@@ -67,7 +70,7 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        sh 'echo ${SERVER}'
+        echo "${SERVER}"
         /*
         sh 'rm -r dist/client/assets'
         sh 'zip -r dist.zip dist'
