@@ -16,17 +16,6 @@ pipeline {
   stages {
     stage('Modules Update') {
       steps {
-
-
-        script {
-          env.PROD = "${PROD}"
-        }
-        sh 'echo ${PROD}'
-        sh '''ssh ${PROD}<<EOF
-          ls -lh
-        '''
-
-
         script {
           echo 'Selecting Development Server'
           env.SERVER = "${DEV}"
