@@ -1,6 +1,22 @@
-/* groovylint-disable CompileStatic, DuplicateMapLiteral, DuplicateStringLiteral, NestedBlockDepth */
+/*
+groovylint-disable
+CompileStatic, 
+DuplicateMapLiteral, 
+DuplicateStringLiteral, 
+GStringExpressionWithinString, 
+NestedBlockDepth 
+*/
 pipeline {
   agent any
+  environment {
+    if (env.BRANCH_NAME == 'dev') {
+      echo 'DEV BRANCH'
+      ENV_TEST = 'DEV'
+    } else {
+      echo 'OTHER BRANCH'
+      ENV_TEST = 'OTHER'
+    }
+  }
   stages {
     stage('Modules Update') {
       steps {
@@ -41,6 +57,7 @@ pipeline {
         script {
           if (env.BRANCH_NAME == 'dev') {
             echo 'I only execute on the dev branch'
+            echo '${ENV_TEST}'
           } else {
             echo 'I execute elsewhere'
           }
