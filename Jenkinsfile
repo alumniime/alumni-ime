@@ -8,7 +8,7 @@
 */
 
 def PROD = "alumni@alumniime.com.br"
-def SERVER = "alumni@dev.alumniime.com.br"
+def DEV = "alumni@dev.alumniime.com.br"
 
 pipeline {
   agent any
@@ -16,6 +16,11 @@ pipeline {
   stages {
     stage('Modules Update') {
       steps {
+        script {
+          echo 'Selecting Development Server'
+          env.SERVER = "${DEV}"
+        }
+
         nvm(nvmInstallURL: 'https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh',
           nvmIoJsOrgMirror: 'https://iojs.org/dist',
           nvmNodeJsOrgMirror: 'https://nodejs.org/dist',
