@@ -52,7 +52,7 @@ pipeline {
           if (env.BRANCH_NAME == 'dev') {
             echo 'I only execute on the dev branch'
             sh 'echo ${SERVER}'
-            sh 'SERVER="hohoho"'
+            env.SERVER = "some test value"
             sh 'echo ${SERVER}'            
           } else {
             echo 'I execute elsewhere'
