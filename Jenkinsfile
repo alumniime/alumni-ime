@@ -22,14 +22,14 @@ pipeline {
             sh '''sftp alumni@dev.alumniime.com.br<<EOF
             get jenkins-files/node_modules.zip
             '''
-            sh 'unzip node_modules.zip'
-            sh 'npm install --production=false'
-            sh 'rm node_modules.zip'
-            sh 'zip -r node_modules.zip node_modules'
-            sh '''sftp alumni@dev.alumniime.com.br<<EOF
-            cd jenkins-files
-            put node_modules.zip
-            '''
+            //sh 'unzip node_modules.zip'
+            //sh 'npm install --production=false'
+            //sh 'rm node_modules.zip'
+            //sh 'zip -r node_modules.zip node_modules'
+            //sh '''sftp alumni@dev.alumniime.com.br<<EOF
+            //cd jenkins-files
+            //put node_modules.zip
+            //'''
             sh 'rm node_modules.zip'
           }
       }
@@ -52,7 +52,9 @@ pipeline {
           if (env.BRANCH_NAME == 'dev') {
             echo 'I only execute on the dev branch'
             sh 'echo ${SERVER}'
-            env.SERVER = "some test value"
+            script {
+              env.SERVER = "some test value"
+            }
             sh 'echo ${SERVER}'            
           } else {
             echo 'I execute elsewhere'
