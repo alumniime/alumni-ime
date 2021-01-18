@@ -8,7 +8,7 @@
 */
 def PROD = "alumni@alumniime.com.br"
 def DEV = "alumni@dev.alumniime.com.br"
-def SERVER = DEV
+def SERVER = "${DEV}"
 
 pipeline {
   agent any
