@@ -9,6 +9,7 @@ NestedBlockDepth
 pipeline {
   agent any
   environment {
+    ENV_TEST = ''
     if (env.BRANCH_NAME == 'dev') {
       echo 'DEV BRANCH'
       ENV_TEST = 'DEV'
