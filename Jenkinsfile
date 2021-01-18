@@ -6,13 +6,12 @@
   GStringExpressionWithinString, 
   NestedBlockDepth 
 */
-//def SERVER = "alumni@dev.alumniime.com.br"
+def PROD = "alumni@alumniime.com.br"
+def DEV = "alumni@dev.alumniime.com.br"
+def SERVER = DEV
 
 pipeline {
   agent any
-  environment {
-    SERVER = "alumni@dev.alumniime.com.br"
-  }
   
   stages {
     stage('Modules Update') {
@@ -59,13 +58,12 @@ pipeline {
         script {
           if (env.BRANCH_NAME == 'dev') {
             echo 'Selecting Production Server'
-            echo "${SERVER}"
-            env.SERVER = "some test value"
-            echo "${SERVER}"
+            env.SERVER = "${PROD}"
+          }else{
+            echo 'Selecting Development Server'
+            env.SERVER = "${DEV}"
           }
-          echo "${SERVER}"
         }
-        echo "${SERVER}"
       }
     }
     stage('Deploy') {
