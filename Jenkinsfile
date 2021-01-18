@@ -69,6 +69,7 @@ pipeline {
     stage('Deploy') {
       steps {
         echo "${SERVER}"
+        sh 'echo ${SERVER}'
         /*
         sh 'rm -r dist/client/assets'
         sh 'zip -r dist.zip dist'
