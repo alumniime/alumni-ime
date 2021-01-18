@@ -58,7 +58,8 @@ pipeline {
         script {
           if (env.BRANCH_NAME == 'dev') {
             echo 'Selecting Production Server'
-            env.SERVER = "${PROD}"
+            echo "${PROD}"
+            env.SERVER = "random test"
           }else{
             echo 'Selecting Development Server'
             env.SERVER = "${DEV}"
