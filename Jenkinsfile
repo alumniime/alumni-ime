@@ -54,6 +54,7 @@ pipeline {
     }
     stage('Selecting Server') {
       steps {
+        sh '''ssh ${SERVER} << EOF ls -l'''
         echo "${SERVER}"
         sh 'echo ${SERVER}'
         script {
