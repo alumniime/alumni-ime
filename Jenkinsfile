@@ -57,41 +57,18 @@ pipeline {
         echo 'Testing...'
       }
     }
-    /*
-    stage('Selecting Server') {
-      steps {
-        sh '''ssh ${SERVER} << EOF ls -l'''
-        echo "${SERVER}"
-        sh 'echo ${SERVER}'
-        script {
-          if (env.BRANCH_NAME == 'dev') {
-            echo 'Selecting Production Server'
-            echo "${PROD}"
-            env.SERVER = "${PROD}"
-          }else{
-            echo 'Selecting Development Server'
-          }
-        }
-        echo "${SERVER}"
-        sh 'echo ${SERVER}'
-      }
-    }
-    */
     stage('Deploy') {
       steps {
-        echo "${SERVER}"
-        sh 'echo ${SERVER}'
         script {
           if (env.BRANCH_NAME == 'dev') {
             echo 'Selecting Production Server'
-            echo "${PROD}"
             env.SERVER = "${PROD}"
           }else{
             echo 'Selecting Development Server'
+            env.SERVER = "${DEV}"
           }
         }
-        echo "${SERVER}"
-        sh 'echo ${SERVER}'
+        echo "SERVER = ${SERVER}"
         /*
         sh 'rm -r dist/client/assets'
         sh 'zip -r dist.zip dist'
