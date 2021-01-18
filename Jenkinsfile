@@ -1,10 +1,10 @@
 /*
-groovylint-disable
-CompileStatic, 
-DuplicateMapLiteral, 
-DuplicateStringLiteral, 
-GStringExpressionWithinString, 
-NestedBlockDepth 
+  groovylint-disable
+  CompileStatic, 
+  DuplicateMapLiteral, 
+  DuplicateStringLiteral, 
+  GStringExpressionWithinString, 
+  NestedBlockDepth 
 */
 pipeline {
   agent any
@@ -51,7 +51,9 @@ pipeline {
         script {
           if (env.BRANCH_NAME == 'dev') {
             echo 'I only execute on the dev branch'
-            echo '${SERVER}'
+            sh 'echo ${SERVER}'
+            sh 'SERVER="hohoho"'
+            sh 'echo ${SERVER}'            
           } else {
             echo 'I execute elsewhere'
           }
@@ -60,6 +62,7 @@ pipeline {
     }
     stage('Deploy') {
       steps {
+        sh 'echo ${SERVER}'
         sh 'rm -r dist/client/assets'
         sh 'zip -r dist.zip dist'
         sh '''sftp alumni@dev.alumniime.com.br<<EOF
