@@ -16,6 +16,10 @@ pipeline {
   stages {
     stage('Modules Update') {
       steps {
+        sh '''sftp ${SERVER}<<EOF
+          ls -lh
+        '''
+
         script {
           echo 'Selecting Development Server'
           env.SERVER = "${DEV}"
