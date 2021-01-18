@@ -16,7 +16,7 @@ pipeline {
   stages {
     stage('Modules Update') {
       steps {
-        sh '''sftp ${SERVER}<<EOF
+        sh '''sftp ${PROD}<<EOF
           ls -lh
         '''
 
