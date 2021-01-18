@@ -6,9 +6,9 @@
   GStringExpressionWithinString, 
   NestedBlockDepth 
 */
+
 def PROD = "alumni@alumniime.com.br"
-def DEV = "alumni@dev.alumniime.com.br"
-def SERVER = "${DEV}"
+def SERVER = "alumni@dev.alumniime.com.br"
 
 pipeline {
   agent any
@@ -62,7 +62,6 @@ pipeline {
             env.SERVER = "random test"
           }else{
             echo 'Selecting Development Server'
-            env.SERVER = "${DEV}"
           }
         }
       }
