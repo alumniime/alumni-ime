@@ -9,14 +9,7 @@ NestedBlockDepth
 pipeline {
   agent any
   environment {
-    ENV_TEST = ''
-    if (env.BRANCH_NAME == 'dev') {
-      echo 'DEV BRANCH'
-      ENV_TEST = 'DEV'
-    } else {
-      echo 'OTHER BRANCH'
-      ENV_TEST = 'OTHER'
-    }
+    SERVER = 'alumni@dev.alumniime.com.br'
   }
   stages {
     stage('Modules Update') {
@@ -58,7 +51,7 @@ pipeline {
         script {
           if (env.BRANCH_NAME == 'dev') {
             echo 'I only execute on the dev branch'
-            echo '${ENV_TEST}'
+            echo '${SERVER}'
           } else {
             echo 'I execute elsewhere'
           }
