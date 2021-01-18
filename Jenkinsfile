@@ -48,18 +48,19 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Testing...'
+      }
+    }
+    stage('Selecting Server') {
+      steps {
         echo "${SERVER}"
         script {
           if (env.BRANCH_NAME == 'dev') {
-            echo 'I only execute on the dev branch'
-            sh 'echo ${SERVER}'
-            script {
-              env.SERVER = "some test value"
-            }
-            sh 'echo ${SERVER}'            
-          } else {
-            echo 'I execute elsewhere'
+            echo 'Selecting Production Server'
+            echo "${SERVER}"
+            env.SERVER = "some test value"
+            echo "${SERVER}"
           }
+          echo "${SERVER}"
         }
         echo "${SERVER}"
       }
@@ -67,6 +68,7 @@ pipeline {
     stage('Deploy') {
       steps {
         sh 'echo ${SERVER}'
+        /*
         sh 'rm -r dist/client/assets'
         sh 'zip -r dist.zip dist'
         sh '''sftp alumni@dev.alumniime.com.br<<EOF
@@ -78,6 +80,7 @@ pipeline {
         cp -r dist/* website/
         rm -r dist.zip dist/
         '''
+        */
       }
     }
   }
