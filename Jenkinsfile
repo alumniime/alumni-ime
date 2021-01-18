@@ -57,6 +57,7 @@ pipeline {
         echo 'Testing...'
       }
     }
+    /*
     stage('Selecting Server') {
       steps {
         sh '''ssh ${SERVER} << EOF ls -l'''
@@ -75,8 +76,20 @@ pipeline {
         sh 'echo ${SERVER}'
       }
     }
+    */
     stage('Deploy') {
       steps {
+        echo "${SERVER}"
+        sh 'echo ${SERVER}'
+        script {
+          if (env.BRANCH_NAME == 'dev') {
+            echo 'Selecting Production Server'
+            echo "${PROD}"
+            env.SERVER = "${PROD}"
+          }else{
+            echo 'Selecting Development Server'
+          }
+        }
         echo "${SERVER}"
         sh 'echo ${SERVER}'
         /*
