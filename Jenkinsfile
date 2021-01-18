@@ -26,17 +26,17 @@ pipeline {
           nvmNodeJsOrgMirror: 'https://nodejs.org/dist',
           version: '6'
         ) {
-            sh '''sftp alumni@dev.alumniime.com.br<<EOF
+            sh '''sftp ${SERVER}<<EOF
             get jenkins-files/node_modules.zip
             '''
-            //sh 'unzip node_modules.zip'
-            //sh 'npm install --production=false'
-            //sh 'rm node_modules.zip'
-            //sh 'zip -r node_modules.zip node_modules'
-            //sh '''sftp alumni@dev.alumniime.com.br<<EOF
-            //cd jenkins-files
-            //put node_modules.zip
-            //'''
+            sh 'unzip node_modules.zip'
+            sh 'npm install --production=false'
+            sh 'rm node_modules.zip'
+            sh 'zip -r node_modules.zip node_modules'
+            sh '''sftp ${SERVER}<<EOF
+            cd jenkins-files
+            put node_modules.zip
+            '''
             sh 'rm node_modules.zip'
           }
       }
@@ -48,7 +48,7 @@ pipeline {
           nvmNodeJsOrgMirror: 'https://nodejs.org/dist',
           version: '6'
         ) {
-        //sh 'node node_modules/gulp/bin/gulp.js build'
+          sh 'node node_modules/gulp/bin/gulp.js build'
         }
       }
     }
@@ -60,7 +60,7 @@ pipeline {
     stage('Deploy') {
       steps {
         script {
-          if (env.BRANCH_NAME == 'dev') {
+          if (env.BRANCH_NAME == 'master') {
             echo 'Selecting Production Server'
             env.SERVER = "${PROD}"
           }else{
@@ -68,20 +68,19 @@ pipeline {
             env.SERVER = "${DEV}"
           }
         }
-        echo "SERVER = ${SERVER}"
-        /*
+        echo "Selected Server: ${SERVER}"
+        
         sh 'rm -r dist/client/assets'
         sh 'zip -r dist.zip dist'
-        sh '''sftp alumni@dev.alumniime.com.br<<EOF
+        sh '''sftp ${SERVER}<<EOF
         put dist.zip
         '''
-        sh '''ssh alumni@dev.alumniime.com.br<<EOF
+        sh '''ssh ${SERVER}<<EOF
         unzip dist
         rm website/client/*
         cp -r dist/* website/
         rm -r dist.zip dist/
         '''
-        */
       }
     }
   }
