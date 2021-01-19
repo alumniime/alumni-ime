@@ -58,6 +58,7 @@ import history from './about/history/history.component';
 import institutional from './about/institutional/institutional.component';
 import management from './about/management/management.component';
 import transparency from './about/transparency/transparency.component';
+import achievements from './about/achievements/achievements.component';
 
 import './app.scss';
 
@@ -65,7 +66,7 @@ angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBoot
   ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', 'validation.match', 'ui.utils.masks', 'ngQuill',
   _Auth, _Project, _News, _Newsletter, _DonatorHall, _Donation, _Opportunity, _Subscription, _Checkout, _Plan,
   account, admin, navbar, footer, modal, main, constants, util, submission, edit, show, 
-  project, news, view, events, newsletters, result, donate, bank, history, institutional, management, transparency, graduates, opportunities, typeform
+  project, news, view, events, newsletters, result, donate, bank, history, institutional, management, transparency, achievements, graduates, opportunities, typeform
 ])
   .config(routeConfig, ['ngQuillConfigProvider', function (ngQuillConfigProvider) {
     ngQuillConfigProvider.set(null, null, 'custom placeholder')

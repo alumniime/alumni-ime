@@ -25,6 +25,7 @@ $danger: #E84E0F !important;
 
 // Component styles are injected through gulp
 /* inject:scss */
+@import 'about/achievements/achievements';
 @import 'about/history/history';
 @import 'about/institutional/institutional';
 @import 'about/management/management';
