@@ -76,6 +76,11 @@ pipeline {
         put dist.zip
         '''
         sh '''ssh ${SERVER}<<EOF
+        unzip jenkins-file/node_modules.zip
+        cp -r jenkins-file/node_modules/ website/
+        rm -r jenkins-file/node_modules
+        '''
+        sh '''ssh ${SERVER}<<EOF
         unzip dist
         rm website/client/*
         cp -r dist/* website/
