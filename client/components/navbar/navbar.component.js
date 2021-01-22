@@ -29,7 +29,7 @@ export class NavbarComponent {
           title: 'GOVERNANÇA',
           state: 'management'
         },{
-          title: 'ACONTECIMENTOS 2020',
+          title: 'REALIZAÇÕES 2020',
           state: 'achievements'
         }
       ]
