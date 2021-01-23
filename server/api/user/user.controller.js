@@ -1192,7 +1192,7 @@ export function forgotPassword(req, res) {
         .then(new_user => {
           done(null, new_user, token);
         })
-        .catch(err => next(err));
+        .catch(err => {console.log(err); next(err)});
     },
     function (user, token, done) {
       var data = {
