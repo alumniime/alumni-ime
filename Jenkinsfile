@@ -29,6 +29,7 @@ pipeline {
             sh '''sftp ${SERVER}<<EOF
             get jenkins-files/node_modules.zip
             '''
+            sh 'ls -l'
             sh 'unzip node_modules.zip'
             sh 'npm install --production=false'
             sh 'rm node_modules.zip'
