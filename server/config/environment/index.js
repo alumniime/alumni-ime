@@ -87,6 +87,10 @@ var all = {
     client_id: process.env.GSUITE_CLIENT_ID || '',
   },
 
+  paypal: {
+    clientID: process.env.PAYPAL_CLIENT_ID || '',
+  },
+
   debug: process.env.DEBUG || false
 };
 

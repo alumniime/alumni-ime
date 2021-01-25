@@ -73,8 +73,14 @@ export default class ModalPreCheckoutController {
     this.Checkout = Checkout;
     this.Util = Util;
     this.$scope = $scope;
-    
-      
+
+    //Function to lazy load script
+    $scope.makeScript = function (url) {
+      var script = document.createElement('script');
+      script.setAttribute('src', url);
+      script.setAttribute('type', 'text/javascript');
+      document.getElementById('paymentDiv').appendChild(script);
+    };
   }
 
   $onInit() {
@@ -87,6 +93,15 @@ export default class ModalPreCheckoutController {
     if (this.resolve.option) {
       this.selectedOption = this.resolve.option;
     }
+
+    this.$http.get('/environment/paypal')
+      .then(response => {
+        this.$scope.makeScript(response.data[this.donation.Frequency]);
+      }).catch(err=>{
+        this.Modal.showAlert('Ocorreu um erro', err.data);
+        this.close();
+      });
+    
   }
 
   brasilCheckout() {

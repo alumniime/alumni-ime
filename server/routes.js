@@ -51,7 +51,8 @@ export default function (app) {
   app.use('/api/project_ses', require('./api/project_se'));
   app.use('/api/initiatives', require('./api/initiative'));
   app.use('/api/initiative_links', require('./api/initiative_link'));
-
+  
+  app.use('/environment', require('./environment'));
   app.use('/auth', require('./auth').default);
 
   // All undefined asset or api routes should return a 404
