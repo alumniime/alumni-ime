@@ -82,6 +82,11 @@ var all = {
     apiKey: process.env.PAGARME_API_KEY || ''
   },
 
+  gsuite: {
+    private_key: process.env.GSUITE_PK || '',
+    client_id: process.env.GSUITE_CLIENT_ID || '',
+  },
+
   debug: process.env.DEBUG || false
 };
 

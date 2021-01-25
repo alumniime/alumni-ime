@@ -27,10 +27,14 @@ export class MainController {
         this.$stateParams = {};
       }
     }
+
+    //Show a popup on website startup
+    /*
     var check = localStorage.getItem('checkboxModel');
     if(!check){
       this.Modal.openMainHighlight();
     }
+    */
   }
 
 }

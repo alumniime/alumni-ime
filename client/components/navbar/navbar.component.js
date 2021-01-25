@@ -28,7 +28,10 @@ export class NavbarComponent {
         {
           title: 'GOVERNANÇA',
           state: 'management'
-        },
+        },{
+          title: 'REALIZAÇÕES 2020',
+          state: 'achievements'
+        }
       ]
     },
     {
