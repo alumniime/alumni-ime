@@ -1,15 +1,3 @@
-<!--<script>
-  console.log("First", vm.test);
-  setTimeout(()=>{
-    console.log("Ops", "{{vm.test}}");
-  },1000)
-</script>
-<script ng-if="vm.donation.Frequency == 'once'" src="{{vm.test}}">
-  console.log("Second");
-</script>
-<script ng-if="vm.donation.Frequency == 'monthly'" src="https://www.paypal.com/sdk/js?currency=BRL&client-id=AV25II0-BK45sad4_W6u3-_PJy8WHEBKxvxGPcfcPxl62Mqm_3hI6iMJw6sRZKCG3gDP5eFK5vdZdMZN&vault=true"></script>
--->
-
 <div class="modal-header" id="paymentDiv">
   <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
   <h5 class="modal-title text-center" id="modal-title" ng-if="!vm.openInter">
