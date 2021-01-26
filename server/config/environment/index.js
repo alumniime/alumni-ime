@@ -35,16 +35,7 @@ var all = {
   secrets: {
     session: process.env.SESSION_SECRET || 'alumni-secret'
   },
-  /*
-  // MongoDB connection options
-  mongo: {
-    options: {
-      db: {
-        safe: true
-      }
-    }
-  },
-  */
+  
   domain: process.env.DOMAIN,
 
   linkedin: {
