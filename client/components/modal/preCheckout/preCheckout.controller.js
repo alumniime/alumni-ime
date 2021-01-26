@@ -102,6 +102,14 @@ export default class ModalPreCheckoutController {
         this.close();
       });
     
+      this.$http.get('/environment/pagarme')
+      .then(response => {
+        this.pagarmeKey = response.data.encryptionKey;
+      }).catch(err=>{
+        this.Modal.showAlert('Ocorreu um erro', err.data);
+        this.close();
+      });
+    
   }
 
   brasilCheckout() {
@@ -150,6 +158,7 @@ export default class ModalPreCheckoutController {
 
     this.Checkout.open(
       options,
+      this.pagarmeKey,
       (data) => {
         if (!isNational) {
           data = Object.assign({}, data, options);
