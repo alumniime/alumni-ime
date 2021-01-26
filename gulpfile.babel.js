@@ -349,7 +349,7 @@ gulp.task("watch", () => {
 });
 
 gulp.task("serve", (cb) => {
-  process.env.LOCAL_ENV = argv.env.substr(0, 3) || "dev";
+  process.env.LOCAL_ENV = argv.env == undefined ? "dev" : argv.env.substr(0, 3);
   process.env.LOCAL_ENV === "dev" ||
   process.env.LOCAL_ENV === "pro"
     ? {}
