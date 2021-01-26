@@ -35,7 +35,7 @@ var all = {
   secrets: {
     session: process.env.SESSION_SECRET || 'alumni-secret'
   },
-
+  /*
   // MongoDB connection options
   mongo: {
     options: {
@@ -44,7 +44,7 @@ var all = {
       }
     }
   },
-
+  */
   domain: process.env.DOMAIN,
 
   linkedin: {
@@ -79,7 +79,8 @@ var all = {
   },
 
   pagarme: {
-    apiKey: process.env.PAGARME_API_KEY || ''
+    apiKey: process.env.PAGARME_API_KEY || '',
+    encryptionKey: process.env.PAGARME_ENCRYPTION_KEY || '',
   },
 
   gsuite: {
@@ -100,4 +101,5 @@ module.exports = _.merge(
   all,
   require('./shared'),
   require(`./${process.env.NODE_ENV}.js`) || {},
-  process.env.NODE_ENV === 'development' ? require('../local.env.js') : {});
+  process.env.NODE_ENV === 'development' ? require(`../local.env.${process.env.LOCAL_ENV}.js`) : {}
+  );

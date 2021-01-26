@@ -20,6 +20,9 @@ require('./routes').default(app);
 function startServer() {
   app.angularFullstack = server.listen(config.port, config.ip, function() {
     console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+    app.get('env') === 'development' 
+      ? console.log("Development mode with %s variables", process.env.LOCAL_ENV) 
+      : {};
   });
 }
 
