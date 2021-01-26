@@ -1,6 +1,7 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /engineering/paypal           ->  paypal
+ * GET     /environment/paypal           ->  paypal
+ * GET     /environment/pagarme           ->  pagarme
  */
 
 'use strict';
@@ -16,6 +17,18 @@ export function paypal(req, res) {
     paypalUrl.once = "https://www.paypal.com/sdk/js?currency=BRL&client-id="+config.paypal.clientID;
     paypalUrl.monthly = "https://www.paypal.com/sdk/js?currency=BRL&client-id="+config.paypal.clientID+"&vault=true";
     return res.json(paypalUrl);
+  }
+}
+
+// Get pagarme encryptionKey
+export function pagarme(req, res) {
+  if(config.pagarme.encryptionKey == ''){
+    return res.status(503).send('PagarMe: Invalid Encryption Key');
+  }else{
+    var pagarmeKey = {
+      encryptionKey: config.pagarme.encryptionKey
+    }
+    return res.json(pagarmeKey);
   }
 }
 
