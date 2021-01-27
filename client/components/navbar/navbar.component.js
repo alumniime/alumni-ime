@@ -116,7 +116,7 @@ export class NavbarComponent {
     this.$state = $state;
     this.$http = $http;
     this.$timeout = $timeout;
-    this.$rootScope = $rootScope
+    this.$rootScope = $rootScope;
   }
 
   $onInit() {

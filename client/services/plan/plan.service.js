@@ -18,13 +18,23 @@ export function PlanService($http, $q) {
           .then(response => {
             this.list = [];
             for(var plan of response.data) {
-              this.list.push({
+              let prop = {
                 planId: plan.PlanId,
                 value: plan.Amount,
                 frequency: 'monthly',
                 visible: plan.Visible,
                 admin: plan.Admin
-              });
+              }
+
+              //Check if environment is in dev mode
+              if(plan.Develop != undefined){
+                prop.Develop = plan.Develop;
+                if(plan.Develop){
+                  this.list.push(prop);
+                }
+              }else{
+                this.list.push(prop);
+              }
             }
             this.list.push({ 
               value: 200,
