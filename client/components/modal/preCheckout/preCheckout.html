@@ -22,7 +22,7 @@
     <div ng-if="vm.donation.Frequency != 'monthly'">
   -->
   <div>
-    <button class="btn btn-danger mt-3 mx-auto" ng-click="vm.worldCheckout()">
+    <button class="btn btn-danger mt-3 mx-auto" ng-disabled="!vm.selectedOption.paypalId && vm.selectedOption=='monthly'" ng-click="vm.worldCheckout()">
       <img class="countryImg" src="../../../assets/images/internet.svg" />
     </button>
     <p>

@@ -23,7 +23,8 @@ export function PlanService($http, $q) {
                 value: plan.Amount,
                 frequency: 'monthly',
                 visible: plan.Visible,
-                admin: plan.Admin
+                admin: plan.Admin,
+                paypalId: plan.PaypalId
               });
             }
             this.list.push({ 

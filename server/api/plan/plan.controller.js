@@ -63,7 +63,7 @@ function handleError(res, statusCode) {
 // Gets a list of Plans
 export function index(req, res) {
     return Plan.findAll({
-        attributes: ['PlanId', 'Name', 'Amount', 'Visible', 'Admin'],
+        attributes: ['PlanId', 'Name', 'Amount', 'Visible', 'Admin', 'PaypalId'],
         where: {
             Develop: (config.localEnv == 'dev')
         }
