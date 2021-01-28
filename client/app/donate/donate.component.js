@@ -43,7 +43,6 @@ export class DonateController {
     this.$anchorScroll('top');
     this.Plan.load()
       .then(result => {
-        console.log(result);
         this.plans = result;
         if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
           this.selectFrequency('monthly');
@@ -78,7 +77,6 @@ export class DonateController {
           } else if(this.$stateParams.PlanIndex >= 0) {
             this.Plan.load()
               .then(result => {
-                console.log(result);
                 this.plans = result;
                 var plan = this.plans[this.$stateParams.PlanIndex];
                 this.donation.Frequency = plan.frequency;

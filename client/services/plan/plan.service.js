@@ -16,7 +16,6 @@ export function PlanService($http, $q) {
       if(this.list.length === 0 || forceReload === true) {
         $http.get('/api/plans')
           .then(response => {
-            console.log(response);
             this.list = [];
             for(var plan of response.data) {
               this.list.push({
