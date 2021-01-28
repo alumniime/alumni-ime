@@ -11,30 +11,21 @@ export function PlanService($http, $q) {
     /**
      * Load plans from database and their images
      */
-    load(forceReload) {
+    load(localEnv, forceReload) {
       var d = $q.defer();
       if(this.list.length === 0 || forceReload === true) {
         $http.get('/api/plans')
           .then(response => {
+            console.log(response);
             this.list = [];
             for(var plan of response.data) {
-              let prop = {
+              this.list.push({
                 planId: plan.PlanId,
                 value: plan.Amount,
                 frequency: 'monthly',
                 visible: plan.Visible,
                 admin: plan.Admin
-              }
-
-              //Check if environment is in dev mode
-              if(plan.Develop != undefined){
-                prop.Develop = plan.Develop;
-                if(plan.Develop){
-                  this.list.push(prop);
-                }
-              }else{
-                this.list.push(prop);
-              }
+              });
             }
             this.list.push({ 
               value: 200,

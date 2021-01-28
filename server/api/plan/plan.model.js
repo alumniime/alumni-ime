@@ -1,5 +1,3 @@
-var config = require('../../config/environment');
-
 export default function(sequelize, DataTypes) {
   var prop = {
     PlanId: {
@@ -24,11 +22,8 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: '0'
-    }
-  }
-
-  if(config.localEnv == 'dev'){
-    prop.Develop = {
+    },
+    Develop: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: '0'
