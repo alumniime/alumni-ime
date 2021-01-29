@@ -1,12 +1,9 @@
 'use strict';
 
 exports = module.exports = {
-  // List of user roles
   env: process.env.NODE_ENV,
+  localEnv: process.env.LOCAL_ENV || process.env.NODE_ENV.substr(0,3),
   userRoles: ['guest', 'user', 'admin'],
   url: process.env.DOMAIN || 'https://www.alumniime.com.br',
-  submission: 1,
-  pagarme: {
-    encryptionKey: 'ek_live_YxHzIni5bJu1VTgHcUPvtw6byoBNRm' // 'ek_test_z9QmtfjZR9PunDBBHp4XPJXZd9DwlC'
-  }
+  submission: 1
 };

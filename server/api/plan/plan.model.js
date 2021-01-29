@@ -1,5 +1,5 @@
 export default function(sequelize, DataTypes) {
-  return sequelize.define('Plan', {
+  var prop = {
     PlanId: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -22,8 +22,19 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: '0'
+    },
+    Develop: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: '0'
+    },
+    PaypalId: {
+      type: DataTypes.STRING(45),
+      allowNull: true
     }
-  }, {
+  }
+
+  return sequelize.define('Plan', prop, {
     tableName: 'Plan'
   });
 }

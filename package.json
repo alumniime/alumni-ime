@@ -76,7 +76,8 @@
     "sprint-js": "~0.1.0",
     "sqlite3": "^3.1.13",
     "ui-bootstrap4": "^3.0.3",
-    "utf-8-validate": "^5.0.4"
+    "utf-8-validate": "^5.0.4",
+    "yargs": "^14.2.3"
   },
   "devDependencies": {
     "angular-mocks": "~1.6.0",

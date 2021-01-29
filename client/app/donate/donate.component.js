@@ -18,7 +18,7 @@ export class DonateController {
   selectedOption = null;
   customValue = 0;
 
-  constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Plan, Checkout) {
+  constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Plan, Checkout, appConfig) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -31,6 +31,8 @@ export class DonateController {
     this.Donation = Donation;
     this.Plan = Plan;
     this.Checkout = Checkout;
+
+    this.localEnv = appConfig.localEnv;
   }
 
   $onInit() {
@@ -75,7 +77,6 @@ export class DonateController {
           } else if(this.$stateParams.PlanIndex >= 0) {
             this.Plan.load()
               .then(result => {
-                console.log(result);
                 this.plans = result;
                 var plan = this.plans[this.$stateParams.PlanIndex];
                 this.donation.Frequency = plan.frequency;

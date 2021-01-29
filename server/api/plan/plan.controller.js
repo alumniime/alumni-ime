@@ -10,6 +10,7 @@
 
 import { applyPatch } from 'fast-json-patch';
 import {Plan} from '../../sqldb';
+var config = require('../../config/environment');
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -61,7 +62,12 @@ function handleError(res, statusCode) {
 
 // Gets a list of Plans
 export function index(req, res) {
-    return Plan.findAll()
+    return Plan.findAll({
+        attributes: ['PlanId', 'Name', 'Amount', 'Visible', 'Admin', 'PaypalId'],
+        where: {
+            Develop: (config.localEnv == 'dev')
+        }
+    })
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

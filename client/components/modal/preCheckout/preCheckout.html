@@ -1,8 +1,4 @@
-<script ng-if="vm.donation.Frequency == 'once'" src="https://www.paypal.com/sdk/js?currency=BRL&client-id=AV25II0-BK45sad4_W6u3-_PJy8WHEBKxvxGPcfcPxl62Mqm_3hI6iMJw6sRZKCG3gDP5eFK5vdZdMZN"></script>
-<script ng-if="vm.donation.Frequency == 'monthly'" src="https://www.paypal.com/sdk/js?currency=BRL&client-id=AV25II0-BK45sad4_W6u3-_PJy8WHEBKxvxGPcfcPxl62Mqm_3hI6iMJw6sRZKCG3gDP5eFK5vdZdMZN&vault=true"></script>
-
-
-<div class="modal-header">
+<div class="modal-header" id="paymentDiv">
   <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
   <h5 class="modal-title text-center" id="modal-title" ng-if="!vm.openInter">
     Selecione o país de emissão do cartão
@@ -26,7 +22,7 @@
     <div ng-if="vm.donation.Frequency != 'monthly'">
   -->
   <div>
-    <button class="btn btn-danger mt-3 mx-auto" ng-click="vm.worldCheckout()">
+    <button class="btn btn-danger mt-3 mx-auto" ng-disabled="!vm.selectedOption.paypalId && vm.selectedOption=='monthly'" ng-click="vm.worldCheckout()">
       <img class="countryImg" src="../../../assets/images/internet.svg" />
     </button>
     <p>

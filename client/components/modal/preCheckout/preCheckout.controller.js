@@ -38,21 +38,6 @@ export default class ModalPreCheckoutController {
   user = {};
   countryList = [];
   selectedOption = {};
-  
-  //Object with id from pagarme and paypal
-  subsEq = {
-    597877: "P-6SY59256EY8348214L56PZLA", //Nível Básico
-    365652: "P-99760038E0332113BL56PKAQ", //Nível I
-    365655: "P-36P02040VK1637633L56PKZY", //Nível II
-    365656: "P-2W998751YX760815XL56PLPQ", //Nível III
-    365657: "P-78H357725X520833SL56PL5Q", //Nível IV
-    365658: "P-6YH230506D982832NL56PMOQ", //Nível V
-    365659: "P-26P595292B305144TL56PXKY", //Nível VI
-    365661: "P-8EP50018W6024912DL56PXWY", //Nível VII
-    365662: "P-9FU872901S362025WL56PYDY", //Nível VIII
-    365663: "P-3D420037TY135114GL56PYMQ", //Nível IX
-    365665: "P-9RG848987Y230054DL56PYVI"  //Nível X
-  }
 
   /*@ngInject*/
   constructor(
@@ -73,8 +58,14 @@ export default class ModalPreCheckoutController {
     this.Checkout = Checkout;
     this.Util = Util;
     this.$scope = $scope;
-    
-      
+
+    //Function to lazy load script
+    $scope.makeScript = function (url) {
+      var script = document.createElement('script');
+      script.setAttribute('src', url);
+      script.setAttribute('type', 'text/javascript');
+      document.getElementById('paymentDiv').appendChild(script);
+    };
   }
 
   $onInit() {
@@ -87,6 +78,25 @@ export default class ModalPreCheckoutController {
     if (this.resolve.option) {
       this.selectedOption = this.resolve.option;
     }
+
+    console.log(this.selectedOption);
+
+    this.$http.get('/environment/paypal')
+      .then(response => {
+        this.$scope.makeScript(response.data[this.donation.Frequency]);
+      }).catch(err=>{
+        this.Modal.showAlert('Ocorreu um erro', err.data);
+        this.close();
+      });
+    
+      this.$http.get('/environment/pagarme')
+      .then(response => {
+        this.pagarmeKey = response.data.encryptionKey;
+      }).catch(err=>{
+        this.Modal.showAlert('Ocorreu um erro', err.data);
+        this.close();
+      });
+    
   }
 
   brasilCheckout() {
@@ -135,6 +145,7 @@ export default class ModalPreCheckoutController {
 
     this.Checkout.open(
       options,
+      this.pagarmeKey,
       (data) => {
         if (!isNational) {
           data = Object.assign({}, data, options);
@@ -298,7 +309,7 @@ export default class ModalPreCheckoutController {
           // Set up the subscription
           createSubscription: function(data, actions) {
             return actions.subscription.create({
-              'plan_id': self.subsEq[self.selectedOption.planId]
+              'plan_id': self.selectedOption.paypalId
               //'plan_id': 'P-7MJ753126U710730EL43PUFI'
             });
           },

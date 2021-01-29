@@ -1,12 +1,12 @@
 'use strict';
 /*eslint no-process-env:0*/
 
-import local from '../local.env';
+var local = require(`../local.env.${process.env.LOCAL_ENV}`);
 
 // Development specific configuration
 // ==================================
 module.exports = {
-  // Sequelize connection opions
+  // Sequelize connection options
   sequelize: {
     uri: local.sequelize_url || 'sqlite://',
     options: {
@@ -22,5 +22,4 @@ module.exports = {
   seedDB: false,
 
   debug: true
-
 };

@@ -9,8 +9,8 @@ export function CheckoutService($q, $interval, appConfig) {
     /**
      * Opens pagarme checkout view with params
      * */
-    open(params, success, error, close) {
-      getInstance(success, error, close)
+    open(params, encryptKey, success, error, close) {
+      getInstance(encryptKey, success, error, close)
         .then((checkout) => {
           checkout.open(params);
         })
@@ -24,7 +24,7 @@ export function CheckoutService($q, $interval, appConfig) {
   /**
    * Checks if PagarMeCheckout was loaded and creates a checkout instance
    * */
-  function getInstance(success, error, close) {
+  function getInstance(encryptKey, success, error, close) {
     var promise = $q((resolve, reject) => {
 
       var elapsedTime = 0;
@@ -34,7 +34,7 @@ export function CheckoutService($q, $interval, appConfig) {
         if(window.PagarMeCheckout) {
           if(window.PagarMeCheckout.Checkout){
             var data = {
-              encryption_key: appConfig.pagarme.encryptionKey, 
+              encryption_key: encryptKey, 
               success: success,
               error: error,
               close: close
