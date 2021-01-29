@@ -11,7 +11,6 @@ var smtpTransport = nodemailer.createTransport({
   secure: true,
   auth: {
     type: 'OAuth2',
-    //user: 'contato@alumniime.com.br',
     user: config.email.user,
     serviceClient: config.gsuite.client_id,
     privateKey: config.gsuite.private_key
