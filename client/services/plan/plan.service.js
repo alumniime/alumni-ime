@@ -11,7 +11,7 @@ export function PlanService($http, $q) {
     /**
      * Load plans from database and their images
      */
-    load(localEnv, forceReload) {
+    load(forceReload) {
       var d = $q.defer();
       if(this.list.length === 0 || forceReload === true) {
         $http.get('/api/plans')
