@@ -3,6 +3,7 @@
 import express from 'express';
 import passport from 'passport';
 import { setTokenCookie } from '../auth.service';
+import { randomTest } from '../auth.service';
 
 
 var router = express.Router();
@@ -16,6 +17,6 @@ router
         scope : ['email'], 
         failureRedirect: '/main',
         session: false
-    }));
+    }),randomTest);
 
 export default router;

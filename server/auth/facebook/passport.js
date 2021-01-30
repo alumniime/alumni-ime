@@ -89,8 +89,8 @@ export function setup(User, config) {
             }
         ], function (err, result) {
             if(err) {
-                console.log('facebook/passport =>\n', err);
-                return cb(err);
+                console.log('facebook/passport =>\n');
+                return cb(err, null);
             } else {
                 return cb(null, result);
             }

@@ -80,7 +80,11 @@ export default class ModalLoginController {
     // create an ever increasing interval to check a certain global value getting assigned in the popup
     var this_ = this;
     
-    
+    popupLinkedin.addEventListener('load', ()=>{
+      console.log(popupLinkedin.document);
+      console.log(popupLinkedin.value);
+    })
+    /*
     var i = this.$interval(function () {
       interval += 500;
       try {
@@ -106,7 +110,7 @@ export default class ModalLoginController {
         console.error(e);
       }
     }, interval);
-    
+    */
   }
 
   openForgot() {
