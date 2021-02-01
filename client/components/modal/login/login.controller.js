@@ -67,50 +67,52 @@ export default class ModalLoginController {
   }
 
   loginOauth(provider) {
-    // this.$window.location.href = `/auth/${provider}`;
     // open a popup
     var width = 500;
     var height = 546;
     var left = screen.width / 2 - width / 2;
     var top = screen.height / 2 - height / 2;
-    var popupLinkedin = this.$window.open(`/auth/${provider}`, 'popup', `top=${top},left=${left},width=${width},height=${height}`);
+    var authPopup = this.$window.open(`/auth/${provider}`, 'popup', `top=${top},left=${left},width=${width},height=${height}`);
     var interval = 1000;
-    popupLinkedin.focus();
+    authPopup.focus();
 
     // create an ever increasing interval to check a certain global value getting assigned in the popup
     var this_ = this;
-    
-    popupLinkedin.addEventListener('load', ()=>{
-      console.log(popupLinkedin.document);
-      console.log(popupLinkedin.value);
-    })
-    /*
+
     var i = this.$interval(function () {
       interval += 500;
       try {
-        if(popupLinkedin.value !== null && popupLinkedin.value !== undefined) {
-          console.log('Success popup' + popupLinkedin.value);
+        if(authPopup.value.substr(0,3)=="ERR"){
+          let msg = authPopup.value.substr(4,authPopup.value.length-4);
           this_.$interval.cancel(i);
-          popupLinkedin.close();
-          this_.cancelModal();
-          if(popupLinkedin.value !== true && popupLinkedin.value !== '0') {
-            this_.$state.go('signup', {
-              confirmEmailToken: popupLinkedin.value,
-              showEmailVerified: 0
-            });
-          } else {
-            if(this_.$state.current.name === 'signup') {
-              location.href = '/';
+          this_.Modal.showAlert('Erro', "Ocorreu um problema no seu cadastro\nFaça o login por outro método de autenticação!\nOU\n"+msg);
+        }else{
+          if(authPopup.value !== null && authPopup.value !== undefined) {
+            console.log('Success popup' + authPopup.value);
+            this_.$interval.cancel(i);
+            authPopup.close();
+            this_.cancelModal();
+  
+            if(authPopup.value !== true && authPopup.value !== '0') {
+              this_.$state.go('signup', {
+                confirmEmailToken: authPopup.value,
+                showEmailVerified: 0
+              });
             } else {
-              location.reload();
+              if(this_.$state.current.name === 'signup') {
+                location.href = '/';
+              } else {
+                location.reload();
+              }
             }
           }
-        }
+        }        
       } catch(e) {
-        console.error(e);
+        if(interval%2000==0){
+          console.log("Waiting for login...")
+        }
       }
     }, interval);
-    */
   }
 
   openForgot() {
