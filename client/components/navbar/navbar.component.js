@@ -98,6 +98,10 @@ export class NavbarComponent {
           state: 'graduates.hall'
         }
       ]
+    },
+    {
+      title: 'FALE CONOSCO',
+      state: 'contact'
     }
   ];
 
