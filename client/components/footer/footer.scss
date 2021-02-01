@@ -1,129 +1,118 @@
 footer {
-  min-height: 450px;
   background-color: $primary;
-  /* #2196f3 */
   color: #F2F2F2;
 
   .container .row {
-    padding-top: 80px;
+    align-items: center;
+    justify-content: center;
   }
 
-  .logo {
-    max-width: 100px;
-  }
-
-  @include media-breakpoint-down(sm) {
-    .container .row {
-      padding-top: 30px;
+  .inf{
+    padding: 3rem 0;
+    @include media-breakpoint-down(sm) {
+      padding: 2rem 0;
     }
   }
 
   .logo {
-    margin-bottom: 30px;
+    max-width: 70%;
     display: -webkit-box;
+    @include media-breakpoint-down(lg) {
+      max-width: 80%;
+    }
+    @include media-breakpoint-down(md) {
+      max-width: 120%;
+    }
+    @include media-breakpoint-down(sm) {
+      max-width: 30%;
+      margin-bottom: 2rem;
+    }
   }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: solid 1px white;
+    width: 90%;
+    @include media-breakpoint-up(sm) {
+      width: 100%;
+    }
+    @include media-breakpoint-down(sm) {
+      border-right: none;
+      border-bottom: solid 1px white;
+      margin-bottom: 1rem;
+      padding-bottom: calc(1rem - 10px);
+    }
+  }  
 
   h6 {
     font-style: normal;
-    //font-weight: bold;
+    font-weight: bold;
     line-height: normal;
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
+    text-align: center;
   }
 
   p {
     font-weight: 300;
     font-size: 14px;
+    text-align: center;
+    margin-bottom: 10px;
   }
 
   .copyrights {
     font-size: 12px;
+    text-align: center;
+    margin-bottom: 10px;
   }
 
-  p .btn-light {
-    border-radius: 100px;
-    color: #00456F;
-    font-size: 14px;
-    width: 26px;
-    margin-left: 12px;
-    padding-left: 8px;
-    padding-right: 18px;
-    height: 26px;
-    padding-top: 2px;
+  .social{
+    color: white;
+    margin: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    @include media-breakpoint-down(md) {
+      margin: 0.5rem;
+    }@include media-breakpoint-down(sm) {
+      margin: 1rem;
+      font-size: 3rem;
+    }
   }
 
-  h5 {
-    font-style: normal;
-    font-weight: 300;
-    line-height: normal;
-    font-size: 24px;
+  .social:active{
+    color: #dae0e5;
   }
 
-  form input, form textarea {
-    width: 100%;
-    margin: 8px 0;
-    font-size: 13px;
-    padding: 7px;
-    background-color: transparent;
-    border: 1px solid rgba(224, 224, 224, 0.3);
-    box-sizing: border-box;
-    border-radius: 5px;
-    color: #fff;
+  .contact{
+    display: flex;
+    color: white;
+    align-items: center;
+    font-size: 1.3rem;
+    border-right: solid 1px white;
+    height: 100%;
+    border-radius: 0;
+    padding-right: 2rem;
+    font-weight: 100;
+    i{
+      margin-left: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 
-  ::-webkit-input-placeholder {
-    font-style: italic;
-    color: rgba(242, 242, 242, 0.65);
+  .policy{
+    color: white;
+    cursor: pointer;
+    p{
+      font-size: 12px;
+      font-weight: 600;
+    }
   }
 
-  form input::placeholder, form textarea::placeholder {
-    font-style: italic;
-    color: rgba(242, 242, 242, 0.65);
+  .policy:hover{
+    text-decoration: underline;
   }
-
-  input, textarea {
-    -webkit-transition: all 0.30s ease-in-out;
-    -moz-transition: all 0.30s ease-in-out;
-    -ms-transition: all 0.30s ease-in-out;
-    -o-transition: all 0.30s ease-in-out;
-    outline: none;
-    padding: 8px;
-    border: 1px solid #ddd;
-  }
-
-  input:focus, textarea:focus {
-    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-    padding: 8px;
-    margin: 10px 0;
-    border: 1px solid rgba(81, 203, 238, 1);
-  }
-
-  form .btn-light {
-    border-radius: 100px;
-    color: #00456F;
-    font-size: 12px;
-    font-weight: 700;
-    width: 100px;
-    margin: 0 auto;
-    display: inherit;
-    position: relative;
-    top: -30px;
-  }
-
-  .justify-content-between {
-    -webkit-box-pack: justify !important;
-    -ms-flex-pack: justify !important;
-    justify-content: space-between !important;
-  }
-
-  .footerAddress{
-    padding-top: 0 !important;
-  }
-
-  .logoPartner{
-    margin: auto;
-    max-width: 70px;
-    display: -webkit-box;
-  }
-
 }
