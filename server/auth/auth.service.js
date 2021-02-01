@@ -113,9 +113,3 @@ export function setTokenCookie(req, res) {
     }
   }
 }
-
-export function randomTest(req,res) {
-  console.log("RANDOM\n");
-  console.log("REQ", req, "\n")
-  console.log("RES", res, "\n")
-}
