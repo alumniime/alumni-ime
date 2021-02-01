@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" style="height: 100%;">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -26,7 +26,9 @@
   <meta name="viewport" content="width=device-width">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 </head>
-<body>
+<body
+  style="display: flex; flex-direction: column; height: 100%;"
+>
   <!--[if lt IE 9]>
   <p class="browserupgrade">Você está utilizando um navegador <strong>desatualizado</strong>. Por favor
     <a href="http://browsehappy.com/">atualize seu navegador</a> para melhorar sua experiência.</p>
@@ -67,6 +69,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.5/xlsx.full.min.js"></script>
   <navbar></navbar>
   <div ui-view=""></div>
-  <footer></footer>
+  <footer class="mt-auto"></footer>
 </body>
 </html>
