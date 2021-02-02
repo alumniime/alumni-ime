@@ -6,10 +6,6 @@ import angular from 'angular';
 export class NavbarComponent {
   menu = [
     {
-      title: 'HOME',
-      state: 'main'
-    },
-    {
       title: 'SOBRE',
       state: 'about',
       dropdown: [
@@ -54,7 +50,7 @@ export class NavbarComponent {
     },
     {
       // Position 3 will have the menu loaded below
-      title: 'PROJETOS APOIADOS',
+      title: 'PROJETOS',
       state: 'show'
     },
     {
@@ -179,7 +175,7 @@ export class NavbarComponent {
         title: 'SUBMETER PROJETO',
         state: 'submission'
       })
-      this.menu[3].dropdown = dropdown;
+      this.menu[2].dropdown = dropdown;
     });
 
     this.$http.get('/api/donator_hall/menu')
@@ -200,8 +196,8 @@ export class NavbarComponent {
         }
       }
       //this.menu[4].dropdown[2].sidedrop = sidedrop;
-      this.menu[6].dropdown[0].sidedrop = sidedrop['individual'];
-      this.menu[6].dropdown[1].sidedrop = sidedrop['corporative'];
+      this.menu[5].dropdown[0].sidedrop = sidedrop['individual'];
+      this.menu[5].dropdown[1].sidedrop = sidedrop['corporative'];
     });
 
   }

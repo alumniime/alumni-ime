@@ -8,7 +8,8 @@ export default class ModalRegisterInformationController {
     Genre: '',
     Phone: '',
     location: {},
-    positions: [{}]
+    positions: [{}],
+    ShowInformation: true
   };
   personType = undefined;
   errors = {
