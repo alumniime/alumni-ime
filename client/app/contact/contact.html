@@ -1,1 +1,101 @@
-Fale Conosco
+<div class="container contactView">
+  <div class="row">
+    <div class="col-6 content">
+      <div class="row socialContainer">
+        <a
+          class="social"
+          href="https://www.linkedin.com/company/alumniime"
+          target="_blank"
+        >
+          <i class="first fa fa-linkedin-square" aria-hidden="true"></i>
+        </a>
+        <a
+          class="social"
+          href="https://www.facebook.com/AlumniIME"
+          target="_blank"
+        >
+          <i class="fa fa-facebook-official" aria-hidden="true"></i>
+        </a>
+        <a
+          class="social"
+          href="https://www.instagram.com/alumniime"
+          target="_blank"
+        >
+          <i class="fa fa-instagram" aria-hidden="true"></i>
+        </a>
+        <a
+          class="social"
+          href="https://www.youtube.com/c/AlumniIME/featured"
+          target="_blank"
+        >
+          <i class="fa fa-envelope-o" aria-hidden="true"></i>
+        </a>
+        <a
+          class="social"
+          href="https://wa.me/message/DKS5ODIR26L2D1"
+          target="_blank"
+        >
+          <i class="fa fa-whatsapp" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="contactText">
+        <h2>Fale Conosco</h2>
+        <p>
+          Dúvidas, reclamações, sugestões? Entre em contato conosco através de
+          nossas redes sociais ou via email. Nossa equipe esta pronta para sanar
+          todas as dúvidas da comunidade IMEana!
+        </p>
+      </div>
+    </div>
+    <div class="col-6 formContainer">
+      <form
+        class="form"
+        name="form"
+        ng-submit="$ctrl.sendContactEmail(form)"
+        novalidate=""
+      >
+        <input
+          type="text"
+          name="name"
+          required
+          ng-model="$ctrl.name"
+          placeholder="Nome"
+        />
+        <p
+          class="help-block mb-2"
+          ng-if="form.name.$error.required && $ctrl.submitted"
+        >
+          Insira o seu nome, por favor.
+        </p>
+        <input
+          type="email"
+          name="email"
+          required
+          ng-model="$ctrl.email"
+          placeholder="Email"
+        />
+        <p
+          class="help-block mb-2"
+          ng-if="(form.email.$error.email || form.email.$error.required) && $ctrl.submitted"
+        >
+          Insira o seu email, por favor.
+        </p>
+        <textarea
+          name="message"
+          rows="5"
+          required
+          ng-model="$ctrl.message"
+          placeholder="Mensagem"
+        ></textarea>
+        <button href="#" type="submit" class="btn btn-light">ENVIAR</button>
+        <p
+          class="help-block"
+          style="margin-top: -15px"
+          ng-if="form.message.$error.required && $ctrl.submitted"
+        >
+          Insira a sua mensagem, por favor.
+        </p>
+      </form>
+    </div>
+  </div>
+</div>

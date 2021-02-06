@@ -1,0 +1,130 @@
+.contactView{
+    --secondary: #D4D4D4;
+    padding: calc(6rem - 1px);
+
+    .content{
+        border-right: solid 1px var(--secondary);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .socialContainer{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .social{
+        display: flex;
+        padding: 1.5rem;
+        border-radius: 3rem;
+        background-color: #00456F !important;
+
+        color: white;
+        margin: 0.5rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        @include media-breakpoint-down(md) {
+          margin: 0.5rem;
+        }@include media-breakpoint-down(sm) {
+          margin: 1rem;
+          font-size: 3rem;
+        }
+    }
+
+    .social:active{
+    color: #dae0e5;
+    }
+
+    .social:hover{
+        text-decoration: none !important;
+    }
+    
+    .contactText{
+        h2{
+            color: $danger;
+        }
+
+        p{
+            text-align: justify;
+        }
+    }
+
+    .formContainer{
+        margin: 2rem auto;
+
+        p {
+            font-weight: 300;
+            font-size: 14px;
+        }
+        
+          .copyrights {
+            font-size: 12px;
+          }
+        
+          p .btn-light {
+            border-radius: 100px;
+            color: #00456F;
+            font-size: 14px;
+            width: 26px;
+            margin-left: 12px;
+            padding-left: 8px;
+            padding-right: 18px;
+            height: 26px;
+            padding-top: 2px;
+          }
+        
+          form input, form textarea {
+            width: 100%;
+            margin: 8px 0;
+            font-size: 15px;
+            padding: 10px;
+            background-color: transparent;
+            border: 1px solid var(--secondary);
+            box-sizing: border-box;
+            border-radius: 5px;
+            color:black;
+          }
+        
+          form input::placeholder, form textarea::placeholder {
+            color: #999999;
+          }
+        
+          input, textarea {
+            -webkit-transition: all 0.30s ease-in-out;
+            -moz-transition: all 0.30s ease-in-out;
+            -ms-transition: all 0.30s ease-in-out;
+            -o-transition: all 0.30s ease-in-out;
+            outline: none;
+            padding: 8px;
+            border: 1px solid red;
+          }
+        
+          input:focus, textarea:focus {
+            box-shadow: 0 0 5px $danger;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid $danger;
+          }
+        
+          form .btn-light {
+            border-radius: 5px;
+            color: white;
+            font-weight: 700;
+            width: 100px;
+            margin-left: auto;
+            display: inherit;
+            background-color: $danger;
+            margin-top: 1rem;
+          }
+    }
+
+
+
+
+
+
+
+
+}
