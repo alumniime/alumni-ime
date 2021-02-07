@@ -1,13 +1,33 @@
 .contactView {
   --secondary: #d4d4d4;
 	--grayText: #999;
-  padding: calc(6rem - 1px);
+  padding: calc(5rem - 1px);
+
+	@include media-breakpoint-down(lg) {
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
+	}
+
+	@include media-breakpoint-down(md) {
+		padding-left: 1.3rem;
+		padding-right: 1.3rem;
+	}
+
+	@include media-breakpoint-down(sm) {
+		padding: 1.3rem;
+	}
 
   .content {
     border-right: solid 1px var(--secondary);
     display: flex;
     flex-direction: column;
     justify-content: center;
+		
+		@include media-breakpoint-down(sm) {
+			border-right: none;    
+			border-bottom: solid 1px var(--secondary);
+			padding-bottom: 2rem;
+		}
   }
 
   .socialContainer {
@@ -27,11 +47,14 @@
     font-size: 1.5rem;
     cursor: pointer;
     @include media-breakpoint-down(md) {
-      margin: 0.5rem;
-    }
+      margin: 0.3rem;
+			padding: 1.1rem;
+			font-size: 1.7rem;
+		}
     @include media-breakpoint-down(sm) {
-      margin: 1rem;
-      font-size: 3rem;
+      margin: 0.7rem;
+			font-size: 2rem;
+			padding: 1.6rem;
     }
   }
 
@@ -115,15 +138,21 @@
       outline: none;
     }
 
-    form .btn-light {
+    form .btn {
       border-radius: 5px;
       color: white;
       font-weight: 700;
-      width: 100px;
+			font-size: 1.1rem;
+			padding: 0.5rem 1rem;
       margin-left: auto;
       display: inherit;
       background-color: $danger;
       margin-top: 1rem;
+
+			@include media-breakpoint-down(sm) {
+				font-size: 1rem;
+    		padding: 1rem;
+			}
     }
   }
 }
