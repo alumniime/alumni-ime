@@ -25,8 +25,11 @@
         </a>
         <a
           class="social"
-          href="https://www.youtube.com/c/AlumniIME/featured"
           target="_blank"
+          ng-click="vm.copyToClipboard()"
+          href="mailto:contato@alumniime.com.br"
+          uib-tooltip="{{vm.mailTxt}}" tooltip-placement="top"
+          ng-mouseover="vm.formatMailTxt()"
         >
           <i class="fa fa-envelope-o" aria-hidden="true"></i>
         </a>
@@ -51,19 +54,19 @@
       <form
         class="form"
         name="form"
-        ng-submit="$ctrl.sendContactEmail(form)"
+        ng-submit="vm.sendContactEmail(form)"
         novalidate=""
       >
         <input
           type="text"
           name="name"
           required
-          ng-model="$ctrl.name"
+          ng-model="vm.name"
           placeholder="Nome"
         />
         <p
           class="help-block mb-2"
-          ng-if="form.name.$error.required && $ctrl.submitted"
+          ng-if="form.name.$error.required && vm.submitted"
         >
           Insira o seu nome, por favor.
         </p>
@@ -71,30 +74,39 @@
           type="email"
           name="email"
           required
-          ng-model="$ctrl.email"
+          ng-model="vm.email"
           placeholder="Email"
         />
         <p
           class="help-block mb-2"
-          ng-if="(form.email.$error.email || form.email.$error.required) && $ctrl.submitted"
+          ng-if="(form.email.$error.email || form.email.$error.required) && vm.submitted"
         >
           Insira o seu email, por favor.
         </p>
+        <select 
+            name="subject"
+            ng-model="vm.subject" 
+            required
+            ng-change="vm.changeSelect()"
+            ng-class="vm.selectClass"
+        >
+            <option class="placeholder" value="" disabled selected hidden>Assunto</option>
+            <option ng-repeat="subject in vm.subjects">{{subject}}</option>
+        </select>
         <textarea
           name="message"
           rows="5"
           required
-          ng-model="$ctrl.message"
+          ng-model="vm.message"
           placeholder="Mensagem"
         ></textarea>
-        <button href="#" type="submit" class="btn btn-light">ENVIAR</button>
         <p
           class="help-block"
-          style="margin-top: -15px"
-          ng-if="form.message.$error.required && $ctrl.submitted"
+          ng-if="form.message.$error.required && vm.submitted"
         >
           Insira a sua mensagem, por favor.
         </p>
+        <button href="#" type="submit" class="btn btn-light">ENVIAR</button>
       </form>
     </div>
   </div>
