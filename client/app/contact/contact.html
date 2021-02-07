@@ -93,6 +93,12 @@
             <option class="placeholder" value="" disabled selected hidden>Assunto</option>
             <option ng-repeat="subject in vm.subjects">{{subject}}</option>
         </select>
+        <p
+          class="help-block mb-2"
+          ng-if="(form.subject.$error.subject || form.subject.$error.required) && vm.submitted"
+        >
+          Escolha o assunto, por favor.
+        </p>
         <textarea
           name="message"
           rows="5"

@@ -1,5 +1,6 @@
 .contactView {
   --secondary: #d4d4d4;
+	--grayText: #999;
   padding: calc(6rem - 1px);
 
   .content {
@@ -58,22 +59,9 @@
     p {
       font-weight: 300;
       font-size: 14px;
-    }
-
-    .copyrights {
-      font-size: 12px;
-    }
-
-    p .btn-light {
-      border-radius: 100px;
-      color: #00456f;
-      font-size: 14px;
-      width: 26px;
-      margin-left: 12px;
-      padding-left: 8px;
-      padding-right: 18px;
-      height: 26px;
-      padding-top: 2px;
+			color: $danger;
+			margin-top: -0.3rem;
+			margin-left: 0.5rem;
     }
 
     form input,
@@ -89,32 +77,32 @@
       border-radius: 5px;
     }
 
-    select{
-        color: #999999;
+    select {
+      color: var(--grayText);
     }
 
-    option{
-        color: black;
+    option {
+      color: black;
     }
 
     .selectClass {
-        color: black !important;
+      color: black !important;
     }
 
     form input::placeholder,
     form textarea::placeholder {
-      color: #999999;
+      color: var(--grayText);
     }
 
     input,
-    textarea {
+    textarea,
+		select {
+      transition: all 0.3s ease-in-out;
       -webkit-transition: all 0.3s ease-in-out;
       -moz-transition: all 0.3s ease-in-out;
       -ms-transition: all 0.3s ease-in-out;
       -o-transition: all 0.3s ease-in-out;
       outline: none;
-      padding: 8px;
-      border: 1px solid red;
     }
 
     input:focus,
