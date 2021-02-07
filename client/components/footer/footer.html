@@ -1,80 +1,35 @@
 <div class="container">
-  <div class="row justify-content-between">
-    <div class="col-md-1"></div>
-    <div class="col-md-2">
-      <a ui-sref="main">
-        <img class="logo mx-auto float-md-right" src="assets/images/logo.png">
+  <div class="row inf">
+    <a ui-sref="main" class="col-md-2">
+      <img class="logo mx-auto float-md-right" src="assets/images/logo.png">
+    </a>
+    <div class="col-md-6 info">
+      <h6>Associação dos ex-alunos do Instituto Militar de Engenharia</h6>
+      <p>Apoiando o IME e a comunidade IMEana.</p>
+      <p class="copyrights d-md-block">
+        &copy; {{$ctrl.year}} Alumni IME. Todos os direitos reservados.
+        <br> CNPJ: 19.335.957/0001-17
+      </p>
+      <a class="policy" href="/assets/documents/Termos_de_Uso-AlumniIME.pdf" target="_blank">
+        <p>Termos de Uso e Política de Privacidade</p>
       </a>
     </div>
     <div class="col-md-4">
-      <h6>Associação dos ex-alunos do Instituto Militar de Engenharia</h6>
-      <p>Apoiando o IME e a comunidade IMEana.</p>
-      <br>
-      <p class="text-center">Acompanhe-nos
-        <br class="d-none d-md-block d-lg-none">
-        <a class="btn btn-light" href="https://www.facebook.com/AlumniIME" target="_blank">
-          <i class="fa fa-facebook"></i>
+      <h6>Acompanhe nosso trabalho:</h6>
+      <div class="row">
+        <a class="social" href="https://www.linkedin.com/company/alumniime" target="_blank">
+          <i class="first fa fa-linkedin-square" aria-hidden="true"></i>
         </a>
-        <a class="btn btn-light" href="https://www.linkedin.com/company/alumniime" target="_blank">
-          <i class="fa fa-linkedin"></i>
+        <a class="social" href="https://www.facebook.com/AlumniIME" target="_blank">
+          <i class="fa fa-facebook-official" aria-hidden="true"></i>
         </a>
-        <a class="btn btn-light" href="https://www.instagram.com/alumniime" target="_blank"
-           style="font-size: 17px; padding-top: 0; padding-left: 5px;">
-          <i class="fa fa-instagram"></i>
+        <a class="social" href="https://www.instagram.com/alumniime" target="_blank">
+          <i class="fa fa-instagram" aria-hidden="true"></i>
         </a>
-      </p>
-      <br>
-      <div class="row footerAddress">
-        <p class="copyrights d-none d-md-block">
-          &copy; {{$ctrl.year}} Alumni IME.
-          <br> Todos os direitos reservados.
-          <br> R. São Clemente, 258 - Botafogo
-          <br> 4° andar (Co.League Coworking)
-          <br> Rio de Janeiro, RJ, 22260-004 - Brasil
-          <br> CNPJ: 19.335.957/0001-17
-          <br> Telefone: (21) 92002-3595 (Apenas WhatsApp)
-        </p>
-        <a class="logoPartner" href="https://www.co-league.com.br/">
-          <img class="logoPartner" src="assets/images/CoLeague_Logo.png">
+        <a class="social" href="https://www.youtube.com/c/AlumniIME/featured" target="_blank">
+          <i class="fa fa-youtube-play" aria-hidden="true"></i>
         </a>
       </div>
-
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-4">
-      <h5>Contato</h5>
-
-      <form class="form" name="form" ng-submit="$ctrl.sendContactEmail(form)" novalidate="">
-        <input type="text" name="name" required ng-model="$ctrl.name" placeholder="nome">
-        <p class="help-block mb-2"
-           ng-if="form.name.$error.required && $ctrl.submitted">
-          Insira o seu nome, por favor.
-        </p>
-        <input type="email" name="email" required ng-model="$ctrl.email" placeholder="email">
-        <p class="help-block mb-2"
-           ng-if="(form.email.$error.email || form.email.$error.required) && $ctrl.submitted">
-          Insira o seu email, por favor.
-        </p>
-        <textarea name="message" rows="5" required ng-model="$ctrl.message"
-                  placeholder="mensagem"></textarea>
-        <button href="#" type="submit" class="btn btn-light">ENVIAR</button>
-        <p class="help-block" style="margin-top: -15px"
-           ng-if="form.message.$error.required && $ctrl.submitted">
-          Insira a sua mensagem, por favor.
-        </p>
-      </form>
-
-      <p class="copyrights d-block d-md-none">
-        &copy; {{$ctrl.year}} Alumni IME.
-        <br> Todos os direitos reservados.
-        <br> R. São Clemente, 258 - Botafogo
-        <br> 4° andar (Co.League Coworking)
-        <br> Rio de Janeiro, RJ, 22260-004 - Brasil
-        <br> CNPJ: 19.335.957/0001-17
-        <br> Telefone: (21) 92002-3595 (Apenas WhatsApp)
-        <br><br>
-      </p>
-
     </div>
   </div>
 </div>

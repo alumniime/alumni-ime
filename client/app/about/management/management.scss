@@ -1,4 +1,5 @@
 .managementView {
+  width: 100%;
   padding: 70px 20px 60px !important;
   @include media-breakpoint-down(sm) {
     padding: 40px 2px !important;
@@ -56,6 +57,7 @@
 }
 
 .managementViewBlue {
+  width: 100%;
   padding: 0 !important;
   background: #00456F;
 

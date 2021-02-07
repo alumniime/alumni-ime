@@ -1,0 +1,154 @@
+.contactView {
+  --secondary: #d4d4d4;
+	--grayText: #999;
+
+	@include media-breakpoint-down(sm) {
+		padding: 2rem 1.5rem;
+	}
+
+  .content {
+    border-right: solid 1px var(--secondary);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+		padding-right: 2rem;
+		
+		@include media-breakpoint-down(sm) {
+			border-right: none;    
+			border-bottom: solid 1px var(--secondary);
+			padding-bottom: 2rem;
+			padding-right: 15px;
+		}
+  }
+
+  .socialContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .social {
+    display: flex;
+    padding: 1.5rem;
+    border-radius: 3rem;
+    background-color: #00456f !important;
+
+    color: white;
+    margin: 0.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    @include media-breakpoint-down(md) {
+      margin: 0.3rem;
+			padding: 1rem;
+			font-size: 1.7rem;
+		}
+    @include media-breakpoint-down(sm) {
+      margin: 0.7rem;
+			font-size: 2rem;
+			padding: 1.4rem;
+		}
+		@include media-breakpoint-down(xs) {
+      margin: 0.5rem;
+			font-size: 1.7rem;
+			padding: 0.9rem;
+		}
+  }
+
+  .social:active {
+    color: #dae0e5;
+  }
+
+  .social:hover {
+    text-decoration: none !important;
+  }
+
+  .contactText {
+    h2 {
+      color: $danger;
+    }
+
+    p {
+      text-align: justify;
+    }
+  }
+
+  .formContainer {
+    margin: 2rem auto;
+		padding-left: 2rem;
+
+		@include media-breakpoint-down(sm) {
+      padding-left: 15px;
+		}
+
+    p {
+      font-weight: 300;
+      font-size: 14px;
+			color: $danger;
+			margin-top: -0.3rem;
+			margin-left: 0.5rem;
+    }
+
+    form input,
+    form textarea,
+    form select {
+      width: 100%;
+      margin: 8px 0;
+      font-size: 15px;
+      padding: 10px;
+      background-color: transparent;
+      border: 1px solid var(--secondary);
+      box-sizing: border-box;
+      border-radius: 5px;
+    }
+
+    select {
+      color: var(--grayText);
+    }
+
+    option {
+      color: black;
+    }
+
+    .selectClass {
+      color: black !important;
+    }
+
+    form input::placeholder,
+    form textarea::placeholder {
+      color: var(--grayText);
+    }
+
+    input,
+    textarea,
+		select {
+      transition: all 0.3s ease-in-out;
+      -webkit-transition: all 0.3s ease-in-out;
+      -moz-transition: all 0.3s ease-in-out;
+      -ms-transition: all 0.3s ease-in-out;
+      -o-transition: all 0.3s ease-in-out;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      box-shadow: 0 0 5px $danger;
+      padding: 8px;
+      margin: 10px 0;
+      border: 1px solid $danger;
+      outline: none;
+    }
+
+    form .btn {
+      border-radius: 5px;
+      color: white;
+      font-weight: 700;
+			font-size: 1.1rem;
+			padding: 0.5rem 1rem;
+      margin-left: auto;
+      display: inherit;
+      background-color: $danger;
+      margin-top: 1rem;
+    }
+  }
+}

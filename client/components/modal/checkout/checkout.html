@@ -7,30 +7,35 @@
 </div>
 
 <div class="modal-body px-3 pb-4" id="modal-body">
-  <span class="description text-center d-block">
-      Enquanto isso, escolha sua preferência <br> para a Galeria de Apoiadores:
+  <!--
+    <span class="description text-center d-block">
+        Enquanto isso, escolha sua preferência <br> para a Galeria de Apoiadores:
+    </span>
+  -->
+
+  <span class="text-center d-block">
+    Como você chegou a este formulário de doação?
   </span>
 
   <form class="form mt-3" name="form" ng-submit="vm.submit(form)" novalidate>
-    <div class="form-group">
-      <div class="custom-control custom-radio ml-3" ng-repeat="option in vm.options">
-        <input type="radio" id="customRadio{{$index}}" name="DonationSetting" class="custom-control-input" 
-               ng-value="$index" ng-model="vm.selectedOption" required>
-        <label class="custom-control-label" for="customRadio{{$index}}">{{option.Description}}</label>
+    <!--
+      <div class="form-group">
+        <div class="custom-control custom-radio ml-3" ng-repeat="option in vm.options">
+          <input type="radio" id="customRadio{{$index}}" name="DonationSetting" class="custom-control-input" 
+          ng-value="$index" ng-model="vm.selectedOption" required>
+          <label class="custom-control-label" for="customRadio{{$index}}">{{option.Description}}</label>
+        </div>
+        <p class="help-block" ng-show="form.DonationSetting.$error.required && vm.submitted">
+          Escolha uma opção.
+        </p>
       </div>
-      <p class="help-block" ng-show="form.DonationSetting.$error.required && vm.submitted">
-        Escolha uma opção.
-      </p>
-    </div>
+      <br>
+    -->
 
-    <br>
+    
 
-    <span class="text-center d-block">
-      Como você chegou a este formulário de doação?
-    </span>
-
-    <div class="form-group">
-      <div class="custom-control custom-radio ml-3" ng-repeat="opt in vm.optionsToKnowList">
+    <div class="form-group row m-2">
+      <div class="custom-control custom-radio col-md-6" ng-repeat="opt in vm.optionsToKnowList">
         <input type="radio" id="customCheckBox{{$index}}" name="DonationOpt" class="custom-control-input" 
           ng-value="opt.OptionTypeId" ng-model="vm.selectedOptToKnow" required>
         <label class="custom-control-label" for="customCheckBox{{$index}}">{{opt.Description}}</label>
