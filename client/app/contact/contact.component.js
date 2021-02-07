@@ -33,11 +33,6 @@ export class ContactController {
     this.Modal = Modal;
   }
 
-  $onInit() {
-    var date = new Date();
-    this.year = date.getFullYear();
-  }
-
   changeSelect(){
     if(this.changeCount){
       this.selectClass='selectClass';
@@ -46,29 +41,33 @@ export class ContactController {
   }
 
   sendContactEmail(form) {
-    console.log(this.subject);
     this.submitted = true;
-
+    
     if(form.$valid){
       var loading = this.Modal.showLoading();
+      
+      var receiver = this.subject=="Projetos"?"projetos@alumniime.com.br":null;
+      
       this.$http.post('/api/users/contact', {
         Name: this.name,
         Email: this.email,
-        Message: this.message
+        Subject: this.subject,
+        Message: this.message,
+        SendTo: receiver
       })
         .then(res => {
-          console.log(res);
           loading.close();
           this.Modal.showAlert('Email enviado!', 'Por favor, aguarde que lhe responderemos em breve.');
           this.name = '';
           this.email = '';
           this.message = '';
+          this.subject = null;
+          this.selectClass = null;
           this.submitted = false;
         })
         .catch(err => {
           this.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o email, tente novamente.');
           loading.close();
-          console.log(err);
         });
       }
   }
