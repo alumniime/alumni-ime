@@ -150,5 +150,9 @@
       background-color: $danger;
       margin-top: 1rem;
     }
+
+    form .btn:focus {
+      box-shadow: 0 0 0 0.2rem #F69C78 !important;
+    }
   }
 }
