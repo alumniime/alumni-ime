@@ -24,7 +24,6 @@
   .socialContainer {
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
   }
 
   .social {
@@ -34,24 +33,9 @@
     background-color: #00456f !important;
 
     color: white;
-    margin: 0.5rem;
+    margin: 1rem;
     font-size: 1.5rem;
     cursor: pointer;
-    @include media-breakpoint-down(md) {
-      margin: 0.3rem;
-			padding: 1rem;
-			font-size: 1.7rem;
-		}
-    @include media-breakpoint-down(sm) {
-      margin: 0.7rem;
-			font-size: 2rem;
-			padding: 1.4rem;
-		}
-		@include media-breakpoint-down(xs) {
-      margin: 0.5rem;
-			font-size: 1.7rem;
-			padding: 0.9rem;
-		}
   }
 
   .social:active {
