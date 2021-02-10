@@ -77,7 +77,7 @@ function configureStorage() {
     },
     filename: function (req, file, cb) {
       file.timestamp = Date.now();
-      var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
+      var name = file.originalname.replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9]/g, '');
       var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
       cb(null, `${file.timestamp}-${name}.${format}`);
     }
@@ -439,16 +439,22 @@ export function create(req, res) {
 
 // Creates a new Project in the DB with his images
 export function upload(req, res) {
-
   var upload = multer({
     storage: configureStorage()
-  })
-    .array('files', 12); // maxImages = 12
+  }).array('files', 13); // maxImages = 12
 
   upload(req, res, function (err) {
-
     var project = Project.build(req.body.project);
     var date = new Date();
+
+    for(var fileIndex in req.files) {
+      let name = req.files[fileIndex].filename;
+      let format = name.split('.')[name.split('.').length - 1];
+
+      if(format=='xlsx' || format=='xls'){
+        project.setDataValue('Schedule', `assets/images/uploads/${name}`);
+      }
+    }
 
     project.setDataValue('IsApproved', 0);
     project.setDataValue('IsExcluded', 0);
@@ -458,109 +464,114 @@ export function upload(req, res) {
     project.setDataValue('Year', date.getFullYear());
     project.setDataValue('SubmissionDate', date.getTime());
 
-    console.log(req.body.costs);
-
-    
-    if(err) {
-      console.log(err);
-      res.json({errorCode: 1, errorDesc: err});
-      return;
-    }
-    project.save()
-      .then(newProject => {
-        var projectId = newProject.ProjectId;
-
-        var images = [];
-        var costs = [];
-        var rewards = [];
-
-        console.log(req.body.costs);
-        console.log(Array.isArray(req.body.costs.Item));
-
-        if(Array.isArray(req.body.costs.Item)){
-          for(var costIndex in req.body.costs.Item) {
-            console.log(costIndex);
+    if(true){
+      if(err) {
+        console.log(err);
+        res.json({errorCode: 1, errorDesc: err});
+        return;
+      }
+      project.save()
+        .then(newProject => {
+          var projectId = newProject.ProjectId;
+  
+          var images = [];
+          var costs = [];
+          var rewards = [];
+  
+          console.log(req.body.costs);
+          console.log(Array.isArray(req.body.costs.Item));
+  
+          if(Array.isArray(req.body.costs.Item)){
+            for(var costIndex in req.body.costs.Item) {
+              console.log(costIndex);
+              costs.push({
+                ProjectId: projectId,
+                CostDescription: req.body.costs.Item[costIndex],
+                Quantity: req.body.costs.Quantity[costIndex],
+                UnitPriceInCents: req.body.costs.UnitPrice[costIndex],
+                IsExcluded: 0
+              });
+            }
+          }
+          else{
             costs.push({
               ProjectId: projectId,
-              CostDescription: req.body.costs.Item[costIndex],
-              Quantity: req.body.costs.Quantity[costIndex],
-              UnitPriceInCents: req.body.costs.UnitPrice[costIndex],
+              CostDescription: req.body.costs.Item,
+              Quantity: req.body.costs.Quantity,
+              UnitPriceInCents: req.body.costs.UnitPrice,
               IsExcluded: 0
             });
           }
-        }
-        else{
-          costs.push({
-            ProjectId: projectId,
-            CostDescription: req.body.costs.Item,
-            Quantity: req.body.costs.Quantity,
-            UnitPriceInCents: req.body.costs.UnitPrice,
-            IsExcluded: 0
-          });
-        }
-
-        if(costs.length > 0) {
-          ProjectCost.bulkCreate(costs)
-            .then(() => {
-              res.json({errorCode: 0, errorDesc: null});
-            })
-            .catch(handleError(res));
-        }
-
-        if(Array.isArray(req.body.rewards.ValueInCents)){
-          for(var rewardIndex in req.body.rewards.ValueInCents) {
-            console.log(costIndex);
+  
+          if(costs.length > 0) {
+            ProjectCost.bulkCreate(costs)
+              .then(() => {
+                res.json({errorCode: 0, errorDesc: null});
+              })
+              .catch(handleError(res));
+          }
+  
+          if(Array.isArray(req.body.rewards.ValueInCents)){
+            for(var rewardIndex in req.body.rewards.ValueInCents) {
+              console.log(costIndex);
+              rewards.push({
+                ProjectId: projectId,
+                RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
+                IsUpperBound: req.body.rewards.IsUpperBound[rewardIndex],
+                ValueInCents: req.body.rewards.ValueInCents[rewardIndex],
+                IsExcluded: 0
+              });
+            }
+          }
+          else{
             rewards.push({
               ProjectId: projectId,
-              RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
-              IsUpperBound: req.body.rewards.IsUpperBound[rewardIndex],
-              ValueInCents: req.body.rewards.ValueInCents[rewardIndex],
+              RewardDescription: req.body.rewards.RewardDescription,
+              IsUpperBound: req.body.rewards.IsUpperBound,
+              ValueInCents: req.body.rewards.ValueInCents,
               IsExcluded: 0
             });
           }
-        }
-        else{
-          rewards.push({
-            ProjectId: projectId,
-            RewardDescription: req.body.rewards.RewardDescription,
-            IsUpperBound: req.body.rewards.IsUpperBound,
-            ValueInCents: req.body.rewards.ValueInCents,
-            IsExcluded: 0
-          });
-        }
-        if(rewards.length > 0) {
-          ProjectReward.bulkCreate(rewards)
-            .then(() => {
-              console.log("3",res)
-              res.json({errorCode: 0, errorDesc: null});
-            })
-            .catch(//handleError(res));
-            (error)=> {console.log("4",error)})
-        }
+          if(rewards.length > 0) {
+            ProjectReward.bulkCreate(rewards)
+              .then(() => {
+                console.log("3",res)
+                res.json({errorCode: 0, errorDesc: null});
+              })
+              .catch(//handleError(res));
+              (error)=> {console.log("4",error)})
+          }
+  
+          console.log("REQ-FILES:", req.files);
+          for(var fileIndex in req.files) {
+            let name = req.files[fileIndex].filename;
+            let format = name.split('.')[name.split('.').length - 1];
 
-        console.log("REQ-FILES:", req.files);
-        for(var fileIndex in req.files) {
-          images.push({
-            ProjectId: projectId,
-            Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
-            Filename: req.files[fileIndex].filename,
-            Type: 'project',
-            Timestamp: req.files[fileIndex].timestamp,
-            OrderIndex: fileIndex,
-            IsExcluded: 0
-          });
-        }
+            if(format!='xlsx' && format!='xls'){
+              images.push({
+                ProjectId: projectId,
+                Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
+                Filename: req.files[fileIndex].filename,
+                Type: 'project',
+                Timestamp: req.files[fileIndex].timestamp,
+                OrderIndex: fileIndex,
+                IsExcluded: 0
+              });
+            }
+          }
+  
+          if(images.length > 0) {
+            Image.bulkCreate(images)
+              .then(() => {
+                res.json({errorCode: 0, errorDesc: null});
+              })
+              .catch(handleError(res));
+          }
+        })
+        .catch(handleError(res));
+    }
 
-        if(images.length > 0) {
-          Image.bulkCreate(images)
-            .then(() => {
-              res.json({errorCode: 0, errorDesc: null});
-            })
-            .catch(handleError(res));
-        }
-
-      })
-      .catch(handleError(res));
+    res.json({errorCode: 0, errorDesc: null});
   });
 }
 
