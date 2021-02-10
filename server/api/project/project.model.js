@@ -52,9 +52,13 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    StudentsNumber: {
+    StudentsNoDirectly: {
       type: DataTypes.INTEGER(11),
       allowNull: false
+    },
+    StudentsNoIndirectly: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
     },
     EstimatedPriceInCents: {
       type: DataTypes.INTEGER(11),
