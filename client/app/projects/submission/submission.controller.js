@@ -104,20 +104,11 @@ export default class SubmissionController {
 
       this.budget = 0;
 
-      console.log("Antes");
-      console.log(this.rewardsCount);
-      console.log(this.rewardsIndex);
-      console.log(this.rewardsList);
       this.addCostsField();
       this.addRewardsField();
-      console.log("Depois");
-      console.log(this.rewardsCount);
-      console.log(this.rewardsIndex);
-      console.log(this.rewardsList);
   }
 
  submitProject(form) {
-    console.log(this.isRelated);
     this.costs = [];
     for(let index = 0; index < this.costsCount-1; index ++){
       this.costs.push({'Item': this.costsList.Item[index], 'UnitPrice': this.costsList.UnitPrice[index]*100, 'Quantity':this.costsList.Quantity[index]});
@@ -126,16 +117,14 @@ export default class SubmissionController {
 
     this.submitted = true;
     this.errors.projects = undefined;
-   
-    console.log(form);
-    
+     
     if(this.appConfig.submission) {
       if(!this.user.PersonId) {
         // User needs to login
         this.Modal.openLogin();
       } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 4 || this.user.PersonTypeId === 5) {
 
-        if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid && this.budget<=this.fundLimit) {
+        if((form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid && this.budget<=this.fundLimit) || true) {
           console.log('Entrou aqui')
           this.project.EstimatedPriceInCents = this.budget * 100;
           if(this.ConclusionDate) {
@@ -155,13 +144,21 @@ export default class SubmissionController {
             }
             this.Rewards.push({'RewardDescription': this.rewardsList.RewardDescription[index], 'IsUpperBound': this.rewardsList.IsUpperBound[index], 'ValueInCents': this.rewardsList.Value[index]*100});
           }
+
+          //Create and populate file array
+          var uploadArr = [];
+          for(let index=0; index<this.uploadImages.length; index++){
+            uploadArr.push(this.uploadImages[index]);
+          }
+          uploadArr.push(this.uploadDoc);
+
           var loading = this.Modal.showLoading();
           var this_ = this;
           this.Upload.upload({
             url: '/api/projects/upload',
             arrayKey: '',
             data: {
-              files: this.uploadImages,
+              files: uploadArr,
               project: this.project,
               costs: this.costs,
               rewards: this.Rewards
@@ -172,10 +169,11 @@ export default class SubmissionController {
               console.log(result);
               if(result.data.errorCode === 0) {
                 this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
-                this_.$state.go('profile', {view: 'submitted_projects'});
+                //this_.$state.go('profile', {view: 'submitted_projects'});
                 this_.Project.loadMyProjects(true);
                 this_.submitted = false;
                 this_.uploadImages = [];
+                this_.uploadDoc = null;
                 this_.ConclusionDate = '';
                 this_.isRelated = false;
               } else {
@@ -220,14 +218,15 @@ export default class SubmissionController {
     if(files === null) {
       this.loading = this.Modal.showLoading();
     } else {
-      this.loading.close();
+      try{
+        this.loading.close();
+      }catch(e){
+        console.log(e);
+      }
     }
   }
 
   addRewardsField(){
-    console.log(this.rewardsCount);
-    console.log(this.rewardsIndex);
-    console.log(this.rewardsList);
     this.rewardsIndex.push(this.rewardsCount);
     this.rewardsCount += 1;
 
@@ -262,13 +261,9 @@ export default class SubmissionController {
     console.log(this.rewardsList);
   }
 
-
   addCostsField(){
     this.costsIndex.push(this.costsCount);
     this.costsCount += 1;
-    console.log(this.costsCount);
-    console.log(this.costsIndex);
-    console.log(this.costsList);
   }
 
   deleteCostsField(index){
