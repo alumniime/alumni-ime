@@ -15,6 +15,34 @@ export default class SubmissionController {
   dateInvalid = false;
   ConclusionDate = '';
   isRelated = false;
+  categories = [
+    "Desenvolvimento da formação acadêmica",
+    "Ciência e novas tecnologias",
+    "Extracurriculares",
+    "Outros"
+  ];
+  themes = [
+    "Cidades inteligentes para comunidades carentes",
+    "Cidades inteligentes e sustentáveis",
+    "Edutech",
+    "Segurança pública e privada",
+    "Healthtech",
+    "Agritech, Saúde animal e Foodtech",
+    "Biotecnologia",
+    "Defesa",
+    "Economia circular",
+    "Energia renovável e eficiência energética",
+    "Indústria 4.0",
+    "Internet das Coisas (IoT)",
+    "5G",
+    "Materiais avançados",
+    "Nanotecnologia",
+    "Outros"
+  ]
+  otherCategory = null;
+  otherTheme = null;
+  fundLimit = 25000;
+  uploadDoc = null;
 
   constructor(Auth, Project, $http, $state, Modal, $window, Upload, Util, appConfig) {
     'ngInject';
@@ -89,7 +117,7 @@ export default class SubmissionController {
   }
 
  submitProject(form) {
-   console.log(this.isRelated);
+    console.log(this.isRelated);
     this.costs = [];
     for(let index = 0; index < this.costsCount-1; index ++){
       this.costs.push({'Item': this.costsList.Item[index], 'UnitPrice': this.costsList.UnitPrice[index]*100, 'Quantity':this.costsList.Quantity[index]});
@@ -100,13 +128,14 @@ export default class SubmissionController {
     this.errors.projects = undefined;
    
     console.log(form);
+    
     if(this.appConfig.submission) {
       if(!this.user.PersonId) {
         // User needs to login
         this.Modal.openLogin();
       } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 4 || this.user.PersonTypeId === 5) {
 
-        if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid) {
+        if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid && this.budget<=this.fundLimit) {
           console.log('Entrou aqui')
           this.project.EstimatedPriceInCents = this.budget * 100;
           if(this.ConclusionDate) {
@@ -265,7 +294,19 @@ export default class SubmissionController {
       for(let index = 0; index < this.costsCount-2; index ++){
         this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
       }
-    }   
+    }
     return null;
+  }
+
+  otherOptions(){
+    this.project.Category = this.project.CategoryOpt=='Outros' ? this.otherCategory : this.project.CategoryOpt;
+    this.project.Theme = this.project.ThemeOpt=='Outros' ? this.otherTheme : this.project.ThemeOpt;
+  }
+
+  checkDoc(files, invalidFiles){
+    console.log(files, invalidFiles);
+    if(invalidFiles.length){
+      this.Modal.showAlert("Erro no arquivo", "O arquivo possui um formato inválido. O arquivo deve ser uma planilha com extensão '.xls' ou '.xlsx'.")
+    }
   }
 }
