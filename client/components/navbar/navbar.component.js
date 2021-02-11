@@ -54,7 +54,7 @@ export class NavbarComponent {
     },
     {
       // Position 3 will have the menu loaded below
-      title: 'PROJETOS APOIADOS',
+      title: 'PROJETOS',
       state: 'show'
     },
     {
@@ -171,10 +171,12 @@ export class NavbarComponent {
           }
         }
       }
+      /*
       dropdown.push({
         title: 'SUBMETER PROJETO',
         state: 'submission'
       })
+      */
       this.menu[3].dropdown = dropdown;
     });
 
@@ -259,6 +261,10 @@ export class NavbarComponent {
       .catch((err) => {
         console.log("err")
       });
+  }
+
+  openLink(link){
+    window.open(link,'_blank')
   }
 }
 
