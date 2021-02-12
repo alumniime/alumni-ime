@@ -464,114 +464,109 @@ export function upload(req, res) {
     project.setDataValue('Year', date.getFullYear());
     project.setDataValue('SubmissionDate', date.getTime());
 
-    if(true){
-      if(err) {
-        console.log(err);
-        res.json({errorCode: 1, errorDesc: err});
-        return;
-      }
-      project.save()
-        .then(newProject => {
-          var projectId = newProject.ProjectId;
-  
-          var images = [];
-          var costs = [];
-          var rewards = [];
-  
-          console.log(req.body.costs);
-          console.log(Array.isArray(req.body.costs.Item));
-  
-          if(Array.isArray(req.body.costs.Item)){
-            for(var costIndex in req.body.costs.Item) {
-              console.log(costIndex);
-              costs.push({
-                ProjectId: projectId,
-                CostDescription: req.body.costs.Item[costIndex],
-                Quantity: req.body.costs.Quantity[costIndex],
-                UnitPriceInCents: req.body.costs.UnitPrice[costIndex],
-                IsExcluded: 0
-              });
-            }
-          }
-          else{
+    
+    
+    if(err) {
+      console.log(err);
+      res.json({errorCode: 1, errorDesc: err});
+      return;
+    }
+    project.save()
+      .then(newProject => {
+        var projectId = newProject.ProjectId;
+
+        var images = [];
+        var costs = [];
+        var rewards = [];
+
+        if(Array.isArray(req.body.costs.Item)){
+          for(var costIndex in req.body.costs.Item) {
             costs.push({
               ProjectId: projectId,
-              CostDescription: req.body.costs.Item,
-              Quantity: req.body.costs.Quantity,
-              UnitPriceInCents: req.body.costs.UnitPrice,
+              CostDescription: req.body.costs.Item[costIndex],
+              Quantity: req.body.costs.Quantity[costIndex],
+              UnitPriceInCents: req.body.costs.UnitPrice[costIndex],
               IsExcluded: 0
             });
           }
-  
-          if(costs.length > 0) {
-            ProjectCost.bulkCreate(costs)
-              .then(() => {
-                res.json({errorCode: 0, errorDesc: null});
-              })
-              .catch(handleError(res));
-          }
-  
-          if(Array.isArray(req.body.rewards.ValueInCents)){
-            for(var rewardIndex in req.body.rewards.ValueInCents) {
-              console.log(costIndex);
-              rewards.push({
-                ProjectId: projectId,
-                RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
-                IsUpperBound: req.body.rewards.IsUpperBound[rewardIndex],
-                ValueInCents: req.body.rewards.ValueInCents[rewardIndex],
-                IsExcluded: 0
-              });
-            }
-          }
-          else{
+        }else{
+          costs.push({
+            ProjectId: projectId,
+            CostDescription: req.body.costs.Item,
+            Quantity: req.body.costs.Quantity,
+            UnitPriceInCents: req.body.costs.UnitPrice,
+            IsExcluded: 0
+          });
+        }
+
+        if(costs.length > 0) {
+          ProjectCost.bulkCreate(costs)
+            .then(() => {
+              console.log("COSTS")
+              res.json({errorCode: 0, errorDesc: null});
+            })
+            .catch(()=>{console.log("COSTS ERROR"); handleError(res)});
+        }
+
+        if(Array.isArray(req.body.rewards.ValueInCents)){
+          for(var rewardIndex in req.body.rewards.ValueInCents) {
+            console.log(costIndex);
             rewards.push({
               ProjectId: projectId,
-              RewardDescription: req.body.rewards.RewardDescription,
-              IsUpperBound: req.body.rewards.IsUpperBound,
-              ValueInCents: req.body.rewards.ValueInCents,
+              RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
+              IsUpperBound: req.body.rewards.IsUpperBound[rewardIndex],
+              ValueInCents: req.body.rewards.ValueInCents[rewardIndex],
               IsExcluded: 0
             });
           }
-          if(rewards.length > 0) {
-            ProjectReward.bulkCreate(rewards)
-              .then(() => {
-                console.log("3",res)
-                res.json({errorCode: 0, errorDesc: null});
-              })
-              .catch(//handleError(res));
-              (error)=> {console.log("4",error)})
-          }
-  
-          console.log("REQ-FILES:", req.files);
-          for(var fileIndex in req.files) {
-            let name = req.files[fileIndex].filename;
-            let format = name.split('.')[name.split('.').length - 1];
+        }
+        else{
+          rewards.push({
+            ProjectId: projectId,
+            RewardDescription: req.body.rewards.RewardDescription,
+            IsUpperBound: req.body.rewards.IsUpperBound,
+            ValueInCents: req.body.rewards.ValueInCents,
+            IsExcluded: 0
+          });
+        }
+        if(rewards.length > 0) {
+          ProjectReward.bulkCreate(rewards)
+            .then(() => {
+              console.log("REWARDS")
+              res.json({errorCode: 0, errorDesc: null});
+            })
+            .catch(//handleError(res));
+            (error)=> {console.log("4",error)})
+        }
 
-            if(format!='xlsx' && format!='xls'){
-              images.push({
-                ProjectId: projectId,
-                Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
-                Filename: req.files[fileIndex].filename,
-                Type: 'project',
-                Timestamp: req.files[fileIndex].timestamp,
-                OrderIndex: fileIndex,
-                IsExcluded: 0
-              });
-            }
-          }
-  
-          if(images.length > 0) {
-            Image.bulkCreate(images)
-              .then(() => {
-                res.json({errorCode: 0, errorDesc: null});
-              })
-              .catch(handleError(res));
-          }
-        })
-        .catch(handleError(res));
-    }
+        console.log("REQ-FILES:", req.files);
+        for(var fileIndex in req.files) {
+          let name = req.files[fileIndex].filename;
+          let format = name.split('.')[name.split('.').length - 1];
 
-    res.json({errorCode: 0, errorDesc: null});
+          if(format!='xlsx' && format!='xls'){
+            images.push({
+              ProjectId: projectId,
+              Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
+              Filename: req.files[fileIndex].filename,
+              Type: 'project',
+              Timestamp: req.files[fileIndex].timestamp,
+              OrderIndex: fileIndex,
+              IsExcluded: 0
+            });
+          }
+        }
+
+        if(images.length > 0) {
+          Image.bulkCreate(images)
+            .then(() => {
+              console.log("IMAGES")
+              res.json({errorCode: 0, errorDesc: null});
+            })
+            .catch(()=>{console.log('IMAGES ERROR'); handleError(res)});
+        }
+      })
+      .catch(handleError(res)); 
   });
 }
 
