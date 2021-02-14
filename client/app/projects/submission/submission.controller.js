@@ -79,6 +79,7 @@ export default class SubmissionController {
     var loading = this.Modal.showLoading();
     this.getCurrentUser()
       .then(user => {
+        console.log(user);
         this.user = user;
         loading.close();
         if(this.appConfig.submission) {
@@ -124,8 +125,7 @@ export default class SubmissionController {
         this.Modal.openLogin();
       } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 4 || this.user.PersonTypeId === 5) {
 
-        if((form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid && this.budget<=this.fundLimit) || true) {
-          console.log('Entrou aqui')
+        if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid && this.budget<=this.fundLimit) {
           this.project.EstimatedPriceInCents = this.budget * 100;
           if(this.ConclusionDate) {
             var date = this.ConclusionDate.split('/');
@@ -165,18 +165,33 @@ export default class SubmissionController {
             }
           })
             .then(function success(result) {
-              loading.close();
-              console.log(result);
               if(result.data.errorCode === 0) {
-                this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
-                //this_.$state.go('profile', {view: 'submitted_projects'});
-                this_.Project.loadMyProjects(true);
-                this_.submitted = false;
-                this_.uploadImages = [];
-                this_.uploadDoc = null;
-                this_.ConclusionDate = '';
-                this_.isRelated = false;
+                this_.$http.post('/api/users/project_submitted', {
+                  Name: this_.user.name,
+                  Email: this_.user.email,
+                  ProjectName: this_.project.ProjectName
+                })
+                  .then(res => {
+                    afterSteps();
+                  })
+                  .catch(err => {
+                    afterSteps();
+                    this_.Modal.showAlert('Erro', 'Ocorreu um erro ao enviar o email de confirmação. Mas não se preocupe, seu projeto foi recebido.');
+                  });
+
+                function afterSteps(){
+                  loading.close();
+                  this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
+                  //this_.$state.go('profile', {view: 'submitted_projects'});
+                  this_.Project.loadMyProjects(true);
+                  this_.submitted = false;
+                  this_.uploadImages = [];
+                  this_.uploadDoc = null;
+                  this_.ConclusionDate = '';
+                  this_.isRelated = false;
+                }
               } else {
+                loading.close();
                 this_.Modal.showAlert('Erro na submissão', 'Por favor, tente novamente.');
               }
             }, function error(err) {
