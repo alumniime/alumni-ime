@@ -19,6 +19,7 @@ export default class SubmissionController {
     "Desenvolvimento da formação acadêmica",
     "Ciência e novas tecnologias",
     "Extracurriculares",
+    "Desenvolvimento de produtos",
     "Outros"
   ];
   themes = [
