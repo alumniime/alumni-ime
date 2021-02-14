@@ -1572,3 +1572,43 @@ export function sendSupportProjectEmail(req, res, next) {
       .json({message: err});
   });
 }
+
+export function sendProjectSubmittedEmail(req, res, next) {
+  var userName = req.body.Name;
+  var userEmail = req.body.Email;
+  var projectName = req.body.ProjectName;
+
+  async.waterfall([
+    function (user, token, done) {
+      var data = {
+        to: {
+          name: userName,
+          address: userEmail
+        },
+        from: {
+          name: config.email.name,
+          address: config.email.user
+        },
+        template: 'project-submitted-email',
+        subject: `Projeto '${projectName}' recebido!`,
+        context: {
+          name: userName,
+          email: userEmail,
+          project: projectName
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions'
+          });
+        } else {
+          return done(err);
+        }
+      });
+    }
+  ], function (err) {
+    return res.status(422)
+      .json({message: err});
+  });
+}
