@@ -79,7 +79,6 @@ export default class SubmissionController {
     var loading = this.Modal.showLoading();
     this.getCurrentUser()
       .then(user => {
-        console.log(user);
         this.user = user;
         loading.close();
         if(this.appConfig.submission) {
@@ -182,7 +181,7 @@ export default class SubmissionController {
                 function afterSteps(){
                   loading.close();
                   this_.Modal.showAlert('Submissão concluída', 'Seu projeto foi submetido com sucesso para a avaliação da Alumni IME.');
-                  //this_.$state.go('profile', {view: 'submitted_projects'});
+                  this_.$state.go('profile', {view: 'submitted_projects'});
                   this_.Project.loadMyProjects(true);
                   this_.submitted = false;
                   this_.uploadImages = [];
