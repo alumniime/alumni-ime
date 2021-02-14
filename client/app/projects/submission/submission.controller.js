@@ -313,7 +313,6 @@ export default class SubmissionController {
   }
 
   checkDoc(files, invalidFiles){
-    console.log(files, invalidFiles);
     if(invalidFiles.length){
       this.Modal.showAlert("Erro no arquivo", "O arquivo possui um formato inválido. O arquivo deve ser uma planilha com extensão '.xls' ou '.xlsx'.")
     }

@@ -478,8 +478,8 @@
                   <div class="col">
                     <p class="upload-text">
                       <a class="btn btn-link text-info upload-link" name="files"
-                         ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
-                         ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
+                         ngf-select ng-click="vm.updateImages(null)" ng-change="vm.updateImages(vm.uploadImages)" 
+                         ng-model="vm.uploadImages" ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
                          ngf-resize="{quality: vm.imageQuality}"
                          ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
                         Faça upload
