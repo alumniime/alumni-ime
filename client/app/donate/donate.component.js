@@ -17,6 +17,7 @@ export class DonateController {
   plans = [];
   selectedOption = null;
   customValue = 0;
+  availableProjects = 0;
 
   constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Plan, Checkout, appConfig) {
     'ngInject';
@@ -57,6 +58,15 @@ export class DonateController {
           for (var project of result) {
             if (project.ProjectId === this.donation.ProjectId) {
               this.ProjectName = project.ProjectName;
+            }
+            if(this.validDate(project.CollectionLimitDate)){
+              this.availableProjects++;
+            }
+          }
+        }else{
+          for (var project of result) {
+            if(this.validDate(project.CollectionLimitDate)){
+              this.availableProjects++;
             }
           }
         }
@@ -155,6 +165,12 @@ export class DonateController {
       this.Modal.openPreCheckout(this.donation, this.selectedOption);
     }
 
+  }
+
+  selectProject(){
+    if(this.availableProjects==0){
+      this.Modal.showAlert('Nenhum Projeto Disponível', 'Em breve, lançamento do novo edital de apoio a projetos e divulgação dos selecionados.');
+    }
   }
 
 }

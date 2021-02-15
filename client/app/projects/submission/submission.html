@@ -9,7 +9,7 @@
             </h1>
           </div>
           <div class="col-auto">
-            <a class="btn btn-outline-dark pull-right" href="/assets/documents/2020.2_Edital_Projetos.pdf" target="_blank">
+            <a class="btn btn-outline-dark pull-right" href="/assets/documents/2021.1_Edital_Projetos.pdf" target="_blank">
               BAIXAR EDITAL
             </a>
           </div>
@@ -21,7 +21,12 @@
             <div class="col-12 col-md-6">
 
               <div class="form-group">
-                <label for="ProjectName">TÍTULO DO PROJETO*</label>
+                <label for="ProjectName">
+                  NOME DO PROJETO/INICIATIVA*
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Objetivo da proposta. Deve ser suficientemente claro, de forma que não haja dúvidas quanto ao que o projeto propõe." 
+                  ></i>
+                </label>
                 <input type="text" id="ProjectName" name="ProjectName" class="form-control" required
                        ng-model="vm.project.ProjectName">
                 <p class="help-block" ng-if="form.ProjectName.$error.required && vm.submitted">
@@ -30,7 +35,12 @@
               </div>
 
               <div class="form-group">
-                <label for="SEId">SEÇÃO DE ENSINO*</label>
+                <label for="SEId">
+                  SEÇÃO DE ENSINO*
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Qual seção da engenharia sua proposta se enquadra." 
+                  ></i>
+                </label>
                 <select class="form-control" id="SEId" name="SEId" required ng-model="vm.project.ProjectSEId">
                   <option></option>
                   <option ng-repeat="se in vm.sesList" ng-value="se.SEId">{{se.Description}}
@@ -42,7 +52,12 @@
               </div>
 
               <div class="form-group">
-                <label for="TeamName">NOME DA INICIATIVA OU EQUIPE*</label>
+                <label for="TeamName">
+                  NOME DA INICIATIVA OU EQUIPE*
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Nome da equipe (Ex.: MatIME, RobôIME)" 
+                  ></i>
+                </label>
                 <input type="text" id="TeamName" name="TeamName" class="form-control" required
                        ng-model="vm.project.TeamName">
                 <p class="help-block" ng-if="form.TeamName.$error.required && vm.submitted">
@@ -51,7 +66,12 @@
               </div>
 
               <div class="form-group">
-                <label for="ProfessorId">PROFESSOR RESPONSÁVEL*</label>
+                <label for="ProfessorId">
+                  PROFESSOR RESPONSÁVEL*
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Nome do professor envolvido no projeto." 
+                  ></i>
+                </label>
                 <select class="form-control" id="ProfessorId" name="ProfessorId" required
                         ng-model="vm.project.ProfessorId">
                   <option></option>
@@ -65,7 +85,12 @@
               </div>
 
               <div class="form-group">
-                <label for="LeaderId">LÍDER DA EQUIPE*</label>
+                <label for="LeaderId">
+                  LÍDER DA EQUIPE*
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Escrever o nome do aluno, ex-aluno ou professor que será o líder do projeto (Responsável pelas atividades de planejamento e acompanhamento do projeto, direcionamento da equipe, manutenção do cronograma e divulgação periódica dos resultados). " 
+                  ></i>
+                </label>
                 <select class="form-control" id="LeaderId" name="LeaderId" required
                         ng-model="vm.project.LeaderId">
                   <option></option>
@@ -84,6 +109,21 @@
                 </p>
               </div>
 
+              <div class="form-group">
+                <label for="TeamMembers">
+                  EQUIPE*
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Escrever o nome de todos os integrantes da equipe." 
+                  ></i>
+                </label>
+                <input type="text" id="TeamMembers" name="TeamMembers" class="form-control" required
+                       ng-model="vm.project.TeamMembers" placeholder="Aluno 1, Aluno 2, Aluno 3"
+                       onkeyup="this.value = this.value.replace(/[^a-zA-ZçáàãâéèêẽíìĩîóòôõúùũüûÇÀÁÂÃÈÉÊẼÌÍÎĨÒÓÔÕÙÚÛŨ ,]/, '');">
+                <p class="help-block" ng-show="form.TeamMembers.$error.required && vm.submitted">
+                  Insira o nome dos integrantes da equipe do projeto.
+                </p>
+              </div>
+
             </div>
 
             <div class="col-12 col-md-6">
@@ -91,37 +131,80 @@
               <div class="form-group">
 
                 <div class="form-group">
-                  <label for="TeamMembers">EQUIPE*</label>
-                  <input type="text" id="TeamMembers" name="TeamMembers" class="form-control" required
-                         ng-model="vm.project.TeamMembers" placeholder="Aluno 1, Aluno 2, Aluno 3"
-                         onkeyup="this.value = this.value.replace(/[^a-zA-ZçáàãâéèêẽíìĩîóòôõúùũüûÇÀÁÂÃÈÉÊẼÌÍÎĨÒÓÔÕÙÚÛŨ ,]/, '');">
-                  <p class="help-block" ng-show="form.TeamMembers.$error.required && vm.submitted">
-                    Insira o nome dos integrantes da equipe do projeto.
+                  <label for="Category">
+                    CATEGORIA*
+                    <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                      uib-tooltip="Categoria na qual sua proposta se enquadra." 
+                    ></i>
+                  </label>
+                  <select class="form-control" id="Category" name="Category" required ng-model="vm.project.CategoryOpt" ng-change="vm.otherOptions()">
+                    <option></option>
+                    <option ng-repeat="category in vm.categories" ng-value="category">{{category}}
+                    </option>
+                  </select>
+                  <input type="text" id="otherCategory" name="otherCategory" class="form-control" required
+                       ng-model="vm.otherCategory" ng-if="vm.project.CategoryOpt=='Outros'" style="margin-top: 1rem;" ng-change="vm.otherOptions()">
+                  <p class="help-block" ng-if="(form.Category.$error.required || form.otherCategory.$error.required) && vm.submitted">
+                    Insira a categoria do projeto.
                   </p>
                 </div>
 
-                <!--<div class="form-group">
-                  <label for="EstimatedPriceInCents">ORÇAMENTO*</label>
-                  <input type="text" id="EstimatedPriceInCents" name="EstimatedPriceInCents" class="form-control"
-                         required
-                         ng-model="vm.project.EstimatedPriceInCents" money-mask money-mask-prepend="R$">
-                  <p class="help-block" ng-if="form.EstimatedPriceInCents.$error.required && vm.submitted">
-                    Insira o valor estimado para o projeto.
+                <div class="form-group">
+                  <label for="Theme">
+                    LINHA TEMÁTICA*
+                    <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                      uib-tooltip="Linha temática na qual sua proposta se enquadra." 
+                    ></i>
+                  </label>
+                  <select class="form-control" id="Theme" name="Theme" required ng-model="vm.project.ThemeOpt" ng-change="vm.otherOptions()">
+                    <option></option>
+                    <option ng-repeat="theme in vm.themes" ng-value="theme">{{theme}}
+                    </option>
+                  </select>
+                  <input type="text" id="otherTheme" name="otherTheme" class="form-control" required
+                       ng-model="vm.otherTheme" ng-if="vm.project.ThemeOpt=='Outros'" style="margin-top: 1rem;" ng-change="vm.otherOptions()">
+                  <p class="help-block" ng-if="(form.Theme.$error.required || form.otherTheme.$error.required) && vm.submitted">
+                    Insira a categoria do projeto.
                   </p>
-                </div>-->
+                </div>
 
                 <div class="form-group">
-                  <label for="StudentsNumber">QUANTIDADE DE ALUNOS ENVOLVIDOS*</label>
-                  <input type="text" id="StudentsNumber" name="StudentsNumber" class="form-control" required
+                  <label for="StudentsNoDirectly">
+                    QUANTIDADE DE ALUNOS IMPACTADOS DIRETAMENTE*
+                    <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                      uib-tooltip="Insira o número de alunos que serão impactados de forma direta pelo projeto." 
+                    ></i>
+                  </label>
+                  <input type="text" id="StudentsNoDirectly" name="StudentsNoDirectly" class="form-control" required
                          onkeyup="this.value = this.value.replace(/[^0-9]/, '');"
-                         ng-model="vm.project.StudentsNumber" placeholder="em números">
-                  <p class="help-block" ng-if="form.StudentsNumber.$error.required && vm.submitted">
-                    Insira a quantidade de alunos envolvidos no projeto.
+                         ng-model="vm.project.StudentsNoDirectly" placeholder="Em números">
+                  <p class="help-block" ng-if="form.StudentsNoDirectly.$error.required && vm.submitted">
+                    Insira a quantidade de alunos impactados diretamente no projeto.
                   </p>
                 </div>
 
                 <div class="form-group">
-                  <label for="ConclusionDate">TÉRMINO ESTIMADO*</label>
+                  <label for="StudentsNoIndirectly">
+                    QUANTIDADE DE ALUNOS IMPACTADOS INDIRETAMENTE*
+                    <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                      uib-tooltip="Insira o número de alunos que serão impactados de forma indireta pelo projeto." 
+                    ></i>
+                  </label>
+                  <input type="text" id="StudentsNoIndirectly" name="StudentsNoIndirectly" class="form-control" required
+                         onkeyup="this.value = this.value.replace(/[^0-9]/, '');"
+                         ng-model="vm.project.StudentsNoIndirectly" placeholder="Em números">
+                  <p class="help-block" ng-if="form.StudentsNoIndirectly.$error.required && vm.submitted">
+                    Insira a quantidade de alunos impactados indiretamente no projeto.
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label for="ConclusionDate">
+                    TÉRMINO ESTIMADO*
+                    <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Data de término das atividades do projeto." 
+                  ></i>
+                  </label>
                   <input type="text" id="ConclusionDate" name="ConclusionDate"
                          class="form-control" placeholder="dd/mm/yyyy" mask="39/19/2999"
                          ng-model="vm.ConclusionDate" required
@@ -131,16 +214,17 @@
                   </p>
                 </div>
 
-                <div class="form-group">
-                  <label for="related">SELECIONE SE SEU PROJETO TEM RELAÇÃO COM:</label>
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" name="related" class="custom-control-input" id="related" ng-model="vm.isRelated">
-                    <label class="custom-control-label" for="related">
-                      COVID-19
-                    </label>
+                <!--
+                  <div class="form-group">
+                    <label for="related">SELECIONE SE SEU PROJETO TEM RELAÇÃO COM:</label>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="related" class="custom-control-input" id="related" ng-model="vm.isRelated">
+                      <label class="custom-control-label" for="related">
+                        COVID-19
+                      </label>
+                    </div>
                   </div>
-                </div>
-
+                -->
               </div>
 
             </div>
@@ -150,9 +234,16 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label for="Abstract">RESUMO DO PROJETO* ({{ 1200 - form.Abstract.$viewValue.length }})</label>
+                <label for="Abstract">
+                  RESUMO DO PROJETO/INICIATIVA* ({{ 250 - form.Abstract.$viewValue.length }})
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Visão geral do projeto. Se o projeto for aprovado, esse resumo será publicado na página do projeto no site da Alumni IME 
+                    e será o texto referência para que os possíveis apoiadores entendam a proposta e se convençam de que ela merece apoio. Por isso, destaque os pontos
+                    mais importantes do projeto (propósito, objetivos, impactos)." 
+                  ></i>
+                </label>
                 <textarea type="text" id="Abstract" name="Abstract" class="form-control" rows="6"
-                          ng-model="vm.project.Abstract" required ng-maxlength="1200"></textarea>
+                          ng-model="vm.project.Abstract" required ng-maxlength="250"></textarea>
                 <p class="help-block" ng-show="form.Abstract.$error.required && vm.submitted">
                   Insira um resumo do projeto.
                 </p>
@@ -162,10 +253,39 @@
               </div>
 
               <div class="form-group">
-                <label for="Goals">METAS/RESULTADOS ESPERADOS PARA O PROJETO* ({{ 1200 - form.Goals.$viewValue.length
-                  }})</label>
-                <textarea type="text" id="Goals" name="Goals" class="form-control" rows="6"
-                          ng-model="vm.project.Goals" required ng-maxlength="1200"></textarea>
+                <label for="Description">
+                  DESCRIÇÃO DO PROJETO/INICIATIVA* ({{ 1200 - form.Goals.$viewValue.length}})
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Visão geral do projeto de forma mais detalhada (Ex.: Introdução, justificativa, 
+                    relevância do projeto, impacto que se pretende gerar na formação dos alunos e/ou na sociedade,
+                    aplicabilidade prática, nível de inovação, etc)" 
+                  ></i>
+                </label>
+                <textarea
+                  type="text" id="Description" name="Description" class="form-control" rows="6"
+                  ng-model="vm.project.Description" required ng-maxlength="1200"
+                >
+                </textarea>
+                <p class="help-block" ng-show="form.Description.$error.required && vm.submitted">
+                  Insira a descrição do projeto.
+                </p>
+                <p class="help-block" ng-show="form.Description.$error.maxlength">
+                  Texto muito longo.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="Goals">
+                  METAS/RESULTADOS ESPERADOS PARA O PROJETO* ({{ 1200 - form.Goals.$viewValue.length}})
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="Informar todos os resultados esperados para o projeto, bem como objetivo geral e objetivos específicos." 
+                  ></i>
+                </label>
+                <textarea
+                  type="text" id="Goals" name="Goals" class="form-control" rows="6"
+                  ng-model="vm.project.Goals" required ng-maxlength="1200"
+                >
+                </textarea>
                 <p class="help-block" ng-show="form.Goals.$error.required && vm.submitted">
                   Insira as metas/resultados esperados.
                 </p>
@@ -173,10 +293,15 @@
                   Texto muito longo.
                 </p>
               </div>
-
+              
               <div class="form-group">
-                <label for="Benefits">BENEFÍCIOS CONCRETOS PARA O IME* E/OU PARA A SOCIEDADE ({{ 1200 - form.Benefits.$viewValue.length
-                  }})</label>
+                <label for="Benefits">
+                  BENEFÍCIOS CONCRETOS PARA O IME* E/OU PARA A SOCIEDADE ({{ 1200 - form.Benefits.$viewValue.length}})
+                  <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
+                    uib-tooltip="A equipe deverá informar os benefícios que serão gerados com a realização do projeto/iniciativa. Os benefícios devem envolver 
+                    os impactos positivos gerados para a equipe do projeto, comunidade IMEana e/ou sociedade." 
+                  ></i>
+                </label>
                 <textarea type="text" id="Benefits" name="Benefits" class="form-control" rows="6"
                           ng-model="vm.project.Benefits" required ng-maxlength="1200"></textarea>
                 <p class="help-block" ng-show="form.Benefits.$error.required && vm.submitted">
@@ -186,21 +311,8 @@
                   Texto muito longo.
                 </p>
               </div>
-
-              <div class="form-group">
-                <label for="Schedule">CRONOGRAMA FÍSICO-FINANCEIRO* ({{ 1200 - form.Schedule.$viewValue.length
-                  }})</label>
-                <textarea type="text" id="Schedule" name="Schedule" class="form-control" rows="6"
-                          ng-model="vm.project.Schedule" required ng-maxlength="1200"></textarea>
-                <p class="help-block" ng-show="form.Schedule.$error.required && vm.submitted">
-                  Insira um cronograma em detalhes com o planejamento físico-financeiro do projeto.
-                </p>
-                <p class="help-block" ng-show="form.Schedule.$error.maxlength">
-                  Texto muito longo.
-                </p>
-              </div>
-
-
+            
+              <!--
               <div class="row p-0">
                 <div class="col-12 col-md-5">
                   <div class="form-group">
@@ -248,7 +360,7 @@
               </div>
               
               </div>
-
+              -->
 
               <div class="row">
                 <div class="col-12 col-md-6">
@@ -301,14 +413,56 @@
               <div class="row">
                 <div class="col-12 com-md-3">
                   <label>ORÇAMENTO FINAL:{{vm.setBudget()}} {{vm.budget | currency}}</label>
+                  <p class="help-block" ng-show="vm.budget>vm.fundLimit">
+                    O valor do projeto deve ser inferior à {{vm.fundLimit | currency}}.
+                  </p>
                 </div>
               </div>
 
+              <br>
+              <label>CRONOGRAMA FÍSICO-FINANCEIRO*</label>
 
+              <div class="form-group drop-images" ngf-drop="vm.checkDoc($files, $invalidFiles)" ng-model="vm.uploadDoc" 
+                ngf-select-disabled="false" ngf-drag-over-class="'drag-over'" ngf-max-size="vm.maxSize"
+                accept=".xlsx, .xls" ngf-pattern="'.xlsx, .xls'"
+              >
+
+                <div class="row">
+                  <div class="col-auto icon-container">
+                    <img src="assets/images/docs.svg" alt="Upload Sheets" class="icon-images" ng-if="vm.uploadDoc==null">
+                    <img src="assets/images/docs-ok.svg" alt="Upload Sheets" class="icon-images" ng-if="vm.uploadDoc!=null">
+                  </div>
+                  <div class="col col-lg-8">
+                    <p class="upload-text">
+                      <a class="btn btn-link text-info upload-link" name="docFile"
+                        ngf-select="vm.checkDoc($files, $invalidFiles)" ng-model="vm.uploadDoc" ngf-max-size="vm.maxSize"
+                        accept=".xlsx, .xls" ngf-pattern="'.xlsx, .xls'" 
+                      >
+                        Faça upload
+                      </a> do cronograma físico-financeiro referente ao projeto.
+                      <br>
+                      <span class="upload-legend">Solte a planilha aqui (Formatos aceitos: '.xls' e '.xlsx').<br>Tamanho máximo: {{vm.maxSize}}</span>
+                    </p>
+                  </div>
+                  <a href="/assets/documents/ANEXO_IV-Cronograma_Físico_Financeiro.xlsx" target="_blank" id="model" class="col-auto icon-container">
+                    <img src="assets/images/mockup.svg" alt="Upload Sheets" class="icon-images" tooltip-placement="bottom"
+                      uib-tooltip="Clique para fazer o download do documento modelo (Anexo IV)." 
+                    >
+                    <p>Documento<br>Modelo</p>
+                  </a>
+                </div>
+
+                <p class="help-block" ng-show="form.docFile.$error.maxSize || form.docFile.$error.pattern">
+                  O arquivo ultrapassou o tamanho máximo. Tente novamente.
+                </p>
+
+                <p class="help-block" ng-show="vm.uploadDoc == null && vm.submitted">
+                  Insira o cronograma físico-financeiro do projeto.
+                </p>
+              </div>
 
               <br>
               <label>INSERIR FOTOS*</label>
-              <br>
 
               <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
                    ng-change="vm.updateImages(vm.uploadImages)"
@@ -318,14 +472,14 @@
                    accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
 
                 <div class="row">
-                  <div class="col-auto">
+                  <div class="col-auto icon-container">
                     <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
                   </div>
                   <div class="col">
                     <p class="upload-text">
                       <a class="btn btn-link text-info upload-link" name="files"
-                         ngf-select ng-change="vm.updateImages(vm.uploadImages)" ng-model="vm.uploadImages"
-                         ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
+                         ngf-select ng-click="vm.updateImages(null)" ng-change="vm.updateImages(vm.uploadImages)" 
+                         ng-model="vm.uploadImages" ngf-keep="true" ngf-multiple="true" ngf-allow-dir="true" accept="image/*"
                          ngf-resize="{quality: vm.imageQuality}"
                          ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
                         Faça upload
@@ -393,7 +547,6 @@
             </div>
           </div>
         </form>
-
       </div>
     </div>
   </div>

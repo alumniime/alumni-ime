@@ -1292,26 +1292,28 @@ export function authCallback(req, res) {
 }
 
 /**
- * Send email for contact in footer
+ * Send email for contact in contact page
  */
 export function sendContactEmail(req, res, next) {
   var contactName = req.body.Name;
   var contactEmail = req.body.Email;
+  var contactSubject = req.body.Subject;
   var contactMessage = req.body.Message;
+  var sendTo = req.body.SendTo;
 
   async.waterfall([
     function (user, token, done) {
       var data = {
         to: {
           name: 'Contact Alumni Page',
-          address: config.email.user
+          address: sendTo || config.email.user
         },
         from: {
           name: config.email.name,
           address: config.email.user
         },
         template: 'contact-email',
-        subject: `Contato pelo site de ${contactName}`,
+        subject: `${contactSubject} - ${contactName}`,
         context: {
           name: contactName,
           email: contactEmail,
@@ -1553,6 +1555,46 @@ export function sendSupportProjectEmail(req, res, next) {
           message: userText,
           phone: userPhone,
           project: project
+        }
+      };
+      transporter.sendMail(data, function (err) {
+        if(!err) {
+          return res.json({
+            message: 'Success! Kindly check your email for further instructions'
+          });
+        } else {
+          return done(err);
+        }
+      });
+    }
+  ], function (err) {
+    return res.status(422)
+      .json({message: err});
+  });
+}
+
+export function sendProjectSubmittedEmail(req, res, next) {
+  var userName = req.body.Name;
+  var userEmail = req.body.Email;
+  var projectName = req.body.ProjectName;
+
+  async.waterfall([
+    function (user, token, done) {
+      var data = {
+        to: {
+          name: userName,
+          address: userEmail
+        },
+        from: {
+          name: config.email.name,
+          address: config.email.user
+        },
+        template: 'project-submitted-email',
+        subject: `Projeto '${projectName}' recebido!`,
+        context: {
+          name: userName,
+          email: userEmail,
+          project: projectName
         }
       };
       transporter.sendMail(data, function (err) {

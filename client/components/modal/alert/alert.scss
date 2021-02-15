@@ -1,3 +1,21 @@
 modal-alert {
+    .description{
+        white-space: pre-line;
+    }
 
+    .modal-header{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-title{
+        width: 100%;
+    }
+
+    .close-button{
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+    }
 }

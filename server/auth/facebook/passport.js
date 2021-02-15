@@ -12,10 +12,6 @@ export function setup(User, config) {
         profileFields: ['id', 'displayName', 'emails'],
         enableProof: true
     }, function(accessToken, refreshToken, profile, cb) {
-        console.log('\n=>accessToken', JSON.stringify(accessToken));
-        console.log('\n=>refreshToken', JSON.stringify(refreshToken));
-        console.log('\n=>profile', JSON.stringify(profile));
-        console.log('\n=>cb', JSON.stringify(cb));
         var email = profile.emails[0].value.toLowerCase();
 
         async.waterfall([
@@ -89,8 +85,8 @@ export function setup(User, config) {
             }
         ], function (err, result) {
             if(err) {
-                console.log('facebook/passport =>\n', err);
-                return cb(err);
+                console.log('facebook/passport =>\n');
+                return cb(err, null);
             } else {
                 return cb(null, result);
             }

@@ -435,7 +435,7 @@ export function ModalService($uibModal, $q) {
     },
 
     showAlert(title, message) {
-      $uibModal.open({
+      var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalAlert',
         size: 'dialog-centered',
@@ -444,6 +444,11 @@ export function ModalService($uibModal, $q) {
             return { title, message };
           }
         }
+      });
+      modalInstance.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
       });
     },
 

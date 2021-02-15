@@ -21,7 +21,7 @@ $danger: #E84E0F !important;
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
-} 
+}
 
 // Component styles are injected through gulp
 /* inject:scss */
@@ -44,6 +44,7 @@ $danger: #E84E0F !important;
 @import 'communication/news/show/news';
 @import 'communication/news/view/view';
 @import 'communication/newsletters/newsletters';
+@import 'contact/contact';
 @import 'donate/bank/bank';
 @import 'donate/donate';
 @import 'graduates/graduates';

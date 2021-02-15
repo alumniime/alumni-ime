@@ -1,0 +1,101 @@
+<div class="container contactView">
+  <div class="row">
+    <div class="col-12 col-md-6 content">
+      <div class="contactText">
+        <h2>Fale Conosco</h2>
+        <p>
+          Dúvidas, solicitações, sugestões? Entre em contato conosco através do formulário, 
+          envie um e-mail para <a href="mailto:contato@alumniime.com.br">contato@alumniime.com.br</a> ou envie uma mensagem pelo wapp 
+          clicando no link abaixo. Nossa equipe terá o IMEnso prazer de atender todos os contatos recebidos.
+        </p>
+      </div>
+      <div class="row socialContainer">
+        <a
+          class="social"
+          target="_blank"
+          ng-click="vm.copyToClipboard()"
+          href="mailto:contato@alumniime.com.br"
+          uib-tooltip="{{vm.mailTxt}}" tooltip-placement="top"
+          ng-mouseover="vm.formatMailTxt()"
+        >
+          <i class="fa fa-envelope-o" aria-hidden="true"></i>
+        </a>
+        <a
+          class="social"
+          href="https://wa.me/message/DKS5ODIR26L2D1"
+          target="_blank"
+        >
+          <i class="fa fa-whatsapp" aria-hidden="true"></i>
+        </a>
+      </div>
+      
+    </div>
+    <div class="col-12 col-md-6 formContainer">
+      <form
+        class="form"
+        name="form"
+        ng-submit="vm.sendContactEmail(form)"
+        novalidate=""
+      >
+        <input
+          type="text"
+          name="name"
+          required
+          ng-model="vm.name"
+          placeholder="Nome"
+        />
+        <p
+          class="help-block mb-2"
+          ng-if="form.name.$error.required && vm.submitted"
+        >
+          Insira o seu nome, por favor.
+        </p>
+        <input
+          type="email"
+          name="email"
+          required
+          ng-model="vm.email"
+          placeholder="Email"
+        />
+        <p
+          class="help-block mb-2"
+          ng-if="(form.email.$error.email || form.email.$error.required) && vm.submitted"
+        >
+          Insira o seu email, por favor.
+        </p>
+        <select 
+            name="subject"
+            ng-model="vm.subject" 
+            required
+            ng-change="vm.changeSelect()"
+            ng-class="vm.selectClass"
+        >
+            <option class="placeholder" value="" disabled selected hidden>Assunto</option>
+            <option ng-repeat="subject in vm.subjects">{{subject}}</option>
+        </select>
+        <p
+          class="help-block mb-2"
+          ng-if="(form.subject.$error.subject || form.subject.$error.required) && vm.submitted"
+        >
+          Escolha o assunto, por favor.
+        </p>
+        <textarea
+          name="message"
+          rows="5"
+          required
+          ng-model="vm.message"
+          placeholder="Mensagem"
+        ></textarea>
+        <p
+          class="help-block"
+          ng-if="form.message.$error.required && vm.submitted"
+        >
+          Insira a sua mensagem, por favor.
+        </p>
+        <button href="#" type="submit" class="btn">
+          ENVIAR
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

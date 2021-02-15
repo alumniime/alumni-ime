@@ -200,10 +200,15 @@
 
   <div class="card-columns" ng-if="vm.state.Type=='corporativo'">
     
-    <a ng-repeat="donator in vm.filteredList" href="{{donator.ExternalURL}}">
+    <a ng-repeat="donator in vm.filteredList" ng-if="$index<3" href="{{donator.ExternalURL}}">
       <img class="card hvr-shadow hvr-grow" src="{{donator.ImgPath}}">
     </a>
 
+    <img ng-if="vm.filteredList.length==4" class="d-none d-lg-block" style="height: 1px;">
+
+    <a ng-repeat="donator in vm.filteredList" ng-if="$index>=3" href="{{donator.ExternalURL}}">
+      <img class="card hvr-shadow hvr-grow" src="{{donator.ImgPath}}">
+    </a>
   </div>
 
 </div>

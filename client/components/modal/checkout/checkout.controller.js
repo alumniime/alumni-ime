@@ -4,6 +4,8 @@ import { runInThisContext } from "vm";
 
 export default class ModalCheckoutController {
   submitted = false;
+  //Disabled privacy options 
+  /*
   options = [{
     Description: 'Exibir meu nome e o valor da contribuição na galeria de apoiadores.',
     ShowName: true,
@@ -22,6 +24,7 @@ export default class ModalCheckoutController {
     ShowAmount: false
   }];
   selectedOption = 0;
+  */
   url = '';
   data = {};
   result = null;
@@ -80,7 +83,7 @@ export default class ModalCheckoutController {
         }else{
           this.Modal.showAlert('Erro no servidor', 'Por favor, tente novamente.');
         }
-        this.cancelModal();      
+        //this.cancelModal();      
       });
 
   }
@@ -99,8 +102,10 @@ export default class ModalCheckoutController {
           if(this.result.SubscriptionId) {
             this.$http.post('/api/subscriptions/setting', {
               SubscriptionId: this.result.SubscriptionId,
-              ShowName: this.options[this.selectedOption].ShowName,
-              ShowAmount: this.options[this.selectedOption].ShowAmount,
+              //ShowName: this.options[this.selectedOption].ShowName,
+              //ShowAmount: this.options[this.selectedOption].ShowAmount,
+              ShowName: true,
+              ShowAmount: true,
               OptionToKnowThePageId: this.selectedOptToKnow
             })
               .catch(err => console.log(err));
@@ -110,8 +115,10 @@ export default class ModalCheckoutController {
             console.log("trying");
             this.$http.post('/api/donations/setting', {
               DonationId: this.result.DonationId,
-              ShowName: this.options[this.selectedOption].ShowName,
-              ShowAmount: this.options[this.selectedOption].ShowAmount,
+              //ShowName: this.options[this.selectedOption].ShowName,
+              //ShowAmount: this.options[this.selectedOption].ShowAmount,
+              ShowName: true,
+              ShowAmount: true,
               OptionToKnowThePageId: this.selectedOptToKnow
             })
               .then(response => {
