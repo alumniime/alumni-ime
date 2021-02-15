@@ -35,4 +35,6 @@ router.post('/association_refuse', controller.sendAssociationRefuseEmail);
 router.post('/subscription_modification', controller.sendModificationEmail);
 router.post('/support_project', controller.sendSupportProjectEmail);
 
+router.post('/project_submitted', controller.sendProjectSubmittedEmail);
+
 module.exports = router;

@@ -14,6 +14,7 @@ import jsonpatch from 'fast-json-patch';
 import {Project, Image, User, Se, Donation, ProjectCost, ProjectReward, sequelize} from '../../sqldb';
 import multer from 'multer';
 import $q from 'q';
+import async from 'async'; 
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200; 
@@ -77,7 +78,7 @@ function configureStorage() {
     },
     filename: function (req, file, cb) {
       file.timestamp = Date.now();
-      var name = file.originalname.replace(/[^a-zA-Z0-9]/, '');
+      var name = file.originalname.replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9]/g, '');
       var format = file.originalname.split('.')[file.originalname.split('.').length - 1];
       cb(null, `${file.timestamp}-${name}.${format}`);
     }
@@ -439,16 +440,22 @@ export function create(req, res) {
 
 // Creates a new Project in the DB with his images
 export function upload(req, res) {
-
   var upload = multer({
     storage: configureStorage()
-  })
-    .array('files', 12); // maxImages = 12
+  }).array('files', 13); // maxImages = 12
 
   upload(req, res, function (err) {
-
     var project = Project.build(req.body.project);
     var date = new Date();
+
+    for(var fileIndex in req.files) {
+      let name = req.files[fileIndex].filename;
+      let format = name.split('.')[name.split('.').length - 1];
+
+      if(format=='xlsx' || format=='xls'){
+        project.setDataValue('Schedule', `assets/images/uploads/${name}`);
+      }
+    }
 
     project.setDataValue('IsApproved', 0);
     project.setDataValue('IsExcluded', 0);
@@ -458,28 +465,30 @@ export function upload(req, res) {
     project.setDataValue('Year', date.getFullYear());
     project.setDataValue('SubmissionDate', date.getTime());
 
-    console.log(req.body.costs);
-
-    
     if(err) {
       console.log(err);
       res.json({errorCode: 1, errorDesc: err});
       return;
     }
-    project.save()
-      .then(newProject => {
-        var projectId = newProject.ProjectId;
 
-        var images = [];
-        var costs = [];
-        var rewards = [];
+    async.waterfall([
+      //Trying to save 'Project' table
+      (next)=>{
+        console.log("PROJECT STEP");
+        project.save().then(newProject => {
+          console.log("'Project' saved");
+          next(null, newProject.ProjectId);
+        }).catch(e=>next(e));
+      },
+      //Trying to save 'Costs' table
+      (projectId, next)=>{
+        console.log("COSTS STEP");
 
-        console.log(req.body.costs);
-        console.log(Array.isArray(req.body.costs.Item));
+        let costs=[];
 
+        //Populate costs array
         if(Array.isArray(req.body.costs.Item)){
           for(var costIndex in req.body.costs.Item) {
-            console.log(costIndex);
             costs.push({
               ProjectId: projectId,
               CostDescription: req.body.costs.Item[costIndex],
@@ -488,8 +497,7 @@ export function upload(req, res) {
               IsExcluded: 0
             });
           }
-        }
-        else{
+        }else{
           costs.push({
             ProjectId: projectId,
             CostDescription: req.body.costs.Item,
@@ -499,17 +507,28 @@ export function upload(req, res) {
           });
         }
 
+        //Save to DB and call next
         if(costs.length > 0) {
           ProjectCost.bulkCreate(costs)
             .then(() => {
-              res.json({errorCode: 0, errorDesc: null});
+              console.log("'Costs' saved");
+              next(null, projectId);
             })
-            .catch(handleError(res));
+            .catch(e=>next(e));
+        }else{
+          console.log("'Costs' is empty");
+          next(null, projectId);
         }
+      },
+      //Trying to save 'Rewards' table
+      (projectId, next)=>{
+        console.log("REWARDS STEP");
+        
+        let rewards=[];
 
+        //Populate rewards array
         if(Array.isArray(req.body.rewards.ValueInCents)){
           for(var rewardIndex in req.body.rewards.ValueInCents) {
-            console.log(costIndex);
             rewards.push({
               ProjectId: projectId,
               RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
@@ -528,39 +547,66 @@ export function upload(req, res) {
             IsExcluded: 0
           });
         }
+
+        //Save to DB and call next
         if(rewards.length > 0) {
           ProjectReward.bulkCreate(rewards)
             .then(() => {
-              console.log("3",res)
-              res.json({errorCode: 0, errorDesc: null});
+              console.log("'Rewards' saved");
+              next(null, projectId);
             })
-            .catch(//handleError(res));
-            (error)=> {console.log("4",error)})
+            .catch(e=>next(e));
+        }else{
+          console.log("'Rewards' is empty");
+          next(null, projectId);
         }
+      },
+      //Trying to save 'Images' table
+      (projectId, next)=>{
+        console.log("IMAGES STEP");
 
-        console.log("REQ-FILES:", req.files);
+        let images=[];
+
+        //Populate images array
         for(var fileIndex in req.files) {
-          images.push({
-            ProjectId: projectId,
-            Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
-            Filename: req.files[fileIndex].filename,
-            Type: 'project',
-            Timestamp: req.files[fileIndex].timestamp,
-            OrderIndex: fileIndex,
-            IsExcluded: 0
-          });
+          let name = req.files[fileIndex].filename;
+          let format = name.split('.')[name.split('.').length - 1];
+
+          if(format!='xlsx' && format!='xls'){
+            images.push({
+              ProjectId: projectId,
+              Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
+              Filename: req.files[fileIndex].filename,
+              Type: 'project',
+              Timestamp: req.files[fileIndex].timestamp,
+              OrderIndex: fileIndex,
+              IsExcluded: 0
+            });
+          }
         }
 
+        //Save to DB and call next
         if(images.length > 0) {
           Image.bulkCreate(images)
             .then(() => {
-              res.json({errorCode: 0, errorDesc: null});
+              console.log("'Images' saved");
+              next(null);
             })
-            .catch(handleError(res));
+            .catch(e=>next(e));
+        }else{
+          console.log("Images is empty");
+          next(null);
         }
-
-      })
-      .catch(handleError(res));
+      },
+    ], function(error) {
+      if(error){
+        console.log("Something went wrong!", error);
+        handleError(res);
+      }else{
+        console.log("Everything is fine");
+        res.json({errorCode: 0, errorDesc: null});
+      }
+    });
   });
 }
 

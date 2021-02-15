@@ -52,9 +52,13 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    StudentsNumber: {
+    StudentsNoDirectly: {
       type: DataTypes.INTEGER(11),
       allowNull: false
+    },
+    StudentsNoIndirectly: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
     },
     EstimatedPriceInCents: {
       type: DataTypes.INTEGER(11),
@@ -136,7 +140,20 @@ export default function (sequelize, DataTypes) {
     SpecialName: {
       type: DataTypes.STRING(45),
       allowNull: true
+    },
+    Category: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    Theme: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    Description: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
+
   }, {
     tableName: 'Project'
   });
