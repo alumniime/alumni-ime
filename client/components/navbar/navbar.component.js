@@ -174,7 +174,7 @@ export class NavbarComponent {
       dropdown.push({
         title: 'SUBMETER PROJETO',
         state: 'submission'
-      })
+      })      
       this.menu[2].dropdown = dropdown;
     });
 
@@ -259,6 +259,10 @@ export class NavbarComponent {
       .catch((err) => {
         console.log("err")
       });
+  }
+
+  openLink(link){
+    window.open(link,'_blank')
   }
 }
 
