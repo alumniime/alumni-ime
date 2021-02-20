@@ -85,6 +85,7 @@ pipeline {
         rm website/client/*
         cp -r dist/* website/
         rm -r dist.zip dist/
+        pm2 reload all
         '''
       }
     }

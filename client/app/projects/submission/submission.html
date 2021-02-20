@@ -263,7 +263,7 @@
                 </label>
                 <textarea
                   type="text" id="Description" name="Description" class="form-control" rows="6"
-                  ng-model="vm.project.Description" required ng-maxlength="1200"
+                  ng-model="vm.project.Summary" required ng-maxlength="1200"
                 >
                 </textarea>
                 <p class="help-block" ng-show="form.Description.$error.required && vm.submitted">
@@ -424,7 +424,7 @@
 
               <div class="form-group drop-images" ngf-drop="vm.checkDoc($files, $invalidFiles)" ng-model="vm.uploadDoc" 
                 ngf-select-disabled="false" ngf-drag-over-class="'drag-over'" ngf-max-size="vm.maxSize"
-                accept=".xlsx, .xls" ngf-pattern="'.xlsx, .xls'"
+                accept=".xls,.xlsx" ngf-pattern="'.xls,.xlsx'"
               >
 
                 <div class="row">
@@ -436,7 +436,7 @@
                     <p class="upload-text">
                       <a class="btn btn-link text-info upload-link" name="docFile"
                         ngf-select="vm.checkDoc($files, $invalidFiles)" ng-model="vm.uploadDoc" ngf-max-size="vm.maxSize"
-                        accept=".xlsx, .xls" ngf-pattern="'.xlsx, .xls'" 
+                        accept=".xls,.xlsx" ngf-pattern="'.xls,.xlsx'" 
                       >
                         Faça upload
                       </a> do cronograma físico-financeiro referente ao projeto.

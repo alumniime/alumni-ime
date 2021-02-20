@@ -18,6 +18,35 @@ export default class EditController {
   dateInvalid = false;
   ConclusionDate = '';
   EstimatedPriceInCents = 0;
+  categories = [
+    "Desenvolvimento da formação acadêmica",
+    "Ciência e novas tecnologias",
+    "Extracurriculares",
+    "Desenvolvimento de produtos",
+    "Outros"
+  ];
+  themes = [
+    "Cidades inteligentes para comunidades carentes",
+    "Cidades inteligentes e sustentáveis",
+    "Edutech",
+    "Segurança pública e privada",
+    "Healthtech",
+    "Agritech, Saúde animal e Foodtech",
+    "Biotecnologia",
+    "Defesa",
+    "Economia circular",
+    "Energia renovável e eficiência energética",
+    "Indústria 4.0",
+    "Internet das Coisas (IoT)",
+    "5G",
+    "Materiais avançados",
+    "Nanotecnologia",
+    "Outros"
+  ]
+  otherCategory = null;
+  otherTheme = null;
+  fundLimit = 25000;
+  uploadDoc = null;
 
 
   constructor(Auth, Project, $http, $state, $stateParams, Modal, $window, Upload, Util, $anchorScroll, $filter) {
@@ -71,8 +100,28 @@ export default class EditController {
           //Fazer o calculo do orçamento na variavel budget
           this.budget = this.EstimatedPriceInCents;
 
-          console.log(this.project);
-          console.log(this.costsList);
+          //Loading Category
+          for(let index=0; index<this.categories.length; index++){
+            if(this.project.Category==this.categories[index]){
+              this.project.CategoryOpt=this.categories[index];
+            }
+          }
+          if(!this.project.CategoryOpt){
+            this.otherCategory=this.project.Category;
+            this.project.CategoryOpt=this.categories[this.categories.length-1];
+          }
+
+          //Loading Theme
+          for(let index=0; index<this.themes.length; index++){
+            if(this.project.Theme==this.themes[index]){
+              this.project.ThemeOpt=this.themes[index];
+            }
+          }
+          if(!this.project.ThemeOpt){
+            this.otherTheme=this.project.Theme;
+            this.project.ThemeOpt=this.themes[this.themes.length-1];
+          }
+
           this.$anchorScroll('top');
         })
         .catch(() => {
@@ -109,7 +158,6 @@ export default class EditController {
 
     this.submitted = true;
     this.errors.projects = undefined;
-    console.log(form);
 
     this.project.EstimatedPriceInCents = 100 * this.budget;
     if(this.ConclusionDate) {
@@ -117,10 +165,10 @@ export default class EditController {
       this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
     }
     
-    if(form.$valid && this.concatImages && this.concatImages.length > 0 && !this.dateInvalid) {
+    if(form.$valid && this.concatImages && this.concatImages.length > 0 && !this.dateInvalid && this.budget<=this.fundLimit) {
 
       var savedImages = [];
-      var uploadImages = [];
+      var uploadArr = [];
       var uploadIndexes = [];
       for(var $index in this.concatImages) {
         if(this.concatImages[$index].Path) {
@@ -129,12 +177,13 @@ export default class EditController {
             OrderIndex: $index
           });
         } else if(this.concatImages[$index].$ngfName) {
-          uploadImages.push(this.concatImages[$index]);
+          uploadArr.push(this.concatImages[$index]);
           uploadIndexes.push({
             OrderIndex: $index
           });
         }
       }
+      uploadArr.push(this.uploadDoc);
 
       var loading = this.Modal.showLoading();
 
@@ -143,7 +192,7 @@ export default class EditController {
         url: '/api/projects/edit',
         arrayKey: '',
         data: {
-          files: uploadImages,
+          files: uploadArr,
           project: this.project,
           savedImages: savedImages,
           costs: this.costs,
@@ -152,7 +201,6 @@ export default class EditController {
       })
         .then(function success(result) {
           loading.close();
-          console.log(result);
           if(result.data.errorCode === 0) {
             this_.Modal.showAlert('Edição concluída', 'Seu projeto foi editado com sucesso e está aguardando a aprovação da Alumni IME.');
             this_.$state.go('profile', {view: 'submitted_projects'});
@@ -160,8 +208,9 @@ export default class EditController {
             this_.Project.get(this_.project.ProjectId, true, true);
             this_.submitted = false;
             this_.uploadImages = [];
+            this_.uploadDoc = null;
             this_.ConclusionDate = '';
-            this.$anchorScroll('top');
+            this_.$anchorScroll('top');
           } else {
             this_.Modal.showAlert('Erro na edição', 'Por favor, tente novamente.');
           }
@@ -234,19 +283,32 @@ export default class EditController {
 
   setBudget(){
     this.budget = 0;
-    if(this.costsList.Quantity[this.costsCount-2] && this.costsList.UnitPrice[this.costsCount-2]){
-      for(let index = 0; index < this.costsCount-1; index ++){
-        this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+    if(this.costsList){
+      if(this.costsList.Quantity[this.costsCount-2] && this.costsList.UnitPrice[this.costsCount-2]){
+        for(let index = 0; index < this.costsCount-1; index ++){
+          this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+        }
       }
-    }
-    else{
-      for(let index = 0; index < this.costsCount-2; index ++){
-        this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+      else{
+        for(let index = 0; index < this.costsCount-2; index ++){
+          this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+        }
       }
+      
+      this.isBudgetDone = true;
     }
-    
-    this.isBudgetDone = true;
     return null;
   }
 
+  otherOptions(){
+    this.project.Category = this.project.CategoryOpt=='Outros' ? this.otherCategory : this.project.CategoryOpt;
+    this.project.Theme = this.project.ThemeOpt=='Outros' ? this.otherTheme : this.project.ThemeOpt;
+  }
+
+  checkDoc(files, invalidFiles){
+    console.log(files, invalidFiles);
+    if(invalidFiles.length){
+      this.Modal.showAlert("Erro no arquivo", "O arquivo possui um formato inválido. O arquivo deve ser uma planilha com extensão '.xls' ou '.xlsx'.")
+    }
+  }
 }

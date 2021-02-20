@@ -148,12 +148,7 @@ export default function (sequelize, DataTypes) {
     Theme: {
       type: DataTypes.STRING(255),
       allowNull: true
-    },
-    Description: {
-      type: DataTypes.STRING(255),
-      allowNull: true
     }
-
   }, {
     tableName: 'Project'
   });

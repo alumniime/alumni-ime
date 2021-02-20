@@ -481,6 +481,11 @@ export function ModalService($uibModal, $q) {
           }
         });
       };
+      loading.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
       return loading;
     },
     addNewsletter() {
