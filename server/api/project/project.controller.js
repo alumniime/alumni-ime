@@ -632,7 +632,7 @@ export function edit(req, res) {
       let format = name.split('.')[name.split('.').length - 1];
 
       if(format=='xlsx' || format=='xls'){
-        project.setDataValue('Schedule', `assets/images/uploads/${name}`);
+        project['Schedule']=`assets/images/uploads/${name}`;
       }
     }
 
@@ -641,6 +641,7 @@ export function edit(req, res) {
     Reflect.deleteProperty(project, 'SubmissionerId');
     Reflect.deleteProperty(project, 'CollectionLimitDate');
 
+    console.log(`Searching project ${project.ProjectId}...`);
     Project.find({
       where: {
         ProjectId: project.ProjectId,
@@ -650,14 +651,17 @@ export function edit(req, res) {
       }
     })
       .then(oldProject => {
+        console.log("Project found!");
         oldProject.update(project)
           .then(newProject => {
+            console.log("Changes saved");
 
             var projectId = newProject.ProjectId;
             var costsToSave = req.body.costs;
             var promises = [];
             var uploadCosts = [];
 
+            console.log("Searching Costs...");
             ProjectCost.findAll({
               where: {
                 ProjectId: projectId,
@@ -665,10 +669,10 @@ export function edit(req, res) {
               }
             })
               .then(costs =>{
+                console.log("Costs found!");
+
                 for(let costIndex in costs){
                   costs[costIndex].IsExcluded = 1;
-                  console.log(costs);
-                  console.log(costsToSave);
                   if(Array.isArray(costsToSave.Item)){
                     for(let searchIndex in costsToSave.Item){
                       if(parseInt(costs[costIndex].ProjectCostId) === parseInt(costsToSave.ProjectCostId[searchIndex])) {
@@ -693,8 +697,6 @@ export function edit(req, res) {
                 }
 
                 //Adding new costs in database
-                console.log(costsToSave);
-                console.log(costsToSave.Item);
                 for(let costIndex in costsToSave.Item){
                   if(parseInt(costsToSave.ProjectCostId[costIndex]) === -1){
                     uploadCosts.push({
@@ -706,12 +708,12 @@ export function edit(req, res) {
                     })
                   }
                 }
-                console.log(uploadCosts);
                 if(uploadCosts.length > 0){
                   promises.push(ProjectCost.bulkCreate(uploadCosts));
                 }
               })
 
+            console.log("Searching Images...");
             Image.findAll({
               where: {
                 ProjectId: projectId,
@@ -720,16 +722,13 @@ export function edit(req, res) {
               }
             })
               .then(images => {
-                console.log("IMAGES");
-                console.log(JSON.stringify(images));
+                console.log("Images found!");
                 // TODO add promises waterfall
 
                 // Removing images that user have chose
                 var imagesToSave = req.body.savedImages;
                 for(let imageIndex in images) {
                   images[imageIndex].IsExcluded = 1;
-                  console.log("savedImages");
-                  console.log(JSON.stringify(imagesToSave));
                   // Changing image OrderIndex knowing that index 0 is the principal image
                   for(let searchIndex in imagesToSave.ImageId) {                    
                     if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {
@@ -743,7 +742,6 @@ export function edit(req, res) {
                   }
                 }
 
-
                 for(let imageIndex in images) {
                   promises.push(images[imageIndex].save());
                 }
@@ -751,25 +749,33 @@ export function edit(req, res) {
                 // Adding new images in database
                 var uploadImages = [];
                 for(var fileIndex in req.files) {
-                  uploadImages.push({
-                    ProjectId: projectId,
-                    Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
-                    Filename: req.files[fileIndex].filename,
-                    Type: 'project',
-                    Timestamp: req.files[fileIndex].timestamp,
-                    OrderIndex: req.body.uploadIndexes.OrderIndex[fileIndex],
-                    IsExcluded: 0
-                  });
+                  let name = req.files[fileIndex].filename;
+                  let format = name.split('.')[name.split('.').length - 1];
+
+                  if(format!='xlsx' && format!='xls'){
+                    uploadImages.push({
+                      ProjectId: projectId,
+                      Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
+                      Filename: req.files[fileIndex].filename,
+                      Type: 'project',
+                      Timestamp: req.files[fileIndex].timestamp,
+                      OrderIndex: req.body.uploadIndexes.OrderIndex[fileIndex],
+                      IsExcluded: 0
+                    });
+                  }
                 }
                 if(uploadImages.length > 0) {
                   promises.push(Image.bulkCreate(uploadImages));
                 }
 
+                console.log("Updating changes...");
                 $q.all(promises)
                   .then(() => {
+                    console.log("Changes updated!");
                     res.json({errorCode: 0, errorDesc: null});
                   })
                   .catch(err => {
+                    console.log("Something went wrong!");
                     console.log(err);
                     handleError(res);
                   });
