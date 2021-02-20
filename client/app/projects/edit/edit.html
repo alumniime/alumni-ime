@@ -361,8 +361,8 @@
 
                 <div class="row">
                   <div class="col-auto icon-container">
-                    <img src="assets/images/docs.svg" alt="Upload Sheets" class="icon-images" ng-if="vm.uploadDoc==null">
-                    <img src="assets/images/docs-ok.svg" alt="Upload Sheets" class="icon-images" ng-if="vm.uploadDoc!=null">
+                    <img src="assets/images/docs.svg" alt="Upload Sheets" class="icon-images" ng-if="vm.uploadDoc==null && vm.project.Schedule==null">
+                    <img src="assets/images/docs-ok.svg" alt="Upload Sheets" class="icon-images" ng-if="vm.uploadDoc!=null || vm.project.Schedule!=null">
                   </div>
                   <div class="col col-lg-8">
                     <p class="upload-text">
@@ -405,7 +405,7 @@
                    accept="image/*" ngf-pattern="'image/*'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
 
                 <div class="row">
-                  <div class="col-auto">
+                  <div class="col-auto icon-container">
                     <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
                   </div>
                   <div class="col">

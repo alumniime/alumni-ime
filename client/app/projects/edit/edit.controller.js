@@ -168,10 +168,10 @@ export default class EditController {
       this.project.ConclusionDate = new Date(date[2], date[1] - 1, date[0]);
     }
     
-    if(form.$valid && this.concatImages && this.concatImages.length > 0 && !this.dateInvalid) {
+    if(form.$valid && this.concatImages && this.concatImages.length > 0 && !this.dateInvalid && this.budget<=this.fundLimit) {
 
       var savedImages = [];
-      var uploadImages = [];
+      var uploadArr = [];
       var uploadIndexes = [];
       for(var $index in this.concatImages) {
         if(this.concatImages[$index].Path) {
@@ -180,12 +180,13 @@ export default class EditController {
             OrderIndex: $index
           });
         } else if(this.concatImages[$index].$ngfName) {
-          uploadImages.push(this.concatImages[$index]);
+          uploadArr.push(this.concatImages[$index]);
           uploadIndexes.push({
             OrderIndex: $index
           });
         }
       }
+      uploadArr.push(this.uploadDoc);
 
       var loading = this.Modal.showLoading();
 
@@ -194,7 +195,7 @@ export default class EditController {
         url: '/api/projects/edit',
         arrayKey: '',
         data: {
-          files: uploadImages,
+          files: uploadArr,
           project: this.project,
           savedImages: savedImages,
           costs: this.costs,

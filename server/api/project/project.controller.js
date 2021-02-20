@@ -442,7 +442,7 @@ export function create(req, res) {
 export function upload(req, res) {
   var upload = multer({
     storage: configureStorage()
-  }).array('files', 13); // maxImages = 12
+  }).array('files', 13); // maxImages = 13
 
   upload(req, res, function (err) {
     var project = Project.build(req.body.project);
@@ -616,7 +616,7 @@ export function edit(req, res) {
   var upload = multer({
     storage: configureStorage()
   })
-    .array('files', 12); // maxImages = 12
+    .array('files', 13); // maxImages = 13
 
   upload(req, res, function (err) {
     if(err) {
@@ -626,6 +626,16 @@ export function edit(req, res) {
     }
 
     var project = req.body.project;
+
+    for(var fileIndex in req.files) {
+      let name = req.files[fileIndex].filename;
+      let format = name.split('.')[name.split('.').length - 1];
+
+      if(format=='xlsx' || format=='xls'){
+        project.setDataValue('Schedule', `assets/images/uploads/${name}`);
+      }
+    }
+
     Reflect.deleteProperty(project, 'Results');
     Reflect.deleteProperty(project, 'SubmissionDate');
     Reflect.deleteProperty(project, 'SubmissionerId');
