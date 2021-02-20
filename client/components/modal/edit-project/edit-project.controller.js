@@ -33,6 +33,7 @@ export default class ModalEditProjectController {
   imageQuality = 1;
   imagesToUpload = {'ImageId': [], 'OrderIndex': []};
   rmImgs = [];
+  docName = null;
 
   /*@ngInject*/
   constructor(Modal, $http, $filter, Util, Upload) {
@@ -63,6 +64,7 @@ export default class ModalEditProjectController {
           loading.close();
           this.project = response.data;
           console.log(this.project);
+          this.docName = this.project.Schedule.split(/-(.+)/)[1];
           this.project.EstimatedPriceInCents /= 100;
           this.project.CollectedPriceInCents /= 100;
           this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');

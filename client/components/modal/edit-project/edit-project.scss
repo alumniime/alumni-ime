@@ -180,4 +180,33 @@ modal-edit-project {
       }
     }
   }
+
+  #model{
+    img{
+      margin-left: 0 !important;
+    }
+    p{
+      margin-top: 5px;
+      margin-bottom: 0;
+      font-size: 14px;
+      color: #828282;
+      text-align: center;
+    }
+  }
+
+  #model:hover{
+    color: #828282;
+  }
+
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .icon-images {
+    height: 29px;
+    margin-left: 20px;
+  }
 }

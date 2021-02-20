@@ -57,14 +57,14 @@
           <div class="row p-0">
             <div class="col-12 col-sm-6">
               <div class="form-group">
-                <label>NOME DO PROJETO</label>
+                <label>NOME DO PROJETO/INICIATIVA</label>
                 <input type="text" id="ProjectName" name="ProjectName" class="form-control" required
                     ng-model="vm.project.ProjectName">
               </div>
             </div>
             <div class="col-12 col-sm-6">
               <div class="form-group">
-                <label>NOME DA EQUIPE</label>
+                <label>NOME DA INICIATIVA OU EQUIPE</label>
                 <input type="text" id="TeamName" name="TeamName" class="form-control" required
                     ng-model="vm.project.TeamName">
               </div>
@@ -74,21 +74,21 @@
           <div class="row p-0">
             <div class="col-12 col-sm-4">
               <div class="form-group">
-                <label>LIDER</label>
+                <label>LÍDER DA EQUIPE</label>
                 <input type="text" id="LeaderName" name="LeaderName" class="form-control" required
                     ng-model="vm.project.leader.name">
               </div>
             </div>
             <div class="col-12 col-sm-4">
               <div class="form-group">
-                <label>EMAIL LIDER</label>
+                <label>EMAIL LÍDER</label>
                 <input type="text" id="LeaderName" name="LeaderName" class="form-control" required
                     ng-model="vm.project.leader.email">
               </div>
             </div>
             <div class="col-12 col-sm-4">
               <div class="form-group">
-                <label>TELEFONE LIDER</label>
+                <label>TELEFONE LÍDER</label>
                 <input type="text" id="LeaderName" name="LeaderName" class="form-control" required
                     ng-model="vm.project.leader.Phone">
               </div>
@@ -98,7 +98,7 @@
           <div class="row p-0">
             <div class="col-12 col-sm-6">
               <div class="form-group">
-                <label>INTEGRANTES DA EQUIPE</label>
+                <label>EQUIPE</label>
                 <input type="text" id="TeamMembers" name="TeamMembers" class="form-control" required
                     ng-model="vm.project.TeamMembers">
               </div>
@@ -137,14 +137,21 @@
           </div> 
           
           <div class="row p-0">
-            <div class="col-12 col-sm-6">
+            <div class="col-12" ng-class="{'col-sm-6':vm.project.Year<=2020, 'col-sm-4':vm.project.Year>2020}">
               <div class="form-group">
-                <label>QUANTIDADE DE ALUNOS IMPACTADOS</label>
+                <label>AL IMPACTADOS DIRETAMENTE</label>
                 <input type="text" id="ProjectName" name="ProjectName" class="form-control" required
-                    ng-model="vm.project.StudentsNumber">
+                    ng-model="vm.project.StudentsNoDirectly">
               </div>
             </div>
-            <div class="col-12 col-sm-6" ng-if="vm.project.IsApproved == 0">
+            <div class="col-12 col-sm-4" ng-if="vm.project.Year>2020">
+              <div class="form-group">
+                <label>AL IMPACTADOS INDIRETAMENTE</label>
+                <input type="text" id="ProjectName" name="ProjectName" class="form-control" required
+                    ng-model="vm.project.StudentsNoIndirectly">
+              </div>
+            </div>
+            <div class="col-12" ng-if="vm.project.IsApproved == 0"  ng-class="{'col-sm-6':vm.project.Year<=2020, 'col-sm-4':vm.project.Year>2020}">
               <div class="form-group">
                 <label>VALOR ORÇADO</label>
                 <input type="text" id="TeamName" name="TeamName" class="form-control" required
@@ -156,9 +163,19 @@
           <div class="row p-0">
             <div class="col-12 col-sm-12">
               <div class="form-group">
-                <label>RESUMO</label>
+                <label>RESUMO DO PROJETO/INICIATIVA</label>
                 <textarea type="text" id="Abstract" name="Abstract" class="form-control" rows="8" required
                     ng-model="vm.project.Abstract"></textarea>
+              </div>
+            </div>
+          </div> 
+
+          <div class="row p-0" ng-if="vm.project.Year>2020">
+            <div class="col-12 col-sm-12">
+              <div class="form-group">
+                <label>DESCRIÇÃO DO PROJETO/INICIATIVA</label>
+                <textarea type="text" id="Description" name="Description" class="form-control" rows="8" required
+                    ng-model="vm.project.Description"></textarea>
               </div>
             </div>
           </div> 
@@ -166,7 +183,7 @@
           <div class="row p-0">
             <div class="col-12 col-sm-12">
               <div class="form-group">
-                <label>OBJETIVOS</label>
+                <label>METAS/RESULTADOS ESPERADOS PARA O PROJETO</label>
                 <textarea type="text" id="Goals" name="Goals" class="form-control" rows="8" required
                     ng-model="vm.project.Goals"></textarea>
               </div>
@@ -176,14 +193,14 @@
           <div class="row p-0">
             <div class="col-12 col-sm-12">
               <div class="form-group">
-                <label>BENEFÍCIOS PARA OS ALUNOS</label>
+                <label>BENEFÍCIOS CONCRETOS PARA O IME E/OU PARA A SOCIEDADE</label>
                 <textarea type="text" id="Benefits" name="Benefits" class="form-control" rows="8" required
                     ng-model="vm.project.Benefits"></textarea>
               </div>
             </div>
           </div> 
 
-          <div class="row p-0">
+          <div class="row p-0" ng-if="vm.project.Year<=2020">
             <div class="col-12 col-sm-12">
               <div class="form-group">
                 <label>CRONOGRAMA</label>
@@ -193,7 +210,8 @@
             </div>
           </div>
           
-          <div class="row p-0">
+          <!--Rewards Field-->
+          <div class="row p-0" ng-if="vm.project.Year<=2020">
             <div class="col-12 col-md-5">
               <div class="form-group">
                 <label for="">RECOMPENSAS PARA APOIADORES</label>
@@ -222,21 +240,29 @@
               </div>              
             </div>
           </div>
-          <div class="row">
+          <div class="row" ng-if="vm.project.Year<=2020">
             <div class="col-12 col-md-6">
             </div>
             <div class="col-12 col-md-3">
-                <button type="button" class="btn btn-outline-secondary" ng-click="vm.addRewardsField()" ng-disabled="vm.rewardsCount !== 1 && !(vm.rewardsCount == 2 && vm.rewardsList.RewardDescription[0]) && !(vm.rewardsList.RewardDescription[vm.rewardsCount-2] && vm.rewardsList.Value[vm.rewardsCount-3])"> 
-                  Adicionar Campo
-                </button>
+              <button type="button" class="btn btn-outline-secondary" ng-click="vm.addRewardsField()" ng-disabled="vm.rewardsCount !== 1 && !(vm.rewardsCount == 2 && vm.rewardsList.RewardDescription[0]) && !(vm.rewardsList.RewardDescription[vm.rewardsCount-2] && vm.rewardsList.Value[vm.rewardsCount-3])"> 
+                Adicionar Campo
+              </button>
             </div>
             <div class="col-12 col-md-3">
               <button type="button" class="btn btn-outline-secondary" ng-click="vm.deleteRewardsField()" ng-disabled="vm.rewardsCount==1"> 
                 Remover Campo
               </button>
+            </div>
           </div>
-          
+
+          <div class="col form-group p-0" ng-if="vm.project.Year>2020">
+            <label>CRONOGRAMA FÍSICO-FINANCEIRO</label>
+            <a href="{{vm.project.Schedule}}" target="_blank" id="model" class="row-auto icon-container p-3">
+              <img src="assets/images/mockup.svg" alt="Upload Sheets" class="icon-images">
+              <p>Download - {{vm.docName}}</p>
+            </a>
           </div>
+
           <div class="row p-0">
             <div class="col-12 col-sm-12">
               <div class="form-group">
@@ -254,7 +280,6 @@
                       <button type="button" class="btn btn-light mt-2" ng-click="vm.rmImg(image)"><i class="fa fa-times"></i></button>
                     </div>
                   </div>
-
                 </div>
 
                 <label>ADICIONAR FOTOS</label>
