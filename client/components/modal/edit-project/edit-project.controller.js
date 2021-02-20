@@ -63,7 +63,6 @@ export default class ModalEditProjectController {
         .then(response => {
           loading.close();
           this.project = response.data;
-          console.log(this.project);
           this.docName = this.project.Schedule.split(/-(.+)/)[1];
           this.project.EstimatedPriceInCents /= 100;
           this.project.CollectedPriceInCents /= 100;
@@ -375,7 +374,6 @@ export default class ModalEditProjectController {
   }
 
   updateImages(files) {
-    console.log('update', files);
     if(files === null) {
       this.loading = this.Modal.showLoading();
     } else {
