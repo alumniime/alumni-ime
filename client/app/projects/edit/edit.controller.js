@@ -122,8 +122,6 @@ export default class EditController {
             this.project.ThemeOpt=this.themes[this.themes.length-1];
           }
 
-          console.log(this.project);
-          console.log(this.costsList);
           this.$anchorScroll('top');
         })
         .catch(() => {
@@ -160,7 +158,6 @@ export default class EditController {
 
     this.submitted = true;
     this.errors.projects = undefined;
-    console.log(form);
 
     this.project.EstimatedPriceInCents = 100 * this.budget;
     if(this.ConclusionDate) {
@@ -204,7 +201,6 @@ export default class EditController {
       })
         .then(function success(result) {
           loading.close();
-          console.log(result);
           if(result.data.errorCode === 0) {
             this_.Modal.showAlert('Edição concluída', 'Seu projeto foi editado com sucesso e está aguardando a aprovação da Alumni IME.');
             this_.$state.go('profile', {view: 'submitted_projects'});
