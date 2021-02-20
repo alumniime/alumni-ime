@@ -371,7 +371,6 @@ export function ModalService($uibModal, $q) {
         }
       });
       modalInstance.result.then(function (path) {
-        console.log("Ops");
         d.resolve(path);
       }, function () {
         console.log(`Modal dismissed at: ${new Date()}`);
