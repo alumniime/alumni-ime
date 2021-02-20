@@ -442,7 +442,7 @@ export function create(req, res) {
 export function upload(req, res) {
   var upload = multer({
     storage: configureStorage()
-  }).array('files', 13); // maxImages = 12
+  }).array('files', 13); // maxImages = 13
 
   upload(req, res, function (err) {
     var project = Project.build(req.body.project);
@@ -522,34 +522,34 @@ export function upload(req, res) {
       },
       //Trying to save 'Rewards' table
       (projectId, next)=>{
-        console.log("REWARDS STEP");
-        
-        let rewards=[];
+        if(req.body.rewards){
+          console.log("REWARDS STEP");
 
-        //Populate rewards array
-        if(Array.isArray(req.body.rewards.ValueInCents)){
-          for(var rewardIndex in req.body.rewards.ValueInCents) {
+          let rewards=[];
+  
+          //Populate rewards array
+          if(Array.isArray(req.body.rewards.ValueInCents)){
+            for(var rewardIndex in req.body.rewards.ValueInCents) {
+              rewards.push({
+                ProjectId: projectId,
+                RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
+                IsUpperBound: req.body.rewards.IsUpperBound[rewardIndex],
+                ValueInCents: req.body.rewards.ValueInCents[rewardIndex],
+                IsExcluded: 0
+              });
+            }
+          }
+          else{
             rewards.push({
               ProjectId: projectId,
-              RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
-              IsUpperBound: req.body.rewards.IsUpperBound[rewardIndex],
-              ValueInCents: req.body.rewards.ValueInCents[rewardIndex],
+              RewardDescription: req.body.rewards.RewardDescription,
+              IsUpperBound: req.body.rewards.IsUpperBound,
+              ValueInCents: req.body.rewards.ValueInCents,
               IsExcluded: 0
             });
           }
-        }
-        else{
-          rewards.push({
-            ProjectId: projectId,
-            RewardDescription: req.body.rewards.RewardDescription,
-            IsUpperBound: req.body.rewards.IsUpperBound,
-            ValueInCents: req.body.rewards.ValueInCents,
-            IsExcluded: 0
-          });
-        }
-
-        //Save to DB and call next
-        if(rewards.length > 0) {
+  
+          //Save to DB and call next
           ProjectReward.bulkCreate(rewards)
             .then(() => {
               console.log("'Rewards' saved");
@@ -616,7 +616,7 @@ export function edit(req, res) {
   var upload = multer({
     storage: configureStorage()
   })
-    .array('files', 12); // maxImages = 12
+    .array('files', 13); // maxImages = 13
 
   upload(req, res, function (err) {
     if(err) {
@@ -626,11 +626,22 @@ export function edit(req, res) {
     }
 
     var project = req.body.project;
+
+    for(var fileIndex in req.files) {
+      let name = req.files[fileIndex].filename;
+      let format = name.split('.')[name.split('.').length - 1];
+
+      if(format=='xlsx' || format=='xls'){
+        project['Schedule']=`assets/images/uploads/${name}`;
+      }
+    }
+
     Reflect.deleteProperty(project, 'Results');
     Reflect.deleteProperty(project, 'SubmissionDate');
     Reflect.deleteProperty(project, 'SubmissionerId');
     Reflect.deleteProperty(project, 'CollectionLimitDate');
 
+    console.log(`Searching project ${project.ProjectId}...`);
     Project.find({
       where: {
         ProjectId: project.ProjectId,
@@ -640,14 +651,17 @@ export function edit(req, res) {
       }
     })
       .then(oldProject => {
+        console.log("Project found!");
         oldProject.update(project)
           .then(newProject => {
+            console.log("Changes saved");
 
             var projectId = newProject.ProjectId;
             var costsToSave = req.body.costs;
             var promises = [];
             var uploadCosts = [];
 
+            console.log("Searching Costs...");
             ProjectCost.findAll({
               where: {
                 ProjectId: projectId,
@@ -655,10 +669,10 @@ export function edit(req, res) {
               }
             })
               .then(costs =>{
+                console.log("Costs found!");
+
                 for(let costIndex in costs){
                   costs[costIndex].IsExcluded = 1;
-                  console.log(costs);
-                  console.log(costsToSave);
                   if(Array.isArray(costsToSave.Item)){
                     for(let searchIndex in costsToSave.Item){
                       if(parseInt(costs[costIndex].ProjectCostId) === parseInt(costsToSave.ProjectCostId[searchIndex])) {
@@ -683,8 +697,6 @@ export function edit(req, res) {
                 }
 
                 //Adding new costs in database
-                console.log(costsToSave);
-                console.log(costsToSave.Item);
                 for(let costIndex in costsToSave.Item){
                   if(parseInt(costsToSave.ProjectCostId[costIndex]) === -1){
                     uploadCosts.push({
@@ -696,12 +708,12 @@ export function edit(req, res) {
                     })
                   }
                 }
-                console.log(uploadCosts);
                 if(uploadCosts.length > 0){
                   promises.push(ProjectCost.bulkCreate(uploadCosts));
                 }
               })
 
+            console.log("Searching Images...");
             Image.findAll({
               where: {
                 ProjectId: projectId,
@@ -710,16 +722,13 @@ export function edit(req, res) {
               }
             })
               .then(images => {
-                console.log("IMAGES");
-                console.log(JSON.stringify(images));
+                console.log("Images found!");
                 // TODO add promises waterfall
 
                 // Removing images that user have chose
                 var imagesToSave = req.body.savedImages;
                 for(let imageIndex in images) {
                   images[imageIndex].IsExcluded = 1;
-                  console.log("savedImages");
-                  console.log(JSON.stringify(imagesToSave));
                   // Changing image OrderIndex knowing that index 0 is the principal image
                   for(let searchIndex in imagesToSave.ImageId) {                    
                     if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {
@@ -733,7 +742,6 @@ export function edit(req, res) {
                   }
                 }
 
-
                 for(let imageIndex in images) {
                   promises.push(images[imageIndex].save());
                 }
@@ -741,25 +749,33 @@ export function edit(req, res) {
                 // Adding new images in database
                 var uploadImages = [];
                 for(var fileIndex in req.files) {
-                  uploadImages.push({
-                    ProjectId: projectId,
-                    Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
-                    Filename: req.files[fileIndex].filename,
-                    Type: 'project',
-                    Timestamp: req.files[fileIndex].timestamp,
-                    OrderIndex: req.body.uploadIndexes.OrderIndex[fileIndex],
-                    IsExcluded: 0
-                  });
+                  let name = req.files[fileIndex].filename;
+                  let format = name.split('.')[name.split('.').length - 1];
+
+                  if(format!='xlsx' && format!='xls'){
+                    uploadImages.push({
+                      ProjectId: projectId,
+                      Path: `assets/images/uploads/${req.files[fileIndex].filename}`,
+                      Filename: req.files[fileIndex].filename,
+                      Type: 'project',
+                      Timestamp: req.files[fileIndex].timestamp,
+                      OrderIndex: req.body.uploadIndexes.OrderIndex[fileIndex],
+                      IsExcluded: 0
+                    });
+                  }
                 }
                 if(uploadImages.length > 0) {
                   promises.push(Image.bulkCreate(uploadImages));
                 }
 
+                console.log("Updating changes...");
                 $q.all(promises)
                   .then(() => {
+                    console.log("Changes updated!");
                     res.json({errorCode: 0, errorDesc: null});
                   })
                   .catch(err => {
+                    console.log("Something went wrong!");
                     console.log(err);
                     handleError(res);
                   });
@@ -795,7 +811,6 @@ export function editAny(req, res) {
     Reflect.deleteProperty(project, 'Results');
     Reflect.deleteProperty(project, 'SubmissionDate');
     Reflect.deleteProperty(project, 'SubmissionerId');
-    Reflect.deleteProperty(project, 'CollectionLimitDate');
 
     Project.find({
       where: {
@@ -913,7 +928,6 @@ export function editAny(req, res) {
                     })
                   }
                 }
-                console.log("upload rewards", uploadRewards);
                 if(uploadRewards.length > 0){
                   promises.push(ProjectReward.bulkCreate(uploadRewards));
                 }
@@ -934,8 +948,6 @@ export function editAny(req, res) {
                 var imagesToSave = req.body.savedImages;
                 for(let imageIndex in images) {
                   images[imageIndex].IsExcluded = 1;
-                  console.log("savedImages");
-                  console.log(JSON.stringify(imagesToSave));
                   // Changing image OrderIndex knowing that index 0 is the principal image
                   for(let searchIndex in imagesToSave.ImageId) {
                     if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {

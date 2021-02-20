@@ -33,6 +33,9 @@ export default class ModalEditProjectController {
   imageQuality = 1;
   imagesToUpload = {'ImageId': [], 'OrderIndex': []};
   rmImgs = [];
+  docName = null;
+  FundingDate = '';
+  submitted = false;
 
   /*@ngInject*/
   constructor(Modal, $http, $filter, Util, Upload) {
@@ -62,7 +65,13 @@ export default class ModalEditProjectController {
         .then(response => {
           loading.close();
           this.project = response.data;
-          console.log(this.project);
+
+          if(this.project.CollectionLimitDate){
+            let pd = new Date(Date.parse(this.project.CollectionLimitDate));
+            this.FundingDate = (pd.getDate()<10?"0":"")+pd.getDate()+"/"+(pd.getMonth()<9?"0":"")+(pd.getMonth()+1)+"/"+pd.getFullYear();
+          }
+          
+          this.docName = this.project.Schedule.split(/-(.+)/)[1];
           this.project.EstimatedPriceInCents /= 100;
           this.project.CollectedPriceInCents /= 100;
           this.ConclusionDate = this.$filter('date')(this.project.ConclusionDate, 'dd/MM/yyyy');
@@ -118,8 +127,14 @@ export default class ModalEditProjectController {
   }
 
   updateStatus(form) {
+    this.submitted = true;
     this.rewardsList.Value[this.rewardsCount - 2] = this.rewardsList.Value[this.rewardsCount - 3];
-    if(form.$valid && this.project.EstimatedPriceInCents > 0 && this.project.CollectedPriceInCents >= 0) {
+    if(form.$valid && this.project.EstimatedPriceInCents > 0 && this.project.CollectedPriceInCents >= 0  && !this.dateInvalid) {
+      if(this.FundingDate) {
+        var date = this.FundingDate.split('/');
+        this.project.CollectionLimitDate = new Date(date[2], date[1] - 1, date[0]);
+      }
+
       let maxIndex = 0;
       for(let index = 0; index < this.imagesToSave.OrderIndex.length; index++){
         if(this.imagesToSave.OrderIndex[index] > maxIndex){
@@ -373,7 +388,6 @@ export default class ModalEditProjectController {
   }
 
   updateImages(files) {
-    console.log('update', files);
     if(files === null) {
       this.loading = this.Modal.showLoading();
     } else {

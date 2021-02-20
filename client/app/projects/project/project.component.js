@@ -49,7 +49,6 @@ export class ProjectController {
         .then(project => {      
           loading.close();
           project.DonationSum = 0;
-          console.log(project.donations.length);
           for(let i = 0, len = project.donations.length; i<len; i++){
             project.DonationSum += project.donations[i].ValueInCents;
           }
@@ -74,7 +73,6 @@ export class ProjectController {
           this.selectedProjectImage = this.projectImages[0];
           this.selectedResultImage = this.resultImages[0];
           this.$anchorScroll('top');
-          console.log(this.project);
         })
         .catch(() => {
           loading.close();
