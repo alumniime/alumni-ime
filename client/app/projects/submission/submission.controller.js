@@ -139,10 +139,12 @@ export default class SubmissionController {
 
           this.Rewards = [];
           for(let index = 0; index < this.rewardsCount-1; index++) {
-            if (this.rewardsList.Value[index]==0){
-              this.rewardsList.Value[index]=0.01;
+            if(this.rewardsList.RewardDescription[index] && this.rewardsList.Value[index]){
+              if (this.rewardsList.Value[index]==0){
+                this.rewardsList.Value[index]=0.01;
+              }
+              this.Rewards.push({'RewardDescription': this.rewardsList.RewardDescription[index], 'IsUpperBound': this.rewardsList.IsUpperBound[index], 'ValueInCents': this.rewardsList.Value[index]*100});
             }
-            this.Rewards.push({'RewardDescription': this.rewardsList.RewardDescription[index], 'IsUpperBound': this.rewardsList.IsUpperBound[index], 'ValueInCents': this.rewardsList.Value[index]*100});
           }
 
           //Create and populate file array
