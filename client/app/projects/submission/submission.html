@@ -424,7 +424,7 @@
 
               <div class="form-group drop-images" ngf-drop="vm.checkDoc($files, $invalidFiles)" ng-model="vm.uploadDoc" 
                 ngf-select-disabled="false" ngf-drag-over-class="'drag-over'" ngf-max-size="vm.maxSize"
-                accept=".xlsx, .xls" ngf-pattern="'.xlsx, .xls'"
+                accept=".xls,.xlsx" ngf-pattern="'.xls,.xlsx'"
               >
 
                 <div class="row">
@@ -436,7 +436,7 @@
                     <p class="upload-text">
                       <a class="btn btn-link text-info upload-link" name="docFile"
                         ngf-select="vm.checkDoc($files, $invalidFiles)" ng-model="vm.uploadDoc" ngf-max-size="vm.maxSize"
-                        accept=".xlsx, .xls" ngf-pattern="'.xlsx, .xls'" 
+                        accept=".xls,.xlsx" ngf-pattern="'.xls,.xlsx'" 
                       >
                         Faça upload
                       </a> do cronograma físico-financeiro referente ao projeto.
