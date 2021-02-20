@@ -356,7 +356,7 @@
 
               <div class="form-group drop-images" ngf-drop="vm.checkDoc($files, $invalidFiles)" ng-model="vm.uploadDoc" 
                 ngf-select-disabled="false" ngf-drag-over-class="'drag-over'" ngf-max-size="vm.maxSize"
-                accept=".xlsx, .xls" ngf-pattern="'.xlsx, .xls'"
+                accept=".xls,.xlsx" ngf-pattern="'.xls,.xlsx'"
               >
 
                 <div class="row">
@@ -368,7 +368,7 @@
                     <p class="upload-text">
                       <a class="btn btn-link text-info upload-link" name="docFile"
                         ngf-select="vm.checkDoc($files, $invalidFiles)" ng-model="vm.uploadDoc" ngf-max-size="vm.maxSize"
-                        accept=".xlsx, .xls" ngf-pattern="'.xlsx, .xls'" 
+                        accept=".xls,.xlsx" ngf-pattern="'.xls,.xlsx'" 
                       >
                         Faça upload
                       </a> do cronograma físico-financeiro referente ao projeto.
@@ -388,7 +388,7 @@
                   O arquivo ultrapassou o tamanho máximo. Tente novamente.
                 </p>
 
-                <p class="help-block" ng-show="vm.uploadDoc == null && vm.submitted">
+                <p class="help-block" ng-show="(vm.uploadDoc == null && vm.project.Schedule == null) && vm.submitted">
                   Insira o cronograma físico-financeiro do projeto.
                 </p>
               </div>

@@ -212,8 +212,9 @@ export default class EditController {
             this_.Project.get(this_.project.ProjectId, true, true);
             this_.submitted = false;
             this_.uploadImages = [];
+            this_.uploadDoc = null;
             this_.ConclusionDate = '';
-            this.$anchorScroll('top');
+            this_.$anchorScroll('top');
           } else {
             this_.Modal.showAlert('Erro na edição', 'Por favor, tente novamente.');
           }
@@ -309,6 +310,7 @@ export default class EditController {
   }
 
   checkDoc(files, invalidFiles){
+    console.log(files, invalidFiles);
     if(invalidFiles.length){
       this.Modal.showAlert("Erro no arquivo", "O arquivo possui um formato inválido. O arquivo deve ser uma planilha com extensão '.xls' ou '.xlsx'.")
     }
