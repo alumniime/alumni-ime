@@ -12,7 +12,6 @@ export default class ModalLoadingController {
   }
 
   ok() {
-    console.log('here==');
     this.close({$value: true});
   }
 

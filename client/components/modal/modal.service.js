@@ -371,6 +371,7 @@ export function ModalService($uibModal, $q) {
         }
       });
       modalInstance.result.then(function (path) {
+        console.log("Ops");
         d.resolve(path);
       }, function () {
         console.log(`Modal dismissed at: ${new Date()}`);
@@ -481,6 +482,11 @@ export function ModalService($uibModal, $q) {
           }
         });
       };
+      loading.result.then(function () {
+        console.log('Success');
+      }, function () {
+        console.log(`Modal dismissed at: ${new Date()}`);
+      });
       return loading;
     },
     addNewsletter() {
