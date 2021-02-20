@@ -522,34 +522,34 @@ export function upload(req, res) {
       },
       //Trying to save 'Rewards' table
       (projectId, next)=>{
-        console.log("REWARDS STEP");
-        
-        let rewards=[];
+        if(req.body.rewards){
+          console.log("REWARDS STEP");
 
-        //Populate rewards array
-        if(Array.isArray(req.body.rewards.ValueInCents)){
-          for(var rewardIndex in req.body.rewards.ValueInCents) {
+          let rewards=[];
+  
+          //Populate rewards array
+          if(Array.isArray(req.body.rewards.ValueInCents)){
+            for(var rewardIndex in req.body.rewards.ValueInCents) {
+              rewards.push({
+                ProjectId: projectId,
+                RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
+                IsUpperBound: req.body.rewards.IsUpperBound[rewardIndex],
+                ValueInCents: req.body.rewards.ValueInCents[rewardIndex],
+                IsExcluded: 0
+              });
+            }
+          }
+          else{
             rewards.push({
               ProjectId: projectId,
-              RewardDescription: req.body.rewards.RewardDescription[rewardIndex],
-              IsUpperBound: req.body.rewards.IsUpperBound[rewardIndex],
-              ValueInCents: req.body.rewards.ValueInCents[rewardIndex],
+              RewardDescription: req.body.rewards.RewardDescription,
+              IsUpperBound: req.body.rewards.IsUpperBound,
+              ValueInCents: req.body.rewards.ValueInCents,
               IsExcluded: 0
             });
           }
-        }
-        else{
-          rewards.push({
-            ProjectId: projectId,
-            RewardDescription: req.body.rewards.RewardDescription,
-            IsUpperBound: req.body.rewards.IsUpperBound,
-            ValueInCents: req.body.rewards.ValueInCents,
-            IsExcluded: 0
-          });
-        }
-
-        //Save to DB and call next
-        if(rewards.length > 0) {
+  
+          //Save to DB and call next
           ProjectReward.bulkCreate(rewards)
             .then(() => {
               console.log("'Rewards' saved");
@@ -811,7 +811,6 @@ export function editAny(req, res) {
     Reflect.deleteProperty(project, 'Results');
     Reflect.deleteProperty(project, 'SubmissionDate');
     Reflect.deleteProperty(project, 'SubmissionerId');
-    Reflect.deleteProperty(project, 'CollectionLimitDate');
 
     Project.find({
       where: {
@@ -929,7 +928,6 @@ export function editAny(req, res) {
                     })
                   }
                 }
-                console.log("upload rewards", uploadRewards);
                 if(uploadRewards.length > 0){
                   promises.push(ProjectReward.bulkCreate(uploadRewards));
                 }
@@ -950,8 +948,6 @@ export function editAny(req, res) {
                 var imagesToSave = req.body.savedImages;
                 for(let imageIndex in images) {
                   images[imageIndex].IsExcluded = 1;
-                  console.log("savedImages");
-                  console.log(JSON.stringify(imagesToSave));
                   // Changing image OrderIndex knowing that index 0 is the principal image
                   for(let searchIndex in imagesToSave.ImageId) {
                     if(parseInt(images[imageIndex].ImageId) === parseInt(imagesToSave.ImageId[searchIndex])) {
