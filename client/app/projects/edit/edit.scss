@@ -1,10 +1,11 @@
 .edit-view {
+  width: 100%;
   margin: 30px 0 50px;
 
   .title {
     font-weight: 700;
     color: #333333;
-    font-size: 20px;
+    font-size: 24px;
     margin-bottom: 30px;
   }
 
@@ -58,9 +59,29 @@
     color: #E84E0F;
   }
 
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
   .icon-images {
-    margin-top: 30px;
+    height: 29px;
     margin-left: 20px;
+  }
+
+  #model{
+    img{
+      margin-left: 0 !important;
+    }
+    p{
+      margin-top: 5px;
+      margin-bottom: 0;
+      font-size: 14px;
+      color: #828282;
+      text-align: center;
+    }
   }
 
   .upload-link {
@@ -134,9 +155,17 @@
   }
   
   label{
-  font-size: 11px;
-  margin-left: 5px;
-  color: #828282;
+    font-size: 11px;
+    margin-left: 5px;
+    color: #828282;
+    display: flex;
+    align-items: center;
+    i{
+      font-size: 13px;
+      margin-left: 6px;
+      cursor: pointer;
+      color: #333333;
+    }
   }
 
 }

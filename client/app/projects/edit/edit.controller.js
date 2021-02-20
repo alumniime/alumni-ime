@@ -18,6 +18,35 @@ export default class EditController {
   dateInvalid = false;
   ConclusionDate = '';
   EstimatedPriceInCents = 0;
+  categories = [
+    "Desenvolvimento da formação acadêmica",
+    "Ciência e novas tecnologias",
+    "Extracurriculares",
+    "Desenvolvimento de produtos",
+    "Outros"
+  ];
+  themes = [
+    "Cidades inteligentes para comunidades carentes",
+    "Cidades inteligentes e sustentáveis",
+    "Edutech",
+    "Segurança pública e privada",
+    "Healthtech",
+    "Agritech, Saúde animal e Foodtech",
+    "Biotecnologia",
+    "Defesa",
+    "Economia circular",
+    "Energia renovável e eficiência energética",
+    "Indústria 4.0",
+    "Internet das Coisas (IoT)",
+    "5G",
+    "Materiais avançados",
+    "Nanotecnologia",
+    "Outros"
+  ]
+  otherCategory = null;
+  otherTheme = null;
+  fundLimit = 25000;
+  uploadDoc = null;
 
 
   constructor(Auth, Project, $http, $state, $stateParams, Modal, $window, Upload, Util, $anchorScroll, $filter) {
@@ -70,6 +99,28 @@ export default class EditController {
 
           //Fazer o calculo do orçamento na variavel budget
           this.budget = this.EstimatedPriceInCents;
+
+          //Loading Category
+          for(let index=0; index<this.categories.length; index++){
+            if(this.project.Category==this.categories[index]){
+              this.project.CategoryOpt=this.categories[index];
+            }
+          }
+          if(!this.project.CategoryOpt){
+            this.otherCategory=this.project.Category;
+            this.project.CategoryOpt=this.categories[this.categories.length-1];
+          }
+
+          //Loading Theme
+          for(let index=0; index<this.themes.length; index++){
+            if(this.project.Theme==this.themes[index]){
+              this.project.ThemeOpt=this.themes[index];
+            }
+          }
+          if(!this.project.ThemeOpt){
+            this.otherTheme=this.project.Theme;
+            this.project.ThemeOpt=this.themes[this.themes.length-1];
+          }
 
           console.log(this.project);
           console.log(this.costsList);
@@ -234,19 +285,31 @@ export default class EditController {
 
   setBudget(){
     this.budget = 0;
-    if(this.costsList.Quantity[this.costsCount-2] && this.costsList.UnitPrice[this.costsCount-2]){
-      for(let index = 0; index < this.costsCount-1; index ++){
-        this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+    if(this.costsList){
+      if(this.costsList.Quantity[this.costsCount-2] && this.costsList.UnitPrice[this.costsCount-2]){
+        for(let index = 0; index < this.costsCount-1; index ++){
+          this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+        }
       }
-    }
-    else{
-      for(let index = 0; index < this.costsCount-2; index ++){
-        this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+      else{
+        for(let index = 0; index < this.costsCount-2; index ++){
+          this.budget += (this.costsList.Quantity[index] * this.costsList.UnitPrice[index]);
+        }
       }
+      
+      this.isBudgetDone = true;
     }
-    
-    this.isBudgetDone = true;
     return null;
   }
 
+  otherOptions(){
+    this.project.Category = this.project.CategoryOpt=='Outros' ? this.otherCategory : this.project.CategoryOpt;
+    this.project.Theme = this.project.ThemeOpt=='Outros' ? this.otherTheme : this.project.ThemeOpt;
+  }
+
+  checkDoc(files, invalidFiles){
+    if(invalidFiles.length){
+      this.Modal.showAlert("Erro no arquivo", "O arquivo possui um formato inválido. O arquivo deve ser uma planilha com extensão '.xls' ou '.xlsx'.")
+    }
+  }
 }
