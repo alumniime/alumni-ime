@@ -101,8 +101,8 @@
   
       <div class="row mt-2">
     
-        <div class="col-12 col-sm-6" ng-if="!vm.DonationId">
-          <div class="form-group">
+        <div class="col-12 col-sm-6">
+          <div class="form-group" ng-if="!vm.DonationId">
             <label>NOME DO APOIADOR</label>
             <angucomplete-alt id="members"
               placeholder="Digite parte do nome desejado"
@@ -119,17 +119,14 @@
               match-class="highlight"
               input-class="form-control"/>
           </div>
-          <div class="form-group mt-2">
+          <div class="form-group mt-2" ng-if="!vm.DonationId">
             <label for="Type">TIPO DE CONTRIBUIÇÃO*</label>
             <select class="form-control" id="Type" name="Type"
                     ng-model="vm.donation.Type">
               <option value="general">Geral</option>
               <option value="project">Por projeto</option>
             </select>
-          </div>    
-        </div>
-
-        <div class="col-12 col-sm-6">
+          </div>
           <div class="form-group">
             <label>VALOR DA CONTRIBUIÇÃO*</label>
             <input type="text" id="ValueInCents" name="ValueInCents" class="form-control" required
@@ -165,38 +162,48 @@
             <p class="help-block" ng-show="((form.DonationDate.$invalid || vm.dateInvalid) && vm.submitted)">
               Insira uma data válida.
             </p>
+          </div>  
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label>ORIGEM</label>
+            <input type="text" id="Origin" name="Origin" class="form-control" ng-model="vm.donation.Origin">
           </div>
+
+          <div class="custom-control custom-checkbox my-2">
+            <input type="checkbox" name="ShowName" class="custom-control-input" id="ShowName" ng-model="vm.donation.ShowName">
+            <label class="custom-control-label" for="ShowName">
+              Exibir nome
+            </label>
+          </div>
+    
+          <div class="custom-control custom-checkbox my-2">
+            <input type="checkbox" name="ShowAmount" class="custom-control-input" id="ShowAmount" ng-model="vm.donation.ShowAmount">
+            <label class="custom-control-label" for="ShowAmount">
+              Exibir valor
+            </label>
+          </div>
+    
+          <div class="custom-control custom-checkbox my-2">
+            <input type="checkbox" name="SentEmail" class="custom-control-input" id="SentEmail" ng-model="vm.donation.SentEmail">
+            <label class="custom-control-label" for="SentEmail">
+              Email enviado
+            </label>
+          </div>
+    
+          <div class="custom-control custom-checkbox my-2" ng-if="!vm.donation.transaction">
+            <input type="checkbox" name="IsApproved" class="custom-control-input" id="IsApproved" ng-model="vm.donation.IsApproved">
+            <label class="custom-control-label" for="IsApproved">
+              Aprovar contribuição
+            </label>
+          </div>
+          
         </div>
 
       </div>
 
-      <div class="custom-control custom-checkbox my-2">
-        <input type="checkbox" name="ShowName" class="custom-control-input" id="ShowName" ng-model="vm.donation.ShowName">
-        <label class="custom-control-label" for="ShowName">
-          Exibir nome
-        </label>
-      </div>
-
-      <div class="custom-control custom-checkbox my-2">
-        <input type="checkbox" name="ShowAmount" class="custom-control-input" id="ShowAmount" ng-model="vm.donation.ShowAmount">
-        <label class="custom-control-label" for="ShowAmount">
-          Exibir valor
-        </label>
-      </div>
-
-      <div class="custom-control custom-checkbox my-2">
-        <input type="checkbox" name="SentEmail" class="custom-control-input" id="SentEmail" ng-model="vm.donation.SentEmail">
-        <label class="custom-control-label" for="SentEmail">
-          Email enviado
-        </label>
-      </div>
-
-      <div class="custom-control custom-checkbox my-2" ng-if="!vm.donation.transaction">
-        <input type="checkbox" name="IsApproved" class="custom-control-input" id="IsApproved" ng-model="vm.donation.IsApproved">
-        <label class="custom-control-label" for="IsApproved">
-          Aprovar contribuição
-        </label>
-      </div>
+      
 
       <button href="#" class="btn btn-danger mx-auto mt-3" type="submit" ng-if="vm.DonationId && !vm.donation.SentEmail && vm.donation.IsApproved">
         SALVAR E ENVIAR RECIBO
@@ -207,4 +214,4 @@
   
     </form>
   
-  </div>
+</div>
