@@ -47,7 +47,7 @@ self.sendReceipt = function (donationId) {
     },
     // Sending email to user
     (newDonation, next) => {
-      if (newDonation.IsApproved) {
+      if (newDonation && newDonation.IsApproved && newDonation.donator) {
         var user = newDonation.donator;
         var data = {
           to: {
