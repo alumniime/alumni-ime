@@ -92,6 +92,10 @@ export default function (sequelize, DataTypes) {
         model: 'OptionToKnowType',
         key: 'OptionTypeId'
       }
+    },
+    Origin: {
+      type: DataTypes.STRING(100),
+      allowNull: true
     }
   }, {
     tableName: 'Donation'

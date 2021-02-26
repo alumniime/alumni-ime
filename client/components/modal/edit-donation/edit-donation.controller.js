@@ -24,9 +24,7 @@ export default class ModalEditDonationController {
   }
 
   $onInit() {
-
-    this.Project.load();    console.log(this.Project);
-
+    this.Project.load();
     
     if(this.resolve.DonationId) {
       this.DonationId = this.resolve.DonationId;
@@ -70,11 +68,8 @@ export default class ModalEditDonationController {
 
       var loading = this.Modal.showLoading();
 
-      console.log(this.donation);
-
       this.$http.post('/api/donations/edit', this.donation)
         .then(res => {
-          console.log(res);
           this.donation.ValueInCents /= 100;
           loading.close();
           this.ok(true);
