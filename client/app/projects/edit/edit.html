@@ -217,7 +217,7 @@
                     ></i>
                   </label>
                   <textarea type="text" id="Abstract" name="Abstract" class="form-control" rows="6"
-                            ng-model="vm.project.Abstract" required ng-maxlength="250"></textarea>
+                            ng-model="vm.project.Summary" required ng-maxlength="250"></textarea>
                   <p class="help-block" ng-show="form.Abstract.$error.required && vm.submitted">
                     Insira um resumo do projeto.
                   </p>
@@ -227,7 +227,7 @@
                 </div>
 
                 <label for="Description">
-                  DESCRIÇÃO DO PROJETO/INICIATIVA* ({{ 250 - form.Description.$viewValue.length }})
+                  DESCRIÇÃO DO PROJETO/INICIATIVA* ({{ 1200 - form.Description.$viewValue.length }})
                   <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
                     uib-tooltip="Visão geral do projeto de forma mais detalhada (Ex.: Introdução, justificativa, 
                     relevância do projeto, impacto que se pretende gerar na formação dos alunos e/ou na sociedade,
@@ -236,7 +236,7 @@
                 </label>
                 <textarea 
                   type="text" id="Description" name="Description" class="form-control" rows="6"
-                  ng-model="vm.project.Summary" required ng-maxlength="250"
+                  ng-model="vm.project.Abstract" required ng-maxlength="1200"
                 >
                 </textarea>
                 <p class="help-block" ng-show="form.Description.$error.required && vm.submitted">
