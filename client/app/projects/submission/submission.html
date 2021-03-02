@@ -67,17 +67,23 @@
 
               <div class="form-group">
                 <label for="ProfessorId">
-                  PROFESSOR RESPONSÁVEL*
+                  RESPONSÁVEL PELO PROJETO*
                   <i class="fa fa-question-circle-o" aria-hidden="true" tooltip-placement="bottom"
-                    uib-tooltip="Nome do professor envolvido no projeto." 
+                    uib-tooltip="Nome do responsável envolvido no projeto." 
                   ></i>
                 </label>
                 <select class="form-control" id="ProfessorId" name="ProfessorId" required
                         ng-model="vm.project.ProfessorId">
                   <option></option>
-                  <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">
-                    {{professor.Name}}
-                  </option>
+                  <optgroup label="Professores">
+                    <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">
+                      {{professor.Name}}
+                    </option>
+                  </optgroup>
+                  <optgroup label="Ex-Alunos">
+                    <option ng-repeat="formerStudent in vm.formerStudentsList | orderBy: 'Name'" ng-value="formerStudent.PersonId">
+                      {{formerStudent.Name}}
+                  </optgroup>
                 </select>
                 <p class="help-block" ng-show="form.ProfessorId.$error.required && vm.submitted">
                   Insira o professor responsável. Caso ele não esteja na lista, será necessário o cadastro do professor.
@@ -101,6 +107,10 @@
                   <optgroup label="Professores">
                     <option ng-repeat="professor in vm.professorsList | orderBy: 'Name'" ng-value="professor.PersonId">
                       {{professor.Name}}
+                  </optgroup>
+                  <optgroup label="Ex-Alunos">
+                    <option ng-repeat="formerStudent in vm.formerStudentsList | orderBy: 'Name'" ng-value="formerStudent.PersonId">
+                      {{formerStudent.Name}}
                   </optgroup>
                   </option>
                 </select>

@@ -18,6 +18,7 @@ router.get('/:token/show', controller.showToken);
 router.put('/:token/registry', controller.update);
 router.get('/professors', controller.professors);
 router.get('/students', controller.students);
+router.get('/formerStudents', controller.formerStudents);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.post('/upload', auth.isAuthenticated(), controller.upload);
