@@ -76,6 +76,11 @@ export default class SubmissionController {
       .then(response => {
         this.studentsList = response.data;
       });
+    
+    this.$http.get('/api/users/formerStudents')
+      .then(response => {
+        this.formerStudentsList = response.data;
+      });
 
     var loading = this.Modal.showLoading();
     this.getCurrentUser()

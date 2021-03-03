@@ -329,6 +329,28 @@ export function students(req, res) {
     .catch(handleError(res));
 }
 
+/**
+ * Get list of students
+ */
+export function formerStudents(req, res) {
+  return User.findAll({
+    attributes: [
+      'PersonId',
+      'Name'
+    ],
+    where: {
+      PersonTypeId: [3,6,9,10],
+      // IsApproved: 1,
+      IsExcluded: 0
+    }
+  })
+    .then(users => {
+      res.status(200)
+        .json(users);
+    })
+    .catch(handleError(res));
+}
+
 // Autocomplete for admin search
 export function complete(req, res) {
 
