@@ -128,7 +128,7 @@ export default class SubmissionController {
       if(!this.user.PersonId) {
         // User needs to login
         this.Modal.openLogin();
-      } else if(user.PersonTypeId === 2 || user.PersonTypeId === 3 || user.PersonTypeId === 4 || user.PersonTypeId === 5 || user.PersonTypeId === 6 || user.PersonTypeId === 8 || user.PersonTypeId === 9 || user.PersonTypeId === 10) {
+      } else if(this.user.PersonTypeId === 2 || this.user.PersonTypeId === 3 || this.user.PersonTypeId === 4 || this.user.PersonTypeId === 5 || this.user.PersonTypeId === 6 || this.user.PersonTypeId === 8 || this.user.PersonTypeId === 9 || this.user.PersonTypeId === 10) {
 
         if(form.$valid && this.uploadImages && this.uploadImages.length > 0 && !this.dateInvalid && this.budget<=this.fundLimit) {
           this.project.EstimatedPriceInCents = this.budget * 100;
