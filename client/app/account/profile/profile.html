@@ -4,7 +4,7 @@
     <div class="d-none d-lg-block col-lg-4">
       <ul class="nav navbar-nav flex-column">
         <li class="nav-item" ng-repeat="item in vm.menu" ng-class="{active: item === vm.itemSelected}"
-            ng-hide="item.route === 'submitted_projects' && !(vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student')">
+            ng-hide="item.route === 'submitted_projects' && !(vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'FormerStudent')">
           <a class="nav-link" ng-click="vm.selectPage(item.route)" href="#">{{item.name}}</a>
         </li>
         <li class="nav-item">
@@ -632,13 +632,13 @@
 
     <!-- Submitted projects -->
     <ul class="nav navbar-nav flex-column w-100 mb-2 mt-3 d-block d-lg-none"
-        ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student'">
+        ng-if="vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'FormerStudent'">
       <li class="nav-item" ng-class="{active: vm.itemSelected.route === 'submitted_projects'}">
         <a class="nav-link" ng-click="vm.selectPage('submitted_projects')" href="#">Projetos submetidos</a>
       </li>
     </ul>
     <div class="col-12 col-lg-8"
-         ng-if="vm.itemSelected.route === 'submitted_projects' && (vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student')">
+         ng-if="vm.itemSelected.route === 'submitted_projects' && (vm.user.personType.Description === 'FormerStudentAndProfessor' || vm.user.personType.Description === 'Professor' || vm.user.personType.Description === 'Student' || vm.user.personType.Description === 'FormerStudent')">
 
       <div class="card-columns">
 
