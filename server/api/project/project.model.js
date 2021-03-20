@@ -148,6 +148,10 @@ export default function (sequelize, DataTypes) {
     Theme: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    Document: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     tableName: 'Project'
