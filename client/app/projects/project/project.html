@@ -216,7 +216,7 @@
 
       <div class="donations-mobile d-md-none">
         <div class="card project-card mb-3" ng-if="!vm.project.IsSpecial || (vm.project.IsSpecial && vm.project.EstimatedPriceInCents != 1)">
-        <div class="card-header text-center" ng-if="vm.project.IsSpecial">APOIO FINANCEIRO</div>
+          <div class="card-header text-center" ng-if="vm.project.IsSpecial">APOIO FINANCEIRO</div>
           <div class="card-body">
             <div class="form-group">
               <label>ORÇAMENTO</label>
@@ -299,6 +299,16 @@
               </div>
           </div>
         </div>
+
+        <a ng-if="vm.project.Document" href="vm.project.Document" target="_blank">
+          <div class="card project-card mb-3 pitch-card">
+            <div class="card-body">
+              <h5 class="text-center">Pitch Deck</h5>   
+              <img src="assets/images/docs.svg">
+            </div>
+          </div>
+        </a>
+
         <div class="reward-title" ng-if="vm.project.rewards.length && !vm.project.IsSpecial">
           <strong>Recompensas</strong>
         </div> 
@@ -328,7 +338,6 @@
           </div>
       
         </div>
-
       </div>
 
 
@@ -511,6 +520,16 @@
           </div>      
         </div>
       </div>
+
+      <a ng-if="vm.project.Document" href="vm.project.Document" target="_blank">
+        <div class="card project-card mb-3 pitch-card">
+          <div class="card-body">
+            <h5 class="text-center">Pitch Deck</h5>   
+            <img src="assets/images/docs.svg">
+          </div>
+        </div>
+      </a>
+
       <div class="reward-title" ng-if="vm.project.rewards.length && !vm.project.IsSpecial">
         <strong>Recompensas</strong>
       </div> 
@@ -540,7 +559,6 @@
         </div>
   
       </div>
-      
     </div>
   </div>
 
