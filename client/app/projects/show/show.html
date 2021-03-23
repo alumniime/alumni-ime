@@ -10,10 +10,13 @@
         <div class="card-img-top" ng-if="project.images[0].Path">
           <img ng-src="{{project.images[0].Path}}" alt="{{project.ProjectName}}">
         </div>
+        <div class="project-category">
+          {{project.Category}}
+        </div>
         <div class="card-body">
           <div class="form-group">
             <h5 class="card-title">{{project.ProjectName}}</h5>
-            <label>por {{project.TeamName}}</label>
+            <label>{{project.TeamName}}</label>
           </div>
 
           <div class="form-group" ng-if="vm.Year > 2018">
@@ -22,80 +25,76 @@
             </p>
           </div>
 
-          <div class="form-group" ng-if="project.CollectedPriceInCents > 0 || project.DonationSum > 0">    
-            <label>ARRECADADO</label>
-            <div class="row" ng-if="project.Year === 2018">
-              <div class="col-8">
-                <input type="text" class="form-control-plaintext pb-0" readonly
-                       value="{{project.CollectedPriceInCents/100 | currency}}">
-              </div>
-              <div class="col-4">
-                <input type="text" class="form-control-plaintext-right" readonly
-                       value="{{100*project.CollectedPriceInCents/project.EstimatedPriceInCents | number: 0}}%">
-              </div>
-            </div>
-            <div class="progress mt-2" ng-if="project.Year === 2018">
-              <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                   style="width: {{project.CollectedPriceInCents/project.EstimatedPriceInCents*100}}%;">
-              </div>
-            </div>
-            <div class="row" ng-if="project.Year > 2018">
-              <div class="col-8">
-                <input type="text" class="form-control-plaintext pb-0" readonly
-                       value="{{project.DonationSum/100 | currency}}">
-              </div>
-              <div class="col-4">
-                <input type="text" class="form-control-plaintext-right" readonly
-                       value="{{100*project.DonationSum/project.EstimatedPriceInCents | number: 0}}%">
-              </div>
-            </div>
-            <div class="progress mt-2" ng-if="project.Year > 2018">
-              <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                   style="width: {{project.DonationSum/project.EstimatedPriceInCents*100}}%;">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group" ng-if="project.CollectedPriceInCents <= 0 && project.DonationSum <= 0">
-            <label>ORÇAMENTO</label>
-            <div class="row">
-              <div class="col-8">
-                <input type="text" class="form-control-plaintext pb-0" readonly
-                       value="{{project.EstimatedPriceInCents/100 | currency}}">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="row">
-              <div class="col-6 text-center">
-                <label>TEMPO RESTANTE</label>
-                <div class="days-left" ng-if="project.UntilEnd > 0">
-                  <label class="days">{{project.UntilEnd}}</label> <label>dias</label>
+          <div>
+            <div class="form-group" ng-if="project.CollectedPriceInCents > 0 || project.DonationSum > 0">    
+              <label>ARRECADADO</label>
+  
+              <div class="row" ng-if="project.Year === 2018">
+                <div class="col-8">
+                  <input type="text" class="form-control-plaintext pb-0" readonly
+                         value="{{project.CollectedPriceInCents/100 | currency}}">
                 </div>
-                <div class="days-left-ended" ng-if="project.UntilEnd <= 0">
-                  <label class="days-ended">Encerrado</label>
+                <div class="col-4">
+                  <input type="text" class="form-control-plaintext-right" readonly
+                         value="{{100*project.CollectedPriceInCents/project.EstimatedPriceInCents | number: 0}}%">
                 </div>
               </div>
-              <div class="col-6 text-center vertical-line">
-                <label>DOADORES</label>
-                <div class="donator-count" ng-if="vm.Year > 2018">
-                  <label>{{project.DonationsNumber}}</label>  
+              <div class="progress mt-2" ng-if="project.Year === 2018">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                     style="width: {{project.CollectedPriceInCents/project.EstimatedPriceInCents*100}}%;">
                 </div>
-                <div ng-if="vm.Year <= 2018">
-                  <label>-</label>  
+              </div>
+  
+              <div class="row" ng-if="project.Year > 2018">
+                <div class="col-8">
+                  <input type="text" class="form-control-plaintext pb-0" readonly
+                         value="{{project.DonationSum/100 | currency}}">
+                </div>
+                <div class="col-4">
+                  <input type="text" class="form-control-plaintext-right" readonly
+                         value="{{100*project.DonationSum/project.EstimatedPriceInCents | number: 0}}%">
+                </div>
+              </div>
+              <div class="progress mt-2" ng-if="project.Year > 2018">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                     style="width: {{project.DonationSum/project.EstimatedPriceInCents*100}}%;">
                 </div>
               </div>
             </div>
+  
+            <div class="form-group" ng-if="project.CollectedPriceInCents <= 0 && project.DonationSum <= 0">
+              <label>ORÇAMENTO</label>
+              <div class="row">
+                <div class="col-8">
+                  <input type="text" class="form-control-plaintext pb-0" readonly
+                         value="{{project.EstimatedPriceInCents/100 | currency}}">
+                </div>
+              </div>
+            </div>
+  
+            <div class="form-group">
+              <div class="row">
+                <div class="col-6 text-center">
+                  <label>TEMPO RESTANTE</label>
+                  <div class="days-left" ng-if="project.UntilEnd > 0">
+                    <label class="days">{{project.UntilEnd}}</label> <label>dias</label>
+                  </div>
+                  <div class="days-left-ended" ng-if="project.UntilEnd <= 0">
+                    <label class="days-ended">Encerrado</label>
+                  </div>
+                </div>
+                <div class="col-6 text-center vertical-line">
+                  <label>DOADORES</label>
+                  <div class="donator-count" ng-if="vm.Year > 2018">
+                    <label>{{project.DonationsNumber}}</label>  
+                  </div>
+                  <div ng-if="vm.Year <= 2018">
+                    <label>-</label>  
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <!--<div class="form-group">
-            <label>LÍDER DO PROJETO</label>
-            <input type="text" class="form-control-plaintext" readonly ng-value="project.leader.name">
-          </div>
-          <div class="form-group">
-            <label>PROFESSOR RESPONSÁVEL</label>
-            <input type="text" class="form-control-plaintext" readonly ng-value="project.professor.name">
-          </div>-->
         </div>
       </a>
     </div>

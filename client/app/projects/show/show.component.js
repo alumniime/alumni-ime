@@ -50,6 +50,14 @@ export class ShowController {
             }else{
               if(project.Year == this.Year && project.Semester == this.Semester){
                 project.show = true;
+
+
+                //ONLY FOR TEST
+                console.log(project);
+                project.DonationSum = project.CollectedPriceInCents;
+
+
+
               }else{
                 project.show = false;
               }
