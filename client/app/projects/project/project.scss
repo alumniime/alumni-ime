@@ -413,6 +413,13 @@ body{
   }
 
   .pitch-card{
+    background-color: #00456F !important;
+    border-radius: 7px;
+
+    h5{
+      color: white !important;
+    }
+    
     div{
       display: flex;
       flex-direction: column;
