@@ -106,10 +106,16 @@
     box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     width: 100%;
+    height: calc(100% - 1rem);
 
     .card-title {
       font-size: 18px;
       color: #333333;
+    }
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .card-link {
       font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
@@ -129,6 +135,7 @@
         min-height: 100%;
         max-width: 100%;
         align-self: center;
+        object-fit: cover;
       }
     }
   }
@@ -137,6 +144,15 @@
     text-decoration: none;
     border-radius: 8px;
     box-shadow: 3px 3px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .project-category{
+    font-size: 0.8rem;
+    background-color: #E84E0F;
+    color: white;
+    width: 80%;
+    border-bottom-right-radius: 100px;
+    padding: 0.5rem;
   }
 
   .progress {
