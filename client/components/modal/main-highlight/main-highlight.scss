@@ -81,9 +81,11 @@ modal-main-highlight {
     font-weight: 600;
     font-size: 14px;
     background-color: #E84E0F;
-    width: 120px;
+    width: 160px;
     border-radius: 100px;
     margin-bottom: 1rem;
+    align-items: center;
+    justify-content: center;
   }
   
   .btn-danger:hover, .btn-danger.active {
@@ -95,6 +97,7 @@ modal-main-highlight {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     #title{
       font-weight: 600;
     }
