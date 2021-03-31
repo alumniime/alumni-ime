@@ -147,7 +147,7 @@ export class DonateController {
     }
     this.customValue = value;
     this.donation.Frequency = 'once';
-    this.donation.ValueInCents = 100 * value;
+    this.donation.ValueInCents = Number((100 * value).toFixed(0));
     this.selectedOption = {
       value: value,
       frequency: 'once',
