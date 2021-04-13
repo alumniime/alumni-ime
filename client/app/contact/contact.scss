@@ -1,13 +1,14 @@
 .contactView {
   --secondary: #d4d4d4;
 	--grayText: #999;
+  // background-color: green;
 
 	@include media-breakpoint-down(sm) {
 		padding: 2rem 1.5rem;
 	}
 
   .content {
-    border-right: solid 1px var(--secondary);
+    // border-right: solid 1px var(--secondary);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,6 +48,7 @@
   }
 
   .contactText {
+    margin-top: 90px;
     h2 {
       color: $danger;
     }
@@ -138,5 +140,25 @@
     form .btn:focus {
       box-shadow: 0 0 0 0.2rem #F69C78 !important;
     }
+  }
+.faq-container{
+  margin-top: 20px;
+  padding-bottom: 3rem !important;
+  justify-content: center;
+  width: 100%;
+}
+  .faq-header{
+    font-size: 40px;
+    margin-bottom: 20px;
+    margin-top: 90px;
+}
+  .coluna1{
+    border-right: solid 1px var(--secondary);
+  }
+  .coluna2{
+    
+  }
+  .mainRow{
+    
   }
 }
