@@ -18,7 +18,7 @@ export default class SubmissionController {
   categories = [
     "Desenvolvimento da formação acadêmica",
     "Ciência e novas tecnologias",
-    "Extracurriculares",
+    "Extracurricular",
     "Desenvolvimento de produtos",
     "Outros"
   ];
