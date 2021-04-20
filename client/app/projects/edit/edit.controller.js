@@ -21,7 +21,7 @@ export default class EditController {
   categories = [
     "Desenvolvimento da formação acadêmica",
     "Ciência e novas tecnologias",
-    "Extracurriculares",
+    "Extracurricular",
     "Desenvolvimento de produtos",
     "Outros"
   ];
