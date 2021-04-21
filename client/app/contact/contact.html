@@ -302,20 +302,21 @@
                     <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[9] = !vm.collapseStatus[9]" style = "background-color: #f0f0f0;">
                         <h5 class="card-header">
                             Como vejo onde o dinheiro está sendo aplicado? E onde os recursos são aplicados em
-                            caso de doação &quot;geral&quot;?
+                            caso de doação &quot;infraestrutura/gestão&quot;?
                             <!-- <span class="pull-right collapse-icon"> -->
                             <i class="fa fa-angle-down pull-right" ng-hide="!!vm.collapseStatus[9]"></i> 
                             <i class="fa fa-angle-up pull-right" ng-hide="!vm.collapseStatus[9]"></i> 
                             <!-- </span> -->
                         </h5>
                     </a>
-                    <div class="card-body pb-4" ng-hide="!vm.collapseStatus[9]"> 
-                        As doações do caso “geral” podem ser distribuídas entre os projetos do Edital ou destinadas a despesas 
-                        administrativas, investimento em equipe, pagamento a fornecedores e taxas de funcionamento da Alumni IME. 
-                        Essas doações apoiam os custos das demais atividades da Alumni IME, como manutenção da nossa plataforma, 
-                        geração de conteúdo em redes sociais, promoção e realização de eventos online e presenciais, parcerias para 
-                        oferta de vagas de trabalho. Todo o detalhamento dos recursos investidos está disponível nos relatórios 
-                        financeiros em <a href="https://www.alumniime.com.br/transparency">"Transparência"</a>.
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[9]"> 
+                      As doações direcionadas para “infraestrutura/gestão” são destinadas ao pagamento das despesas administrativas, 
+                      remuneração da equipe, prestadores de serviço (assessoria contábil e jurídica, agência de marketing), taxas legais 
+                      da associação e também no apoio aos projetos que conseguiram arrecadar, pelo menos, 50% do valor arrecadado. Estas 
+                      contribuições apoiam os custos das demais atividades da Alumni IME, como manutenção da nossa plataforma, geração de 
+                      conteúdo nas redes sociais, promoção e realização de eventos online e presenciais, parcerias para oferta de vagas de 
+                      trabalho dentre outros. Todo o detalhamento dos recursos investidos está disponível nos balanços e relatórios financeiros 
+                      em <a href="https://www.alumniime.com.br/transparency">"Transparência"</a>.
                     </div> 
                 </div>
             </div>
