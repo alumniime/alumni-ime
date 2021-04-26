@@ -206,4 +206,49 @@
   a.project-group {
     text-decoration: none;
   }
+
+  .blocoBotaoApoie {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+  }
+  .botaoApoie{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding: 10px;
+    width: 120px;
+    border-radius: 100px;
+
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 14px;
+      background-color: #E84E0F;
+      font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
+      color: #fff !important;
+
+      outline: none !important;
+
+      
+  }
+  .botaoApoie:hover, .botaoApoie.active {
+    background-color: rgb(199, 66, 14);
+  }
+
+  .containerMaximo{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  .blocoVideoYoutube{
+    display: flex;
+    width: 80%;
+    height: 300px;
+  }
+  p {
+    text-align: justify;
+  }
 }

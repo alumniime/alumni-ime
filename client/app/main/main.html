@@ -86,7 +86,7 @@
     </div>
   </div>
 
-  <div class="news-projects">
+  <!-- <div class="news-projects">
     <div class="container">
       <div class="row">
         <div class="col-md-4 projects order-md-last">
@@ -118,52 +118,102 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <!-- <div class="news-projects">
+  <div class="news-projects">
     <div class="container">
       <div class="row">
-        <div class="col-md-4 projects order-md-last">
+        <!-- <div class="col-md-4 projects order-md-last">
           <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: ['-Year', '-Semester', '-Views'] | limitTo: 3"
              ui-sref="project({ProjectId: project.ProjectId, PrettyURL: vm.Util.convertToSlug(project.ProjectName), preview: false, forceReload: false})">
             <img class="rounded mx-auto d-block" alt="{{project.ProjectName}}" ng-src="{{project.images[0].Path}}">
             <h5 class="project-title">{{project.ProjectName}}</h5>
             <h6 class="team-name">por {{project.TeamName}}</h6>
           </a>
-        </div>
-        <div class="col-md-8 news pr-md-5">
+        </div> -->
 
-          <hr class="divider">
-          <h6>
+
+        <div class="col-md-12 news pr-md-5">
+          <div class="containerMaximo">
+                <div class="blocoVideoYoutube">
+                  <div class="embed-responsive embed-responsive-4by3">
+                    <ng-youtube-embed class="d-none d-lg-block d-xl-none" video="'le5xaAfub4Q'" modestbranding="true"
+                        width="100%" disablekb="true" rel="false" ivloadpolicy="false" height="300px">
+                    </ng-youtube-embed>
+                    <ng-youtube-embed class="d-block d-lg-none d-xl-block" video="'le5xaAfub4Q'" modestbranding="true"
+                        width="100%" disablekb="true" rel="false" ivloadpolicy="false">
+                    </ng-youtube-embed>
+                  </div>
+                </div>
+          </div>
+          
+
+          <br>
+          <!-- <hr class="divider"> -->
+          <p>
             Desde 2018, estamos mobilizando a comunidade IMEana e, com a contribuição dos ex-alunos(as), já conseguimos apoiar mais de 40 projetos acadêmicos e outras iniciativas. 
-          </h6>
+          </p>
           <br>
           <h3>Com o apoio dos IMEanos(as), conseguimos: </h3>
           <br>
-          <p>
-            Melhorar ainda mais a experiência de alunos(as) e professores(as) em sala de aula, fornecendo materiais como kits arduíno, impressora 3D e outros materiais pedagógicos/tecnológicos;
-            Ajudar equipes de alunos a representarem o IME em competições nacionais e internacionais;
-            Incentivar alunos e professores a desenvolver novos projetos, gerando inovações e impacto na formação, engrandecendo cada vez mais o nome do nosso Instituto;
-            Fortalecer e profissionalizar a Alumni IME, permitindo que façamos muito mais pelo IME e pela comunidade;
-            Construir uma área de convivência no IME que está beneficiando alunos, ex-alunos, professores e convidados que agora podem estudar, se reunir e confraternizar num espaço muito mais agradável;
-            Facilitar a conexão de IMEanos(as) por meio da nossa plataforma de usuários
-            Realizar encontros e eventos que fortalecem o espírito de união da comunidade;
-            Divulgar notícias e conquistas profissionais de IMEanos(as);
-            Oferecer um portal de vagas que favorece a integração dos alunos com o mercado de trabalho.
-
-
-            Queremos fazer ainda muito mais pelo IME, pela comunidade IMEana e pela sociedade e VOCÊ pode faz parte disso!
+          <ul>
+            <li>
+                <p>
+                  Melhorar ainda mais a experiência de alunos(as) e professores(as) em sala de aula, fornecendo materiais como kits arduíno, impressora 3D e outros materiais pedagógicos/tecnológicos;
+                </p>
+            </li>
+            <li>
+                <p>
+                  Ajudar equipes de alunos a representarem o IME em competições nacionais e internacionais;
+                </p>
+            </li>
+            <li>
+                <p>
+                  Incentivar alunos e professores a desenvolver novos projetos, gerando inovações e impacto na formação, engrandecendo cada vez mais o nome do nosso Instituto;
+                </p>
+            </li> 
+            <li>
+                <p>
+                  Fortalecer e profissionalizar a Alumni IME, permitindo que façamos muito mais pelo IME e pela comunidade;
+                </p>
+            </li> 
+            <li>
+                <p>
+                  Construir uma área de convivência no IME que está beneficiando alunos, ex-alunos, professores e convidados que agora podem estudar, se reunir e confraternizar num espaço muito mais agradável;
+                </p>
+            </li> 
+            <li>
+                <p>
+                  Facilitar a conexão de IMEanos(as) por meio da nossa plataforma de usuários
+                </p>
+            </li> 
+            <li>
+                <p>
+                  Realizar encontros e eventos que fortalecem o espírito de união da comunidade;
+                </p>
+            </li> 
+            <li>
+                <p>
+                  Divulgar notícias e conquistas profissionais de IMEanos(as);
+                </p>
+            </li> 
+            <li>
+                <p>
+                  Oferecer um portal de vagas que favorece a integração dos alunos com o mercado de trabalho.
+                </p>
+            </li> 
+          </ul>
+          <p>Queremos fazer ainda muito mais pelo IME, pela comunidade IMEana e pela sociedade e VOCÊ pode faz parte disso!
           </p>
-          <hr class="divider" ng-repeat-end>
           <br>
-          <div class="container">
-            <a class="nav-link btn btn-danger" href="support" role="button" >APOIE</a>
+          <div class="blocoBotaoApoie">
+            <a class="botaoApoie" href="support" role="button" >APOIE</a>
           </div>
              
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 
 
 </div>
