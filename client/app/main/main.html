@@ -123,14 +123,14 @@
   <div class="news-projects">
     <div class="container">
       <div class="row">
-        <div class="col-md-4 projects order-md-last">
+        <!-- <div class="col-md-4 projects order-md-last">
           <a class="project-group c-pointer" ng-repeat="project in vm.Project.list | orderBy: ['-Year', '-Semester', '-Views'] | limitTo: 3"
              ui-sref="project({ProjectId: project.ProjectId, PrettyURL: vm.Util.convertToSlug(project.ProjectName), preview: false, forceReload: false})">
             <img class="rounded mx-auto d-block" alt="{{project.ProjectName}}" ng-src="{{project.images[0].Path}}">
             <h5 class="project-title">{{project.ProjectName}}</h5>
             <h6 class="team-name">por {{project.TeamName}}</h6>
           </a>
-        </div>
+        </div> -->
 
 
         <div class="col-md-8 news pr-md-5">
@@ -149,10 +149,10 @@
           
 
           <br>
-          <hr class="divider">
-          <h6>
+          <!-- <hr class="divider"> -->
+          <p>
             Desde 2018, estamos mobilizando a comunidade IMEana e, com a contribuição dos ex-alunos(as), já conseguimos apoiar mais de 40 projetos acadêmicos e outras iniciativas. 
-          </h6>
+          </p>
           <br>
           <h3>Com o apoio dos IMEanos(as), conseguimos: </h3>
           <br>
@@ -205,10 +205,9 @@
           </ul>
           <p>Queremos fazer ainda muito mais pelo IME, pela comunidade IMEana e pela sociedade e VOCÊ pode faz parte disso!
           </p>
-          <hr class="divider" ng-repeat-end>
           <br>
           <div class="blocoBotaoApoie">
-            <a class="nav-link btn btn-danger" href="support" role="button" >APOIE</a>
+            <a class="botaoApoie" href="support" role="button" >APOIE</a>
           </div>
              
         </div>
