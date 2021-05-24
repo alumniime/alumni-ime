@@ -5,7 +5,7 @@ export default class DonatorsHallController {
   graduationYears = [];
   filteredList=[];
   searchText;
-  totalCategory=[0,0,0,0,0,0]; //an array with the total number of donators in each category, in order from patron to support
+  totalCategory=[0,0,0,0,0,0,0,0,0,0,0]; //an array with the total number of donators in each category, in order from patron to support
 
   constructor(Auth, DonatorHall, Modal, Util, $http, $anchorScroll, $stateParams, $state) {
     'ngInject';
