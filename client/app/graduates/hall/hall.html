@@ -10,9 +10,10 @@
   <div class="row" ng-if="vm.state.Type=='individual'">
     
     <div class="col-12 col-lg-5 intro">
-          A Alumni IME conta com o suporte de ex-alunos e amigos do IME para realizar suas atividades de integração e incentivar projetos de alunos e professores. Gostaríamos de agradecer a todas as pessoas abaixo que puderam contribuir de alguma forma! Muito Obrigado!
+          A Alumni IME conta com o suporte de ex-alunos, alunos, professores e amigos do IME para realizar suas atividades de integração e incentivar projetos acadêmicos. Agradecemos a todas as pessoas que contribuíram com o nosso trabalho em {{vm.state.Year}}. 
           <br><br>
-          Em {{vm.state.Year}} já foram <b>{{vm.DonatorHall.list.length}} apoiadores</b>, divididos nas categorias:
+          Recebemos o apoio de <b>{{vm.DonatorHall.list.length}} pessoas</b>, que classificamos nas seguintes categorias de acordo com o valor doado no ano:
+          <br><br>
           <ul ng-hide='vm.state.Year > 2019'>
             <li>Patrono: {{vm.totalCategory[0]}}</li>
             <li>Platina: {{vm.totalCategory[1]}}</li>
@@ -28,14 +29,13 @@
             <li>Bronze: {{vm.totalCategory[4]}}</li>
             <li>Papiro: {{vm.totalCategory[7]}}</li>
           </ul>
-          <br>
           <!--
             <a ng-href="/turmas/ranking">Veja o ranking das turmas</a>
           -->
           <br>
           <hr>
 
-          Una-se a este grupo e doe você também. Clique AGORA no link abaixo. É simples e qualquer valor ajuda muito!
+          Junte-se aos nossos apoiadores e contribua também! Clique AGORA no link abaixo. É simples, rápido e você pode ajudar muito a agregar ainda mais excelência na formação dos alunos e fortalecer a nossa comunidade!
           <br>
           <br>
           <a class="nav-link btn btn-danger d-none d-md-block" href="support" role="button">APOIE</a>  
