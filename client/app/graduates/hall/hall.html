@@ -13,14 +13,19 @@
           A Alumni IME conta com o suporte de ex-alunos e amigos do IME para realizar suas atividades de integração e incentivar projetos de alunos e professores. Gostaríamos de agradecer a todas as pessoas abaixo que puderam contribuir de alguma forma! Muito Obrigado!
           <br><br>
           Em {{vm.state.Year}} já foram <b>{{vm.DonatorHall.list.length}} apoiadores</b>, divididos nas categorias:
-          <ul>
+          <ul ng-hide='vm.state.Year > 2019'>
             <li>Patrono: {{vm.totalCategory[0]}}</li>
             <li>Platina: {{vm.totalCategory[1]}}</li>
             <li>Ouro: {{vm.totalCategory[2]}}</li>
             <li>Prata: {{vm.totalCategory[3]}}</li>
             <li>Bronze: {{vm.totalCategory[4]}}</li>
             <li>Apoio: {{vm.totalCategory[5]}}</li>
+          </ul>
+          <ul ng-hide='vm.state.Year <= 2019'>
             <li>Premium: {{vm.totalCategory[6]}}</li>
+            <li>Ouro: {{vm.totalCategory[2]}}</li>
+            <li>Prata: {{vm.totalCategory[3]}}</li>
+            <li>Bronze: {{vm.totalCategory[4]}}</li>
             <li>Papiro: {{vm.totalCategory[7]}}</li>
           </ul>
           <br>
