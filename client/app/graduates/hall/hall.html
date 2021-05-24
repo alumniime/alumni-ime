@@ -20,6 +20,8 @@
             <li>Prata: {{vm.totalCategory[3]}}</li>
             <li>Bronze: {{vm.totalCategory[4]}}</li>
             <li>Apoio: {{vm.totalCategory[5]}}</li>
+            <li>Premium: {{vm.totalCategory[6]}}</li>
+            <li>Papiro: {{vm.totalCategory[7]}}</li>
           </ul>
           <br>
           <!--
@@ -39,8 +41,8 @@
           <input type="text" name="SearchText" placeholder="Pesquisar por nome, turma ou perfil..." ng-change="vm.updateFilter()" class="form-control input-search" 
                 ng-model="vm.searchText">
         </div>  
-      <nav class="nav nav-tabs flex-column flex-sm-row">
-          <a class="nav-item nav-link active" data-toggle="tab" href="#all">Todos</a>
+      <nav class="nav nav-tabs flex-column flex-sm-row" ng-hide='vm.state.Year > 2019'>
+        <a class="nav-item nav-link active" data-toggle="tab" href="#all">Todos</a>
         <a class="nav-item nav-link" data-toggle="tab" href="#patron">Patrono</a>
         <a class="nav-item nav-link" data-toggle="tab" href="#platinum">Platina</a>
         <a class="nav-item nav-link" data-toggle="tab" href="#gold">Ouro</a>
@@ -48,6 +50,15 @@
         <a class="nav-item nav-link" data-toggle="tab" href="#bronze">Bronze</a>
         <a class="nav-item nav-link" data-toggle="tab" href="#support">Apoio</a>
         
+      </nav>
+      <nav class="nav nav-tabs flex-column flex-sm-row" ng-hide='vm.state.Year <= 2019'>
+        <a class="nav-item nav-link active" data-toggle="tab" href="#all">Todos</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#premium">Premium</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#gold">Ouro</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#silver">Prata</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#bronze">Bronze</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#papiro">Papiro</a>
+
       </nav>
       <div class="tab-content">
           
@@ -184,6 +195,46 @@
             </thead>
             <tbody>
             <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 6} | orderBy: 'DonatorName'">
+              <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
+              <td>
+                {{donator.personType.PortugueseDescription}}
+              </td>
+              <td>{{donator.FormerStudentId ? donator.formerStudent.GraduationYear : "-"}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="premium" class="tab-pane fade show">
+          <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+            <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Perfil</th>
+              <th scope="col">Turma</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 7} | orderBy: 'DonatorName'">
+              <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
+              <td>
+                {{donator.personType.PortugueseDescription}}
+              </td>
+              <td>{{donator.FormerStudentId ? donator.formerStudent.GraduationYear : "-"}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="papiro" class="tab-pane fade show">
+          <table class="table table-striped table-hover table-fixed table-responsive-md table-sm">
+            <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Perfil</th>
+              <th scope="col">Turma</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="donator in vm.filteredList | filter: {CategoryId: 8} | orderBy: 'DonatorName'">
               <td>{{donator.IsAnonymous ? "Anônimo" : donator.DonatorName}}</td>
               <td>
                 {{donator.personType.PortugueseDescription}}
