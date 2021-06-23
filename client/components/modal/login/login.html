@@ -7,6 +7,10 @@
 </div>
 
 <div class="modal-body" id="modal-body">
+  <span class="description m-auto">
+    Ainda não possui conta?
+    <a href="#" ng-click="vm.callSignup()" class="btn btn-link text-dark d-inline pl-1">Cadastre-se</a>
+  </span>
 
   <a class="btn btn-primary m-auto btn-linkedin" href="#" ng-click="vm.loginOauth('linkedin')">
     <i class="fa fa-linkedin"></i>
@@ -69,10 +73,6 @@
       ACESSAR
     </button>
 
-    <span class="description m-auto">
-      Ainda não possui conta?
-      <a href="#" ng-click="vm.callSignup()" class="btn btn-link text-dark d-inline pl-1">Cadastre-se</a>
-    </span>
   </form>
 
   <div class="row" ng-if="false">
