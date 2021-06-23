@@ -72,6 +72,7 @@
       <div class="description-titles">
         <h2>Contribua para a Alumni IME e apoie diversos projetos</h2>
         <h6>A sua contribuição é muito importante para manter a associação e os projetos funcionando.</h6>
+        <h6>Cadastre-se e faça parte do nosso networking da comunidade <b>IMEana</b></h6>
       </div>
 
       <div class="row align-items-center">
@@ -80,7 +81,10 @@
           <br class="d-block d-sm-none">
         </div>
         <div class="col-xs-12 col-sm-auto">
-          <a class="nav-link btn btn-light2" href="support">APOIE</a>
+          <a class="nav-link btn btn-light2" href="support" id="apoie">APOIE</a>
+        </div>
+        <div class="col-xs-12 col-sm-auto" ng-hide="vm.isLoggedIn()">
+          <a class="nav-link btn btn-outline-light" href="#" ng-click="vm.Modal.openSignup()">Cadastre-se</a>
         </div>
       </div>
     </div>
