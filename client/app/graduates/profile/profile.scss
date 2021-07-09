@@ -9,6 +9,15 @@
     border-radius: 50px;
   }
 
+  h1 , .legend , .form-group {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
   h1 {
     font-size: 36px;
     font-weight: 700;
