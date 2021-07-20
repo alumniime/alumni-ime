@@ -1,6 +1,7 @@
 <div class="modal-header d-block">
     <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
-    <h5 class="modal-title text-center mt-4" id="modal-title">Relatórios financeiros {{ vm.year }}</h5>
+    <h5 class="modal-title text-center mt-4" id="modal-title" ng-hide="vm.year===2020.1">Relatórios financeiros {{ vm.year }}</h5>
+    <h5 class="modal-title text-center mt-4" id="modal-title" ng-hide="vm.year!==2020.1">Relatórios anual {{ vm.year - 0.1 }}</h5>
 </div>
   
 <div class="modal-body" id="modal-body">
@@ -26,11 +27,18 @@
             <li><a href="/assets/documents/ALUMNI_BALANCETE_2020.pdf" target="_blank">Balanço Patrimonial</a></li>
         </ul>
     </div>
-
+    
     <div ng-if="vm.year===2021">
         <br>
         <ul>
             <li><a href="/assets/documents/ALUMNI_BALANCETE_2021_JAN-FEV-MAR.pdf" target="_blank">Balancete Trimestral</a></li>
+        </ul>
+    </div>
+
+    <div ng-if="vm.year===2020.1">
+        <br>
+        <ul>
+            <li><a href="/assets/documents/Relatorio_Anual_2020.pdf" target="_blank">Relatório Anual</a></li>
         </ul>
     </div>
 </div>
