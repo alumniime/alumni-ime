@@ -37,23 +37,33 @@
     <div class="row justify-content-between m-0">
       <div class="col-md-12 col-lg-6 light-blue">
         <div class="text-box">
-          <h5 class="page-title">Relatórios Anuais</h5>
-          <div class="page-text">
+          <div class="rela-anual">
+            <h5 class="page-title">Relatórios Anuais</h5>
+            <!-- <div ng-click="vm.openReports(2020.1)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2020</div> -->
+            <div class ="rela-container">
+              <div ng-click="vm.openReports(2020.1)" target="_blank" style="color: white;" type="button" class="btn botao-ano">2020</div>
+            </div>
+            
+          
           </div>
-          <div ng-click="vm.openReports(2020.1)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2020</div>
-          <div class="page-text">
-            <!-- Acesse abaixo os relatórios financeiros dos anos anteriores. -->
-          </div>
+          <div class="rela-anual">
+              <h5 class="page-title">Relatórios Financeiros</h5>
+              
+              <div class ="rela-container">
+                <div ng-click="vm.openReports(2021)" target="_blank" style="color: white;" type="button" class="btn botao-ano">2021</div>
+                <div ng-click="vm.openReports(2020)" target="_blank" style="color: white;" type="button" class="btn botao-ano">2020</div>
+              </div>
+              <div class ="rela-container">
+                <div ng-click="vm.openReports(2019)" target="_blank" style="color: white;" type="button" class="btn botao-ano">2019</div>
+                <div ng-click="vm.openReports(2018)" target="_blank" style="color: white;" type="button" class="btn botao-ano">2018</div>
+              </div>
 
-          <h5 class="page-title">Relatórios Financeiros</h5>
-          <div class="page-text">
-            <!-- Acesse abaixo os relatórios financeiros dos anos anteriores. -->
+              <!-- <div ng-click="vm.openReports(2021)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2021</div>
+              <div ng-click="vm.openReports(2020)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2020</div>
+              <div ng-click="vm.openReports(2019)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2019</div>
+              <div ng-click="vm.openReports(2018)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2018</div> -->
           </div>
-          <div ng-click="vm.openReports(2021)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2021</div>
-          <div ng-click="vm.openReports(2020)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2020</div>
-          <div ng-click="vm.openReports(2019)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2019</div>
-          <div ng-click="vm.openReports(2018)" target="_blank" style="color: white;" type="button" class="btn btn-primary btn-lg btn-block">2018</div>
-        </div>
+        </div>  
       </div>
       <div class="col-md-12 col-lg-6 gray">
         <div class="text-box">
