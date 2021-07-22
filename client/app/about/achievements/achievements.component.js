@@ -7,8 +7,16 @@ import routes from './achievements.routes';
 
 export class AchievementsController {
 
-  constructor() {
+  constructor(Auth, Modal, $http, $state) {
     'ngInject';
+
+    this.Auth = Auth;
+    this.$http = $http;
+    this.$state = $state;
+    this.Modal = Modal;
+  }
+  openReports(year) {
+    this.Modal.openReports(year);
   }
 
 }
