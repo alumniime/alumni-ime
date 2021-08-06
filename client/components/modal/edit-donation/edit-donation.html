@@ -140,7 +140,7 @@
             <label>PROJETO*</label>
             <select class="form-control" id="ProjectId" name="ProjectId" ng-model="vm.donation.ProjectId">
               <option value="" selected disabled>Selecione um projeto</option>
-              <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName' | filter: {Year: vm.currentYear, Semester: vm.currentSemester}" 
+              <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName' | filter: {Year: vm.currentYear}" 
                       ng-value="project.ProjectId">
                 {{project.ProjectName}}
               </option>
