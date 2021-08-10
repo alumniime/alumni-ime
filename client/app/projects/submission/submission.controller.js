@@ -94,7 +94,7 @@ export default class SubmissionController {
             this.project.SubmissionerId = user.PersonId;
           } else {
             // User can't submit a project
-            this.Modal.showAlert('Submissão indisponível', 'Apenas alunos e professores podem submeter projetos para a avaliação.');
+            this.Modal.showAlert('Submissão indisponível', 'Apenas alunos(as), ex-alunos(as) e professores(as) podem submeter projetos para a avaliação.');
           }
         } else {
           this.Modal.showAlert('Submissão indisponível', 'O período de submissão de projetos para este semestre foi encerrado.');
@@ -217,7 +217,7 @@ export default class SubmissionController {
 
       } else {
         // User can't submit a project
-        this.Modal.showAlert('Submissão indisponível', 'Apenas alunos e professores podem submeter projetos para a avaliação.');
+        this.Modal.showAlert('Submissão indisponível', 'Apenas alunos(as), ex-alunos(as) e professores(as) podem submeter projetos para a avaliação.');
       }
     } else {
       this.Modal.showAlert('Submissão indisponível', 'O período de submissão de projetos para este semestre foi encerrado.');
