@@ -26,6 +26,7 @@ import ModalEditOpportunity from './edit-opportunity/edit-opportunity.controller
 import ModalOpportunityApplication from './opportunity-application/opportunity-application.controller';
 import ModalMainHightlight from './main-highlight/main-highlight.controller';
 import ModalFinancialReports from './financial-reports/financial-reports.controller';
+import ModalDonationWarning from './donationWarning/donationWarning.controller';
 import ModalAddNewsletter from './add-newsletter/add-newsletter.controller';
 import ModalExportDonation from './export-donation/export-donation.controller';
 import ModalAssociationController from './association/association.controller';
@@ -563,6 +564,18 @@ export function ModalService($uibModal, $q) {
           }
         }
       });
+    },
+    openDonationModal(year) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        component: 'modalDonationWarning',
+        size: 'md modal-dialog-centered',
+        resolve: {
+          year: function () {
+            return year;
+          }
+        }
+      });
     }
 
   };
@@ -877,6 +890,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalFinancialReports', {
     template: require('./financial-reports/financial-reports.html'),
     controller: ModalFinancialReports,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalDonationWarning', {
+    template: require('./donationWarning/donationWarning.html'),
+    controller: ModalDonationWarning,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',

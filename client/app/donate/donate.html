@@ -42,7 +42,7 @@
                                     Infraestrutura/Gestão 
                                 </button>
                                 <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
-                                        ng-click="vm.selectType('project')">
+                                        ng-click="vm.openDonationModal(2020)">
                                     Projetos
                                 </button>
                                     </div>
@@ -73,7 +73,7 @@
                                     Infraestrutura/Gestão 
                                 </button>
                                 <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
-                                        ng-click="vm.donation.Type = 'project'">
+                                        ng-click="vm.openDonationModal(2020)">
                                     Projetos
                                 </button>
                                 <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">

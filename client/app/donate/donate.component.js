@@ -34,6 +34,12 @@ export class DonateController {
     this.Checkout = Checkout;
 
     this.localEnv = appConfig.localEnv;
+
+  }
+
+  openDonationModal(year) {
+    this.donation.Type = 'project';
+    this.Modal.openDonationModal(year);
   }
 
   $onInit() {
