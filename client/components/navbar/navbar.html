@@ -70,12 +70,16 @@
 
 
           <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
-
+            <!-- empurra dois itens para a direita -->
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item p-0" ng-repeat="item in $ctrl.menu" ng-class="[{dropdown: item.dropdown}, {active: item.active}]"
-                  ui-sref-active="active" ng-class="">
+              <li class="nav-item p-0" 
+                  ng-repeat="item in $ctrl.menu" 
+                  ng-class="[{dropdown: item.dropdown}, {active: item.active}]"
+                  ui-sref-active="active" >
+                <!-- para quem nao tem drop -->
                 <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
                    ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
+                <!-- para quem tem drop -->
                 <a class="nav-link dropdown-toggle" id="navbarDropdown{{$index}}"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                    ng-if="item.dropdown">
@@ -112,7 +116,7 @@
                 <!-- <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed" -->
                    <!-- ui-sref="submission">SUBMETER PROJETO</a> -->
               <!-- </li> -->
-              <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+              <!-- <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
                 <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
               </li>
               <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
@@ -123,7 +127,7 @@
               </li>
               <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
                 <a class="nav-link font-weight-normal" ui-sref="admin.users" ng-click="$ctrl.waitState()">ADMIN</a>
-              </li>
+              </li> -->
             </ul>
           </div>
         </nav>
