@@ -100,7 +100,7 @@ export class NavbarComponent {
       state: 'contact'
     }
   ];
-
+//abre e fecha o menu para telas medias
   isCollapsed = true;
 
   constructor(Auth, Modal, Util, appConfig, $state, $http, $timeout, $rootScope) {

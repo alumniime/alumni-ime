@@ -9,6 +9,9 @@
       </div>
       <!-- Up Medium Size -->
       <div class="col-md-9 col-lg-10 d-none d-md-block">
+
+        <!-- menu superior para telas  grandes -->
+
         <div class="row align-items-center justify-content-end">
           <div class="col-auto" style="padding: 15px 0 15px;">
             <ul class="nav">
@@ -40,6 +43,9 @@
           </div>
         </div>
         <nav class="navbar navbar-expand-lg navbar-light container">
+
+          <!-- menu superior para telas medias -->
+
           <div class="navbar-brand d-none d-md-block d-lg-none">
             <a class="nav-link d-inline" ng-hide="$ctrl.isLoggedIn()" ng-click="$ctrl.Modal.openLogin()" href="#"
                ui-sref-active="active">ENTRAR</a>
@@ -50,21 +56,30 @@
             <a class="nav-link d-inline" ui-sref="admin.users" ui-sref-active="active" ng-show="$ctrl.isAdmin()" ng-click="$ctrl.waitState()">ADMIN</a>
           </div>
 
+          <!-- botao de abrir e fechar o menu para telas medias  -->
+              <!-- o misterio de ele sumir na grande ta na classe navbar-toggle -->
+
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerMenu"
                   aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation"
                   ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
             <!--<span class="navbar-toggler-icon"></span>-->
             <i class="fa fa-bars" ng-show="$ctrl.isCollapsed"></i>
             <i class="fa fa-close" ng-hide="$ctrl.isCollapsed"></i>
+
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
 
+          <div class="collapse navbar-collapse" id="navbarTogglerMenu" uib-collapse="$ctrl.isCollapsed">
+            <!-- empurra dois itens para a direita -->
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item p-0" ng-repeat="item in $ctrl.menu" ng-class="[{dropdown: item.dropdown}, {active: item.active}]"
-                  ui-sref-active="active" ng-class="">
+              <li class="nav-item p-0" 
+                  ng-repeat="item in $ctrl.menu" 
+                  ng-class="[{dropdown: item.dropdown}, {active: item.active}]"
+                  ui-sref-active="active" >
+                <!-- para quem nao tem drop -->
                 <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed"
                    ui-sref="{{item.state}}" ng-if="!item.dropdown">{{item.title}}</a>
+                <!-- para quem tem drop -->
                 <a class="nav-link dropdown-toggle" id="navbarDropdown{{$index}}"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                    ng-if="item.dropdown">
@@ -72,7 +87,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
                   <div ng-if="item.title=='PROJETOS'">
-                    <button class="dropdown-item" ng-click="$ctrl.openLink('assets/documents/2021.2_Edital_Projetos.pdf')">
+                    <button class="dropdown-item" ng-click="$ctrl.openLink('assets/documents/2021.2_Edital_Projetos.pdf')" ng-show="$ctrl.isAdmin()">
                       EDITAL 2021.2
                     </button>
                     <div class="dropdown-divider"></div>
@@ -101,7 +116,7 @@
                 <!-- <a class="nav-link" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed" -->
                    <!-- ui-sref="submission">SUBMETER PROJETO</a> -->
               <!-- </li> -->
-              <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
+              <!-- <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
                 <a class="nav-link font-weight-normal" ng-click="$ctrl.Modal.openLogin()" href="#">ENTRAR</a>
               </li>
               <li class="nav-item d-block d-md-none" ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active">
@@ -112,7 +127,7 @@
               </li>
               <li class="nav-item d-block d-md-none" ng-show="$ctrl.isAdmin()" ui-sref-active="active">
                 <a class="nav-link font-weight-normal" ui-sref="admin.users" ng-click="$ctrl.waitState()">ADMIN</a>
-              </li>
+              </li> -->
             </ul>
           </div>
         </nav>
@@ -166,7 +181,7 @@
                     {{item.title}}
                   </a><div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
                     <div ng-if="item.title=='PROJETOS'">
-                      <button class="dropdown-item" ng-click="$ctrl.openLink('assets/documents/2021.2_Edital_Projetos.pdf')">
+                      <button class="dropdown-item" ng-click="$ctrl.openLink('assets/documents/2021.2_Edital_Projetos.pdf') " ng-show="$ctrl.isAdmin()">
                         EDITAL 2021.2
                       </button>
                       <div class="dropdown-divider"></div>
