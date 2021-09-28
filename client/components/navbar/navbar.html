@@ -87,7 +87,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
                   <div ng-if="item.title=='PROJETOS'">
-                    <button class="dropdown-item" ng-click="$ctrl.openLink('assets/documents/2021.2_Edital_Projetos.pdf')">
+                    <button class="dropdown-item" ng-click="$ctrl.openLink('assets/documents/2021.2_Edital_Projetos.pdf')" ng-show="$ctrl.isAdmin()">
                       EDITAL 2021.2
                     </button>
                     <div class="dropdown-divider"></div>
@@ -181,7 +181,7 @@
                     {{item.title}}
                   </a><div class="dropdown-menu" aria-labelledby="navbarDropdown{{$index}}" ng-if="item.dropdown">
                     <div ng-if="item.title=='PROJETOS'">
-                      <button class="dropdown-item" ng-click="$ctrl.openLink('assets/documents/2021.2_Edital_Projetos.pdf')">
+                      <button class="dropdown-item" ng-click="$ctrl.openLink('assets/documents/2021.2_Edital_Projetos.pdf') " ng-show="$ctrl.isAdmin()">
                         EDITAL 2021.2
                       </button>
                       <div class="dropdown-divider"></div>
