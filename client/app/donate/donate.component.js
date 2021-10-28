@@ -12,7 +12,7 @@ export class DonateController {
     Type: 'project',
     Frequency: 'once',
     ProjectId: null,
-    ValueInCents: 10000
+    ValueInCents: 40000
   };
   plans = [];
   selectedOption = null;
