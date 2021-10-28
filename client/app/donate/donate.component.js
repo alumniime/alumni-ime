@@ -9,8 +9,8 @@ export class DonateController {
   submitted = false;
   ProjectName = '';
   donation = {
-    Type: 'general',
-    Frequency: 'monthly',
+    Type: 'project',
+    Frequency: 'once',
     ProjectId: null,
     ValueInCents: 10000
   };
@@ -51,9 +51,9 @@ export class DonateController {
     this.Plan.load()
       .then(result => {
         this.plans = result;
-        if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
-          this.selectFrequency('monthly');
-        }
+        // if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
+        //   this.selectFrequency('monthly');
+        // }
       });
 
     this.Project.load()
