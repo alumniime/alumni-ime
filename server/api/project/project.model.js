@@ -128,6 +128,11 @@ export default function (sequelize, DataTypes) {
       allowNull: false,
       defaultValue: 0
     },
+    Hide: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
     Summary:{
       type: DataTypes.STRING(255),
       allowNull: true

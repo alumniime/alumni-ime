@@ -48,7 +48,7 @@ export class ShowController {
             if(this.IsSpecial){
               project.show = project.IsSpecial;
             }else{
-              if(project.Year == this.Year && project.Semester == this.Semester){
+              if(project.Year == this.Year && project.Semester == this.Semester && !project.Hide){
                 project.show = true;
               }else{
                 project.show = false;
