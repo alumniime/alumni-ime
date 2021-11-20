@@ -56,7 +56,7 @@
                                         <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
                                             Nenhum projeto disponível
                                         </a>
-                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate)"
+                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
                                            ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
                                             {{project.ProjectName}}
                                         </a>
@@ -85,7 +85,7 @@
                                         <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
                                             Nenhum projeto disponível
                                         </a>
-                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate)"
+                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
                                            ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
                                             {{project.ProjectName}}
                                         </a>
