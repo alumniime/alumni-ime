@@ -114,6 +114,16 @@ export class DonateController {
     return today <= limit;
   }
 
+  needMoreDonations(project) {
+    if(project.Year > 2018){
+      return(project.DonationSum < project.EstimatedPriceInCents)
+    }
+    else{
+      return(project.CollectedPriceInCents < project.EstimatedPriceInCents)
+    }
+  }
+
+
   selectType(type) {
     this.donation.Type = type;
     if(type === 'general') {
