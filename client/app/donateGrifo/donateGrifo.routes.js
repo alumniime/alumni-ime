@@ -3,8 +3,8 @@
 export default function($stateProvider, $urlRouterProvider, appConfig) {
   'ngInject';
   $stateProvider
-    .state('bankGriffo', {
-      url: '/griffo/transferencia/:ProjectId/:PrettyURL',
+    .state('bankgrifo', {
+      url: '/grifo/transferencia/:ProjectId/:PrettyURL',
       params: {
         ProjectId: {value: null, squash: true},
         PrettyURL: {value: null, squash: true}
@@ -20,24 +20,24 @@ export default function($stateProvider, $urlRouterProvider, appConfig) {
         }
       }
     })
-    .state('donateGriffo', {
-      url: '/griffo/:ProjectId/:PrettyURL?PlanIndex?Value',
+    .state('donategrifo', {
+      url: '/grifo/:ProjectId/:PrettyURL?PlanIndex?Value',
       params: {
         ProjectId: {value: null, squash: true},
         PrettyURL: {value: null, squash: true}
       },
       template: require('./donate.html'),
-      controller: 'DonateGriffoController',
+      controller: 'DonategrifoController',
       controllerAs: 'vm',
       data: {
         meta: {
           title: 'Faça sua contribuição',
           description: 'Apoiando a Alumni IME, você colabora para o fortalecimento do IME, além de fortalecer a própria comunidade IMEana ao possibilitar que as atividade da Associação sejam desenvolvidas e que sejam apoiados projetos de professores e alunos da graduação do IME.',
-          'og:url': `${appConfig.url}/griffo`
+          'og:url': `${appConfig.url}/grifo`
         }
       }
     });
 
-  $urlRouterProvider.when('/supportGriffo', '/griffo');
+  $urlRouterProvider.when('/supportgrifo', '/grifo');
 
 }

@@ -1,23 +1,19 @@
 <div class="donateView">
     <div class="py-5 donateContainter">
         <div class="container">
-            <h2 class="mb-3">Isso eh um teste</h2>
+            <h2 class="mb-3">Sua ajuda pode fazer muita diferença</h2>
             <div class="row">
                 <div class="px-4 col-12 col-lg-6 dual-column">
-                    
-                    <p class="description-text">Somos muito mais do que uma associação de ex-alunos...</p>
+                    <img src="assets/images/LogoGRIFO.png"  width="500">
+                    <p class="description-text">Junte-se ao grifo</p>
                     <p class="description-text">
-                        Nascemos de um grupo de pessoas movidas pela gratidão, pelo desejo de conectar e reconectar 
-                        IMEanos e pela crença de que investir na Educação é o melhor caminho na construção de um país melhor.
+                        O grifo é uma inciativa que...
                     </p>
                     <p class="description-text">
-                        Nós financiamos projetos de alunos e professores, promovemos e divulgamos eventos, compartilhamos conteúdos 
-                        relevantes e notícias sobre as realizações e conquistas de alunos e ex-alunos, oferecemos um portal de vagas, 
-                        networking e plataforma de cadastro de membros da comunidade.
+                        Iniciamos uma parceria com a AlumniIME que nos permite ...
                     </p>
                     <p class="description-text">
-                        Fazemos tudo isso por amor e gratidão ao IME! E é isso que buscamos despertar em toda a comunidade: 
-                        manter acesa a chama do orgulho em pertencer eternamente à melhor escola de Engenharia do Brasil.
+                        Quer contribuir com nossa iniciativa?? Você pode contribuir com apenas R$ 10 mensais, totalmente não obrigatórios
                     </p>
                     <p class="description-text">
                         Com o seu apoio, podemos fortalecer ainda mais o nome da nossa escola, contribuindo para 
@@ -31,37 +27,37 @@
                     <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
 
                         <div class="pb-5">
-                            <h3 class="mt-0 mt-lg-3 mb-3">Onde deseja aplicar sua contribuição?</h3>
+                            <h3 class="mt-0 mt-lg-3 mb-3">Associe-se à nossa iniciativa!</h3>
                             
                             <!-- For extra small and small devices -->
                             <div class="btn-group w-100 d-block d-md-none" role="group" aria-label="Donation type">
                                 <div class="row m-0 p-0">
                                     <div class="col-12 p-0 btn-group">
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'general'}"
-                                        ng-click="vm.selectType('general')">
-                                    Infraestrutura/Gestão 
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
-                                        ng-click="vm.openDonationModal(2020)">
-                                    Projetos
-                                </button>
+                                        <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'general'}"
+                                                ng-click="vm.selectType('general')">
+                                            Infraestrutura/Gestão 
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
+                                                ng-click="vm.openDonationModal(2020)">
+                                            Projetos
+                                        </button>
                                     </div>
                                     <div class="col-12 p-0 btn-group border-top-none">
-                                <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
-                                    <button id="btnSelectProjectSmall" type="button" class="btn btn-outline-secondary btn-other truncate dropdown-toggle" 
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}"  ng-click="vm.selectProject()">
-                                        {{ vm.ProjectName || 'Selecione um projeto' }}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnSelectProjectSmall">
-                                        <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
-                                            Nenhum projeto disponível
-                                        </a>
-                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
-                                           ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
-                                            {{project.ProjectName}}
-                                        </a>
-                                    </div>
-                                </div>
+                                         <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
+                                             <button id="btnSelectProjectSmall" type="button" class="btn btn-outline-secondary btn-other truncate dropdown-toggle" 
+                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}"  ng-click="vm.selectProject()">
+                                                 {{ vm.ProjectName || 'Selecione um projeto' }}
+                                             </button>
+                                             <div class="dropdown-menu" aria-labelledby="btnSelectProjectSmall">
+                                                 <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
+                                                     Nenhum projeto disponível
+                                                 </a>
+                                                 <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
+                                                    ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
+                                                     {{project.ProjectName}}
+                                                 </a>
+                                             </div>
+                                         </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,6 +93,12 @@
                                 ng-if="vm.donation.Type === 'project' && (vm.donation.ProjectId === null || vm.donation.ProjectId === '') && vm.submitted">
                                 Escolha um projeto para apoiar.
                             </p>                                
+                        </div>
+                        <div class="custom-control custom-checkbox mt-0 mt-md-2">
+                            <input type="checkbox" name="onlyPerson" class="custom-control-input" id="onlyPerson" ng-model="vm.associationType">
+                            <label class="custom-control-label" for="onlyPerson">
+                                Desejo contribuir mensalmente
+                            </label>
                         </div>
 
                         <div class="pb-5">

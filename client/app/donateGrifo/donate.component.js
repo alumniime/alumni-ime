@@ -3,9 +3,9 @@ const angular = require('angular');
 
 const uiRouter = require('angular-ui-router');
 
-import routes from './donateGriffo.routes';
+import routes from './donateGrifo.routes';
 
-export class DonateGriffoController {
+export class DonategrifoController {
   submitted = false;
   ProjectName = '';
   donation = {
@@ -18,6 +18,7 @@ export class DonateGriffoController {
   selectedOption = null;
   customValue = 0;
   availableProjects = 0;
+  associationType = null;
 
   constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Plan, Checkout, appConfig) {
     'ngInject';
@@ -42,6 +43,8 @@ export class DonateGriffoController {
     this.Modal.openDonationModal(year);
   }
 
+
+
   $onInit() {
     this.collapseStatus = Array(11);
     for(let i=0; i<11; i++){
@@ -51,6 +54,8 @@ export class DonateGriffoController {
     this.Plan.load()
       .then(result => {
         this.plans = result;
+        console.log("AQUIIII")
+        console.log(this.plans)
         // if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
         //   this.selectFrequency('monthly');
         // }
@@ -108,6 +113,10 @@ export class DonateGriffoController {
 
   }
 
+  funcaoTeste(){
+    alert("funciona")
+  }
+
   validDate(collectionLimitDate) {
     var today = new Date().getTime();
     var limit = new Date(collectionLimitDate).getTime();
@@ -150,6 +159,7 @@ export class DonateGriffoController {
   }
 
   selectValue(option) {
+    console.log(option)
     this.donation.ValueInCents = 100 * option.value;
     this.selectedOption = option;
     this.customValue = 0;
@@ -173,10 +183,15 @@ export class DonateGriffoController {
 
   submitFunding(form) {
     this.submitted = true;
+    if(this.associationType === true){
+      selectType('general')
+      selectFrequency('monthly')
+    }
+
 
     if (!this.user.PersonId) {
       // User needs to login
-      this.$state.go('donateGriffo', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
+      this.$state.go('donateGrifo', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
     } else if (form.$valid && (this.donation.Type === 'general' || this.ProjectName)) {
       this.Modal.openPreCheckout(this.donation, this.selectedOption);
     }
@@ -191,7 +206,7 @@ export class DonateGriffoController {
 
 }
 
-export default angular.module('alumniApp.donateGriffo', [uiRouter])
+export default angular.module('alumniApp.donategrifo', [uiRouter])
   .config(routes)
-  .controller('DonateGriffoController', DonateGriffoController)
+  .controller('DonategrifoController', DonategrifoController)
   .name;
