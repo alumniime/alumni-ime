@@ -24,12 +24,31 @@
                     </p>
                 </div>
                 <div class="col-12 col-lg-6 dual-column">
+                    <p class="description-text">Junte-se ao grifo</p>
+                    <p class="description-text">
+                        O grifo é uma inciativa que...
+                    </p>
+                    <p class="description-text">
+                        Iniciamos uma parceria com a AlumniIME que nos permite ...
+                    </p>
+                    <p class="description-text">
+                        Quer contribuir com nossa iniciativa?? Você pode contribuir com apenas R$ 10 mensais, totalmente não obrigatórios
+                    </p>
+                    <p class="description-text">
+                        Com o seu apoio, podemos fortalecer ainda mais o nome da nossa escola, contribuindo para 
+                        uma formação de excelência e mantendo a nossa comunidade forte e unida.
+                    </p>
+                    <p class="description-text">
+                        Afinal, uma vez IMEanos, seremos sempre IMEanos!
+                    </p>
+                    <br><br><br><br>
+
                     <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
 
-                        <div class="pb-5">
+                        <!-- <div class="pb-5">
                             <h3 class="mt-0 mt-lg-3 mb-3">Associe-se à nossa iniciativa!</h3>
                             
-                            <!-- For extra small and small devices -->
+                    For extra small and small devices
                             <div class="btn-group w-100 d-block d-md-none" role="group" aria-label="Donation type">
                                 <div class="row m-0 p-0">
                                     <div class="col-12 p-0 btn-group">
@@ -62,7 +81,7 @@
                                 </div>
                             </div>
                             
-                            <!-- For medium, large and extra large devices -->
+                    For medium, large and extra large devices
                             <div class="btn-group w-100 d-none d-md-flex" role="group" aria-label="Donation type">
                                 <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'general'}"
                                         ng-click="vm.donation.Type = 'general'; vm.donation.ProjectId = null; vm.ProjectName = ''">
@@ -93,7 +112,8 @@
                                 ng-if="vm.donation.Type === 'project' && (vm.donation.ProjectId === null || vm.donation.ProjectId === '') && vm.submitted">
                                 Escolha um projeto para apoiar.
                             </p>                                
-                        </div>
+                        </div> -->
+                        
                         <div class="custom-control custom-checkbox mt-0 mt-md-2">
                             <input type="checkbox" name="onlyPerson" class="custom-control-input" id="onlyPerson" ng-model="vm.associationType">
                             <label class="custom-control-label" for="onlyPerson">
@@ -101,88 +121,12 @@
                             </label>
                         </div>
 
-                        <div class="pb-5">
-                            <h3 class="mb-3">Com que frequência deseja contribuir?</h3>
-                            <div class="btn-group w-100" role="group" aria-label="Donation frequency">
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Frequency === 'monthly'}"
-                                        ng-click="vm.selectFrequency('monthly')">
-                                        Mensal
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Frequency === 'once'}"
-                                        ng-click="vm.selectFrequency('once')">
-                                        Única Vez
-                                </button>
-                            </div>
-                        </div>
 
-                        <div class="pb-4">
-                            <h3 class="mb-3">Com qual valor deseja contribuir?</h3>
-
-                            <!-- For extra small and small devices -->
-                            <div class="btn-group value-buttons d-block d-md-none" role="group" aria-label="Donation values">
-                                <div class="row m-0 p-0">
-                                    <div class="col-12 p-0 btn-group">
-                                        <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, frequency: vm.donation.Frequency}" ng-if="$index < 3"
-                                                class="btn btn-outline-secondary" ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
-                                            R$ {{option.value}}
-                                        </button>
-                                    </div>
-                                    <div class="col-12 p-0 btn-group border-top-none">
-                                        <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, frequency: vm.donation.Frequency}" ng-if="$index >= 3 && $index < 5"
-                                                class="btn btn-outline-secondary" ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
-                                            R$ {{option.value}}
-                                        </button>
-                                        <div class="btn-group" role="group">
-                                            <button id="btnSmallOtherValue" type="button" class="btn btn-outline-secondary btn-other dropdown-toggle" ng-class="{active: !vm.selectedOption.visible}"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{!vm.selectedOption.visible ? 'R$ ' + vm.selectedOption.value : 'Outro'}}
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="btnSmallOtherValue">
-                                                <a class="dropdown-item" href="#" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: false, admin: false}"
-                                                   ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)" ng-if="vm.donation.Frequency === 'monthly'">
-                                                    R$ {{option.value}}
-                                                </a>
-                                                <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2" ng-if="vm.donation.Frequency === 'once'"
-                                                       required ui-money-mask>
-                                                <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
-                                                   uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- For medium, large and extra large devices -->
-                            <div class="btn-group value-buttons d-none d-md-flex" role="group" aria-label="Donation values">
-                                <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, frequency: vm.donation.Frequency}" ng-if="$index < 5"
-                                        class="btn btn-outline-secondary d-block d-xl-block" ng-class="{'d-lg-none': $index === 4, active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
-                                    R$ {{option.value}}
-                                </button>
-                                <div class="btn-group" role="group">
-                                    <button id="btnOtherValue" type="button" class="btn btn-outline-secondary btn-other dropdown-toggle" ng-class="{active: !vm.selectedOption.visible}"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{!vm.selectedOption.visible ? 'R$ ' + vm.selectedOption.value : 'Outro'}}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnOtherValue">
-                                        <a class="dropdown-item" href="#" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: false, admin: false}"
-                                           ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)" ng-if="vm.donation.Frequency === 'monthly'">
-                                            R$ {{option.value}}
-                                        </a>
-                                        <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2" ng-if="vm.donation.Frequency === 'once'"
-                                               required ui-money-mask>
-                                        <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
-                                           uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Ir para o pagamento</b></button>
-                        <a class="btn btn-link text-light mt-3 float-right" ui-sref="bank({ProjectId: vm.donation.ProjectId, PrettyURL: vm.$stateParams.PrettyURL})">
+                        <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Quero me associar ao Grifo!!</b></button>
+                        <!-- <a class="btn btn-link text-light mt-3 float-right" ui-sref="bank({ProjectId: vm.donation.ProjectId, PrettyURL: vm.$stateParams.PrettyURL})">
                             <i class="fa fa-caret-right"></i>
                             Clique aqui para contribuir por transferência bancária
-                        </a>
+                        </a> -->
 
                     </form>
                 </div>

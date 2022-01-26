@@ -20,7 +20,7 @@ export default function($stateProvider, $urlRouterProvider, appConfig) {
         }
       }
     })
-    .state('donategrifo', {
+    .state('donateGrifo', {
       url: '/grifo/:ProjectId/:PrettyURL?PlanIndex?Value',
       params: {
         ProjectId: {value: null, squash: true},

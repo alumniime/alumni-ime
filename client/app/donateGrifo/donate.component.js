@@ -9,8 +9,8 @@ export class DonategrifoController {
   submitted = false;
   ProjectName = '';
   donation = {
-    Type: 'project',
-    Frequency: 'once',
+    Type: 'general',
+    Frequency: 'monthly',
     ProjectId: null,
     ValueInCents: 40000
   };
@@ -18,7 +18,7 @@ export class DonategrifoController {
   selectedOption = null;
   customValue = 0;
   availableProjects = 0;
-  associationType = null;
+  associationType = true;
 
   constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Plan, Checkout, appConfig) {
     'ngInject';
@@ -46,6 +46,8 @@ export class DonategrifoController {
 
 
   $onInit() {
+    console.log("pagina iniciada")
+    
     this.collapseStatus = Array(11);
     for(let i=0; i<11; i++){
       this.collapseStatus[i] = true;
@@ -54,8 +56,7 @@ export class DonategrifoController {
     this.Plan.load()
       .then(result => {
         this.plans = result;
-        console.log("AQUIIII")
-        console.log(this.plans)
+        console.log("Entrou no primeiro Plan.load")
         // if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
         //   this.selectFrequency('monthly');
         // }
@@ -86,7 +87,10 @@ export class DonategrifoController {
     var loading = this.Modal.showLoading();
     this.getCurrentUser()
       .then(user => {
+
         this.user = user;
+        console.log("pagina iniciou")
+        console.log(this.user)
         loading.close();
         if(!user.PersonId) {
           this.Modal.openLogin();
@@ -113,9 +117,6 @@ export class DonategrifoController {
 
   }
 
-  funcaoTeste(){
-    alert("funciona")
-  }
 
   validDate(collectionLimitDate) {
     var today = new Date().getTime();
@@ -159,7 +160,6 @@ export class DonategrifoController {
   }
 
   selectValue(option) {
-    console.log(option)
     this.donation.ValueInCents = 100 * option.value;
     this.selectedOption = option;
     this.customValue = 0;
@@ -183,17 +183,28 @@ export class DonategrifoController {
 
   submitFunding(form) {
     this.submitted = true;
-    if(this.associationType === true){
-      selectType('general')
-      selectFrequency('monthly')
-    }
-
 
     if (!this.user.PersonId) {
       // User needs to login
       this.$state.go('donateGrifo', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
-    } else if (form.$valid && (this.donation.Type === 'general' || this.ProjectName)) {
-      this.Modal.openPreCheckout(this.donation, this.selectedOption);
+    } 
+    else {
+        if(this.associationType === true){
+                  this.selectType('general')
+                  this.selectFrequency('monthly')
+                  this.selectedOption = this.plans.find( (elem)=>(elem.planId === 403694))
+                  if(!this.selectedOption){
+                    this.selectedOption = this.plans[0]
+                  }
+                  console.log("aqui o selecionado")
+                  console.log(this.selectedOption)
+                
+                  if (form.$valid) {
+                    this.Modal.openPreCheckout(this.donation, this.selectedOption);
+                  }
+                
+        }
+        
     }
 
   }
@@ -206,7 +217,7 @@ export class DonategrifoController {
 
 }
 
-export default angular.module('alumniApp.donategrifo', [uiRouter])
+export default angular.module('alumniApp.donateGrifo', [uiRouter])
   .config(routes)
   .controller('DonategrifoController', DonategrifoController)
   .name;

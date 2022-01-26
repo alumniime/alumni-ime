@@ -35,9 +35,6 @@ export class MainController {
       this.Modal.openMainHighlight();
     }
   }
-  funcaoTeste() {
-    alert("alerta teste")
-  }
 
 }
 
