@@ -285,7 +285,12 @@ export default function (sequelize, DataTypes) {
     AssociationJustification: {
       type: DataTypes.STRING(500),
       allowNull: true
-    }
+    },
+    Grifo: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: null,
+    },
 
   }, {
 

@@ -20,6 +20,13 @@ export class DonategrifoController {
   availableProjects = 0;
   associationType = true;
 
+  messageUpdate = '';
+  submittedUpdate = false;
+  backupUser = {};
+  errors = {
+    update: undefined,
+  };
+
   constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Plan, Checkout, appConfig) {
     'ngInject';
 
@@ -181,6 +188,37 @@ export class DonategrifoController {
     };
   }
 
+  saveUser() {
+    this.submittedUpdate = true;
+    this.errors.update = undefined;
+    this.messageUpdate = '';
+
+    var user = angular.copy(this.user);
+      
+      var loading = this.Modal.showLoading();
+      console.log("Esse é o user correto: ", user);
+      return this.Auth.updateById(this.user.PersonId, user)
+        .then(() => {
+          // Account updated
+          loading.close();
+          this.submittedUpdate = false;
+          this.backupUser = {};
+          this.messageUpdate = 'Incrição realizada com sucesso';
+          this.$anchorScroll();
+        })
+        .catch(err => {
+          loading.close();
+          this.user = angular.copy(this.backupUser);
+          this.errors.update = err.data;
+          this.errors.update = 'Não foi possível atualizar os dados. Por favor, tente novamente.';
+          if(err.data.error.code === 'ETIMEDOUT') {
+            this.errors.update = 'Não foi possível enviar os dados para o banco de dados. Por favor, tente novamente.';
+          }
+          this.messageUpdate = '';
+        });
+    
+  }
+
   submitFunding(form) {
     this.submitted = true;
 
@@ -189,7 +227,14 @@ export class DonategrifoController {
       this.$state.go('donateGrifo', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
     } 
     else {
-        if(this.associationType === true){
+
+      this.backupUser = angular.copy(this.user);
+
+      if(this.user.Grifo===1){
+        alert("usuário já está cadastrado")
+      }
+      else{
+         if(this.associationType === true){
                   this.selectType('general')
                   this.selectFrequency('monthly')
                   this.selectedOption = this.plans.find( (elem)=>(elem.planId === 403694))
@@ -202,8 +247,14 @@ export class DonategrifoController {
                   if (form.$valid) {
                     this.Modal.openPreCheckout(this.donation, this.selectedOption);
                   }
-                
+          this.user.Grifo = 1
+          this.saveUser()    
         }
+        else{
+          this.user.Grifo = 1
+          this.saveUser()  
+        }
+      }
         
     }
 
