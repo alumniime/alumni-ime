@@ -47,15 +47,18 @@ export class DonategrifoController {
 
   }
 
-  openDonationModal(year) {
-    this.donation.Type = 'project';
-    this.Modal.openDonationModal(year);
-  }
+  // openDonationModal(year) {
+  //   console.log('openDonationModal foi usada')
+  //   this.donation.Type = 'project';
+  //   this.Modal.openDonationModal(year);
+  // }
 
 
 
   $onInit() {
     console.log("pagina iniciada")
+    console.log(this.donation)
+    console.log(this.selectedOption)
     
     this.collapseStatus = Array(11);
     for(let i=0; i<11; i++){
@@ -65,7 +68,9 @@ export class DonategrifoController {
     this.Plan.load()
       .then(result => {
         this.plans = result;
-        console.log("Entrou no primeiro Plan.load")
+        console.log("Plan list:")
+        console.log(result)
+
         // if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
         //   this.selectFrequency('monthly');
         // }
@@ -102,8 +107,6 @@ export class DonategrifoController {
         if(!this.user.initiativeLinks){
           this.user.initiativeLinks = [];
         }
-        console.log("pagina iniciou")
-        console.log(this.user)
         loading.close();
         if(!user.PersonId) {
           this.Modal.openLogin();
@@ -132,22 +135,30 @@ export class DonategrifoController {
 
 
   validDate(collectionLimitDate) {
+    console.log('validDate foi usada')
+
     var today = new Date().getTime();
     var limit = new Date(collectionLimitDate).getTime();
     return today <= limit;
   }
 
-  needMoreDonations(project) {
-    if(project.Year > 2018){
-      return(project.DonationSum < project.EstimatedPriceInCents)
-    }
-    else{
-      return(project.CollectedPriceInCents < project.EstimatedPriceInCents)
-    }
-  }
+  // needMoreDonations(project) {
+  //   console.log('needMoreDonation foi usada')
+
+  //   if(project.Year > 2018){
+  //     return(project.DonationSum < project.EstimatedPriceInCents)
+  //   }
+  //   else{
+  //     return(project.CollectedPriceInCents < project.EstimatedPriceInCents)
+  //   }
+  // }
 
 
   selectType(type) {
+    console.log('selectType foi usada')
+    console.log(this.donation)
+    console.log(this.selectedOption)
+
     this.donation.Type = type;
     if(type === 'general') {
       this.donation.ProjectId = null; 
@@ -156,6 +167,9 @@ export class DonategrifoController {
   }
 
   selectFrequency(frequency) {
+    console.log('selectFrequency foi usada')
+    console.log(this.donation)
+    console.log(this.selectedOption)
     this.donation.Frequency = frequency;
     for(var option of this.plans) {
       if(option.visible && option.frequency === frequency) {
@@ -173,43 +187,32 @@ export class DonategrifoController {
   }
 
   selectValue(option) {
+    console.log('selectValue foi usada')
+                    console.log(this.donation)
+                    console.log(this.selectedOption)
+
     this.donation.ValueInCents = 100 * option.value;
     this.selectedOption = option;
     this.customValue = 0;
   }  
 
-  setCustomValue(value) {
-    value = parseFloat(value);
-    if(value < 50) {
-      this.Modal.showAlert('Erro no formulário', 'O valor mínimo de contribuição pelo site é de R$ 50,00.');
-      value = 50;
-    }
-    this.customValue = value;
-    this.donation.Frequency = 'once';
-    this.donation.ValueInCents = Number((100 * value).toFixed(0));
-    this.selectedOption = {
-      value: value,
-      frequency: 'once',
-      visible: false
-    };
-  }
+  // setCustomValue(value) {
+  //   console.log('setCustomValue foi usada')
+  //   value = parseFloat(value);
+  //   if(value < 50) {
+  //     this.Modal.showAlert('Erro no formulário', 'O valor mínimo de contribuição pelo site é de R$ 50,00.');
+  //     value = 50;
+  //   }
+  //   this.customValue = value;
+  //   this.donation.Frequency = 'once';
+  //   this.donation.ValueInCents = Number((100 * value).toFixed(0));
+  //   this.selectedOption = {
+  //     value: value,
+  //     frequency: 'once',
+  //     visible: false
+  //   };
+  // }
 
-  updateInitiativeLinks(initiativeLinks) {
-    var result = [];
-    for(var initiative of initiativeLinks) {
-      if(initiative.selected) {
-        result.push({
-          InitiativeId: initiative.InitiativeId
-        });
-      }
-    }
-
-    console.log('vamo ver o que mudou')
-    console.log(this.user.initiativeLinks )
-    this.user.initiativeLinks = result;
-    console.log(this.user.initiativeLinks )
-    // this.concatenateInitiativeLinks();
-  }
 
   saveUser() {
     this.submittedUpdate = true;
@@ -261,7 +264,7 @@ export class DonategrifoController {
       else{
          if(this.associationType === true){
                   this.selectType('general')
-                  this.selectFrequency('monthly')
+                  this.donation.Frequency = 'monthly'
                   this.selectedOption = this.plans.find( (elem)=>(elem.planId == this.planGrifoId))
                   console.log(this.plans)
                   if(!this.selectedOption){
@@ -269,6 +272,9 @@ export class DonategrifoController {
                   }
                 
                   if (form.$valid) {
+                    console.log('formulario valido ultimo')
+                    console.log(this.donation)
+                    console.log(this.selectedOption)
                     this.Modal.openPreCheckout(this.donation, this.selectedOption);
                   }
           this.user.Grifo = 1
@@ -282,12 +288,6 @@ export class DonategrifoController {
         
     }
 
-  }
-
-  selectProject(){
-    if(this.availableProjects==0){
-      this.Modal.showAlert('Nenhum Projeto Disponível', 'Em breve, lançamento do novo edital de apoio a projetos e divulgação dos selecionados.');
-    }
   }
 
 }

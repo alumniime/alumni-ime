@@ -52,6 +52,8 @@ export function PlanService($http, $q) {
               frequency: 'once',
               visible: true
             });
+            console.log('this.list')
+            console.log(this.list)
             d.resolve(this.list);
           })
           .catch(err => {
@@ -64,7 +66,7 @@ export function PlanService($http, $q) {
     },
 
   };
-
+  console
   return Plan;
 }
 

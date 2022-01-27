@@ -178,6 +178,9 @@ export class DonateController {
       // User needs to login
       this.$state.go('donate', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
     } else if (form.$valid && (this.donation.Type === 'general' || this.ProjectName)) {
+      console.log('formulario valido')
+                    console.log(this.donation)
+                    console.log(this.selectedOption)
       this.Modal.openPreCheckout(this.donation, this.selectedOption);
     }
 
