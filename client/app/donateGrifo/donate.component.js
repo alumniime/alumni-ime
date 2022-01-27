@@ -202,7 +202,7 @@ export class DonategrifoController {
       console.log("Esse é o user correto: ", user);
       return this.Auth.updateById(this.PersonId, user)
         .then(() => {
-          console("chegou no fim")
+          console.log("entrou no THEN")
           // Account updated
           loading.close();
           this.submittedUpdate = false;
