@@ -58,6 +58,8 @@ export default class ProfileController {
     this.today = new Date().getTime();
     this.Auth.getCurrentUser((user) => {
       this.user = user;
+      console.log("user")
+      console.log(user)
       this.personTypeId = this.user.PersonTypeId;
       this.Birthdate = this.$filter('date')(this.user.Birthdate, 'dd/MM/yyyy');
       this.PersonId = user.PersonId;
@@ -298,34 +300,34 @@ export default class ProfileController {
     this.messageUpdate = '';
     this.updateInitiativeLinks(this.initiativeList);
 
-    if(this.Birthdate) {
-      var date = this.Birthdate.split('/');
-      this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
-    }
+    // if(this.Birthdate) {
+    //   var date = this.Birthdate.split('/');
+    //   this.user.Birthdate = new Date(date[2], date[1] - 1, date[0]);
+    // }
 
     var user = angular.copy(this.user);
     
-    if(!this.hasPosition) {
-      Reflect.deleteProperty(user, 'positions');
-    }
+    // if(!this.hasPosition) {
+    //   Reflect.deleteProperty(user, 'positions');
+    // }
 
-    if(user.location && user.location.CountryId !== 1) {
-      user.location.StateId = null;
-      user.location.CityId = null;
-      Reflect.deleteProperty(user.location, 'city');
-    }
+    // if(user.location && user.location.CountryId !== 1) {
+    //   user.location.StateId = null;
+    //   user.location.CityId = null;
+    //   Reflect.deleteProperty(user.location, 'city');
+    // }
 
-    this.locationName = this.Util.getLocationName(this.user.location);
+    // this.locationName = this.Util.getLocationName(this.user.location);
 
     if(form.$valid && !this.dateInvalid) {
       
-      if(this.hasPosition && user.positions[0].LevelId !== this.levelOtherId) {
-        user.positions[0].LevelOther = null;
-      }
+      // if(this.hasPosition && user.positions[0].LevelId !== this.levelOtherId) {
+      //   user.positions[0].LevelOther = null;
+      // }
 
-      if(user.personType.Description === 'Visitor' && user.OptionToKnowThePageId !== this.optionOtherId) {
-        user.OptionToKnowThePageOther = null;
-      }
+      // if(user.personType.Description === 'Visitor' && user.OptionToKnowThePageId !== this.optionOtherId) {
+      //   user.OptionToKnowThePageOther = null;
+      // }
       
       var loading = this.Modal.showLoading();
       console.log("Esse é o user correto: ", user);

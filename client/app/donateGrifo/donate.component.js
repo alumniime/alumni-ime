@@ -99,6 +99,9 @@ export class DonategrifoController {
         this.user = user;
         this.PersonId = user.PersonId
         this.messageUpdate = this.user.Grifo
+        if(!this.user.initiativeLinks){
+          this.user.initiativeLinks = [];
+        }
         console.log("pagina iniciou")
         console.log(this.user)
         loading.close();
@@ -189,6 +192,23 @@ export class DonategrifoController {
       frequency: 'once',
       visible: false
     };
+  }
+
+  updateInitiativeLinks(initiativeLinks) {
+    var result = [];
+    for(var initiative of initiativeLinks) {
+      if(initiative.selected) {
+        result.push({
+          InitiativeId: initiative.InitiativeId
+        });
+      }
+    }
+
+    console.log('vamo ver o que mudou')
+    console.log(this.user.initiativeLinks )
+    this.user.initiativeLinks = result;
+    console.log(this.user.initiativeLinks )
+    // this.concatenateInitiativeLinks();
   }
 
   saveUser() {
