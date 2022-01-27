@@ -15,6 +15,7 @@ export class DonategrifoController {
     ValueInCents: 1000
   };
   plans = [];
+  planGrifoId = 1797055
   selectedOption = null;
   customValue = 0;
   availableProjects = 0;
@@ -261,12 +262,11 @@ export class DonategrifoController {
          if(this.associationType === true){
                   this.selectType('general')
                   this.selectFrequency('monthly')
-                  this.selectedOption = this.plans.find( (elem)=>(elem.planId === 1803242))
+                  this.selectedOption = this.plans.find( (elem)=>(elem.planId == this.planGrifoId))
+                  console.log(this.plans)
                   if(!this.selectedOption){
-                    this.selectedOption = this.plans[0]
+                    this.messageUpdate = 'plano não encontrado'
                   }
-                  console.log("aqui o selecionado")
-                  console.log(this.selectedOption)
                 
                   if (form.$valid) {
                     this.Modal.openPreCheckout(this.donation, this.selectedOption);
