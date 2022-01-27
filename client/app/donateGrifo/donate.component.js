@@ -97,6 +97,7 @@ export class DonategrifoController {
       .then(user => {
 
         this.user = user;
+        this.PersonId = user.PersonId
         this.messageUpdate = this.user.Grifo
         console.log("pagina iniciou")
         console.log(this.user)
@@ -199,8 +200,9 @@ export class DonategrifoController {
       
       var loading = this.Modal.showLoading();
       console.log("Esse é o user correto: ", user);
-      return this.Auth.updateById(user.PersonId, user)
+      return this.Auth.updateById(this.PersonId, user)
         .then(() => {
+          console("chegou no fim")
           // Account updated
           loading.close();
           this.submittedUpdate = false;
@@ -216,7 +218,7 @@ export class DonategrifoController {
           if(err.data.error.code === 'ETIMEDOUT') {
             this.errors.update = 'Não foi possível enviar os dados para o banco de dados. Por favor, tente novamente.';
           }
-          this.messageUpdate = '';
+          this.messageUpdate = 'deu erro';
         });
     
   }
