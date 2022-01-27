@@ -145,7 +145,7 @@ export class NavbarComponent {
         let currentSemester = (date.getMonth() >= 8 && date.getMonth() <= 11) ? 2 : 1;
         let currentYear = date.getFullYear();
         if(semester.IsSpecial.data[0] == 0){
-          if (semester.Semester==currentSemester && semester.Year==currentYear) {
+          if (semester.Semester==currentSemester && semester.Year==currentYear || (semester.Year == 2021 && semester.Semester==2)) {
             dropdown.push({
               title: `ABERTOS ${semester.Year}.${semester.Semester}`,
               state: `show({Semester: '${semester.Year}.${semester.Semester}'})`

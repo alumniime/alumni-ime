@@ -1,0 +1,383 @@
+<div class="donateView">
+    <div class="py-5 donateContainter">
+        <div class="container">
+            <h2 class="mb-3">Sua ajuda pode fazer muita diferença</h2>
+            <div class="row">
+                <div class="px-4 col-12 col-lg-6 dual-column">
+                    <img src="assets/images/LogoGRIFO.png"  width="500">
+                    <p class="description-text">Junte-se ao grifo</p>
+                    <p class="description-text">
+                        O grifo é uma inciativa que...
+                    </p>
+                    <p class="description-text">
+                        Iniciamos uma parceria com a AlumniIME que nos permite ...
+                    </p>
+                    <p class="description-text">
+                        Quer contribuir com nossa iniciativa?? Você pode contribuir com apenas R$ 10 mensais, totalmente não obrigatórios
+                    </p>
+                    <p class="description-text">
+                        Com o seu apoio, podemos fortalecer ainda mais o nome da nossa escola, contribuindo para 
+                        uma formação de excelência e mantendo a nossa comunidade forte e unida.
+                    </p>
+                    <p class="description-text">
+                        Afinal, uma vez IMEanos, seremos sempre IMEanos!
+                    </p>
+                </div>
+                <div class="col-12 col-lg-6 dual-column">
+                    <p class="description-text">Junte-se ao grifo</p>
+                    <p class="description-text">
+                        O grifo é uma inciativa que...
+                    </p>
+                    <p class="description-text">
+                        Iniciamos uma parceria com a AlumniIME que nos permite ...
+                    </p>
+                    <p class="description-text">
+                        Quer contribuir com nossa iniciativa?? Você pode contribuir com apenas R$ 10 mensais, totalmente não obrigatórios
+                    </p>
+                    <p class="description-text">
+                        Com o seu apoio, podemos fortalecer ainda mais o nome da nossa escola, contribuindo para 
+                        uma formação de excelência e mantendo a nossa comunidade forte e unida.
+                    </p>
+                    <p class="description-text">
+                        Afinal, uma vez IMEanos, seremos sempre IMEanos!
+                    </p>
+                    <br><br><br><br>
+
+                    <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
+
+                        <!-- <div class="pb-5">
+                            <h3 class="mt-0 mt-lg-3 mb-3">Associe-se à nossa iniciativa!</h3>
+                            
+                    For extra small and small devices
+                            <div class="btn-group w-100 d-block d-md-none" role="group" aria-label="Donation type">
+                                <div class="row m-0 p-0">
+                                    <div class="col-12 p-0 btn-group">
+                                        <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'general'}"
+                                                ng-click="vm.selectType('general')">
+                                            Infraestrutura/Gestão 
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
+                                                ng-click="vm.openDonationModal(2020)">
+                                            Projetos
+                                        </button>
+                                    </div>
+                                    <div class="col-12 p-0 btn-group border-top-none">
+                                         <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
+                                             <button id="btnSelectProjectSmall" type="button" class="btn btn-outline-secondary btn-other truncate dropdown-toggle" 
+                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}"  ng-click="vm.selectProject()">
+                                                 {{ vm.ProjectName || 'Selecione um projeto' }}
+                                             </button>
+                                             <div class="dropdown-menu" aria-labelledby="btnSelectProjectSmall">
+                                                 <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
+                                                     Nenhum projeto disponível
+                                                 </a>
+                                                 <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
+                                                    ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
+                                                     {{project.ProjectName}}
+                                                 </a>
+                                             </div>
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                    For medium, large and extra large devices
+                            <div class="btn-group w-100 d-none d-md-flex" role="group" aria-label="Donation type">
+                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'general'}"
+                                        ng-click="vm.donation.Type = 'general'; vm.donation.ProjectId = null; vm.ProjectName = ''">
+                                    Infraestrutura/Gestão 
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
+                                        ng-click="vm.openDonationModal(2020)">
+                                    Projetos
+                                </button>
+                                <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
+                                    <button id="btnSelectProject" type="button" class="btn btn-outline-secondary btn-other truncate dropdown-toggle" 
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}" ng-click="vm.selectProject()">
+                                        {{ vm.ProjectName || 'Selecione um projeto' }}
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnSelectProject">
+                                        <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
+                                            Nenhum projeto disponível
+                                        </a>
+                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
+                                           ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
+                                            {{project.ProjectName}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p class="help-block"
+                                ng-if="vm.donation.Type === 'project' && (vm.donation.ProjectId === null || vm.donation.ProjectId === '') && vm.submitted">
+                                Escolha um projeto para apoiar.
+                            </p>                                
+                        </div> -->
+                        
+                        <div class="custom-control custom-checkbox mt-0 mt-md-2">
+                            <input type="checkbox" name="onlyPerson" class="custom-control-input" id="onlyPerson" ng-model="vm.associationType">
+                            <label class="custom-control-label" for="onlyPerson">
+                                Desejo contribuir mensalmente
+                            </label>
+                        </div>
+
+
+                        <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Quero me associar ao Grifo!!</b></button>
+                        <p class="help-block text-success mt-0 mb-4">
+                            {{ vm.messageUpdate }}
+                        </p>
+                        <!-- <a class="btn btn-link text-light mt-3 float-right" ui-sref="bank({ProjectId: vm.donation.ProjectId, PrettyURL: vm.$stateParams.PrettyURL})">
+                            <i class="fa fa-caret-right"></i>
+                            Clique aqui para contribuir por transferência bancária
+                        </a> -->
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 p-0">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <ng-youtube-embed class="d-none d-lg-block d-xl-none" video="'le5xaAfub4Q'" modestbranding="true"
+                            width="100%" disablekb="true" rel="false" ivloadpolicy="false" height="300px">
+                        </ng-youtube-embed>
+                        <ng-youtube-embed class="d-block d-lg-none d-xl-block" video="'le5xaAfub4Q'" modestbranding="true"
+                            width="100%" disablekb="true" rel="false" ivloadpolicy="false">
+                        </ng-youtube-embed>
+                    </div>
+                </div>
+                <div class="p-4 p-sm-5 col-lg-7 d-flex flex-column justify-content-center">
+                    <h2 class="mb-3">Mobilizamos</h2>
+                    <p class="lead mb-0 text-justify">
+                        Desde 2018, conseguimos mobilizar a comunidade de ex-alunos a apoiarem mais de 30 projetos de alunos e professores. Ajudamos a na melhoria do ensino e no engrandecimento no nome do IME mundo afora. Queremos aumentar ainda mais nossa atuação e intensificar as atividades da Associação. Para isso, contamos a sua participação!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="faq-container">
+        <div class="container">
+
+            <div class="row justify-content-center p-0">
+                <h2 class="faq-header">Perguntas Frequentes</h2>
+            </div>
+
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[0] = !vm.collapseStatus[0]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            As doações para a Alumni IME são dedutíveis do imposto de renda?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[0]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[0]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[0]">
+                        As doações poderão ser declaradas no IR como doação a instituição sem fins lucrativos, mas não terão abatimento.
+                    </div>
+                </div>        
+            </div>
+            
+            <!--
+                <div class="row justify-content-center p-0">
+                    <div id="statusForm" class="card" style="width: 100%;">
+                        <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[1] = !vm.collapseStatus[1]" style = "background-color: #f0f0f0;">
+                            <h5 class="card-header">
+                                Posso cancelar uma doação?
+                                <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[1]"></i> 
+                                <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[1]"></i>
+                            </h5>
+                        </a>
+                        <div class="card-body pb-4" ng-hide="vm.collapseStatus[1]">
+                            As doações feitas para a Alumni IME em caráter de apoio a “projetos do IME” ou “Geral” são
+                            passíveis de cancelamento em um prazo de até 7 (sete) dias úteis após aprovadas pelo cartão
+                            de crédito ou compensação do boleto bancário. O cancelamento deve ser feito mediante envio
+                            de solicitação formal para o e-mail contato@alumniime.com.br. 
+                        </div> 
+                    </div>        
+                </div>
+                <div class="row justify-content-center p-0">
+                    <div id="statusForm" class="card" style="width: 100%;">
+                        <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[2] = !vm.collapseStatus[2]" style = "background-color: #f0f0f0;">
+                            <h5 class="card-header">
+                                Como cancelo meu plano de doação recorrente?
+                                <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[2]"></i> 
+                                <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[2]"></i>
+                            </h5>
+                        </a>
+                        <div class="card-body pb-4" ng-hide="vm.collapseStatus[2]"> 
+                            Para cancelar a mensalidade, você deve gerenciar a sua conta e cancelar a assinatura através
+                            do nosso portal de pagamentos “pagar.me”. Para acessá-lo, entre na página “Meu Perfil” no
+                            site da Alumni IME e escolha a opção “Gerenciar minha conta”, em projetos apoiados.
+                        </div> 
+                    </div>
+                </div>
+            -->
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[3] = !vm.collapseStatus[3]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            A Alumni IME fornece recibo das doações?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[3]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[3]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[3]"> 
+                        Os usuários que realizarem a contribuição pelo site da Alumni IME receberão automaticamente, 
+                        para o endereço de e-mail cadastrado, uma mensagem de agradecimento com o recibo. As doações 
+                        feitas diretamente à conta da Alumni IME via transferência bancária devem ser informadas à nossa 
+                        equipe pelo wapp (21) 92002-3595 ou pelo e-mail <a href="mailto:contato@alumniime.com.br">contato@alumniime.com.br</a> e assim que confirmada a 
+                        doação o recibo será enviado.
+                    </div> 
+                </div>
+            </div>
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[4] = !vm.collapseStatus[4]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Quais formas de pagamento são aceitas?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[4]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[4]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[4]"> 
+                        As doações podem ser feitas pelo site da Alumni IME através de boleto bancário ou cartão de crédito. 
+                        Os planos de doação recorrente são feitos por cartão de crédito. As contribuições também podem ser feitas diretamente 
+                        por transferência bancária para a  conta corrente da Alumni IME (dados da conta disponíveis em <a href="https://www.alumniime.com.br/apoie/transferencia">"Transferência"</a>). 
+                        Para finalizar sua contribuição, é fundamental que você envie o comprovante da transação efetuada.
+                    </div> 
+                </div>
+            </div>
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[5] = !vm.collapseStatus[5]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como faço para mudar o valor do meu plano de doação recorrente?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[5]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[5]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[5]"> 
+                        Solicite a mudança de valor do seu plano no formulário disponível na página <a href="https://www.alumniime.com.br/contact ">Fale Conosco</a> 
+                        ou pelo seu <a href="https://www.alumniime.com.br/profile">Perfil de Usuário</a> no item “Gerenciar minhas doações”.
+                    </div> 
+                </div>
+            </div>
+    
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[6] = !vm.collapseStatus[6]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como faço para atualizar os dados do meu cartão?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[6]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[6]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[6]"> 
+                        Solicite a atualização dos dados do seu cartão de crédito no formulário disponível na página <a href="https://www.alumniime.com.br/contact ">Fale Conosco</a> 
+                        ou pelo seu <a href="https://www.alumniime.com.br/profile">Perfil de Usuário</a> no item “Gerenciar doações”.
+                    </div> 
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[7] = !vm.collapseStatus[7]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Solicitei o pagamento de uma doação por boleto. O que faço se o boleto venceu?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[7]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[7]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[7]"> 
+                        Nesse caso, a solicitação que foi feita expirou. Para finalizar a doação, você deve realizar 
+                        uma nova doação pelo site e gerar outro boleto.
+                    </div> 
+                </div>
+            </div>
+    
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[8] = !vm.collapseStatus[8]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como funciona a doação recorrente para projetos de um edital?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[8]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[8]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[8]"> 
+                        As doações recorrentes feitas para um projeto específico serão destinadas a ele até o final do Edital de Projetos em vigor. Após o encerramento do projeto, a doação será destinada para apoiar os custos das demais atividades e infraestrutura da Alumni IME, como ações de marketing digital, produção de vídeos, manutenção da nossa plataforma, geração de conteúdo em redes sociais, promoção e realização de eventos, folha de pagamento de pessoal e prestadores de serviços.
+                    </div> 
+                </div>
+            </div>
+    
+            <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[9] = !vm.collapseStatus[9]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como vejo onde o dinheiro está sendo aplicado? E onde os recursos são aplicados em
+                            caso de doação &quot;infraestrutura/gestão&quot;?
+                            <!-- <span class="pull-right collapse-icon"> -->
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[9]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[9]"></i> 
+                            <!-- </span> -->
+                        </h5>
+                    </a> 
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[9]"> 
+                        As doações direcionadas para “infraestrutura/gestão” são destinadas ao pagamento das despesas administrativas, 
+                        remuneração da equipe, prestadores de serviço (assessoria contábil e jurídica, agência de marketing), taxas legais 
+                        da associação e também no apoio aos projetos que conseguiram arrecadar, pelo menos, 50% do valor arrecadado. Estas 
+                        contribuições apoiam os custos das demais atividades da Alumni IME, como manutenção da nossa plataforma, geração de 
+                        conteúdo nas redes sociais, promoção e realização de eventos online e presenciais, parcerias para oferta de vagas de 
+                        trabalho dentre outros. Todo o detalhamento dos recursos investidos está disponível nos balanços e relatórios financeiros 
+                        em <a href="https://www.alumniime.com.br/transparency">"Transparência"</a>.
+                    </div> 
+                </div>
+            </div>
+        
+            <!-- <div class="row justify-content-center p-0">
+                <div id="statusForm" class="card" style="width: 100%;">
+                    <a href="#" class="text-dark  collapse-icon pull-right" ng-click="vm.collapseStatus[10] = !vm.collapseStatus[10]" style = "background-color: #f0f0f0;">
+                        <h5 class="card-header">
+                            Como funciona o sistema de recompensas?
+                            <i class="fa fa-angle-down pull-right" ng-hide="!vm.collapseStatus[10]"></i> 
+                            <i class="fa fa-angle-up pull-right" ng-hide="vm.collapseStatus[10]"></i> 
+                            
+                        </h5>
+                    </a>
+                    <div class="card-body pb-4" ng-hide="vm.collapseStatus[10]"> 
+                            Após a contribuição, o líder de cada projeto entrará em contato diretamente com os doadores.
+                            A data e o envio serão combinados de acordo com cada projeto e o tipo de doação (única ou
+                            recorrente).
+                    </div> 
+                </div>
+            </div> -->
+
+            </div>     
+        </div>
+        </div>
+    </div>
+</div>
