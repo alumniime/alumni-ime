@@ -98,7 +98,6 @@ export class DonategrifoController {
 
         this.user = user;
         this.PersonId = user.PersonId
-        this.messageUpdate = this.user.Grifo
         if(!this.user.initiativeLinks){
           this.user.initiativeLinks = [];
         }
@@ -238,7 +237,6 @@ export class DonategrifoController {
           if(err.data.error.code === 'ETIMEDOUT') {
             this.errors.update = 'Não foi possível enviar os dados para o banco de dados. Por favor, tente novamente.';
           }
-          this.messageUpdate = 'deu erro';
         });
     
   }
@@ -263,7 +261,7 @@ export class DonategrifoController {
          if(this.associationType === true){
                   this.selectType('general')
                   this.selectFrequency('monthly')
-                  this.selectedOption = this.plans.find( (elem)=>(elem.planId === 403694))
+                  this.selectedOption = this.plans.find( (elem)=>(elem.planId === 1803242))
                   if(!this.selectedOption){
                     this.selectedOption = this.plans[0]
                   }
