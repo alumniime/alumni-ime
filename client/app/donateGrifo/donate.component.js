@@ -12,7 +12,7 @@ export class DonategrifoController {
     Type: 'general',
     Frequency: 'monthly',
     ProjectId: null,
-    ValueInCents: 40000
+    ValueInCents: 1000
   };
   plans = [];
   selectedOption = null;
@@ -30,6 +30,7 @@ export class DonategrifoController {
   constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Plan, Checkout, appConfig) {
     'ngInject';
 
+    this.Auth = Auth;
     this.getCurrentUser = Auth.getCurrentUser;
     this.Modal = Modal;
     this.$anchorScroll = $anchorScroll;
@@ -96,6 +97,7 @@ export class DonategrifoController {
       .then(user => {
 
         this.user = user;
+        this.messageUpdate = this.user.Grifo
         console.log("pagina iniciou")
         console.log(this.user)
         loading.close();
@@ -197,7 +199,7 @@ export class DonategrifoController {
       
       var loading = this.Modal.showLoading();
       console.log("Esse é o user correto: ", user);
-      return this.Auth.updateById(this.user.PersonId, user)
+      return this.Auth.updateById(user.PersonId, user)
         .then(() => {
           // Account updated
           loading.close();
@@ -221,16 +223,18 @@ export class DonategrifoController {
 
   submitFunding(form) {
     this.submitted = true;
-
+    console.log('botao apertado')
     if (!this.user.PersonId) {
       // User needs to login
-      this.$state.go('donateGrifo', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
+
+      this.messageUpdate = "O usuário precisa estar logado"
+      // document.location.reload(true)
     } 
     else {
 
       this.backupUser = angular.copy(this.user);
 
-      if(this.user.Grifo===1){
+      if(this.user.Grifo===true){
         alert("usuário já está cadastrado")
       }
       else{
