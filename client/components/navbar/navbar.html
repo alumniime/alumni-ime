@@ -35,7 +35,8 @@
                 <a class="nav-link btn btn-danger d-none d-md-block" href="support" role="button" ng-click="$ctrl.waitState()">APOIE</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-danger d-none d-md-block" href="supportgrifo" role="button" ng-click="$ctrl.waitState()">GRIFO</a>
+                <a class="nav-link btn btn-danger d-none d-md-block" href="https://alumniime.wixsite.com/website-1" role="button" ng-click="$ctrl.waitState()" ng-hide="!$ctrl.isLoggedIn()">GRIFO</a>
+                <a class="nav-link btn btn-danger d-none d-md-block" role="button" ng-click="$ctrl.Modal.openLogin()" ng-hide="!!$ctrl.isLoggedIn()">GRIFO</a>
               </li>
               <!--
                 <li class="nav-item">
@@ -239,7 +240,7 @@
                     <a class="btn btn-danger" ui-sref="donate" ng-click="$ctrl.isCollapsed = true" ng-click="$ctrl.waitState()">APOIE</a>
                   </li>
                   <li class="nav-item pb-2 pr-0">
-                    <a class="btn btn-danger" ui-sref="grffo" ng-click="$ctrl.isCollapsed = true" ng-click="$ctrl.waitState()">GRIFO</a>
+                    <a class="btn btn-danger" ui-sref="supportgrifo" ng-click="$ctrl.isCollapsed = true" ng-click="$ctrl.waitState()">GRIFO</a>
                   </li>
                 </ul>
               </div>
