@@ -173,7 +173,8 @@ export function index(req, res) {
       'CPF',
       'AssociationCategory',
       'AssociationPending',
-      'AssociationJustification'
+      'AssociationJustification',
+      'Grifo',
     ],
     include: [{
       model: Engineering,
@@ -820,7 +821,8 @@ export function show(req, res, next) {
       'GraduationYear',
       'ProfessorSEId',
       'InitiativeLinkOther',
-      'IsApproved'
+      'IsApproved',
+      'Grifo',
     ],
     where: {
       PersonId: req.params.id
@@ -1045,7 +1047,8 @@ export function me(req, res, next) {
       'AddressComplement',
       'RG',
       'CPF',
-      'AssociationCategory'
+      'AssociationCategory',
+      'Grifo',
     ],
     where: {
       PersonId: userId
