@@ -9,8 +9,8 @@ export class DonateController {
   submitted = false;
   ProjectName = '';
   donation = {
-    Type: 'project',
-    Frequency: 'once',
+    Type: 'general',
+    Frequency: 'monthly',
     ProjectId: null,
     ValueInCents: 40000
   };
