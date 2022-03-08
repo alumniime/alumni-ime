@@ -12,6 +12,7 @@ export class MainController {
     this.Util = Util;
     this.$stateParams = $stateParams;
     this.isLoggedIn = Auth.isLoggedInSync;
+    this.showInitialModal = false;
   }
 
   $onInit() {
@@ -31,7 +32,7 @@ export class MainController {
     //Show a popup on website startup
     
     var check = localStorage.getItem('checkboxModel');
-    if(!check){
+    if(!check && this.showInitialModal){
       this.Modal.openMainHighlight();
     }
   }
