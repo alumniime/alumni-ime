@@ -240,7 +240,8 @@
                     <a class="btn btn-danger" ui-sref="donate" ng-click="$ctrl.isCollapsed = true" ng-click="$ctrl.waitState()">APOIE</a>
                   </li>
                   <li class="nav-item pb-2 pr-0">
-                    <a class="btn btn-danger" ui-sref="supportgrifo" ng-click="$ctrl.isCollapsed = true" ng-click="$ctrl.waitState()">GRIFO</a>
+                    <a class="btn btn-danger" href="https://alumniime.wixsite.com/website-1" role="button" ng-click="$ctrl.waitState()" ng-hide="!$ctrl.isLoggedIn()">GRIFO</a>
+                    <a class="btn btn-danger" role="button" ng-click="$ctrl.Modal.openLogin()" ng-hide="!!$ctrl.isLoggedIn()">GRIFO</a>
                   </li>
                 </ul>
               </div>
