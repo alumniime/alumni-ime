@@ -151,10 +151,12 @@ export class NavbarComponent {
               state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
             });
           } else {
-            dropdown.push({
-              title: `ENCERRADOS ${semester.Year}.${semester.Semester}`,
-              state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
-            });
+            if (semester.Year == 2020 && semester.Semester == 2) {
+                dropdown.push({
+                  title: `PROJETOS ENCERRADOS`,
+                  state: `show({Semester: 'Encerrados'})`
+                });
+            }
           }
         }else{
           let check = 0;

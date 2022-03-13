@@ -22,9 +22,10 @@ export class ShowController {
 
   $onInit() {
     if(this.$stateParams.Semester) {
-      this.Year = this.$stateParams.Semester.split('.')[0];
-      this.Semester = this.$stateParams.Semester.split('.')[1];
-      this.Special = this.$stateParams.Semester.split('.')[2];
+      var semesterParse = this.$stateParams.Semester.split('.');
+      this.Year = semesterParse[0];
+      this.Semester = semesterParse[1];
+      this.Special = semesterParse[2];
       if(this.Special){
         this.IsSpecial = true;
       }else{
@@ -34,7 +35,11 @@ export class ShowController {
       if(this.Special){
         this.ngMeta.setTitle(`Projetos ${this.Special}`);
         this.ngMeta.setTag('description', `Confira a lista de projetos apoiados pela Alumni IME relacionados ao ${this.Special}`);
-        this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/${this.Year}.${this.Semester}`);
+        this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/${this.Year}.${this.Semester}.${this.Special}`);
+      }else if(this.Year == 'Encerrados'){
+        this.ngMeta.setTitle(`Projetos Encerrados`);
+        this.ngMeta.setTag('description', `Confira a lista de projetos apoiados pela Alumni IME Encerrados`);
+        this.ngMeta.setTag('og:url', `${this.appConfig.url}/projects/encerrados`);
       }else{
         this.ngMeta.setTitle(`Projetos Apoiados ${this.Year}.${this.Semester}`);
         this.ngMeta.setTag('description', `Confira a lista de projetos apoiados pela Alumni IME no ${this.Semester}º semestre de ${this.Year}`);
@@ -50,8 +55,12 @@ export class ShowController {
             }else{
               if(project.Year == this.Year && project.Semester == this.Semester && !project.Hide){
                 project.show = true;
-              }else{
-                project.show = false;
+              } else {
+                if (this.Year == 'Encerrados' && project.Year <= 2020 && !project.Hide) {
+                  project.show = true;
+                } else {
+                  project.show = false;
+                }
               }
             }
             var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds

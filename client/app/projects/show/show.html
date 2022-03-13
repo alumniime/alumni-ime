@@ -1,5 +1,6 @@
 <div class="container showView">
-  <h5 class="page-title" ng-if="!vm.Special">Aprovados {{vm.Year}}.{{vm.Semester}}</h5>
+  <h5 class="page-title" ng-if="!vm.Special && vm.Year != 'Encerrados'">Aprovados {{vm.Year}}.{{vm.Semester}}</h5>
+  <h5 class="page-title" ng-if="!vm.Special && vm.Year == 'Encerrados'">Projetos Encerrados</h5>
   <h5 class="page-title" ng-if="vm.Special">Projetos {{vm.Special}}</h5>
 
   <div class="card-deck project-deck">
