@@ -225,6 +225,51 @@
         width: 30%;
       }
     
+      .description-block {
+        min-height: 168px;
+        padding-bottom: 30px;
+        background-color: #e5e5e5;
+        /* #3f51b5 */
+      }
+    
+      .description-block div {
+        padding-left: 15px;
+      }
+    
+      .description-block div .btn {
+        font-size: 13px;
+        min-width: 100px;
+        border-radius: 100px;
+        margin-right: 15px;
+      }
+    
+      .description-block div .btn-light {
+        color: #1a60ca;
+      }
+      .description-block div .btn-light2 {
+        background-color: #e61919;
+        color: #1a60ca;
+        /* #3f51b5 */
+      }
+    
+      .description-block div .btn-outline-light {
+        color: #1a60ca;
+        border-color: #1a60ca;
+        border-radius: 15px;
+        font-size: 22px;
+        min-width: 220px;
+      }
+    
+      .description-titles {
+        font-family: 'Merriweather Sans', sans-serif !important;
+        padding: 40px 30px 30px;
+        color: #000;
+      }
+    
+      .description-titles h2 {
+        font-weight: 300;
+      }
+
 }
 
 .modal-open{
