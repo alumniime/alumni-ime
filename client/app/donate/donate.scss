@@ -2,7 +2,7 @@
     width: 100%;
 
     .donateContainter {
-        background-color: #00456F !important;
+        background-color: #293473 !important;
         color: #F2F2F2;
     }
     
@@ -228,46 +228,81 @@
       .description-block {
         min-height: 168px;
         padding-bottom: 30px;
-        background-color: #e5e5e5;
-        /* #3f51b5 */
       }
     
       .description-block div {
         padding-left: 15px;
       }
     
-      .description-block div .btn {
-        font-size: 13px;
-        min-width: 100px;
-        border-radius: 100px;
-        margin-right: 15px;
-      }
-    
-      .description-block div .btn-light {
-        color: #1a60ca;
-      }
-      .description-block div .btn-light2 {
-        background-color: #e61919;
-        color: #1a60ca;
-        /* #3f51b5 */
-      }
-    
-      .description-block div .btn-outline-light {
+      .description-block div .btn-outline-primary {
         color: #1a60ca;
         border-color: #1a60ca;
         border-radius: 15px;
         font-size: 22px;
         min-width: 220px;
       }
-    
+      
+      .description-block div .btn-outline-primary:hover {
+        color: #fff;
+        background-color: #1a60ca;
+        border-color: #1a60ca;
+      }
+
+      .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active {
+        color: #fff;
+        background-color: #1a60ca;
+        border-color: #1a60ca;
+      }
+
+      .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus {
+        box-shadow: 0 0 0 0.2rem rgba(26, 96, 202, 0.5);
+      }
+
+      .payment-type div .btn-outline-primary {
+        min-width: auto;
+        padding-right: 25px;
+        padding-left: 25px; 
+        font-size: 20px;
+      }
+
+      .donateContainter div .btn-outline-light {
+        border-radius: 15px;
+        min-width: auto;
+        padding-right: 25px;
+        padding-left: 25px; 
+        font-size: 20px;
+      }
+      
+      .donateContainter div.value-buttons .btn-outline-light {
+        border-radius: 0;
+        white-space: nowrap;
+      }
+
+      .donateContainter div.value-buttons .btn-outline-light:first-child {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+      }
+      
+      .donateContainter div.value-buttons .btn-outline-light:last-child, .donateContainter div.value-buttons .btn-outline-light.dropdown-toggle {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
+      
       .description-titles {
         font-family: 'Merriweather Sans', sans-serif !important;
         padding: 40px 30px 30px;
         color: #000;
-      }
+      }  
     
       .description-titles h2 {
         font-weight: 300;
+      }  
+
+      .pix-icon::before {
+        content: url("../assets/images/icone-pix.png");
+        box-sizing: border-box;
       }
 
 }

@@ -18,7 +18,7 @@
         </div>
     </div>
     
-    <div class="description-block">
+    <div class="description-block bg-light">
         <div class="container">
     
             <div class="row align-items-center pt-4">
@@ -26,161 +26,190 @@
                 <h4>Onde deseja aplicar sua contribuição?</h4>
               </div>
               <div class="col-xs-12 col-sm-auto">
-                <a class="nav-link btn btn-outline-light" href="#">Infraestrutura</a>
+                <a class="nav-link btn btn-outline-primary" ng-class="{active: vm.donation.Type === 'general'}"
+                    ng-click="vm.selectType('general')">
+                    Infraestrutura
+                </a>
                 <br class="d-block d-md-none">
               </div>
               <div class="col-xs-12 col-sm-auto">
-                <a class="nav-link btn btn-outline-light" href="#">Projetos</a>
+                <a class="nav-link btn btn-outline-primary" ng-class="{active: vm.donation.Type === 'project'}"
+                    ng-click="vm.openDonationModal(2020)">
+                    Projetos
+                </a>
               </div>
           </div>
+
+          <div class="payment-type p-0">
+              <div class="row align-items-center pt-4">
+                <div class="col-xs-12 col-xl-auto description-titles">
+                  <h4>Qual a forma de pagamento?</h4>
+                </div>
+                <div class="col-xs-12 col-sm-auto">
+                  <a class="nav-link btn btn-outline-primary" href="#">
+                      <i class="fa fa-credit-card"></i>
+                      Cartão
+                  </a>
+                  <br class="d-block d-lg-none">
+                </div>
+                <div class="col-xs-12 col-sm-auto">
+                  <a class="nav-link btn btn-outline-primary" href="#">
+                      <i class="fa fa-barcode"></i>
+                      Boleto
+                  </a>
+                  <br class="d-block d-lg-none">
+                </div>
+                <div class="col-xs-12 col-sm-auto">
+                  <a class="nav-link btn btn-outline-primary" href="#">
+                      <i class="fa pix-icon"></i>
+                      Pix
+                  </a>
+                  <br class="d-block d-lg-none">
+                </div>
+                <div class="col-xs-12 col-sm-auto">
+                  <a class="nav-link btn btn-outline-primary" href="#">
+                      <i class="fa fa-exchange"></i>
+                      Transferência
+                  </a>
+                </div>
+            </div>
+          </div>
+
         </div>
     </div>
 
+
     <div class="py-5 donateContainter">
         <div class="container">
-            <h2 class="mb-3">Sua ajuda pode fazer muita diferença</h2>
-            <div class="row">
-                <div class="px-4 col-12 col-lg-6 dual-column">
+            <!-- <h2 class="mb-3">Sua ajuda pode fazer muita diferença</h2> -->
+            <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
+
+                <!-- <div class="pb-5">
+                    <h3 class="mt-0 mt-lg-3 mb-3">Onde deseja aplicar sua contribuição?</h3>
                     
-                    <p class="description-text">Somos muito mais do que uma associação de ex-alunos...</p>
-                    <p class="description-text">
-                        Nascemos de um grupo de pessoas movidas pela gratidão, pelo desejo de conectar e reconectar 
-                        IMEanos e pela crença de que investir na Educação é o melhor caminho na construção de um país melhor.
-                    </p>
-                    <p class="description-text">
-                        Nós financiamos projetos de alunos e professores, promovemos e divulgamos eventos, compartilhamos conteúdos 
-                        relevantes e notícias sobre as realizações e conquistas de alunos e ex-alunos, oferecemos um portal de vagas, 
-                        networking e plataforma de cadastro de membros da comunidade.
-                    </p>
-                    <p class="description-text">
-                        Fazemos tudo isso por amor e gratidão ao IME! E é isso que buscamos despertar em toda a comunidade: 
-                        manter acesa a chama do orgulho em pertencer eternamente à melhor escola de Engenharia do Brasil.
-                    </p>
-                    <p class="description-text">
-                        Com o seu apoio, podemos fortalecer ainda mais o nome da nossa escola, contribuindo para 
-                        uma formação de excelência e mantendo a nossa comunidade forte e unida.
-                    </p>
-                    <p class="description-text">
-                        Afinal, uma vez IMEanos, seremos sempre IMEanos!
-                    </p>
-                </div>
-                <div class="col-12 col-lg-6 dual-column">
-                    <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
-
-                        <div class="pb-5">
-                            <h3 class="mt-0 mt-lg-3 mb-3">Onde deseja aplicar sua contribuição?</h3>
-                            
-                            <!-- For extra small and small devices -->
-                            <div class="btn-group w-100 d-block d-md-none" role="group" aria-label="Donation type">
-                                <div class="row m-0 p-0">
-                                    <div class="col-12 p-0 btn-group">
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'general'}"
-                                        ng-click="vm.selectType('general')">
-                                    Infraestrutura/Gestão 
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
-                                        ng-click="vm.openDonationModal(2020)">
-                                    Projetos
-                                </button>
-                                    </div>
-                                    <div class="col-12 p-0 btn-group border-top-none">
-                                <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
-                                    <button id="btnSelectProjectSmall" type="button" class="btn btn-outline-secondary btn-other truncate dropdown-toggle" 
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}"  ng-click="vm.selectProject()">
-                                        {{ vm.ProjectName || 'Selecione um projeto' }}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnSelectProjectSmall">
-                                        <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
-                                            Nenhum projeto disponível
-                                        </a>
-                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
-                                           ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
-                                            {{project.ProjectName}}
-                                        </a>
-                                    </div>
-                                </div>
-                                    </div>
-                                </div>
+                    For extra small and small devices
+                    <div class="btn-group w-100 d-block d-md-none" role="group" aria-label="Donation type">
+                        <div class="row m-0 p-0">
+                            <div class="col-12 p-0 btn-group">
+                        <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Type === 'general'}"
+                                ng-click="vm.selectType('general')">
+                            Infraestrutura/Gestão 
+                        </button>
+                        <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Type === 'project'}"
+                                ng-click="vm.openDonationModal(2020)">
+                            Projetos
+                        </button>
                             </div>
-                            
-                            <!-- For medium, large and extra large devices -->
-                            <div class="btn-group w-100 d-none d-md-flex" role="group" aria-label="Donation type">
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'general'}"
-                                        ng-click="vm.donation.Type = 'general'; vm.donation.ProjectId = null; vm.ProjectName = ''">
-                                    Infraestrutura/Gestão 
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Type === 'project'}"
-                                        ng-click="vm.openDonationModal(2020)">
-                                    Projetos
-                                </button>
-                                <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
-                                    <button id="btnSelectProject" type="button" class="btn btn-outline-secondary btn-other truncate dropdown-toggle" 
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}" ng-click="vm.selectProject()">
-                                        {{ vm.ProjectName || 'Selecione um projeto' }}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnSelectProject">
-                                        <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
-                                            Nenhum projeto disponível
-                                        </a>
-                                        <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
-                                           ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
-                                            {{project.ProjectName}}
-                                        </a>
-                                    </div>
-                                </div>
+                            <div class="col-12 p-0 btn-group border-top-none">
+                        <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
+                            <button id="btnSelectProjectSmall" type="button" class="btn btn-outline-light btn-other truncate dropdown-toggle" 
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}"  ng-click="vm.selectProject()">
+                                {{ vm.ProjectName || 'Selecione um projeto' }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnSelectProjectSmall">
+                                <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
+                                    Nenhum projeto disponível
+                                </a>
+                                <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
+                                    ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
+                                    {{project.ProjectName}}
+                                </a>
                             </div>
-                            
-                            <p class="help-block"
-                                ng-if="vm.donation.Type === 'project' && (vm.donation.ProjectId === null || vm.donation.ProjectId === '') && vm.submitted">
-                                Escolha um projeto para apoiar.
-                            </p>                                
                         </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    For medium, large and extra large devices
+                    <div class="btn-group w-100 d-none d-md-flex" role="group" aria-label="Donation type">
+                        <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Type === 'general'}"
+                                ng-click="vm.donation.Type = 'general'; vm.donation.ProjectId = null; vm.ProjectName = ''">
+                            Infraestrutura/Gestão 
+                        </button>
+                        <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Type === 'project'}"
+                                ng-click="vm.openDonationModal(2020)">
+                            Projetos
+                        </button>
+                        <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
+                            <button id="btnSelectProject" type="button" class="btn btn-outline-light btn-other truncate dropdown-toggle" 
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}" ng-click="vm.selectProject()">
+                                {{ vm.ProjectName || 'Selecione um projeto' }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnSelectProject">
+                                <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
+                                    Nenhum projeto disponível
+                                </a>
+                                <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
+                                    ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
+                                    {{project.ProjectName}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="help-block"
+                        ng-if="vm.donation.Type === 'project' && (vm.donation.ProjectId === null || vm.donation.ProjectId === '') && vm.submitted">
+                        Escolha um projeto para apoiar.
+                    </p>                                
+                </div> -->
 
-                        <div class="pb-5">
-                            <h3 class="mb-3">Com que frequência deseja contribuir?</h3>
-                            <div class="btn-group w-100" role="group" aria-label="Donation frequency">
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Frequency === 'monthly'}"
+                <div class="pb-5">
+                    <div class="w-100" aria-label="Donation frequency">
+                        <div class="row align-items-center">
+                            <div class="col-xs-12 col-xl-auto py-4">
+                                <h3 class="">Com que frequência deseja contribuir?</h3>
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Frequency === 'monthly'}"
                                         ng-click="vm.selectFrequency('monthly')">
                                         Mensal
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary" ng-class="{active: vm.donation.Frequency === 'once'}"
+                                <br class="d-block d-md-none">
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Frequency === 'once'}"
                                         ng-click="vm.selectFrequency('once')">
                                         Única Vez
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="pb-4">
-                            <h3 class="mb-3">Com qual valor deseja contribuir?</h3>
-
+                <div class="pb-4">
+                    <div class="row">
+                        <div class="col-auto">
+                            <h3 class="pb-4">Com qual valor deseja contribuir?</h3>
+                        </div>
+                        <div class="col-auto">
                             <!-- For extra small and small devices -->
                             <div class="btn-group value-buttons d-block d-md-none" role="group" aria-label="Donation values">
                                 <div class="row m-0 p-0">
                                     <div class="col-12 p-0 btn-group">
                                         <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, frequency: vm.donation.Frequency}" ng-if="$index < 3"
-                                                class="btn btn-outline-secondary" ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
+                                                class="btn btn-outline-light" ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
                                             R$ {{option.value}}
                                         </button>
                                     </div>
                                     <div class="col-12 p-0 btn-group border-top-none">
                                         <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, frequency: vm.donation.Frequency}" ng-if="$index >= 3 && $index < 5"
-                                                class="btn btn-outline-secondary" ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
+                                                class="btn btn-outline-light" ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
                                             R$ {{option.value}}
                                         </button>
                                         <div class="btn-group" role="group">
-                                            <button id="btnSmallOtherValue" type="button" class="btn btn-outline-secondary btn-other dropdown-toggle" ng-class="{active: !vm.selectedOption.visible}"
+                                            <button id="btnSmallOtherValue" type="button" class="btn btn-outline-light btn-other dropdown-toggle" ng-class="{active: !vm.selectedOption.visible}"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 {{!vm.selectedOption.visible ? 'R$ ' + vm.selectedOption.value : 'Outro'}}
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="btnSmallOtherValue">
                                                 <a class="dropdown-item" href="#" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: false, admin: false}"
-                                                   ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)" ng-if="vm.donation.Frequency === 'monthly'">
+                                                    ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)" ng-if="vm.donation.Frequency === 'monthly'">
                                                     R$ {{option.value}}
                                                 </a>
                                                 <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2" ng-if="vm.donation.Frequency === 'once'"
-                                                       required ui-money-mask>
+                                                        required ui-money-mask>
                                                 <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
-                                                   uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
+                                                    uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -190,38 +219,37 @@
                             <!-- For medium, large and extra large devices -->
                             <div class="btn-group value-buttons d-none d-md-flex" role="group" aria-label="Donation values">
                                 <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, frequency: vm.donation.Frequency}" ng-if="$index < 5"
-                                        class="btn btn-outline-secondary d-block d-xl-block" ng-class="{'d-lg-none': $index === 4, active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
+                                        class="btn btn-outline-light d-block d-xl-block" ng-class="{'d-md-none': $index === 4, active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
                                     R$ {{option.value}}
                                 </button>
                                 <div class="btn-group" role="group">
-                                    <button id="btnOtherValue" type="button" class="btn btn-outline-secondary btn-other dropdown-toggle" ng-class="{active: !vm.selectedOption.visible}"
+                                    <button id="btnOtherValue" type="button" class="btn btn-outline-light btn-other dropdown-toggle" ng-class="{active: !vm.selectedOption.visible}"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{!vm.selectedOption.visible ? 'R$ ' + vm.selectedOption.value : 'Outro'}}
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnOtherValue">
                                         <a class="dropdown-item" href="#" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: false, admin: false}"
-                                           ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)" ng-if="vm.donation.Frequency === 'monthly'">
+                                            ng-class="{active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)" ng-if="vm.donation.Frequency === 'monthly'">
                                             R$ {{option.value}}
                                         </a>
                                         <input type="text dropdown-item" ng-model="vm.customValue" class="form-control pl-2" ng-if="vm.donation.Frequency === 'once'"
-                                               required ui-money-mask>
+                                                required ui-money-mask>
                                         <i class="fa fa-check-square text-info pull-right c-pointer" ng-click="vm.setCustomValue(vm.customValue)"
-                                           uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
+                                            uib-tooltip="Ok" tooltip-placement="bottom" ng-if="vm.donation.Frequency === 'once'"></i>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
-                        <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Ir para o pagamento</b></button>
-                        <a class="btn btn-link text-light mt-3 float-right" ui-sref="bank({ProjectId: vm.donation.ProjectId, PrettyURL: vm.$stateParams.PrettyURL})">
-                            <i class="fa fa-caret-right"></i>
-                            Clique aqui para contribuir por transferência bancária
-                        </a>
-
-                    </form>
+                    </div>
                 </div>
-            </div>
+
+                <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Ir para o pagamento</b></button>
+                <a class="btn btn-link text-light mt-3 float-right" ui-sref="bank({ProjectId: vm.donation.ProjectId, PrettyURL: vm.$stateParams.PrettyURL})">
+                    <i class="fa fa-caret-right"></i>
+                    Clique aqui para contribuir por transferência bancária
+                </a>
+
+            </form>
         </div>
     </div>
 
