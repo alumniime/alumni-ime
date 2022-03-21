@@ -22,64 +22,72 @@
         <div class="container">
     
             <div class="row align-items-center pt-4">
-              <div class="col-xs-12 col-xl-auto description-titles">
-                <h4>Onde deseja aplicar sua contribuição?</h4>
-              </div>
-              <div class="col-xs-12 col-sm-auto">
-                <a class="nav-link btn btn-outline-primary" ng-class="{active: vm.donation.Type === 'general'}"
-                    ng-click="vm.selectType('general')">
-                    Infraestrutura
-                </a>
-                <br class="d-block d-md-none">
-              </div>
-              <div class="col-xs-12 col-sm-auto">
-                <a class="nav-link btn btn-outline-primary" ng-class="{active: vm.donation.Type === 'project'}"
-                    ng-click="vm.openDonationModal(2020)">
-                    Projetos
-                </a>
-              </div>
-          </div>
-
-          <div class="payment-type p-0">
-              <div class="row align-items-center pt-4">
                 <div class="col-xs-12 col-xl-auto description-titles">
-                  <h4>Qual a forma de pagamento?</h4>
+                    <h4>Onde deseja aplicar sua contribuição?</h4>
                 </div>
                 <div class="col-xs-12 col-sm-auto">
-                  <a class="nav-link btn btn-outline-primary" href="#">
-                      <i class="fa fa-credit-card"></i> 
-                      Cartão
-                  </a>
-                  <br class="d-block d-lg-none">
+                    <a class="nav-link btn btn-outline-primary" ng-class="{active: vm.donation.Type === 'general'}"
+                        ng-click="vm.selectType('general')">
+                        Infraestrutura
+                    </a>
+                    <br class="d-block d-md-none">
                 </div>
                 <div class="col-xs-12 col-sm-auto">
-                  <a class="nav-link btn btn-outline-primary" href="#">
-                      <i class="fa fa-barcode"></i> 
-                      Boleto
-                  </a>
-                  <br class="d-block d-lg-none">
-                </div>
-                <div class="col-xs-12 col-sm-auto">
-                  <a class="nav-link btn btn-outline-primary" href="#">
-                      <i class="fa pix-icon"></i> 
-                      Pix
-                  </a>
-                  <br class="d-block d-lg-none">
-                </div>
-                <div class="col-xs-12 col-sm-auto">
-                  <a class="nav-link btn btn-outline-primary" href="#">
-                      <i class="fa fa-exchange"></i> 
-                      Transferência
-                  </a>
+                    <a class="nav-link btn btn-outline-primary" ng-class="{active: vm.donation.Type === 'project'}"
+                        ng-click="vm.openDonationModal(2020)">
+                        Projetos
+                    </a>
                 </div>
             </div>
-          </div>
+
+            <div class="payment-type p-0">
+                <div class="row align-items-center pt-4">
+                    <div class="col-xs-12 col-xl-auto description-titles">
+                    <h4>Qual a forma de pagamento?</h4>
+                    </div>
+                    <div class="col-xs-12 col-sm-auto">
+                    <a class="nav-link btn btn-outline-primary"
+                        ng-class="{active: vm.selectedMethod === 'card'}"
+                        ng-click="vm.selectPaymentMethod('card')">
+                        <i class="fa fa-credit-card"></i> 
+                        Cartão
+                    </a>
+                    <br class="d-block d-lg-none">
+                    </div>
+                    <div class="col-xs-12 col-sm-auto">
+                    <a class="nav-link btn btn-outline-primary"
+                        ng-class="{active: vm.selectedMethod === 'boleto'}"
+                        ng-click="vm.selectPaymentMethod('boleto')">
+                        <i class="fa fa-barcode"></i> 
+                        Boleto
+                    </a>
+                    <br class="d-block d-lg-none">
+                    </div>
+                    <div class="col-xs-12 col-sm-auto">
+                    <a class="nav-link btn btn-outline-primary"
+                        ng-class="{active: vm.selectedMethod === 'pix'}"
+                        ng-click="vm.selectPaymentMethod('pix')">
+                        <i class="fa pix-icon"></i> 
+                        Pix
+                    </a>
+                    <br class="d-block d-lg-none">
+                    </div>
+                    <div class="col-xs-12 col-sm-auto">
+                    <a class="nav-link btn btn-outline-primary"
+                            ng-class="{active: vm.selectedMethod === 'transfer'}"
+                            ng-click="vm.selectPaymentMethod('transfer')">
+                        <i class="fa fa-exchange"></i> 
+                        Transferência
+                    </a>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
 
-
-    <div class="py-5 donateContainter">
+    <!-- Payment with cards -->
+    <div class="py-5 donateContainter" ng-if="vm.selectedMethod !== 'transfer'">
         <div class="container">
             <!-- <h2 class="mb-3">Sua ajuda pode fazer muita diferença</h2> -->
             <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
@@ -153,7 +161,7 @@
                     </p>                                
                 </div> -->
 
-                <div class="pb-5">
+                <div class="pb-4">
                     <div class="w-100" aria-label="Donation frequency">
                         <div class="row align-items-center">
                             <div class="col-xs-12 col-xl-auto py-4">
@@ -247,12 +255,124 @@
                     <i class="fa fa-money"></i> 
                     Pagar
                 </button>
-                <!-- <a class="btn btn-link text-light mt-3 float-right" ui-sref="bank({ProjectId: vm.donation.ProjectId, PrettyURL: vm.$stateParams.PrettyURL})">
-                    <i class="fa fa-caret-right"></i>
-                    Clique aqui para contribuir por transferência bancária
-                </a> -->
 
             </form>
+        </div>
+    </div>
+
+    <!-- Payment with transfer -->
+    <div class="py-5 donateContainter" ng-if="vm.selectedMethod === 'transfer'">
+        <div class="container">
+
+            <div class="row align-items-center">
+                <div class="col-auto py-4">
+                    <h3>Feita a transação, envie-nos o comprovante:</h3>
+                </div>
+            </div>
+
+            <div class="row align-items-center justify-content-center">
+                <div class="col-auto">
+                    <img src="../../assets/images/bank-transfer.png">
+                </div>
+                <div class="col-auto">
+                    <div class="card text-center transfer-data m-auto">
+                        <div class="card-body">
+                            <h5 class="card-title">Dados Bancários</h5>
+                            <p class="card-text">
+                                Nome <span class="bank-data">ASSOC EX AL INST MILIT ENG</span>
+                                <br>
+                                Banco <span class="bank-data">Itaú</span>
+                                <br>
+                                Agência <span class="bank-data">0413</span>
+                                <br>
+                                Conta corrente <span class="bank-data">03888-6</span>
+                                <br>
+                                CNPJ <span class="bank-data">19.335.957/0001-17</span>
+                                <br>
+                                Chave PIX: <span class="bank-data">19335957000117</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <form class="form" name="form" ng-submit="vm.submitDonation(form)" novalidate="">
+
+                <div class="col-sm-auto col-md-6 p-0">
+                    <div class="legend">Valor depositado</div>
+                    <div class="form-group">
+                    <input type="text" id="ValueInCents" name="ValueInCents" class="form-control" required
+                            ng-model="vm.donation.ValueInCents" ui-money-mask>
+                    <p class="help-block"
+                        ng-if="(form.ValueInCents.$error.required || vm.donation.ValueInCents === 0) && vm.submitted">
+                        Insira o valor da contribuição.
+                    </p>
+                    </div>
+                </div>
+
+                <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
+                    ng-change="vm.updateImages(vm.uploadImages)"
+                    ng-model="vm.uploadImages"
+                    ngf-select-disabled="true" ngf-resize="{quality: vm.imageQuality}" ngf-keep="true"
+                    ngf-drag-over-class="'drag-over'" ngf-multiple="false" ngf-allow-dir="true"
+                    accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages"
+                    ngf-max-size="vm.maxSize">
+
+                    <div class="card-deck upload-images">
+
+                    <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0" ng-repeat="file in vm.uploadImages">
+                        <div class="card mb-3">
+                        <img ng-if="file && file.type !== 'application/pdf'" ngf-thumbnail="file"/>
+                        <span ng-if="file.type === 'application/pdf'" class="text-center w-100">
+                            {{file.name}}
+                            <i class="fa fa-file-pdf-o"></i>
+                        </span>
+                        <i ng-if="file.size" class="fa fa-close close-button" ng-click="vm.removeImage(file)"
+                            uib-tooltip="Remover comprovante" tooltip-placement="left"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 pl-0 pr-0">
+                        <div class="card card-plus d-flex align-items-center justify-content-center mb-3"
+                            ng-if="vm.uploadImages.length < vm.maxImages" ngf-resize="{quality: vm.imageQuality}"
+                            ng-click="vm.updateImages(null)" ngf-select ng-change="vm.updateImages(vm.uploadImages)"
+                            ng-model="vm.uploadImages" ngf-keep="true"
+                            ngf-multiple="false" ngf-allow-dir="true" accept="image/*,application/pdf"
+                            ngf-pattern="'image/*,application/pdf'" ngf-max-files="vm.maxImages" ngf-max-size="vm.maxSize">
+                        <div class="row">
+                            <div class="col-auto">
+                            <img src="assets/images/images.svg" alt="Upload Images" class="icon-images">
+                            </div>
+                            <div class="col">
+                            <p class="upload-text">
+                                <a class="btn btn-link text-info upload-link p-0" href="#">
+                                Faça upload
+                                </a> do comprovante de transferência bancária.
+                            </p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <p class="help-block" ng-show="form.files.$error.maxSize">
+                    O arquivo inserido ultrapassa o tamanho máximo. Tente novamente.
+                    </p>
+
+                    <p class="help-block" ng-show="vm.uploadImages.length === 0 && vm.submitted">
+                    Insira o comprovante de transferência.
+                    </p>
+
+                </div>
+
+                <button type="submit" class="btn btn-danger mt-4">
+                    <i class="fa fa-file-text"></i> 
+                    Enviar comprovante
+                </button>
+
+            </form>
+
         </div>
     </div>
 

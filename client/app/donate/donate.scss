@@ -1,322 +1,461 @@
 .donateView {
+  width: 100%;
+
+  .donateContainter {
+    background-color: #293473 !important;
+    color: #F2F2F2;
+  }
+  
+  .dual-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    form, p {
+      width: 100%;
+    }
+  }
+
+  h2 {
+    font-size: 44px;
+    line-height: 60px;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 25px;
+    font-weight: 300;
+  }
+
+  .description-text {
+    font-size: 17px;
+    font-weight: 300;
+    text-align: justify;
+  }
+
+  .help-block {
+    margin-top: 10px;
+    margin-bottom: 0;
+    color: #EFD470;
+  }
+
+  .custom-select {
+    border: none;
+    color: #F2F2F2;
+  }
+
+  .donation-value {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .dropdown-item:active {
+    background-color: #6c757d;
+  }
+  
+  .value-buttons {
     width: 100%;
 
-    .donateContainter {
-        background-color: #293473 !important;
-        color: #F2F2F2;
+    button, .btn-group {
+      min-width: 33.3333%;
     }
-    
-    .dual-column {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding-top: 15px;
-        padding-bottom: 10px;
-        form, p {
-            width: 100%;
-        }
-    }
-
-    h2 {
-        font-size: 44px;
-        line-height: 60px;
-        text-align: center;
-    }
-
-    h3 {
-        font-size: 25px;
-        font-weight: 300;
-    }
-
-    .description-text {
-        font-size: 17px;
-        font-weight: 300;
-        text-align: justify;
-    }
-
-    .help-block {
-        margin-top: 10px;
-        margin-bottom: 0;
-        color: #EFD470;
-    }
-
-    .custom-select {
-        border: none;
-        color: #F2F2F2;
-    }
-
-    .donation-value {
-        padding-right: 22px;
-        padding-left: 22px;
-    }
-
-    .dropdown-item:active {
-        background-color: #6c757d;
-    }
-    
-    .value-buttons {
-        width: 100%;
-
+    @include media-breakpoint-up(md) {
         button, .btn-group {
-            min-width: 33.3333%;
-        }
-        @include media-breakpoint-up(md) {
-            button, .btn-group {
-                min-width: 16.6666%;
-            }
-        }
-        @include media-breakpoint-only(lg) {
-            button, .btn-group {
-                min-width: 20%;
-            }
+          min-width: 16.6666%;
         }
     }
+    @include media-breakpoint-only(lg) {
+        button, .btn-group {
+          min-width: 20%;
+        }
+    }
+  }
 
-    .btn-other {
-        min-width: auto !important;
-        width: 100%;
-        padding-left: 5px;
+  .btn-other {
+    min-width: auto !important;
+    width: 100%;
+    padding-left: 5px;
+  }
+  .btn-other.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @include media-breakpoint-only(md) {
+        max-width: 460px;
     }
-    .btn-other.truncate {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        @include media-breakpoint-only(md) {
-            max-width: 460px;
-        }
-        @include media-breakpoint-only(lg) {
-            max-width: 222px;
-        }
-        @include media-breakpoint-only(xl) {
-            max-width: 310px;
-        }
+    @include media-breakpoint-only(lg) {
+        max-width: 222px;
     }
+    @include media-breakpoint-only(xl) {
+        max-width: 310px;
+    }
+  }
 
-    .btn-group.w-100 .btn-group {
-        max-width: 100%;
-    }
+  .btn-group.w-100 .btn-group {
+    max-width: 100%;
+  }
 
-    .btn-group .dropdown-menu i {
+  .btn-group .dropdown-menu i {
+    position: absolute;
+    right: 8px;
+    top: 13px;
+    font-size: 30px;
+  }
+
+  .border-top-none {
+    margin-left: 0px !important;
+  }
+
+  .border-top-none .btn {
+    border-top: none;
+    margin-top: -1px;
+  }
+
+  .btn-link {
+    white-space: normal;
+  }
+
+  .card-header{
+    font-size: 16px;
+  }
+  
+  .faq-container{
+    margin-top: 20px;
+    padding-bottom: 3rem !important;
+  }
+
+  .faq-header{
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+
+  .carousel-inner {
+    max-height: 500px;
+  }
+
+  .carousel-item, .carousel-item-left, .carousel-item-next {
+    top: -250px !important;
+  }
+
+  .carousel-item.img-background {
+    height: 500px;
+    background: no-repeat center 36% fixed;
+    background-size: cover;
+    top: 0 !important;
+  }
+
+  .carousel-item.bg-shadow {
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  @include media-breakpoint-up(xl) {
+    .carousel-caption {
+      margin-left: 5%;
+    }
+  }
+
+  .carousel-caption {
+    width: 50%;
+    max-width: 500px;
+    margin-bottom: 200px;
+    /* margin-left: -5%;  */
+  }
+
+  .carousel-item.img-background .carousel-caption {
+    margin-bottom: 50px;
+  }
+
+  @include media-breakpoint-only(md) {
+    .carousel-caption h1 {
+      font-size: 30px;
+    }
+    .carousel-caption h5 {
+      font-size: 18px;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .carousel-item.img-background {
+      height: 400px;
+    }
+    .carousel-caption {
+      margin-bottom: 100px;
+      width: auto;
+    }
+    .carousel-item.img-background .carousel-caption {
+      margin-bottom: 25px;
+    }
+    .carousel-caption h1 {
+      font-size: 22px;
+    }
+    .carousel-caption h5 {
+      font-size: 14px;
+    }
+  }
+
+  .carousel-caption h1 {
+    text-align: left;
+    font-weight: 700;
+    font-size: 36px;
+  }
+
+  .carousel-caption h5 {
+    text-align: left;
+    margin-top: 10px;
+  }
+
+  .carousel-caption .btn-outline-light {
+    font-weight: 300;
+    font-size: 14px;
+    border-radius: 100px;
+    margin-top: 30px;
+    min-width: 120px;
+    width: 30%;
+  }
+
+  .carousel-caption .btn-light {
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 100px;
+    margin-top: 30px;
+    min-width: 240px;
+    width: 30%;
+  }
+
+  .description-block {
+    min-height: 168px;
+    padding-bottom: 30px;
+  }
+
+  .description-block div {
+    padding-left: 15px;
+  }
+
+  .description-block div .btn-outline-primary {
+    color: #1a60ca;
+    border-color: #1a60ca;
+    border-radius: 15px;
+    font-size: 22px;
+    min-width: 220px;
+  }
+  
+  .description-block div .btn-outline-primary:hover {
+    color: #fff;
+    background-color: #1a60ca;
+    border-color: #1a60ca;
+  }
+
+  .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active {
+    color: #fff;
+    background-color: #1a60ca;
+    border-color: #1a60ca;
+  }
+
+  .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus {
+    box-shadow: 0 0 0 0.2rem rgba(26, 96, 202, 0.5);
+  }
+
+  .payment-type div .btn-outline-primary {
+    min-width: auto;
+    padding-right: 25px;
+    padding-left: 25px; 
+    font-size: 20px;
+  }
+
+  .pix-icon::before {
+    content: url("../assets/images/icone-pix.png");
+    box-sizing: border-box;
+  }
+
+  .donateContainter h3 {
+    padding-left: 15px;
+  }
+
+  .donateContainter div .btn-outline-light {
+    border-radius: 15px;
+    min-width: auto;
+    padding-right: 25px;
+    padding-left: 25px; 
+    font-size: 20px;
+  }
+
+  .donateContainter div .btn-danger {
+    border-radius: 15px;
+    margin: auto;
+    display: block;
+    min-width: 200px;
+    background-color: #fb7800;
+    border-color: #c03d00;
+    padding-right: 25px;
+    padding-left: 25px; 
+    font-size: 20px;
+    font-weight: 600;
+  }
+  
+  .donateContainter div.value-buttons .btn-outline-light {
+    border-radius: 0;
+    white-space: nowrap;
+  }
+
+  .donateContainter div.value-buttons .btn-outline-light:first-child {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+  
+  .donateContainter div.value-buttons .btn-outline-light:last-child, .donateContainter div.value-buttons .btn-outline-light.dropdown-toggle {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+  
+  .description-titles {
+    font-family: 'Merriweather Sans', sans-serif !important;
+    padding: 40px 30px 30px;
+    color: #000;
+  }  
+
+  .description-titles h2 {
+    font-weight: 300;
+  }
+
+  .transfer-data {
+    max-width: 350px;
+  }
+
+  .transfer-data .card-title {
+    color: #333333 !important;
+    font-weight: bold;
+    font-size: 22px;
+    padding-bottom: 15px;
+  }
+  
+  .transfer-data .card-text {
+    line-height: 26px;
+    font-size: 17px;
+    color: #333333;
+    text-align: justify;
+
+    .bank-data {
+      font-weight: bold;
+    }
+  }
+
+  .legend {
+    font-weight: bold;
+    line-height: 33px;
+    font-size: 20px;
+    color: #333333;
+    padding-top: 30px;
+    padding-bottom: 15px;
+  }
+
+  .form-group input {
+    font-size: 14px;
+    color: #4F4F4F;
+    background-color: transparent !important;
+    border: none;
+    border-bottom: 1px solid #BDBDBD;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    width: 200px;
+  }
+
+  .form-control {
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #BDBDBD;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #4F4F4F;
+  }
+
+  .drop-images {
+    padding: 0;
+  }
+
+  .upload-text {
+    margin-top: 15px;
+    margin-right: 10px;
+    line-height: 21px;
+    font-size: 14px;
+    color: #333333;
+  }
+
+  .upload-link {
+    padding: 6px 0;
+    line-height: 21px !important;
+    font-size: 14px !important;
+    color: #E84E0F !important;
+  }
+
+  .upload-link:hover {
+    color: rgb(199, 66, 14) !important;
+    text-decoration: none;
+  }
+
+  .icon-images {
+    margin-top: 0;
+    margin-left: 20px;
+  }
+
+  .help-block {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #E84E0F;
+  }
+
+  .upload-images {
+    .card {
+      background-color: #c4c4c4;
+      border-radius: 0;
+      height: 160px;
+      width: 240px;
+      align-items: flex-start;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+
+      .close-button {
+        padding: 5px;
+        background-color: #fff;
         position: absolute;
-        right: 8px;
-        top: 13px;
-        font-size: 30px;
+        cursor: pointer;
+        top: 10px;
+        right: 10px;
+        color: #828282;
+      }
     }
-
-    .border-top-none {
-        margin-left: 0px !important;
+    .card img {
+      flex-shrink: 0;
+      min-width: 110%;
+      min-height: 100%;
+      max-width: 100%;
+      align-self: center;
     }
+    .card-plus {
+      background-color: transparent;
+      border: 2px dashed #bdbdbd;
+      cursor: pointer;
+      box-sizing: border-box;
+      margin-bottom: 0;
 
-    .border-top-none .btn {
-        border-top: none;
-        margin-top: -1px;
+      img {
+        height: 24px;
+        width: 24px;
+        min-width: 0;
+      }
     }
+  }
 
-    .btn-link {
-        white-space: normal;
-    }
-
-    .card-header{
-        font-size: 16px;
-    }
-    
-    .faq-container{
-        margin-top: 20px;
-        padding-bottom: 3rem !important;
-    }
-
-    .faq-header{
-        font-size: 40px;
-        margin-bottom: 20px;
-    }
-
-    .carousel-inner {
-        max-height: 500px;
-      }
-    
-      .carousel-item, .carousel-item-left, .carousel-item-next {
-        top: -250px !important;
-      }
-    
-      .carousel-item.img-background {
-        height: 500px;
-        background: no-repeat center 36% fixed;
-        background-size: cover;
-        top: 0 !important;
-      }
-    
-      .carousel-item.bg-shadow {
-        background-blend-mode: overlay;
-        background-color: rgba(0, 0, 0, 0.4);
-      }
-    
-      @include media-breakpoint-up(xl) {
-        .carousel-caption {
-          margin-left: 5%;
-        }
-      }
-    
-      .carousel-caption {
-        width: 50%;
-        max-width: 500px;
-        margin-bottom: 200px;
-        /* margin-left: -5%;  */
-      }
-    
-      .carousel-item.img-background .carousel-caption {
-        margin-bottom: 50px;
-      }
-    
-      @include media-breakpoint-only(md) {
-        .carousel-caption h1 {
-          font-size: 30px;
-        }
-        .carousel-caption h5 {
-          font-size: 18px;
-        }
-      }
-    
-      @include media-breakpoint-down(sm) {
-        .carousel-item.img-background {
-          height: 400px;
-        }
-        .carousel-caption {
-          margin-bottom: 100px;
-          width: auto;
-        }
-        .carousel-item.img-background .carousel-caption {
-          margin-bottom: 25px;
-        }
-        .carousel-caption h1 {
-          font-size: 22px;
-        }
-        .carousel-caption h5 {
-          font-size: 14px;
-        }
-      }
-    
-      .carousel-caption h1 {
-        text-align: left;
-        font-weight: 700;
-        font-size: 36px;
-      }
-    
-      .carousel-caption h5 {
-        text-align: left;
-        margin-top: 10px;
-      }
-    
-      .carousel-caption .btn-outline-light {
-        font-weight: 300;
-        font-size: 14px;
-        border-radius: 100px;
-        margin-top: 30px;
-        min-width: 120px;
-        width: 30%;
-      }
-    
-      .carousel-caption .btn-light {
-        font-weight: 600;
-        font-size: 16px;
-        border-radius: 100px;
-        margin-top: 30px;
-        min-width: 240px;
-        width: 30%;
-      }
-    
-      .description-block {
-        min-height: 168px;
-        padding-bottom: 30px;
-      }
-    
-      .description-block div {
-        padding-left: 15px;
-      }
-    
-      .description-block div .btn-outline-primary {
-        color: #1a60ca;
-        border-color: #1a60ca;
-        border-radius: 15px;
-        font-size: 22px;
-        min-width: 220px;
-      }
-      
-      .description-block div .btn-outline-primary:hover {
-        color: #fff;
-        background-color: #1a60ca;
-        border-color: #1a60ca;
-      }
-
-      .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active {
-        color: #fff;
-        background-color: #1a60ca;
-        border-color: #1a60ca;
-      }
-
-      .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus {
-        box-shadow: 0 0 0 0.2rem rgba(26, 96, 202, 0.5);
-      }
-
-      .payment-type div .btn-outline-primary {
-        min-width: auto;
-        padding-right: 25px;
-        padding-left: 25px; 
-        font-size: 20px;
-      }
-
-      .donateContainter div .btn-outline-light {
-        border-radius: 15px;
-        min-width: auto;
-        padding-right: 25px;
-        padding-left: 25px; 
-        font-size: 20px;
-      }
-
-      .donateContainter div .btn-danger {
-        border-radius: 15px;
-        margin: auto;
-        display: block;
-        min-width: 200px;
-        background-color: #fb7800;
-        border-color: #c03d00;
-        padding-right: 25px;
-        padding-left: 25px; 
-        font-size: 20px;
-        font-weight: 600;
-      }
-      
-      .donateContainter div.value-buttons .btn-outline-light {
-        border-radius: 0;
-        white-space: nowrap;
-      }
-
-      .donateContainter div.value-buttons .btn-outline-light:first-child {
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-      }
-      
-      .donateContainter div.value-buttons .btn-outline-light:last-child, .donateContainter div.value-buttons .btn-outline-light.dropdown-toggle {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-top-right-radius: 15px;
-        border-bottom-right-radius: 15px;
-      }
-      
-      .description-titles {
-        font-family: 'Merriweather Sans', sans-serif !important;
-        padding: 40px 30px 30px;
-        color: #000;
-      }  
-    
-      .description-titles h2 {
-        font-weight: 300;
-      }  
-
-      .pix-icon::before {
-        content: url("../assets/images/icone-pix.png");
-        box-sizing: border-box;
-      }
+  .drag-over .card {
+    outline: 3px dashed #828282;
+    border: none;
+  }
 
 }
 

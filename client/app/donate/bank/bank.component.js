@@ -14,8 +14,6 @@ export class BankController {
   imageQuality = 1;
   maxImages = 1;
   maxSize = '5MB';
-  currentYear = '';
-  currentSemester = '';
 
   constructor(Auth, Modal, $state, $stateParams, $uibModal, Project, Donation, Upload, $anchorScroll) {
     'ngInject';
