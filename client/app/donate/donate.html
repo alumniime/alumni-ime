@@ -47,28 +47,28 @@
                 </div>
                 <div class="col-xs-12 col-sm-auto">
                   <a class="nav-link btn btn-outline-primary" href="#">
-                      <i class="fa fa-credit-card"></i>
+                      <i class="fa fa-credit-card"></i> 
                       Cartão
                   </a>
                   <br class="d-block d-lg-none">
                 </div>
                 <div class="col-xs-12 col-sm-auto">
                   <a class="nav-link btn btn-outline-primary" href="#">
-                      <i class="fa fa-barcode"></i>
+                      <i class="fa fa-barcode"></i> 
                       Boleto
                   </a>
                   <br class="d-block d-lg-none">
                 </div>
                 <div class="col-xs-12 col-sm-auto">
                   <a class="nav-link btn btn-outline-primary" href="#">
-                      <i class="fa pix-icon"></i>
+                      <i class="fa pix-icon"></i> 
                       Pix
                   </a>
                   <br class="d-block d-lg-none">
                 </div>
                 <div class="col-xs-12 col-sm-auto">
                   <a class="nav-link btn btn-outline-primary" href="#">
-                      <i class="fa fa-exchange"></i>
+                      <i class="fa fa-exchange"></i> 
                       Transferência
                   </a>
                 </div>
@@ -157,7 +157,7 @@
                     <div class="w-100" aria-label="Donation frequency">
                         <div class="row align-items-center">
                             <div class="col-xs-12 col-xl-auto py-4">
-                                <h3 class="">Com que frequência deseja contribuir?</h3>
+                                <h3>Com que frequência deseja contribuir?</h3>
                             </div>
                             <div class="col-auto">
                                 <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Frequency === 'monthly'}"
@@ -177,9 +177,9 @@
                 </div>
 
                 <div class="pb-4">
-                    <div class="row">
-                        <div class="col-auto">
-                            <h3 class="pb-4">Com qual valor deseja contribuir?</h3>
+                    <div class="row align-items-center">
+                        <div class="col-auto py-4">
+                            <h3>Com qual valor deseja contribuir?</h3>
                         </div>
                         <div class="col-auto">
                             <!-- For extra small and small devices -->
@@ -219,7 +219,7 @@
                             <!-- For medium, large and extra large devices -->
                             <div class="btn-group value-buttons d-none d-md-flex" role="group" aria-label="Donation values">
                                 <button type="button" ng-repeat="option in vm.plans | orderBy: 'value' | filter: {visible: true, frequency: vm.donation.Frequency}" ng-if="$index < 5"
-                                        class="btn btn-outline-light d-block d-xl-block" ng-class="{'d-md-none': $index === 4, active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
+                                        class="btn btn-outline-light d-block" ng-class="{'d-md-none': $index === 3, active: vm.donation.ValueInCents === 100*option.value}" ng-click="vm.selectValue(option)">
                                     R$ {{option.value}}
                                 </button>
                                 <div class="btn-group" role="group">
@@ -243,11 +243,14 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn mt-4 btn-block btn-info p-2"><b>Ir para o pagamento</b></button>
-                <a class="btn btn-link text-light mt-3 float-right" ui-sref="bank({ProjectId: vm.donation.ProjectId, PrettyURL: vm.$stateParams.PrettyURL})">
+                <button type="submit" class="btn btn-danger mt-4">
+                    <i class="fa fa-money"></i> 
+                    Pagar
+                </button>
+                <!-- <a class="btn btn-link text-light mt-3 float-right" ui-sref="bank({ProjectId: vm.donation.ProjectId, PrettyURL: vm.$stateParams.PrettyURL})">
                     <i class="fa fa-caret-right"></i>
                     Clique aqui para contribuir por transferência bancária
-                </a>
+                </a> -->
 
             </form>
         </div>
