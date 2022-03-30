@@ -355,7 +355,7 @@
 
   .form-group input {
     font-size: 14px;
-    color: #4F4F4F;
+    color: #fff;
     background-color: transparent !important;
     border: none;
     border-bottom: 1px solid #BDBDBD;
@@ -371,7 +371,7 @@
     border-bottom: 1px solid #BDBDBD;
     box-sizing: border-box;
     font-size: 14px;
-    color: #4F4F4F;
+    color: #fff;
   }
 
   .drop-images {
@@ -382,19 +382,17 @@
     margin-top: 15px;
     margin-right: 10px;
     line-height: 21px;
-    font-size: 14px;
-    color: #333333;
+    font-size: 16px;
   }
 
   .upload-link {
     padding: 6px 0;
     line-height: 21px !important;
-    font-size: 14px !important;
-    color: #E84E0F !important;
+    font-size: 16px !important;
+    font-weight: 700;
   }
 
   .upload-link:hover {
-    color: rgb(199, 66, 14) !important;
     text-decoration: none;
   }
 
@@ -439,7 +437,7 @@
     }
     .card-plus {
       background-color: transparent;
-      border: 2px dashed #bdbdbd;
+      border: 3px dashed #e5e5e5;
       cursor: pointer;
       box-sizing: border-box;
       margin-bottom: 0;
