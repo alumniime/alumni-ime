@@ -135,6 +135,10 @@
     max-height: 500px;
   }
 
+  #carouselAlumni3 .carousel-inner {
+    max-height: 600px;
+  }
+
   .carousel-item, .carousel-item-left, .carousel-item-next {
     top: -250px !important;
   }
@@ -164,6 +168,11 @@
     /* margin-left: -5%;  */
   }
 
+  #carouselAlumni3 .carousel-caption {
+    width: 70%;
+    max-width: none;
+  }
+  
   .carousel-item.img-background .carousel-caption {
     margin-bottom: 50px;
   }
@@ -324,6 +333,7 @@
 
   .transfer-data {
     max-width: 350px;
+    padding: 20px 0;
   }
 
   .transfer-data .card-title {
@@ -453,6 +463,55 @@
   .drag-over .card {
     outline: 3px dashed #828282;
     border: none;
+  }
+
+  .project-selection {
+    background-color: #e6e6e6;
+    outline: 2px dashed #828282;
+  }
+
+  .carousel-col-4 {
+    .carousel-inner {
+      max-height: 180px;
+    }
+    .carousel-item, .carousel-item-left, .carousel-item-next {
+      top: 0 !important;
+    }
+    .carousel-control-prev, .carousel-control-next {
+      width: 15px;
+      span {
+        background-image: none;
+        color: #828282;
+      }
+    }
+    .carousel-item {
+      height: 180px;
+      padding: 0 30px;
+    }
+    .img-fluid {
+      max-height: 400px;
+      margin: 0 auto;
+      display: inherit;
+    }
+    .carousel-item .img-background {
+      height: 170px;
+      background: no-repeat center 36%;
+      background-size: cover;
+      margin: 5px 8px;
+      padding: 5px 0;
+    }
+    .carousel-item .img-background.active {
+      outline: 5px solid #E84E0F;
+    }
+    .carousel-item .img-background span {
+      width: 100%;
+      padding: 3px;
+      position: absolute;
+      bottom: 0;
+      text-align: center;
+      background-color: #E84E0F;
+      color: #fff;
+    }
   }
 
 }

@@ -135,7 +135,20 @@ export class DonateController {
     if(type === 'general') {
       this.donation.ProjectId = null; 
       this.ProjectName = '';
+    } else if (type === 'project') {
+      this.openDonationModal(2020);
+
+      if(this.availableProjects == 0){
+        this.Modal.showAlert('Nenhum Projeto Disponível', 'Em breve, lançamento do novo edital de apoio a projetos e divulgação dos selecionados.');
+      }
+  
     }
+
+  }
+
+  selectProject(projectId) {
+    console.log('selectProject');
+    this.donation.ProjectId = projectId;
   }
 
   selectFrequency(frequency) {
@@ -263,13 +276,6 @@ export class DonateController {
 
     }
 
-  }
-
-
-  selectProject(){
-    if(this.availableProjects == 0){
-      this.Modal.showAlert('Nenhum Projeto Disponível', 'Em breve, lançamento do novo edital de apoio a projetos e divulgação dos selecionados.');
-    }
   }
 
 }
