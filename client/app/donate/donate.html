@@ -89,7 +89,7 @@
                     <div class="col-xs-12 col-sm-auto">
                     <a class="nav-link btn btn-outline-primary"
                         ng-class="{active: vm.selectedMethod === 'card'}"
-                        ng-click="vm.selectPaymentMethod('card')">
+                        ng-click="vm.selectPaymentMethod('card', vm.selectedMethod)">
                         <i class="fa fa-credit-card"></i> 
                         Cartão
                     </a>
@@ -98,7 +98,7 @@
                     <div class="col-xs-12 col-sm-auto">
                     <a class="nav-link btn btn-outline-primary"
                         ng-class="{active: vm.selectedMethod === 'boleto'}"
-                        ng-click="vm.selectPaymentMethod('boleto')">
+                        ng-click="vm.selectPaymentMethod('boleto', vm.selectedMethod)">
                         <i class="fa fa-barcode"></i> 
                         Boleto
                     </a>
@@ -107,7 +107,7 @@
                     <div class="col-xs-12 col-sm-auto">
                     <a class="nav-link btn btn-outline-primary"
                         ng-class="{active: vm.selectedMethod === 'pix'}"
-                        ng-click="vm.selectPaymentMethod('pix')">
+                        ng-click="vm.selectPaymentMethod('pix', vm.selectedMethod)">
                         <i class="fa pix-icon"></i> 
                         Pix
                     </a>
@@ -116,7 +116,7 @@
                     <div class="col-xs-12 col-sm-auto">
                     <a class="nav-link btn btn-outline-primary"
                             ng-class="{active: vm.selectedMethod === 'transfer'}"
-                            ng-click="vm.selectPaymentMethod('transfer')">
+                            ng-click="vm.selectPaymentMethod('transfer', vm.selectedMethod)">
                         <i class="fa fa-exchange"></i> 
                         Transferência
                     </a>

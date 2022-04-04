@@ -43,11 +43,6 @@ export class DonateController {
 
   }
 
-  openDonationModal(year) {
-    this.donation.Type = 'project';
-    this.Modal.openDonationModal(year);
-  }
-
   $onInit() {
     this.collapseStatus = Array(11);
     for(let i=0; i<11; i++){
@@ -136,7 +131,7 @@ export class DonateController {
       this.donation.ProjectId = null; 
       this.ProjectName = '';
     } else if (type === 'project') {
-      this.openDonationModal(2020);
+      this.Modal.openDonationModal(2020);
 
       if(this.availableProjects == 0){
         this.Modal.showAlert('Nenhum Projeto Disponível', 'Em breve, lançamento do novo edital de apoio a projetos e divulgação dos selecionados.');
@@ -146,9 +141,10 @@ export class DonateController {
 
   }
 
-  selectProject(projectId) {
+  selectProject(project) {
     console.log('selectProject');
-    this.donation.ProjectId = projectId;
+    this.donation.ProjectId = project.ProjectId;
+    this.ProjectName = project.ProjectName;
   }
 
   selectFrequency(frequency) {
@@ -168,8 +164,16 @@ export class DonateController {
     }
   }
 
-  selectPaymentMethod(method) {
+  selectPaymentMethod(method, oldMethod) {
     this.selectedMethod = method;
+
+    if (method != oldMethod) {
+      if (method == 'transfer') {
+        this.donation.ValueInCents /= 100;
+      } else {
+        this.donation.ValueInCents *= 100;
+      }
+    }
   }
 
   selectValue(option) {
@@ -202,8 +206,8 @@ export class DonateController {
       this.$state.go('donate', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
     } else if (form.$valid && (this.donation.Type === 'general' || this.ProjectName)) {
       console.log('formulario valido')
-                    console.log(this.donation)
-                    console.log(this.selectedOption)
+      console.log(this.donation)
+      console.log(this.selectedOption)
       this.Modal.openPreCheckout(this.donation, this.selectedOption);
     }
 
