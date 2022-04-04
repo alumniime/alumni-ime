@@ -49,8 +49,9 @@
                                 <div class="carousel-item" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'"
                                     ng-class="{active: $index === 0}" ng-if="vm.Project.list.length / 3 > $index">
                                     <div class="row">
+                                        <!-- style="background-image: url('../../assets/images/jose_formigli.jpg')" -->
                                         <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.Project.list[3 * $index].ProjectId)"
-                                            style="background-image: url('{{vm.Project.list[3 * $index.images[0].Path}}')"
+                                            style="background-image: url('{{vm.Project.list[3 * $index].images[0].Path}}')"
                                             ng-class="{active: vm.donation.ProjectId === vm.Project.list[3 * $index].ProjectId}">
                                             <span>{{vm.Project.list[3 * $index].ProjectName}}</span>
                                         </div>
