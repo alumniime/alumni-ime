@@ -24,7 +24,7 @@ export class DonateController {
   customValue = 0;
   availableProjects = 0;
 
-  constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, Project, Donation, Plan, Checkout, Upload, appConfig) {
+  constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, $uibModal, Project, Donation, Plan, Checkout, Upload, appConfig) {
     'ngInject';
 
     this.getCurrentUser = Auth.getCurrentUser;
@@ -38,6 +38,7 @@ export class DonateController {
     this.Plan = Plan;
     this.Checkout = Checkout;
     this.Upload = Upload;
+    this.$uibModal = $uibModal;
 
     this.localEnv = appConfig.localEnv;
 

@@ -312,6 +312,7 @@
                 </div>
             </div>
 
+            <form class="form" name="form" ng-submit="vm.submitDonation(form)" novalidate="">
             <div class="row align-items-center justify-content-center">
                 <div class="col-auto">
                     <img src="../../assets/images/bank-transfer.png">
@@ -337,8 +338,6 @@
                     </div>
                 </div>
                 <div class="col-auto pl-5">
-                    <form class="form" name="form" ng-submit="vm.submitDonation(form)" novalidate="">
-        
                         <div class="form-group drop-images" ngf-drop="vm.updateImages(vm.uploadImages)"
                             ng-change="vm.updateImages(vm.uploadImages)"
                             ng-model="vm.uploadImages"
@@ -405,15 +404,13 @@
                             </div>
                         </div>
         
-                        
-                    </form>
                 </div>
             </div>
-            
             <button type="submit" class="btn btn-danger mt-5">
                 <i class="fa fa-file-text"></i> 
                 Enviar comprovante
             </button>
+            </form>
             
 
         </div>
