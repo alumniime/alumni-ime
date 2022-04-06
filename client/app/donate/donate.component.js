@@ -174,6 +174,12 @@ export class DonateController {
       } else {
         this.donation.ValueInCents *= 100;
       }
+      if (method == 'card') {
+        this.selectFrequency('monthly');
+      }
+      if (method == 'boleto' || method == 'pix') {
+        this.selectFrequency('once');
+      }
     }
   }
 
