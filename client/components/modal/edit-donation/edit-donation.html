@@ -163,6 +163,14 @@
               Insira uma data válida.
             </p>
           </div>  
+          <div class="form-group" ng-if="vm.donation.transferReceipt && vm.donation.PaymentMethod === 'Transferência'">
+            <label for="TransferReceipt">
+              COMPROVANTE
+              <a href="{{vm.donation.transferReceipt.Path}}" target="_blank" class="text-dark text-center d-inline ml-1">
+                <i class="fa fa-external-link-square" uib-tooltip="Visualizar Comprovante" tooltip-placement="right"></i>
+              </a>
+            </label>
+          </div>
         </div>
 
         <div class="col-12 col-sm-6">
