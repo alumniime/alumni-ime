@@ -104,6 +104,10 @@
     font-size: 30px;
   }
 
+  .dropdown-menu input {
+    color: #333333;
+  }
+
   .border-top-none {
     margin-left: 0px !important;
   }
@@ -145,14 +149,14 @@
 
   .carousel-item.img-background {
     height: 500px;
-    background: no-repeat center 36% fixed;
+    background: no-repeat center;
     background-size: cover;
     top: 0 !important;
   }
 
   .carousel-item.bg-shadow {
     background-blend-mode: overlay;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.15);
   }
 
   @include media-breakpoint-up(xl) {
