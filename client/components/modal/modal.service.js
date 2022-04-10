@@ -529,7 +529,7 @@ export function ModalService($uibModal, $q) {
       return d.promise;
     },
 
-    openPreCheckout(donation, option) {
+    openPreCheckout(donation, option, method) {
       var d = $q.defer();
       var modalInstance = $uibModal.open({
         animation: true,
@@ -541,6 +541,9 @@ export function ModalService($uibModal, $q) {
           },
           option: function () {
             return option;
+          },
+          method: function () {
+            return method;
           }
         }
       });

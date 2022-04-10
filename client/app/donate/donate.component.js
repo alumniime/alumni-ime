@@ -16,7 +16,7 @@ export class DonateController {
   };
   plans = [];
   selectedOption = null;
-  selectedMethod = 'card';
+  selectedMethod = 'credit_card';
   uploadImages = [];
   imageQuality = 1;
   maxImages = 1;
@@ -165,19 +165,20 @@ export class DonateController {
     }
   }
 
-  selectPaymentMethod(method, oldMethod) {
+  selectPaymentMethod(method) {
+    var oldMethod = this.selectedMethod;
     this.selectedMethod = method;
 
-    if (method != oldMethod) {
-      if (method == 'transfer') {
+    if (method !== oldMethod) {
+      if (method === 'transfer') {
         this.donation.ValueInCents /= 100;
       } else {
         this.donation.ValueInCents *= 100;
       }
-      if (method == 'card') {
+      if (method === 'credit_card') {
         this.selectFrequency('monthly');
       }
-      if (method == 'boleto' || method == 'pix') {
+      if (method === 'boleto' || method === 'pix') {
         this.selectFrequency('once');
       }
     }
@@ -215,7 +216,7 @@ export class DonateController {
       console.log('formulario valido')
       console.log(this.donation)
       console.log(this.selectedOption)
-      this.Modal.openPreCheckout(this.donation, this.selectedOption);
+      this.Modal.openPreCheckout(this.donation, this.selectedOption, this.selectedMethod);
     }
 
   }
