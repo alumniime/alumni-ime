@@ -152,12 +152,7 @@ export class DonateController {
     this.donation.Frequency = frequency;
     for(var option of this.plans) {
       if(option.visible && option.frequency === frequency) {
-        if(option.frequency == 'monthly'){
-          if(option.value == 100){
-            this.selectValue(option);
-            break;
-          }
-        }else{
+        if(option.value == 100){
           this.selectValue(option);
           break;
         }
