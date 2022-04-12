@@ -98,7 +98,15 @@ export default function(sequelize, DataTypes) {
     StatusReason: {
       type: DataTypes.STRING(25),
       allowNull: false
-    }
+    },
+    PixQrCode: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    PixExpirationDate: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
   }, {
     tableName: 'Transaction'
   });

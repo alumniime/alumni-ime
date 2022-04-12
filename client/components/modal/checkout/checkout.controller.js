@@ -133,6 +133,8 @@ export default class ModalCheckoutController {
                   this.Modal.showAlert('Obrigado por sua contribuição', 'Seu pagamento foi confirmado e está fortalecendo a comunidade IMEana.');
                 } else if(donation.transaction.PaymentMethod === 'boleto') {
                   this.Modal.showBoleto(donation.transaction.BoletoBarcode, donation.transaction.BoletoURL);
+                } else if(donation.transaction.PaymentMethod === 'pix') {
+                  this.Modal.showPix(donation.transaction.PixQrCode, donation.transaction.PixExpirationDate);
                 } else {
                   console.log('Other');
                 }
