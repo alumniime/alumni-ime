@@ -6,6 +6,7 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import ngFileUpload from 'ng-file-upload';
+import ngQrcode from 'angular-qrcode';
 
 import uiRouter from 'angular-ui-router';
 // import uiBootstrap from 'angular-ui-bootstrap';
@@ -66,7 +67,7 @@ import contact from './contact/contact.component';
 import './app.scss';
 
 angular.module('alumniApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap,
-  ngFileUpload, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', 'validation.match', 'ui.utils.masks', 'ngQuill',
+  ngFileUpload, ngQrcode, 'ngImgCrop', 'ngMask', 'ngMeta', 'ngYoutubeEmbed', 'ngIntlTelInput', 'rw.moneymask', 'angucomplete-alt', 'validation.match', 'ui.utils.masks', 'ngQuill',
   _Auth, _Project, _News, _Newsletter, _DonatorHall, _Donation, _Opportunity, _Subscription, _Checkout, _Plan,
   account, admin, navbar, footer, modal, main, constants, util, submission, edit, show, 
   project, news, view, events, newsletters, result, donate, bank,
