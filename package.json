@@ -11,6 +11,7 @@
     "angular-cookies": "~1.6.0",
     "angular-i18n": "^1.6.10",
     "angular-input-masks": "^4.4.1",
+    "angular-qrcode": "^7.2.0",
     "angular-resource": "~1.6.0",
     "angular-sanitize": "~1.6.0",
     "angular-ui-bootstrap": "^2.0.1",

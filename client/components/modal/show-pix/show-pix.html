@@ -1,0 +1,37 @@
+<div class="modal-header d-block">
+  <i class="fa fa-close close-button" ng-click="vm.cancelModal()"></i>
+  <h5 class="modal-title text-center mt-4" id="modal-title">Obrigado por sua contribuição</h5>
+</div>
+
+<div class="modal-body" id="modal-body">
+  <span class="description text-center d-block">
+    Use o código Pix Copia e Cola abaixo:
+  </span>
+  <br>
+  <div class="input-group px-3">
+    <input type="text" class="form-control" id="qrcode" aria-label="QR Code Pix" ng-model="vm.qrcode" disabled>
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" ng-click="vm.copyQrCode()">
+        <i class="fa fa-clone"></i>
+      </button>
+    </div>
+  </div>
+  <div class="alert alert-primary alert-dismissible fade show mx-3 mt-3 mb-0" role="alert" ng-show="vm.showAlert">
+    Código copiado!
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <br>
+  <span class="description text-center d-block">
+    ou escaneie o QR Code:
+  </span>
+  <br>
+  <span class="d-block text-center pb-2">
+    <qrcode data="{{vm.qrcode}}" download size="250"></qrcode>
+  </span>
+  <span class="description text-center d-block text-muted" ng-if="vm.expiration">
+    Pagamento disponível até {{vm.expiration | date:'dd/MM/yyyy'}}.
+  </span>
+</div>
+

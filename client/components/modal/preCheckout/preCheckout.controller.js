@@ -29,7 +29,6 @@ export default class ModalPreCheckoutController {
       ShowAmount: false,
     },
   ];
-  selectedOption = 0;
   url = "";
   data = {};
   result = null;
@@ -38,6 +37,7 @@ export default class ModalPreCheckoutController {
   user = {};
   countryList = [];
   selectedOption = {};
+  selectedMethod = 'credit_card';
 
   /*@ngInject*/
   constructor(
@@ -79,7 +79,9 @@ export default class ModalPreCheckoutController {
       this.selectedOption = this.resolve.option;
     }
 
-    console.log(this.selectedOption);
+    if (this.resolve.method) {
+      this.selectedMethod = this.resolve.method;
+    }
 
     this.$http.get('/environment/paypal')
       .then(response => {
@@ -89,14 +91,17 @@ export default class ModalPreCheckoutController {
         this.close();
       });
     
-      this.$http.get('/environment/pagarme')
+    this.$http.get('/environment/pagarme')
       .then(response => {
         this.pagarmeKey = response.data.encryptionKey;
+        if (this.selectedMethod === 'boleto' || this.selectedMethod === 'pix') {
+          this.brasilCheckout();
+        }
       }).catch(err=>{
         this.Modal.showAlert('Ocorreu um erro', err.data);
         this.close();
       });
-    
+      
   }
 
   brasilCheckout() {
@@ -130,11 +135,10 @@ export default class ModalPreCheckoutController {
       customerData: isNational,
       createToken: "false",
       paymentMethods:
-        (this.donation.Frequency === "monthly" && this.selectedOption.planId != 1080699)
+        (this.donation.Frequency === "monthly" && this.selectedMethod === "credit_card" && this.selectedOption.planId != 1080699)
           ? "credit_card"
-          : "credit_card,boleto",
+          : this.selectedMethod,
     };
-
     if (entryCustomer) {
       options["customer"] = entryCustomer;
     }

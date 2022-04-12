@@ -137,13 +137,17 @@ export function transact(req, res) {
   params.soft_descriptor = donation.Type === 'general' ? 'Apoio Geral' : 'Apoio Projeto';
   params.postback_url = `${config.domain}/api/transactions/postback`;
 
-  if(paymentMethod === 'credit_card') {
+  if (paymentMethod === 'credit_card') {
     params.card_hash = data.card_hash;
-  } else if(paymentMethod === 'boleto') {
+  } else if (paymentMethod === 'boleto') {
     var expiration = new Date();
     expiration.setDate(expiration.getDate() + 5); // now + 5 days
     params.boleto_expiration_date = expiration;
     params.boleto_instructions = `${data.customer.name}\n${isCpf ? 'CPF' : 'CNPJ'}: ${data.customer.document_number}`;
+  } else if (paymentMethod === 'pix') {
+    var expiration = new Date();
+    expiration.setDate(expiration.getDate() + 1); // now + 1 days
+    params.pix_expiration_date = expiration;
   }
 
   async.waterfall([
@@ -171,6 +175,7 @@ export function transact(req, res) {
     },
     // Saving transaction
     (response, next) => {
+      console.log('response.pix_data', response.pix_data);
       Transaction.create({
         TransactionId: response.id,
         PersonId: userId,
@@ -193,6 +198,8 @@ export function transact(req, res) {
         UpdateDate: response.date_updated,
         Status: response.status,
         StatusReason: response.status_reason,      
+        PixQrCode: response.pix_qr_code || null,
+        PixExpirationDate: response.pix_expiration_date || null,
       })
         .then(() => next(null, response))
         .catch(err => next(err));
@@ -268,6 +275,8 @@ export function postback(req, res) {
         UpdateDate: response.date_updated,
         Status: response.status,
         StatusReason: response.status_reason,
+        PixQrCode: response.pix_qr_code || null,
+        PixExpirationDate: response.pix_expiration_date || null,
       }, {
         where: {
           TransactionId: transactionId

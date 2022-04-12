@@ -48,6 +48,7 @@ module.exports = function makeWebpackConfig(options) {
         'angular-resource',
         'angular-sanitize',
         'ng-file-upload',
+        'angular-qrcode',
         'ng-img-crop/compile/minified/ng-img-crop',
         'ng-meta/dist/ngMeta.min',
         'ng-mask/dist/ngMask.min',
