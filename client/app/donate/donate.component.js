@@ -12,7 +12,7 @@ export class DonateController {
     Type: 'general',
     Frequency: 'monthly',
     ProjectId: null,
-    ValueInCents: 40000
+    ValueInCents: 10000
   };
   plans = [];
   selectedOption = null;
@@ -149,18 +149,12 @@ export class DonateController {
   }
 
   selectFrequency(frequency) {
+    console.log(frequency);
     this.donation.Frequency = frequency;
     for(var option of this.plans) {
-      if(option.visible && option.frequency === frequency) {
-        if(option.frequency == 'monthly'){
-          if(option.value == 100){
-            this.selectValue(option);
-            break;
-          }
-        }else{
-          this.selectValue(option);
-          break;
-        }
+      if(option.visible && option.value == 100) {
+        this.selectValue(option);
+        break;
       }
     }
   }
