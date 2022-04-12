@@ -144,6 +144,10 @@
     max-height: 500px;
   }
 
+  #carouselAlumni3 .carousel-inner {
+    max-height: none;
+  }
+
   .carousel-item, .carousel-item-left, .carousel-item-next {
     top: -250px !important;
   }
@@ -161,7 +165,7 @@
   }
   
   #carouselAlumni3 .carousel-item {
-    max-height: 450px;
+    height: 450px;
   }
 
   @include media-breakpoint-up(xl) {
@@ -192,6 +196,9 @@
 
   .carousel-caption img {
     height: 300px;
+    float: left;
+    margin-bottom: 8px;
+    margin-right: 24px;
   }
 
   @include media-breakpoint-only(md) {
@@ -225,6 +232,17 @@
     }
     .carousel-caption h5 {
       font-size: 14px;
+    }
+    .carousel-caption h4 {
+      font-size: 18px;
+    }
+    .carousel-caption img {
+      height: 200px;
+      margin-bottom: 15px;
+      float: none;
+    }
+    #carouselAlumni3 .carousel-item {
+      height: 600px;
     }
   }
 
