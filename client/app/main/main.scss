@@ -97,7 +97,7 @@
   .description-block {
     min-height: 250px;
     padding-bottom: 30px;
-    background-color: #00456F;
+    background-color: #293473;
     /* #3f51b5 */
   }
 
@@ -106,14 +106,17 @@
   }
 
   .description-block div .btn {
-    font-size: 13px;
-    min-width: 100px;
-    border-radius: 100px;
+    font-size: 15px;
+    min-width: 150px;
+    padding-right: 25px;
+    padding-left: 25px;
+    border-radius: 15px;
     margin-right: 15px;
+    margin-bottom: 15px;
   }
 
   .description-block div .btn-light {
-    color: #00456F;
+    color: #293473;
     /* #3f51b5 */
   }
   .description-block div .btn-light2 {
@@ -212,47 +215,37 @@
     text-decoration: none;
   }
 
-  #BotaoConhecaOsProjetos{
+  #BotaoConhecaOsProjetos {
     background-color: white;
-    color: #00456F;
+    color: #293473;
   }
-  #BotaoCadastre_se{
-    background-color: #87cefa;
-    color: #00456F;
+  #BotaoCadastre_se {
+    background-color: #bbe5ff;
+    color: #293473;
   }
 
-  .blocoBotaoApoie {
-    display: flex;
-    width: 100%;
-    height: 100px;
-    justify-content: center;
-    align-items: center;
+  #BotaoConhecaOsProjetos:hover {
+    background-color: #f2f2f2;
   }
-  .botaoApoie{
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    padding: 10px;
-    width: 120px;
-    border-radius: 100px;
-
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 14px;
-      background-color: #E84E0F;
-      font-family: "Roboto", "Merriweather Sans", -apple-system, sans-serif;
-      color: #fff !important;
-
-      outline: none !important;
-
-      
+  #BotaoCadastre_se:hover {
+    background-color: #9bd9ff;
   }
-  .botaoApoie:hover, .botaoApoie.active {
-    background-color: rgb(199, 66, 14);
+
+  .btn-danger {
+    border-radius: 15px;
+    margin: auto;
+    display: block;
+    min-width: 150px;
+    background-color: #fb7800;
+    border-color: #c03d00;
+    padding-right: 25px;
+    padding-left: 25px; 
+    font-size: 20px;
+    font-weight: 600;
   }
-  #apoie:hover{
-    background-color: #e6191995;
+
+  .news-projects .btn-danger {
+    width: 150px;
   }
 
   .containerMaximo{
