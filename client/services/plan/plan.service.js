@@ -27,33 +27,31 @@ export function PlanService($http, $q) {
                 paypalId: plan.PaypalId
               });
             }
-            this.list.push({ 
-              value: 200,
-              frequency: 'once',
-              visible: true
-            });
-            this.list.push({ 
-              value: 400,
-              frequency: 'once',
-              visible: true
-            });
-            this.list.push({ 
-              value: 600,
-              frequency: 'once',
-              visible: true
-            });
-            this.list.push({ 
-              value: 800,
-              frequency: 'once',
-              visible: true
-            });
-            this.list.push({ 
-              value: 1000,
-              frequency: 'once',
-              visible: true
-            });
-            console.log('this.list')
-            console.log(this.list)
+            // this.list.push({ 
+            //   value: 200,
+            //   frequency: 'once',
+            //   visible: true
+            // });
+            // this.list.push({ 
+            //   value: 400,
+            //   frequency: 'once',
+            //   visible: true
+            // });
+            // this.list.push({ 
+            //   value: 600,
+            //   frequency: 'once',
+            //   visible: true
+            // });
+            // this.list.push({ 
+            //   value: 800,
+            //   frequency: 'once',
+            //   visible: true
+            // });
+            // this.list.push({ 
+            //   value: 1000,
+            //   frequency: 'once',
+            //   visible: true
+            // });
             d.resolve(this.list);
           })
           .catch(err => {
