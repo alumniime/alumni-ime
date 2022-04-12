@@ -6,6 +6,11 @@
     color: #F2F2F2;
   }
   
+  .statementsContainer {
+    background-color: #116A71 !important;
+    color: #F2F2F2;
+  }
+  
   .dual-column {
     display: flex;
     flex-direction: column;
@@ -139,10 +144,6 @@
     max-height: 500px;
   }
 
-  #carouselAlumni3 .carousel-inner {
-    max-height: 600px;
-  }
-
   .carousel-item, .carousel-item-left, .carousel-item-next {
     top: -250px !important;
   }
@@ -153,10 +154,14 @@
     background-size: cover;
     top: 0 !important;
   }
-
+  
   .carousel-item.bg-shadow {
     background-blend-mode: overlay;
     background-color: rgba(0, 0, 0, 0.15);
+  }
+  
+  #carouselAlumni3 .carousel-item {
+    max-height: 450px;
   }
 
   @include media-breakpoint-up(xl) {
@@ -181,12 +186,26 @@
     margin-bottom: 50px;
   }
 
+  .carousel-caption h5 {
+    font-size: 1.3vw;
+  }
+
+  .carousel-caption img {
+    height: 300px;
+  }
+
   @include media-breakpoint-only(md) {
     .carousel-caption h1 {
       font-size: 30px;
     }
     .carousel-caption h5 {
-      font-size: 18px;
+      font-size: 1.4vw;
+    }
+    .carousel-caption h4 {
+      font-size: 2.0vw;
+    }
+    .carousel-caption img {
+      height: 250px;
     }
   }
 
@@ -217,7 +236,6 @@
 
   .carousel-caption h5 {
     text-align: left;
-    margin-top: 10px;
   }
 
   .carousel-caption .btn-outline-light {

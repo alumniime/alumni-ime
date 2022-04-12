@@ -7,7 +7,7 @@
               <h1>Impulsione a comunidade <br/>
                   IMEana e ajude o IME a inovar
               </h1>
-              <h5>
+              <h5 class="mt-3">
                   A Alumni IME é muito mais do que uma associação de ex-alunos. Somos um
                   grupo de pessoas movidas pela gratidão, pelo desejo de conectar IMEanos,
                   pela crença de que investir na Educação é o caminho na construção de um
@@ -128,80 +128,11 @@
         </div>
     </div>
 
-    <!-- Payment with cards -->
+    <!-- Payment with cards, boleto and pix -->
     <div class="py-5 donateContainter" ng-if="vm.selectedMethod !== 'transfer'">
         <div class="container">
             <!-- <h2 class="mb-3">Sua ajuda pode fazer muita diferença</h2> -->
             <form class="form" name="form" ng-submit="vm.submitFunding(form)" novalidate="">
-
-                <!-- <div class="pb-5">
-                    <h3 class="mt-0 mt-lg-3 mb-3">Onde deseja aplicar sua contribuição?</h3>
-                    
-                    For extra small and small devices
-                    <div class="btn-group w-100 d-block d-md-none" role="group" aria-label="Donation type">
-                        <div class="row m-0 p-0">
-                            <div class="col-12 p-0 btn-group">
-                        <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Type === 'general'}"
-                                ng-click="vm.selectType('general')">
-                            Infraestrutura/Gestão 
-                        </button>
-                        <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Type === 'project'}"
-                                ng-click="vm.openDonationModal(2020)">
-                            Projetos
-                        </button>
-                            </div>
-                            <div class="col-12 p-0 btn-group border-top-none">
-                        <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
-                            <button id="btnSelectProjectSmall" type="button" class="btn btn-outline-light btn-other truncate dropdown-toggle" 
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}"  ng-click="vm.selectProject()">
-                                {{ vm.ProjectName || 'Selecione um projeto' }}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnSelectProjectSmall">
-                                <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
-                                    Nenhum projeto disponível
-                                </a>
-                                <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
-                                    ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
-                                    {{project.ProjectName}}
-                                </a>
-                            </div>
-                        </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    For medium, large and extra large devices
-                    <div class="btn-group w-100 d-none d-md-flex" role="group" aria-label="Donation type">
-                        <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Type === 'general'}"
-                                ng-click="vm.donation.Type = 'general'; vm.donation.ProjectId = null; vm.ProjectName = ''">
-                            Infraestrutura/Gestão 
-                        </button>
-                        <button type="button" class="btn btn-outline-light" ng-class="{active: vm.donation.Type === 'project'}"
-                                ng-click="vm.openDonationModal(2020)">
-                            Projetos
-                        </button>
-                        <div class="btn-group" role="group" ng-if="vm.donation.Type === 'project'">
-                            <button id="btnSelectProject" type="button" class="btn btn-outline-light btn-other truncate dropdown-toggle" 
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-class="{active: vm.ProjectName}" ng-click="vm.selectProject()">
-                                {{ vm.ProjectName || 'Selecione um projeto' }}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnSelectProject">
-                                <a class="dropdown-item" href="#" ng-if="vm.availableProjects==0">
-                                    Nenhum projeto disponível
-                                </a>
-                                <a class="dropdown-item" href="#" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" ng-if="vm.validDate(project.CollectionLimitDate) && vm.needMoreDonations(project)"
-                                    ng-class="{active: vm.donation.ProjectId === project.ProjectId}" ng-click="vm.donation.ProjectId = project.ProjectId; vm.ProjectName = project.ProjectName">
-                                    {{project.ProjectName}}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <p class="help-block"
-                        ng-if="vm.donation.Type === 'project' && (vm.donation.ProjectId === null || vm.donation.ProjectId === '') && vm.submitted">
-                        Escolha um projeto para apoiar.
-                    </p>                                
-                </div> -->
 
                 <div class="pb-4">
                     <div class="w-100" aria-label="Donation frequency">
@@ -417,34 +348,66 @@
     </div>
 
 
-    <div id="carouselAlumni3" class="carousel slide" data-ride="carousel">
+    <div class="statementsContainer pt-5">
+        <div class="container">
+            <h2 class="m-0">Depoimentos</h2>
+        </div>
+    </div>
+
+    <div id="carouselAlumni3" class="carousel slide statementsContainer"  data-interval="false">
+         <!-- data-ride="carousel"> -->
         <ol class="carousel-indicators">
             <li data-target="#carouselAlumni3" data-slide-to="0" class="active"></li>
             <li data-target="#carouselAlumni3" data-slide-to="1"></li>
+            <li data-target="#carouselAlumni3" data-slide-to="2"></li>
+            <li data-target="#carouselAlumni3" data-slide-to="3"></li>
         </ol>
         <div class="carousel-inner">
-            <div class="carousel-item img-background bg-shadow active"
-                style="background-color: #116A71;">
+            <div class="carousel-item img-background active">
                 <div class="carousel-caption">
-                    <h1 class="mb-3">Depoimentos</h1>
-                    <img class="mr-4 float-left" src="assets/images/jose_formigli.jpg" style="height: 300px;">
+                    <img class="mr-4 float-left" src="assets/images/jose_formigli.jpg">
                     <h5>
-                        O IME é uma instituição da excelência em Engenharia no Brasil, também reconhecida internacionalmente. Graduar-se no IME é alcançar uma "grife" no currículo, fruto do esforço individual de cada aluno para passar no vestibular e ser bem sucedido nas disciplinas que compõem a grade curricular das diversas carreiras, ministradas por professores que precisam se manter atualizados e motivados.
-                        <!-- Contribuir para que o IME continue sendo esta referência como instituição de ensino patrocinando projetos de ensino que mobilizem os alunos para adquirir conhecimentos de ponta, tanto na área técnica como de empreendedorismo, é uma forma dos ex-alunos retribuírem o que receberam e que foi fundamental para suas carreiras profissionais. A Alumni IME é o veículo para viabilizar tal movimento, além de promover oportunidades de networking entre alunos e graduados para troca de experiências e de mentoria. Parabéns para a Alumni IME para os marcos alcançados nos últimos anos e que venha muito mais sucesso pela frente com a mobilização ainda maior dos associados. -->
+                        Contribuir para que o IME continue sendo esta referência como instituição de ensino patrocinando projetos de ensino que mobilizem os alunos para adquirir conhecimentos de ponta, tanto na área técnica como de empreendedorismo, é uma forma dos ex-alunos retribuírem o que receberam e que foi fundamental para suas carreiras profissionais. A Alumni IME é o veículo para viabilizar tal movimento, além de promover oportunidades de networking entre alunos e graduados para troca de experiências e de mentoria. Parabéns para a Alumni IME para os marcos alcançados nos últimos anos e que venha muito mais sucesso pela frente com a mobilização ainda maior dos associados.
                     </h5>
-                    <h4 class="mt-4 text-left">José Formigli</h4>
+                    <h4 class="mt-4 text-left">
+                        Apoiador José Formigli
+                    </h4>
                 </div>
             </div>
-            <div class="carousel-item img-background bg-shadow"
+            <div class="carousel-item img-background"
                 style="background-color: #116A71;">
                 <div class="carousel-caption">
-                    <h1 class="mb-3">Depoimentos</h1>
-                    <img class="mr-4 float-left" src="assets/images/jose_formigli.jpg" style="height: 300px;">
+                    <img class="mr-4 float-left" src="assets/images/camila_farias.jpg">
                     <h5>
-                        Contribuir para que o IME continue sendo esta referência como instituição de ensino patrocinando projetos de ensino que mobilizem os alunos para adquirir conhecimentos de ponta, tanto na área técnica como de empreendedorismo, é uma forma dos ex-alunos retribuírem o que receberam e que foi fundamental para suas carreiras profissionais. A Alumni IME é o veículo para viabilizar tal movimento, além de promover oportunidades de networking entre alunos e graduados para troca de experiências e de mentoria.
-                        <!-- Parabéns para a Alumni IME para os marcos alcançados nos últimos anos e que venha muito mais sucesso pela frente com a mobilização ainda maior dos associados. -->
+                        Realizar o nosso projeto com a Alumni trouxe inúmeras vantagens. A principal delas, poder trabalhar com estudantes extremamente inteligentes, motivados e comprometidos. Além disso, encontramos muito apoio dentro da comunidade Alumni, tanto nos ajudando a divulgar e a viabilizar o projeto, quanto possibilitando parcerias que potencializaram a nossa proposta.
                     </h5>
-                    <h4 class="mt-4 text-left">José Formigli</h4>
+                    <h4 class="mt-4 text-left">
+                        Ex-aluna Camila Farias
+                    </h4>
+                </div>
+            </div>
+            <div class="carousel-item img-background"
+                style="background-color: #116A71;">
+                <div class="carousel-caption">
+                    <img class="mr-4 float-left" src="assets/images/maj_nina_figueira.jpg">
+                    <h5>
+                        Enquanto Engenheira Militar do Exército Brasileiro, Pesquisadora e Instrutora de novas lideranças, me surpreendo e me inspiro com o trabalho realizado pela Alumni IME. Nobre missão é o apoio prestado a nossa estimada escola e a toda comunidade IMEana! Sigam motivando o desenvolvimento de soluções inovadoras, em prol do nosso EB e de toda a sociedade brasileira. Arrisquem-se a velejar longe do porto mais seguro, peguem os melhores ventos, explorem, sonhem, descubram...enfim, façam a maior e mais significativa diferença!
+                    </h5>
+                    <h4 class="mt-4 text-left">
+                        Major Nina Figueira
+                    </h4>
+                </div>
+            </div>
+            <div class="carousel-item img-background"
+                style="background-color: #116A71;">
+                <div class="carousel-caption">
+                    <img class="mr-4 float-left" src="assets/images/prof_aderson.jpg">
+                    <h5>
+                        Estou acompanhando e participando de atividades da Alumni IME desde 2015. Como professor do IME fico muito feliz em poder contar com o seu apoio e de todos os ex-alunos. A Associação ajuda professores e alunos do IME e contribui para fortalecermos um senso de comunidade muito valioso, que valoriza a nossa cultura comum e nos integra. Vida longa à Alumni IME!
+                    </h5>
+                    <h4 class="mt-4 text-left">
+                        Professor Aderson Passos
+                    </h4>
                 </div>
             </div>
         </div>
