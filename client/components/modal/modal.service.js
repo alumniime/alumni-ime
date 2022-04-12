@@ -18,6 +18,7 @@ import ModalUpdatePhoto from './update-photo/update-photo.controller';
 import ModalShowPerson from './show-person/show-person.controller';
 import ModalShowApplication from './show-application/show-application.controller';
 import ModalShowBoleto from './show-boleto/show-boleto.controller';
+import ModalShowPix from './show-pix/show-pix.controller';
 import ModalEditNews from './edit-news/edit-news.controller';
 import ModalEditDonation from './edit-donation/edit-donation.controller';
 import ModalCheckoutController from './checkout/checkout.controller';
@@ -435,6 +436,19 @@ export function ModalService($uibModal, $q) {
       });
     },
 
+    showPix(qrcode, expiration) {
+      $uibModal.open({
+        animation: true,
+        component: 'modalShowPix',
+        size: 'md modal-dialog-centered',
+        resolve: {
+          pix: function () {
+            return { qrcode, expiration };
+          }
+        }
+      });
+    },
+
     showAlert(title, message) {
       var modalInstance = $uibModal.open({
         animation: true,
@@ -803,6 +817,16 @@ export default angular.module('alumniApp.modal', [])
   .component('modalShowBoleto', {
     template: require('./show-boleto/show-boleto.html'),
     controller: ModalShowBoleto,
+    controllerAs: 'vm',
+    bindings: {
+      resolve: '<',
+      close: '&',
+      dismiss: '&'
+    },
+  })
+  .component('modalShowPix', {
+    template: require('./show-pix/show-pix.html'),
+    controller: ModalShowPix,
     controllerAs: 'vm',
     bindings: {
       resolve: '<',
