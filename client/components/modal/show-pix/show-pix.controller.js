@@ -15,7 +15,15 @@ export default class ModalShowPixController {
   }
 
   copyQrCode() {
-    navigator.clipboard.writeText(this.qrcode);
+    var el = document.getElementById('qrcode');
+    el.setSelectionRange(0, 99999); 
+    el.select();
+    document.execCommand('copy');
+    if (window.getSelection) {
+      window.getSelection().removeAllRanges();
+    } else if (document.selection) {
+      document.selection.empty();
+    }
     this.showAlert = true;
   }
 
