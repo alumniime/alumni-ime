@@ -15,6 +15,7 @@ export class DonateController {
     ValueInCents: 10000
   };
   plans = [];
+  filteredProjects = [];
   selectedOption = null;
   selectedMethod = 'credit_card';
   uploadImages = [];
@@ -22,7 +23,6 @@ export class DonateController {
   maxImages = 1;
   maxSize = '5MB';
   customValue = 0;
-  availableProjects = 0;
 
   constructor(Auth, Modal, $anchorScroll, $http, $state, $stateParams, $uibModal, Project, Donation, Plan, Checkout, Upload, appConfig) {
     'ngInject';
@@ -60,22 +60,16 @@ export class DonateController {
 
     this.Project.load()
       .then(result => {
-        if(this.$stateParams.ProjectId) {
+        if (this.$stateParams.ProjectId) {
           this.donation.Type = 'project';
           this.donation.ProjectId = parseInt(this.$stateParams.ProjectId);
-          for (var project of result) {
-            if (project.ProjectId === this.donation.ProjectId) {
-              this.ProjectName = project.ProjectName;
-            }
-            if(this.validDate(project.CollectionLimitDate)){
-              this.availableProjects++;
-            }
+        }
+        for (var project of result) {
+          if (project.ProjectId === this.donation.ProjectId) {
+            this.ProjectName = project.ProjectName;
           }
-        }else{
-          for (var project of result) {
-            if(this.validDate(project.CollectionLimitDate)){
-              this.availableProjects++;
-            }
+          if (this.validDate(project.CollectionLimitDate)) {
+            this.filteredProjects.push(project);
           }
         }
       });
@@ -127,19 +121,16 @@ export class DonateController {
 
 
   selectType(type) {
-    // this.donation.Type = type;
+    this.donation.Type = type;
     if(type === 'general') {
       this.donation.ProjectId = null; 
       this.ProjectName = '';
     } else if (type === 'project') {
-      // this.Modal.openDonationModal(2020);
-
-      if(this.availableProjects == 0){
+      this.Modal.openDonationModal('');
+      if (this.filteredProjects.length === 0 && this.Project.list.length > 0) {
         this.Modal.showAlert('Nenhum Projeto Disponível', 'Em breve, lançamento do novo edital de apoio a projetos e divulgação dos selecionados.');
       }
-  
     }
-
   }
 
   selectProject(project) {
@@ -202,6 +193,14 @@ export class DonateController {
 
   submitFunding(form) {
     this.submitted = true;
+
+    // Seleciona projeto único do carousel no mobile
+    if ($('#carouselAlumniColMobileWrap').css('display') === 'block') {
+      this.selectProject({
+        ProjectId: parseInt($('#carouselProjecId').val()),
+        ProjectName: $('#carouselProjecName').val(),
+      });
+    }
 
     if (!this.user.PersonId) {
       // User needs to login

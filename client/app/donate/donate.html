@@ -43,27 +43,31 @@
             <div class="row project-selection mt-4" ng-if="vm.donation.Type === 'project'">
                 <div class="col-12 description-titles">
                     <h4>Escolha o projeto para o qual doar:</h4>
+                    <!-- For large and extra large devices -->
                     <div class="carousel-col-4 d-none d-lg-block p-0 mt-4">
                         <div id="carouselAlumniCol" class="carousel slide" data-interval="false">
                             <div class="carousel-inner">
-                                <div class="carousel-item" ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'"
-                                    ng-class="{active: $index === 0}" ng-if="vm.Project.list.length / 3 > $index">
+                                <div class="carousel-item" ng-repeat="project in vm.filteredProjects | orderBy: 'ProjectName'"
+                                    ng-class="{active: $index === 0}" ng-if="vm.filteredProjects.length / 3 > $index">
                                     <div class="row">
                                         <!-- style="background-image: url('../../assets/images/jose_formigli.jpg')" -->
-                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.Project.list[3 * $index].ProjectId)"
-                                            style="background-image: url('{{vm.Project.list[3 * $index].images[0].Path}}')"
-                                            ng-class="{active: vm.donation.ProjectId === vm.Project.list[3 * $index].ProjectId}">
-                                            <span>{{vm.Project.list[3 * $index].ProjectName}}</span>
+                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[3 * $index])"
+                                            style="background-image: url('{{vm.filteredProjects[3 * $index].images[0].Path}}')"
+                                            ng-class="{active: vm.donation.ProjectId === vm.filteredProjects[3 * $index].ProjectId}"
+                                            ng-if="vm.filteredProjects[3 * $index]">
+                                            <span>{{vm.filteredProjects[3 * $index].ProjectName}}</span>
                                         </div>
-                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.Project.list[3 * $index + 1].ProjectId)"
-                                            style="background-image: url('{{vm.Project.list[3 * $index + 1].images[0].Path}}')"
-                                            ng-class="{active: vm.donation.ProjectId === vm.Project.list[3 * $index + 1].ProjectId}">
-                                            <span>{{vm.Project.list[3 * $index + 1].ProjectName}}</span>
+                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[3 * $index + 1])"
+                                            style="background-image: url('{{vm.filteredProjects[3 * $index + 1].images[0].Path}}')"
+                                            ng-class="{active: vm.donation.ProjectId === vm.filteredProjects[3 * $index + 1].ProjectId}"
+                                            ng-if="vm.filteredProjects[3 * $index + 1]">
+                                            <span>{{vm.filteredProjects[3 * $index + 1].ProjectName}}</span>
                                         </div>
-                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.Project.list[3 * $index + 2].ProjectId)"
-                                            style="background-image: url('{{vm.Project.list[3 * $index + 2].images[0].Path}}')"
-                                            ng-class="{active: vm.donation.ProjectId === vm.Project.list[3 * $index + 2].ProjectId}">
-                                            <span>{{vm.Project.list[3 * $index + 2].ProjectName}}</span>
+                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[3 * $index + 2])"
+                                            style="background-image: url('{{vm.filteredProjects[3 * $index + 2].images[0].Path}}')"
+                                            ng-class="{active: vm.donation.ProjectId === vm.filteredProjects[3 * $index + 2].ProjectId}"
+                                            ng-if="vm.filteredProjects[3 * $index + 2]">
+                                            <span>{{vm.filteredProjects[3 * $index + 2].ProjectName}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -77,8 +81,34 @@
                                 <span class="sr-only">Próximo</span>
                             </a>
                         </div>
-                      </div>
-
+                    </div>
+                    <!-- For extra small, small and medium devices -->
+                    <div class="carousel-col-4 d-block d-lg-none p-0 mt-4">
+                        <div id="carouselAlumniColMobile" class="carousel slide" data-interval="false">
+                            <div class="carousel-inner">
+                                <div class="carousel-item" ng-repeat="project in vm.filteredProjects | orderBy: 'ProjectName'"
+                                    ng-class="{active: $index === 0}">
+                                    <div class="row">
+                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[$index])"
+                                            style="background-image: url('{{vm.filteredProjects[$index].images[0].Path}}')"
+                                            ng-class="{active: vm.donation.ProjectId === vm.filteredProjects[$index].ProjectId}">
+                                            <span>{{vm.filteredProjects[$index].ProjectName}}</span>
+                                            <input type="hidden" id="carouselProjecId" value="{{vm.filteredProjects[$index].ProjectId}}">
+                                            <input type="hidden" id="carouselProjecName" value="{{vm.filteredProjects[$index].ProjectName}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselAlumniColMobile" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon fa fa-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                            <a class="carousel-control-next " href="#carouselAlumniColMobile" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon fa fa-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Próximo</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
