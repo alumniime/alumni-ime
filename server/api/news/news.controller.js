@@ -310,7 +310,10 @@ export function edit(req, res) {
           console.log("=>Create New\n");
           News.create(news)
             .then(result => next(null, result))
-            .catch(err => next(err));
+            .catch(err => {
+              throw(err);
+              next(err);
+            });
         }
       },
       // Excluding all constructions
