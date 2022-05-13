@@ -511,6 +511,9 @@
   }
 
   .carousel-col-4 {
+    div {
+      padding-left: 0;
+    }
     .carousel-inner {
       max-height: 180px;
     }
@@ -526,7 +529,7 @@
     }
     .carousel-item {
       height: 180px;
-      padding: 0 30px;
+      padding: 0 40px;
     }
     .img-fluid {
       max-height: 400px;
@@ -545,7 +548,7 @@
     }
     .carousel-item .img-background span {
       width: 100%;
-      padding: 3px;
+      padding: 3px 10px;
       position: absolute;
       bottom: 0;
       text-align: center;

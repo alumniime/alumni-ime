@@ -134,7 +134,7 @@ export default function (sequelize, DataTypes) {
       defaultValue: 0
     },
     Summary:{
-      type: DataTypes.STRING(255),
+      type: DataTypes.TEXT,
       allowNull: true
     },
     IsSpecial: {
