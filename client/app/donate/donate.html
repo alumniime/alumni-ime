@@ -51,19 +51,19 @@
                                     ng-class="{active: $index === 0}" ng-if="vm.filteredProjects.length / 3 > $index">
                                     <div class="row">
                                         <!-- style="background-image: url('../../assets/images/jose_formigli.jpg')" -->
-                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[3 * $index])"
+                                        <div class="col col-4 c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[3 * $index])"
                                             style="background-image: url('{{vm.filteredProjects[3 * $index].images[0].Path}}')"
                                             ng-class="{active: vm.donation.ProjectId === vm.filteredProjects[3 * $index].ProjectId}"
                                             ng-if="vm.filteredProjects[3 * $index]">
                                             <span>{{vm.filteredProjects[3 * $index].ProjectName}}</span>
                                         </div>
-                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[3 * $index + 1])"
+                                        <div class="col col-4 c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[3 * $index + 1])"
                                             style="background-image: url('{{vm.filteredProjects[3 * $index + 1].images[0].Path}}')"
                                             ng-class="{active: vm.donation.ProjectId === vm.filteredProjects[3 * $index + 1].ProjectId}"
                                             ng-if="vm.filteredProjects[3 * $index + 1]">
                                             <span>{{vm.filteredProjects[3 * $index + 1].ProjectName}}</span>
                                         </div>
-                                        <div class="col c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[3 * $index + 2])"
+                                        <div class="col col-4 c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[3 * $index + 2])"
                                             style="background-image: url('{{vm.filteredProjects[3 * $index + 2].images[0].Path}}')"
                                             ng-class="{active: vm.donation.ProjectId === vm.filteredProjects[3 * $index + 2].ProjectId}"
                                             ng-if="vm.filteredProjects[3 * $index + 2]">
