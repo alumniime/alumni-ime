@@ -125,7 +125,7 @@ export function index(req, res) {
     },
     group: 'ProjectId',
     where: {
-      // IsApproved: 1,
+      IsApproved: 1,
       IsExcluded: 0
     }
   })
