@@ -56,7 +56,7 @@ export class ShowController {
               if(project.Year == this.Year && project.Semester == this.Semester && !project.Hide){
                 project.show = true;
               } else {
-                if (this.Year == 'Encerrados' && project.Year <= 2020 && !project.Hide) {
+                if (this.Year == 'Encerrados' && project.Year <= 2021 && !project.Hide) {
                   project.show = true;
                 } else {
                   project.show = false;

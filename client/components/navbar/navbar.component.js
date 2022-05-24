@@ -151,7 +151,7 @@ export class NavbarComponent {
               state: `show({Semester: '${semester.Year}.${semester.Semester}'})`
             });
           } else {
-            if (semester.Year == 2020 && semester.Semester == 2) {
+            if (semester.Year == 2021 && semester.Semester == 2) {
                 dropdown.push({
                   title: `PROJETOS ENCERRADOS`,
                   state: `show({Semester: 'Encerrados'})`
