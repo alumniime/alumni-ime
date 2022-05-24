@@ -48,6 +48,6 @@ export class NewslettersController {
 }
 
 export default angular.module('alumniApp.newsletters', [uiRouter])
-  .config(routes)
+  // .config(routes)
   .controller('NewslettersController', NewslettersController)
   .name;

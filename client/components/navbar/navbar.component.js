@@ -42,6 +42,10 @@ export class NavbarComponent {
           title: 'EVENTOS',
           state: 'events'
         },
+        // {
+        //   title: 'NEWSLETTERS',
+        //   state: 'newsletters'
+        // }
         {
           title: 'NEWSLETTERS',
           state: 'newsletters'
