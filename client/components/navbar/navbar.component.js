@@ -30,30 +30,34 @@ export class NavbarComponent {
         }
       ]
     },
+    // {
+    //   title: 'MÍDIA',
+    //   state: 'communication',
+    //   dropdown: [
+    //     {
+    //       title: 'NOTÍCIAS',
+    //       state: 'news'
+    //     },
+    //     {
+    //       title: 'EVENTOS',
+    //       state: 'events'
+    //     },
+    //     // {
+    //     //   title: 'NEWSLETTERS',
+    //     //   state: 'newsletters'
+    //     // }
+    //   ]
+    // },
     {
-      title: 'MÍDIA',
-      state: 'communication',
-      dropdown: [
-        {
-          title: 'NOTÍCIAS',
-          state: 'news'
-        },
-        {
-          title: 'EVENTOS',
-          state: 'events'
-        },
-        // {
-        //   title: 'NEWSLETTERS',
-        //   state: 'newsletters'
-        // }
-        {
-          title: 'NEWSLETTERS',
-          state: 'newsletters'
-        }
-      ]
+      title: 'NOTÍCIAS',
+      state: 'news'
     },
     {
-      // Position 3 will have the menu loaded below
+      title: 'EVENTOS',
+      state: 'events'
+    },
+    {
+      // Position 4 will have the menu loaded below
       title: 'PROJETOS',
       state: 'show'
     },
@@ -181,7 +185,7 @@ export class NavbarComponent {
         title: 'SUBMETER PROJETO',
         state: 'submission'
       })      
-      this.menu[2].dropdown = dropdown;
+      this.menu[3].dropdown = dropdown;
     });
 
     this.$http.get('/api/donator_hall/menu')
