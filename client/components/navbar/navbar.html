@@ -96,6 +96,12 @@
                     </button>
                     <div class="dropdown-divider"></div>
                   </div>
+                  <div ng-if="item.title=='EVENTOS'">
+                    <button class="dropdown-item" ng-click="$ctrl.openLink('https://www.alumnitalks.com.br')">
+                      INSCRIÇÃO NOS PRÓXIMOS EVENTOS
+                    </button>
+                    <div class="dropdown-divider"></div>
+                  </div>
                   <div ng-repeat="drop in item.dropdown">
                     <!--Aqui-->
                     <button class="dropdown-item" ng-click="$ctrl.setParentState(true, item)"

@@ -54,7 +54,13 @@ export class NavbarComponent {
     },
     {
       title: 'EVENTOS',
-      state: 'events'
+      state: 'communication',
+      dropdown: [
+        {
+          title: 'VER TODOS',
+          state: 'events'
+        },
+      ]
     },
     {
       // Position 4 will have the menu loaded below
