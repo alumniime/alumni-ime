@@ -63,7 +63,7 @@ export class NavbarComponent {
       ]
     },
     {
-      // Position 4 will have the menu loaded below
+      // Index 3 will have the menu loaded below
       title: 'PROJETOS',
       state: 'show'
     },
@@ -96,6 +96,7 @@ export class NavbarComponent {
       ]
     },
     {
+      // Index 6 will have the years options loaded below
       title: 'APOIADORES',
       state: 'graduates.hall',
       dropdown: [
@@ -212,8 +213,8 @@ export class NavbarComponent {
         }
       }
       //this.menu[4].dropdown[2].sidedrop = sidedrop;
-      this.menu[5].dropdown[0].sidedrop = sidedrop['individual'];
-      this.menu[5].dropdown[1].sidedrop = sidedrop['corporative'];
+      this.menu[6].dropdown[0].sidedrop = sidedrop['individual'];
+      this.menu[6].dropdown[1].sidedrop = sidedrop['corporative'];
     });
 
   }
