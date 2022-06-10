@@ -510,7 +510,7 @@
     outline: 2px dashed #828282;
   }
 
-  .carousel-col-4 {
+  #carouselAlumniCol, #carouselAlumniColMobile {
     div {
       padding-left: 0;
     }
@@ -539,17 +539,17 @@
     .col-4 {
       max-width: 31.2%;
     }
-    .carousel-item .img-background {
+    .img-background {
       height: 170px;
       background: no-repeat center 36%;
       background-size: cover;
       margin: 5px 8px;
       padding: 5px 0;
     }
-    .carousel-item .img-background.active {
+    .img-background.active {
       outline: 5px solid #E84E0F;
     }
-    .carousel-item .img-background span {
+    .img-background span {
       width: 100%;
       padding: 3px 10px;
       position: absolute;
@@ -557,6 +557,12 @@
       text-align: center;
       background-color: #E84E0F;
       color: #fff;
+    }
+  }
+
+  #carouselAlumniColMobile {
+    .img-background {
+      position: relative;
     }
   }
 

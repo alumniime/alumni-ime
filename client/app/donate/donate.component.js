@@ -194,18 +194,12 @@ export class DonateController {
   submitFunding(form) {
     this.submitted = true;
 
-    // Seleciona projeto único do carousel no mobile
-    if ($('#carouselAlumniColMobileWrap').css('display') === 'block') {
-      this.selectProject({
-        ProjectId: parseInt($('#carouselProjecId').val()),
-        ProjectName: $('#carouselProjecName').val(),
-      });
-    }
-
     if (!this.user.PersonId) {
       // User needs to login
       this.$state.go('donate', {ProjectId: this.donation.ProjectId, PlanIndex: this.plans.indexOf(this.selectedOption), Value: this.customValue > 0 ? this.customValue : null});
-    } else if (form.$valid && (this.donation.Type === 'general' || this.ProjectName)) {
+    } else if (this.donation.Type === 'project' && this.donation.ProjectId == null) {
+      this.Modal.showAlert('Erro no formulário', 'Por favor, selecione um projeto.');
+    } else if (form.$valid) {
       console.log('formulario valido')
       console.log(this.donation)
       console.log(this.selectedOption)
