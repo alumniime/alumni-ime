@@ -87,7 +87,20 @@ export function index(req, res) {
         attributes: ['name', 'FullName'],
         as: 'donator'
       }]
-    }]
+    }],
+    where: {
+      $or: [{
+        CurrentPeriodStart: {
+          $gte: req.query.year + '-01-01',
+          $lte: req.query.year + '-12-31',
+        }
+      }, {
+        CurrentPeriodEnd: {
+          $gte: req.query.year + '-01-01',
+          $lte: req.query.year + '-12-31',
+        }
+      }]
+    }
   })
     .then(respondWithResult(res))
     .catch(handleError(res));

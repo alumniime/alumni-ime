@@ -13,10 +13,10 @@ export function SubscriptionService($http, $q, Util) {
     /**
      * Load subscriptions from database
      */
-    load(forceReload) {
+    load(forceReload, year = new Date().getFullYear().toString()) {
       var d = $q.defer();
       if(this.list.length === 0 || forceReload === true) {
-        $http.get('/api/subscriptions')
+        $http.get('/api/subscriptions?year=' + year)
           .then(response => {
             this.list = response.data;
             for(var subscription of this.list) {

@@ -28,25 +28,25 @@ export default class AdminDonationsController {
   showAllTransactions = false;
 
   /*@ngInject*/
-  constructor(Util, Modal, DonatorHall, Donation, Subscription, $state, $filter) {
+  constructor(Util, Modal, DonatorHall, Donation, Subscription, $state, $stateParams, $filter) {
     this.Util = Util;
     this.Modal = Modal;
     this.Donation = Donation;
     this.Subscription = Subscription;
     this.$state = $state;
+    this.$stateParams = $stateParams;
     this.$filter = $filter;
     this.DonatorHall=DonatorHall;
   }
   
   $onInit() {
-
     var loading = this.Modal.showLoading();
-    this.Donation.load(true)
+    this.Donation.load(true, this.$stateParams.year)
       .then(() => {
         loading.close();
         this.refreshFilters();
       });
-    this.Subscription.load(true)
+    this.Subscription.load(true, this.$stateParams.year)
       .then((data) => {
         this.refreshFilters();
       });

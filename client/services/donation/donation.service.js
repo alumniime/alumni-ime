@@ -13,10 +13,10 @@ export function DonationService($http, $q, $state, Util) {
     /**
      * Load donations from database
      */
-    load(forceReload) {
+    load(forceReload, year = new Date().getFullYear().toString()) {
       var d = $q.defer();
       if(this.list.length === 0 || forceReload === true) {
-        $http.get('/api/donations')
+        $http.get('/api/donations?year=' + year)
           .then(response => {
             this.list = response.data;
             for(var donation of this.list) {

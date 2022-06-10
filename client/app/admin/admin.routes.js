@@ -44,7 +44,10 @@ export default function routes($stateProvider, appConfig) {
   });
 
   $stateProvider.state('admin.donations', {
-    url: '/donations',
+    url: '/donations/:year',
+    params: {
+      year: { value: new Date().getFullYear().toString(), squash: true }
+    },
     template: require('./donations/donations.html'),
     controller: 'AdminDonationsController',
     controllerAs: 'admin',

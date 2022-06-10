@@ -129,7 +129,13 @@ export function index(req, res) {
       as: 'optionToKnowType'
     },
       TransferReceipt
-    ]
+    ],
+    where: {
+      DonationDate: {
+        $gte: req.query.year + '-01-01',
+        $lte: req.query.year + '-12-31',
+      }
+    }
   })
     .then(respondWithResult(res))
     .catch(handleError(res));
