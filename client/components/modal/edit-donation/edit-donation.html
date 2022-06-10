@@ -136,11 +136,11 @@
               Insira o valor da contribuição.
             </p>
           </div>
-          <div class="form-group" ng-if="vm.donation.Type == 'project' && !vm.DonationId">
+          <div class="form-group" ng-if="vm.donation.Type == 'project'">
             <label>PROJETO*</label>
             <select class="form-control" id="ProjectId" name="ProjectId" ng-model="vm.donation.ProjectId">
               <option value="" selected disabled>Selecione um projeto</option>
-              <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName' | filter: {Year: vm.currentYear}" 
+              <option ng-repeat="project in vm.Project.list | orderBy: 'ProjectName'" 
                       ng-value="project.ProjectId">
                 {{project.ProjectName}}
               </option>
