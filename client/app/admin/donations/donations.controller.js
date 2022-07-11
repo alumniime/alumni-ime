@@ -63,7 +63,7 @@ export default class AdminDonationsController {
   }
 
   exportDonation() {
-    this.Modal.exportDonation();
+    this.Modal.exportDonation(null);
   }
 
   refreshFilters() {

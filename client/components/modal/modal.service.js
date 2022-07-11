@@ -511,11 +511,16 @@ export function ModalService($uibModal, $q) {
       });
     },
 
-    exportDonation() {
+    exportDonation(year) {
       var modalInstance = $uibModal.open({
         animation: true,
         component: 'modalExportDonation',
-        size: 'md modal-dialog-centered'
+        size: 'md modal-dialog-centered',
+        resolve: {
+          year: function () {
+            return year;
+          },
+        }
       });
     },
 
