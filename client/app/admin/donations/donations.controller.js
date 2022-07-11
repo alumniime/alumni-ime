@@ -4,7 +4,7 @@ export default class AdminDonationsController {
   itemsPerPage = 12;
   former = null;
 
-  years = []
+  years = [];
   donationsCurrentPage = 1;
   donationsNumber = 0;
   subscriptionsCurrentPage = 1;
