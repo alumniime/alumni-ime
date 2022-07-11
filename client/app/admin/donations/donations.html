@@ -4,48 +4,58 @@
     <div class="col-auto">
       <h5 class="page-title pt-2 pb-2 pb-md-0">Contribuições {{admin.$stateParams.year}}<br class="d-block d-sm-none"></h5>
     </div>
-    <div class="col-auto px-1">
-      <div class="form-group">
-        <select class="form-control" id="PaymentMethod" name="PaymentMethod"
-                ng-model="admin.donationSearchPaymentMethod" ng-change="admin.refreshFilters()">
-          <option value="">Meio Pagto</option>
-          <option value="Transferência">Transferência</option>
-          <option value="Crédito">Crédito</option>
-          <option value="Boleto">Boleto</option>
-        </select>
-      </div>      
-    </div>
-    <!-- <div class="col-auto px-1">
-      <div class="form-group">
-        <select class="form-control" id="Date" name="Date"
-                ng-model="admin.donationSearchDate" ng-change="admin.refreshFilters()">
-          <option value="">Data</option>
-        </select>
-      </div>      
-    </div> -->
-    <div class="col-auto px-1">
-      <div class="form-group">
-        <select class="form-control" id="DonationStatus" name="DonationStatus"
-                ng-model="admin.donationSearchStatus" ng-change="admin.refreshFilters()">
-          <option value="">Status</option>
-          <option value="Aprovada">Aprovada</option>
-          <option value="Estornada">Estornada</option>
-          <option value="Pendente">Pendente</option>
-          <option value="Recusada">Recusada</option>
-        </select>
-      </div>      
-    </div>
     <div class="col-auto">
-      <div class="form-group">
-        <input type="text" name="DonationName" placeholder="Pesquisar..." class="form-control input-search" 
-               ng-model="admin.donationSearchName" ng-change="admin.refreshFilters()">
-      </div>      
+      <div class="row">
+        <div class="col-auto px-1">
+          <div class="form-group">
+            <select class="form-control" id="PaymentMethod" name="PaymentMethod"
+                    ng-model="admin.donationSearchPaymentMethod" ng-change="admin.refreshFilters()">
+              <option value="">Meio Pagto</option>
+              <option value="Transferência">Transferência</option>
+              <option value="Crédito">Crédito</option>
+              <option value="Boleto">Boleto</option>
+            </select>
+          </div>      
+        </div>
+        <!-- <div class="col-auto px-1">
+          <div class="form-group">
+            <select class="form-control" id="Date" name="Date"
+                    ng-model="admin.donationSearchDate" ng-change="admin.refreshFilters()">
+              <option value="">Data</option>
+            </select>
+          </div>      
+        </div> -->
+        <div class="col-auto px-1">
+          <div class="form-group">
+            <select class="form-control" id="DonationStatus" name="DonationStatus"
+                    ng-model="admin.donationSearchStatus" ng-change="admin.refreshFilters()">
+              <option value="">Status</option>
+              <option value="Aprovada">Aprovada</option>
+              <option value="Estornada">Estornada</option>
+              <option value="Pendente">Pendente</option>
+              <option value="Recusada">Recusada</option>
+            </select>
+          </div>      
+        </div>
+        <div class="col-auto">
+          <div class="form-group">
+            <input type="text" name="DonationName" placeholder="Pesquisar..." class="form-control input-search" 
+                   ng-model="admin.donationSearchName" ng-change="admin.refreshFilters()">
+          </div>      
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-between">
+    <div class="col-auto pb-2">
+      <div class="btn-group mb-2" role="group" aria-label="Years">
+        <button ng-repeat="year in admin.years" type="button" class="btn btn-light" 
+                ui-sref="admin.donations({year: year})" ui-sref-active="active">{{ year }}</button>
+      </div>
     </div>
     <div class="col-auto pb-2">
-      <a href="#" class="btn btn-danger mb-2" ng-click="admin.editDonation()">Cadastrar Contribuição</a>
-    </div>
-    <div class="col-auto pb-2">
-      <a href="#" class="btn btn-danger mb-2" ng-click="admin.exportDonation()">Exportar Informações</a>
+      <a href="#" class="btn btn-danger mx-3 mb-2 float-right" ng-click="admin.exportDonation()">Exportar Informações</a>
+      <a href="#" class="btn btn-danger mb-2 float-right" ng-click="admin.editDonation()">Cadastrar Contribuição</a>
     </div>
   </div>
 

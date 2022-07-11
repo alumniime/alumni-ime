@@ -4,6 +4,7 @@ export default class AdminDonationsController {
   itemsPerPage = 12;
   former = null;
 
+  years = []
   donationsCurrentPage = 1;
   donationsNumber = 0;
   subscriptionsCurrentPage = 1;
@@ -36,7 +37,7 @@ export default class AdminDonationsController {
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.$filter = $filter;
-    this.DonatorHall=DonatorHall;
+    this.DonatorHall = DonatorHall;
   }
   
   $onInit() {
@@ -51,7 +52,7 @@ export default class AdminDonationsController {
         this.refreshFilters();
       });
     this.DonatorHall.load(true);
-
+    this.years = _.range(2018, new Date().getFullYear() + 1);
     
   }
 
