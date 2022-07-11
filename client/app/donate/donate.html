@@ -83,14 +83,16 @@
                     </div> -->
                     <!-- For extra small, small and medium devices -->
                     <div id="carouselAlumniColMobile" class="carousel-col-4 d-block p-0 mt-4">
-                        <div ng-repeat="project in vm.filteredProjects | orderBy: 'ProjectName'" 
-                            ng-class="{active: $index === 0}" class="mb-3">
-                            <div class="c-pointer img-background" ng-click="vm.selectProject(vm.filteredProjects[$index])"
-                                style="background-image: url('{{vm.filteredProjects[$index].images[0].Path}}')"
-                                ng-class="{active: vm.donation.ProjectId === vm.filteredProjects[$index].ProjectId}">
-                                <span>{{vm.filteredProjects[$index].ProjectName}}</span>
-                                <input type="hidden" id="carouselProjecId" value="{{vm.filteredProjects[$index].ProjectId}}">
-                                <input type="hidden" id="carouselProjecName" value="{{vm.filteredProjects[$index].ProjectName}}">
+                        <div class="row">
+                            <div ng-repeat="project in vm.filteredProjects | orderBy: 'ProjectName'" 
+                                 ng-class="{active: $index === 0}" class="col-12 col-lg-4"  ng-click="vm.selectProject(vm.filteredProjects[$index])">
+                                 <div class="c-pointer img-background"
+                                     style="background-image: url('{{vm.filteredProjects[$index].images[0].Path}}')"
+                                     ng-class="{active: vm.donation.ProjectId === vm.filteredProjects[$index].ProjectId}">
+                                     <span>{{vm.filteredProjects[$index].ProjectName}}</span>
+                                     <input type="hidden" id="carouselProjecId" value="{{vm.filteredProjects[$index].ProjectId}}">
+                                     <input type="hidden" id="carouselProjecName" value="{{vm.filteredProjects[$index].ProjectName}}">
+                                 </div>
                             </div>
                         </div>
                     </div>
