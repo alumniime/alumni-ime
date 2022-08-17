@@ -53,9 +53,9 @@ export class DonateController {
     this.Plan.load()
       .then(result => {
         this.plans = result;
-        // if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
-        //   this.selectFrequency('monthly');
-        // }
+        if(!this.$stateParams.PlanIndex && !this.$stateParams.Value) {
+          this.selectFrequency('monthly');
+        }
       });
 
     this.Project.load()
