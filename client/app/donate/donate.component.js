@@ -86,6 +86,9 @@ export class DonateController {
           if(this.$stateParams.Value) {
             this.setCustomValue(this.$stateParams.Value);
             this.$stateParams.PlanIndex = null;
+            if(user.PersonId) {
+              this.submitFunding({$valid: true});
+            }
           } else if(this.$stateParams.PlanIndex >= 0) {
             this.Plan.load()
               .then(result => {
@@ -94,10 +97,10 @@ export class DonateController {
                 this.donation.Frequency = plan.frequency;
                 this.selectValue(plan);
                 this.$stateParams.PlanIndex = null;
-              });            
-          }
           if(user.PersonId) {
             this.submitFunding({$valid: true});
+                }
+              });            
           }
         }
       });
